@@ -1,0 +1,40 @@
+<div
+  class="overflow-y-auto custom-scroll-bar py-4"
+  style="max-height: calc(100vh - 470px)"
+>
+  <div class="normal-section pl-2">
+    <div
+      class="grid grid-cols-2 pt-1 pl-1"
+      [class.with-separator]="!!abnormalLineStateData().length"
+    >
+      @for (line of normalLineStateData(); track $index) {
+        <div>
+          <span class="line-label mr-4">{{ line.name }}</span>
+          <span class="as-normal">
+            {{ line.name === "机场联络线" ? "正常" : "正常运行" }}</span
+          >
+        </div>
+      }
+    </div>
+  </div>
+  <div class="abnormal-section pl-1 pt-6">
+    @for (line of abnormalLineStateData(); track $index) {
+      <div class="abnormal-item grid grid-cols-1 gap-x-4">
+        <span class="line-label sticky-top">{{ line.name }}</span>
+        <!-- <span class="as-normal">正常运行</span> -->
+        @for (item of line.abnormalList; track $index) {
+          <div>
+            <div class="flex justify-between">
+              <span class="line-clamp-1">{{ item.position }}</span>
+              <span
+                style="color: #f8a178; margin-left: 16px; text-wrap: nowrap"
+              >
+                {{ item.state }}
+              </span>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<div class="left-panel">
+  <div class="grid grid-cols-2" style="gap: 4% 6%">
+    <instruction-table />
+    <line-situation-module
+      [operations]="operations()"
+      (toDashboardWithState)="toDashboardWithState.emit($event)"
+    />
+  </div>
+  <div class="h-4"></div>
+  <div class="grid grid-cols-2" style="gap: 4% 6%">
+    <event-situation-module
+      [events]="events()"
+      (toDashboardWithState)="toDashboardWithState.emit($event)"
+    />
+    <emergency-repair-module
+      [events]="events()"
+      (locateEvent)="locateEvent.emit($event)"
+    />
+  </div>
+  <!-- <line-event-module [events]="allEvents()" /> -->
+  <ds-line-data-module
+    [events]="allEvents()"
+    (toDashboardWithState)="toDashboardWithState.emit($event)"
+  />
+</div>

@@ -1,0 +1,110 @@
+<div class="module-header-host">
+  <div class="header-dot">
+    <img src="assets/images/dispatch-center/module-header-dot.png" alt="" />
+  </div>
+  <div class="module-header" [style.height.px]="28">
+    <div class="title-text" [style.height.px]="28">实时事件通告</div>
+    <div class="speed-control" role="group" aria-label="滚动速度">
+      <button
+        type="button"
+        class="speed-btn"
+        aria-label="降低速度"
+        [disabled]="speedIndex() === 0"
+        (click)="decreaseSpeed()"
+      >
+        <span class="chevron left"></span>
+      </button>
+      <span class="speed-value" aria-live="polite">{{ currentSpeedLabel() }}</span>
+      <button
+        type="button"
+        class="speed-btn"
+        aria-label="提高速度"
+        [disabled]="speedIndex() >= maxSpeedIndex"
+        (click)="increaseSpeed()"
+      >
+        <span class="chevron right"></span>
+      </button>
+    </div>
+    <div class="header-stripe">
+      <img src="assets/images/dispatch-center/module-header-stripe.png" alt="" />
+    </div>
+  </div>
+</div>
+<div class="pl-8 pt-2">
+  <table class="instruction-table">
+    <thead>
+      <tr class="text-left text-lg">
+        <th class="relative" style="width: 32px">
+          <span class="tangle"></span>
+        </th>
+        <th style="width: 144px">线路</th>
+        <th style="width: 144px">新增事件</th>
+        <th style="width: 144px">发生时间</th>
+        <th>事件说明</th>
+        <th style="width: 84px"></th>
+      </tr>
+    </thead>
+    <tbody
+      #tbodyRef
+      class="custom-scroll-bar"
+      [style.max-height.px]="576"
+      (wheel)="manuallyScroll()"
+      (touchmove)="manuallyScroll()"
+    >
+      @for (row of notifications(); track row.id) {
+        <tr
+          class="instruction-table-row has-data"
+          [class.row-finished]="row.isFinished"
+        >
+          <th class="relative" style="width: 32px">
+            <span class="tangle"></span>
+          </th>
+          <td style="width: 144px">
+            <span>
+              <img width="52" [src]="getLineMark(row.line)" alt="" srcset="" />
+            </span>
+          </td>
+          <td style="width: 144px">
+            <span
+              class="cursor-pointer hover:text-blue-400"
+              (click)="handleEventClick(row)"
+              >{{ row.eventType }}</span
+            >
+          </td>
+          <td style="width: 144px">
+            @if (row.createTime) {
+              <span>
+                {{ row.startTime | date: "MM-dd HH:mm" }}
+              </span>
+            }
+          </td>
+          <td>{{ row.description }}</td>
+          <td class="text-center" style="width: 84px">
+            @if (row.isFinished) {
+              <span class="status-tag-finished">已结束</span>
+            } @else if (row.isNew) {
+              <img
+                width="50"
+                src="/assets/images/dispatch-center/flag-new.png"
+                alt=""
+                srcset=""
+              />
+            }
+          </td>
+        </tr>
+      }
+      @if (notifications().length === 0) {
+        <tr class="instruction-table-row">
+          <td colspan="100%" class="text-center">暂无数据</td>
+        </tr>
+        @for (row of paddingRows().slice(0, -1); track $index) {
+          <tr class="instruction-table-row"></tr>
+        }
+      } @else {
+        @for (row of paddingRows(); track $index) {
+          <tr class="instruction-table-row"></tr>
+        }
+      }
+    </tbody>
+  </table>
+</div>

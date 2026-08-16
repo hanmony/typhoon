@@ -1,0 +1,53 @@
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+  padding: 12px 4px;
+}
+.headline {
+  font-weight: 400;
+  font-size: 24px;
+  color: #b2d2f7;
+  font-family: "PangMenZhengDao";
+}
+
+.publish-time {
+  font-size: 18px;
+  color: #b2d2f7;
+}
+
+.marker {
+  width: 86px;
+  height: 64px;
+  position: relative;
+  text-align: center;
+  padding-right: 4px;
+  img {
+    // width: 68px;
+    // height: 58px;
+    position: relative;
+    z-index: 1;
+  }
+  .marker-base {
+    width: 100%;
+    height: 20%;
+    background: linear-gradient(
+      90deg,
+      rgba(9, 110, 180, 0.6) 0%,
+      rgba(9, 110, 180, 0) 100%
+    );
+    border-left: 1px solid;
+    border-bottom: 1px solid;
+    border-image: linear-gradient(0deg, #096eb445, #096eb445) 10 10;
+    transform: skewX(-35deg);
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+.value-font {
+  font-size: 14px;
+  color: #b2d2f7;
+}

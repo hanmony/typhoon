@@ -1,0 +1,63 @@
+<dark-mode-svg />
+<div
+  class="h-screen flex dark-bg"
+  [style]="'--panel-width: ' + panelWidth + 'px'"
+>
+  <case-detail-header
+    [data]="detailInfo"
+    [filterModel]="filterModel"
+    (onFilterChange)="onFilterChange($event)"
+    (onFilterBundleChange)="onFilterBundleChange($event)"
+    (toggleFilterModal)="toggleFilterModal()"
+  />
+  <div
+    class="flex-1 dark-bg"
+    [class]="{
+      'dark-mode': darkMode,
+    }"
+    style="width: 100%; height: 100%"
+    #mapRef
+  ></div>
+  <div class="w-[100px]"></div>
+  <draggable-component [initialX]="32" [initialY]="90">
+    <case-detail-dock
+      [data]="detailInfo"
+      [typhoonMeta]="typhoonMeta"
+      [allEvents]="rawEvents"
+      [selectedTiming]="selectedTiming"
+      (visibleChange)="onToolVisibleChange($event)"
+    />
+  </draggable-component>
+  <case-detail-panel
+    [data]="detailInfo"
+    [typhoonMeta]="typhoonMeta"
+    [typhoonModel]="typhoonModel"
+  />
+  <case-detail-timeline
+    #timelineRef
+    [events]="timelineEvents"
+    [selectedTiming]="selectedTiming"
+    (onSelect)="setSelectedTiming($event)"
+    [windCircleVisible]="windCircleVisible"
+    (onWindCircleChange)="onWindCircleChange($event)"
+  />
+  <typhoon-indicator [panelWidth]="panelWidth" />
+  <line-events-modal (locateEvent)="locateEvent($event)" />
+  <autoplay-event-pandect-modal
+    (locateHandler)="handleLocate($event)"
+    (accessoryHandler)="handleViewAccessories($event)"
+  />
+  <autoplay-countdown />
+  <event-illustration (symbolClickHandler)="symbolClickHandler($event)" />
+  <media-player-modal />
+  <filter-modal
+    [data]="detailInfo"
+    [filterModel]="filterModel"
+    (onFilterChange)="onFilterChange($event)"
+    (onFilterBundleChange)="onFilterBundleChange($event)"
+  />
+  <key-event-modal (accessoryHandler)="handleViewAccessories($event)" />
+</div>
+<ng-template let-data="data">
+  <notification-template [data]="data" />
+</ng-template>

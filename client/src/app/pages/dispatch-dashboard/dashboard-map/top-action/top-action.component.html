@@ -1,0 +1,45 @@
+<div class="top-action" [style.top]="top()" [style.width]="width()">
+  <div
+    class="top-action-item"
+    [class.active]="activeAction() === 'event'"
+    (click)="onActionSelect('event')"
+  >
+    事件列表
+  </div>
+  <div
+    class="top-action-item"
+    [class.active]="activeAction() === 'operation'"
+    (click)="onActionSelect('operation')"
+  >
+    运营列表
+  </div>
+  <!-- <div
+    #teamActionRef
+    class="top-action-item"
+    style="text-align: right; justify-content: flex-end"
+    [class.active]="isTeamActionActive()"
+    (click)="toggleTeamOptionVisible()"
+  >
+    <span>{{ teamActionLabel() }}</span>
+    <span class="triangle"></span>
+    @if (teamOptionVisible()) {
+      <div class="dropdown">
+        <div #dropdown @dropdown class="pure-box">
+          <div class="text-left pt-2">
+            @for (op of teamActions(); track $index) {
+              <div
+                class="option-item"
+                [class]="{
+                  checked: activeAction() === op,
+                }"
+                (click)="onTeamActionSelect(op)"
+              >
+                {{ op }}
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+  </div> -->
+</div>

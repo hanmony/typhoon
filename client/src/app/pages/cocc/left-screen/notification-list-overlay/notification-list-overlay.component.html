@@ -1,0 +1,95 @@
+@if (visible()) {
+  <div class="list-box custom-scroll-bar" style="--scroll-bar-width: 3px">
+    <div class="list-title">
+      <div class="title-font">消息列表（{{ notifications().length }}）</div>
+      <div class="flex">
+        <div>
+          <span class="mr-6">
+            <img
+              title="新增"
+              style="top: -1px"
+              class="cursor-pointer relative rotate-45 hover:scale-110"
+              src="/assets/images/map/modal/popup/close.png"
+              alt=""
+              srcset=""
+              (click)="onPlusClick()"
+            />
+          </span>
+        </div>
+        <div class="close-button">
+          <img
+            src="/assets/images/supervisor/notification/close-icon.png"
+            alt=""
+            srcset=""
+            (click)="onCloseClick()"
+          />
+        </div>
+      </div>
+    </div>
+    @for (item of notifications(); track item.id) {
+      <div class="content-box">
+        <div class="notification-item">
+          <div class="notification-header">
+            <div class="ring-icon unread"></div>
+            <div>
+              <span>{{ item.type }}</span>
+            </div>
+            <div class="flex-1">
+              @if (item.lines.includes("全线网")) {
+                <span>—全线网</span>
+              } @else {
+                @for (lineName of item.lines; track lineName) {
+                  <span class="ml-2 relative -top-[1px]">
+                    <img
+                      width="44"
+                      [src]="getLineMark(lineName)"
+                      alt=""
+                      srcset=""
+                    />
+                  </span>
+                }
+              }
+            </div>
+            <div class="time">
+              <span>{{ getPublishTime(item) }}</span>
+            </div>
+          </div>
+          <div class="notification-content line-clamp-2">
+            {{ item.content }}
+          </div>
+          <div class="notification-footer">
+            <div class="action-link-button">
+              <span
+                nz-popconfirm
+                nzPopconfirmTitle="确定撤回吗？"
+                (nzOnConfirm)="handleWithdraw(item.id)"
+                nzPopconfirmPlacement="top"
+              >
+                撤回
+              </span>
+            </div>
+            <div class="action-button" (click)="onViewDetail(item.id)">
+              查看
+            </div>
+          </div>
+        </div>
+      </div>
+      @if (activeId() === item.id) {
+        <cocc-notification-detail
+          [data]="item"
+          [events]="events()"
+          (onClose)="activeId.set(null)"
+          (onLocate)="onLocate.emit($event)"
+        />
+      }
+    }
+    @if (!notifications().length) {
+      <div
+        class="text-center font-fangzheng py-8"
+        style="font-size: 32px; line-height: 1.5"
+      >
+        暂无通告
+      </div>
+    }
+  </div>
+}

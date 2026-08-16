@@ -1,0 +1,98 @@
+:host {
+  --top: 48px;
+  position: absolute;
+  top: var(--top);
+  right: 4px;
+  z-index: 800;
+  height: calc(100vh - var(--top) - 64px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  // height: 100%;
+}
+
+.right-panel {
+  width: 400px;
+  position: relative;
+  z-index: 2;
+  background: url("/assets/images/occ/right-panel-bg.png") no-repeat center
+    center;
+  background-size: 100% 100%;
+  padding: 16px 16px 22px 4px;
+  transition: width 0.3s ease-in-out;
+}
+
+.title {
+  background: url("/assets/images/occ/right-panel-title-bg.png") no-repeat;
+  background-position: left bottom;
+  // height: 34px;
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding-left: 48px;
+}
+
+.title-font {
+  font-family: "Fangzhengzhongyi";
+  font-weight: 400;
+  font-size: 22px;
+  padding-right: 8px;
+  font-style: italic;
+  text-shadow: 0px 2px 8px rgba(239, 252, 254, 0.32);
+  background: linear-gradient(
+    0deg,
+    rgba(49, 190, 255, 1) 0%,
+    rgba(239, 252, 254, 1) 60%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.progress {
+  height: 9px;
+  background: rgba(48, 58, 76, 0.4);
+  border-radius: 3px;
+  position: relative;
+
+  .progress-bar {
+    width: 45%;
+    height: 100%;
+    background: linear-gradient(
+      270deg,
+      var(--color) 0%,
+      rgba(0, 198, 255, 0) 100%
+    );
+    border-radius: 3px;
+  }
+
+  .progress-dot {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    position: absolute;
+    left: 45%;
+    transform: translateX(-50%);
+    top: -18px;
+    position: relative;
+    &::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      background: #ffffff;
+      border-radius: 50%;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+
+.rect-legend {
+  width: 19px;
+  height: 12px;
+  border-radius: 6px;
+  display: inline-block;
+  margin-right: 6px;
+}

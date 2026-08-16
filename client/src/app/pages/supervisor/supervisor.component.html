@@ -1,0 +1,91 @@
+<div class="supervisor-page" style="--scroll-bar-width: 3px">
+  <supervisor-header
+    (toggleNotificationListOverlay)="toggleNotificationListOverlay()"
+  />
+  @if (commandNameText()) {
+    <div class="command-name" [style.left]="commandNameLeft()">
+      <typhoon-name [name]="commandNameText()" [size]="20" />
+    </div>
+  }
+  @if (!visibleState().notificationListOverlay) {
+    <supervisor-dock (setEffectVisibility)="setEffectVisibility($event)" />
+    <supervisor-filter-action
+      (onOperationTypeFilterValueChange)="
+        onOperationTypeFilterValueChange($event)
+      "
+      (onEventDelayFilterValueChange)="onEventDelayFilterValueChange($event)"
+      (onEvenRepairStateFilterValueChange)="
+        onEvenRepairStateFilterValueChange($event)
+      "
+    />
+  }
+  <supervisor-panel [events]="events()" [operations]="filteredOperations()" />
+  <supervisor-weather-marker />
+  <supervisor-map
+    (onMapClick)="onMapClick()"
+    [events]="filteredEvents()"
+    [operations]="filteredOperations()"
+  />
+
+  @if (visibleState().actionOverlay) {
+    <supervisor-action-overlay (actionChange)="onAction($event)" />
+  }
+  @if (visibleState().patrollingOverlay) {
+    <supervisor-patrolling-overlay (onClose)="closePatrollingOverlay()" />
+  }
+  @if (visibleState().lineSelectionOverlay) {
+    <supervisor-line-selection-overlay
+      (change)="onLineChange($event)"
+      [cacheLines]="cacheLines()"
+    />
+  }
+  <!-- @if (visibleState().lineHaltOverlay) {
+    <supervisor-line-halt-overlay [operations]="filteredOperations()" />
+  } -->
+
+  @if (visibleState().focusEventOverlay) {
+    <supervisor-focus-event-overlay
+      [events]="filteredEvents()"
+      (locateEvent)="locateEvent($event)"
+    />
+  }
+
+  <supervisor-line-statistic-overlay
+    [line]="lineStatisticOverlayMetaName()"
+    [events]="filteredEvents()"
+    [operations]="filteredOperations()"
+  />
+
+  <supervisor-notification-list-overlay
+    [visible]="visibleState().notificationListOverlay"
+    [events]="events()"
+    (onClose)="closeNotificationListOverlay()"
+    (onLocate)="locateEvent($event)"
+  />
+</div>
+
+<div class="fullscreen" (click)="fullScreen()">
+  <img src="assets/images/supervisor/fullscreen-icon.png" alt="" srcset="" />
+</div>
+
+<supervisor-notification-dom (toList)="openNotificationListOverlay()" />
+
+<supervisor-event-statistic
+  [visible]="visibleState().eventStatisticOverlay"
+  [events]="events()"
+  (onClose)="toggleEventStatisticOverlay()"
+/>
+
+<supervisor-illustration-modal />
+
+<supervisor-weather-record-overlay />
+
+<supervisor-dashboard-panel
+  [events]="events()"
+  [operations]="operations()"
+  (onClose)="toggleDashboardPanel(false)"
+/>
+
+<div class="emergency-response-alerts-container">
+  <emergency-response-alerts />
+</div>

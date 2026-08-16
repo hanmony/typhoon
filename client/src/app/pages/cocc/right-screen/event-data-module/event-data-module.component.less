@@ -1,0 +1,26 @@
+.tabs {
+  background-image: url("/assets/images/dispatch-center/line-situation/tabs-stripe.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  // background-position: bottom center;
+  background-position: 16px 20px;
+  display: inline-flex;
+  gap: 10px;
+  // padding: 10px 10px;
+  .tab-item {
+    text-align: center;
+    font-size: 16px;
+    color: #fff;
+    line-height: 2.5;
+    // font-weight: 500;
+    background-repeat: no-repeat;
+    background-position: center 18px;
+    min-width: 100px;
+    color: #99b1dd;
+    cursor: pointer;
+    &.active {
+      color: #e8f3ff;
+      background-image: url("/assets/images/dispatch-center/line-situation/tab-item-active.png");
+    }
+  }
+}

@@ -1,0 +1,18 @@
+.point-border {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 1px;
+    width: 15px;
+    height: 15px;
+    border: 1px solid var(--case-primary);
+    transform: rotate(45deg);
+  }
+  &.disabled {
+    &::before {
+      border-color: #999999;
+    }
+  }
+}

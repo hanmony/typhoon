@@ -1,0 +1,40 @@
+<dispatch-module-header title="应急抢修队" />
+<div #container class="pl-8">
+  <div
+    #flow
+    class="overflow-hidden text-nowrap whitespace-nowrap"
+    [style.width.px]="width()"
+    (mousewheel)="onMouseWheel($event)"
+  >
+    @for (page of pagedTeams(); track $index) {
+      <div class="inline-block" style="width: 100%">
+        <div class="grid grid-cols-3">
+          @for (t of page; track t.id) {
+            <div class="team-item pt-2">
+              <div>
+                <img
+                  style="width: 68px"
+                  [src]="getImageUrl(t.status)"
+                  alt=""
+                  srcset=""
+                />
+              </div>
+              <div class="team-item-title">
+                {{ t.name }}
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+  <div class="flex items-center justify-center pt-2">
+    @for (page of pagedTeams(); track $index) {
+      <div
+        class="dot"
+        (click)="goToPage($index)"
+        [class.active]="$index === activePageIndex()"
+      ></div>
+    }
+  </div>
+</div>

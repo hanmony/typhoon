@@ -1,0 +1,44 @@
+.header {
+  background-image: url(/assets/images/map/modal/common-event-header.png);
+  background-repeat: no-repeat;
+  height: 34px;
+  line-height: 34px;
+  color: white;
+  font-size: 18px;
+  padding: 0 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+.content-wrapper {
+  padding: 0 8px 16px 4px;
+  height: calc(var(--height) + 30px);
+}
+.content {
+  padding: 0 8px 16px 4px;
+  height: var(--height);
+  overflow-y: overlay;
+}
+.content-bg {
+  position: absolute;
+  top: 34px;
+  left: 0;
+  width: 100%;
+  background-image: url(/assets/images/map/modal/common-event-content.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: calc(var(--height) - 22px);
+  padding: 0 8px 0 4px;
+  z-index: -1;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-image: url(/assets/images/map/modal/common-event-footer.png);
+  background-repeat: no-repeat;
+  height: 52px;
+  z-index: -1;
+}

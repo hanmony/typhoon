@@ -1,0 +1,23 @@
+@if (visible) {
+  <div
+    #modal
+    @horizontalInOut
+    class="common-event-modal"
+    style="--height: 422px"
+  >
+    <common-event-detail-box [title]="title">
+      @switch (category) {
+        @case ("施工调整") {
+          @for (item of constructionAdjustmentData; track $index) {
+            <construction-item [data]="item" />
+          }
+        }
+        @default {
+          @if (commonData) {
+            <common-event-detail-content [ev]="commonData" />
+          }
+        }
+      }
+    </common-event-detail-box>
+  </div>
+}

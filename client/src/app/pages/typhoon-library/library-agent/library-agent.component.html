@@ -1,0 +1,248 @@
+<!-- 悬浮球 -->
+<div
+  class="floating-chat-btn"
+  [class.hover]="isHover()"
+  [class.active]="isOpen()"
+  (click)="togglePanel()"
+  (mouseenter)="isHover.set(true)"
+  (mouseleave)="isHover.set(false)"
+  style="right: 32px; bottom: 32px"
+  role="button"
+  aria-label="打开聊天面板"
+>
+  <div class="fc-btn-ring"></div>
+  <div class="fc-btn-ring ring-2"></div>
+  <div class="fc-btn-core">
+    @if (isOpen()) {
+      <span nz-icon nzType="close" nzTheme="outline" style="font-size: 22px"></span>
+    } @else {
+      <span nz-icon nzType="robot" nzTheme="outline" style="font-size: 22px"></span>
+    }
+  </div>
+  <div class="fc-btn-particles">
+    @for (i of [0, 1, 2, 3, 4, 5]; track i) {
+      <span
+        class="fc-particle"
+        [style.--delay]="i * 0.4 + 's'"
+        [style.--angle]="i * 60 + 'deg'"
+      ></span>
+    }
+  </div>
+</div>
+
+<!-- 聊天面板 -->
+@if (isOpen()) {
+  <div class="floating-chat-window">
+    <!-- 头部 -->
+    <div class="fcw-header">
+      <div class="fcw-header-left">
+        <div class="fcw-header-icon">
+          <span nz-icon nzType="robot" nzTheme="outline"></span>
+        </div>
+        <div class="fcw-header-info">
+          <span class="fcw-header-title">台风案例库助手</span>
+          <span class="fcw-header-status">
+            <span class="fcw-status-dot"></span>
+            在线
+          </span>
+        </div>
+      </div>
+      <div class="fcw-header-actions">
+        <button
+          class="fcw-action-btn"
+          [class.active]="showThinking()"
+          (click)="toggleThinking()"
+          title="思考过程"
+          aria-label="展开思考过程"
+        >
+          <span nz-icon [nzType]="showThinking() ? 'eye' : 'eye-invisible'" nzTheme="outline"></span>
+        </button>
+        <button
+          class="fcw-action-btn"
+          (click)="onNewSession()"
+          title="新建对话"
+          aria-label="新建对话"
+        >
+          <span nz-icon nzType="plus" nzTheme="outline"></span>
+        </button>
+        <button
+          class="fcw-action-btn"
+          [class.active]="showHistory()"
+          (click)="showHistory.set(!showHistory())"
+          title="历史记录"
+          aria-label="查看历史记录"
+        >
+          <span nz-icon nzType="history" nzTheme="outline"></span>
+        </button>
+        <button
+          class="fcw-action-btn"
+          (click)="isOpen.set(false)"
+          title="关闭"
+          aria-label="关闭聊天面板"
+        >
+          <span nz-icon nzType="close" nzTheme="outline"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 内容区 -->
+    <div class="fcw-body">
+      @if (showHistory()) {
+        <!-- 历史记录 -->
+        <div class="fcw-history">
+          <div class="fcw-history-header">
+            <span nz-icon nzType="history" nzTheme="outline"></span>
+            <span>对话历史</span>
+          </div>
+          @if (chat.sessions().length === 0) {
+            <div class="fcw-history-empty">
+              <span nz-icon nzType="message" nzTheme="outline" style="font-size: 32px"></span>
+              <p>暂无历史对话</p>
+              <button class="fcw-history-new" (click)="onNewSession()" aria-label="开始新对话">
+                <span nz-icon nzType="plus" nzTheme="outline"></span> 开始新对话
+              </button>
+            </div>
+          } @else {
+            <div class="fcw-history-list">
+              @for (session of chat.sessions(); track session.id) {
+                <div
+                  class="fcw-history-item"
+                  [class.active]="chat.activeSessionId() === session.id"
+                  (click)="onSelectSession(session.id)"
+                >
+                  <div class="fcw-history-item-left">
+                    <span nz-icon nzType="history" nzTheme="outline"></span>
+                    <div class="fcw-history-item-text">
+                      <span class="fcw-history-item-title">{{ session.title }}</span>
+                      <span class="fcw-history-item-time">{{ session.time }}</span>
+                    </div>
+                  </div>
+                  <div class="fcw-history-item-right">
+                    <span class="fcw-history-item-count">{{ session.messages.length }}</span>
+                    <button
+                      class="fcw-history-delete"
+                      (click)="chat.deleteSession(session.id, $event)"
+                      title="删除"
+                      aria-label="删除此对话"
+                    >
+                      <span nz-icon nzType="delete" nzTheme="outline"></span>
+                    </button>
+                    <span nz-icon nzType="right" nzTheme="outline" class="fcw-history-item-arrow"></span>
+                  </div>
+                </div>
+              }
+            </div>
+            <button class="fcw-history-new-btn" (click)="onNewSession()" aria-label="新建对话">
+              <span nz-icon nzType="plus" nzTheme="outline"></span> 新建对话
+            </button>
+          }
+        </div>
+      } @else {
+        <!-- 消息列表 -->
+        <div class="fcw-messages-scroll">
+        <div class="fcw-messages" #messageList (scroll)="onListScroll()" (wheel)="onWheel($event)" (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)">
+          @for (msg of chat.activeMessages; track $index) {
+            <div class="fcw-msg" [class.fcw-msg-user]="msg.role === 'user'" [class.fcw-msg-assistant]="msg.role === 'assistant'">
+              <div class="fcw-msg-avatar">
+                @if (msg.role === 'assistant') {
+                  <div class="fcw-avatar-ai">
+                    <span nz-icon nzType="robot" nzTheme="outline"></span>
+                  </div>
+                } @else {
+                  <div class="fcw-avatar-user">
+                    <span nz-icon nzType="user" nzTheme="outline"></span>
+                  </div>
+                }
+              </div>
+              <div class="fcw-msg-body">
+                <div class="fcw-msg-content">
+                  @if (showThinking() && msg.thinking) {
+                    <div class="thinking-block">
+                      <div class="thinking-header" (click)="msg.thinkingCollapsed = !msg.thinkingCollapsed">
+                        <span nz-icon nzType="bulb" nzTheme="outline"></span>
+                        <span>思考过程</span>
+                        <span nz-icon [nzType]="msg.thinkingCollapsed ? 'down' : 'up'" nzTheme="outline"></span>
+                      </div>
+                      @if (!msg.thinkingCollapsed) {
+                        <div class="thinking-content">
+                          <markdown [data]="msg.thinking"></markdown>
+                        </div>
+                      }
+                    </div>
+                  }
+                  @if (msg.content) {
+                    <markdown [data]="msg.content"></markdown>
+                  } @else if (msg.streaming && (!msg.thinking || !showThinking())) {
+                    <div class="fcw-typing-content">
+                      <span class="fcw-typing-text">{{ statusLabel }}</span>
+                      <span class="fcw-typing-dots">
+                        <span class="fcw-t-dot"></span>
+                        <span class="fcw-t-dot"></span>
+                        <span class="fcw-t-dot"></span>
+                      </span>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+          <div #scrollAnchor></div>
+        </div>
+        @if (showJumpButton()) {
+          <button class="fcw-jump-btn" type="button" (click)="onJumpToBottom()" aria-label="回到底部" title="回到底部">
+            <span nz-icon nzType="arrow-down" nzTheme="outline"></span>
+          </button>
+        }
+        </div>
+      }
+    </div>
+
+    <!-- 输入区 -->
+    @if (!showHistory()) {
+      @if (chat.statusText()) {
+        <div class="fcw-step-bar">
+          <div class="fcw-steps">
+            @for (step of steps; track step.stage) {
+              <div class="fcw-step" [class.active]="chat.stage() === step.stage" [class.done]="isStepDone(step.stage)">
+                <span class="fcw-step-icon">
+                  @if (isStepDone(step.stage)) {
+                    <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+                  } @else if (chat.stage() === step.stage) {
+                    <span nz-icon nzType="loading" nzTheme="outline"></span>
+                  } @else {
+                    <span class="fcw-step-dot"></span>
+                  }
+                </span>
+                <span class="fcw-step-label">{{ step.label }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      }
+      <div class="fcw-input-area">
+        <div class="fcw-input-wrap">
+          <input
+            #inputRef
+            class="fcw-input"
+            placeholder="输入消息，按 Enter 发送..."
+            [value]="inputText"
+            (input)="onInput($event)"
+            (keydown)="onKeydown($event)"
+            [disabled]="chat.loading()"
+            aria-label="消息输入框"
+          />
+          <button
+            class="fcw-send-btn"
+            [class.active]="inputText.trim() && !chat.loading()"
+            (click)="onSend()"
+            [disabled]="!inputText.trim() || chat.loading()"
+            aria-label="发送消息"
+          >
+            <span nz-icon nzType="send" nzTheme="outline"></span>
+          </button>
+        </div>
+        <div class="fcw-input-hint">由防汛智策引擎驱动 · 支持多轮对话</div>
+      </div>
+    }
+  </div>
+}

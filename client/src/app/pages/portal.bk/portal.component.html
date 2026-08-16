@@ -1,0 +1,19 @@
+<div #portal id="portal" style="height: 100vh">
+  <portal-header (onQuery)="toSecondPage()" />
+  <portal-discover #discover class="pin" />
+  <div class="h-screen"></div>
+  <portal-case-list class="relative z-10" />
+  @if (directArrowVisible) {
+    <div
+      class="fixed bottom-0 left-1/2 cursor-pointer custom-bounce z-30"
+      (click)="toSecondPage()"
+    >
+      <span
+        nz-icon
+        nzType="double-right"
+        nzTheme="outline"
+        style="font-size: 70px; color: #c7c9cb"
+      ></span>
+    </div>
+  }
+</div>

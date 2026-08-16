@@ -1,0 +1,33 @@
+<div
+  class="select-wrapper"
+  [class.cursor-pointer]="!disabled()"
+  [class.disabled]="disabled()"
+  (click)="clickHandler()"
+>
+  <div class="select-wrapper-left"></div>
+  <div class="select-wrapper-center">
+    @if (label()) {
+      <div>{{ label() }}</div>
+    } @else {
+      <div class="placeholder-font" [class.opacity-0]="!placeholder()">
+        {{ placeholder() || "请选择" }}
+      </div>
+    }
+  </div>
+  <div class="select-wrapper-right"></div>
+  @if (!collapsed()) {
+    <div #optionsRef class="options">
+      <div class="overflow-y-auto custom-scroll-bar" style="max-height: 400px">
+        @for (option of options(); track option) {
+          <div
+            class="option-item"
+            [class.checked]="itemIsCheck(option)"
+            (click)="onSelect($event, option)"
+          >
+            {{ option }}
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

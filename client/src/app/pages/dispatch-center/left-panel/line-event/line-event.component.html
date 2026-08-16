@@ -1,0 +1,49 @@
+<dispatch-module-header title="线路事件" />
+<div class="flex pt-2 pb-4">
+  <div class="flex w-1/2">
+    <dual-chart
+      class="flex-1 flex justify-center items-center"
+      [data]="chartData"
+    />
+    <div class="pr-6 flex justify-center items-center">
+      <div>
+        @for (d of effectDurations; track d.key) {
+          <div class="">
+            <div class="label-bg pr-4 pt-1">
+              <div class="duration-label text-nowrap">{{ d.label }}</div>
+            </div>
+            <div class="light-color">
+              <span class="text-sm">事件数量：</span>
+              <span class="effected-count">{{ d.value }}</span>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+  <div class="w-1/2 left-separator">
+    <div
+      #scrollContainer
+      class="grid grid-cols-2 custom-scroll-bar overflow-y-auto pl-8 pr-4 pt-1"
+      style="height: 286px"
+    >
+      @for (line of lineEffectInfo; track line.name) {
+        <div class="">
+          <div class="line-label-bg pt-1">
+            <div class="duration-label">{{ line.name }}</div>
+          </div>
+          <div class="light-color flex justify-between pr-12">
+            <div>
+              <span class="text-sm">未影响：</span>
+              <span class="normal-count">{{ line.normal }}</span>
+            </div>
+            <div>
+              <span class="text-sm">影响运营：</span>
+              <span class="effected-count">{{ line.effected }}</span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

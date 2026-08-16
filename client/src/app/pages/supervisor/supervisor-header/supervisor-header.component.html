@@ -1,0 +1,31 @@
+<div class="headline-font">极端气象应对智控调度指挥台</div>
+<supervisor-weather-data />
+<div class="right-side">
+  <div class="pr-2">
+    <span>
+      <nz-badge
+        [nzCount]="unreadCount()"
+        nzSize="small"
+        [nzOffset]="[0, 3]"
+        [nzStyle]="{ backgroundColor: '#FE0000' }"
+      >
+        <div class="inline-block pt-1" (click)="handleMessageBtnClick()">
+          <img
+            class="pointer-events-auto active:opacity-75"
+            style="width: 2rem"
+            src="assets/images/supervisor/header-ring.png"
+            alt=""
+            srcset=""
+          />
+        </div>
+      </nz-badge>
+    </span>
+  </div>
+  <div>
+    <div class="time-font">{{ timeText() }}</div>
+    <div class="date-font text-right">{{ dateText() }}</div>
+  </div>
+  <div class="exit-area">
+    <span class="exit-button" (click)="handleLogout()">退出</span>
+  </div>
+</div>

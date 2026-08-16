@@ -1,0 +1,39 @@
+<div
+  class="panel overflow-y-auto overflow-x-hidden"
+  [class.collapsed]="collapse()"
+  [ngClass]="{ 'custom-scroll-bar': !collapse() }"
+>
+  <div class="pt-3" [class.hidden]="collapse()">
+    <div class="title">
+      <div class="title-font">应急值班公司</div>
+    </div>
+    <supervisor-duty-table />
+    <div class="title mt-2">
+      <div class="title-font">线路情况</div>
+    </div>
+    <supervisor-line-situation [events]="shownEvents()" />
+    <div class="title mt-2 pb-1">
+      <div class="title-font">全网关闭站点实时数据</div>
+    </div>
+    <supervisor-real-time-close [operations]="operations()" />
+  </div>
+</div>
+
+<div class="panel-toggle" (click)="toggleCollapse()">
+  <div class="delta"></div>
+  <div class="toggle-icon" [class.collapsed]="collapse()">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 20 20"
+      style="width: 1rem; height: 1rem"
+    >
+      <g fill="none">
+        <path
+          d="M13.75 4.75a.75.75 0 0 1 .743.648l.007.102v9a.75.75 0 0 1-1.493.102L13 14.5v-9a.75.75 0 0 1 .75-.75zm-8.28.22a.75.75 0 0 1 .976-.073l.084.073l4.5 4.5a.75.75 0 0 1 .073.976l-.073.084l-4.5 4.5a.75.75 0 0 1-1.133-.976l.073-.084L9.44 10L5.47 6.03a.75.75 0 0 1 0-1.06z"
+          fill="currentColor"
+        ></path>
+      </g>
+    </svg>
+  </div>
+</div>

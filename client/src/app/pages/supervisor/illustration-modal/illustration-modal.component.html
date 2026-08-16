@@ -1,0 +1,105 @@
+@if (visible) {
+  <div @horizontalInOutReverse class="illustration-modal">
+    <div class="header">
+      <div class="title">
+        <span
+          class="mr-1"
+          nz-icon
+          nzType="question-circle"
+          nzTheme="outline"
+        ></span>
+        <span class="title-font fangzheng-blue-white text-xl inline-blick pr-2"
+          >图例说明</span
+        >
+      </div>
+    </div>
+    <div class="content custom-scroll-bar">
+      <div class="category">
+        <div class="category-title">
+          <span class="category-font text-xl inline-blick pr-2">运营事件 </span>
+        </div>
+        <div class="category-items">
+          @for (item of events; track $index) {
+            <div class="category-item">
+              <div class="pl-2 pb-[2px]">
+                <span class="inline-block min-w-14 text-center">{{
+                  item.type
+                }}</span>
+              </div>
+              <div class="flex items-center pl-5 pt-2">
+                <img [src]="item.icon" alt="" srcset="" />
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+      <div class="category">
+        <div class="category-title">
+          <span class="category-font text-xl inline-blick pr-2">运营调整 </span>
+        </div>
+        <div class="category-items">
+          @for (item of actionTypes; track $index) {
+            <div class="category-item">
+              <div class="pl-2 pb-[2px]">
+                <span class="inline-block min-w-14 text-center">{{
+                  item.type
+                }}</span>
+              </div>
+              <div class="flex items-center pl-2 pt-2">
+                <ng-container
+                  *ngTemplateOutlet="line; context: { $implicit: item.color }"
+                ></ng-container>
+              </div>
+            </div>
+          }
+          <div class="category-item">
+            <div class="pl-2 pb-[2px]">
+              <span>站点关闭(全部)</span>
+            </div>
+            <div class="flex items-center pl-3 pt-2">
+              <ng-container
+                *ngTemplateOutlet="point; context: { $implicit: 'red' }"
+              ></ng-container>
+            </div>
+          </div>
+          <div class="category-item">
+            <div class="pl-2 pb-[2px]">
+              <span>站点关闭(部分)</span>
+            </div>
+            <div class="flex items-center pl-3 pt-2">
+              <ng-container
+                *ngTemplateOutlet="point; context: { $implicit: 'orange' }"
+              ></ng-container>
+            </div>
+          </div>
+          <div class="category-item">
+            <div class="pl-2 pb-[2px]">
+              <span>正线留车</span>
+            </div>
+            <div class="flex items-center pl-3 pt-2">
+              <ng-container
+                *ngTemplateOutlet="point; context: { $implicit: '#7c3aed' }"
+              ></ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<ng-template #line let-color>
+  <div
+    class="block animate-pulse ml-2"
+    style="width: 36px; height: 12px; border-radius: 6px"
+    [style.background-color]="color"
+  ></div>
+</ng-template>
+
+<ng-template #point let-color>
+  <div
+    class="block rounded-full play-pulse ml-4"
+    style="width: 15px; height: 15px; --shadow-width: 10px"
+    [style.--shadow-color]="color"
+  ></div>
+</ng-template>

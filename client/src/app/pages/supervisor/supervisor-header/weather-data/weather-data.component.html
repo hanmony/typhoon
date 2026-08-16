@@ -1,0 +1,71 @@
+<div>
+  <div class="flex items-center pb-1">
+    <div class="decoration-left blue"></div>
+    <div class="text-sm mx-4">当前风力级别</div>
+    <div class="decoration-right blue"></div>
+  </div>
+  <div class="value-font-size px-2 flex justify-center">
+    <span class="orange">{{ typhoonType() }}</span>
+    <span class="light-blue-font px-2">|</span>
+    <span class="orange-font">{{ typhoonLevel() }}</span>
+  </div>
+</div>
+<div class="separator"></div>
+<div>
+  <div class="flex items-center pb-1">
+    <div class="decoration-left green"></div>
+    <div class="text-sm mx-4">台风位置参考</div>
+    <div class="decoration-right green"></div>
+  </div>
+  <div class="value-font-size px-2 flex justify-center">
+    <span
+      class="light-blue-font px-2 line-clamp-1 pointer-events-auto"
+      style="max-width: 100px"
+      nz-tooltip
+      [nzTooltipTitle]="landingLocation()"
+      nzTooltipPlacement="bottom"
+    >
+      <span class="truncate-text">
+        {{ landingLocation() }}
+      </span>
+    </span>
+  </div>
+</div>
+<div class="separator"></div>
+<div>
+  <div class="flex items-center pb-1">
+    <div class="decoration-left blue"></div>
+    <div class="text-sm mx-4">未来24h趋势</div>
+    <div class="decoration-right blue"></div>
+  </div>
+  <div class="value-font-size px-6 flex justify-center">
+    <span class="green-font">{{ tendencyKeyword() }}</span>
+  </div>
+</div>
+<div class="separator"></div>
+<div>
+  <div class="flex items-center pb-1">
+    <div class="decoration-left blue"></div>
+    <div class="text-sm mx-4">气象发布时间</div>
+    <div class="decoration-right blue"></div>
+  </div>
+  <div class="value-font-size px-6 flex justify-center">
+    <span class="green-font">{{ weatherPublishTime() }}</span>
+  </div>
+</div>
+<!-- <div>
+  <div class="flex items-center">
+    <div class="decoration-left green"></div>
+    <div class="text-sm mx-4">
+      <span>气象发布时间：</span>
+      <span>6月6日6时</span>
+    </div>
+  </div>
+  <div class="flex items-center">
+    <div class="decoration-left green"></div>
+    <div class="text-sm mx-4">
+      <span>下次更新时间：</span>
+      <span>6月6日6时</span>
+    </div>
+  </div>
+</div> -->

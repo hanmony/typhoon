@@ -1,0 +1,82 @@
+:host {
+  cursor: default;
+}
+.statistical-table-modal {
+  position: absolute;
+  z-index: 998;
+  background-size: auto 100%;
+  // transform: translate(-50%, 0);
+  overflow: hidden;
+  // border-left: 3px solid #206e91;
+  // border-right: 3px solid #206e91;
+  bottom: 100%;
+  left: 50%;
+  transform: translate(-50%, 0) scale(1);
+}
+.statistical-box {
+  width: 500px;
+  // min-height: 300px;
+  background-color: rgba(116, 173, 36, 0.2);
+}
+
+.modal-header {
+  background: url(/assets/images/map/dock/statistical-table-modal/header.png)
+    no-repeat;
+  height: 53px;
+  background-size: 100% 100%;
+  color: #bbcde6;
+  font-size: 18px;
+  line-height: 53px;
+  padding-left: 28px;
+  display: flex;
+  justify-content: space-between;
+}
+.modal-body {
+  // height: calc(100vh - 280px);
+  height: 300px;
+  background: url(/assets/images/map/dock/statistical-table-modal/body.png)
+    no-repeat;
+  background-size: 100% 100%;
+}
+.modal-footer {
+  background: url(/assets/images/map/dock/statistical-table-modal/footer.png)
+    no-repeat;
+  height: 26px;
+  background-size: 100% 100%;
+}
+
+.statistical-table {
+  font-size: 14px;
+  thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* 重要  表格固定算法 */
+    text-align: left;
+    color: #00ffffe1;
+    th {
+      padding: 0 8px;
+    }
+  }
+  tbody {
+    display: block;
+    background-color: transparent;
+    max-height: calc(300px - 24px);
+    overflow-y: overlay;
+    tr {
+      min-height: 44px;
+    }
+    td {
+      min-height: 44px;
+      padding: 8px;
+    }
+    .row {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+      border-bottom: 1px solid #ffffff41;
+      &:last-child {
+        border-bottom: 1px solid transparent;
+      }
+    }
+  }
+}

@@ -1,0 +1,104 @@
+@fontSize: 24px !important;
+@fontColor: #a5b2c8;
+@terminatedColor: #a5b2c877;
+
+@borderColor: rgba(103, 133, 177, 0.38) !important;
+@innerBorderColor: rgba(0, 90, 232, 0.13) !important;
+@rowBgColor: rgba(26, 67, 124, 0.38) !important;
+
+.op-table {
+  font-size: @fontSize;
+  border-color: @borderColor;
+  background-color: @rowBgColor;
+  border-left: 1px solid @borderColor;
+  border-collapse: separate;
+  border-spacing: 0;
+  display: table;
+  width: 100%;
+  table-layout: auto;
+  color: @fontColor;
+
+  thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* 重要  表格固定算法 */
+  }
+
+  th,
+  td {
+    border-color: @innerBorderColor;
+  }
+
+  tbody {
+    display: block;
+    max-height: 880px;
+    table-layout: fixed;
+    overflow-y: overlay;
+    > div {
+      display: table;
+      width: 100%;
+    }
+    td {
+      border-right: 2px solid @innerBorderColor;
+      border-bottom: 2px solid @innerBorderColor;
+    }
+  }
+}
+.op-table-header {
+  // border-top: 1px solid @borderColor;
+  // border-bottom: 1px solid @borderColor;
+  th {
+    border-top: 1px solid @borderColor;
+    border-bottom: 1px solid @borderColor;
+    background-color: rgba(25, 54, 98, 0.38);
+    padding: 12px 0 18px 0;
+    font-weight: 600;
+  }
+}
+
+.op-row {
+  width: 100%;
+  display: table-row;
+  table-layout: fixed;
+  &.terminated-font {
+    color: @terminatedColor;
+  }
+}
+.op-cell {
+  padding: 16px;
+  text-align: center;
+  // &.cell-center {
+  vertical-align: middle;
+  // }
+}
+
+.border-both {
+  border-left: 2px solid #005ae816;
+  border-right: 2px solid #005ae816;
+}
+
+.image-hover-effect {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  filter: hue-rotate(0deg);
+  &:hover {
+    filter: hue-rotate(-15deg);
+  }
+}
+
+.ordering-color {
+  color: #02f4f5;
+}
+
+.green-font {
+  color: #1dd782;
+}
+
+::ng-deep .ant-input {
+  border-color: #70aeff;
+  input {
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+}

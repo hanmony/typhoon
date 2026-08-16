@@ -1,0 +1,56 @@
+<div
+  #tabsRef
+  class="select-none px-6 whitespace-nowrap flex justify-between"
+  [style.zoom]="zoom"
+>
+  @for (tab of tabs; track $index) {
+    <nz-badge
+      nzSize="default"
+      [nzCount]="getTabUnreadCount(tab)"
+      [nzOffset]="[7, 4]"
+      [nzStyle]="{ backgroundColor: '#ef4444' }"
+    >
+      <span
+        class="item"
+        [class.active]="activeTab === tab.name"
+        [class.cursor-pointer]="activeTab !== tab.name"
+      >
+        <span class="title-font" (click)="activeTab = tab.name">{{
+          tab.name
+        }}</span>
+      </span>
+    </nz-badge>
+    <span class="title-font">{{
+      $index === tabs.length - 1 ? "" : " ｜ "
+    }}</span>
+  }
+</div>
+<div
+  #tabContentRef
+  class="whitespace-nowrap overflow-hidden"
+  [style.height]="tabContentHeight"
+  [style.width]="tabContentWidth"
+>
+  <div
+    class="whitespace-nowrap"
+    style="transition: all 0.5s cubic-bezier(0.075, 0.82, 0.2, 1)"
+    [style]="'transform: translateX(' + transformX + ')'"
+  >
+    @for (tab of tabs; track $index) {
+      <div
+        [id]="'tab-box-' + tab.name"
+        class="pt-3 inline-block overflow-auto custom-scroll-bar"
+        [style.width]="tabContentWidth"
+        [style.paddingLeft.px]="32 * zoom"
+        [style.paddingRight.px]="24 * zoom - 10"
+        [style.height]="tabContentHeight"
+      >
+        @for (message of tab.message; track $index) {
+          <message-box [data]="message" (onClick)="onClick(message)" />
+        } @empty {
+          <div class="text-center empty-font pt-8">暂无数据</div>
+        }
+      </div>
+    }
+  </div>
+</div>

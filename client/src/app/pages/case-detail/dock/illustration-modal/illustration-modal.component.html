@@ -1,0 +1,42 @@
+@if (visible) {
+  <div @horizontalInOutReverse class="illustration-modal">
+    <div class="header">
+      <div class="title">
+        <span
+          class="mr-1"
+          nz-icon
+          nzType="question-circle"
+          nzTheme="outline"
+        ></span>
+        <span class="title-font fangzheng-blue-white text-xl inline-blick pr-2"
+          >图例说明</span
+        >
+      </div>
+    </div>
+    <div class="content custom-scroll-bar">
+      @for (cate of categories; track $index) {
+        <div class="category">
+          <div class="category-title">
+            <span class="category-font text-xl inline-blick pr-2"
+              >{{ cate.name }}
+            </span>
+          </div>
+          <div class="category-items">
+            @for (item of cate.items; track $index) {
+              <div class="category-item">
+                <div class="pl-2 pb-[2px]">
+                  <span>{{ item.label }}</span>
+                </div>
+                <div class="flex items-center">
+                  <img [src]="getImage(item.label)" alt="" srcset="" />
+
+                  <illustration-effect [subType]="item.label" />
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+}

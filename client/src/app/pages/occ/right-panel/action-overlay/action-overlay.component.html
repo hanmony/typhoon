@@ -1,0 +1,26 @@
+@if (!isHide()) {
+  <div @verticalInOut class="actions">
+    @for (item of actions(); track item.key) {
+      <div
+        class="action-button"
+        [class.active]="item.key === activeAction()"
+        (click)="handleAction(item.key)"
+      >
+        <div class="action-font">{{ item.name }}</div>
+      </div>
+    }
+  </div>
+}
+@if (!isHide() && isOperationAction()) {
+  <div @zoomInOut class="sub-actions">
+    @for (item of operationSubActions(); track item.key) {
+      <div
+        class="sub-action-button"
+        [class.active]="activeAction() === item.key"
+        (click)="handleSubAction(item.key)"
+      >
+        <div class="sub-action-font">{{ item.name }}</div>
+      </div>
+    }
+  </div>
+}

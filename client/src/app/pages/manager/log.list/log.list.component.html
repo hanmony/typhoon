@@ -1,0 +1,81 @@
+<nz-card nzTitle="日志管理">
+  <span class="pr-5 font-bold">日志时间：</span>
+  <nz-space>
+    <nz-range-picker
+      [(ngModel)]="queryPeriod"
+      (ngModelChange)="onPeriodChange($event)"
+    ></nz-range-picker>
+  </nz-space>
+  <div class="p-3"></div>
+
+  <nz-table
+    #nzTable
+    [nzData]="logs"
+    [nzFrontPagination]="false"
+    [nzTotal]="totalLogs"
+    nzSize="middle"
+    [nzPageSize]="searchArgs.pageSize"
+    [nzPageIndex]="searchArgs.page"
+    [nzScroll]="{ x: '1300px' }"
+    (nzQueryParams)="onQueryParamsChange($event)"
+  >
+    <thead>
+      <tr>
+        <th nzColumnKey="module" #th_module [nzFilterFn]="true" nzCustomFilter>
+          模块
+          <th-string-filter [th]="th_module" placeholder="请输入模块" />
+        </th>
+        <th nzColumnKey="title" #th_title [nzFilterFn]="true" nzCustomFilter>
+          类型
+          <th-string-filter [th]="th_title" placeholder="请输入类型" />
+        </th>
+        <th nzColumnKey="url" #th_url [nzFilterFn]="true" nzCustomFilter>
+          url
+          <th-string-filter [th]="th_url" placeholder="请输入url" />
+        </th>
+        <th nzColumnKey="user" #th_user nzCustomFilter [nzFilterFn]="true">
+          工号
+          <th-string-filter [th]="th_user" placeholder="请输入工号筛选用户" />
+        </th>
+        <th nzColumnKey="name" #th_name [nzFilterFn]="true" nzCustomFilter>
+          姓名
+          <th-string-filter [th]="th_name" placeholder="请输入姓名筛选用户" />
+        </th>
+        <th nzColumnKey="dept" #th_dept [nzFilterFn]="true" nzCustomFilter>
+          部门
+          <th-string-filter [th]="th_dept" placeholder="请输入部门" />
+        </th>
+        <th nzColumnKey="job" #th_job [nzFilterFn]="true" nzCustomFilter>
+          岗位
+          <th-string-filter [th]="th_job" placeholder="请输入岗位" />
+        </th>
+
+        <th nzColumnKey="ip" #th_ip [nzFilterFn]="true" nzCustomFilter>
+          ip
+          <th-string-filter [th]="th_ip" placeholder="请输入ip" />
+        </th>
+        <th
+          nzColumnKey="createtime"
+          #th_createtime
+          [nzSortFn]="true"
+          nzCustomFilter
+        >
+          日期
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of nzTable.data">
+        <td>{{ item.module }}</td>
+        <td>{{ item.title }}</td>
+        <td>{{ item.url }}</td>
+        <td>{{ item.user }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.dept }}</td>
+        <td>{{ item.job }}</td>
+        <td>{{ item.ip }}</td>
+        <td>{{ item.createtime | date: "yyyy-MM-dd HH:mm:ss" }}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-card>

@@ -1,0 +1,22 @@
+<div class="text-right pt-2 -mb-6 relative z-10">
+  <extreme-tabs
+    [tabs]="['今日数据', '总计数据']"
+    [activeTab]="activeDuration"
+    (onClick)="setActiveDuration($event)"
+  />
+</div>
+<div class="guard-repair pt-4">
+  <div class="title">抢修状态</div>
+  <div #chartDom class="chart"></div>
+  <!-- <div class="title">抢修队</div>
+  <div class="sub-title">待机中</div>
+  <div class="progress-bar">
+    <div class="progress-bar-first" style="--first-percent: 40%"></div>
+    <div class="progress-bar-last" style="--last-percent: 60%"></div>
+  </div>
+  <div class="sub-title">抢修中</div>
+  <div class="progress-bar">
+    <div class="progress-bar-first" style="--first-percent: 25%"></div>
+    <div class="progress-bar-last" style="--last-percent: 30%"></div>
+  </div> -->
+</div>

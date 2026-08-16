@@ -1,0 +1,63 @@
+<nz-spin [nzSpinning]="loading">
+  <nz-card [nzExtra]="actions">
+    <nz-table #table [nzData]="items">
+      <thead>
+        <tr>
+          <th>文档名称</th>
+          <th nzWidth="120px">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of items; track item) {
+          <tr>
+            <td>{{ item.filename }}</td>
+            <td>
+              <div class="flex gap-2">
+                <a
+                  nz-button
+                  nz-tooltip
+                  nzTitle="下载"
+                  target="_blank"
+                  [href]="
+                    baseUrl +
+                    '/manager/editor/download-doc?case=' +
+                    doc?._id +
+                    '&filename=' +
+                    item.filename
+                  "
+                >
+                  <span nz-icon nzType="download"></span>
+                </a>
+                <a
+                  nz-button
+                  nzDanger
+                  nzTitle="删除"
+                  nz-popconfirm
+                  nzPopconfirmTitle="是否要删除?"
+                  nzPopconfirmPlacement="bottom"
+                  (nzOnConfirm)="handleDeleteDoc(item)"
+                >
+                  <span nz-icon nzType="delete"></span>
+                </a>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </nz-table>
+  </nz-card>
+  <ng-template #actions>
+    <div *ngIf="!readonly" class="flex gap-2">
+      <nz-upload
+        [nzAction]="'/manager/editor/import-doc?case=' + doc?._id"
+        [nzShowUploadList]="false"
+        (nzChange)="handleImportStatusChange($event)"
+      >
+        <button nz-button>
+          <span nz-icon nzType="upload"></span>
+          添加文档
+        </button>
+      </nz-upload>
+    </div>
+  </ng-template>
+</nz-spin>

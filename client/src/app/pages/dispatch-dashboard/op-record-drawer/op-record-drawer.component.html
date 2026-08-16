@@ -1,0 +1,70 @@
+@if (visible()) {
+  <div class="drawer-mask" (click)="close()"></div>
+  <div @horizontalInOut class="op-record-drawer">
+    <div class="top-bg">
+      <span>行车记录</span>
+    </div>
+    <div class="bottom-bg custom-scroll-bar">
+      <div>
+        @if (dayRecords().length === 0) {
+          <div class="text-center py-6 font-fangzheng text-2xl">暂无数据</div>
+        } @else {
+          @for (record of dayRecords(); track record.day) {
+            <div class="day-record">
+              <div class="day">{{ record.day }}</div>
+              <div class="operations">
+                @for (
+                  op of record.operations;
+                  track op.id;
+                  let isLast = $last;
+                  let index = $index
+                ) {
+                  <div class="operation">
+                    <div class="flex-center relative px-4">
+                      <span class="dot"></span>
+                      @if (!isLast) {
+                        <span class="line"></span>
+                      }
+                    </div>
+                    <div class="flex-center time">
+                      <span>{{ formatStartTime(op.startTime) }}</span>
+                    </div>
+                    <div class="content" [class.isOdd]="index % 2 === 0">
+                      <div class="detail">
+                        <div class="flex top-p">
+                          <div>{{ op.line }}</div>
+                          <div class="flex-1">{{ getPositionText(op) }}</div>
+                          <div style="min-width: 12%">
+                            {{ getDirectionText(op) }}
+                          </div>
+                        </div>
+                        <div class="center-p"></div>
+                        <div class="flex bottom-p">
+                          <div>
+                            <span class="time-tag-box mr-3">计划恢复运行</span>
+                            <span>{{ getPlanedEndTime(op) }}</span>
+                          </div>
+                          <div>
+                            <span class="time-tag-box mr-3">实际恢复运行</span>
+                            <span>{{ getActualEndTime(op) }}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="flex-center px-4">
+                        <span
+                          class="action-tag"
+                          [style.background]="getActionTagColor(op.actionType)"
+                          >{{ op.actionType }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        }
+      </div>
+    </div>
+  </div>
+}

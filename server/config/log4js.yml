@@ -1,0 +1,58 @@
+appenders: 
+    console: 
+        type: console
+        layout: 
+            type: pattern
+            pattern: "%[[%d] [%p]%] %m"
+    common: 
+        type: file
+        filename: logs/dispatch.log
+        maxLogSize: 32M
+        layout:
+            type: pattern
+            pattern: "[%d] [%p] %m"
+    sql: 
+        type: file
+        filename: logs/dispatch-sql.log
+        maxLogSize: 32M
+        layout:
+            type: pattern
+            pattern: "[%d] [%p] %m"
+    errLog:
+        type: file
+        filename: logs/dispatch-error.log
+        maxLogSize: 32M
+        layout:
+            type: pattern
+            pattern: "[%d] [%p] %m"
+    err:
+        type: logLevelFilter
+        appender: errLog
+        level: error
+    access:
+        type: file
+        filename: logs/dispatch-access.log
+        maxLogSize": 32M
+        layout:
+            type: pattern
+            pattern: "[%d] [%p] %m"
+categories:
+    default:
+        appenders: 
+          - console
+          - common
+          - err
+        level: debug
+    sql:
+        appenders: 
+          - sql
+        level: debug
+    access:
+        appenders: 
+          - access
+        level: debug
+    record: 
+        appenders: 
+          - console
+        level: debug
+

@@ -1,0 +1,38 @@
+<div class="info-item" (click)="toggleCollapse()">
+  <div class="label flex-1">{{ data.name }} : {{ data.value }}</div>
+  <div class="pr-2">
+    <img
+      class="transition-all"
+      [class.-rotate-90]="!expand"
+      src="assets/images/map/modal/arrow-down.png"
+      alt=""
+      srcset=""
+    />
+  </div>
+</div>
+@if (expand) {
+  @for (item of lineDetails; track $index) {
+    <div class="info-item" (click)="item.expand = !item.expand">
+      <div class="line-label">{{ item.name }}</div>
+      <div class="pr-2">
+        <img
+          class="transition-all"
+          [class.-rotate-90]="!item.expand"
+          src="assets/images/map/modal/arrow-down.png"
+          alt=""
+          srcset=""
+        />
+      </div>
+    </div>
+    @if (item.expand) {
+      @for (ev of item.detail; track $index) {
+        <div class="detail-info">
+          <div>开始时间: {{ ev.start }}</div>
+          <div>结束时间: {{ ev.end }}</div>
+          <div>施工数量: {{ ev.value }}</div>
+          <div>调整措施: {{ ev.label }}</div>
+        </div>
+      }
+    }
+  }
+}

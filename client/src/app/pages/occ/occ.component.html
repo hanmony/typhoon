@@ -1,0 +1,126 @@
+<div class="top-header">
+  <div class="top-mask">
+    <div class="title-font">@if (!hideTitle) {上海轨道交通}防汛防台应急态势指挥台</div>
+    <div class="line-label">
+      <div class="title-font" style="font-size: 28px">
+        {{ currentLineText() }}
+      </div>
+    </div>
+  </div>
+</div>
+
+@if (state().name) {
+  <div
+    [class.hidden]="hideToSelect()"
+    class="fixed"
+    style="left: 50%; top: 96px; z-index: 999; transform: translate(-50%, 0)"
+  >
+    <typhoon-name [name]="state().text" />
+  </div>
+}
+
+<occ-notification-overlay
+  [currentLine]="currentLine()"
+  [isHide]="hideToSelect()"
+  [eventStatistics]="eventStatistics()"
+/>
+<occ-action-overlay
+  [activeAction]="activeAction()"
+  [isHide]="hideToSelect()"
+  (actionChange)="handleAction($event)"
+  (onSubAction)="handleSubAction($event)"
+/>
+<occ-right-panel
+  [isHide]="hideToSelect()"
+  [events]="events()"
+  [operations]="operations()"
+/>
+<div class="occ">
+  <occ-map
+    class="h-full w-full"
+    [currentLine]="currentLine()"
+    [events]="events()"
+    [operations]="operations()"
+  />
+</div>
+
+@if (lineSelectVisible()) {
+  <div class="absolute left-0 top-8" style="z-index: 1000">
+    <nz-select
+      modify
+      [(ngModel)]="currentLine"
+      (ngModelChange)="onLineChange($event)"
+    >
+      @for (line of lines; track line) {
+        <nz-option [nzLabel]="line" [nzValue]="line"></nz-option>
+      }
+    </nz-select>
+  </div>
+}
+
+@if (modalConfig().visible) {
+  <occ-modal-wrapper
+    [isHide]="hideToSelect()"
+    [title]="modalTitle()"
+    [action]="modalConfig().action"
+    (onClose)="onModalClose()"
+    (onSubmit)="onModalSubmit()"
+  >
+    @if (modalConfig().eventModalVisible) {
+      <occ-event-modal
+        [action]="modalConfig().action"
+        [line]="currentLine()"
+        (onLocate)="onLocate($event)"
+        (onQuery)="queryToConfirm()"
+        (onAdd)="onAddEvent($event)"
+        (onEdit)="onEditEvent($event)"
+        [data]="modalConfig().data"
+      />
+    }
+    @if (modalConfig().operationModalVisible) {
+      <occ-operation-modal
+        [action]="modalConfig().action"
+        [line]="currentLine()"
+        [subAction]="activeSubAction()"
+        (onLocate)="onLocate($event)"
+        (onQuery)="queryToConfirm()"
+        (onAdd)="onAddOperation($event)"
+        (onEdit)="onEditOperation($event)"
+        [data]="modalConfig().data"
+      />
+    }
+  </occ-modal-wrapper>
+}
+
+@if (simulatePatrollingModalConfig().visible) {
+  <occ-simulate-patrolling
+    [currentLine]="currentLine()"
+    (showMessage)="showMessage($event)"
+    (removeMessage)="removeMessage()"
+    (onLocationQuery)="queryToConfirm($event)"
+    (onClose)="closeSimulatePatrollingModal()"
+  />
+}
+
+<occ-message-tip
+  (onCancel)="onCancelLocating()"
+  (onConfirm)="onConfirmLocating()"
+/>
+
+<div
+  [class.hidden]="hideToSelect()"
+  class="fixed"
+  style="left: 28px; bottom: 10px; z-index: 999"
+>
+  <occ-dock
+    (clickEventList)="onEventListClick()"
+    (clickOperationList)="onOperationListClick()"
+  />
+</div>
+
+<occ-event-list-modal [isHide]="hideToSelect()" [data]="events()" />
+<occ-operation-list-modal [isHide]="hideToSelect()" [data]="operations()" />
+
+<div class="back-to-portal">
+  <button class="enter-button" (click)="backToPortal()">回到首页</button>
+</div>

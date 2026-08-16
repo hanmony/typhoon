@@ -1,0 +1,45 @@
+.typhoon-name {
+  display: flex;
+  align-items: stretch;
+}
+.typhoon-name-left {
+  width: 12px;
+  background: url(/assets/images/map/box/typhoon-name-left.png) no-repeat;
+  background-size: 100% 100%;
+}
+.typhoon-name-center {
+  background: url(/assets/images/map/box/typhoon-name-center.png) no-repeat;
+  background-size: 100% 100%;
+  padding: 0 12px;
+}
+.typhoon-name-right {
+  width: 12px;
+  background: url(/assets/images/map/box/typhoon-name-right.png) no-repeat;
+  background-size: 100% 100%;
+}
+
+.name-font {
+  font-family: PangMenZhengDao;
+  font-weight: 400;
+  font-size: 30px;
+  // 行高跟随字号自适应
+  line-height: 1.4;
+  white-space: nowrap;
+  background: linear-gradient(
+    0deg,
+    rgba(119, 186, 255, 0.89) 0%,
+    rgba(233, 248, 255, 0.89) 73.3154296875%,
+    rgba(255, 255, 255, 0.89) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.next-step {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}

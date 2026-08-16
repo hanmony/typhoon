@@ -1,0 +1,27 @@
+:host {
+  display: block;
+  min-height: 385px;
+}
+
+.duty-dates {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.duty-date-tab {
+  padding: 4px 16px;
+  background: url("/assets/images/occ/map/input-wrapper.png") no-repeat;
+  background-size: 100% 100%;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 22px;
+  color: rgba(255, 255, 255, 0.6);
+  user-select: none;
+  text-align: center;
+
+  &.active {
+    color: #00fafa;
+    filter: brightness(1.15);
+  }
+}

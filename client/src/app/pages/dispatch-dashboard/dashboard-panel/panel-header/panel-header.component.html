@@ -1,0 +1,91 @@
+<div class="panel-header">
+  <div class="panel-title">{{ title() }}</div>
+
+  @if (showPreset()) {
+    <div class="flex items-center pt-6 pl-8">
+      <span class="text-2xl mr-4">预案</span>
+      <nz-select
+        class="preset-select"
+        nzMode="default"
+        nzPlaceHolder="请选择"
+        [nzAllowClear]="true"
+        [(ngModel)]="preset"
+        (ngModelChange)="onPresetChange.emit($event)"
+      >
+        @for (item of presetOptions; track item) {
+          <nz-option [nzValue]="item.name" [nzLabel]="item.name"></nz-option>
+        }
+      </nz-select>
+    </div>
+  }
+  @if (showRecordButton()) {
+    <div class="flex items-center pt-6 pl-8">
+      <span class="record-button active" (click)="toggleRecordDrawer.emit()"
+        >行车记录</span
+      >
+    </div>
+  }
+  <div class="flex flex-1 items-center justify-end pt-6 pl-8">
+    <!-- @if (showPagination()) { -->
+    @if (showTotal()) {
+      <div class="pr-8">
+        <span class="text-2xl total">
+          <span>共{{ total() }}条</span>
+        </span>
+      </div>
+    }
+    <!-- <nz-pagination
+        class="panel-pagination"
+        [nzPageIndex]="paginationConfig().pageIndex"
+        [nzTotal]="total()"
+        [nzItemRender]="renderItemTemplate"
+        (nzPageIndexChange)="onPageIndexChange.emit($event)"
+      >
+      </nz-pagination> -->
+    <div class="pl-8">
+      <span
+        class="auto-button"
+        [class.active]="paginationConfig().autoTurn"
+        (click)="handleAutoTurn.emit()"
+        >自动翻页</span
+      >
+    </div>
+    <!-- } -->
+    @if (closeable()) {
+      <div class="pr-4 pb-2">
+        <img
+          class="cursor-pointer transition-transform hover:rotate-180"
+          style="width: 36px"
+          src="/assets/images/dashboard/close-icon.png"
+          alt=""
+          srcset=""
+          (click)="onClose.emit()"
+        />
+      </div>
+    }
+  </div>
+</div>
+
+<ng-template #renderItemTemplate let-type let-page="page">
+  @switch (type) {
+    @case ("page") {
+      <a>{{ page }}</a>
+    }
+    @case ("prev") {
+      <a>上一页</a>
+    }
+    @case ("next") {
+      <a>下一页</a>
+    }
+    @case ("prev_5") {
+      <a>
+        <nz-icon nzType="double-left" nzTheme="outline" />
+      </a>
+    }
+    @case ("next_5") {
+      <a>
+        <nz-icon nzType="double-right" nzTheme="outline" />
+      </a>
+    }
+  }
+</ng-template>

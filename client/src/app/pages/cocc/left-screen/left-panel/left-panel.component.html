@@ -1,0 +1,17 @@
+<div class="left-panel overflow-x-hidden" [class.hidden]="isHide()">
+  <div class="pl-4 pr-3">
+    <div class="title">
+      <div class="title-font">线路情况</div>
+    </div>
+    <!-- <cocc-line-event-module [events]="events()" /> -->
+    <left-screen-line-chart
+      [operations]="operations()"
+    ></left-screen-line-chart>
+  </div>
+  <div class="pl-4 pr-3">
+    <div class="title">
+      <div class="title-font">线路运营情况</div>
+    </div>
+    <cocc-line-operation-module [lines]="lines()" [operations]="operations()" />
+  </div>
+</div>

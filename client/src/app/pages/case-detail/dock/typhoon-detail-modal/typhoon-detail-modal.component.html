@@ -1,0 +1,94 @@
+<div @horizontalInOut *ngIf="visible" class="typhoon-detail-modal">
+  <div class="header">
+    <div class="title">
+      <span class="mr-1" nz-icon nzType="minus-circle" nzTheme="outline"></span>
+      <span class="title-font fangzheng-blue-white text-xl inline-blick pr-2"
+        >台风信息</span
+      >
+    </div>
+  </div>
+  <div class="relative">
+    <table class="detail-table">
+      <thead>
+        <tr class="text-left text-lg">
+          <th style="width: 32px"></th>
+          @for (item of columns; track item.key) {
+            <th
+              [class.px-2]="item.key === 'time'"
+              [style.width]="item.width ? item.width + 'px' : 'auto'"
+            >
+              {{ item.name }}
+            </th>
+          }
+        </tr>
+      </thead>
+      <tbody #tableBody class="custom-scroll-bar">
+        @for (state of typhoonMeta?.states; track $index) {
+          <tr
+            class="row"
+            [class.active]="activeIndex === $index"
+            (click)="onRowClick($index)"
+            [attr.data-index]="$index"
+          >
+            <td style="width: 32px; text-align: center">
+              @if (activeIndex === $index) {
+                <img
+                  src="/assets/images/map/modal/diamond.png"
+                  alt=""
+                  srcset=""
+                />
+              }
+            </td>
+            @for (item of columns; track item.key) {
+              <td
+                class="text-left whitespace-nowrap"
+                [class.px-2]="item.key === 'time'"
+                [class.text-center]="item.align === 'center'"
+                [style.width]="item.width ? item.width + 'px' : 'auto'"
+              >
+                {{
+                  item.formatter
+                    ? item.formatter(state[item.key])
+                    : state[item.key]
+                }}
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <div class="extra-info">
+    <div class="info-item">
+      <div class="icon">
+        <img src="/assets/images/map/modal/circle.png" alt="" srcset="" />
+      </div>
+      <div class="pl-2">
+        <div class="label"><span class="label-font">风圈半径</span></div>
+        <div class="min-h-6">
+          @for (item of composeCircleTexts; track $index) {
+            <div>{{ item }}</div>
+          }
+        </div>
+      </div>
+    </div>
+    <div class="info-item">
+      <div class="icon">
+        <img src="/assets/images/map/modal/alert.png" alt="" srcset="" />
+      </div>
+      <div class="pl-2">
+        <div class="label"><span class="label-font">气象预警</span></div>
+        <div class="min-h-6">{{ composeWeather }}</div>
+      </div>
+    </div>
+    <div class="info-item">
+      <div class="icon">
+        <img src="/assets/images/map/modal/land.png" alt="" srcset="" />
+      </div>
+      <div class="pl-2">
+        <div class="label"><span class="label-font">登陆地点</span></div>
+        <div class="min-h-6">{{ landText }}</div>
+      </div>
+    </div>
+  </div>
+</div>

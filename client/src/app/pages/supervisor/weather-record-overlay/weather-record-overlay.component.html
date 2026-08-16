@@ -1,0 +1,151 @@
+@if (visible) {
+  <div
+    [@horizontalInOutReverse]="!ds()"
+    [@horizontalInOut]="ds()"
+    class="weather-record-overlay"
+    style="--scroll-bar-width: 2px"
+    [class.ds]="ds()"
+  >
+    <div class="box-bg">
+      <div class="box-bg-top"></div>
+      <div class="box-bg-content">
+        <div class="actual-header">
+          <div class="header-tabs" [class.lastActive]="isTyphoonTabActive()">
+            <div
+              class="header-tab-item"
+              [class.active]="activeTabKey() === 'hazard'"
+              (click)="setActiveTabKey('hazard')"
+            >
+              上海灾害预警记录
+            </div>
+            <div
+              class="header-tab-item"
+              [class.active]="activeTabKey() === 'typhoon'"
+              (click)="setActiveTabKey('typhoon')"
+            >
+              台风气象记录
+            </div>
+          </div>
+        </div>
+
+        <div class="actual-content">
+          @if (activeTabKey() === "hazard") {
+            <div class="hazard-content custom-scroll-bar">
+              @for (item of composeHazards(); track $index) {
+                <div class="hazard-item">
+                  <div class="hazard-left">
+                    <ng-container
+                      *ngTemplateOutlet="
+                        marker;
+                        context: { src: item.extract.src }
+                      "
+                    ></ng-container>
+                    <div class="leading-8">
+                      <span>{{ item.extract.text }}</span>
+                    </div>
+                  </div>
+                  <div class="hazard-right">
+                    <div class="hazard-title">{{ item.extract.title }}</div>
+                    <div
+                      class="hazard-desc line-clamp-3"
+                      style="color: #ffffff80; line-height: 1.5"
+                    >
+                      {{ item.info }}
+                    </div>
+                    <div class="text-right">
+                      @if (item.extract.avertTime) {
+                        <span>预警解除时间：</span>
+                        <span>
+                          {{ item.extract.avertTime }}
+                        </span>
+                      }
+                    </div>
+                  </div>
+                </div>
+              }
+              @if (composeHazards().length === 0) {
+                <div
+                  class="text-center font-fangzheng py-8"
+                  style="font-size: 1.5em; line-height: 1.5"
+                >
+                  暂无灾害预警
+                </div>
+              }
+            </div>
+          } @else if (activeTabKey() === "typhoon") {
+            <div class="typhoon-content">
+              <table class="typhoon-table">
+                <thead>
+                  <tr class="text-left">
+                    <!-- <th style="width: 32px"></th> -->
+                    <th class="relative" style="width: 10px">
+                      <span class="tangle"></span>
+                    </th>
+
+                    <th>发布时间</th>
+                    <th>位置</th>
+                    <th>最大风速</th>
+                    <th>中心气压</th>
+                    <th>风力级别</th>
+                  </tr>
+                </thead>
+                <tbody
+                  #tableBody
+                  class="custom-scroll-bar"
+                  [style.max-height]="'23.9em'"
+                >
+                  @for (row of simplifiedStateData(); track $index) {
+                    <tr class="typhoon-table-row">
+                      <th class="relative" style="width: 10px">
+                        <span class="tangle"></span>
+                      </th>
+                      <td class="text-left">
+                        <span>{{ row.time }}</span>
+                      </td>
+                      <td class="text-left">
+                        <span>{{ row.position }}</span>
+                      </td>
+                      <td class="text-left">
+                        <span>{{ row.speed }}</span>
+                      </td>
+                      <td class="text-left">
+                        <span>{{ row.centerPressure }}</span>
+                      </td>
+                      <td class="text-left">
+                        <span>{{ row.level }}</span>
+                      </td>
+                    </tr>
+                  }
+
+                  @if (simplifiedStateData().length === 0) {
+                    <tr class="typhoon-table-row">
+                      <td class="relative" style="width: 10px">
+                        <span class="tangle"></span>
+                      </td>
+                      <td colspan="100%" class="text-center">暂无数据</td>
+                    </tr>
+                    @for (row of paddingRows(); track $index) {
+                      <tr class="typhoon-table-row">
+                        <td class="relative" style="width: 10px">
+                          <span class="tangle"></span>
+                        </td>
+                      </tr>
+                    }
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+        </div>
+      </div>
+      <div class="box-bg-bottom"></div>
+    </div>
+  </div>
+}
+
+<ng-template #marker let-src="src">
+  <div class="marker">
+    <img [src]="src" alt="" srcset="" />
+    <div class="marker-base"></div>
+  </div>
+</ng-template>

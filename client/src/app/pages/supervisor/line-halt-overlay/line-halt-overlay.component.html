@@ -1,0 +1,83 @@
+<div
+  class="animate__animated animate__fadeInUp"
+  style="animation-duration: 300ms"
+>
+  <div class="flex justify-between">
+    <div class="pointer-events-auto">
+      <div class="list-title">
+        <span class="list-title-font">全线网运营事态统计</span>
+      </div>
+    </div>
+    <div class="pointer-events-auto"></div>
+  </div>
+
+  <div class="box-wrapper h-56">
+    <div class="flex h-full">
+      <div class="w-1/2 flex h-full">
+        <div class="w-1/2">
+          <div class="field-title">全线停运态势</div>
+          <div class="flex justify-center pt-2">
+            <div #chartDom class="" style="width: 16rem; height: 10rem"></div>
+          </div>
+        </div>
+        <div class="flex-1 border-separator">
+          <div class="field-title">全线停运</div>
+          <div
+            class="custom-scroll-bar overflow-y-auto"
+            style="height: calc(100% - 1.5rem)"
+          >
+            @for (item of halt.entire; track item.line) {
+              <div class="px-3 pt-2">
+                <div class="flex mb-1">
+                  <div class="line-label mr-3">{{ item.line }}</div>
+                  <div class="field-value">
+                    {{ getStartTime(item.op) }} 开始停运
+                  </div>
+                </div>
+              </div>
+            }
+            @if (!halt.entire.length) {
+              <div
+                class="text-center font-fangzheng py-8"
+                style="font-size: 2rem; line-height: 1.5"
+              >
+                暂无停运
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="flex-1">
+        <div class="field-title mb-1">缩线停运</div>
+        <div
+          class="custom-scroll-bar overflow-y-auto"
+          style="height: calc(100% - 1.5rem)"
+        >
+          @for (item of halt.partial; track item.line) {
+            <div class="pl-3 pt-3">
+              <div class="partial-halt-box">
+                <div class="line-label sticky-top">{{ item.line }}</div>
+                @for (op of item.ops; track $index) {
+                  <div class="flex mb-1">
+                    <div class="position-value mr-3">{{ getPosition(op) }}</div>
+                    <div class="field-value">
+                      {{ getStartTime(op) }} 开始停运
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+          @if (!halt.partial.length) {
+            <div
+              class="text-center font-fangzheng py-8"
+              style="font-size: 2rem; line-height: 1.5"
+            >
+              暂无停运
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

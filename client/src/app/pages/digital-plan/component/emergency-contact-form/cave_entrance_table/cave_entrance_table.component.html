@@ -1,0 +1,31 @@
+<div class="cave-entrance-table">
+  <div
+    *ngFor="let group of groupedData; let i = index"
+    class="line-section"
+    [ngStyle]="{ '--order': i }"
+  >
+    <img *ngIf="group.iconPath" [src]="group.iconPath" class="line-icon" />
+    <div class="line-section-content">
+      <div class="line-table">
+        <div class="table-header">
+          <div class="header-cell">区间</div>
+          <div class="header-cell">名称</div>
+          <div class="header-cell">里程</div>
+          <div class="header-cell">运营公司联系方式</div>
+          <div class="header-cell">维保专业联系方式</div>
+        </div>
+        <div *ngFor="let item of group.items" class="table-row">
+          <div class="table-cell">{{ item.interval }}</div>
+          <div class="table-cell">{{ item.name }}</div>
+          <div class="table-cell">{{ item.mileage }}</div>
+          <div class="table-cell">{{ item.operationInfo }}</div>
+          <div class="table-cell">
+            <div *ngFor="let contact of item.maintenanceContacts">
+              {{ contact.department }}/{{ contact.name }}/{{ contact.phone }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

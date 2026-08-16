@@ -1,0 +1,159 @@
+@if (visible()) {
+  @if (isRemote()) {
+    <div @verticalInOut class="event-total">
+      <div class="event-total-item with-green">
+        <img
+          width="229"
+          height="166"
+          src="assets/images/dispatch-center/map/base-animated.png"
+          alt=""
+          srcset=""
+        />
+        <div
+          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        >
+          <div class="item-number">{{ normalCount() }}</div>
+          <div class="item-label">普通事件</div>
+        </div>
+      </div>
+
+      <div class="event-total-item with-blue">
+        <img
+          width="229"
+          height="166"
+          style="filter: hue-rotate(36deg)"
+          src="assets/images/dispatch-center/map/base-animated.png"
+          alt=""
+          srcset=""
+        />
+        <div
+          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        >
+          <div class="item-number">{{ severityCount() }}</div>
+          <div class="item-label">重点事件</div>
+        </div>
+      </div>
+
+      <!-- <div class="event-total-item with-red">
+        <img
+          width="229"
+          height="166"
+          style="filter: hue-rotate(180deg)"
+          src="assets/images/dispatch-center/map/base-animated.png"
+          alt=""
+          srcset=""
+        />
+        <div
+          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        >
+          <div class="item-number">{{ urgentRepairCount() }}</div>
+          <div class="item-label">抢修事件</div>
+        </div>
+      </div> -->
+
+      <!-- <div class="event-total-item with-blue">
+        <div class="item-number">{{ severityCount() }}</div>
+        <div class="item-label">重点事件</div>
+      </div>
+
+      <div class="event-total-item with-red">
+        <div class="item-number">{{ urgentRepairCount() }}</div>
+        <div class="item-label">抢修事件</div>
+      </div> -->
+    </div>
+  } @else {
+    <div @verticalInOut class="event-list-wrapper">
+      <div>
+        <div class="event-list-title">
+          <span class="event-list-title-font"> 重点事件展示 </span>
+        </div>
+      </div>
+      <div #outerContainer class="event-list">
+        <div #innerContainer class="inner-list">
+          @for (item of severityEvents(); track $index) {
+            <div class="event-card" (click)="handleLocate(item)">
+              <div style="padding: 12px 14px 0; min-height: 88px">
+                <div class="flex justify-between items-center leading-5">
+                  <div class="name line-clamp-1">{{ getEventLabel(item) }}</div>
+                  <div class="type">{{ item.line }}</div>
+                </div>
+                <div class="py-3 text-wrap leading-4 text-sm line-clamp-2">
+                  {{ item.description }}
+                </div>
+              </div>
+              <div class="separator"></div>
+              <div class="flex items-center" style="padding: 10px 14px 8px 4px">
+                <div>
+                  <img
+                    width="32"
+                    src="assets/images/occ/map/locate-icon.png"
+                    alt=""
+                    srcset=""
+                  />
+                </div>
+                <div class="flex-1 info-font leading-none">
+                  <div class="inline-block text-center">
+                    @for (row of getEventPosition(item); track $index) {
+                      <div>{{ row }}</div>
+                    }
+                  </div>
+                </div>
+                <div class="state">
+                  <div
+                    class="info-font"
+                    style="height: 22px; margin-bottom: 4px"
+                  >
+                    @if (item.locationType === "区间") {
+                      <span>[{{ item.direction }}]</span>
+                    }
+                  </div>
+                  <div style="height: 25px">
+                    @if (getEventState(item)) {
+                      <span
+                        class="state-marker"
+                        [class]="getEventStateColorClass(item)"
+                      >
+                        {{ getEventState(item) }}
+                      </span>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+
+          @if (!severityEvents().length) {
+            <div
+              class="text-center font-fangzheng py-6"
+              style="font-size: 32px; line-height: 1.5"
+            >
+              暂无重点事件
+            </div>
+          }
+        </div>
+      </div>
+
+      @if (directorVisible) {
+        @if (leftVisible) {
+          <div class="left-arrow" (click)="handleScroll('left')">
+            <img
+              src="assets/images/cocc/direct-arrow.png"
+              alt=""
+              draggable="false"
+            />
+          </div>
+        }
+        @if (rightVisible) {
+          <div class="right-arrow" (click)="handleScroll('right')">
+            <img
+              class="rotate-180"
+              src="assets/images/cocc/direct-arrow.png"
+              alt=""
+              draggable="false"
+            />
+          </div>
+        }
+      }
+    </div>
+  }
+}

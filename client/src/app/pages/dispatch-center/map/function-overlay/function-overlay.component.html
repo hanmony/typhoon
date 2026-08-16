@@ -1,0 +1,20 @@
+<div class="flex justify-end">
+  <div class="flex flex-col gap-6">
+    <function-overlay-select
+      [value]="currentSelectedLines()"
+      [multiple]="true"
+      [options]="allLineOptions()"
+      selectAllLabel="全部线路"
+      placeholder="线路筛选"
+      (onChange)="selectLinesChangeHandler($event)"
+    />
+
+    <function-overlay-select
+      [multiple]="false"
+      [value]="currentSelectedRepairState()"
+      [options]="allRepairStates"
+      placeholder="所有事件"
+      (onChange)="repairStateChangeHandler($event)"
+    />
+  </div>
+</div>

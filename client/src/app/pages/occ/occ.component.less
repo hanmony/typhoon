@@ -1,0 +1,103 @@
+:host {
+  --animate-duration: 0.3s;
+}
+
+.occ {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.top-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 133px;
+  background: url("/assets/images/occ/top-header-bg.png") no-repeat center
+    center;
+  background-size: 100% auto;
+  z-index: 800;
+  user-select: none;
+  pointer-events: none;
+}
+
+.top-mask {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 800;
+  width: 45%;
+  height: 80px;
+  // background: radial-gradient(
+  //   circle,
+  //   rgba(8, 24, 53, 0.8) 0%,
+  //   rgba(8, 24, 53, 0.8) 8%,
+  //   rgba(23, 63, 109, 0.35) 70%,
+  //   rgba(23, 63, 109, 0) 100%
+  // );
+  // backdrop-filter: blur(10px);
+  // 倒梯形
+  // clip-path: polygon(0% 0%, 100% 0%, 73% 100%, 27% 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .title-font {
+    text-shadow: 0px 2px 8px rgba(5, 28, 55, 0.12);
+    background: linear-gradient(
+      0deg,
+      rgba(119, 186, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0.95) 100%
+    );
+    background-clip: text;
+    color: transparent;
+    font-family: "FangZhengZhongyi";
+    font-size: 32px;
+  }
+
+  .line-label {
+    background-image: url("/assets/images/occ/map/top-line-box.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    height: 42px;
+    padding: 0 12px;
+    margin-left: 8px;
+  }
+}
+
+.event-modal {
+  ::ng-deep &.ant-modal {
+    // top: 50px;
+    padding-bottom: 144px;
+
+    .ant-modal-body {
+      padding: 0;
+    }
+    .ant-modal-content {
+      background-color: transparent;
+      box-shadow: none;
+    }
+    &.ant-modal .ant-modal-close {
+      display: none;
+    }
+  }
+}
+
+::ng-deep .shining-box {
+  background-color: #0b255290;
+  width: 100%;
+  box-shadow: inset 0px 0px 12px 0px rgba(92, 178, 254, 0.72);
+  .option-item {
+    color: var(--case-text-primary);
+    cursor: pointer;
+    &:hover {
+      color: #40e6fe77;
+    }
+    &.checked {
+      color: #40e6fe;
+    }
+  }
+}

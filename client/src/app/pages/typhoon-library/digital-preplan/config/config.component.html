@@ -1,0 +1,31 @@
+<h3 class="headline">
+  <span
+    ><img
+      class="mr-2"
+      src="assets/images/typhoon-library/digital-preplan/right-arrow.svg"
+      alt=""
+      srcset=""
+  /></span>
+  <span>台风导致停运下的行车交路及运力配置图 </span>
+
+  <div class="duration-tabs">
+    @for (item of durations; track $index) {
+      <span (click)="setDuration(item)" [class.active]="activeDuration === item"
+        >{{ item }}分钟间隔</span
+      >
+    }
+  </div>
+</h3>
+<div class="config-image overflow-y-auto custom-scroll-bar">
+  <div>
+    <img [src]="getImage(1)" alt="" srcset="" draggable="false" />
+  </div>
+  <div class="h-12"></div>
+  <div>
+    <img [src]="getImage(2)" alt="" srcset="" draggable="false" />
+  </div>
+  <div class="h-16"></div>
+  <div>
+    <img [src]="getImage(3)" alt="" srcset="" draggable="false" />
+  </div>
+</div>

@@ -1,0 +1,80 @@
+.duty-table {
+  font-family:
+    -apple-system,
+    Microsoft YaHe,
+    "微软雅黑",
+    "黑体",
+    HeiTi;
+  width: 100%;
+  thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* 重要  表格固定算法 */
+    text-align: left;
+    margin-bottom: 10px;
+    --tangle-color: #ebb670;
+    // .tangle();
+    tr {
+      background: linear-gradient(
+        to bottom,
+        rgba(42, 64, 120, 0),
+        rgba(42, 64, 120, 0.68)
+      );
+      font-size: 16px;
+      color: #afbed8;
+      line-height: 28px;
+      font-weight: 300;
+      border-bottom: 2px solid #6187e4;
+    }
+    th {
+      &:first-child {
+        padding-left: 12px;
+      }
+    }
+  }
+  tbody {
+    display: block;
+    background-color: transparent;
+    // max-height: 168px;
+    overflow-y: overlay;
+  }
+  .duty-table-row {
+    --tangle-color: #6e87c5;
+    height: 1.75rem;
+    display: table;
+    width: 100%;
+    margin-bottom: 0.25rem;
+
+    table-layout: fixed;
+    font-size: 0.75rem; // 30px
+    color: #ffffff;
+    background: rgba(36, 57, 110, 0.68);
+    border: 1px solid rgba(110, 135, 197, 0.17);
+
+    &:nth-child(even) {
+      background: rgba(36, 57, 110, 0.38);
+    }
+
+    &.active {
+      color: #34dcfc;
+    }
+  }
+}
+
+.tangle {
+  // position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 0;
+    height: 0;
+    border: 0.25rem solid var(--tangle-color);
+    border-bottom-color: transparent;
+    border-top-color: transparent;
+    border-left-color: transparent;
+    transform: rotateZ(45deg);
+  }
+}

@@ -1,0 +1,49 @@
+<div class="warning-modal-overlay" *ngIf="isVisible" (click)="hide()">
+  <div class="warning-modal-container" (click)="$event.stopPropagation()">
+    <div class="currentWarningTitle">
+      <span>{{ title }}</span>
+      <img
+        src="/assets/images/digital-plan/Modal/warningLifted.png"
+        alt=""
+        (click)="hide()"
+      />
+    </div>
+    <div class="currentWarningContent">
+      <div class="onDutyEscort">
+        <div class="onDutyEscortTitle"><span>值守保驾</span></div>
+        <div
+          class="requirement-content"
+          *ngIf="content && content.onDutyEscort as onDutyContent"
+        >
+          <ng-container *ngFor="let item of onDutyContent.split(';')">
+            <div class="requirement-item" *ngIf="item.trim()">
+              <span class="diamond-icon">♦</span> {{ item.trim() }}
+            </div>
+          </ng-container>
+        </div>
+        <div class="onDutyEscortTitle"><span>巡视检查</span></div>
+        <div
+          class="requirement-content"
+          *ngIf="content && content.patrolInspection as patrolContent"
+        >
+          <ng-container *ngFor="let item of patrolContent.split(';')">
+            <div class="requirement-item" *ngIf="item.trim()">
+              <span class="diamond-icon">♦</span> {{ item.trim() }}
+            </div>
+          </ng-container>
+        </div>
+        <div class="onDutyEscortTitle"><span>其他要求</span></div>
+        <div
+          class="requirement-content"
+          *ngIf="content && content.otherRequirements as otherContent"
+        >
+          <ng-container *ngFor="let item of otherContent.split(';')">
+            <div class="requirement-item" *ngIf="item.trim()">
+              <span class="diamond-icon">♦</span> {{ item.trim() }}
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

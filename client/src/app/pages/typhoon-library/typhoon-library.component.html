@@ -1,0 +1,64 @@
+<div #typhoonLibrary id="typhoon-library" style="height: 100vh">
+  <div class="typhoon-library-header">
+    <div>
+      <button class="enter-button" (click)="backToPortal()">回到首页</button>
+    </div>
+    <div class="title">台风案例库</div>
+    <div>
+      <div class="user-info" nz-dropdown [nzDropdownMenu]="menu">
+        <img
+          class="icon"
+          src="assets/images/portal/profile-icon@2x.png"
+          alt=""
+        />
+        <span>欢迎您，{{ settings.user?.name }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="typhoon-library-content">
+    <year-timeline />
+    <typhoon-library-case-list />
+  </div>
+  <!-- <library-agent /> -->
+  <library-robot (robotClick)="aiPanelOpen.set(!aiPanelOpen())" />
+  <library-ai-panel [isOpen]="aiPanelOpen()" (isOpenChange)="aiPanelOpen.set($event)" />
+  <!-- <draggable-component
+    [allow]="true"
+    [initialX]="digitalPreplanButton.x"
+    [initialY]="digitalPreplanButton.y"
+    (onClick)="onDigitalPreplanButtonClick()"
+  >
+    <div class="digital-preplan-button">
+      <img
+        src="assets/images/typhoon-library/digital-preplan/indicator.png"
+        alt=""
+        srcset=""
+      />
+      <div class="text">数字预案</div>
+    </div>
+  </draggable-component> -->
+</div>
+
+<ng-template #closeIcon>
+  <span
+    nz-icon
+    nzType="close-circle"
+    nzTheme="fill"
+    style="font-size: 24px"
+  ></span>
+</ng-template>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu nzSelectable>
+    <li
+      *ngIf="rolesIn(['admin', 'manager', 'editor'])"
+      nz-menu-item
+      (click)="openManagement()"
+    >
+      进入后台
+    </li>
+    <li nz-menu-item (click)="handleChangePassword()">修改密码</li>
+    <li nz-menu-divider></li>
+    <li nz-menu-item (click)="handleLogout()">退出</li>
+  </ul>
+</nz-dropdown-menu>

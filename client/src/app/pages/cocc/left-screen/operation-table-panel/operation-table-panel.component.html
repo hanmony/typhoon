@@ -1,0 +1,20 @@
+@if (visible()) {
+  <div @scaleInOut class="operation-table-panel">
+    <dashboard-panel-header
+      [total]="0"
+      title="线网运营态势看板"
+      type="operation"
+      [closeable]="true"
+      (onClose)="toggleVisible()"
+      (toggleRecordDrawer)="toggleRecordDrawer()"
+    />
+    <div class="p-4">
+      <dashboard-operation-table
+        [isCOCC]="true"
+        [operations]="tableOperations()"
+        [paginationConfig]="paginationConfig()"
+      />
+    </div>
+  </div>
+}
+<dashboard-op-record-drawer [operations]="recordOperations()" />

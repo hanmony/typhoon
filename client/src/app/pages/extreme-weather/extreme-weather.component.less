@@ -1,0 +1,322 @@
+:host {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  overflow: hidden;
+}
+
+.extreme-weather {
+  width: 100%;
+  height: 100%;
+  background-image: url("/assets/images/extreme-weather/bg.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow: hidden;
+}
+
+.fixed-header-font {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.header-font {
+  font-weight: 400;
+  font-size: 34px;
+  text-shadow: 0px 4px 1px rgba(19, 80, 143, 0.16);
+  background: linear-gradient(
+    0deg,
+    rgba(119, 186, 255, 0.96) 0%,
+    rgba(233, 248, 255, 0.96) 73%,
+    rgba(255, 255, 255, 0.96) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-family: "FangZhengZhongyi";
+  line-height: 1;
+}
+
+.fixed-bottom-runway {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  width: 100vw;
+  height: 322px;
+  background-image: url("/assets/images/extreme-weather/runway.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  user-select: none;
+  pointer-events: none;
+}
+
+.tabs {
+  position: absolute;
+  top: 14vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  width: auto;
+  display: flex;
+  gap: 48px;
+
+  .tab-button {
+    width: 149px;
+    height: 42px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    text-align: center;
+
+    .tab-button-font {
+      font-size: 22px;
+      color: transparent;
+      line-height: 41px;
+      // padding-left: 12px;
+      background: linear-gradient(
+        0deg,
+        #effbff 0%,
+        #98d4fa 11.9140625%,
+        #fffefe 100%
+      );
+      opacity: 0.6;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    cursor: pointer;
+
+    // margin-right: 48px;
+
+    &.active {
+      background-image: url("/assets/images/extreme-weather/tab-button-active.png");
+      .tab-button-font {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.other-weather {
+  position: absolute;
+  top: calc(14vh - 3px);
+  display: flex;
+  right: 9%;
+
+  .input-core {
+    width: 100%;
+    outline: none;
+    border: none;
+    background: none;
+    color: #fff;
+    height: 47px;
+    line-height: 47px;
+    padding: 0 16px 0 20px;
+    font-size: 16px;
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.39);
+    }
+  }
+  .input-core-box {
+    width: 262px;
+    height: 47px;
+    background: linear-gradient(
+      90deg,
+      rgba(50, 90, 186, 0.49) 0%,
+      rgba(50, 90, 186, 0.19) 100%
+    );
+    border-radius: 4px 0 0 4px;
+  }
+
+  .other-weather-icon-box {
+    width: 50px;
+    height: 47px;
+    background: linear-gradient(90deg, #2a4bae 0%, #3a69c6 100%);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    left: -4px;
+    &:active {
+      opacity: 0.9;
+    }
+  }
+}
+
+.content-box {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  padding-bottom: 100px;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  // > img {
+  //   z-index: 100;
+  // }
+}
+
+.id-position {
+  position: absolute;
+  bottom: 784px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+.id-font {
+  font-weight: 500;
+  font-size: 24px;
+  color: #ffd200;
+}
+
+.position-mixin {
+  position: absolute;
+  top: 8%;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.current-position {
+  .position-mixin();
+  left: 10%;
+}
+
+.update-time {
+  .position-mixin();
+  right: 10%;
+}
+
+.info-item {
+  font-size: 22.5px;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 48px;
+  .info-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #29f5ff;
+    margin-right: 30px;
+  }
+  .info-label {
+    margin-right: 60px;
+    &::after {
+      content: ":";
+      margin-left: 2px;
+    }
+  }
+}
+
+.update-label-font {
+  font-size: 20px;
+  color: #f3ffff;
+  line-height: 45px;
+  margin-bottom: 12px;
+  .update-label-icon {
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    background: #ffffff;
+    border: 1px solid #00ffff;
+    transform: rotate(45deg);
+    margin-right: 12px;
+    position: relative;
+    top: 2px;
+  }
+}
+
+.update-time-font {
+  display: inline-block;
+  font-size: 20px;
+  color: #f3ffff;
+  line-height: 36px;
+  padding-left: 30px;
+  padding-right: 30px;
+
+  background: linear-gradient(
+    90deg,
+    rgba(99, 205, 255, 0.5) 0%,
+    rgba(16, 39, 44, 0) 100%
+  );
+  color: #30c6f3;
+  border-radius: 24px 0 0 24px;
+}
+
+.field-item {
+  position: absolute;
+  .field-item-label {
+    font-size: 22px;
+    color: #ffffff;
+    line-height: 40px;
+    opacity: 0.5;
+  }
+  .field-item-value {
+    // font-weight: bold;
+    font-size: 30px;
+    color: #ffffff;
+    font-family: "PangMenZhengDao";
+  }
+}
+
+.action-buttons {
+  position: absolute;
+  bottom: 8%;
+  right: 10%;
+  z-index: 104;
+  // transform: translateX(-50%);
+}
+
+.action-button {
+  display: inline-block;
+  min-width: 143px;
+  height: 35px;
+  background: url("/assets/images/occ/map/action-button-bg.png") no-repeat;
+  background-size: 100% 100%;
+  text-align: center;
+  line-height: 35px;
+  margin-right: 16px;
+  filter: grayscale(0.8);
+  transition: filter 0.3s ease-in-out;
+  padding: 0 28px;
+  cursor: pointer;
+  pointer-events: all;
+  user-select: none;
+  &:last-child {
+    margin-right: 0;
+  }
+
+  .action-font {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.85);
+    text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.5);
+  }
+
+  .active-action-font {
+    background: linear-gradient(0deg, #acddff 0%, #ffffff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+  }
+
+  &.active {
+    filter: grayscale(0) !important;
+    .action-font {
+      .active-action-font();
+    }
+
+    &:active {
+      opacity: 0.9;
+    }
+  }
+}

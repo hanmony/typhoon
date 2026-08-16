@@ -1,0 +1,61 @@
+:host {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  z-index: 800;
+  // justify-content: space-between;
+  padding: 0 16% 84px;
+  pointer-events: none;
+}
+
+.total-shortage {
+  background-image: url("/assets/images/dispatch-center/map/total-shortage-bg.png");
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-position: center;
+  height: 54px;
+  line-height: 44px;
+  font-size: 24px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 42px;
+  .number {
+    font-size: 36px;
+    color: #d32a00;
+    font-family: "DIN";
+    font-weight: bold;
+    // line-height: 32px;
+  }
+}
+
+.shortage-cards {
+  display: flex;
+  justify-content: space-around;
+}
+
+.shortage-card {
+  min-width: 239px;
+  height: 82px;
+  background-image: url("/assets/images/dispatch-center/map/duty-overlay-box.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  white-space: nowrap;
+
+  .label {
+    color: #b4c8e3;
+    font-size: 16px;
+  }
+  .position {
+    font-size: 24px;
+    color: #36d0f2;
+  }
+  .subfix {
+    font-size: 16px;
+    color: #64def888;
+  }
+}

@@ -1,0 +1,38 @@
+.wrapper {
+  position: relative;
+  height: var(--tag-height);
+  overflow: hidden;
+
+  &.alternating {
+    .state-tag {
+      transition: all 2s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+
+      &.next {
+        top: 0%;
+      }
+      &.current {
+        top: 100%;
+      }
+    }
+  }
+}
+
+.state-tag {
+  display: inline-flex;
+  border-radius: 14px;
+  background-color: var(--color);
+  color: #ffffff;
+  padding: 0 16px;
+  line-height: var(--tag-height);
+  position: absolute;
+  left: 0;
+  z-index: 1;
+  // transition: all 0.2s ease-in-out;
+
+  &.next {
+    top: calc(-100% - 8px);
+  }
+  &.current {
+    top: 0;
+  }
+}

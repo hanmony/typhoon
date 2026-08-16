@@ -1,0 +1,34 @@
+<div class="bg-gray-600 min-w-screen min-h-screen">
+  @if (error) {
+    <ng-container *ngTemplateOutlet="errorTmpl"></ng-container>
+  }
+  @if (isDocx) {
+    <div id="file-render">
+      <canvas id="file-render-canvas"></canvas>
+    </div>
+  }
+  @if (!error && isPdf && pdfSrc) {
+    <div class="flex justify-center">
+      <pdf-viewer
+        [src]="pdfSrc"
+        [render-text]="true"
+        style="width: 100vw; height: 100vh"
+        zoom-scale="page-fit"
+        (error)="handlePdfError($event)"
+      ></pdf-viewer>
+    </div>
+  }
+</div>
+
+<ng-template #errorTmpl>
+  <div class="pt-28">
+    <nz-empty [nzNotFoundContent]="error"></nz-empty>
+    <!-- <div class="text-center pt-16 text-5xl">
+      @if (pdfSrc) {
+      <span>pdf文件渲染失败</span>
+      } @else {
+      <span>doc文件渲染失败</span>
+      }
+    </div> -->
+  </div>
+</ng-template>

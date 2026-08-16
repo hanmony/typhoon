@@ -1,0 +1,220 @@
+<!-- <h3 class="headline">
+  <span
+    ><img
+      class="mr-2"
+      src="assets/images/typhoon-library/digital-preplan/right-arrow.svg"
+      alt=""
+      srcset=""
+  /></span>
+  <span>台风导致停运下的行车交路及运力配置图 </span>
+</h3> -->
+<div class="command-wrapper custom-scroll-bar">
+  <div class="flex">
+    <div class="departments">
+      <div class="departments-main">
+        @for (dep of departments; track $index) {
+          <div class="department">
+            <div class="department-box">
+              <div class="department-label">{{ dep }}</div>
+            </div>
+            <div
+              class="department-line"
+              [class.first]="$index === 0"
+              [class.last]="$index === departments.length - 1"
+            >
+              <div class="line"></div>
+            </div>
+          </div>
+        }
+      </div>
+      <div class="departments-line">
+        <div class="line"></div>
+        <div class="arrow"></div>
+      </div>
+    </div>
+    <div class="headquarters">
+      <div class="headquarters-box">
+        <div class="headquarters-label">防汛指挥部</div>
+        <div class="headquarters-content">
+          @for (item of headquarters; track $index) {
+            <div class="headquarters-text">
+              <span class="label">{{ item.label }}</span>
+              <span>{{ item.value }}</span>
+            </div>
+          }
+        </div>
+      </div>
+      <div class="headquarters-line">
+        <div class="line"></div>
+        <div class="arrow"></div>
+      </div>
+    </div>
+    <div class="center">
+      <div class="center-box">
+        <div class="center-label">
+          @if (!hideTitle) {上海轨道交通}路网运营调度指挥中心（3C指挥大厅）
+        </div>
+        <div class="center-content">
+          @for (item of center; track $index) {
+            <div class="center-text">
+              <span class="label">{{ item.label }}</span>
+              <span>{{ item.value }}</span>
+            </div>
+          }
+        </div>
+        <div class="bottom-line" style="--bottom-line-height: 98px">
+          <!-- <div class="arrow"></div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex pt-4 pl-14">
+    <div>
+      <div class="top-contain" style="--top-contain-width: calc(50% + 283px)">
+        <div class="vertical-line"></div>
+        <!-- <div class="arrow"></div> -->
+      </div>
+      <div class="companies">
+        @for (com of companies; track $index) {
+          <ng-container
+            *ngTemplateOutlet="
+              company;
+              context: {
+                $implicit: {
+                  com: com,
+                  first: $index === 0,
+                  last: $index === companies.length - 1,
+                },
+              }
+            "
+          ></ng-container>
+        }
+      </div>
+    </div>
+    <div>
+      <div style="height: 38px"></div>
+      <ng-container
+        *ngTemplateOutlet="
+          company;
+          context: {
+            $implicit: {
+              com: assetCompany,
+              first: true,
+              last: true,
+              lineAppend: '36px',
+            },
+          }
+        "
+      ></ng-container>
+    </div>
+    <div>
+      <div style="height: 38px"></div>
+      <ng-container
+        *ngTemplateOutlet="
+          company;
+          context: {
+            $implicit: {
+              com: buildingCompany,
+              first: true,
+              last: true,
+              lineAppend: '36px',
+            },
+          }
+        "
+      ></ng-container>
+    </div>
+  </div>
+  <div class="flex pt-12">
+    <div>
+      <div class="top-contain" style="--top-contain-width: calc(50% + 346px)">
+        <div class="vertical-line"></div>
+        <!-- <div class="arrow"></div> -->
+      </div>
+
+      <div class="companies">
+        @for (com of secondaryCompanies; track $index) {
+          <ng-container
+            *ngTemplateOutlet="
+              company;
+              context: {
+                $implicit: {
+                  com: com,
+                  first: $index === 0,
+                  last: $index === secondaryCompanies.length - 1,
+                },
+              }
+            "
+          ></ng-container>
+        }
+      </div>
+    </div>
+    <div>
+      <div class="top-contain" style="--top-contain-width: 278px">
+        <div class="vertical-line"></div>
+        <!-- <div class="arrow"></div> -->
+      </div>
+      <div class="companies">
+        @for (com of buildingCompanies; track $index) {
+          <ng-container
+            *ngTemplateOutlet="
+              company;
+              context: {
+                $implicit: {
+                  com: com,
+                  first: $index === 0,
+                  last: $index === secondaryCompanies.length - 1,
+                },
+              }
+            "
+          ></ng-container>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #company let-data>
+  <div class="company" [class.large]="data.com.large">
+    <div
+      class="company-top-line"
+      [class.first]="data.first"
+      [class.last]="data.last"
+    >
+      <div
+        class="vertical-line"
+        [class.line-append]="data.lineAppend"
+        style="--line-append: {{ data.lineAppend }}"
+      ></div>
+      <div class="arrow"></div>
+    </div>
+    <div
+      class="company-box"
+      [class.b2]="data.com.b2"
+      [class.b3]="data.com.b3"
+      [class.b4]="data.com.b4"
+      [class.b5]="data.com.b5"
+    >
+      <div class="company-label">
+        {{ data.com.label }}
+      </div>
+      <div class="company-content" [style.font-size]="data.com.fontSize">
+        @for (item of data.com.items; track $index) {
+          <div class="company-text">
+            <div class="label">
+              <span>{{ item.label }}</span>
+            </div>
+            <div class="value">{{ item.value }}</div>
+          </div>
+        }
+      </div>
+    </div>
+    @if (data.com.bottomLine) {
+      <div
+        class="bottom-line"
+        style="--bottom-line-height: {{ data.com.bottomLine }}"
+      >
+        <!-- <div class="arrow"></div> -->
+      </div>
+    }
+  </div>
+</ng-template>

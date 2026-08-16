@@ -1,0 +1,294 @@
+@if (isOpen) {
+  <div class="ai-panel">
+    <!-- Header -->
+    <div class="ai-panel-header">
+      <div class="ai-panel-header-left">
+        <span class="ai-panel-header-title">防台防汛智能助手</span>
+      </div>
+      <div class="ai-panel-header-actions">
+        <button
+          class="ai-panel-action-btn"
+          [class.active]="showHistory()"
+          (click)="showHistory.set(!showHistory())"
+          title="历史会话"
+        >
+          <span nz-icon nzType="history" nzTheme="outline"></span>
+        </button>
+        <button
+          class="ai-panel-action-btn"
+          (click)="onNewSession()"
+          title="新对话"
+        >
+          <span nz-icon nzType="plus" nzTheme="outline"></span>
+        </button>
+        <button class="ai-panel-action-btn" (click)="close()" title="关闭">
+          <span nz-icon nzType="close" nzTheme="outline"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="ai-panel-body">
+      @if (showHistory()) {
+        <!-- History -->
+        <div class="ai-panel-history">
+          <div class="ai-panel-history-header">
+            <span nz-icon nzType="history" nzTheme="outline"></span>
+            <span>对话历史</span>
+          </div>
+          @if (chat.sessions().length === 0) {
+            <div class="ai-panel-history-empty">
+              <span
+                nz-icon
+                nzType="message"
+                nzTheme="outline"
+                style="font-size: 32px"
+              ></span>
+              <p>暂无历史对话</p>
+              <button class="ai-panel-history-new" (click)="onNewSession()">
+                <span nz-icon nzType="plus" nzTheme="outline"></span> 开始新对话
+              </button>
+            </div>
+          } @else {
+            <div class="ai-panel-history-list">
+              @for (session of chat.sessions(); track session.id) {
+                <div
+                  class="ai-panel-history-item"
+                  [class.active]="chat.activeSessionId() === session.id"
+                  (click)="onSelectSession(session.id)"
+                >
+                  <div class="ai-panel-history-item-left">
+                    <span nz-icon nzType="history" nzTheme="outline"></span>
+                    <div class="ai-panel-history-item-text">
+                      <span class="ai-panel-history-item-title">{{
+                        session.title
+                      }}</span>
+                      <span class="ai-panel-history-item-time">{{
+                        session.time
+                      }}</span>
+                    </div>
+                  </div>
+                  <div class="ai-panel-history-item-right">
+                    <span class="ai-panel-history-item-count">{{
+                      session.messages.length
+                    }}</span>
+                    <button
+                      class="ai-panel-history-delete"
+                      (click)="chat.deleteSession(session.id, $event)"
+                      title="删除"
+                    >
+                      <span nz-icon nzType="delete" nzTheme="outline"></span>
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+            <button class="ai-panel-history-new-btn" (click)="onNewSession()">
+              <span nz-icon nzType="plus" nzTheme="outline"></span> 新建对话
+            </button>
+          }
+        </div>
+      } @else if (chat.activeMessages.length === 0 && !chat.loading()) {
+        <!-- Welcome -->
+        <div class="ai-panel-welcome">
+          <div class="ai-panel-welcome-title">Hi, 我是AI御澜</div>
+          <div class="ai-panel-welcome-subtitle">随时随地，全力高效</div>
+          <div class="ai-panel-quick-cards">
+            @for (card of quickCards; track card.title) {
+              <div class="ai-panel-quick-card" (click)="onQuickCard(card)">
+                <span class="ai-panel-quick-card-icon">
+                  <img
+                    src="assets/images/typhoon-library/robot-panel/guard-icon.png"
+                    alt="guard-icon"
+                  />
+                </span>
+                <div class="ai-panel-quick-card-text">
+                  {{ card.title }}
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      } @else {
+        <!-- Messages -->
+        <div class="ai-panel-messages-scroll">
+        <div class="ai-panel-messages" #messageList (scroll)="onListScroll()" (wheel)="onWheel($event)" (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)">
+          @for (msg of chat.activeMessages; track $index) {
+            <div
+              class="ai-panel-msg"
+              [class.ai-panel-msg-user]="msg.role === 'user'"
+              [class.ai-panel-msg-assistant]="msg.role === 'assistant'"
+            >
+              <div class="ai-panel-msg-avatar">
+                @if (msg.role === "assistant") {
+                  <div class="ai-panel-avatar-icon assistant"></div>
+                } @else {
+                  <div class="ai-panel-avatar-icon user"></div>
+                }
+              </div>
+              <div class="ai-panel-msg-body">
+                <div class="ai-panel-msg-content">
+                  @if (showThinking() && msg.thinking) {
+                    <div class="thinking-block">
+                      <div
+                        class="thinking-header"
+                        (click)="msg.thinkingCollapsed = !msg.thinkingCollapsed"
+                      >
+                        <span nz-icon nzType="bulb" nzTheme="outline"></span>
+                        <span>思考过程</span>
+                        <span
+                          nz-icon
+                          [nzType]="msg.thinkingCollapsed ? 'down' : 'up'"
+                          nzTheme="outline"
+                        ></span>
+                      </div>
+                      @if (!msg.thinkingCollapsed) {
+                        <div class="thinking-content">
+                          <markdown [data]="msg.thinking"></markdown>
+                        </div>
+                      }
+                    </div>
+                  }
+                  @if (msg.content) {
+                    <markdown [data]="msg.content"></markdown>
+                  } @else if (
+                    msg.streaming && (!msg.thinking || !showThinking())
+                  ) {
+                    <div class="ai-panel-typing">
+                      <span class="ai-panel-typing-text">{{
+                        statusLabel
+                      }}</span>
+                      <span class="ai-panel-typing-dots">
+                        <span class="ai-panel-t-dot"></span>
+                        <span class="ai-panel-t-dot"></span>
+                        <span class="ai-panel-t-dot"></span>
+                      </span>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+          <div #scrollAnchor></div>
+        </div>
+        @if (showJumpButton()) {
+          <button class="ai-panel-jump-btn" type="button" (click)="onJumpToBottom()" aria-label="回到底部" title="回到底部">
+            <span nz-icon nzType="arrow-down" nzTheme="outline"></span>
+          </button>
+        }
+        </div>
+      }
+
+      <!-- Step bar -->
+      @if (!showHistory() && chat.statusText()) {
+        <div class="ai-panel-step-bar">
+          <div class="ai-panel-steps">
+            @for (step of steps; track step.stage) {
+              <div
+                class="ai-panel-step"
+                [class.active]="chat.stage() === step.stage"
+                [class.done]="isStepDone(step.stage)"
+              >
+                <span class="ai-panel-step-icon">
+                  @if (isStepDone(step.stage)) {
+                    <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+                  } @else if (chat.stage() === step.stage) {
+                    <span nz-icon nzType="loading" nzTheme="outline"></span>
+                  } @else {
+                    <span class="ai-panel-step-dot"></span>
+                  }
+                </span>
+                <span class="ai-panel-step-label">{{ step.label }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Footer / Input -->
+    @if (!showHistory()) {
+      <div class="ai-panel-footer">
+        <div class="foot-content">
+          <div class="ai-panel-input-wrap">
+            <div>
+              <textarea
+                #inputRef
+                class="ai-panel-textarea custom-scroll-bar"
+                placeholder="输入消息，Ctrl+Enter 发送..."
+                [(ngModel)]="inputText"
+                (keydown)="onKeydown($event)"
+                [disabled]="chat.loading()"
+                rows="1"
+              ></textarea>
+            </div>
+            <div class="ai-panel-btns">
+              <span class="ai-panel-btn">
+                <span class="ai-panel-voice-icon"> </span>
+                <span>说话</span>
+              </span>
+              <span
+                class="ai-panel-btn ml-12"
+                [class.active]="inputText.trim() && !chat.loading()"
+                (click)="onSend()"
+              >
+                <span
+                  class="ai-panel-send-icon"
+                  [class.active]="inputText.trim() && !chat.loading()"
+                >
+                </span>
+                <span>发送</span>
+              </span>
+            </div>
+          </div>
+          <div class="ai-panel-footer-bar">
+            <div class="ai-panel-selectors">
+              <span class="ai-panel-selector-icon">
+                <img
+                  src="/assets/images/typhoon-library/robot-panel/agent-icon.png"
+                  alt="智能体"
+                />
+              </span>
+              <nz-select
+                [(ngModel)]="selectedAgent"
+                class="ai-panel-selector"
+                nzPlacement="topLeft"
+                nzSuffixIcon="caret-down"
+                nzPlaceHolder="智能体选择"
+                nzSize="small"
+              >
+                @for (opt of agentOptions; track opt.value) {
+                  <nz-option
+                    [nzLabel]="opt.label"
+                    [nzValue]="opt.value"
+                  ></nz-option>
+                }
+              </nz-select>
+              <span class="ai-panel-selector-icon">
+                <img
+                  src="/assets/images/typhoon-library/robot-panel/model-icon.png"
+                  alt="模型"
+                />
+              </span>
+              <nz-select
+                [(ngModel)]="selectedModel"
+                class="ai-panel-selector"
+                nzPlacement="topLeft"
+                nzSuffixIcon="caret-down"
+                nzPlaceHolder="大模型选择"
+                nzSize="small"
+              >
+                @for (opt of modelOptions(); track opt.value) {
+                  <nz-option
+                    [nzLabel]="opt.label"
+                    [nzValue]="opt.value"
+                  ></nz-option>
+                }
+              </nz-select>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+}

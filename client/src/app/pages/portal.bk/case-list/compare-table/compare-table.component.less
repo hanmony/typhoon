@@ -1,0 +1,136 @@
+.compare-table {
+  // --light-gray-color: #e5e5e5;
+  --light-gray-color: rgba(151, 151, 151, 0.25);
+  width: 100%;
+  max-height: calc(90vh - 200px);
+  background-color: white;
+  border-collapse: collapse;
+  border-spacing: 0px 0px;
+  table-layout: fixed;
+  // border-top: 1px solid var(--light-gray-color);
+  // margin-top: -1px;
+  td,
+  th {
+    background-color: white;
+    box-sizing: border-box;
+  }
+  th {
+    font-size: 18px;
+    font-weight: 600;
+    color: #4b4b4b;
+    line-height: 28px;
+    padding: 0 0 12px;
+  }
+  th {
+    vertical-align: top;
+    // border-top: 1px solid var(--light-gray-color);
+    border-bottom: 1px solid var(--light-gray-color);
+    // border-right: 1px solid var(--light-gray-color);
+  }
+
+  th:first-child {
+    border-left: 1px sold var(--light-gray-color);
+  }
+  // tr:first-child {
+  //   margin-top: -1px;
+  // }
+  td {
+    border-right: 1px solid var(--light-gray-color);
+    border-bottom: 1px solid var(--light-gray-color);
+    font-weight: 400;
+    font-size: 14px;
+    color: #4b4b4b;
+    text-align: center;
+    padding: 21px;
+  }
+
+  td:first-child {
+    border-left: 1px solid var(--light-gray-color);
+  }
+  thead {
+    // background-color: white;
+    // box-shadow: -5px 0 5px -6px #ccc;
+    // box-shadow: 0px 1px 3px 1px var(--light-gray-color);
+    box-shadow: 0px 2px 7px 3px rgba(218, 218, 218, 0.5);
+    // border: 1px solid var(--light-gray-color);
+    position: sticky;
+    top: 0;
+    z-index: 800;
+  }
+
+  .label-title {
+    // font-size: 18px;
+    font-weight: 600;
+    color: #4b4b4b;
+    padding: 16px 8px;
+    display: table-cell;
+    width: 200px;
+  }
+
+  .section-title {
+    // font-size: 18px;
+    font-weight: 600;
+    color: #4b4b4b;
+    padding: 16px 8px;
+    writing-mode: vertical-lr;
+    display: table-cell;
+    width: 100px;
+  }
+
+  tbody {
+    tr {
+      &:nth-child(even) {
+        background-color: #f5f5f5;
+      }
+    }
+  }
+  .time-text {
+    font-size: 14px;
+    color: #999999;
+    line-height: 21px;
+    font-weight: 400;
+  }
+  .hightest {
+    font-size: 15px;
+    font-weight: 600;
+  }
+}
+
+::ng-deep {
+  .ant-rate {
+    color: #fde047;
+  }
+  .ant-rate-star:not(:last-child) {
+    margin-right: 2px;
+  }
+}
+
+.eva-summary {
+  display: inline-block;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border-width: 2px;
+  border-style: solid;
+  font-family: "FangZhengZhongyi";
+  vertical-align: middle;
+  font-size: 28px;
+  line-height: 41px;
+  &.green {
+    @apply border-green-500 text-green-500;
+  }
+  &.blue {
+    @apply border-blue-500 text-blue-500;
+  }
+  &.brown {
+    @apply border-amber-500 text-amber-500;
+  }
+}
+
+.link-text {
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+    opacity: 0.75;
+  }
+}

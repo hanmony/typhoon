@@ -1,0 +1,55 @@
+<div class="flex items-center mb-3">
+  <div class="label">响应类型：</div>
+  <div>
+    <span>市级</span>
+  </div>
+</div>
+<div class="flex mb-3">
+  <div class="label">响应等级：</div>
+  <div>
+    <div>
+      <occ-modal-select
+        [value]="values().municipalDegree"
+        [options]="degreeOptions()"
+        (change)="onMunicipalDegreeChange($event)"
+      ></occ-modal-select>
+    </div>
+  </div>
+</div>
+<div class="flex mb-3">
+  <div class="label">启动：</div>
+  <div>
+    <div class="flex items-center">
+      <nz-switch [(ngModel)]="values().municipalFlag"> </nz-switch>
+    </div>
+  </div>
+</div>
+
+<div class="separator"></div>
+
+<div class="flex items-center mb-3">
+  <div class="label">响应类型：</div>
+  <div>
+    <span>集团级</span>
+  </div>
+</div>
+<div class="flex items-center mb-3">
+  <div class="label">响应等级：</div>
+  <div>
+    <div>
+      <occ-modal-select
+        [value]="values().corporateDegree"
+        [options]="degreeOptions()"
+        (change)="onCorporateDegreeChange($event)"
+      ></occ-modal-select>
+    </div>
+  </div>
+</div>
+<div class="flex mb-3">
+  <div class="label">启动：</div>
+  <div>
+    <div class="flex items-center">
+      <nz-switch [(ngModel)]="values().corporateFlag"> </nz-switch>
+    </div>
+  </div>
+</div>

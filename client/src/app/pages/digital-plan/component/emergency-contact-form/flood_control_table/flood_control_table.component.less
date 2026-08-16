@@ -1,0 +1,193 @@
+.material-transfer-table {
+  width: 100%;
+  column-count: 2;
+  column-gap: 18px;
+  column-fill: balance;
+  padding: 20px;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.company-section {
+  break-inside: avoid;
+  margin-bottom: 18px;
+  background-image: url("/assets/images/digital-plan/caveEntranceTableBg2.png");
+}
+
+.company-header {
+  font-family: FZZongYi-M05S;
+  font-weight: 400;
+  font-size: 28px;
+  color: #ffffff;
+  padding: 8px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 10px 10px 0 0;
+}
+
+.line-img-header {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.line-section {
+  break-inside: avoid;
+  background-image: url("/assets/images/digital-plan/caveEntranceTableBg2.png");
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 16px;
+  box-sizing: border-box;
+  position: relative;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+  }
+
+  .line-icon {
+    width: 80px;
+    height: 40px;
+    position: absolute;
+    left: 5px;
+    top: 0px;
+    z-index: 1000;
+  }
+}
+
+.line-header {
+  background-color: rgba(42, 42, 42, 0.8);
+  padding: 8px 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 6px;
+}
+
+.line-number {
+  background-color: #ff4d4f;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.line-name {
+  color: #ccc;
+  font-size: 14px;
+}
+
+.line-section-content {
+  overflow: hidden;
+  border-radius: 10px;
+  box-sizing: border-box;
+  margin-top: 10px;
+}
+
+.line-table {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.table-header {
+  font-family: FZZongYi-M05S;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  font-weight: 400;
+  font-size: 18px;
+  color: #00f4ff;
+  line-height: 20px;
+  margin-bottom: 8px;
+}
+
+.header-cell {
+  flex: 0 0 20%;
+  padding: 8px 8px;
+  text-align: center;
+  word-break: break-word;
+}
+
+.table-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: PingFang SC;
+  font-weight: 400;
+  font-size: 14px;
+  color: #ecf4ff;
+  background-color: #00f4ff14;
+  border-radius: 10px;
+  margin-bottom: 6px;
+  transition: background-color 0.3s ease;
+
+  &:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.205);
+  }
+}
+
+.table-cell {
+  flex: 0 0 20%;
+  padding: 8px 8px;
+  text-align: center;
+  word-break: break-word;
+}
+
+.line-img-footer {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #00f4ff 0%, #008c9e 100%);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #008c9e;
+}
+
+/* 加载动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.line-section {
+  animation: fadeIn 0.5s ease-out forwards;
+  animation-delay: calc(var(--order) * 0.05s);
+  opacity: 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .material-transfer-table {
+    column-count: 1;
+  }
+}

@@ -1,0 +1,127 @@
+.panel-header {
+  display: flex;
+  padding-left: 0.25rem;
+  padding-right: 1rem;
+}
+
+.panel-title {
+  background: url("/assets/images/dashboard/panel-title-bg.png") no-repeat;
+  background-size: 100% 100%;
+  width: 31rem;
+  height: 4rem;
+  font-family: "PangMenZhengDao";
+  font-size: 2rem;
+  line-height: 4rem;
+  padding-left: 50px;
+  color: #02f4f5;
+}
+
+.preset-select {
+  width: 8rem;
+  ::ng-deep .ant-select-selector {
+    border: 1px solid #1b4a6d !important;
+    height: 2rem;
+    border-radius: 4px;
+
+    .ant-select-selection-item {
+      line-height: 2rem;
+      padding-left: 0;
+      font-size: 1rem;
+      color: #6ab1d7;
+    }
+    .ant-select-selection-search-input {
+      height: 100%;
+    }
+    .ant-select-selection-placeholder {
+      line-height: 2rem;
+      padding-left: 0rem;
+      font-size: 1rem;
+    }
+  }
+}
+
+.page-button {
+  height: 2rem;
+  font-size: 1rem;
+  border: 1px solid #629fbb;
+  border-radius: 4px;
+  user-select: none;
+}
+.hover-page-button {
+  border-color: rgba(21, 211, 255, 0.99);
+  box-shadow:
+    inset 0px 0px 12px 0px rgba(21, 211, 255, 0.52),
+    inset 0px 0px 18px 0px rgba(21, 211, 255, 0.72);
+}
+
+.total {
+  color: #629fbb;
+}
+
+.panel-pagination {
+  ::ng-deep .ant-pagination-item {
+    .page-button();
+    margin-right: 0.25rem;
+    a {
+      padding: 2px 6px 0;
+      color: #629fbb;
+    }
+  }
+
+  ::ng-deep .ant-pagination-item-active {
+    .hover-page-button();
+    a {
+      color: #ffffff;
+    }
+  }
+
+  ::ng-deep .ant-pagination-next,
+  ::ng-deep .ant-pagination-prev {
+    .page-button();
+    line-height: 2rem;
+    padding: 0 0.5rem;
+    margin-right: 0.25rem;
+    a {
+      color: #629fbb;
+      user-select: none;
+    }
+    &:hover {
+      .hover-page-button();
+    }
+  }
+
+  ::ng-deep .ant-pagination-jump-next,
+  ::ng-deep .ant-pagination-jump-prev {
+    color: #629fbb;
+    a {
+      color: #629fbb;
+    }
+  }
+}
+
+.auto-button {
+  .page-button();
+  line-height: 2rem;
+  padding: 0 12px;
+  display: block;
+  color: #629fbb;
+  cursor: pointer;
+  &:active {
+    opacity: 0.75;
+  }
+  // &:hover,
+  &.active {
+    .hover-page-button();
+    color: #ffffff;
+  }
+}
+
+.record-button {
+  .page-button();
+  .hover-page-button();
+  line-height: 2rem;
+  padding: 0 12px;
+  display: block;
+  color: #ffffff;
+  cursor: pointer;
+}

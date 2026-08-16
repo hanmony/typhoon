@@ -1,0 +1,74 @@
+.message-box {
+  height: 54px;
+  // width: 410px;
+  background-image: url(/assets/images/map/event-message-box.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  user-select: none;
+  cursor: pointer;
+  position: relative;
+
+  &.unread {
+    &::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      right: 0;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: rgb(239, 68, 68);
+    }
+  }
+}
+
+.message-box-content {
+  // width: 410px;
+  display: flex;
+  color: #e3ffff;
+  line-height: 54px;
+  padding: 0 24px;
+
+  .state-tag {
+    border-radius: 3px;
+    font-weight: 400;
+    font-size: 14px;
+    color: #ffffff;
+    line-height: 1.5;
+    background: var(--case-primary);
+    padding: 0 4px;
+    &.expired {
+      background: #f56c6c;
+    }
+  }
+
+  .title {
+    flex: 1;
+    font-weight: 500;
+    font-size: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    // text-emphasis: ellipsis;
+  }
+  .icon {
+    padding-left: 12px;
+  }
+}
+.detail-box {
+  padding: 0 24px 0 24px;
+}
+.message-item {
+  margin-bottom: 4px;
+  white-space: pre-wrap;
+  .message-type {
+    font-size: 16px;
+    font-weight: 400;
+    color: #bbc5cf;
+  }
+  .message-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: #e3b77e;
+    min-height: 26px;
+  }
+}

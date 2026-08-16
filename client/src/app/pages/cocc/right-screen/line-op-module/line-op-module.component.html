@@ -1,0 +1,35 @@
+<dispatch-module-header title="线路运营情况" />
+<div class="overflow-y-auto custom-scroll-bar" [style.height.px]="height()">
+  <div class="normal-section pl-6">
+    <div class="with-separator grid grid-cols-3 pt-1 pl-2">
+      @for (line of normalLineStateData; track $index) {
+        <div>
+          <span class="line-label mr-4">{{ line.name }}</span>
+          <span class="as-normal">正常运行</span>
+        </div>
+      }
+    </div>
+  </div>
+  <div class="abnormal-section pl-6 pt-6">
+    @for (line of abnormalLineStateData; track $index) {
+      <div class="abnormal-item grid grid-cols-2 gap-x-4">
+        <span class="line-label sticky-top">{{ line.name }}</span>
+        <!-- <span class="as-normal">正常运行</span> -->
+        @for (item of line.abnormalList; track $index) {
+          <div>
+            <div class="flex">
+              <span class="line-clamp-1"
+                >{{ item.startStation.name }} - {{ item.endStation.name }}</span
+              >
+              <span
+                style="color: #f8a178; margin-left: 16px; text-wrap: nowrap"
+              >
+                {{ item.state }}
+              </span>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,35 @@
+@if (config().visible) {
+  <div
+    class="position-wrapper"
+    [attr.scale]="config().scale"
+    [style.top.px]="config().y"
+    [style.left.px]="config().x"
+    [style.transform]="'scale(' + (config().scale ?? 1) + ')'"
+    [style.transform-origin]="config().scale ? '100% 30%' : ''"
+  >
+    <div class="detail-popup">
+      <div class="header">
+        <div>
+          {{ config().type === "supervision" ? "督办信息" : "维保信息" }}
+        </div>
+        <div>
+          <img
+            class="cursor-pointer transition-transform hover:rotate-180"
+            src="/assets/images/dashboard/close-icon.png"
+            alt=""
+            srcset=""
+            (click)="onClose.emit()"
+          />
+        </div>
+      </div>
+      <div class="content">
+        @for (item of infos(); track $index) {
+          <div class="info-item">
+            <div class="label">{{ item.label }}：</div>
+            <div class="value">{{ item.value }}</div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,18 @@
+.custom-upload-list {
+  display: flex;
+  flex-wrap: wrap;
+  ::ng-deep .ant-upload {
+    border-radius: 12px;
+
+    &.ant-upload-select {
+      background-color: transparent;
+      border: none;
+      &:hover {
+        border: none;
+      }
+    }
+  }
+  ::ng-deep .ant-upload-list-item {
+    border-radius: 12px;
+  }
+}

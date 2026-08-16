@@ -1,0 +1,25 @@
+.map {
+  width: 112px;
+  height: 159px;
+  background-color: transparent;
+}
+
+::ng-deep .leaflet-control-attribution {
+  display: none;
+}
+
+::ng-deep .stroke-text {
+  text-shadow:
+    #000 1px 0 0,
+    #000 0 1px 0,
+    #000 -1px 0 0,
+    #000 0 -1px 0;
+}
+
+::ng-deep .hover-border {
+  border: 1px solid transparent;
+  border-radius: 4px;
+  &:hover {
+    border: 1px solid var(--case-primary);
+  }
+}

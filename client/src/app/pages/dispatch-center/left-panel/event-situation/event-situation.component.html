@@ -1,0 +1,31 @@
+<dispatch-module-header title="事件情况" />
+<div class="flex justify-end pr-1">
+  <div class="label-bg cursor-pointer" (click)="toDashboard()">
+    <div class="duration-label">
+      <span>总计发生事件：</span>
+    </div>
+    <div class="total-number">
+      <span>{{ total() }}</span>
+    </div>
+  </div>
+</div>
+<div class="flex justify-between">
+  @for (item of categories(); track item.label) {
+    <div class="cursor-pointer" (click)="toDashboardWithCategory(item.label)">
+      <div class="category-number">
+        <span>{{ item.count }}</span>
+      </div>
+      <div class="flex justify-center">
+        <div class="category-bar-bg">
+          <div
+            class="category-bar-value"
+            [style.height]="item.percentage + '%'"
+          ></div>
+        </div>
+      </div>
+      <div class="category-label">
+        <span>{{ item.label }}</span>
+      </div>
+    </div>
+  }
+</div>

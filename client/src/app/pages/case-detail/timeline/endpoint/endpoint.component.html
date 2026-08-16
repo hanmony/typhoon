@@ -1,0 +1,37 @@
+<div class="relative">
+  <div
+    class="absolute whitespace-nowrap bottom-6 default-text"
+    [class.left-0]="text === '生成'"
+    [class.right-0]="text === '结束'"
+  >
+    @if (sliceLeft) {
+      <span
+        nz-icon
+        nzType="vertical-align-top"
+        class="text-lg -rotate-90"
+        nzTheme="outline"
+        style="color: var(--case-primary)"
+      ></span>
+    }
+    <span class="leading-[28px]">{{ text }}</span>
+    @if (sliceRight) {
+      <span
+        nz-icon
+        nzType="vertical-align-top"
+        class="text-lg rotate-90"
+        nzTheme="outline"
+        style="color: var(--case-primary)"
+      ></span>
+    }
+  </div>
+  <div>
+    <img
+      class="cursor-pointer select-none"
+      draggable="false"
+      [src]="icon"
+      alt=""
+      srcset=""
+      (click)="handleClick()"
+    />
+  </div>
+</div>

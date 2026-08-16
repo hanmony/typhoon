@@ -1,0 +1,33 @@
+@if (visible()) {
+  <div @scaleInOut class="dashboard-panel" [attr.dashboard-panel]="true">
+    <supervisor-panel-header
+      [title]="panelTitle()"
+      [type]="type()"
+      [total]="total()"
+      [paginationConfig]="paginationConfig()"
+      (toggleType)="toggleType()"
+      (onClose)="onClose()"
+      (onPresetChange)="onPresetChange($event)"
+      (onPageIndexChange)="onPageIndexChangeManually($event)"
+      (handleAutoTurn)="handleAutoTurn()"
+      (toggleRecordDrawer)="toggleRecordDrawer()"
+    />
+    <div class="p-3">
+      @if (type() === "event") {
+        <supervisor-event-table
+          [events]="eventsFilterByPreset()"
+          [paginationConfig]="paginationConfig()"
+          (onPageIndexChange)="onPageIndexChangeManually($event)"
+        />
+      }
+      @if (type() === "operation") {
+        <supervisor-operation-table
+          [operations]="excludedOperations()"
+          [paginationConfig]="paginationConfig()"
+        />
+      }
+    </div>
+  </div>
+
+  <supervisor-op-record-drawer [operations]="recordOperations()" />
+}

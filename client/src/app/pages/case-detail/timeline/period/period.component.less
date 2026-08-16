@@ -1,0 +1,20 @@
+:host {
+  @apply box-border py-2 px-0;
+  border: 1px solid transparent;
+  position: relative;
+  border-radius: 8px;
+  &.hover-border {
+    &:hover {
+      border: 1px solid var(--case-primary);
+    }
+  }
+}
+
+.key-border {
+  border-style: solid;
+  border-color: #38bdff;
+  border-width: 1px;
+  border-bottom-width: 0px;
+  height: 7px;
+  border-radius: 2px;
+}

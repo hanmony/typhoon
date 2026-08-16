@@ -1,0 +1,175 @@
+<div
+  class="fixed bottom-0 left-0 select-none"
+  style="z-index: 800; width: 100vw"
+>
+  <div class="timeline-mask"></div>
+  <div #availableSpaceRef style="width: calc(100vw - var(--panel-width))">
+    <div class="flex h-10">
+      <div class="pl-8 flex-1 relative -top-3">
+        @if (autoPlaying && autoPlayTime) {
+          <div class="time-tip-box">
+            {{ autoPlayTime }}
+          </div>
+        } @else if (selectedTiming) {
+          <div class="time-tip-box">
+            {{ selectedTiming.startTime }}
+          </div>
+        }
+      </div>
+      <timeline-control-buttons
+        [autoPlaying]="autoPlaying"
+        [autoPlayState]="autoPlayState"
+        [viewingRange]="viewingRange"
+        [previousDisabled]="previousDisabled"
+        [nextDisabled]="nextDisabled"
+        [autoPlayDisabled]="autoPlayDisabled"
+        [processDisabled]="processDisabled"
+        (autoPlayHandler)="autoPlayHandler()"
+        (previousHandler)="previousHandler()"
+        (nextHandler)="nextHandler()"
+        (rateHandler)="onRateChange($event)"
+        (viewingRangeHandler)="onViewingRangeChange($event)"
+      />
+      <div class="flex-1">
+        @if (mode === "partial") {
+          <div
+            class="expand-button"
+            [class.disabled]="autoPlaying"
+            (click)="onCollapse()"
+          >
+            <div class="expand-icon">
+              <span class="text-left left">
+                <span nz-icon nzType="arrow-right" nzTheme="outline"></span>
+              </span>
+              <span class="stuff-block"></span>
+              <span class="text-right right">
+                <span nz-icon nzType="arrow-left" nzTheme="outline"></span>
+              </span>
+            </div>
+            <div class="text-row">收起</div>
+          </div>
+        } @else {
+          @if (!autoPlaying) {
+            <div
+              class="control-button rectangle-button"
+              (click)="onSliceModeChange()"
+            >
+              <span>{{ sliceMode ? "取消节选" : "节选播放" }}</span>
+            </div>
+          }
+        }
+      </div>
+    </div>
+    <div class="pb-4 pt-2 pl-8 flex">
+      <div class="flex-1">
+        <div class="flex h-full relative items-center">
+          <div class="timeline-strip h-[26px]">
+            @if (autoPlaying) {
+              <div class="timeline-progress">
+                <div
+                  class="progress-bar"
+                  [class.trans]="
+                    timelineProgress && autoPlayState === 'RUNNING'
+                  "
+                  [style.width]="timelineProgress + '%'"
+                  [style.transition-duration]="
+                    processTransitionFlag ? progressDuration : '0ms'
+                  "
+                ></div>
+              </div>
+            }
+          </div>
+          <timeline-endpoint
+            text="生成"
+            class="2xl:pr-8 pr-4 pt-[28px]"
+            [sliceLeft]="isEndpointSliceLeft('1977-01-01 00:00')"
+            [sliceRight]="isEndpointSliceRight('1977-01-01 00:00')"
+            (click)="onEndpointClick($event, '1977-01-01 00:00')"
+          />
+          <div
+            class="flex-1 overflow-x-auto overflow-y-hidden custom-scroll-bar"
+            [style.width.px]="availableWidth"
+          >
+            @if (mode === "entire") {
+              <div class="flex justify-between items-end">
+                @if (weatherPoints.length) {
+                  <timeline-period
+                    [disabled]="!autoPlaying && sliceMode"
+                    [data]="periods[0]"
+                    [selectedTiming]="selectedTiming"
+                    [autoPlaying]="autoPlaying"
+                    [autoPlayTime]="autoPlayTime"
+                    (onSelect)="onTimingSelect($event)"
+                    (onExpand)="onPeriodExpand(periods[0])"
+                  />
+                  @for (cp of weatherPoints; track $index) {
+                    <alert-point
+                      [type]="cp.type"
+                      [ev]="cp.rawEvent"
+                      [sliceLeft]="isSliceLeft(cp)"
+                      [sliceRight]="isSliceRight(cp)"
+                      (click)="onPointClick(cp)"
+                      [active]="
+                        selectedTiming?.startTime === cp.timing.startTime
+                      "
+                      [blink]="
+                        autoPlaying && cp.timing.startTime === autoPlayTime
+                      "
+                      [ban]="autoPlaying"
+                    />
+                    <timeline-period
+                      [disabled]="!autoPlaying && sliceMode"
+                      [data]="periods[$index + 1]"
+                      [selectedTiming]="selectedTiming"
+                      [autoPlaying]="autoPlaying"
+                      [autoPlayTime]="autoPlayTime"
+                      (onSelect)="onTimingSelect($event)"
+                      (onExpand)="onPeriodExpand(periods[$index + 1])"
+                    />
+                  }
+                } @else {
+                  @for (item of allTimings; track $index) {
+                    <div class="text-center flex-1">
+                      <timeline-normal-point
+                        (click)="onTimingSelect(item)"
+                        [blink]="autoPlaying && item.startTime === autoPlayTime"
+                        [active]="selectedTiming?.startTime === item.startTime"
+                        [border]="normalPointShouldBorder(item)"
+                        [ban]="autoPlaying"
+                      />
+                    </div>
+                  }
+                }
+              </div>
+            } @else {
+              @if (openingPeriod) {
+                <timeline-partial
+                  [availableWidth]="availableWidth"
+                  [start]="partialStartAlertPoint"
+                  [end]="partialEndAlertPoint"
+                  [autoPlaying]="autoPlaying"
+                  [autoPlayTime]="autoPlayTime"
+                  [selectedTiming]="selectedTiming"
+                  [sliceTimeStrings]="sliceTimeStrings"
+                  [timings]="openingPeriod.timings"
+                  (onSelect)="onTimingSelect($event)"
+                ></timeline-partial>
+              }
+            }
+          </div>
+          <timeline-endpoint
+            text="结束"
+            class="pl-8 pt-[28px]"
+            [sliceLeft]="isEndpointSliceLeft('2099-12-31 00:00')"
+            [sliceRight]="isEndpointSliceRight('2099-12-31 00:00')"
+            (click)="onEndpointClick($event, '2099-12-31 00:00')"
+          />
+        </div>
+      </div>
+      <timeline-wind-circle
+        [hidden]="windCircleVisible"
+        (click)="toggleWindCircle()"
+      />
+    </div>
+  </div>
+</div>

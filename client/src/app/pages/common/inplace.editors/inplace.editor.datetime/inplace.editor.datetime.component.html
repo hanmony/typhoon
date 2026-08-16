@@ -1,0 +1,14 @@
+<app-inplace-editor-shell
+  (onSave)="save()"
+  (onEdit)="startEdit()"
+  [readonly]="readonly"
+>
+  <span normal>{{ value | date: format }}</span>
+  <nz-date-picker
+    modify
+    class="w-64"
+    [nzShowTime]="showTime"
+    [nzFormat]="format"
+    [(ngModel)]="editingValue"
+  ></nz-date-picker>
+</app-inplace-editor-shell>

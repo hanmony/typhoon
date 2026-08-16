@@ -1,0 +1,68 @@
+<div class="right-panel overflow-x-hidden">
+  <div class="pl-4 pr-3">
+    <div class="title">
+      <div class="title-font">事件分类</div>
+    </div>
+  </div>
+  <div class="pl-6 pr-4 py-1">
+    <left-screen-event-chart [events]="shouldShowEvents()" />
+  </div>
+  <div class="pl-4 pr-3">
+    <div class="title">
+      <div class="title-font">处理情况</div>
+    </div>
+  </div>
+  <div class="pl-4 relative">
+    <left-screen-handle-chart
+      [events]="shouldShowEvents()"
+    ></left-screen-handle-chart>
+    <div class="absolute top-1/2 right-6 -translate-y-1/2 text-sm">
+      <div class="mb-2">
+        <span class="rect-legend" style="background-color: #10cdfe"></span>
+        <span>抢修中</span>
+      </div>
+      <div class="mb-2">
+        <span class="rect-legend" style="background-color: #14d2d2"></span>
+        <span>已修复</span>
+      </div>
+      <div>
+        <span class="rect-legend" style="background-color: #bd83f9"></span>
+        <span>未处置</span>
+      </div>
+    </div>
+  </div>
+  <div class="pl-4 pr-3">
+    <div class="title">
+      <div class="title-font">线路事件</div>
+    </div>
+  </div>
+  <!-- <left-screen-line-chart [operations]="operations()"></left-screen-line-chart> -->
+  <cocc-line-event-module [events]="events()" />
+</div>
+
+<ng-template
+  #eventClassificationItem
+  let-color="color"
+  let-title="title"
+  let-count="count"
+  let-percent="percent"
+>
+  <div class="event-classification" [style]="{ '--color': color }">
+    <div class="flex justify-between">
+      <div class="text-base">
+        <span>{{ title }}：</span>
+        <span style="color: var(--color)">{{ count }}个</span>
+      </div>
+      <div>
+        <span class="text-lg">{{ percent }}</span>
+        <span class="text-sm opacity-40 ml-2">%</span>
+      </div>
+    </div>
+    <div class="pb-3 pt-2">
+      <div class="progress">
+        <div class="progress-bar" [style]="{ width: percent + '%' }"></div>
+        <div class="progress-dot" [style]="{ left: percent + '%' }"></div>
+      </div>
+    </div>
+  </div>
+</ng-template>

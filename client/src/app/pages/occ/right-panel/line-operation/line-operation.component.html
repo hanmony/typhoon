@@ -1,0 +1,34 @@
+<div class="line-operation">
+  <!-- <div class="title">停运</div>
+  <div class="detail">
+    <div class="item">
+      <div class="item-number">
+        <div class="cube">1</div>
+      </div>
+      <div class="item-value">XXXX站——XXXXX站</div>
+      <div class="item-additional">5分钟</div>
+    </div>
+  </div> -->
+  @for (type of computedData(); track type.name) {
+    <div class="title">{{ type.name }}</div>
+    @for (item of type.data; track item.number) {
+      <div class="item">
+        <div class="item-number">
+          <div class="cube">{{ item.number }}</div>
+        </div>
+        <div class="item-value">{{ item.value }}</div>
+        <div class="item-additional" [style.color]="item.additionalColor">
+          {{ item.additional }}
+        </div>
+      </div>
+    }
+  }
+  @if (!computedData().length) {
+    <div
+      class="text-center font-fangzheng py-8"
+      style="font-size: 32px; line-height: 1.5"
+    >
+      暂无数据
+    </div>
+  }
+</div>

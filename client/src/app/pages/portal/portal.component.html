@@ -1,0 +1,126 @@
+<div class="fixed-header-font" [style.zoom]="scale()">
+  <span class="header-font">申轨防汛智策云平台</span>
+</div>
+<div>
+  <div class="video-background">
+    <video #video class="video-core" autoplay loop muted playsinline>
+      <source src="assets/videos/portal-bg.mp4" type="video/mp4" />
+      您的浏览器不支持视频标签。
+    </video>
+  </div>
+  <div
+    class="fixed top-0 left-0 bottom-0 right-0 flex items-center justify-center"
+  >
+    <div
+      class="flex h-full items-center justify-center relative"
+      [style.width.px]="1920 * scale()"
+    >
+      <div
+        #outerContainer
+        [style.zoom]="scale()"
+        class="screen-panel w-[90%] rounded-xl relative overflow-hidden"
+        [style.padding]="'64px ' + 1920 * 0.9 * 0.08 + 'px 156px'"
+      >
+        <div
+          #innerContainer
+          class="text-nowrap whitespace-nowrap relative transition-all duration-300"
+          style="top: 60px"
+          [style.transform]="getInnerContainerTransform()"
+        >
+          @for (item of cards; track $index) {
+            <div
+              class="card-wrapper"
+              [style.width.px]="cardWrapperWidth()"
+              [class.interact]="!item.empty"
+            >
+              <div
+                class="card transition-all duration-300"
+                [style]="getCurvedRotation($index)"
+                (click)="openLink(item)"
+              >
+                <div
+                  class="card-round relative origin-center"
+                  [class.animate-spin]="!item.empty"
+                  style="animation-duration: 6s"
+                ></div>
+                <div class="card-image">
+                  @if (!item.empty) {
+                    <img
+                      [src]="item.image"
+                      style="width: 92px"
+                      alt="card-image"
+                      draggable="false"
+                      class="user-select-none"
+                    />
+                  } @else {
+                    <div
+                      class="card-empty-font h-full flex items-center justify-center"
+                    >
+                      <span>敬请期待</span>
+                    </div>
+                  }
+                </div>
+                <div class="card-title" [class.opacity-0]="item.empty">
+                  <div class="card-title-text">{{ item.title }}</div>
+                  <div class="card-title-text">{{ item.secondTitle }}</div>
+                </div>
+
+                <div class="card-add-info" [class.opacity-0]="item.empty">
+                  <span>Intelligent</span>
+                  <span> Monitoring</span>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="lamp-dots">
+          @for (item of lampDots(); track $index) {
+            <div class="lamp-dot" [class.active]="item.active"></div>
+          }
+        </div>
+      </div>
+
+      <!-- <div
+        class="arrow left-arrow"
+        (click)="handleScroll('left')"
+        [class.disabled]="leftArrowDisabled()"
+      >
+        <img
+          src="assets/images/portal/panel-arrow-left.png"
+          alt=""
+          draggable="false"
+        />
+      </div> -->
+
+      <!-- <div
+        class="arrow right-arrow"
+        (click)="handleScroll('right')"
+        [class.disabled]="rightArrowDisabled()"
+      >
+        <img
+          src="assets/images/portal/panel-arrow-right.png"
+          alt=""
+          draggable="false"
+        />
+      </div> -->
+    </div>
+  </div>
+</div>
+
+@if (commandExist()) {
+  <div class="ring-alert">
+    <img
+      style="width: 120px; height: 120px"
+      src="assets/images/portal/ring-alert.gif"
+      alt=""
+      srcset=""
+      draggable="false"
+      class="pointer-events-none"
+    />
+  </div>
+}
+
+<div class="fixed right-0 top-6 pr-8 w-32">
+  <common-user-dropdown />
+</div>

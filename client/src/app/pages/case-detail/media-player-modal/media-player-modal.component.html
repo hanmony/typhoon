@@ -1,0 +1,55 @@
+@if (visible) {
+  <div @scale class="media-player-modal" [style.height]="modalHeight">
+    @switch (mediaType) {
+      @case ("video") {
+        <video-player
+          [documentHeight]="documentHeight"
+          [documentWidth]="documentWidth"
+          [title]="mediaTitle"
+        />
+      }
+      @case ("image") {
+        <image-reader
+          [documentHeight]="documentHeight"
+          [documentWidth]="documentWidth"
+          [title]="mediaTitle"
+        />
+      }
+    }
+
+    <div class="bg-mask">
+      @if (audioTitle) {
+        <div class="text-3xl text-[#3eeff2] text-center">{{ audioTitle }}</div>
+      }
+    </div>
+    <div class="close-button mt-4" (click)="handleButtonClose()">
+      <span
+        class="transition-all cursor-pointer text-[#3eeff2] text-[26px] hover:scale-110 hover:text-[#005BAD]"
+        nz-icon
+        nzType="close"
+        nzTheme="outline"
+      ></span>
+    </div>
+    <div class="absolute z-10 left-[1%] top-1/2 select-none">
+      @if (showLeftArrow) {
+        <img
+          (click)="handleProcessClick('left')"
+          class="process-arrow w-[4rem] cursor-pointer hover:scale-[115%] relative left-[-1rem] active:opacity-50"
+          src="assets/images/map/modal/arrow-left.png"
+          alt=""
+        />
+      }
+    </div>
+    <div class="absolute z-10 right-[1%] top-1/2 select-none">
+      @if (showRightArrow) {
+        <img
+          *ngIf="showRightArrow"
+          (click)="handleProcessClick('right')"
+          class="process-arrow w-[4rem] cursor-pointer hover:scale-[115%] active:opacity-50"
+          src="assets/images/map/modal/arrow-right.png"
+          alt=""
+        />
+      }
+    </div>
+  </div>
+}

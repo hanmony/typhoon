@@ -1,0 +1,34 @@
+<div class="dock" draggable="false">
+  @for (tool of actionTools; track $index) {
+    <div class="tool" [class.disabled]="tool.inactive" draggable="false">
+      <img
+        class="pt-4 pb-1 select-none cursor-pointer"
+        draggable="false"
+        [src]="tool.image"
+        alt=""
+        srcset=""
+        (click)="onToolClick(tool)"
+      />
+      <div>
+        <span class="select-none">{{ tool.name }}</span>
+      </div>
+    </div>
+  }
+</div>
+
+@if (intelligentVisible()) {
+  <div @zoomInOut class="intelligent-tools">
+    @for (tool of intelligentTools; track $index) {
+      <div class="mr-8" [class.disabled]="tool.inactive" draggable="false">
+        <img
+          class="pb-1 select-none cursor-pointer hover:scale-105 transition-transform active:opacity-75"
+          draggable="false"
+          [src]="tool.image"
+          alt=""
+          srcset=""
+          (click)="onIntelligentToolClick(tool)"
+        />
+      </div>
+    }
+  </div>
+}

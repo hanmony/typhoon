@@ -1,0 +1,10 @@
+<div class="scale-line-wrapper" [style.width.px]="width">
+  @for (scale of scaleArray; track $index) {
+    <div
+      class="scale-mark"
+      [style.left.px]="$index * 5"
+      [style.background]="$index <= showStop ? scale : '#F35800'"
+    ></div>
+  }
+  <div class="progress"></div>
+</div>

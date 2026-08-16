@@ -1,0 +1,43 @@
+<div class="w-[70px]">
+  @if (start) {
+    <alert-point
+      [type]="start.type"
+      [ev]="start.rawEvent"
+      [sliceLeft]="isSliceLeft(start)"
+      [sliceRight]="isSliceRight(start)"
+    />
+  }
+</div>
+<div
+  class="flex-1 h-full text-center whitespace-nowrap overflow-x-auto custom-scroll-bar pt-10"
+  [style.width]="width ? width + 'px' : undefined"
+>
+  <div class="h-full whitespace-nowrap">
+    <div class="2xl:w-12 w-4 h-full"></div>
+    @for (item of timings; track $index) {
+      <div class="inline-block h-full 2xl:mr-8 mr-4 last:mr-0">
+        <timeline-normal-point
+          [id]="'partial-timing-' + $index"
+          class=""
+          (click)="onTimingSelect(item)"
+          [blink]="autoPlaying && item.startTime === autoPlayTime"
+          [active]="selectedTiming?.startTime === item.startTime"
+          [border]="normalPointShouldBorder(item)"
+          [ban]="autoPlaying"
+          [isKey]="item.isKey"
+        />
+      </div>
+    }
+    <div class="2xl:w-12 w-4 h-full"></div>
+  </div>
+</div>
+<div class="w-[70px]">
+  @if (end) {
+    <alert-point
+      [type]="end.type"
+      [ev]="end.rawEvent"
+      [sliceLeft]="isSliceLeft(end)"
+      [sliceRight]="isSliceRight(end)"
+    />
+  }
+</div>

@@ -1,0 +1,15 @@
+export enum ActionCategory {
+  unknown = '未定义行为',
+  keynote = '重点事件表',
+  config = '台风总览信息',
+  weather = '天气预警发布',
+  alert = '预警发布及响应',
+  directive = '路网指令措施',
+  driving = '线路行车措施',
+  opevent = '受台风影响运营事件',
+  construction = '施工调整',
+  transport = '客运措施',
+  disposal = '客运处置',
+  report = '信息报告',
+  propaganda = '媒体宣传',
+}

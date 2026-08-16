@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1450px" height="715px" viewBox="0 0 1450 715" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组 20</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="5-1" transform="translate(-221.000000, -259.000000)">
+            <g id="编组-8" transform="translate(221.000000, 259.000000)">
+                <g id="编组-14" transform="translate(0.000000, 1.000000)">
+                    <path d="M80.7408568,145.880747 C92.6412986,124.539196 105.982658,113.868421 120.764936,113.868421 C135.547214,113.868421 260.941677,113.868421 496.948325,113.868421 C512.33683,117.787689 523.312815,128.458464 529.87628,145.880747" id="路径-18" stroke="#DD1E3C" stroke-width="3" transform="translate(305.308569, 129.874584) scale(1, -1) translate(-305.308569, -129.874584) "></path>
+                    <path d="M80.7408568,114.880747 C92.6412986,93.5391964 105.982658,82.8684211 120.764936,82.8684211 C135.547214,82.8684211 260.941677,82.8684211 496.948325,82.8684211 C512.33683,86.7876887 523.312815,97.4584641 529.87628,114.880747" id="路径-18" stroke="#DD1E3C" stroke-width="3" transform="translate(305.308569, 98.874584) scale(-1, 1) translate(-305.308569, -98.874584) "></path>
+                    <line x1="80.7408568" y1="114.880747" x2="10.1680028" y2="114.880747" id="路径-19" stroke="#DD1E3C" stroke-width="3" stroke-dasharray="4"></line>
+                    <line x1="595.740857" y1="114.880747" x2="525.168003" y2="114.880747" id="路径-19" stroke="#DD1E3C" stroke-width="3" stroke-dasharray="4"></line>
+                    <circle id="椭圆形" stroke="#BEBEBE" stroke-width="2" fill="#FFFFFF" cx="81" cy="114" r="5"></circle>
+                    <circle id="椭圆形" stroke="#BEBEBE" stroke-width="2" fill="#FFFFFF" cx="14" cy="114" r="5"></circle>
+                    <circle id="椭圆形" stroke="#BEBEBE" stroke-width="2" fill="#FFFFFF" cx="596" cy="114" r="5"></circle>
+                    <circle id="椭圆形" stroke="#BEBEBE" stroke-width="2" fill="#FFFFFF" cx="529" cy="114" r="5"></circle>
+                    <line x1="81" y1="121.17487" x2="81" y2="181" id="路径-20" stroke="#979797"></line>
+                    <line x1="529.87628" y1="121.17487" x2="529.87628" y2="181" id="路径-21" stroke="#979797"></line>
+                    <path id="路径-22" d="M521.743066,166.380387 L529.744948,170.877038 L530.519864,171.312502 L529.745313,171.748614 L521.747197,176.251961 L521.256571,175.380591 L527.591,171.814 L521.500622,171.816277 L411.664898,171.862243 L294.329587,171.911349 L89.999796,171.996861 L83.908,171.998 L90.2468308,175.560971 L89.7569344,176.432751 L81.7550518,171.9361 L80.9801357,171.500636 L81.7546871,171.064524 L89.7528031,166.561176 L90.2434291,167.432547 L83.907,170.999 L89.9993775,170.996861 L294.329168,170.911349 L411.66448,170.862243 L521.500204,170.816277 L527.591,170.814 L521.253169,167.252167 L521.743066,166.380387 Z" fill="#979797" fill-rule="nonzero"></path>
+                    <text id="莘庄" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#3196FA">
+                        <tspan x="0" y="97">莘庄</tspan>
+                    </text>
+                    <text id="富锦路" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#3196FA">
+                        <tspan x="574" y="97">富锦路</tspan>
+                    </text>
+                    <text id="停运" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#88CFC2">
+                        <tspan x="550" y="136">停运</tspan>
+                    </text>
+                    <text id="停运" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#88CFC2">
+                        <tspan x="31" y="136">停运</tspan>
+                    </text>
+                    <g id="编组-13" transform="translate(260.000000, 161.000000)">
+                        <rect id="矩形" fill="#88CFC2" x="0" y="0" width="88.9545455" height="19" rx="9.5"></rect>
+                        <text id="运营12站" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" letter-spacing="1.2" fill="#FFFFFF">
+                            <tspan x="15" y="15">运营12站</tspan>
+                        </text>
+                    </g>
+                    <g id="编组-13" transform="translate(251.000000, 54.500000)">
+                        <rect id="矩形" fill="#DD1E3C" x="0" y="0.5" width="105" height="19" rx="9.5"></rect>
+                        <text id="上线列车14列" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" letter-spacing="1.2" fill="#FFFFFF">
+                            <tspan x="10" y="15">上线列车14列</tspan>
+                        </text>
+                    </g>
+                    <g id="编组-13" transform="translate(244.000000, 91.000000)">
+                        <rect id="矩形" fill="#60697E" x="0" y="0" width="121" height="19" rx="9.5"></rect>
+                        <text id="行车间隔5分钟" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" letter-spacing="1.2" fill="#FFFFFF">
+                            <tspan x="10" y="15">行车间隔5分钟</tspan>
+                        </text>
+                    </g>
+                    <text id="上海南站" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#3196FA">
+                        <tspan x="99" y="119">上海南站</tspan>
+                    </text>
+                    <text id="上海火车站" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#3196FA">
+                        <tspan x="438" y="119">上海火车站</tspan>
+                    </text>
+                    <text id="1号线" font-family="FZZYJW--GB1-0, FZZongYi-M05S" font-size="26" font-weight="normal" fill="#DD1E3C">
+                        <tspan x="0" y="22">1号线</tspan>
+                    </text>
+                </g>
+                <g id="编组-17" transform="translate(0.000000, 280.000000)">
+                    <line x1="595.5" y1="115.428177" x2="10.1680028" y2="115.443624" id="路径-19" stroke="#F4D700" stroke-width="3" stroke-dasharray="4"></line>
+                    <ellipse id="椭圆形" stroke="#BEBEBE" stroke-width="2" fill="#FFFFFF" cx="14" cy="114.558011" rx="5" ry="5.03314917"></ellipse>
+                    <ellipse id="椭圆形" stroke="#BEBEBE" stroke-width="2" fill="#FFFFFF" cx="596" cy="114.558011" rx="5" ry="5.03314917"></ellipse>
+                    <text id="上海南站" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#3196FA">
+                        <tspan x="0" y="97.4364641">上海南站</tspan>
+                    </text>
+                    <text id="江杨北路" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#3196FA">
+                        <tspan x="574" y="97.4364641">江杨北路</tspan>
+                    </text>
+                    <text id="全线停运" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#88CFC2">
+                        <tspan x="277" y="141.651934">全线停运</tspan>
+                    </text>
+                    <text id="3号线" font-family="FZZYJW--GB1-0, FZZongYi-M05S" font-size="26" font-weight="normal" fill="#F4D700">
+                        <tspan x="0" y="22">3号线</tspan>
+                    </text>
+                </g>
+                <g id="编组-18" transform="translate(0.000000, 524.000000)">
+                    <line x1="595.5" y1="115.428177" x2="10.1680028" y2="115.443624" id="路径-19" stroke="#9A60B0" stroke-width="3" stroke-dasharray="4"></line>
+                    <ellipse id="椭圆形" stroke="#BEBEBE" stroke-width="2" fill="#FFFFFF" cx="14" cy="114.558011" rx="5" ry="5.03314917"></ellipse>
+                    <ellipse id="椭圆形" stroke="#BEBEBE" stroke-width="2" fill="#FFFFFF" cx="596" cy="114.558011" rx="5" ry="5.03314917"></ellipse>
+                    <ellipse id="椭圆形" stroke="#BEBEBE" stroke-width="2" fill="#FFFFFF" cx="447" cy="114.558011" rx="5" ry="5.03314917"></ellipse>
+                    <text id="莘庄" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#3196FA">
+                        <tspan x="0" y="97.4364641">莘庄</tspan>
+                    </text>
+                    <text id="奉贤新城" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#3196FA">
+                        <tspan x="574" y="97.4364641">奉贤新城</tspan>
+                    </text>
+                    <text id="闵行开发区" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#3196FA">
+                        <tspan x="556" y="184.436464">闵行开发区</tspan>
+                    </text>
+                    <text id="东川路" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#3196FA">
+                        <tspan x="424" y="97.4364641">东川路</tspan>
+                    </text>
+                    <text id="全线停运" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#88CFC2">
+                        <tspan x="277" y="144.651934">全线停运</tspan>
+                    </text>
+                    <text id="5号线" font-family="FZZYJW--GB1-0, FZZongYi-M05S" font-size="26" font-weight="normal" fill="#9A60B0">
+                        <tspan x="0" y="22">5号线</tspan>
+                    </text>
+                    <path d="M451.5,126.651934 L460.548652,136.614086 C472.299712,149.551466 488.965426,156.928177 506.442932,156.928177 L595.5,156.928177 L595.5,156.928177" id="路径-23" stroke="#9A60B0" stroke-width="3" stroke-dasharray="4"></path>
+                    <ellipse id="椭圆形" stroke="#BEBEBE" stroke-width="2" fill="#FFFFFF" cx="596.497253" cy="156.058011" rx="5.49725275" ry="5.53314917"></ellipse>
+                </g>
+                <g id="编组-15" transform="translate(758.054383, 262.000000)">
+                    <path d="M80.8175465,145.880747 C92.7373072,124.539196 106.100325,113.868421 120.9066,113.868421 C135.712875,113.868421 261.310901,113.868421 497.700676,113.868421 C513.114163,117.787689 524.107966,128.458464 530.682086,145.880747" id="路径-18" stroke="#5B329C" stroke-width="3" transform="translate(305.749816, 129.874584) scale(1, -1) translate(-305.749816, -129.874584) "></path>
+                    <path d="M80.8175465,114.880747 C92.7373072,93.5391964 106.100325,82.8684211 120.9066,82.8684211 C135.712875,82.8684211 261.310901,82.8684211 497.700676,82.8684211 C513.114163,86.7876887 524.107966,97.4584641 530.682086,114.880747" id="路径-18" stroke="#5B329C" stroke-width="3" transform="translate(305.749816, 98.874584) scale(-1, 1) translate(-305.749816, -98.874584) "></path>
+                    <line x1="596.653585" y1="114.880747" x2="525.966165" y2="114.880747" id="路径-19" stroke="#5B329C" stroke-width="3" stroke-dasharray="4"></line>
+                    <line x1="670.653585" y1="114.880747" x2="599.966165" y2="114.880747" id="路径-19" stroke="#5B329C" stroke-width="3" stroke-dasharray="4"></line>
+                    <ellipse id="椭圆形" stroke="#BEBEBE" stroke-width="2" fill="#FFFFFF" cx="81.0771104" cy="114" rx="5.00974026" ry="5"></ellipse>
+                    <ellipse id="椭圆形" stroke="#BEBEBE" stroke-width="2" fill="#FFFFFF" cx="587.913149" cy="114" rx="5.00974026" ry="5"></ellipse>
+                    <ellipse id="椭圆形" stroke="#BEBEBE" stroke-width="2" fill="#FFFFFF" cx="678.913149" cy="114" rx="5.00974026" ry="5"></ellipse>
+                    <ellipse id="椭圆形" stroke="#BEBEBE" stroke-width="2" fill="#FFFFFF" cx="529.804383" cy="114" rx="5.00974026" ry="5"></ellipse>
+                    <line x1="81.0771104" y1="121.17487" x2="81.0771104" y2="181" id="路径-20" stroke="#979797"></line>
+                    <line x1="530.682086" y1="121.17487" x2="530.682086" y2="181" id="路径-21" stroke="#979797"></line>
+                    <path id="路径-22" d="M522.547452,166.380382 L530.549332,170.877039 L531.324247,171.312503 L530.549696,171.748614 L522.551577,176.251957 L522.060951,175.380586 L528.396,171.814 L522.305005,171.816271 L412.278801,171.862243 L294.753011,171.911349 L90.0793418,171.996866 L83.987,171.998 L90.3263735,175.560976 L89.8364765,176.432756 L81.834597,171.936099 L81.0596812,171.500635 L81.8342328,171.064524 L89.8323519,166.561181 L90.3229773,167.432552 L83.986,170.999 L90.078924,170.996867 L294.752593,170.911349 L412.278384,170.862243 L522.304587,170.816272 L528.396,170.814 L522.057555,167.252162 L522.547452,166.380382 Z" fill="#979797" fill-rule="nonzero"></path>
+                    <text id="停运" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#88CFC2">
+                        <tspan x="599.861201" y="137">停运</tspan>
+                    </text>
+                    <g id="编组-13" transform="translate(260.367695, 161.000000)">
+                        <rect id="矩形" fill="#88CFC2" x="0" y="0" width="89.0989522" height="19" rx="9.5"></rect>
+                        <text id="运营16站" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" letter-spacing="1.2" fill="#FFFFFF">
+                            <tspan x="15.075487" y="15">运营16站</tspan>
+                        </text>
+                    </g>
+                    <g id="编组-13" transform="translate(251.353084, 54.500000)">
+                        <rect id="矩形" fill="#5B329C" x="0" y="0.5" width="105.170455" height="19" rx="9.5"></rect>
+                        <text id="上线列车17列" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" letter-spacing="1.2" fill="#FFFFFF">
+                            <tspan x="9.08603896" y="15">上线列车17列</tspan>
+                        </text>
+                    </g>
+                    <g id="编组-13" transform="translate(244.341721, 91.000000)">
+                        <rect id="矩形" fill="#60697E" x="0" y="0" width="121.196429" height="19" rx="9.5"></rect>
+                        <text id="行车间隔5分钟" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" letter-spacing="1.2" fill="#FFFFFF">
+                            <tspan x="10.0982143" y="15">行车间隔5分钟</tspan>
+                        </text>
+                    </g>
+                    <text id="宜山路" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#3196FA">
+                        <tspan x="25.1517857" y="119">宜山路</tspan>
+                    </text>
+                    <text id="临平路" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#3196FA">
+                        <tspan x="470.713474" y="119">临平路</tspan>
+                    </text>
+                    <text id="上海火车站" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#3196FA">
+                        <tspan x="550.713474" y="97">上海火车站</tspan>
+                    </text>
+                    <text id="宜山路" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#3196FA">
+                        <tspan x="643.713474" y="97">宜山路</tspan>
+                    </text>
+                    <text id="4号线" font-family="FZZYJW--GB1-0, FZZongYi-M05S" font-size="26" font-weight="normal" fill="#5B329C">
+                        <tspan x="0" y="22">4号线</tspan>
+                    </text>
+                </g>
+                <g id="编组-19" transform="translate(758.054383, 523.000000)">
+                    <path d="M111.817546,145.880747 C123.737307,124.539196 137.100325,113.868421 151.9066,113.868421 C166.712875,113.868421 292.310901,113.868421 528.700676,113.868421 C544.114163,117.787689 555.107966,128.458464 561.682086,145.880747" id="路径-18" stroke="#D62683" stroke-width="3" transform="translate(336.749816, 129.874584) scale(1, -1) translate(-336.749816, -129.874584) "></path>
+                    <path d="M111.817546,114.880747 C123.737307,93.5391964 137.100325,82.8684211 151.9066,82.8684211 C166.712875,82.8684211 292.310901,82.8684211 528.700676,82.8684211 C544.114163,86.7876887 555.107966,97.4584641 561.682086,114.880747" id="路径-18" stroke="#D62683" stroke-width="3" transform="translate(336.749816, 98.874584) scale(-1, 1) translate(-336.749816, -98.874584) "></path>
+                    <line x1="108.653585" y1="114.880747" x2="37.9661651" y2="114.880747" id="路径-19" stroke="#D62683" stroke-width="3" stroke-dasharray="4"></line>
+                    <ellipse id="椭圆形" stroke="#BEBEBE" stroke-width="2" fill="#FFFFFF" cx="112.07711" cy="114" rx="5.00974026" ry="5"></ellipse>
+                    <ellipse id="椭圆形" stroke="#BEBEBE" stroke-width="2" fill="#FFFFFF" cx="42.0771104" cy="114" rx="5.00974026" ry="5"></ellipse>
+                    <ellipse id="椭圆形" stroke="#BEBEBE" stroke-width="2" fill="#FFFFFF" cx="560.804383" cy="114" rx="5.00974026" ry="5"></ellipse>
+                    <line x1="112.07711" y1="121.17487" x2="112.07711" y2="181" id="路径-20" stroke="#979797"></line>
+                    <path id="路径-22" d="M553.547452,166.380382 L561.549332,170.877039 L562.324247,171.312503 L561.549696,171.748614 L553.551577,176.251957 L553.060951,175.380586 L559.396,171.814 L553.305005,171.816271 L443.278801,171.862243 L325.753011,171.911349 L121.079342,171.996866 L114.987,171.998 L121.326374,175.560976 L120.836477,176.432756 L112.834597,171.936099 L112.059681,171.500635 L112.834233,171.064524 L120.832352,166.561181 L121.322977,167.432552 L114.986,170.999 L121.078924,170.996867 L325.752593,170.911349 L443.278384,170.862243 L553.304587,170.816272 L559.396,170.814 L553.057555,167.252162 L553.547452,166.380382 Z" fill="#979797" fill-rule="nonzero"></path>
+                    <g id="编组-13" transform="translate(291.367695, 161.000000)">
+                        <rect id="矩形" fill="#88CFC2" x="0" y="0" width="89.0989522" height="19" rx="9.5"></rect>
+                        <text id="运营17站" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" letter-spacing="1.2" fill="#FFFFFF">
+                            <tspan x="15.075487" y="15">运营17站</tspan>
+                        </text>
+                    </g>
+                    <g id="编组-13" transform="translate(282.353084, 54.500000)">
+                        <rect id="矩形" fill="#D62683" x="0" y="0.5" width="105.170455" height="19" rx="9.5"></rect>
+                        <text id="上线列车17列" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" letter-spacing="1.2" fill="#FFFFFF">
+                            <tspan x="9.08603896" y="15">上线列车17列</tspan>
+                        </text>
+                    </g>
+                    <g id="编组-13" transform="translate(275.341721, 91.000000)">
+                        <rect id="矩形" fill="#60697E" x="0" y="0" width="121.196429" height="19" rx="9.5"></rect>
+                        <text id="行车间隔5分钟" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" letter-spacing="1.2" fill="#FFFFFF">
+                            <tspan x="10.0982143" y="15">行车间隔5分钟</tspan>
+                        </text>
+                    </g>
+                    <text id="港城路" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#3196FA">
+                        <tspan x="21.1517857" y="96">港城路</tspan>
+                    </text>
+                    <text id="港城路" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#3196FA">
+                        <tspan x="21.1517857" y="96">港城路</tspan>
+                    </text>
+                    <text id="云山路" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#3196FA">
+                        <tspan x="131.151786" y="117">云山路</tspan>
+                    </text>
+                    <text id="东方体育中心" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#3196FA">
+                        <tspan x="459.713474" y="119">东方体育中心</tspan>
+                    </text>
+                    <text id="6号线" font-family="FZZYJW--GB1-0, FZZongYi-M05S" font-size="26" font-weight="normal" fill="#D41C7E">
+                        <tspan x="0" y="22">6号线</tspan>
+                    </text>
+                    <text id="停运" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#88CFC2">
+                        <tspan x="59.9456169" y="135">停运</tspan>
+                    </text>
+                    <line x1="561.682086" y1="121.17487" x2="561.682086" y2="181" id="路径-21" stroke="#979797"></line>
+                </g>
+                <g id="编组-16" transform="translate(757.054383, 0.000000)">
+                    <path d="M80.8175465,145.880747 C92.7373072,124.539196 106.100325,113.868421 120.9066,113.868421 C135.712875,113.868421 261.310901,113.868421 497.700676,113.868421 C513.114163,117.787689 524.107966,128.458464 530.682086,145.880747" id="路径-18" stroke="#94CD30" stroke-width="3" transform="translate(305.749816, 129.874584) scale(1, -1) translate(-305.749816, -129.874584) "></path>
+                    <path d="M80.8175465,114.880747 C92.7373072,93.5391964 106.100325,82.8684211 120.9066,82.8684211 C135.712875,82.8684211 261.310901,82.8684211 497.700676,82.8684211 C513.114163,86.7876887 524.107966,97.4584641 530.682086,114.880747" id="路径-18" stroke="#94CD30" stroke-width="3" transform="translate(305.749816, 98.874584) scale(-1, 1) translate(-305.749816, -98.874584) "></path>
+                    <line x1="596.653585" y1="114.880747" x2="525.966165" y2="114.880747" id="路径-19" stroke="#94CD30" stroke-width="3" stroke-dasharray="4"></line>
+                    <ellipse id="椭圆形" stroke="#BEBEBE" stroke-width="2" fill="#FFFFFF" cx="81.0771104" cy="114" rx="5.00974026" ry="5"></ellipse>
+                    <ellipse id="椭圆形" stroke="#BEBEBE" stroke-width="2" fill="#FFFFFF" cx="606.913149" cy="114" rx="5.00974026" ry="5"></ellipse>
+                    <ellipse id="椭圆形" stroke="#BEBEBE" stroke-width="2" fill="#FFFFFF" cx="529.804383" cy="114" rx="5.00974026" ry="5"></ellipse>
+                    <line x1="81.0771104" y1="121.17487" x2="81.0771104" y2="181" id="路径-20" stroke="#979797"></line>
+                    <line x1="530.682086" y1="121.17487" x2="530.682086" y2="181" id="路径-21" stroke="#979797"></line>
+                    <path id="路径-22" d="M522.547452,166.380382 L530.549332,170.877039 L531.324247,171.312503 L530.549696,171.748614 L522.551577,176.251957 L522.060951,175.380586 L528.396,171.814 L522.305005,171.816271 L412.278801,171.862243 L294.753011,171.911349 L90.0793418,171.996866 L83.987,171.998 L90.3263735,175.560976 L89.8364765,176.432756 L81.834597,171.936099 L81.0596812,171.500635 L81.8342328,171.064524 L89.8323519,166.561181 L90.3229773,167.432552 L83.986,170.999 L90.078924,170.996867 L294.752593,170.911349 L412.278384,170.862243 L522.304587,170.816272 L528.396,170.814 L522.057555,167.252162 L522.547452,166.380382 Z" fill="#979797" fill-rule="nonzero"></path>
+                    <text id="停运" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#88CFC2">
+                        <tspan x="555.861201" y="137">停运</tspan>
+                    </text>
+                    <g id="编组-13" transform="translate(260.367695, 161.000000)">
+                        <rect id="矩形" fill="#88CFC2" x="0" y="0" width="89.0989522" height="19" rx="9.5"></rect>
+                        <text id="运营19站" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" letter-spacing="1.2" fill="#FFFFFF">
+                            <tspan x="15.075487" y="15">运营19站</tspan>
+                        </text>
+                    </g>
+                    <g id="编组-13" transform="translate(251.353084, 54.500000)">
+                        <rect id="矩形" fill="#94CD30" x="0" y="0.5" width="105.170455" height="19" rx="9.5"></rect>
+                        <text id="上线列车24列" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" letter-spacing="1.2" fill="#FFFFFF">
+                            <tspan x="7.08603896" y="15">上线列车24列</tspan>
+                        </text>
+                    </g>
+                    <g id="编组-13" transform="translate(244.341721, 91.000000)">
+                        <rect id="矩形" fill="#60697E" x="0" y="0" width="121.196429" height="19" rx="9.5"></rect>
+                        <text id="行车间隔5分钟" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" letter-spacing="1.2" fill="#FFFFFF">
+                            <tspan x="10.0982143" y="15">行车间隔5分钟</tspan>
+                        </text>
+                    </g>
+                    <text id="徐泾东" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#3196FA">
+                        <tspan x="25.1517857" y="119">徐泾东</tspan>
+                    </text>
+                    <text id="龙阳路" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#3196FA">
+                        <tspan x="470.713474" y="119">龙阳路</tspan>
+                    </text>
+                    <text id="浦东国际机场" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#3196FA">
+                        <tspan x="571.713474" y="97">浦东国际机场</tspan>
+                    </text>
+                    <text id="2号线" font-family="FZZYJW--GB1-0, FZZongYi-M05S" font-size="26" font-weight="normal" fill="#94CD30">
+                        <tspan x="0" y="22">2号线</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

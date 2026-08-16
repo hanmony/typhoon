@@ -1,0 +1,8 @@
+<app-inplace-editor-shell
+  (onSave)="save()"
+  (onEdit)="startEdit()"
+  [readonly]="readonly"
+>
+  <span normal>{{ value }}</span>
+  <nz-input-number modify [(ngModel)]="editingValue"></nz-input-number>
+</app-inplace-editor-shell>

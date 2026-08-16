@@ -1,0 +1,108 @@
+<occ-list-shell titleText="运营列表" [visible]="visible()" [isHide]="isHide()">
+  <div class="flex px-6 pt-3">
+    @if (visible()) {
+      <div>
+        <table class="statistical-table w-full">
+          <thead>
+            <tr class="text-left">
+              <th class="w-[84px] text-center">来源</th>
+              <th class="w-[120px]">调整类型</th>
+              <th>位置</th>
+              <th class="w-[122px]">结束时间</th>
+              <th class="w-[100px]">操作</th>
+            </tr>
+          </thead>
+          <tbody class="custom-scroll-bar">
+            @for (row of data(); track $index) {
+              <tr class="row" [class.terminated-font]="isTerminated(row)">
+                <td class="w-[84px] text-center">
+                  @if (row.source === "OCC") {
+                    <nz-tag nzColor="blue">OCC</nz-tag>
+                  }
+                  @if (row.source === "COCC") {
+                    <nz-tag nzColor="orange">COCC</nz-tag>
+                  }
+                </td>
+                <td class="w-[120px]">
+                  {{ row.actionType }}
+                </td>
+                <td [class.truncate]="true">
+                  {{ getOperationPosition(row) }}
+                </td>
+                <td class="w-[122px]">
+                  {{ getOperationEndTime(row) }}
+                </td>
+                <td class="w-[100px]">
+                  <span
+                    nz-icon
+                    [title]="row.isShow ? '显示' : '隐藏'"
+                    [style.color]="row.isShow ? '#00ffffe1' : '#ffffff91'"
+                    [nzType]="row.isShow ? 'eye' : 'eye-invisible'"
+                    nzTheme="outline"
+                    class="cursor-pointer hover:text-[#00ffffe1]"
+                    (click)="toggleOperationVisible(row)"
+                  ></span>
+                  <span
+                    nz-icon
+                    [title]="'编辑'"
+                    nzType="edit"
+                    nzTheme="outline"
+                    class="cursor-pointer ml-2 text-[#ffffff91] hover:text-[#00ffffe1]"
+                    (click)="editOperation(row)"
+                  ></span>
+                  <span
+                    nz-icon
+                    [title]="'恢复时间'"
+                    nzType="clock-circle"
+                    nzTheme="outline"
+                    class="cursor-pointer ml-2 text-[#ffffff91] hover:text-[#00ffffe1]"
+                    (click)="editActualEndTime(row)"
+                  ></span>
+                  <span
+                    nz-icon
+                    [title]="'删除'"
+                    nzType="delete"
+                    nzTheme="outline"
+                    class="cursor-pointer ml-2 text-[#ffffff91] hover:text-[#ef4444e1]"
+                    nz-popconfirm
+                    nzPopconfirmTitle="确定删除吗？"
+                    (nzOnConfirm)="removeOperation(row)"
+                    nzPopconfirmPlacement="top"
+                  ></span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+        @if (!data().length) {
+          <div
+            class="text-center font-fangzheng py-8"
+            style="font-size: 32px; line-height: 1.5"
+          >
+            暂无数据
+          </div>
+        }
+      </div>
+    }
+  </div>
+</occ-list-shell>
+
+<ng-template #tplContent>
+  <div class="pb-4">
+    <nz-alert
+      nzShowIcon
+      nzType="warning"
+      nzMessage="实际运营恢复时间不能早于调整开始时间， 不能晚于当前时间！"
+    ></nz-alert>
+  </div>
+  <div class="flex items-center">
+    <div>运营恢复时间：</div>
+    <div>
+      <nz-date-picker
+        [nzShowTime]="{ nzFormat: 'HH:mm' }"
+        [nzFormat]="'yyyy-MM-dd HH:mm'"
+        [(ngModel)]="actualEndTime"
+      ></nz-date-picker>
+    </div>
+  </div>
+</ng-template>

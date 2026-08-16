@@ -1,0 +1,38 @@
+<div>
+  <div class="flex gap-2">
+    <div *rolesIn="['admin', 'manager', 'editor']">
+      <nz-upload
+        [nzAction]="'/manager/import-path-info?case=' + doc?.name"
+        (nzChange)="handleImportStatusChange($event)"
+      >
+        <button nz-button>
+          <span nz-icon nzType="upload"></span>
+          导入台风路径信息
+        </button>
+      </nz-upload>
+    </div>
+  </div>
+  <p></p>
+  <nz-table #theTable [nzData]="items">
+    <thead>
+      <tr>
+        <th>时间点</th>
+        <th>中心位置</th>
+        <th>风速风力</th>
+        <th>中心气压</th>
+        <th>风圈半径（公里）</th>
+        <th>登陆信息</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of theTable.data">
+        <td>{{ item.time | date: "MM月dd日HH时" }}</td>
+        <td>东经{{ item.longitude }}° 北纬{{ item.latitude }}°</td>
+        <td>{{ item.power }}</td>
+        <td>{{ item.pressure }}</td>
+        <td>{{ item.radius }}</td>
+        <td>{{ item.landing }}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

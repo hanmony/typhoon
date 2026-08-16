@@ -1,0 +1,23 @@
+<!-- 主要影响台风汇总表内容 -->
+<div class="typhoon-impacts-table-content">
+  <table class="typhoon-impacts-table">
+    <thead>
+      <tr>
+        <th style="width: 10%">热带风暴名称</th>
+        <th style="width: 10%">登陆地点</th>
+        <th style="width: 20%">最大风力</th>
+        <th style="width: 10%">主要影响时段</th>
+        <th style="width: 50%">主要运行调整措施</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of totalTableData">
+        <td>{{ item.tropical_storm_name }}</td>
+        <td>{{ item.landing_site }}</td>
+        <td>{{ item.max_wind_power }}</td>
+        <td>{{ item.main_impact_period }}</td>
+        <td>{{ item.main_operation_adjustment_measures }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

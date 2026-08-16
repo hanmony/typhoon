@@ -1,0 +1,13 @@
+@if (visible()) {
+  <div class="message-box animate__animated animate__zoomIn">
+    <div class="cancel-button" (click)="handleCancel()">取消</div>
+    <div class="message-text px-4">{{ messageText() }}</div>
+    <div
+      class="confirm-button"
+      [style.visibility]="confirmable() ? 'visible' : 'hidden'"
+      (click)="handleConfirm()"
+    >
+      确认
+    </div>
+  </div>
+}

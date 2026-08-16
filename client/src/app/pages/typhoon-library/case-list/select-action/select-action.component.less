@@ -1,0 +1,45 @@
+:host {
+  position: relative;
+  margin-left: 32px;
+}
+.box {
+  display: inline-flex;
+  box-shadow: inset 0px 0px 12px 0px rgba(92, 178, 254, 0.72);
+  height: 38px;
+  width: 154px;
+  line-height: 38px;
+  font-size: 16px;
+  color: #c3d0ea;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 12px 0 16px;
+  cursor: pointer;
+  position: relative;
+  &:hover {
+    box-shadow: inset 0px 0px 12px 0px rgba(92, 178, 254, 0.95);
+  }
+}
+
+.dropdown {
+  @apply w-full absolute left-1/2 -translate-x-1/2 overflow-hidden;
+  top: calc(100% + 12px);
+}
+
+.shining-box {
+  background-color: #0b2552;
+  width: 100%;
+  box-shadow: inset 0px 0px 12px 0px rgba(92, 178, 254, 0.72);
+  .option-item {
+    user-select: none;
+    color: var(--case-text-primary);
+    font-size: 1rem;
+    line-height: 2;
+    cursor: pointer;
+    &.hover {
+      color: #40e6fe;
+    }
+    &.checked {
+      color: #40e6fe;
+    }
+  }
+}

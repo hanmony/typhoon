@@ -1,0 +1,78 @@
+<div>
+  <nz-page-header
+    class="site-page-header"
+    (nzBack)="handleBack()"
+    nzBackIcon
+    nzTitle="台风案例详情"
+    [nzSubtitle]="currentCase?.name"
+  >
+    <nz-page-header-extra>
+      <div class="flex gap-2">
+        <ng-container *rolesIn="['admin', 'manager', 'editor']">
+          <button
+            *ngIf="currentCase?.status == 2"
+            nz-button
+            nzType="primary"
+            (click)="handleFinishEdit()"
+          >
+            提交审批
+          </button>
+        </ng-container>
+        <ng-container *rolesIn="['admin', 'manager']">
+          <button
+            *ngIf="currentCase?.status == 1"
+            nz-button
+            nzType="primary"
+            (click)="handleActive()"
+          >
+            上架
+          </button>
+        </ng-container>
+        <ng-container *rolesIn="['admin', 'manager']">
+          <button
+            *ngIf="currentCase?.status == 0"
+            nz-button
+            nzDanger
+            (click)="handleDeactive()"
+          >
+            下架
+          </button>
+        </ng-container>
+        <ng-container *rolesIn="['admin', 'manager', 'editor']">
+          <button
+            *ngIf="currentCase?.status == 1"
+            nz-button
+            nzType="primary"
+            (click)="handleStartEdit()"
+          >
+            开始编辑
+          </button>
+        </ng-container>
+      </div>
+    </nz-page-header-extra></nz-page-header
+  >
+  <nz-card [nzLoading]="loading">
+    <nz-tabset *ngIf="currentCase">
+      <nz-tab nzTitle="台风总览信息">
+        <ng-template nz-tab>
+          <app-editor-config [doc]="currentCase"></app-editor-config>
+        </ng-template>
+      </nz-tab>
+      <nz-tab nzTitle="事件详情">
+        <ng-template nz-tab>
+          <app-editor-actions [doc]="currentCase"></app-editor-actions>
+        </ng-template>
+      </nz-tab>
+      <nz-tab nzTitle="台风路径">
+        <ng-template nz-tab>
+          <app-editor-path-info [doc]="currentCase"></app-editor-path-info>
+        </ng-template>
+      </nz-tab>
+      <nz-tab nzTitle="总结文档">
+        <ng-template nz-tab>
+          <app-editor-doc [doc]="currentCase"></app-editor-doc>
+        </ng-template>
+      </nz-tab>
+    </nz-tabset>
+  </nz-card>
+</div>

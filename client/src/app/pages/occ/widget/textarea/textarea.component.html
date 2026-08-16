@@ -1,0 +1,10 @@
+<div class="textarea-wrapper">
+  <textarea
+    class="custom-scroll-bar"
+    [value]="value()"
+    (change)="onInput($event)"
+    [maxLength]="max()"
+    rows="3"
+    [placeholder]="placeholder()"
+  ></textarea>
+</div>

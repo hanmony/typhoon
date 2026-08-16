@@ -1,0 +1,47 @@
+@if (visible()) {
+  <div
+    @horizontalInOut
+    class="statistical-table-modal"
+    [class.hidden]="isHide()"
+  >
+    <div class="statistical-box">
+      <div class="modal-header">
+        <span>{{ titleText() }}</span>
+        <span>
+          @if (tableActionVisible()) {
+            <span class="mr-4">
+              <nz-icon
+                class="cursor-pointer select-none relative transition-transform hover:scale-105 shadow-sm"
+                style="
+                  top: 2px;
+                  color: #75ecff;
+                  font-size: 24px;
+                  transform-origin: center;
+                "
+                nzType="table"
+                nzTheme="outline"
+                (click)="onTable.emit()"
+              />
+            </span>
+          }
+
+          <span class="mr-6">
+            <img
+              title="新增"
+              style="top: -2px"
+              class="cursor-pointer select-none relative rotate-45 hover:scale-110"
+              src="/assets/images/map/modal/popup/close.png"
+              alt=""
+              srcset=""
+              (click)="onPlusClick()"
+            />
+          </span>
+        </span>
+      </div>
+      <div class="modal-body flex">
+        <ng-content />
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </div>
+}

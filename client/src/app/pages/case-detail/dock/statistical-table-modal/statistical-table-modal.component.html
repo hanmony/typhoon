@@ -1,0 +1,141 @@
+@if (visible) {
+  <div @horizontalInOutReverse class="statistical-table-modal">
+    <div class="statistical-box">
+      <div class="modal-header">
+        <div>
+          <span>事件统计</span>
+          @if (currentTableType === "current") {
+            <span> ({{ currentTimeString || "未选择时间" }})</span>
+          }
+        </div>
+        <div class="mr-4">
+          <img
+            class="mb-2 cursor-pointer hover:scale-110"
+            src="assets/images/map/dock/statistical-table-modal/close.png"
+            alt=""
+            (click)="close()"
+          />
+        </div>
+      </div>
+      <div class="modal-body flex">
+        <div class="h-full modal-sidder">
+          <div class="h-full flex flex-col justify-center">
+            <div
+              class="tab-item"
+              (click)="setCurrentTableType('all')"
+              [class.active]="currentTableType === 'all'"
+            >
+              台风全事件
+            </div>
+            <div class="gap-line"></div>
+            <div
+              class="tab-item"
+              (click)="setCurrentTableType('current')"
+              [class.active]="currentTableType === 'current'"
+            >
+              当前时间点的事件
+            </div>
+          </div>
+        </div>
+        <div class="flex-1 pl-8 pr-8">
+          <div class="category-options">
+            @for (category of categories; track $index) {
+              <div
+                class="category-option"
+                (click)="onCategoryChange(category.key)"
+                [class.active]="currentCategoryKey === category.key"
+              >
+                <span class="category-font">
+                  {{ category.name }}
+                </span>
+              </div>
+            }
+          </div>
+          <div class="subType-options">
+            @for (subType of currentSubTypes; track $index) {
+              <div
+                class="subType-option"
+                [class.empty]="!subType.length"
+                (click)="onSubTypeChange(subType.value)"
+                [class.active]="currentSubTypeKey === subType.value"
+              >
+                {{ subType.label }}
+              </div>
+            }
+          </div>
+          @if (currentEntireTableData) {
+            <div>
+              <table class="statistical-table w-full">
+                <thead>
+                  <tr class="text-left">
+                    <th class="w-[120px]">开始时间</th>
+                    <th class="w-[120px]">结束时间</th>
+                    @for (
+                      column of currentEntireTableData.columns;
+                      track $index
+                    ) {
+                      <th
+                        class="whitespace-nowrap"
+                        [style.width]="
+                          column.width ? column.width + 'px' : undefined
+                        "
+                      >
+                        {{ column.label }}
+                      </th>
+                    }
+                  </tr>
+                </thead>
+                <tbody class="custom-scroll-bar">
+                  @for (row of finalTableData; track $index) {
+                    <tr class="row">
+                      <td class="w-[120px]">
+                        {{ getStartTime(row) }}
+                      </td>
+                      <td class="w-[120px]">
+                        {{ getEndTime(row) }}
+                      </td>
+                      @for (
+                        column of currentEntireTableData.columns;
+                        track $index
+                      ) {
+                        <td
+                          class="text-left"
+                          [class.truncate]="column.truncate"
+                          [style.width]="
+                            column.width ? column.width + 'px' : undefined
+                          "
+                        >
+                          @if (column.truncate) {
+                            <span
+                              nz-tooltip
+                              [nzTooltipTitle]="row.items[column.label]"
+                            >
+                              <span class="truncate-text">
+                                {{ row.items[column.label] }}
+                              </span>
+                            </span>
+                          } @else {
+                            {{ row.items[column.label] }}
+                          }
+                        </td>
+                      }
+                    </tr>
+                  }
+                </tbody>
+              </table>
+              @if (!finalTableData.length) {
+                <div
+                  class="text-center category-font py-8"
+                  style="font-size: 32px; line-height: 1.5"
+                >
+                  暂无数据
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer"></div>
+  </div>
+}

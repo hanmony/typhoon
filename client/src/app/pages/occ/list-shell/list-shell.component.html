@@ -1,0 +1,19 @@
+@if (visible()) {
+  <div
+    [@horizontalInOutReverse]="animation()"
+    class="statistical-table-modal"
+    [class.hidden]="isHide()"
+  >
+    <div class="statistical-box">
+      <div class="modal-header">
+        <div>
+          <span>{{ titleText() }}</span>
+        </div>
+      </div>
+      <div class="modal-body flex">
+        <ng-content />
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </div>
+}

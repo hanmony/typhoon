@@ -1,0 +1,21 @@
+<div class="leading-none" [style.font-size.px]="active() ? 18 : 16">
+  <div>{{ data().date }}</div>
+  <div>{{ data().time }}</div>
+</div>
+<div class="relative -mb-2">
+  <div
+    class="select-none bg-no-repeat bg-center inline-block"
+    style="width: 64px; height: 36px"
+    [class.cursor-pointer]="true"
+    draggable="false"
+    [style.backgroundImage]="icon"
+    (click)="onSelect.emit(data())"
+  ></div>
+</div>
+<!-- <div>
+  <span
+    class="inline-block rounded-xl py-1 px-2"
+    [style.background]="data().weatherColor"
+    >{{ data().weatherText }}</span
+  >
+</div> -->

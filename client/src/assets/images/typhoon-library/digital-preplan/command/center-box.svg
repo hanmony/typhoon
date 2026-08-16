@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="385px" height="158px" viewBox="0 0 385 158" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title></title>
+    <defs>
+        <linearGradient x1="50%" y1="29.6520659%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#28B8FF" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#28B8FF" offset="100%"></stop>
+        </linearGradient>
+        <polygon id="path-2" points="0 45.2462 385 45.2462 385 141.697813 366.988304 156.2462 18.0116959 156.2462 0 142.697813"></polygon>
+        <mask id="mask-3" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="385" height="111" fill="white">
+            <use xlink:href="#path-2"></use>
+        </mask>
+        <linearGradient x1="0%" y1="62.4563656%" x2="100%" y2="62.4563656%" id="linearGradient-4">
+            <stop stop-color="#1C7EB8" offset="0%"></stop>
+            <stop stop-color="#01417B" stop-opacity="0.86" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="0%" y1="62.4563656%" x2="100%" y2="62.4563656%" id="linearGradient-5">
+            <stop stop-color="#28B8FF" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#28B8FF" stop-opacity="0.21" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="数字预案-指挥体系切图" transform="translate(-989.000000, -546.000000)">
+            <g id="编组-21" transform="translate(989.000000, 546.000000)">
+                <g id="数据框" transform="translate(0.000000, 0.753800)">
+                    <path d="M0,0.2462 L342,0.2462 L342,240.2462 L0,240.2462 L0,0.2462 Z" id="路径"></path>
+                    <use id="路径" stroke="url(#linearGradient-1)" mask="url(#mask-3)" stroke-width="2" fill-opacity="0.2" fill="#001D3C" stroke-dasharray="0,0" xlink:href="#path-2"></use>
+                    <line x1="0" y1="41.3462" x2="342" y2="41.2462" id="直线-10" stroke="#28B8FF" opacity="0.16" stroke-dasharray="0,0"></line>
+                    <path d="M14.0716374,0.2462 L187.152778,0.2462 L252.163743,0.2462 L369.239766,0.2462 L385,14.2462 L385,36.2462 L0,36.2462 L0,14.2462 L14.0716374,0.2462 Z" id="路径" fill="url(#linearGradient-4)"></path>
+                    <path d="M227.396543,0.2462 L273,36.2462 L259.487865,36.2462 L220,5.07379 L225.707526,0.2462 L227.396543,0.2462 Z M248.485714,0.2462 L294,36.2462 L280.514286,36.2462 L235,0.2462 L248.485714,0.2462 Z M270.485714,0.2462 L316,36.2462 L302.514286,36.2462 L257,0.2462 L270.485714,0.2462 Z M291.485714,0.2462 L337,36.2462 L323.514286,36.2462 L278,0.2462 L291.485714,0.2462 Z M313.485714,0.2462 L359,36.2462 L345.514286,36.2462 L300,0.2462 L313.485714,0.2462 Z M335.485714,0.2462 L381,36.2462 L367.514286,36.2462 L322,0.2462 L335.485714,0.2462 Z M356.658537,0.2462 L385,22.5144591 L385,33.2462 L343,0.2462 L356.658537,0.2462 Z" id="形状结合" fill="url(#linearGradient-5)"></path>
+                    <path d="M157,0 L371,0.2462 L385,14.2462 L385,36.2462 L384.002,36.2462 L384.002,14.7269 L370.449763,1.230815 L266.985,1.230815 L251.0163,0.9847 L157,0.9847 L157,0 Z" id="路径" fill="#00FFFF"></path>
+                    <path d="M0,14.2826 L13.1797,0.2462 L371,0.2462 L371,1.227332 L13.5513646,1.227332 L0.987654,14.889 L0.987654,42.2462 L0,42.2462 L0,14.2826 Z" id="路径" fill="#00FFFF"></path>
+                    <path d="M0,40.2462 L0,42.2462 L2,42.2462 L2,40.2462 L0,40.2462 Z" id="形状" fill="#00FFFF"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

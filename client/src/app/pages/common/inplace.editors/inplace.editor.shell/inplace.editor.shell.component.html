@@ -1,0 +1,18 @@
+<div class="editable-row">
+  <ng-container *ngIf="!editing">
+    <div class="editable-cell" (click)="startEdit()">
+      <ng-content select="[normal]"></ng-content>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="editing">
+    <div class="flex flex-row gap-2" [hidden]="!editing">
+      <ng-content select="[modify]"></ng-content>
+      <button nz-button nzShape="circle" nzSize="small" (click)="cancel()">
+        <span nz-icon nzType="close"></span>
+      </button>
+      <button nz-button nzShape="circle" nzSize="small" (click)="save()">
+        <span nz-icon nzType="check"></span>
+      </button>
+    </div>
+  </ng-container>
+</div>

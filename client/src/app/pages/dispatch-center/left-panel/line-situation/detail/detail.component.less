@@ -1,0 +1,53 @@
+.x-button {
+  /* in scss with just one variable i can change opacity with rgba(variable, opacity) but in css it's not possible so i have used three seperate variables */
+  /* with hue-rotate color can be changed */
+  --main-color: rgb(255, 127, 0);
+  --main-bg-color: rgba(255, 127, 0, 0.36);
+  --pattern-color: rgba(255, 127, 0, 0.073);
+
+  /* change this rotation value */
+  filter: hue-rotate(0deg);
+
+  cursor: pointer;
+  text-transform: uppercase;
+
+  background: radial-gradient(
+      circle,
+      var(--main-bg-color) 0%,
+      rgba(0, 0, 0, 0) 95%
+    ),
+    linear-gradient(var(--pattern-color) 1px, transparent 1px),
+    linear-gradient(to right, var(--pattern-color) 1px, transparent 1px);
+  background-size:
+    cover,
+    15px 15px,
+    15px 15px;
+  background-position:
+    center center,
+    center center,
+    center center;
+  border-image: radial-gradient(
+      circle,
+      var(--main-color) 0%,
+      rgba(0, 0, 0, 0) 100%
+    )
+    1;
+  border-width: 1px 0 1px 0;
+  color: var(--main-color);
+  padding: 0.5rem 0;
+  font-weight: 500;
+  text-align: center;
+  min-width: 160px;
+  font-size: 1.125rem;
+  transition: background-size 0.2s ease-in-out;
+}
+
+.x-button:hover {
+  background-size:
+    cover,
+    10px 10px,
+    10px 10px;
+}
+.x-button:active {
+  filter: hue-rotate(-40deg);
+}

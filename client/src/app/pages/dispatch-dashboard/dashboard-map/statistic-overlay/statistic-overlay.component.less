@@ -1,0 +1,84 @@
+:host {
+  position: absolute;
+  top: 196px;
+  left: 20px;
+  z-index: 800;
+}
+
+.statistic-overlay {
+  width: 415px;
+  // height: 310px;
+  background: url("/assets/images/occ/notification-overlay-large-bg.png")
+    no-repeat center center;
+  background-size: 100% 100%;
+  padding: 16px 22px;
+}
+
+.statistic-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 12px;
+  .title-font {
+    font-family: "Fangzhengzhongyi";
+    font-weight: 400;
+    font-size: 22px;
+    font-style: italic;
+    text-shadow: 0px 2px 8px rgba(239, 252, 254, 0.32);
+    background: linear-gradient(
+      0deg,
+      rgba(49, 190, 255, 1) 0%,
+      rgba(239, 252, 254, 1) 60%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+.statistic-item {
+  background: url("/assets/images/occ/notification-item-bg.png") no-repeat;
+  background-position: left center;
+  background-size: 100% 100%;
+  padding: 1px 6px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.statistic-italic-font {
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 18px;
+  font-style: italic;
+  background: linear-gradient(0deg, #acddff 0%, #ffffff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.statistic-content {
+  background: linear-gradient(
+    180deg,
+    rgba(36, 147, 211, 0.22) 0%,
+    rgba(36, 147, 211, 0.1) 45%,
+    rgba(77, 186, 255, 0) 100%
+  );
+  border: 1px solid rgba(119, 186, 255, 0.22);
+  height: 82px;
+  padding: 14px 12px;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.statistic-event {
+  background: url("/assets/images/occ/notification-event-bg.png") no-repeat;
+  background-position: left center;
+  background-size: 100% 100%;
+  height: 109px;
+  // padding: 14px 12px;
+  // font-size: 14px;
+  // line-height: 18px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  display: flex;
+}

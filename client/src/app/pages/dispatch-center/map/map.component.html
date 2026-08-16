@@ -1,0 +1,37 @@
+<dark-mode-svg />
+<div class="map-container">
+  <div class="map dark-bg dark-mode" #mapRef></div>
+</div>
+<event-overlay
+  [visible]="!isComparing"
+  [isRemote]="isRemote"
+  [events]="shouldShownEvents()"
+  (locateEvent)="locateEvent($event)"
+/>
+
+<ds-compare-timeline [visible]="isComparing" />
+
+<div class="absolute" [style.top.px]="dockConfig().y" [style.right.px]="224">
+  <dc-function-overlay
+    [allLines]="allLines"
+    [currentSelectedLines]="cacheLines()"
+    (onLineChange)="onLineChange($event)"
+    [currentSelectedRepairState]="filteredRepairState()"
+    (onRepairStateChange)="onFilteredRepairStateChange($event)"
+  />
+</div>
+
+<div
+  class="absolute"
+  [style.top.px]="dockConfig().y"
+  [style.left.px]="dockConfig().x"
+>
+  <dc-dock (setEffectVisibility)="setEffectVisibility($event)" />
+</div>
+
+<div class="emergency-response-alerts">
+  <emergency-response-alerts />
+</div>
+
+<ds-illustration-modal />
+<typhoon-compare-modal />

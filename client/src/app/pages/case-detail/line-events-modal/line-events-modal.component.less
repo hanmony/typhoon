@@ -1,0 +1,131 @@
+.line-events-modal {
+  position: fixed;
+  z-index: 800;
+  width: 504px;
+  left: 110px;
+  top: 110px;
+  .header {
+    background-image: url(/assets/images/map/modal/line-events-header.png);
+    height: 46px;
+    font-size: 24px;
+    line-height: 46px;
+    padding: 0 16px;
+    display: flex;
+
+    .back-icon {
+      color: #3ceaf9;
+      cursor: pointer;
+      &:hover {
+        color: white;
+        scale: 1.1;
+      }
+    }
+  }
+  .content {
+    height: 379px;
+    background-image: url(/assets/images/map/modal/line-events-content-bg.png);
+    padding-right: 8px;
+  }
+  .footer {
+    height: 184px;
+    background-image: url(/assets/images/map/modal/line-events-footer-bg.png);
+    background-position: bottom;
+    padding-right: 8px;
+    position: relative;
+    z-index: -1;
+  }
+}
+
+.overview-item {
+  padding: 0 16px;
+  font-family:
+    -apple-system,
+    Microsoft YaHe,
+    "微软雅黑",
+    "黑体",
+    HeiTi;
+  color: #b7ffff;
+  font-size: 20px;
+  border-bottom: 1px solid rgba(141, 184, 216, 0.23);
+  height: 64px;
+  line-height: 64px;
+  display: flex;
+  .value {
+    font-family: "FangZhengZhongyi";
+    color: #00ffff;
+    font-size: 30px;
+    margin: 0 4px;
+  }
+  .unit {
+    font-size: 14px;
+  }
+}
+
+.detail-button {
+  padding: 8px 16px;
+  font-size: 16px;
+  border-radius: 4px;
+  line-height: 1;
+  color: #ffffffdd;
+  background: linear-gradient(to bottom, #062b54 0%, #02101c 100%);
+  border: 1px solid #026990;
+  margin-right: 8px;
+  cursor: pointer;
+  &:active {
+    background: linear-gradient(to bottom, #02101c 0%, #062b54 100%);
+  }
+}
+
+.tab-table {
+  width: 100%;
+  font-family:
+    -apple-system,
+    Microsoft YaHe,
+    "微软雅黑",
+    "黑体",
+    HeiTi;
+  // border-collapse: separate;
+  // border-spacing: 0px 4px;
+  thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* 重要  表格固定算法 */
+    text-align: left;
+    font-size: 22px;
+    font-weight: normal;
+    font-style: normal;
+    font-family:
+      -apple-system,
+      Microsoft YaHe,
+      "微软雅黑",
+      "黑体",
+      HeiTi;
+    height: 64px;
+    border-bottom: 1px solid rgba(141, 184, 216, 0.23);
+    th {
+      font-weight: normal;
+      &:first-child {
+        padding-left: 12px;
+      }
+    }
+  }
+  tbody {
+    display: block;
+    max-height: 530px;
+    overflow-y: overlay;
+  }
+  .row {
+    min-height: 64px;
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    color: #b7ffff;
+    font-size: 18px;
+    border-bottom: 1px solid rgba(141, 184, 216, 0.23);
+    td {
+      &:first-child {
+        padding-left: 12px;
+      }
+    }
+  }
+}

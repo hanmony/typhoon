@@ -1,0 +1,80 @@
+<!-- 出入口 -->
+<div class="line-diagram">
+  <div class="line-diagram-header">
+    <div class="line-diagram-dropdown-container">
+      <span class="line-diagram-title">定位线路</span>
+      <div class="line-diagram-dropdown" (click)="toggleDropdown($event)">
+        <div class="line-diagram-dropdown-value">
+          {{ selectedLine ? selectedLine : "全部" }}
+          <span
+            class="line-diagram-dropdown-arrow"
+            [class.active]="isDropdownOpen"
+            >▼</span
+          >
+        </div>
+        <div
+          class="line-diagram-dropdown-options"
+          [class.open]="isDropdownOpen"
+        >
+          <div
+            class="line-diagram-dropdown-option"
+            [class.selected]="!selectedLine"
+            (click)="selectLine('', $event)"
+          >
+            全部
+          </div>
+          <div
+            *ngFor="let line of lines"
+            class="line-diagram-dropdown-option"
+            [class.selected]="selectedLine === line"
+            (click)="selectLine(line, $event)"
+          >
+            {{ line }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="line-diagram-content">
+    <div class="cave-entrance-table">
+      <div
+        *ngFor="let group of groupedData; let i = index"
+        class="line-section"
+        [ngStyle]="{ '--order': i }"
+      >
+        <img
+          src="/assets/images/digital-plan/caveEntranceTableBg1.png"
+          alt=""
+          class="line-img-header"
+        />
+        <img *ngIf="group.iconPath" [src]="group.iconPath" class="line-icon" />
+        <div class="line-section-content">
+          <div class="line-table">
+            <div class="table-header">
+              <div class="header-cell">站名</div>
+              <div class="header-cell">出入口</div>
+              <div class="header-cell">类型</div>
+              <div class="header-cell">风险等级</div>
+            </div>
+            <div *ngFor="let item of group.items" class="table-row">
+              <div class="table-cell">{{ item.stationName }}</div>
+              <div class="table-cell">{{ item.entranceExit }}</div>
+              <div class="table-cell">{{ item.type }}</div>
+              <div
+                class="table-cell"
+                [class]="getRiskLevelClass(item.riskLevel)"
+              >
+                {{ item.riskLevel }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <img
+          src="/assets/images/digital-plan/caveEntranceTableBg3.png"
+          alt=""
+          class="line-img-footer"
+        />
+      </div>
+    </div>
+  </div>
+</div>

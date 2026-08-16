@@ -1,0 +1,34 @@
+.name {
+  font-size: 85px;
+}
+.level {
+  font-size: 46px;
+}
+
+// .headline-font {
+// }
+
+.headline-bg {
+  text-align: right;
+  display: flex;
+  align-items: center;
+  // padding-bottom: 21px;
+  text-align: right;
+  justify-content: center;
+  position: relative;
+  max-width: 100%; // 1070px
+  min-width: 771px;
+  height: 335px;
+  &::after {
+    content: "";
+    position: absolute;
+    top: -20px;
+    right: 0;
+    background-image: url(/assets/images/guide/headline-bg.png);
+    // background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    width: 771px;
+    height: 421px;
+  }
+}

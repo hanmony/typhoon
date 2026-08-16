@@ -1,0 +1,8 @@
+<div class="text-right relative z-10">
+  <extreme-tabs
+    [tabs]="['今日数据', '总计数据']"
+    [activeTab]="activeDuration()"
+    (onClick)="setActiveDuration($event)"
+  />
+</div>
+<div #chart class="h-[12.6rem]"></div>

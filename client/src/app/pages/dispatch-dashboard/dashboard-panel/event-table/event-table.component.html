@@ -1,0 +1,204 @@
+<table class="ev-table" style="--tag-height: 40px">
+  <thead>
+    <tr class="ev-table-header">
+      <th [style.width.px]="68">序号</th>
+      <th [style.width.px]="122">
+        <ng-container
+          *ngTemplateOutlet="
+            order;
+            context: { $implicit: { label: '线路号', prop: 'line' } }
+          "
+        >
+        </ng-container>
+      </th>
+      <th [style.width.px]="92">
+        <ng-container
+          *ngTemplateOutlet="
+            order;
+            context: { $implicit: { label: '时间', prop: 'startTime' } }
+          "
+        >
+        </ng-container>
+      </th>
+      <th [style.width.px]="334">地点</th>
+      <th [style.width.px]="122">上下行</th>
+      <th [style.width.px]="132">
+        <ng-container
+          *ngTemplateOutlet="
+            order;
+            context: { $implicit: { label: '类型', prop: 'eventType' } }
+          "
+        >
+        </ng-container>
+      </th>
+      <th>事件详情</th>
+      <th [style.width.px]="184">
+        <ng-container
+          *ngTemplateOutlet="
+            order;
+            context: { $implicit: { label: '事件状态', prop: 'state' } }
+          "
+        >
+        </ng-container>
+      </th>
+      <th [style.width.px]="214">事件备注</th>
+    </tr>
+  </thead>
+  <tbody
+    #tbodyRef
+    class="overflow-y-auto custom-scroll-bar"
+    [style.max-height.px]="1080 - 200"
+    (wheel)="manuallyScroll()"
+    (touchmove)="manuallyScroll()"
+  >
+    <div>
+      @for (item of dataSet(); track item.id) {
+        <tr
+          class="ev-row"
+          [attr.ev-row-id]="item.id"
+          [class.terminated-font]="item.terminated"
+          (click)="onRowClick(item.id)"
+        >
+          <td class="ev-cell" [style.width.px]="68">{{ item.index }}</td>
+          <td class="ev-cell" [style.width.px]="122">
+            <span>
+              <img width="68" [src]="getLineMark(item.line)" alt="" srcset="" />
+            </span>
+          </td>
+          <td class="ev-cell" [style.width.px]="92">
+            {{ getStartTime(item) }}
+          </td>
+          <td class="ev-cell" [style.width.px]="334">
+            <ng-container
+              *ngTemplateOutlet="location; context: { $implicit: item }"
+            >
+            </ng-container>
+          </td>
+          <td class="ev-cell" [style.width.px]="122">{{ item.direction }}</td>
+          <td class="ev-cell" [style.width.px]="132">{{ item.eventType }}</td>
+          <td class="ev-cell" style="padding-left: 4px">
+            <div class="flex">
+              <div class="text-center flex items-center w-9 mr-2">
+                @if (item.severity) {
+                  <img
+                    src="/assets/images/dashboard/start-icon.png"
+                    alt=""
+                    srcset=""
+                  />
+                }
+              </div>
+              <div class="flex-1 text-left line-clamp-3">
+                {{ item.description }}
+              </div>
+            </div>
+          </td>
+          <td class="ev-cell" [style.width.px]="184">
+            <div>
+              <ev-table-state-tag
+                [bgColor]="getEventRepairStateColor(item)"
+                [label]="getEventRepairStateText(item)"
+                [terminated]="!!item.terminated"
+              ></ev-table-state-tag>
+            </div>
+          </td>
+          <td class="ev-cell" [style.width.px]="214">
+            <ng-container
+              *ngTemplateOutlet="other; context: { $implicit: item }"
+            >
+            </ng-container>
+          </td>
+        </tr>
+      }
+    </div>
+  </tbody>
+</table>
+
+<ng-template #location let-data>
+  <div>
+    @if (data.locationType === "全线") {
+      <div class="line-clamp-1" [title]="data.locationType">
+        {{ data.locationType }}
+      </div>
+    } @else if (data.locationType === "自定义") {
+      <div class="line-clamp-1" [title]="data.customPosition">
+        {{ data.customPosition }}
+      </div>
+    } @else if (data.locationType === "站点" || data.locationType === "车场") {
+      <div class="line-clamp-1" [title]="data.startStation">
+        {{ data.startStation }}
+      </div>
+    } @else if (data.locationType === "区间") {
+      <div class="line-clamp-1" [title]="data.startStation">
+        {{ data.startStation }}
+      </div>
+      <div style="line-height: 10px">-</div>
+      <div class="line-clamp-1" [title]="data.endStation">
+        {{ data.endStation }}
+      </div>
+    }
+  </div>
+</ng-template>
+
+<ng-template #other let-data>
+  <div class="flex" style="height: 40px">
+    <div [style.width.px]="60">
+      @if (data.supervision) {
+        <img
+          class="image-hover-effect"
+          src="/assets/images/dashboard/protect-icon.png"
+          alt=""
+          srcset=""
+          (click)="onAction($event, 'supervision', data)"
+        />
+      }
+    </div>
+    <div [style.width.px]="60" class="border-both">
+      @if (showRepairInfoIcon(data)) {
+        <img
+          class="image-hover-effect"
+          src="/assets/images/dashboard/tool-icon.png"
+          alt=""
+          srcset=""
+          (click)="onAction($event, 'urgentRepair', data)"
+        />
+      }
+    </div>
+    <div [style.width.px]="60">
+      @if (data.images && data.images.length > 0) {
+        <img
+          class="image-hover-effect"
+          src="/assets/images/dashboard/image-icon.png"
+          alt=""
+          srcset=""
+          (click)="readImages(data)"
+        />
+      }
+    </div>
+  </div>
+</ng-template>
+
+<dashboard-detail-popup
+  [config]="popupConfig()"
+  (onClose)="closeDetailPopup()"
+/>
+
+<ng-template #order let-data>
+  <div
+    class="cursor-pointer"
+    [class.ordering-color]="orderConfig().prop === data.prop"
+    (click)="handleOrdering(data.prop)"
+  >
+    <span class="mr-2"> {{ data.label }}</span>
+    <span>
+      <nz-icon
+        class="transition-transform"
+        style="position: relative; top: 2px"
+        [class.-rotate-180]="
+          orderConfig().prop === data.prop && !orderConfig().asc
+        "
+        nzType="caret-down"
+        nzTheme="outline"
+      />
+    </span>
+  </div>
+</ng-template>

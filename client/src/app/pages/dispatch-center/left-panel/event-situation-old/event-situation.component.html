@@ -1,0 +1,83 @@
+<dispatch-module-header title="事件情况" />
+<div class="w-full flex pt-4" style="height: 280px">
+  <div class="flex justify-end items-center relative" style="width: 58%">
+    <img
+      src="assets/images/dispatch-center/pyramid.png"
+      draggable="false"
+      alt=""
+      srcset=""
+    />
+
+    <div class="legend-label" style="left: 28%; top: 14%">防汛事件</div>
+    <div class="legend-label" style="left: 15%; top: 35%">防台事件</div>
+    <div class="legend-label" style="left: 3%; top: 56%">其他事件</div>
+  </div>
+  <div class="flex-1">
+    <div class="flex w-full justify-end -pt-2">
+      <div class="text-center">
+        <div class="total-number-bg">
+          <div class="relative">
+            <span
+              class="total-number cursor-pointer hover:opacity-85"
+              dispatchCenterEventListPopup
+              [data]="todayTotal()"
+              [titleText]="'今日总计事件'"
+              (locating)="locateEvent.emit($event)"
+              >{{ todayTotal().length }}</span
+            >
+          </div>
+        </div>
+        <div class="total-label">今日总计事件</div>
+      </div>
+    </div>
+    <div class="flex w-full justify-end pt-10">
+      <div>
+        <div class="legend-item" style="--dot-color: #11c572">
+          <div class="relative cursor-pointer hover:underline">
+            <span
+              dispatchCenterEventListPopup
+              [data]="floodControlEvent()"
+              [titleText]="'防汛事件'"
+              (locating)="locateEvent.emit($event)"
+              >防汛事件</span
+            >
+          </div>
+          <div>
+            <span>{{ floodControlEvent().length }}</span>
+            <span class="ml-1">起</span>
+          </div>
+        </div>
+        <div class="legend-item" style="--dot-color: #009eff">
+          <div class="relative cursor-pointer hover:underline">
+            <span
+              dispatchCenterEventListPopup
+              [data]="typhoonEvent()"
+              [titleText]="'防台事件'"
+              (locating)="locateEvent.emit($event)"
+              >防台事件</span
+            >
+          </div>
+          <div>
+            <span>{{ typhoonEvent().length }}</span>
+            <span class="ml-1">起</span>
+          </div>
+        </div>
+        <div class="legend-item" style="--dot-color: #003bd3">
+          <div class="relative cursor-pointer hover:underline">
+            <span
+              dispatchCenterEventListPopup
+              [data]="otherEvent()"
+              [titleText]="'其他事件'"
+              (locating)="locateEvent.emit($event)"
+              >其他事件</span
+            >
+          </div>
+          <div>
+            <span>{{ otherEvent().length }}</span>
+            <span class="ml-1">起</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

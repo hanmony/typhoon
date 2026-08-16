@@ -1,0 +1,37 @@
+<div class="px-4">
+  <table class="duty-table">
+    <tbody
+      #tableBody
+      class="custom-scroll-bar"
+      [style.max-height.rem]="8"
+      (wheel)="manuallyScroll()"
+      (touchmove)="manuallyScroll()"
+    >
+      @for (row of data(); track $index) {
+        <tr class="duty-table-row">
+          <th class="relative" style="width: 24px">
+            <span class="tangle"></span>
+          </th>
+          <td>
+            <div style="color: #18b1ff">
+              {{ row.department }}
+            </div>
+          </td>
+          <td style="width: 8rem">{{ row.responsible }}</td>
+        </tr>
+      }
+      @if (data().length === 0) {
+        <tr class="duty-table-row">
+          <td colspan="100%" class="text-center">暂无数据</td>
+        </tr>
+        <tr class="duty-table-row"></tr>
+        <tr class="duty-table-row"></tr>
+        <tr class="duty-table-row"></tr>
+      } @else {
+        @for (row of paddingRows(); track $index) {
+          <tr class="duty-table-row"></tr>
+        }
+      }
+    </tbody>
+  </table>
+</div>

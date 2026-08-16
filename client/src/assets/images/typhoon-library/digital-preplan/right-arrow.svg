@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="27px" height="26px" viewBox="0 0 27 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title></title>
+    <defs>
+        <linearGradient x1="10.1296413%" y1="95.8772438%" x2="89.5333696%" y2="0%" id="linearGradient-1">
+            <stop stop-color="#0062C4" offset="0%"></stop>
+            <stop stop-color="#32D9FF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="数字预案-停运配置图3" transform="translate(-218.000000, -203.000000)" fill="url(#linearGradient-1)" stroke="#00ABE9" stroke-width="1.5">
+            <g id="标题" transform="translate(220.000000, 204.000000)">
+                <polygon points="0 0 16.1012658 0 24 12.3 16.1012658 24 0 24 7.89873418 12.3"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

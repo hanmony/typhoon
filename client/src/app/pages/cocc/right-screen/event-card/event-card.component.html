@@ -1,0 +1,23 @@
+<div class="event-card">
+  <div class="flex justify-between pr-3">
+    <div class="event-type">{{ data().type }}</div>
+    <div class="event-line">
+      {{ data().line }}
+    </div>
+  </div>
+  <div class="event-position flex-1 flex items-center justify-center pr-4 pb-2">
+    @if (!data().endStation) {
+      <span>地点：</span>
+      <span>{{ data().startStation }}</span>
+    } @else {
+      <span>{{ data().startStation }}</span>
+      <span> - </span>
+      <span>{{ data().endStation }}</span>
+    }
+  </div>
+  <div class="flex justify-end">
+    <div class="event-card-state">
+      <div class="event-state-font">{{ data().state }}</div>
+    </div>
+  </div>
+</div>

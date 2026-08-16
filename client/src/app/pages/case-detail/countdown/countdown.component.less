@@ -1,0 +1,44 @@
+.countdown-container {
+  @apply flex items-center justify-center;
+  width: calc(100% - var(--panel-width));
+  height: calc(100% - 120px);
+}
+
+@property --t {
+  syntax: "<integer>";
+  inherits: false;
+  initial-value: 0;
+}
+@counter-style stop {
+  system: cyclic;
+  symbols: "";
+  range: infinite 0;
+}
+
+.countdown-number {
+  font-family: "FangZhengZhongyi";
+  font-weight: 400;
+  // color: #b5caeb;
+  color: transparent;
+  font-weight: 500;
+  font-size: 360px;
+  &::after {
+    display: inline-block;
+    background: linear-gradient(
+      0deg,
+      rgba(3, 0, 0, 0.99) 0%,
+      rgba(181, 202, 235, 0.99) 50%,
+      rgba(181, 202, 235, 0.99) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    --t: 3;
+    --dur: 1;
+    counter-reset: time var(--t);
+    content: counter(time, stop);
+    animation:
+      count calc(var(--t) * var(--dur) * 1s) steps(var(--t)) forwards,
+      shark-anim calc(var(--dur) * 1s) calc(var(--dur) * 0.8s) calc(var(--t));
+  }
+}

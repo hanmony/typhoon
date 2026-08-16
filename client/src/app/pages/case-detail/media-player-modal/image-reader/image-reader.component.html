@@ -1,0 +1,27 @@
+<div [style.height]="topPadding">
+  <span class="text-xl text-[#3eeff2]">{{ title }}</span>
+</div>
+
+<div class="image-reader" [style.height.px]="containerHeight">
+  @if (loading) {
+    <span
+      style="color: #3eeff2; font-size: 144px"
+      nz-icon
+      nzType="loading"
+      nzTheme="outline"
+    ></span>
+  }
+  @if (objectImagePath) {
+    <img
+      nz-image
+      [nzSrc]="objectImagePath"
+      [style.maxHeight.px]="containerHeight"
+      [style.maxWidth.px]="containerWidth"
+      [nzDisablePreview]="true"
+      (click)="onImageClick()"
+    />
+  }
+</div>
+<div class="relative" [style.height]="bottomPadding">
+  <div #progress class="progress"></div>
+</div>

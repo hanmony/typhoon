@@ -1,0 +1,124 @@
+<cocc-left-screen
+  class="overflow-hidden"
+  [isHide]="hideToSelect()"
+  [allEvents]="events()"
+  [allOperations]="operations()"
+  (eventListAdd)="onEventListAdd()"
+  (operationListAdd)="onOperationListAdd()"
+  (openEmergencyResponseModal)="editEmergencyResponse()"
+  (showMessage)="showMessage($event)"
+  (removeMessage)="removeMessage()"
+  (onLocationQuery)="queryToConfirm($event)"
+/>
+<!-- <cocc-right-screen class="w-1/2" /> -->
+
+@if (modalConfig().visible) {
+  <occ-modal-wrapper
+    [isHide]="hideToSelect()"
+    [title]="modalTitle()"
+    [action]="modalConfig().action"
+    (onClose)="onModalClose()"
+    (onSubmit)="onModalSubmit()"
+  >
+    @if (modalConfig().eventModalVisible) {
+      <occ-event-modal
+        [isCocc]="true"
+        [action]="modalConfig().action"
+        (onLocate)="onLocate($event)"
+        (onQuery)="queryToConfirm()"
+        (onAdd)="onAddEvent($event)"
+        (onEdit)="onEditEvent($event)"
+        [data]="modalConfig().data"
+      />
+    }
+    @if (modalConfig().operationModalVisible) {
+      <occ-operation-modal
+        [isCocc]="true"
+        [action]="modalConfig().action"
+        [subAction]="null"
+        (onLocate)="onLocate($event)"
+        (onQuery)="queryToConfirm()"
+        (onAdd)="onAddOperation($event)"
+        (onEdit)="onEditOperation($event)"
+        [data]="modalConfig().data"
+      />
+    }
+    @if (modalConfig().emergencyResponseVisible) {
+      <emergency-response-modal (onClose)="onModalClose()" />
+    }
+  </occ-modal-wrapper>
+}
+
+<occ-message-tip
+  (onCancel)="onCancelLocating()"
+  (onConfirm)="onConfirmLocating()"
+/>
+
+<draggable-component
+  [initialX]="terminateButtonConfig().x"
+  [initialY]="terminateButtonConfig().y"
+  [limitRight]="430"
+  [allow]="true"
+>
+  @if (valid()) {
+    <img
+      [style.width.px]="terminateButtonConfig().width"
+      src="assets/images/occ/map/terminate-button.png"
+      alt=""
+      srcset=""
+      draggable="false"
+      class="cursor-pointer hover:opacity-80 active:opacity-90"
+      (dblclick)="onTerminateButtonClick()"
+    />
+  }
+</draggable-component>
+
+<div class="back-to-portal">
+  <button class="enter-button" (click)="backToPortal()">回到首页</button>
+</div>
+
+@if (state().name) {
+  <div
+    [class.hidden]="hideToSelect()"
+    class="fixed"
+    style="left: 50%; top: 96px; z-index: 998; transform: translate(-50%, 0)"
+  >
+    <typhoon-name
+      [name]="state().text"
+      [next]="showNextStep()"
+      (onNext)="onNextStep()"
+    />
+  </div>
+}
+
+<ng-template #passwordTpl>
+  <div class="py-2">
+    结束指挥后，本次指挥事件和运营数据都不可见，请谨慎操作！
+  </div>
+  <div class="flex items-center">
+    <div class="mr-4">结束指挥密码:</div>
+    <div>
+      <!-- <input
+        nz-input
+        type="password"
+        [(ngModel)]="password"
+        placeholder="请输入解除密码"
+      /> -->
+      <nz-input-group [nzSuffix]="suffixTemplate">
+        <input
+          [type]="passwordVisible ? 'text' : 'password'"
+          nz-input
+          [(ngModel)]="password"
+          placeholder="请输入解除密码"
+        />
+      </nz-input-group>
+    </div>
+  </div>
+</ng-template>
+<ng-template #suffixTemplate>
+  <nz-icon
+    class="ant-input-password-icon"
+    [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+    (click)="passwordVisible = !passwordVisible"
+  />
+</ng-template>

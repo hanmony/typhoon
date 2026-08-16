@@ -1,0 +1,77 @@
+<div>
+  <nz-select
+    [(ngModel)]="category"
+    (ngModelChange)="refresh$.next()"
+    class="w-64"
+  >
+    <nz-option
+      *ngFor="let cat of allCategories"
+      [nzLabel]="cat"
+      [nzValue]="cat"
+    ></nz-option>
+  </nz-select>
+
+  <p></p>
+
+  <nz-table [nzLoading]="loading" #theTable [nzData]="items">
+    <thead>
+      <tr>
+        <th nzWidth="60px"></th>
+        <th>开始时间</th>
+        <th>结束时间</th>
+        <th *ngFor="let col of columns">
+          {{ col }}
+        </th>
+        <th nzWidth="60px"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let item of theTable.data">
+        <tr>
+          <td
+            [nzExpand]="expandSet.has(item._id)"
+            (nzExpandChange)="onExpandChange(item._id, $event)"
+          ></td>
+          <td>
+            <app-inplace-editor-datetime
+              [readonly]="readonly"
+              [obj]="item"
+              property="fromDate"
+              format="yyyy-MM-dd HH:mm"
+              [value]="item.fromDate"
+              (changed)="handleChanged($event)"
+            ></app-inplace-editor-datetime>
+          </td>
+          <td>
+            <app-inplace-editor-datetime
+              [readonly]="readonly"
+              [obj]="item"
+              property="toDate"
+              format="yyyy-MM-dd HH:mm"
+              [value]="item.toDate"
+              (changed)="handleChanged($event)"
+            ></app-inplace-editor-datetime>
+          </td>
+          <td *ngFor="let col of columns">
+            <app-inplace-editor-string
+              [readonly]="readonly"
+              [obj]="item"
+              [property]="col"
+              [value]="item.items[col]"
+              (changed)="handleChanged($event)"
+            ></app-inplace-editor-string>
+          </td>
+          <td>
+            <span nz-icon nzType="paper-clip" *ngIf="hasAccessory(item)"></span>
+          </td>
+        </tr>
+        <tr [nzExpand]="expandSet.has(item._id)">
+          <app-accessory-panel
+            [caseData]="doc!"
+            [action]="item"
+          ></app-accessory-panel>
+        </tr>
+      </ng-container>
+    </tbody>
+  </nz-table>
+</div>

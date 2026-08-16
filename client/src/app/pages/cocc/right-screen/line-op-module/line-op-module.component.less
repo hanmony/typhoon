@@ -1,0 +1,43 @@
+.line-label {
+  display: inline-flex;
+  min-width: 59px;
+  height: 20px;
+  background: linear-gradient(0deg, #091b35, #5876ae);
+  border: 1px solid #3f516f;
+  align-items: center;
+  padding: 2px 6px 3px;
+  color: #c1dcfc;
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.as-normal {
+  font-size: 16px;
+  color: #39e409;
+}
+
+.with-separator {
+  border-bottom: 1px solid rgba(54, 135, 244, 0.55);
+}
+
+.abnormal-item {
+  background: linear-gradient(0deg, #142d5d, #0a1d34);
+  border: 1px solid #38496c;
+  // width: 587px;
+  // height: 83px;
+  padding: 20px 16px 6px;
+  margin-bottom: 32px;
+  position: relative;
+  color: #c1dcfc;
+
+  .sticky-top {
+    position: absolute;
+    left: 7px;
+    top: -8px;
+  }
+
+  &:last-child {
+    margin-bottom: 4px;
+  }
+}

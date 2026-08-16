@@ -1,0 +1,106 @@
+.locate-button {
+  background: url("/assets/images/occ/map/locate-button-bg.png") no-repeat;
+  width: 106px;
+  height: 29px;
+  display: inline-block;
+  cursor: pointer;
+  padding-left: 36px;
+  line-height: 28px;
+  font-size: 14px;
+  user-select: none;
+
+  &:active {
+    opacity: 0.85;
+  }
+}
+
+.label {
+  display: inline-block;
+  width: 80px;
+  margin-right: 8px;
+  text-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.occ-radio-button {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    color: #00fafaaa;
+  }
+
+  .occ-radio-button-inner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid #00fafa;
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #00fafa;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+  }
+
+  margin-right: 48px;
+
+  &.checked {
+    .occ-radio-button-inner {
+      &::after {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.reduce-button {
+  border: 1px solid #70aeff;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  user-select: none;
+
+  &:active {
+    opacity: 0.8;
+  }
+}
+
+::ng-deep .ant-picker-range,
+::ng-deep .ant-picker {
+  border-color: #70aeff;
+  input {
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+}
+
+::ng-deep .ant-switch-checked {
+  background-color: #3cc4d6;
+}
+
+::ng-deep .ant-input-number {
+  border-color: #70aeff;
+}

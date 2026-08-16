@@ -1,0 +1,190 @@
+<nz-spin [nzSpinning]="loading()">
+  <div class="page-header">
+    <h2>模型管理</h2>
+    <button nz-button nzType="primary" (click)="openCreate()">
+      <span nz-icon nzType="plus"></span>
+      添加模型
+    </button>
+  </div>
+
+  <nz-table
+    [nzData]="models()"
+    [nzPageSize]="20"
+    nzSize="middle"
+    [nzShowPagination]="false"
+  >
+    <thead>
+      <tr>
+        <th>名称</th>
+        <th>模型 ID</th>
+        <th>API 地址</th>
+        <th>API Key</th>
+        <th>状态</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of models(); track item._id) {
+        <tr>
+          <td>
+            <strong>{{ item.name }}</strong>
+            @if (item.role) {
+              <nz-tag [nzColor]="getRoleColor(item.role)" class="role-tag">
+                {{ getRoleLabel(item.role) }}
+              </nz-tag>
+            }
+          </td>
+          <td>
+            <code>{{ item.model }}</code>
+          </td>
+          <td class="url-cell">{{ item.baseUrl }}</td>
+          <td>
+            <code>{{ item.apiKey }}</code>
+          </td>
+          <td>
+            @if (item.role === "default-large") {
+              <nz-tag nzColor="blue">默认大模型</nz-tag>
+            } @else if (item.role === "default-small") {
+              <nz-tag nzColor="green">默认小模型</nz-tag>
+            } @else {
+              <nz-tag>可用</nz-tag>
+            }
+          </td>
+          <td>
+            <nz-space>
+              <button
+                *nzSpaceItem
+                nz-button
+                nzType="link"
+                nzSize="small"
+                (click)="openEdit(item)"
+              >
+                编辑
+              </button>
+              @if (item.role !== "default-large") {
+                <button
+                  *nzSpaceItem
+                  nz-button
+                  nzType="link"
+                  nzSize="small"
+                  (click)="setDefaultLarge(item)"
+                >
+                  设为大模型
+                </button>
+              }
+              @if (item.role !== "default-small") {
+                <button
+                  *nzSpaceItem
+                  nz-button
+                  nzType="link"
+                  nzSize="small"
+                  (click)="setDefaultSmall(item)"
+                >
+                  设为小模型
+                </button>
+              }
+              <button
+                *nzSpaceItem
+                nz-button
+                nzType="link"
+                nzSize="small"
+                nzDanger
+                (click)="confirmDelete(item)"
+              >
+                删除
+              </button>
+            </nz-space>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </nz-table>
+
+  @if (models().length === 0 && !loading()) {
+    <nz-empty nzDescription="暂无模型配置，请添加"></nz-empty>
+  }
+</nz-spin>
+
+<!-- Drawer: 新增/编辑 -->
+<nz-drawer
+  [nzTitle]="drawerTitle()"
+  [nzVisible]="drawerVisible()"
+  nzWidth="480px"
+  (nzOnClose)="closeDrawer()"
+>
+  <div *nzDrawerContent>
+    <form nz-form nzLayout="vertical">
+      <nz-form-item>
+        <nz-form-label nzRequired>显示名称</nz-form-label>
+        <nz-form-control>
+          <input
+            nz-input
+            [(ngModel)]="form().name"
+            [ngModelOptions]="{ standalone: true }"
+            placeholder="如：DeepSeek V3"
+          />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>API 地址</nz-form-label>
+        <nz-form-control>
+          <input
+            nz-input
+            [(ngModel)]="form().baseUrl"
+            [ngModelOptions]="{ standalone: true }"
+            placeholder="如：https://api.deepseek.com/v1"
+          />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>API Key</nz-form-label>
+        <nz-form-control>
+          <input
+            nz-input
+            type="password"
+            [(ngModel)]="form().apiKey"
+            [ngModelOptions]="{ standalone: true }"
+            [placeholder]="editingId() ? '留空则不修改' : '请输入 API Key'"
+          />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired>模型 ID</nz-form-label>
+        <nz-form-control>
+          <input
+            nz-input
+            [(ngModel)]="form().model"
+            [ngModelOptions]="{ standalone: true }"
+            placeholder="如：deepseek-chat"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+
+    <div class="drawer-footer">
+      <nz-space>
+        <button
+          *nzSpaceItem
+          nz-button
+          (click)="testConnection()"
+          [nzLoading]="testing()"
+        >
+          测试连接
+        </button>
+        <button *nzSpaceItem nz-button (click)="closeDrawer()">取消</button>
+        <button
+          *nzSpaceItem
+          nz-button
+          nzType="primary"
+          (click)="save()"
+          [nzLoading]="saving()"
+        >
+          保存
+        </button>
+      </nz-space>
+    </div>
+  </div>
+</nz-drawer>

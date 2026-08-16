@@ -1,0 +1,55 @@
+<nz-spin [nzSpinning]="loading">
+  <div class="flex gap-2 flex-wrap">
+    @for (item of action.accessories; track item.filename) {
+      <nz-card
+        [nzTitle]="item.originName"
+        [nzActions]="[downloadButton, deleteButton]"
+      >
+        <p>{{ item.contentType }}</p>
+        <ng-template #downloadButton>
+          <a
+            nz-button
+            nz-tooltip
+            nzType="link"
+            nzTitle="下载"
+            target="_blank"
+            [href]="getDownloadUrl(item)"
+          >
+            <span nz-icon nzType="cloud-download"></span>
+            下载
+          </a>
+        </ng-template>
+        <ng-template #deleteButton>
+          <button
+            nz-button
+            nzType="link"
+            nzDanger
+            nz-popconfirm
+            nzPopconfirmTitle="是否确定要删除此附件?"
+            nzPopconfirmPlacement="bottom"
+            (nzOnConfirm)="handleDelete(item)"
+          >
+            <span nz-icon nzType="delete"></span>删除
+          </button>
+        </ng-template>
+      </nz-card>
+    }
+    <nz-card>
+      <nz-upload
+        [nzAction]="
+          '/manager/editor/import-accessory?case=' +
+          caseData._id +
+          '&action=' +
+          action._id
+        "
+        [nzShowUploadList]="false"
+        (nzChange)="handleChange($event)"
+      >
+        <button nz-button>
+          <span nz-icon nzType="cloud-upload"></span>
+          上传附件
+        </button>
+      </nz-upload>
+    </nz-card>
+  </div>
+</nz-spin>

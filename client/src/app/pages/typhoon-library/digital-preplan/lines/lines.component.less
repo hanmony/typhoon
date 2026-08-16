@@ -1,0 +1,24 @@
+.dark-mode {
+  background-color: #031131;
+  &:not(.leaflet-safari) {
+    ::ng-deep.leaflet-tile-pane {
+      filter: url("#x-rays") contrast(2) grayscale(0.47) saturate(1.2);
+    }
+  }
+
+  &.leaflet-safari {
+    ::ng-deep.leaflet-tile-pane {
+      filter: url("#x-rays") contrast(2) grayscale(0.47) saturate(1.2);
+    }
+  }
+}
+::ng-deep .leaflet-control-attribution {
+  display: none;
+}
+.map-container {
+  padding: 24px 56px 0;
+}
+.map-ref {
+  height: calc(100vh - 264px);
+  border: 2px solid #2ecbf5;
+}

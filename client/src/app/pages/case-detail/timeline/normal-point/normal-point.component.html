@@ -1,0 +1,30 @@
+<div
+  class="relative"
+  [class]="{
+    'point-border': border,
+    disabled: disabled,
+  }"
+  style="animation-duration: 500ms"
+  [class.animate-blink]="blink"
+>
+  <div class="relative -top-1">
+    @if (!static && isKey) {
+      <img
+        class="absolute"
+        style="top: calc(-100% - 4px)"
+        src="assets/images/map/timeline/key-marker.png"
+        alt=""
+        srcset=""
+      />
+    }
+    <img
+      class="select-none"
+      [class.cursor-pointer]="!static && !disabled && !ban"
+      [class.cursor-not-allowed]="ban"
+      draggable="false"
+      [src]="icon"
+      alt=""
+      srcset=""
+    />
+  </div>
+</div>

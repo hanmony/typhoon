@@ -1,0 +1,46 @@
+<div class="year-timeline-label">
+  <span class="label-font">全部台风</span>
+</div>
+<div class="timeline custom-scroll-bar">
+  @for (item of list; track $index) {
+    <div class="year">
+      <div class="line"></div>
+      <div class="ball">{{ item.year }}</div>
+      @for (typhoon of item.items; track $index) {
+        <div
+          class="typhoon-row"
+          [class.justify-end]="typhoon.position === 'right'"
+        >
+          <div
+            class="dot"
+            [class]="getWeatherAlertColorByText(typhoon.data)"
+          ></div>
+          <div class="typhoon-card">
+            <div class="flex items-center pb-1">
+              <span class="name">{{ typhoon.data.name }}</span>
+              <span class="direction">（南方向）</span>
+            </div>
+            <div>台风等级：{{ getValue(typhoon.data, "台风类型") }}</div>
+            <div>
+              <span>预警等级：</span>
+              <span
+                [style.color]="
+                  'var(--' + getWeatherAlertColorByText(typhoon.data) + ')'
+                "
+                >{{ getWeatherAlertText(typhoon.data) }}</span
+              >
+            </div>
+
+            <div class="action-row text-right">
+              <div class="enter-button" (click)="toCaseDetail(typhoon.data)">
+                <span class="mr-1">进入</span>
+                <span></span>
+                <span nz-icon nzType="double-right" nzTheme="outline"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

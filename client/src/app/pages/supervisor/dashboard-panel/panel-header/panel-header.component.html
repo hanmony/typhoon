@@ -1,0 +1,99 @@
+<div class="panel-header">
+  <div class="panel-title">{{ title() }}</div>
+
+  <div class="flex items-center pt-2 pl-4">
+    <span class="record-button active" (click)="toggleType.emit()"
+      >切换{{ type() === "event" ? "运营" : "事件" }}</span
+    >
+  </div>
+
+  @if (isEventTable()) {
+    <div class="flex items-center pt-2 pl-4">
+      <span class="text-xl mr-4">预案</span>
+      <nz-select
+        class="preset-select"
+        nzMode="default"
+        nzPlaceHolder="请选择"
+        [nzAllowClear]="true"
+        [(ngModel)]="preset"
+        (ngModelChange)="onPresetChange.emit($event)"
+      >
+        @for (item of presetOptions; track item) {
+          <nz-option [nzValue]="item.name" [nzLabel]="item.name"></nz-option>
+        }
+      </nz-select>
+    </div>
+  }
+  @if (isOperationTable()) {
+    <div class="flex items-center pt-2 pl-4">
+      <span class="record-button active" (click)="toggleRecordDrawer.emit()"
+        >行车记录</span
+      >
+    </div>
+  }
+  <div class="flex flex-1 items-center justify-end pt-2 pl-4">
+    @if (isEventTable()) {
+      <div class="pr-8">
+        <span class="text-xl total">
+          <span>共{{ total() }}条</span>
+        </span>
+      </div>
+    }
+    <!-- <nz-pagination
+        class="panel-pagination"
+        [nzSize]="'small'"
+        [nzPageIndex]="paginationConfig().pageIndex"
+        [nzTotal]="total()"
+        [nzItemRender]="renderItemTemplate"
+        (nzPageIndexChange)="onPageIndexChange.emit($event)"
+      >
+      </nz-pagination> -->
+    <div class="pl-8">
+      <span
+        class="auto-button"
+        [class.active]="paginationConfig().autoTurn"
+        (click)="handleAutoTurn.emit()"
+        >自动翻页</span
+      >
+    </div>
+
+    <div class="pl-8">
+      <img
+        class="cursor-pointer transition-transform hover:rotate-180"
+        style="width: 32px"
+        src="/assets/images/dashboard/close-icon.png"
+        alt=""
+        srcset=""
+        (click)="onClose.emit()"
+      />
+    </div>
+  </div>
+</div>
+
+<ng-template #renderItemTemplate let-type let-page="page">
+  @switch (type) {
+    @case ("page") {
+      <a>{{ page }}</a>
+    }
+    @case ("prev") {
+      <a>
+        <nz-icon nzType="left" nzTheme="outline" />
+      </a>
+    }
+    @case ("next") {
+      <a>
+        <nz-icon nzType="right" nzTheme="outline" />
+      </a>
+    }
+    @case ("prev_5") {
+      <a>
+        <nz-icon nzType="double-left" nzTheme="outline" />
+      </a>
+    }
+    @case ("next_5") {
+      <a>
+        <nz-icon nzType="double-right" nzTheme="outline" />
+      </a>
+    }
+  }
+</ng-template>

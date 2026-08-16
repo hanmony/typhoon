@@ -1,0 +1,71 @@
+<div class="info-item" (click)="toggleCollapse()">
+  <div class="label flex-1">{{ data.name }} : {{ data.value }} 起</div>
+  <div class="pr-2">
+    <img
+      class="transition-all"
+      [class.-rotate-90]="!expand"
+      src="assets/images/map/modal/arrow-down.png"
+      alt=""
+      srcset=""
+    />
+  </div>
+</div>
+@if (expand) {
+  @for (line of lineDetails; track $index) {
+    <div class="info-item" (click)="line.expand = !line.expand">
+      <div class="line-label">{{ line.name }}</div>
+      <div class="pr-2">
+        <img
+          class="transition-all"
+          [class.-rotate-90]="!line.expand"
+          src="assets/images/map/modal/arrow-down.png"
+          alt=""
+          srcset=""
+        />
+      </div>
+    </div>
+    @if (line.expand) {
+      @for (detail of line.detail; track $index) {
+        <div class="detail-info">
+          @for (item of detail.items; track $index) {
+            <div class="flex py-3 items-center">
+              <div class="whitespace-nowrap mr-4">{{ item.label }}:</div>
+              <div>
+                @if (isArray(item.value)) {
+                  <div
+                    class="text-center"
+                    style="line-height: 1; font-size: 14px"
+                  >
+                    <div>{{ item.value[0] }}</div>
+                    <div>-</div>
+                    <div>{{ item.value[1] }}</div>
+                  </div>
+                } @else {
+                  <span>{{ item.value }}</span>
+                }
+              </div>
+            </div>
+          }
+          <div class="text-left pb-2 pl-2">
+            <button class="action-button" (click)="handleDetail(detail.ev)">
+              查看详情
+            </button>
+            <button class="action-button" (click)="handleLocate(detail.ev)">
+              定位查看
+            </button>
+          </div>
+          @if (hasAccessory(detail.ev)) {
+            <div class="text-left pb-2 pl-2">
+              <button
+                class="action-button"
+                (click)="handleViewAccessories(detail.ev)"
+              >
+                播放附件
+              </button>
+            </div>
+          }
+        </div>
+      }
+    }
+  }
+}

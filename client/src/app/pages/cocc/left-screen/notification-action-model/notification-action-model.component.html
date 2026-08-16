@@ -1,0 +1,83 @@
+<div class="notification-action">
+  <div class="flex items-center mb-5">
+    <div class="label">通告类型：</div>
+    <occ-modal-select
+      [value]="values().type"
+      [options]="typeOptions"
+      (change)="setType($event)"
+    ></occ-modal-select>
+  </div>
+  <div class="flex mb-5">
+    <div class="label">通告正文：</div>
+    <occ-modal-textarea
+      placeholder="请输入通告正文"
+      [value]="values().content"
+      [max]="200"
+      (changeValue)="setContent($event)"
+    ></occ-modal-textarea>
+  </div>
+  <div class="flex items-center mb-5">
+    <div class="label">涉及线路：</div>
+    <nz-select
+      nzMode="multiple"
+      style="min-width: 162px"
+      [(ngModel)]="values().lines"
+      (ngModelChange)="setLines($event)"
+    >
+      @for (line of lineOptions; track line) {
+        <nz-option [nzLabel]="line" [nzValue]="line"></nz-option>
+      }
+    </nz-select>
+  </div>
+  @if (isEventType()) {
+    <div class="flex items-center mb-5">
+      <div class="label items-start">关联事件：</div>
+      <div class="flex-1">
+        @if (!values().events.length) {
+          <span
+            class="action-button"
+            [class.disable]="!values().lines.length"
+            (click)="onEventSelect()"
+            >选择事件</span
+          >
+        } @else {
+          <div>
+            @for (item of selectedEvents(); track $index) {
+              <ng-container
+                *ngTemplateOutlet="event; context: { $implicit: item }"
+              >
+              </ng-container>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>
+
+<ng-template #event let-data>
+  <div class="flex items-center">
+    <div class="flex items-center mr-4">
+      <img [src]="getLineMark(data.line)" alt="" srcset="" class="w-12" />
+    </div>
+    <div class="text-sm mr-4">{{ data.eventType }}</div>
+    <div class="flex-1 text-sm mr-4">{{ getEventPosition(data) }}</div>
+    <div class="text-sm">
+      <div class="w-[64px]" [style.color]="getEventRepairStateColor(data)">
+        {{ getEventRepairStateText(data) }}
+      </div>
+    </div>
+
+    <div class="pr-4">
+      <span
+        nz-icon
+        title="编辑"
+        nzType="edit"
+        nzTheme="outline"
+        class="cursor-pointer hover:text-[#00ffff91]"
+        [style.color]="'#00ffffe1'"
+        (click)="onEventSelect(data.line)"
+      ></span>
+    </div>
+  </div>
+</ng-template>

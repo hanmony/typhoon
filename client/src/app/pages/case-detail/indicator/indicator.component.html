@@ -1,0 +1,83 @@
+<div
+  #containerRef
+  class="indicator-container"
+  [class.animate]="position.visible"
+  [style.bottom]="bottom"
+  [style.right]="right"
+>
+  <div
+    #indicatorRef
+    class="indicator"
+    [style.visibility]="position.visible ? 'visible' : 'hidden'"
+  >
+    <div class="typhoon">
+      <i class="icon"></i>
+    </div>
+    <div
+      class="arrow"
+      [style.transform]="angleTransform"
+      [class.animate]="position.visible"
+    ></div>
+    @if (remainTimeText) {
+      @switch (direction) {
+        @case ("bottom-right") {
+          <ng-container [ngTemplateOutlet]="bottomRight"></ng-container>
+        }
+        @case ("bottom-left") {
+          <ng-container [ngTemplateOutlet]="bottomLeft"></ng-container>
+        }
+        @case ("right-bottom") {
+          <ng-container [ngTemplateOutlet]="rightBottom"></ng-container>
+        }
+      }
+    }
+  </div>
+</div>
+
+<ng-template #bottomLeft>
+  <div class="absolute -z-10 bottom-[80%] right-full text-right">
+    <div>
+      <div class="whitespace-nowrap">台风距登陆上海</div>
+      <div class="text-right relative">
+        <div class="line ml-auto" [style.width]="'calc(100% - 30px)'"></div>
+        <div
+          class="line absolute w-[22px] right-0 bottom-0"
+          style="transform-origin: right; transform: rotate(238deg)"
+        ></div>
+      </div>
+      <div class="whitespace-nowrap pr-2">{{ remainTimeText }}</div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #bottomRight>
+  <div class="absolute -z-10 bottom-[80%] left-full">
+    <div>
+      <div class="whitespace-nowrap">台风距登陆上海</div>
+      <div class="text-left relative">
+        <div class="line mr-auto" [style.width]="'calc(100% - 30px)'"></div>
+        <div
+          class="line absolute w-[22px] left-0 bottom-0"
+          style="transform-origin: left; transform: rotate(-238deg)"
+        ></div>
+      </div>
+      <div class="whitespace-nowrap pl-2">{{ remainTimeText }}</div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #rightBottom>
+  <div class="absolute -z-10 top-full right-full text-right">
+    <div>
+      <div class="whitespace-nowrap pr-2">台风距登陆上海</div>
+      <div class="text-right relative">
+        <div class="line ml-auto" [style.width]="'calc(100% - 30px)'"></div>
+        <div
+          class="line absolute w-[22px] right-0 bottom-0"
+          style="transform-origin: right; transform: rotate(117deg)"
+        ></div>
+      </div>
+      <div class="whitespace-nowrap pr-2">{{ remainTimeText }}</div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,19 @@
+<div class="dock" draggable="false">
+  @for (tool of actionTools; track $index) {
+    <div class="tool" [class.disabled]="tool.disabled" draggable="false">
+      <div class="flex items-center justify-center flex-1">
+        <img
+          class="select-none cursor-pointer"
+          draggable="false"
+          [src]="tool.image"
+          alt=""
+          srcset=""
+          (click)="onToolClick(tool)"
+        />
+      </div>
+      <div>
+        <span class="select-none">{{ tool.name }}</span>
+      </div>
+    </div>
+  }
+</div>

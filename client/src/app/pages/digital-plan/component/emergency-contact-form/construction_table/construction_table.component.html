@@ -1,0 +1,31 @@
+<div class="construction-table">
+  <div
+    *ngFor="let group of groupedData; let i = index"
+    class="line-section"
+    [ngStyle]="{ '--order': i }"
+  >
+    <img *ngIf="group.iconPath" [src]="group.iconPath" class="line-icon" />
+    <div class="line-section-content">
+      <div class="line-table">
+        <div class="table-header">
+          <div class="header-cell">线路</div>
+          <div class="header-cell">名称</div>
+          <div class="header-cell">运营公司联系方式</div>
+          <div class="header-cell">维保专业联系方式</div>
+          <div class="header-cell">装饰专业联系方式</div>
+        </div>
+        <div *ngFor="let item of group.items" class="table-row">
+          <div class="table-cell">{{ item.line }}</div>
+          <div class="table-cell">{{ item.name }}</div>
+          <div class="table-cell">
+            {{ item.operationInfo || item.operationContact }}
+          </div>
+          <div class="table-cell">
+            {{ item.maintenanceInfo || item.civilContact }}
+          </div>
+          <div class="table-cell">{{ item.decorationContact }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

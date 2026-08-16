@@ -1,0 +1,286 @@
+@font-face {
+  font-family: "FangZhengZhongyi";
+  src: url(/assets/fonts/fangzhengzhongyi-normal.ttf) format("truetype");
+  font-weight: normal;
+}
+@font-face {
+  font-family: "PangMenZhengDao";
+  src: url(/assets/fonts/PangMenZhengDao.ttf) format("truetype");
+  font-weight: normal;
+}
+@font-face {
+  font-family: "DIN";
+  src: url(/assets/fonts/D-DIN.otf) format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "DIN";
+  src: url(/assets/fonts/D-DIN-Bold.otf) format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "DIN";
+  src: url(/assets/fonts/D-DIN-Italic.otf) format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "FZZongYi-M05S";
+  src: url(/assets/fonts/FZZongYi-M05S.ttf) format("truetype");
+  font-weight: normal;
+}
+
+.font-fangzheng {
+  font-family: "FangZhengZhongyi";
+}
+.font-pangmen {
+  font-family: "PangMenZhengDao";
+}
+.font-din {
+  font-family: "DIN";
+}
+
+.fangzheng-blue-white {
+  text-shadow: 0px 2px 8px rgba(5, 28, 55, 0.12);
+  background: linear-gradient(
+    180deg,
+    rgba(14, 197, 236, 0.96) 0%,
+    rgba(49, 190, 255, 0.96) 0%,
+    rgba(239, 252, 254, 0.96) 58.7646484375%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-family: "FangZhengZhongyi";
+}
+
+.custom-scroll-bar {
+  &::-moz-scrollbar {
+    background: #275ec1;
+  }
+  // scrollbar-color: #275ec1;
+  // scrollbar-color: rgba(39, 94, 193, 0.85) rgba(114, 196, 250, 0.45);
+  // scrollbar-width: thin;
+  &::-webkit-scrollbar {
+    display: none;
+    width: var(--scroll-bar-width);
+    height: var(--scroll-bar-width);
+  }
+  &::-webkit-scrollbar {
+    display: block;
+    width: var(--scroll-bar-width);
+    height: var(--scroll-bar-width);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(114, 196, 250, 0.45);
+    border-radius: 30px;
+    box-shadow:
+      inset 2px 2px 2px rgba(39, 94, 193, 0.85),
+      inset -2px -2px 2px rgba(0, 0, 0, 0.25);
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &.green {
+    &::-webkit-scrollbar-thumb {
+      background: rgba(114, 250, 175, 0.45);
+      border-radius: 30px;
+      box-shadow:
+        inset 2px 2px 2px rgba(131, 233, 153, 0.85),
+        inset -2px -2px 2px rgba(0, 0, 0, 0.25);
+    }
+  }
+  &.gray {
+    &::-webkit-scrollbar-thumb {
+      background: rgba(204, 204, 204, 0.45);
+      border-radius: 30px;
+      box-shadow:
+        inset 2px 2px 2px rgba(158, 158, 158, 0.85),
+        inset -2px -2px 2px rgba(0, 0, 0, 0.25);
+    }
+  }
+}
+
+.cdk-virtual-scroll-viewport {
+  .custom-scroll-bar();
+}
+
+.play-pulse {
+  animation: heart-pulse 2s linear infinite;
+  &:hover {
+    animation-duration: 1850ms;
+    animation-delay: 150ms;
+    animation-name: heart-pulse;
+  }
+}
+@keyframes heart-pulse {
+  0% {
+    background-color: var(--shadow-color);
+    opacity: 1;
+    box-shadow: 0.5px 0 0 0 var(--shadow-color);
+  }
+  70% {
+    background-color: var(--shadow-color);
+    opacity: 0.3;
+    box-shadow: 0 0 0 var(--shadow-width) rgba(229, 0, 119, 0);
+  }
+  100% {
+    background-color: var(--shadow-color);
+    opacity: 0;
+    box-shadow: 0 0 0 0 rgba(229, 0, 119, 0);
+  }
+}
+
+.play-pulse-pro {
+  animation: heart-pulse-pro 2s linear infinite;
+  border-radius: 50%;
+  &:hover {
+    animation-duration: 1850ms;
+    animation-delay: 150ms;
+    animation-name: heart-pulse;
+  }
+}
+@keyframes heart-pulse-pro {
+  0% {
+    background-color: var(--shadow-color);
+    opacity: 1;
+    box-shadow: 0 0 0 0 var(--shadow-color);
+  }
+  70% {
+    background-color: var(--shadow-color);
+    opacity: 0.3;
+    box-shadow: 0 0 0 calc(var(--shadow-width) * 1.5) rgba(229, 0, 119, 0);
+  }
+  100% {
+    background-color: var(--shadow-color);
+    opacity: 0;
+    box-shadow: 0 0 0 var(--shadow-width) rgba(229, 0, 119, 0);
+  }
+}
+
+.alert-pulse {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  border: 1px solid #c84855;
+  box-shadow:
+    inset 2px 2px 35px rgba(239, 40, 57, 0.45),
+    inset -2px -2px 38px rgba(239, 40, 57, 0.35);
+  --shadow-color: rgba(239, 40, 57, 0.55);
+  --shadow-width: 20px;
+  img {
+    border-radius: 50%;
+    position: relative;
+    left: -1px;
+    top: -1px;
+  }
+  &::before {
+    content: "";
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    animation: heart-pulse-pro 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+.flow-line-svg {
+  // transition: stroke-dashoffset 0.5s linear forwards;
+  animation: dash 0.5s linear infinite;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.case-detail-notice-green {
+  .anticon.ant-notification-notice-icon-info {
+    color: #22c55e;
+  }
+}
+
+.animate-blink {
+  animation: blink 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+      filter: brightness(2) saturate(1.2);
+    }
+    50% {
+      opacity: 0.5;
+      filter: brightness(1) saturate(1);
+    }
+  }
+}
+
+@keyframes count {
+  to {
+    --t: 0;
+  }
+}
+@keyframes shark-anim {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  20% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+
+  21% {
+    opacity: 0;
+    transform: scale(4);
+  }
+}
+
+.patrolling-tag {
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  line-height: 26px;
+  font-size: 16px;
+  background-color: #f06066;
+  text-align: center;
+
+  &.isSupervisor {
+    width: 52px;
+    height: 52px;
+    line-height: 52px;
+    font-size: 32px;
+  }
+}
+
+.back-to-portal {
+  position: fixed;
+  top: 4px;
+  left: 0;
+  z-index: 500;
+  .enter-button {
+    width: 178px;
+    height: 35px;
+    background: url(/assets/images/typhoon-library/enter-button.svg) no-repeat;
+    display: inline-block;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    &:hover {
+      backdrop-filter: grayscale(20%) hue-rotate(17deg) contrast(120%);
+      color: #5274aa;
+    }
+  }
+}

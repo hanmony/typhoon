@@ -1,0 +1,91 @@
+.line-diagram {
+  width: 100%;
+  height: 102%;
+  .line-diagram-header {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-sizing: border-box;
+    font-family: FZZongYi-M05S;
+    font-size: 28px;
+    color: #ffffff;
+    .line-diagram-button {
+      height: 32px;
+      padding: 0 15px;
+      font-family: PingFang SC;
+      background-color: #1a2a3a;
+      border: 1px solid #1e3a5f;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-left: 10px;
+      &:hover {
+        border-color: #4a90e2;
+        box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
+      }
+      &.active {
+        background-color: #4a90e2;
+        color: #fff;
+        border-color: #4a90e2;
+      }
+    }
+  }
+  .line-diagram-content {
+    width: 100%;
+    height: calc(100% - 60px);
+    padding: 6px 0;
+    overflow: auto;
+    border-radius: 10px;
+    position: relative;
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #1a2a3a;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #4a90e2;
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: #357abd;
+    }
+
+    scrollbar-width: thin;
+    scrollbar-color: #4a90e2 #1a2a3a;
+    .typhoon-impacts-table {
+      width: 100%;
+      padding: 6px 20px;
+    }
+    .flood-control-measures {
+      width: 100%;
+      padding: 6px 0px;
+    }
+    .emergency-warning {
+      width: 100%;
+      padding: 6px 20px;
+      .line-img-header {
+        width: 100%;
+        height: 20px;
+      }
+      .line-img-footer {
+        width: 100%;
+        height: 38px;
+      }
+    }
+  }
+  .line-img-header {
+    width: 100%;
+  }
+  .line-img-footer {
+    width: 100%;
+  }
+}

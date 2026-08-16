@@ -1,0 +1,138 @@
+:host {
+  display: inline-block;
+  // margin-right: 12px;
+  margin-bottom: 16px;
+  margin-right: 16px;
+  @media screen {
+    @media (min-width: 1900px) {
+      margin-bottom: 32px;
+      margin-right: 32px;
+      &:nth-child(4n) {
+        margin-right: 0;
+      }
+    }
+    @media (max-width: 1500px) {
+      &:nth-child(3n) {
+        margin-right: 0;
+      }
+      zoom: 0.9;
+    }
+  }
+  // @apply 2xl:mr-8 mr-4;
+}
+.typhoon-card {
+  background: url(/assets/images/typhoon-library/case-list/card.png) no-repeat;
+  background-size: 100% 100%;
+  width: 307px;
+  height: 195px;
+  display: flex;
+}
+.card-left {
+  display: flex;
+  flex-direction: column;
+  width: 39.2%;
+  .image-wrapper {
+    flex: 1;
+    padding: 8px 0 4px 8px;
+  }
+  .image {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px 0 0 12px;
+    overflow: hidden;
+    background: linear-gradient(
+      to right,
+      #081835 0%,
+      #081835 15%,
+      #173f6d 85%,
+      #173f6d 100%
+    );
+    // background-size: cover;
+    cursor: pointer;
+    clip-path: polygon(
+      0% 0%,
+      0% 97%,
+      66% 97%,
+      71% 100%,
+      100% 100%,
+      100% 54%,
+      95% 50%,
+      95% 0%
+    );
+  }
+}
+.card-right {
+  padding-top: 24px;
+  padding-left: 16px;
+  .name {
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    padding-bottom: 6px;
+    &::after {
+      display: block;
+      width: 80%;
+      height: 5px;
+      content: "";
+      background: linear-gradient(270deg, #00d1ff00 0%, #00d1ffff 100%);
+    }
+  }
+  .info {
+    padding-left: 0;
+    padding-right: 20px;
+    list-style: none;
+    margin-bottom: 0;
+
+    li {
+      padding-left: 0;
+      padding-top: 2px;
+      padding-bottom: 2px;
+      font-size: 14px;
+      // &:last-child
+      border-bottom: 1px dashed rgba(64, 197, 241, 0.3);
+    }
+    .value {
+      color: #42cdfe;
+    }
+  }
+}
+.btn {
+  background-color: transparent;
+  border-radius: 10px;
+  color: #687f9e;
+  padding: 0 8px;
+  border: 1px solid #687f9e;
+  cursor: not-allowed;
+  &.active {
+    cursor: pointer;
+    color: #c3c3c3;
+    border: 1px solid #c3c3c3;
+  }
+  &:active {
+    cursor: pointer;
+    color: #7e99bd;
+    border: 1px solid #7e99bd;
+  }
+}
+::ng-deep .ant-checkbox-inner {
+  background-color: transparent;
+  border-color: #c3c3c3;
+}
+::ng-deep .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #42cdfe50;
+  border-color: #42cdfe50 !important;
+}
+::ng-deep .ant-checkbox-wrapper:hover .ant-checkbox-inner {
+  border-color: #42cdfe50 !important;
+}
+::ng-deep .ant-checkbox-disabled {
+  .ant-checkbox-inner {
+    border-color: #687f9e !important;
+  }
+}
+::ng-deep .ant-checkbox-inner:active {
+  border-color: #42cdfe50 !important;
+}
+::ng-deep .ant-checkbox + span {
+  color: #c3c3c3;
+}

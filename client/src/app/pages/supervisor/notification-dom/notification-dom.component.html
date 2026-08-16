@@ -1,0 +1,12 @@
+@if (visible()) {
+  <div
+    class="wrapper-box"
+    [class.deleting]="deleting()"
+    (click)="toList.emit()"
+  >
+    <div>
+      <div class="plain-text">您有新的消息</div>
+      <div class="colorful-text">{{ tipText() }}</div>
+    </div>
+  </div>
+}

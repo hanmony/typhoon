@@ -1,0 +1,35 @@
+<div class="modal-container animate__animated animate__zoomIn">
+  <div #bgBox class="patrolling-bg">
+    @if (detailPageVisible()) {
+      <cocc-patrolling-detail
+        @horizontalInOut
+        (onReturn)="closeDetailPage()"
+        (showMessage)="showMessage.emit($event)"
+        (onLocationQuery)="onLocationQuery.emit($event)"
+        [initialLine]="initialDetailLine()"
+      />
+    } @else {
+      <div class="h-full flex flex-col" @horizontalInOutReverse>
+        <div class="flex justify-end items-center py-4 px-8">
+          <div>
+            <span class="backward" (click)="onClose.emit()">
+              <span>关闭</span>
+              <span>
+                <img
+                  class="inline-block select-none ml-2"
+                  src="/assets/images/simulated-patrolling/backward.png"
+                  alt=""
+                  srcset=""
+                  draggable="false"
+                />
+              </span>
+            </span>
+          </div>
+        </div>
+        <div class="flex-1 flex w-full items-center">
+          <patrolling-line-list [isCocc]="true" (toDetail)="toDetail($event)" />
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,248 @@
+<div class="chat-panel">
+  <!-- 扫描线背景 -->
+  <div class="scanline-bg"></div>
+
+  <!-- 顶部装饰线 -->
+  <div class="top-line"></div>
+
+  <!-- 头部 -->
+  <div class="panel-header">
+    <div class="header-left">
+      <div class="header-icon">
+        <svg width="20" height="20" viewBox="0 0 28 28" fill="none">
+          <rect x="4" y="6" width="20" height="14" rx="3" stroke="currentColor" stroke-width="1.8" fill="none"/>
+          <circle cx="10" cy="13" r="1.5" fill="currentColor"/>
+          <circle cx="18" cy="13" r="1.5" fill="currentColor"/>
+          <path d="M11 17.5c1 1 5 1 6 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+          <line x1="10" y1="6" x2="10" y2="3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="18" y1="6" x2="18" y2="3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="10" cy="2" r="1" fill="currentColor"/>
+          <circle cx="18" cy="2" r="1" fill="currentColor"/>
+          <line x1="4" y1="20" x2="1" y2="23" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="24" y1="20" x2="27" y2="23" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="title-wrapper">
+        <span class="title">防汛智策助手</span>
+        <span class="subtitle">FLOOD CONTROL AI ASSISTANT</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <div class="status-indicator" [class.online]="!loading">
+        <span class="status-dot"></span>
+        <span class="status-text">{{ loading ? 'PROCESSING' : 'READY' }}</span>
+      </div>
+      <div class="btn-group">
+        <button nz-button nzType="text" nzSize="small"
+          [class.active]="showThinking()"
+          (click)="toggleThinking()"
+          title="思考过程"
+          aria-label="展开思考过程">
+          <span nz-icon [nzType]="showThinking() ? 'eye' : 'eye-invisible'" nzTheme="outline"></span>
+        </button>
+        <button nz-button nzType="text" nzSize="small"
+          [class.active]="agentMode()"
+          (click)="toggleAgentMode()"
+          [title]="agentMode() ? '智能模式（已开启）' : '智能模式'"
+          aria-label="切换智能模式">
+          <span nz-icon nzType="thunderbolt" nzTheme="outline"></span>
+        </button>
+        <button nz-button nzType="text" nzSize="small" (click)="onClear()" title="清空对话" aria-label="清空对话">
+          <span nz-icon nzType="delete" nzTheme="outline"></span>
+        </button>
+        <button nz-button nzType="text" nzSize="small" (click)="closeEvent.emit()" title="关闭" aria-label="关闭">
+          <span nz-icon nzType="close" nzTheme="outline"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 消息列表 -->
+  <div class="message-scroll">
+  <div class="message-list" #messageList (scroll)="onListScroll()" (wheel)="onWheel($event)" (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)">
+    <!-- 左上角 HUD -->
+    <div class="hud-corner hud-tl"></div>
+    <div class="hud-corner hud-tr"></div>
+
+    @for (msg of messages(); track $index) {
+      <div
+        class="message"
+        [class.user]="msg.role === 'user'"
+        [class.assistant]="msg.role === 'assistant'"
+      >
+        @if (msg.role === "user") {
+          <div class="bubble user-bubble">
+            <div class="bubble-content">{{ msg.content }}</div>
+          </div>
+        } @else {
+          <div class="bubble assistant-bubble">
+            <div class="ai-avatar">
+              <svg width="16" height="16" viewBox="0 0 28 28" fill="none">
+                <rect x="4" y="6" width="20" height="14" rx="3" stroke="currentColor" stroke-width="1.8" fill="none"/>
+                <circle cx="10" cy="13" r="1.5" fill="currentColor"/>
+                <circle cx="18" cy="13" r="1.5" fill="currentColor"/>
+                <path d="M11 17.5c1 1 5 1 6 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+                <line x1="10" y1="6" x2="10" y2="3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <line x1="18" y1="6" x2="18" y2="3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <circle cx="10" cy="2" r="1" fill="currentColor"/>
+                <circle cx="18" cy="2" r="1" fill="currentColor"/>
+                <line x1="4" y1="20" x2="1" y2="23" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="24" y1="20" x2="27" y2="23" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="bubble-content">
+              @if (showThinking() && msg.thinkingRounds?.length) {
+                @for (round of msg.thinkingRounds; track $index) {
+                  <div class="thinking-block">
+                    <div class="thinking-header" (click)="round.collapsed = !round.collapsed">
+                      <span class="thinking-icon">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 2L9 9H2l6 5-2 8 6-4 6 4-2-8 6-5h-7z"/>
+                        </svg>
+                      </span>
+                      <span>思考过程{{ round.label ? ' · ' + round.label : '' }}</span>
+                      <span class="collapse-icon" [class.collapsed]="round.collapsed">
+                        <span nz-icon nzType="down" nzTheme="outline"></span>
+                      </span>
+                    </div>
+                    @if (!round.collapsed) {
+                      <div class="thinking-content">
+                        <markdown [data]="round.content"></markdown>
+                      </div>
+                    }
+                  </div>
+                }
+              } @else if (showThinking() && msg.thinking) {
+                <div class="thinking-block">
+                  <div class="thinking-header" (click)="msg.thinkingCollapsed = !msg.thinkingCollapsed">
+                    <span class="thinking-icon">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2L9 9H2l6 5-2 8 6-4 6 4-2-8 6-5h-7z"/>
+                      </svg>
+                    </span>
+                    <span>思考过程</span>
+                    <span class="collapse-icon" [class.collapsed]="msg.thinkingCollapsed">
+                      <span nz-icon nzType="down" nzTheme="outline"></span>
+                    </span>
+                  </div>
+                  @if (!msg.thinkingCollapsed) {
+                    <div class="thinking-content">
+                      <markdown [data]="msg.thinking"></markdown>
+                    </div>
+                  }
+                </div>
+              }
+              @if (msg.content) {
+                <markdown [data]="msg.content"></markdown>
+              } @else if (msg.streaming && !msg.thinkingRounds?.length && (!msg.thinking || !showThinking())) {
+                <span class="typing-text">{{ statusText || 'AI 正在思考...' }}</span>
+              }
+              @if (msg.streaming) {
+                <span class="cursor-block"></span>
+              }
+              @if (msg.usage && !msg.streaming) {
+                <div class="token-summary">输入 {{ msg.usage.prompt_tokens }} / 输出 {{ msg.usage.completion_tokens }} tokens</div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- 右下角 HUD -->
+    <div class="hud-corner hud-bl"></div>
+    <div class="hud-corner hud-br"></div>
+
+  </div>
+  @if (showJumpButton()) {
+    <button class="jump-bottom-btn" type="button" (click)="onJumpToBottom()" aria-label="回到底部" title="回到底部">
+      <span nz-icon nzType="arrow-down" nzTheme="outline"></span>
+    </button>
+  }
+  </div>
+
+  <!-- 状态提示 / 步骤指示器 -->
+  @if (statusText || steps().length > 0) {
+    <div class="status-bar">
+      <div class="status-bar-inner">
+        <div class="scan-effect"></div>
+        @if (steps().length > 0) {
+          <div class="step-indicator">
+            @for (step of steps(); track $index) {
+              <div class="step" [class.active]="!step.done && isFirstUndone($index)" [class.done]="step.done">
+                <span class="step-icon">
+                  @if (step.done) {
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                  } @else if (isFirstUndone($index)) {
+                    <span nz-icon nzType="loading" nzTheme="outline"></span>
+                  } @else {
+                    <span class="step-dot"></span>
+                  }
+                </span>
+                <span class="step-label">{{ step.label }}</span>
+              </div>
+              @if (!$last) {
+                <div class="step-line"></div>
+              }
+            }
+          </div>
+        }
+        @if (statusText) {
+          <div class="status-text-animated">{{ statusText }}</div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- 输入区域 -->
+  <div class="input-area">
+    <div class="input-wrapper">
+      <div class="input-glow"></div>
+      <input
+        nz-input
+        type="text"
+        [(ngModel)]="inputText"
+        placeholder="输入指令..."
+        (keydown)="onKeydown($event)"
+        [disabled]="loading"
+        aria-label="消息输入框"
+      />
+      <div class="input-border-animate"></div>
+    </div>
+    <div class="input-actions">
+      @if (loading) {
+        <button nz-button nzDanger nzSize="small" class="cyber-btn danger" (click)="onStop()" aria-label="中断">
+          <span class="btn-content">
+            <span nz-icon nzType="pause-circle" nzTheme="outline"></span>
+            <span>中断</span>
+          </span>
+          <span class="btn-glow"></span>
+        </button>
+      } @else {
+        <button
+          nz-button
+          nzType="primary"
+          nzSize="small"
+          class="cyber-btn primary"
+          (click)="onSend()"
+          [disabled]="!inputText.trim()"
+          aria-label="执行"
+        >
+          <span class="btn-content">
+            <span nz-icon nzType="send" nzTheme="outline"></span>
+            <span>执行</span>
+          </span>
+          <span class="btn-glow"></span>
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- 底部装饰 -->
+  <div class="bottom-line">
+    <span class="version">v2.0</span>
+    <span class="timestamp">SYS.NORMAL</span>
+  </div>
+</div>

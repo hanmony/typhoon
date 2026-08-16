@@ -1,0 +1,58 @@
+.indicator-container {
+  position: fixed;
+  z-index: 799;
+  &.animate {
+    transition: 0.2s ease-in-out;
+  }
+}
+
+.indicator {
+  // width: 120px;
+  // background-color: hsla(137, 64%, 24%, 30%);
+  position: relative;
+}
+
+.typhoon {
+  width: 48px;
+  height: 48px;
+  background-color: hsla(137, 64%, 24%, 30%);
+  border-radius: 50%;
+  border: 2px solid var(--case-primary);
+  background-color: hsla(249, 40%, 10%, 0.75);
+  box-shadow: inset 0 0 10px var(--case-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  .icon {
+    background: url(/assets/images/map/marker/typhoon.png) no-repeat;
+    width: 30px;
+    height: 30px;
+    background-size: 30px 30px;
+  }
+  .pointer {
+    position: absolute;
+    z-index: -1;
+  }
+}
+
+.arrow {
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 40px solid var(--case-primary);
+  position: absolute;
+  bottom: 24px;
+  left: 9px;
+  z-index: -1;
+  transform: rotate(0deg);
+  transform-origin: 15px 40px;
+  // &.animate {
+  //   transition: 0.2s ease-in-out;
+  // }
+}
+
+.line {
+  border-top: 2px solid var(--case-primary);
+}

@@ -1,0 +1,39 @@
+// :host {
+//   &:nth-of-type(even) {
+//     .info-item {
+//       background-color: #191d23;
+//     }
+//   }
+// }
+
+.info-item {
+  height: 40px;
+  line-height: 40px;
+  color: #b7c1d4;
+  font-size: 16px;
+  padding: 0 12px;
+  display: flex;
+  border-bottom: 1px solid #8db8d850;
+  cursor: pointer;
+  &:nth-child(even) {
+    background-color: #191d23;
+  }
+
+  // &:nth-last-child(1) {
+  //   border-bottom: none;
+  // }
+}
+
+.line-label {
+  color: #00ffff;
+  flex: 1;
+  padding-left: 16px;
+}
+
+.detail-info {
+  color: #b7c1d4;
+  font-size: 16px;
+  line-height: 40px;
+  padding: 0 16px 0 28px;
+  border-bottom: 1px solid #8db8d850;
+}

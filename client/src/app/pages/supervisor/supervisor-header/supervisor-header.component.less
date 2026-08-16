@@ -1,0 +1,68 @@
+:host {
+  --fill-height: 4.5rem; // 152.2px
+  display: block;
+  position: fixed;
+  top: -1px;
+  left: 0;
+  width: 100vw;
+  height: 8.361rem; // 301px
+  background: url("/assets/images/supervisor/header-bg.png") no-repeat;
+  background-size: 100% auto;
+  background-position: left 25%;
+  z-index: 800;
+  user-select: none;
+  pointer-events: none;
+
+  padding-left: 1rem;
+  display: flex;
+}
+
+.headline-font {
+  color: #ffffff;
+  text-shadow: 2px 3px 0px rgba(17, 20, 22, 0.22);
+  font-style: italic;
+
+  color: #e4edfb;
+  font-family: "Fangzhengzhongyi";
+  font-size: 1.75rem; // 66px
+  line-height: var(--fill-height);
+}
+
+.right-side {
+  display: flex;
+  color: #cdd6e3;
+  padding-top: 0.875rem; // 28px
+
+  .time-font {
+    display: inline-block;
+    width: 3.6rem; // 160px
+    text-align: right;
+    font-family: DIN;
+    font-weight: bold;
+    font-size: 1rem;
+  }
+  .date-font {
+    font-family: DIN;
+    font-weight: bold;
+    font-size: 0.625rem; // 20px;
+  }
+}
+.exit-area {
+  padding-top: 0.375rem;
+  padding-left: 2.875rem;
+  padding-right: 1.625rem;
+}
+.exit-button {
+  display: inline-block;
+  width: 3rem; // 96px
+  height: 1.625rem; // 52px;
+  line-height: 1.625rem; // 52px;
+  background: url(/assets/images/supervisor/exit.png) no-repeat;
+  background-size: 100% 100%;
+  cursor: pointer;
+  pointer-events: all;
+  user-select: none;
+  text-align: center;
+  color: #e2f2ff;
+  font-size: 0.75rem;
+}

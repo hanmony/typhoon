@@ -1,0 +1,222 @@
+<div class="fixed-header-font" [style.top]="scale() * 16 + 'px'">
+  <!-- <span class="header-font">{{ headline() }}</span> -->
+  <span class="header-font">开启防台防汛指挥</span>
+</div>
+
+<div class="tabs">
+  <div
+    class="tab-button"
+    [class.active]="selectedTab() === '实时台风'"
+    (click)="onTabClick('实时台风')"
+  >
+    <span class="tab-button-font">实时台风</span>
+  </div>
+  <div
+    class="tab-button"
+    [class.active]="selectedTab() === '模拟台风'"
+    (click)="onTabClick('模拟台风')"
+  >
+    <span class="tab-button-font">模拟台风</span>
+  </div>
+  <!-- <div
+    class="tab-button"
+    [class.active]="selectedTab() === '其他气象'"
+    (click)="onTabClick('其他气象')"
+  >
+    <span class="tab-button-font">其他气象</span>
+  </div> -->
+</div>
+
+<div class="extreme-weather">
+  @if (selectedTab().includes("台风")) {
+    <div class="current-position">
+      <div>
+        <img
+          style="width: 56px; height: auto"
+          src="/assets/images/extreme-weather/current-position-icon.png"
+          alt=""
+          draggable="false"
+          class="user-select-none"
+        />
+      </div>
+      <div>
+        <div class="text-lg">当前位置：</div>
+        <div class="text-xl text-[#30C6F3]">
+          <span>{{ state().centerPosition }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="update-time">
+      <div>
+        <img
+          style="width: 56px; height: auto"
+          src="/assets/images/extreme-weather/update-time-icon.png"
+          alt=""
+          draggable="false"
+          class="user-select-none"
+        />
+      </div>
+      <div>
+        <div class="text-lg">数据更新时间：</div>
+        <div class="text-xl text-[#30C6F3]">
+          <span>{{ state().updateTime }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="content-box">
+      <div class="relative">
+        <img
+          style="height: auto"
+          [style.width.px]="1125 * scale()"
+          src="/assets/images/extreme-weather/center-square.png"
+          draggable="false"
+          class="user-select-none"
+        />
+        <div class="id-position" [style.bottom.px]="702 * scale()">
+          <span class="id-font">{{ state().unitKey }} {{ state().name }}</span>
+        </div>
+
+        <div
+          class="field-item"
+          [style.left]="-12 / scale() + '%'"
+          [style.bottom.px]="600 * scale()"
+          [style.transform]="'scale(' + scale() + ')'"
+        >
+          <div class="field-item-label">移动方向：</div>
+          <div class="field-item-value">{{ state().moveDirection }}</div>
+        </div>
+        <div
+          class="field-item"
+          [style.left]="-14 / scale() + '%'"
+          [style.bottom.px]="400 * scale()"
+          [style.transform]="'scale(' + scale() + ')'"
+        >
+          <div class="field-item-label">当前级别：</div>
+          <div class="field-item-value">{{ state().power }}</div>
+        </div>
+        <div
+          class="field-item"
+          [style.left]="-12 / scale() + '%'"
+          [style.bottom.px]="140 * scale()"
+          [style.transform]="'scale(' + scale() + ')'"
+        >
+          <div class="field-item-label">当前风速：</div>
+          <div class="field-item-value">{{ state().speed }}</div>
+        </div>
+        <div
+          class="field-item"
+          [style.right]="-11 / scale() + '%'"
+          [style.bottom.px]="610 * scale()"
+          [style.transform]="'scale(' + scale() + ')'"
+        >
+          <div class="field-item-label">中心气压：</div>
+          <div class="field-item-value">{{ state().centerPressure }}</div>
+        </div>
+        <div
+          class="field-item"
+          [style.right]="-16 / scale() + '%'"
+          [style.bottom.px]="410 * scale()"
+          [style.transform]="'scale(' + scale() + ')'"
+        >
+          <div class="field-item-label">移动速度：</div>
+          <div class="field-item-value">{{ state().moveSpeed }}</div>
+        </div>
+        <div
+          class="field-item"
+          [style.right]="-11 / scale() + '%'"
+          [style.bottom.px]="(160 - state().radius.length * 22) * scale()"
+          [style.transform]="'translateX(50%) scale(' + scale() + ')'"
+        >
+          <div class="field-item-label">风圈半径：</div>
+          <div class="field-item-value" style="line-height: 1.2">
+            @for (item of state().radius; track $index) {
+              <div>
+                <span class="mr-1">{{ item.level }}: </span>
+                <span>{{ item.radius }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (selectedTab() === "其他气象") {
+    <div class="content-box">
+      <div class="relative">
+        <img
+          style="height: auto"
+          [style.width.px]="678 * scale()"
+          src="/assets/images/extreme-weather/spinning-top.png"
+          draggable="false"
+          class="user-select-none"
+        />
+      </div>
+    </div>
+    <weather-carousel
+      [customOptions]="customWeatherOptions()"
+      [value]="selectWeatherValue()"
+      (onChange)="onWeatherCarouselChange($event)"
+    />
+  }
+
+  <div class="fixed-bottom-runway relative" [style.height.px]="scale() * 322">
+    <desktop-select
+      [options]="selectOptions()"
+      [value]="selectedValue()"
+      (onChange)="onDeskSelectChange($event)"
+    />
+  </div>
+</div>
+
+<div class="action-buttons">
+  <div
+    class="action-button"
+    [class.active]="!actionDisabled()"
+    (click)="onActionClick()"
+  >
+    <span class="action-font">{{ actionText() }}</span>
+  </div>
+</div>
+
+@if (selectedTab() === "其他气象") {
+  <div class="other-weather">
+    <div class="input-core-box">
+      <input
+        class="input-core"
+        type="text"
+        placeholder="请输入新增其他气象名称"
+        [value]="otherWeatherName()"
+        (input)="onOtherWeatherNameChange($event)"
+      />
+    </div>
+    <div class="other-weather-icon-box" (click)="onAddOtherWeather()">
+      <img
+        style="width: 26px; height: auto"
+        src="/assets/images/extreme-weather/plus.png"
+        alt=""
+        draggable="false"
+        class="user-select-none"
+      />
+    </div>
+  </div>
+}
+
+<div class="back-to-portal">
+  <button class="enter-button" (click)="backToPortal()">回到首页</button>
+</div>
+
+<ng-template #queryCustomNameTpl>
+  <div class="pb-4">当前未选择任何台风，请输入本次指挥的命名</div>
+  <div class="flex items-center">
+    <div class="mr-4">指挥名称:</div>
+    <div>
+      <input
+        nz-input
+        type="text"
+        [(ngModel)]="customName"
+        placeholder="请输入指挥名称"
+      />
+    </div>
+  </div>
+</ng-template>

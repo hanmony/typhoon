@@ -1,0 +1,119 @@
+:host {
+  position: absolute;
+  bottom: 0;
+  left: 1.4rem;
+  z-index: 501;
+
+  // width: 60%;
+  padding-bottom: 1.8125rem;
+  pointer-events: none;
+  width: calc(100vw - 23rem - 1.4rem - 1rem); // 100vw -  32 - 788 - 54 - 49
+}
+
+// .event-list-wrapper {
+// }
+.event-list {
+  overflow: hidden;
+  padding-top: 8px;
+  .inner-list {
+    white-space: nowrap;
+  }
+}
+
+.event-card {
+  cursor: pointer;
+  pointer-events: all;
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  width: 14rem; // 556px
+  height: 9rem; // 361px
+  background-image: url("/assets/images/dispatch-center/map/event-overlay-box.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  // display: flex;
+  // align-items: center;
+  white-space: nowrap;
+  margin-right: 6px;
+  color: #b4c8e3;
+  font-size: 11px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  &:hover {
+    transform: scale(1.03);
+  }
+  &:last-child {
+    margin-right: 0;
+  }
+  .separator {
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+  .name {
+    font-family: "Fangzhengzhongyi";
+    font-weight: 400;
+    font-size: 1rem;
+  }
+  .line {
+    font-size: 0.875rem;
+  }
+  .info-font {
+    color: #36d0f2;
+    font-size: 0.875rem;
+  }
+}
+
+.state-marker {
+  --bg: rgba(26, 213, 153, 0.25);
+  --color: #1ad599;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.75rem;
+  height: 1.2rem;
+  background: var(--bg);
+  border-radius: 6px;
+  border: 1px solid var(--color);
+  color: var(--color);
+  font-size: 0.765rem;
+  &.pending {
+    --bg: rgba(113, 121, 138, 0.25);
+    --color: #71798a;
+  }
+  &.doing {
+    --bg: rgba(26, 213, 153, 0.25);
+    --color: #1ad599;
+  }
+  &.finished {
+    --bg: rgba(54, 208, 242, 0.25);
+    --color: #36d0f2;
+  }
+}
+
+.arrow {
+  width: 1.4rem;
+  height: 1.4rem;
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: all;
+  &:hover {
+    opacity: 0.8;
+  }
+  &:active {
+    opacity: 0.75;
+  }
+}
+.left-arrow {
+  .arrow();
+  left: -1.2rem;
+}
+.right-arrow {
+  .arrow();
+  right: -1rem;
+}

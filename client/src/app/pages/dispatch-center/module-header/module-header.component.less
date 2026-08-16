@@ -1,0 +1,43 @@
+:host {
+  position: relative;
+  display: block;
+  min-height: 36px;
+}
+
+.header-dot {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  top: -4px;
+  left: 0;
+}
+.header-stripe {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.module-header {
+  display: flex;
+  margin-left: 18px;
+  padding-left: 39px; // 18 + 21
+  padding-right: 12px;
+  line-height: 28px;
+  align-items: center;
+
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(75, 118, 183, 0.58) 18px,
+    rgba(75, 118, 183, 0.2) 100%
+  );
+
+  .title-text {
+    font-size: 24px;
+    // font-weight: bold;
+    color: #fff;
+    flex: 1;
+    font-family: "PangMenZhengDao";
+  }
+}

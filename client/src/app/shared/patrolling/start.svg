@@ -1,0 +1,7 @@
+<svg width="320" height="110" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1">
+ <g>
+  <path stroke-miterlimit="10" stroke-width="2" stroke="#317DB9" fill="#B2DFF2" d="m261.6,108.2l-205.2,0c-29.4,0 -53.2,-23.8 -53.2,-53.2l0,0c0,-29.4 23.8,-53.2 53.2,-53.2l205.2,0c29.4,0 53.2,23.8 53.2,53.2l0,0c0.1,29.4 -23.8,53.2 -53.2,53.2z"/>
+  <circle fill="#317DB9" r="52.7" cy="55" cx="55.9"/>
+  <text data-immersive-translate-walked="8b7f15b9-94d7-40fc-996b-fe8bbda1b20d" x="-409" y="-263" font-size="52.0964px" font-family="'PingFangSC-Medium-GBpc-EUC-H'" fill="#FFFFFF" transform="matrix(1 0 0 1 437.921 336.423)">始</text>
+ </g>
+</svg>

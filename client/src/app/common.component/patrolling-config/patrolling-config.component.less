@@ -1,0 +1,122 @@
+::ng-deep .patrolling-config-modal {
+  ::ng-deep &.ant-modal {
+    padding-bottom: 0;
+    top: calc(50vh - 101px);
+    .ant-modal-body {
+      padding: 0;
+    }
+    .ant-modal-content {
+      background-color: transparent;
+      box-shadow: none;
+    }
+    &.ant-modal .ant-modal-close {
+      display: none;
+    }
+  }
+}
+
+.patrolling-config-box {
+  width: 256px;
+  height: 203px;
+  overflow: hidden;
+  background-image: url("/assets/images/simulated-patrolling/config-box-bg.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  padding: 32px 20px 4px;
+  color: #c6cfea;
+  font-size: 14px;
+}
+.unit {
+  font-size: 10px;
+}
+.separator {
+  margin: 6px 0;
+  height: 1px;
+  background-color: rgba(170, 183, 215, 0.35);
+}
+
+.speed-input {
+  width: 44px;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  color: #12c0ff;
+  font-size: 14px;
+  font-family: Fangzhengzhongyi;
+  text-align: center;
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+.number-action {
+  width: 16px;
+  height: 13px;
+  background: #1296db;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  cursor: pointer;
+  &:not(.disabled):hover {
+    background-color: #0072bc;
+  }
+  &.disabled {
+    background-color: #a6a6a788;
+    cursor: not-allowed;
+  }
+}
+
+.start-time-picker {
+  border: none;
+  box-shadow: none;
+  padding: 4px 8px 4px;
+  ::ng-deep input {
+    color: #12c0ff !important;
+  }
+}
+
+.confirm-button {
+  width: 122px;
+  height: 26px;
+  background: linear-gradient(0deg, #2f66d0, #4292de);
+  border-radius: 2px;
+  font-size: 14px;
+  color: #ffffff;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &.disabled {
+    background: #a6a6a788;
+    cursor: not-allowed;
+    color: #ffffff99;
+  }
+
+  &:not(.disabled):hover {
+    background: linear-gradient(0deg, #4292de, #2f66d0);
+  }
+}
+
+.cancel-button {
+  width: 44px;
+  height: 26px;
+  background: linear-gradient(0deg, #d39d9d, #f77777);
+  border-radius: 2px;
+  font-size: 14px;
+  color: #ffffff;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  cursor: pointer;
+}

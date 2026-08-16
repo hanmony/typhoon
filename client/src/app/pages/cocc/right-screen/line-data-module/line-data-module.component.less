@@ -1,0 +1,60 @@
+:host {
+  position: relative;
+}
+
+.lines-wrapper {
+  width: 100%;
+  overflow: hidden;
+
+  .lines {
+    text-wrap: nowrap;
+    white-space: nowrap;
+    display: inline-block;
+  }
+}
+
+.line-name {
+  display: inline-block;
+  background: url("/assets/images/cocc/line-name-arrow.png") no-repeat center
+    center;
+  background-size: 100% auto;
+  min-width: 97px;
+  height: 43px;
+  line-height: 43px;
+  padding-left: 26px;
+  font-size: 14px;
+  color: #f9f902;
+}
+
+.arrow {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  bottom: 50%;
+  transform: translateY(50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: all;
+  &:hover {
+    opacity: 0.8;
+  }
+  &:active {
+    opacity: 0.75;
+  }
+}
+.left-arrow {
+  .arrow();
+  left: -4px;
+}
+.right-arrow {
+  .arrow();
+  right: -4px;
+}
+
+.rect {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+}

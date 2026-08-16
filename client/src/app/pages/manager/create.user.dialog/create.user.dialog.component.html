@@ -1,0 +1,49 @@
+<nz-spin [nzSpinning]="loading">
+  <form nz-form [formGroup]="form" (ngSubmit)="handleCreate()">
+    <nz-form-item>
+      <nz-form-control nzErrorTip="请输入登录名!">
+        <nz-input-group nzPrefixIcon="user">
+          <input
+            type="text"
+            nz-input
+            formControlName="username"
+            placeholder="输入用户名"
+          />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control nzErrorTip="请选择角色">
+        <app-role-selector formControlName="roles"> </app-role-selector>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-control nzErrorTip="请输入用户名字">
+        <nz-input-group nzPrefixIcon="user">
+          <input
+            type="text"
+            nz-input
+            formControlName="nickname"
+            placeholder="输入用户姓名"
+          />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-control nzErrorTip="请输入用户部门">
+        <nz-input-group nzPrefixIcon="user">
+          <input
+            type="text"
+            nz-input
+            formControlName="department"
+            placeholder="请输入用户部门"
+          />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <button nz-button [nzType]="'primary'">创建</button>
+  </form>
+</nz-spin>

@@ -1,0 +1,10 @@
+<dark-mode-svg />
+<div class="map-container">
+  <div class="map dark-bg dark-mode" #mapRef></div>
+</div>
+<div class="wind-circle-container">
+  <timeline-wind-circle
+    [hidden]="windCircleVisible"
+    (click)="onWindCircleChange(!windCircleVisible)"
+  />
+</div>

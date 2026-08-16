@@ -1,0 +1,178 @@
+.line-diagram {
+  width: 100%;
+  height: 102%;
+  display: flex;
+  flex-direction: column;
+  padding: 0px 20px;
+  box-sizing: border-box;
+
+  .line-diagram-header {
+    width: 100%;
+    height: 60px;
+    background-color: #0a1929;
+    border-bottom: 1px solid #1e3a5f;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-sizing: border-box;
+
+    .line-diagram-title {
+      font-size: 14px;
+      color: #fff;
+      margin-right: 15px;
+    }
+
+    .line-diagram-dropdown {
+      position: relative;
+      width: 150px;
+      z-index: 100;
+
+      .line-diagram-dropdown-value {
+        height: 32px;
+        background-color: #1a2a3a;
+        border: 1px solid #1e3a5f;
+        border-radius: 4px;
+        color: #fff;
+        padding: 0 10px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          border-color: #4a90e2;
+          box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
+        }
+      }
+
+      .line-diagram-dropdown-arrow {
+        font-size: 12px;
+
+        &.active {
+          transform: rotate(180deg);
+        }
+      }
+
+      .line-diagram-dropdown-options {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        margin-top: 4px;
+        background-color: #1a2a3a;
+        border: 1px solid #1e3a5f;
+        border-radius: 4px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        max-height: 0;
+        opacity: 0;
+        transform: translateY(-5px);
+        transition: all 0.3s ease;
+        pointer-events: none;
+
+        &.open {
+          max-height: 300px;
+          opacity: 1;
+          transform: translateY(0);
+          pointer-events: auto;
+        }
+
+        .line-diagram-dropdown-option {
+          padding: 8px 10px;
+          font-size: 14px;
+          color: #fff;
+          cursor: pointer;
+          transition: all 0.3s ease;
+
+          &:hover {
+            background-color: rgba(74, 144, 226, 0.2);
+          }
+
+          &.selected {
+            background-color: #4a90e2;
+            color: #fff;
+          }
+        }
+      }
+    }
+
+    .line-diagram-subtitle {
+      font-family: FZZongYi-M05S;
+      font-weight: 400;
+      font-size: 28px;
+      color: #ffffff;
+      line-height: 27px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .line-diagram-dropdown-container {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .line-diagram-content {
+    width: 100%;
+    height: calc(100% - 60px);
+    padding: 6px 0;
+    overflow: hidden;
+    background-image: url("/assets/images/digital-plan/routePlanBg.png");
+    background-size: 100% 100%;
+    background-position: center;
+    border-radius: 10px;
+    position: relative;
+
+    .svg-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      overflow: hidden;
+      cursor: grab;
+
+      &:active {
+        cursor: grabbing;
+      }
+
+      &.empty {
+        background-color: #0a1929;
+        border: 1px dashed #1e3a5f;
+      }
+
+      .svg-image {
+        width: 100%;
+        height: 100%;
+        transition: transform 0.3s ease;
+      }
+
+      .empty-text {
+        font-size: 16px;
+        color: #666;
+      }
+    }
+    .line-diagram-next {
+      width: 68px;
+      height: 67px;
+      position: absolute;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+    .line-diagram-prev {
+      width: 68px;
+      height: 67px;
+      position: absolute;
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%) scaleX(-1);
+      cursor: pointer;
+    }
+  }
+}

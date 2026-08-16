@@ -1,0 +1,230 @@
+.instruction-table {
+  font-family:
+    -apple-system,
+    Microsoft YaHe,
+    "微软雅黑",
+    "黑体",
+    HeiTi;
+  width: 100%;
+  thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* 重要  表格固定算法 */
+    text-align: left;
+    margin-bottom: 10px;
+    --tangle-color: #ebb670;
+    // .tangle();
+    tr {
+      background: linear-gradient(
+        to bottom,
+        rgba(42, 64, 120, 0),
+        rgba(42, 64, 120, 0.68)
+      );
+      font-size: 20px;
+      color: #afbed8;
+      line-height: 32px;
+      // font-style: italic;
+      font-weight: 300;
+      height: 42px;
+      border-bottom: 2px solid #6187e4;
+    }
+    th {
+      &:first-child {
+        padding-left: 12px;
+      }
+    }
+  }
+  tbody {
+    display: block;
+    background-color: transparent;
+    // max-height: 168px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .instruction-table-row {
+    --tangle-color: #6e87c5;
+    height: 42px;
+    display: table;
+    width: 100%;
+    margin-bottom: 5px;
+
+    table-layout: fixed;
+    font-size: 20px;
+    color: #b2bbd7;
+    line-height: 27px;
+    // font-style: italic;
+    background: rgba(36, 57, 110, 0.68);
+    border: 1px solid rgba(110, 135, 197, 0.17);
+
+    &:nth-child(even) {
+      background: rgba(36, 57, 110, 0.38);
+    }
+
+    &.active {
+      color: #34dcfc;
+    }
+
+    &.row-finished {
+      color: #81B337;
+    }
+  }
+}
+
+.status-tag-finished {
+  display: inline-block;
+  background: #81B337;
+  color: #1a1a1a; /* 接近黑色 */
+  border-radius: 6px;
+  padding: 2px 10px;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 500;
+}
+
+.module-header-host {
+  position: relative;
+  display: block;
+  min-height: 36px;
+
+  .header-dot {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    top: -4px;
+    left: 0;
+  }
+  .header-stripe {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .module-header {
+    display: flex;
+    margin-left: 18px;
+    padding-left: 39px; // 18 + 21
+    padding-right: 12px;
+    line-height: 28px;
+    align-items: center;
+
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(75, 118, 183, 0.58) 18px,
+      rgba(75, 118, 183, 0.2) 100%
+    );
+
+    .title-text {
+      font-size: 24px;
+      // font-weight: bold;
+      color: #fff;
+      flex: 1;
+      font-family: "PangMenZhengDao";
+    }
+  }
+}
+
+.speed-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 104px;
+  height: 24px;
+  padding: 0 4px;
+  border-radius: 12px;
+  background: rgba(75, 118, 183, 0.25);
+  border: 1px solid rgba(110, 135, 197, 0.4);
+  user-select: none;
+  flex-shrink: 0;
+  margin: 0 12px 0 8px;
+}
+
+.speed-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #b2bbd7;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: rgba(75, 118, 183, 0.4);
+    color: #fff;
+  }
+
+  &:active:not(:disabled) {
+    background: rgba(75, 118, 183, 0.6);
+  }
+
+  &:disabled {
+    color: rgba(178, 187, 215, 0.35);
+    cursor: not-allowed;
+  }
+}
+
+.chevron {
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  /* 默认：右箭头（▶），尖朝右；左右对称无旋转 */
+  border-left: 5px solid currentColor;
+
+  &.left {
+    /* 左箭头（◀），尖朝左；用 border-right 替代旋转，形状对称 */
+    border-left-color: transparent;
+    border-right: 5px solid currentColor;
+  }
+}
+
+.speed-value {
+  flex: 1;
+  text-align: center;
+  font-size: 16px;
+  line-height: 22px;
+  color: #fff;
+  font-family: "PangMenZhengDao";
+  letter-spacing: 0.5px;
+}
+
+.tangle {
+  // position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 0;
+    height: 0;
+    border: 4px solid var(--tangle-color);
+    border-bottom-color: transparent;
+    border-top-color: transparent;
+    border-left-color: transparent;
+    transform: rotateZ(45deg);
+  }
+}
+
+.line-name-tag {
+  display: inline-block;
+  background: var(--bg-color);
+  border-radius: 10px;
+  border: 1px solid var(--main-color);
+  font-size: 20px;
+  color: var(--main-color);
+  line-height: 26px;
+  // font-style: italic;
+  min-width: 52px;
+  text-align: center;
+  white-space: nowrap;
+  padding: 0 8px;
+}

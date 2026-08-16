@@ -1,0 +1,22 @@
+@if (shouldCollapse) {
+  <div
+    class="flex text-gray-300 text-left transition-all duration-1000 overflow-hidden"
+    [style.height.px]="collapsed ? 22 : height"
+  >
+    <div class="flex-1">
+      <span [class.line-clamp-1]="collapsed">
+        {{ text }}
+      </span>
+      @if (!collapsed) {
+        <span class="btn" (click)="toggleCollapse()">收起</span>
+      }
+    </div>
+    @if (collapsed) {
+      <div class="btn" (click)="toggleCollapse()">展开</div>
+    }
+  </div>
+} @else {
+  <div #initialContainer class="text-gray-300 text-left line-clamp-1">
+    {{ text }}
+  </div>
+}

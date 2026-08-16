@@ -1,0 +1,190 @@
+<!-- 应急联络表 -->
+<div class="line-diagram">
+  <div class="line-diagram-header">
+    <!-- 通用线路下拉框 -->
+    <div
+      class="line-diagram-dropdown-container"
+      *ngIf="!shouldShowCompanyDropdown()"
+    >
+      <span class="line-diagram-title">定位线路</span>
+      <div
+        class="line-diagram-dropdown"
+        (click)="toggleDropdown('line', $event)"
+      >
+        <div class="line-diagram-dropdown-value">
+          {{ selectedLine ? getSelectedLineLabel() : "全部" }}
+          <span
+            class="line-diagram-dropdown-arrow"
+            [class.active]="isLineDropdownOpen"
+            >▼</span
+          >
+        </div>
+        <div
+          class="line-diagram-dropdown-options"
+          [class.open]="isLineDropdownOpen"
+        >
+          <div
+            class="line-diagram-dropdown-option"
+            [class.selected]="!selectedLine"
+            (click)="selectLine('', $event)"
+          >
+            全部
+          </div>
+          <div
+            *ngFor="let line of lines"
+            class="line-diagram-dropdown-option"
+            [class.selected]="selectedLine === line.value"
+            (click)="selectLine(line.value, $event)"
+          >
+            {{ line.label }}
+          </div>
+        </div>
+        <button class="reset-button" (click)="resetFilters()">重置</button>
+      </div>
+    </div>
+    <!-- 物资和防汛专用线路下拉框 -->
+    <div
+      class="line-diagram-dropdown-container"
+      *ngIf="shouldShowCompanyDropdown()"
+    >
+      <span class="line-diagram-title">定位公司</span>
+      <div
+        class="line-diagram-dropdown"
+        (click)="toggleDropdown('company', $event)"
+      >
+        <div class="line-diagram-dropdown-value">
+          {{ selectedCompany ? getSelectedCompanyLabel() : "全部" }}
+          <span
+            class="line-diagram-dropdown-arrow"
+            [class.active]="isCompanyDropdownOpen"
+            >▼</span
+          >
+        </div>
+        <div
+          class="line-diagram-dropdown-options"
+          [class.open]="isCompanyDropdownOpen"
+        >
+          <div
+            class="line-diagram-dropdown-option"
+            [class.selected]="!selectedCompany"
+            (click)="selectCompany('', $event)"
+          >
+            全部
+          </div>
+          <div
+            *ngFor="let company of companies"
+            class="line-diagram-dropdown-option"
+            [class.selected]="selectedCompany === company.value"
+            (click)="selectCompany(company.value, $event)"
+          >
+            {{ company.label }}
+          </div>
+        </div>
+      </div>
+      <span class="line-diagram-title">定位线路</span>
+      <div
+        class="line-diagram-dropdown"
+        [class.disabled]="!selectedCompany"
+        (click)="toggleDropdown('materialFloodLine', $event)"
+      >
+        <div class="line-diagram-dropdown-value">
+          {{
+            selectedMaterialFloodLine
+              ? getSelectedMaterialFloodLineLabel()
+              : "全部"
+          }}
+          <span
+            class="line-diagram-dropdown-arrow"
+            [class.active]="isMaterialFloodLineDropdownOpen"
+            >▼</span
+          >
+        </div>
+        <div
+          class="line-diagram-dropdown-options"
+          [class.open]="isMaterialFloodLineDropdownOpen"
+        >
+          <div
+            class="line-diagram-dropdown-option"
+            [class.selected]="!selectedMaterialFloodLine"
+            (click)="selectMaterialFloodLine('', $event)"
+          >
+            全部
+          </div>
+          <div
+            *ngFor="let line of lines"
+            class="line-diagram-dropdown-option"
+            [class.selected]="selectedMaterialFloodLine === line.value"
+            (click)="selectMaterialFloodLine(line.value, $event)"
+          >
+            {{ line.label }}
+          </div>
+        </div>
+      </div>
+      <button class="reset-button" (click)="resetFilters()">重置</button>
+    </div>
+    <div class="line-diagram-buttons">
+      <button
+        class="line-diagram-button"
+        [class.active]="currentComponent === 'cave'"
+        (click)="showComponent('cave')"
+      >
+        洞口应急联络表
+      </button>
+      <button
+        class="line-diagram-button"
+        [class.active]="currentComponent === 'interconnection'"
+        (click)="showComponent('interconnection')"
+      >
+        互联互通车站应急联络表
+      </button>
+      <button
+        class="line-diagram-button"
+        [class.active]="currentComponent === 'material'"
+        (click)="showComponent('material')"
+      >
+        物资平移信息表
+      </button>
+      <button
+        class="line-diagram-button"
+        [class.active]="currentComponent === 'flood'"
+        (click)="showComponent('flood')"
+      >
+        防汛应急抢修服务应急联络表
+      </button>
+      <button
+        class="line-diagram-button"
+        [class.active]="currentComponent === 'construction'"
+        (click)="showComponent('construction')"
+      >
+        建设与既有运营相关项目应急联络表
+      </button>
+    </div>
+  </div>
+  <div class="line-diagram-content">
+    <app-cave-entrance-table
+      *ngIf="currentComponent === 'cave'"
+      [selectedCompany]="selectedCompany"
+      [selectedLine]="selectedLine"
+    ></app-cave-entrance-table>
+    <app-interconnection-table
+      *ngIf="currentComponent === 'interconnection'"
+      [selectedCompany]="selectedCompany"
+      [selectedLine]="selectedLine"
+    ></app-interconnection-table>
+    <app-material-transfer-table
+      *ngIf="currentComponent === 'material'"
+      [selectedCompany]="selectedCompany"
+      [selectedLine]="selectedMaterialFloodLine"
+    ></app-material-transfer-table>
+    <app-flood-control-table
+      *ngIf="currentComponent === 'flood'"
+      [selectedCompany]="selectedCompany"
+      [selectedLine]="selectedMaterialFloodLine"
+    ></app-flood-control-table>
+    <app-construction-table
+      *ngIf="currentComponent === 'construction'"
+      [selectedCompany]="selectedCompany"
+      [selectedLine]="selectedLine"
+    ></app-construction-table>
+  </div>
+</div>

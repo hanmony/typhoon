@@ -1,0 +1,47 @@
+<div class="material-transfer-table">
+  <!-- 物资平移信息表 -->
+  <div *ngFor="let company of getFilteredCompanies()" class="company-section">
+    <div class="company-header">{{ company.companyName }}</div>
+    <img
+      src="/assets/images/digital-plan/caveEntranceTableBg1.png"
+      alt=""
+      class="line-img-header"
+    />
+    <!-- 按线路分组 -->
+    <div
+      *ngFor="let lineGroup of getLineGroups(company.locations); let i = index"
+      class="line-section"
+      [ngStyle]="{ '--order': i }"
+    >
+      <img
+        *ngIf="lineGroup.iconPath"
+        [src]="lineGroup.iconPath"
+        class="line-icon"
+      />
+
+      <div class="line-section-content">
+        <div class="line-table">
+          <div class="table-header">
+            <div class="header-cell">物资存放点位</div>
+            <div class="header-cell">平移站点范围</div>
+            <div class="header-cell">物资存放负责人</div>
+            <div class="header-cell">联系方式</div>
+          </div>
+          <div *ngFor="let item of lineGroup.items" class="table-row">
+            <div class="table-cell">{{ item.storageLocation }}</div>
+            <div class="table-cell">{{ item.transferScopeDesc }}</div>
+            <div class="table-cell">{{ item.storageManager }}</div>
+            <div class="table-cell">{{ item.contactPhone }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <img
+      src="/assets/images/digital-plan/caveEntranceTableBg3.png"
+      alt=""
+      class="line-img-footer"
+    />
+  </div>
+  <!-- 无数据提示 -->
+  <div *ngIf="getFilteredCompanies().length === 0" class="no-data">无数据</div>
+</div>

@@ -1,0 +1,72 @@
+<!-- 台风措施组件 -->
+<div class="line-diagram">
+  <div class="line-diagram-header">
+    <div class="line-diagram-title">{{ getCurrentComponentTitle() }}</div>
+    <div>
+      <button
+        class="line-diagram-button"
+        [class.active]="activeComponent === 'flood-control'"
+        (click)="switchToFloodControl()"
+      >
+        防汛工作举措
+      </button>
+      <button
+        class="line-diagram-button"
+        [class.active]="activeComponent === 'typhoon-impacts'"
+        (click)="switchToTyphoonImpacts()"
+      >
+        主要影响台风汇总表
+      </button>
+      <button
+        class="line-diagram-button"
+        [class.active]="activeComponent === 'emergency-warning'"
+        (click)="switchToEmergencyWarning()"
+      >
+        应急响应值守要求
+      </button>
+    </div>
+  </div>
+  <div class="line-diagram-content">
+    <!-- 防汛工作举措组件 -->
+    <div
+      class="flood-control-measures"
+      *ngIf="activeComponent === 'flood-control'"
+    >
+      <app-flood-control-measures></app-flood-control-measures>
+    </div>
+    <!-- 主要影响台风汇总表组件 -->
+    <div
+      class="typhoon-impacts-table"
+      *ngIf="activeComponent === 'typhoon-impacts'"
+    >
+      <img
+        src="/assets/images/digital-plan/caveEntranceTableBg1.png"
+        alt=""
+        class="line-img-header"
+      />
+      <app-typhoon-impacts-table></app-typhoon-impacts-table>
+      <img
+        src="/assets/images/digital-plan/caveEntranceTableBg3.png"
+        alt=""
+        class="line-img-footer"
+      />
+    </div>
+    <!-- 应急响应值守要求组件 -->
+    <div
+      class="emergency-warning"
+      *ngIf="activeComponent === 'emergency-warning'"
+    >
+      <img
+        src="/assets/images/digital-plan/caveEntranceTableBg1.png"
+        alt=""
+        class="line-img-header"
+      />
+      <app-emergency-warning></app-emergency-warning>
+      <img
+        src="/assets/images/digital-plan/caveEntranceTableBg3.png"
+        alt=""
+        class="line-img-footer"
+      />
+    </div>
+  </div>
+</div>

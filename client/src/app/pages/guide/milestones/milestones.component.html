@@ -1,0 +1,38 @@
+<div
+  class="guide-milestones"
+  [style.width.px]="baseWidth * zoom"
+  [style.min-height]="minHeight * zoom + 'px'"
+  [style]="'--zoom: ' + zoom + ';'"
+>
+  <!-- <div></div> -->
+  <milestones-node
+    id="generated-node"
+    type="generated"
+    [time]="nodes.generated.time"
+    [text]="nodes.generated.text"
+  />
+  <milestones-node
+    id="issued-alert-node"
+    type="issued-alert"
+    [time]="nodes['issued-alert'].time"
+    [text]="nodes['issued-alert'].text"
+  />
+  <milestones-node
+    id="top-alert-node"
+    type="top-alert"
+    [time]="nodes['top-alert'].time"
+    [text]="nodes['top-alert'].text"
+  />
+  <milestones-node
+    id="lift-alert-node"
+    type="lift-alert"
+    [time]="nodes['lift-alert'].time"
+    [text]="nodes['lift-alert'].text"
+  />
+  <milestones-node
+    id="dissipate-node"
+    type="dissipate"
+    [time]="nodes.dissipate.time"
+    [text]="nodes.dissipate.text"
+  />
+</div>

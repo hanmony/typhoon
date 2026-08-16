@@ -1,0 +1,97 @@
+.compare-table {
+  // --light-gray-color: #e5e5e5;
+  // --light-gray-color: rgba(151, 151, 151, 0.25)
+  --light-gray-color: #3196fa57;
+  width: 100%;
+  background-color: #031131;
+  border-collapse: collapse;
+  border-spacing: 0px 0px;
+  table-layout: fixed;
+  padding-bottom: 12px;
+  position: relative;
+
+  // border-top: 1px solid var(--light-gray-color);
+  // margin-top: -1px;
+  td,
+  th {
+    background-color: transparent;
+    box-sizing: border-box;
+  }
+  th {
+    font-size: 24px;
+    font-weight: 600;
+    color: #00ffff;
+    line-height: 28px;
+    padding: 12px 0;
+  }
+  th {
+    vertical-align: top;
+    // border-top: 1px solid var(--light-gray-color);
+    border-bottom: 1px solid var(--light-gray-color);
+    // border-right: 1px solid var(--light-gray-color);
+  }
+
+  th:first-child {
+    border-left: 1px sold var(--light-gray-color);
+  }
+  // tr:first-child {
+  //   margin-top: -1px;
+  // }
+  td {
+    border-right: 1px solid var(--light-gray-color);
+    border-bottom: 1px solid var(--light-gray-color);
+    font-weight: 400;
+    font-size: 14px;
+    color: #d1d1d1;
+    text-align: center;
+    padding: 21px;
+  }
+
+  td:first-child {
+    border-left: 1px solid var(--light-gray-color);
+  }
+  thead {
+    // background-color: transparent;
+    // box-shadow: -5px 0 5px -6px #ccc;
+    box-shadow: 0px 1px 3px 1px var(--light-gray-color);
+    // box-shadow: 0px 2px 7px 3px rgba(218, 218, 218, 0.5);
+    background-color: #134079;
+    // border: 1px solid var(--light-gray-color);
+    position: sticky;
+    top: 0;
+    z-index: 800;
+  }
+
+  .label-title {
+    font-weight: 600;
+    color: #3196fa;
+    padding: 16px 8px;
+    display: table-cell;
+  }
+
+  .section-title {
+    font-weight: 600;
+    color: #3196fa;
+    padding: 16px 8px;
+    writing-mode: vertical-lr;
+    display: table-cell;
+  }
+
+  tbody {
+    tr {
+      &:nth-child(even) {
+        background-color: #3196fa57;
+      }
+    }
+  }
+  .time-text {
+    font-size: 14px;
+    color: #999999;
+    line-height: 21px;
+    font-weight: 400;
+  }
+  .hightest {
+    font-size: 15px;
+    font-weight: 600;
+  }
+}

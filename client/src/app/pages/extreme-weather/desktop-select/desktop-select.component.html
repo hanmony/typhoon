@@ -1,0 +1,67 @@
+<div class="desktop-select">
+  <div class="step-bg">
+    <div
+      #outerContainer
+      class="desktop-options-container"
+      [class.less-than-4]="options.length < 4"
+    >
+      <div
+        #innerContainer
+        class="desktop-options"
+        [style.transform]="getInnerTransform()"
+      >
+        @for (item of options(); track $index) {
+          <div
+            class="desktop-option"
+            [class.gradual-hide]="getGradualHideBoolean($index)"
+            [class.active]="value() === item.name"
+            (click)="onOptionClick(item.name)"
+          >
+            <div class="h-1/3">
+              <div
+                class="option-icon"
+                [style.background-image]="
+                  'url(' +
+                  (item.icon ||
+                    'assets/images/extreme-weather/option-icon-hover.png') +
+                  ')'
+                "
+              ></div>
+            </div>
+            <div
+              class="option-label"
+              [style]="{ '--hover-color': item.color || '#fff' }"
+            >
+              {{ item.name }}
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="arrow left-arrow"
+  [class.disabled]="!leftArrayVisible()"
+  (click)="onLeftArrowClick()"
+>
+  <img
+    class="rotate-180"
+    src="assets/images/extreme-weather/desktop-arrow.png"
+    alt=""
+    draggable="false"
+  />
+</div>
+
+<div
+  class="arrow right-arrow"
+  [class.disabled]="!rightArrayVisible()"
+  (click)="onRightArrowClick()"
+>
+  <img
+    src="assets/images/extreme-weather/desktop-arrow.png"
+    alt=""
+    draggable="false"
+  />
+</div>

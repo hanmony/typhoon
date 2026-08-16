@@ -1,0 +1,83 @@
+<!-- 线路图组件 -->
+<div class="line-diagram">
+  <div class="line-diagram-header">
+    <div class="line-diagram-dropdown-container">
+      <span class="line-diagram-title">线路图选择</span>
+      <div class="line-diagram-dropdown" (click)="toggleDropdown($event)">
+        <div class="line-diagram-dropdown-value">
+          {{ selectedDiagram ? getSelectedDiagramLabel() : "全部" }}
+          <span
+            class="line-diagram-dropdown-arrow"
+            [class.active]="isDropdownOpen"
+            >▼</span
+          >
+        </div>
+        <div
+          class="line-diagram-dropdown-options"
+          [class.open]="isDropdownOpen"
+        >
+          <div
+            class="line-diagram-dropdown-option"
+            [class.selected]="!selectedDiagram"
+            (click)="selectDiagram('', $event)"
+          >
+            全部
+          </div>
+          <div
+            *ngFor="let diagram of diagrams"
+            class="line-diagram-dropdown-option"
+            [class.selected]="selectedDiagram === diagram.value"
+            (click)="selectDiagram(diagram.value, $event)"
+          >
+            {{ diagram.label }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="line-diagram-subtitle">
+      @if (!hideTitle) {上海轨道交通}线路{{ getSelectedDiagramLabel() }}
+    </div>
+  </div>
+  <div class="line-diagram-content">
+    <div
+      class="svg-container"
+      *ngIf="selectedSvg"
+      (wheel)="onWheel($event)"
+      (mousedown)="onMouseDown($event)"
+      (mousemove)="onMouseMove($event)"
+      (mouseup)="onMouseUp()"
+      (mouseleave)="onMouseLeave()"
+    >
+      <img
+        [src]="selectedSvg"
+        alt="线路图"
+        class="svg-image"
+        [style.transform]="
+          'translate(' +
+          currentX +
+          'px, ' +
+          currentY +
+          'px) scale(' +
+          scale +
+          ')'
+        "
+        [style.transformOrigin]="'center center'"
+      />
+    </div>
+    <div class="svg-container empty" *ngIf="!selectedSvg">
+      <div class="empty-text">全部</div>
+    </div>
+    <img
+      src="assets/images/digital-plan/next.png"
+      alt="下一个"
+      class="line-diagram-next"
+      (click)="nextDiagram()"
+    />
+    <img
+      src="assets/images/digital-plan/next.png"
+      alt="上一个"
+      class="line-diagram-prev"
+      (click)="prevDiagram()"
+    />
+  </div>
+</div>

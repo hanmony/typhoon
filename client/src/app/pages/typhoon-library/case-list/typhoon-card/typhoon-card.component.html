@@ -1,0 +1,49 @@
+<div class="typhoon-card">
+  <div class="card-left">
+    <div class="image-wrapper">
+      <div class="image" (click)="toCaseDetail(data)">
+        <typhoon-card-shortcut [detailInfo]="data" />
+      </div>
+    </div>
+    <div class="pl-8 h-6 leading-[1.6rem]" style="color: #00aaff">
+      {{ getNumber(data) }}
+    </div>
+  </div>
+  <div class="card-right flex-1">
+    <div class="name">
+      <span class="whitespace-nowrap">{{ getFullName(data) }}</span>
+    </div>
+    <div class="">
+      <ul class="info">
+        <li>
+          时间：<span class="value">{{ getCardTimeText(data) }}</span>
+        </li>
+        <li>
+          级别：<span class="value">{{ getCardDegreeText(data) }}</span>
+        </li>
+        <li>
+          最高：<span class="value">{{ getCardHighestText(data) }}</span>
+        </li>
+      </ul>
+    </div>
+    <div class="flex justify-end pt-2 pr-6">
+      <div class="mr-4">
+        <label
+          nz-checkbox
+          [(ngModel)]="data.checked"
+          (ngModelChange)="checkHandler(data)"
+          [nzDisabled]="isCompareBtnDisabled(data)"
+        >
+          对比
+        </label>
+      </div>
+      <button
+        class="btn"
+        [class.active]="isCompareBtnActive(data)"
+        (click)="compareBtnClick(data)"
+      >
+        对比
+      </button>
+    </div>
+  </div>
+</div>

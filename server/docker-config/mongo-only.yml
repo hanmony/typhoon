@@ -1,0 +1,26 @@
+# MONGODB 单机启动 （支持事务）
+#
+# DOCKER COMPOSE 启动
+# docker-compose -f mongo-only.yml up -d
+#
+# DOCKER 直接启动
+# docker run --name mongo -p 27017:27017 -d mongodb/mongodb-community-server:latest --replSet "dbrs" --bind_ip_all
+# 下行中0ef为容器ID，自行替换
+# docker exec -it 0ef /bin/bash
+# mongosh
+# rs.initiate({_id: "dbrs", members: [{_id:0, host: "localhost"}]})
+
+version: "3"
+services:
+    mongodb:
+        image: mongodb/mongodb-community-server
+        hostname: mongodb
+        restart: always
+        container_name: mongodb
+        ports:
+            - 27017:27017
+        healthcheck:
+            test: 'test $$(echo "rs.initiate({_id: \"dbrs\", members: [{_id:0, host: \"localhost\"}]}).ok || rs.status().ok" | mongosh --quiet) -eq 1'
+            interval: 10s
+            start_period: 30s
+        command: ["--replSet", "dbrs", "--bind_ip_all"]

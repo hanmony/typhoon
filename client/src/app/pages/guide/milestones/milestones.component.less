@@ -1,0 +1,50 @@
+.guide-milestones {
+  background-image: url(/assets/images/guide/curves.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  width: 1070px;
+  min-height: 256px;
+  position: relative;
+  margin-top: -24px;
+}
+
+milestones-node {
+  position: absolute;
+  top: 0;
+  opacity: 0;
+  zoom: var(--zoom);
+  &:nth-child(1) {
+    left: 0;
+    top: 23%;
+    transform: translate(50%, 100px);
+  }
+  &:nth-child(2) {
+    left: 18%;
+    top: 5%;
+    transform: translate(50%, 100px);
+  }
+  &:nth-child(3) {
+    left: 50%;
+    transform: translate(-50%, 100px);
+  }
+  &:nth-child(4) {
+    right: 18%;
+    top: 5%;
+    transform: translate(-50%, 100px);
+  }
+  &:nth-child(5) {
+    right: 0;
+    top: 23%;
+    transform: translate(-50%, 100px);
+  }
+}
+
+// #generated-node,
+// #issued-alert-node,
+// #top-alert-node,
+// #lift-alert-node,
+// #dissipate-node {
+//   // opacity: 0;
+//   transform: translate(0, 100px);
+// }

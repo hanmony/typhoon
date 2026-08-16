@@ -1,0 +1,76 @@
+.tabs {
+  background-image: url("/assets/images/dispatch-center/line-situation/tabs-stripe.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  // background-position: bottom center;
+  background-position: 16px 20px;
+  display: inline-flex;
+  gap: 10px;
+  // padding: 10px 10px;
+  .tab-item {
+    text-align: center;
+    font-size: 20px;
+    color: #fff;
+    line-height: 40px;
+    // font-weight: 500;
+    background-repeat: no-repeat;
+    background-position: center 18px;
+    min-width: 100px;
+    color: #99b1dd;
+    cursor: pointer;
+    &.active {
+      color: #e8f3ff;
+      background-image: url("/assets/images/dispatch-center/line-situation/tab-item-active.png");
+    }
+  }
+}
+
+.chart-bg {
+  background-image: url("/assets/images/dispatch-center/line-situation/train-dot.png");
+  background-size: 62%;
+  background-repeat: no-repeat;
+  background-position: center center;
+
+  &.isStation {
+    background-image: url("/assets/images/dispatch-center/line-situation/station-dot.png");
+  }
+}
+
+.line {
+  border: 1px solid var(--line-color);
+  width: 40px;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 22px;
+    border: 1px solid var(--line-color);
+  }
+}
+
+.label {
+  font-size: 18px;
+  white-space: nowrap;
+}
+.label-top {
+  color: #fcd7b7;
+  position: absolute;
+  top: 18px;
+  left: calc(30% + 5px);
+}
+
+.label-center {
+  color: #ff4500;
+  position: absolute;
+  top: calc(55% - 16px);
+  left: calc(40% + 5px);
+}
+
+.label-bottom {
+  color: #20e8ff;
+  position: absolute;
+  bottom: -14px;
+  left: calc(30% + 5px);
+}

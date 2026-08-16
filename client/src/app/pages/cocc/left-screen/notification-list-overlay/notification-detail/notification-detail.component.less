@@ -1,0 +1,113 @@
+.notification-detail-wrapper {
+  margin-bottom: 12px;
+  .bg-modal-top {
+    background: url("/assets/images/supervisor/notification/detail-box.png")
+      no-repeat;
+    height: 26px;
+    background-size: 100% auto;
+    background-position: 0 0;
+  }
+
+  .modal-body {
+    background: url("/assets/images/supervisor/notification/detail-box-content.png")
+      no-repeat;
+    background-size: 100% 100%;
+    margin-top: -16px;
+    margin-bottom: 36px;
+
+    .header {
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #00fafa;
+      padding-left: 16px;
+
+      .time {
+        color: #ffffff;
+        font-size: 12px;
+        padding-right: 16px;
+      }
+    }
+    .ring-icon {
+      width: 42px;
+      height: 42px;
+      background: url("/assets/images/supervisor/notification/detail-ring-icon.png")
+        no-repeat center center;
+      background-size: 100% 100%;
+    }
+    .header-separator {
+      background: linear-gradient(to right, #00fafa80, #00fafa00);
+      height: 2px;
+      width: 100%;
+      margin-left: 10px;
+    }
+    .content {
+      padding: 6px 12px;
+      color: rgba(255, 255, 255, 0.8);
+      white-space: pre-line;
+    }
+  }
+
+  .bg-modal-bottom {
+    background: url("/assets/images/supervisor/notification/detail-box.png")
+      no-repeat;
+    height: 36px;
+    background-size: 100% auto;
+    background-position: bottom;
+    margin-top: -36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.event-box {
+  background: rgba(64, 131, 239, 0.1);
+  border: 1px solid #70aeff22;
+  // min-height: 120px;
+  padding: 16px 24px;
+  .label {
+    color: #ffffff;
+    font-size: 14px;
+  }
+  .value {
+    color: #00ffff;
+    font-size: 14px;
+  }
+}
+
+.locate-icon {
+  background: linear-gradient(41deg, #015eea 0%, #00c0fa 100%);
+  border-radius: 25px;
+  border: 1px solid #ffffff99;
+  display: inline-block;
+  padding: 0 4px;
+  margin-left: 4px;
+  cursor: pointer;
+  user-select: none;
+  &:active {
+    opacity: 0.75;
+  }
+}
+
+.action-button {
+  background: url("/assets/images/supervisor/notification/action-button-bg.png")
+    no-repeat;
+  background-size: 100% 100%;
+  width: 70px;
+  height: 30px;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 29px;
+  text-align: center;
+  user-select: none;
+
+  &:active {
+    opacity: 0.75;
+  }
+
+  &.cancel {
+    filter: brightness(0.6);
+  }
+}

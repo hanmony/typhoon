@@ -1,0 +1,38 @@
+<div class="case-list-wrapper">
+  <div class="case-list-header">
+    <div class="title">案例列表</div>
+    <div class="filter-actions">
+      <select-action
+        [value]="params.year"
+        placeholder="年份选择"
+        [options]="yearOptions"
+        (onChange)="onYearFilterChange($event)"
+      />
+      <select-action
+        [value]="params.order"
+        placeholder="排序方式"
+        [options]="orderOptions"
+        (onChange)="onOrderChange($event)"
+      />
+    </div>
+  </div>
+  <div class="case-list-content custom-scroll-bar">
+    @for (item of list; track $index) {
+      <typhoon-card
+        [data]="item"
+        [index]="$index"
+        [compareList]="compareList"
+        (openModal)="createTplModal()"
+      />
+    }
+  </div>
+</div>
+
+<ng-template #closeIcon>
+  <span
+    nz-icon
+    nzType="close-circle"
+    nzTheme="fill"
+    style="font-size: 24px"
+  ></span>
+</ng-template>

@@ -1,0 +1,35 @@
+<div class="modal-container animate__animated animate__zoomIn">
+  <div #bgBox class="patrolling-bg">
+    <div
+      class="page-wrapper absolute w-full top-0 left-0 flex justify-between items-center"
+    >
+      <div>
+        <extreme-select
+          [value]="line"
+          [options]="lineOptions()"
+          (onChange)="onLineChange($event)"
+        ></extreme-select>
+        @if (hasValidTour()) {
+          <div class="patrolling-tag animate-pulse ml-4">巡</div>
+        }
+      </div>
+      <div>
+        <span class="backward" (click)="onClose.emit()">
+          <span>关闭</span>
+          <span>
+            <img
+              [width]="36"
+              class="inline-block ml-2"
+              src="/assets/images/simulated-patrolling/backward.png"
+              alt=""
+              srcset=""
+            />
+          </span>
+        </span>
+      </div>
+    </div>
+    <div class="diagram-wrapper w-full">
+      <div class="w-full diagram-dom" #diagram></div>
+    </div>
+  </div>
+</div>

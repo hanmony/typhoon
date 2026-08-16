@@ -1,0 +1,54 @@
+<div class="flex justify-center">
+  <div class="ball-container">
+    <div class="total">
+      <div class="label">事件总数</div>
+      <div class="value">1224</div>
+    </div>
+    <div class="w-full h-full">
+      @for (ev of eventTypes; track $index) {
+        <ng-container
+          *ngTemplateOutlet="item; context: { d: ev, index: $index }"
+        ></ng-container>
+      }
+    </div>
+  </div>
+</div>
+<div class="pl-8 text-white">
+  @for (item of data; track $index) {
+    <div class="flex">
+      <div class="pr-4">{{ item.label }}</div>
+      <div>
+        <div
+          class="progress-bar"
+          [style.width]="item.percent * 265 + 'px'"
+        ></div>
+      </div>
+      <div class="pl-3">{{ item.value }}</div>
+    </div>
+  }
+</div>
+
+<ng-template #item let-index="index" let-d="d">
+  <div
+    class="event-item"
+    [style]="'transform-origin: 0 0'"
+    [style.transform]="getTransform(index)"
+  >
+    <!--  style="transform: rotate(var(--rotation))" -->
+    <div
+      class="inner"
+      [style]="
+        'transform: rotate(calc(' +
+        -getRotateDeg(index) +
+        'deg + var(--rotation)'
+      "
+    >
+      <!-- <div
+      class="inner"
+      [style]="'transform: rotate(calc(0deg - var(--rotation))'"
+    > -->
+      <div class="label">{{ d.label }}</div>
+      <div class="value">{{ d.value }}</div>
+    </div>
+  </div>
+</ng-template>

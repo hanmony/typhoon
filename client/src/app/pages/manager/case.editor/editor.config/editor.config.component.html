@@ -1,0 +1,33 @@
+<nz-spin [nzSpinning]="loading">
+  <div class="flex flex-col gap-4">
+    <nz-descriptions
+      *ngFor="let group of groupItems"
+      [nzTitle]="group.name"
+      nzBordered
+      [nzColumn]="4"
+      nzLayout="vertical"
+    >
+      <nz-descriptions-item
+        *ngFor="let item of group.items"
+        [nzTitle]="item.key"
+      >
+        @if (item.editorType == "下拉框配置") {
+          <app-inplace-editor-option
+            [readonly]="readonly"
+            [value]="item.value"
+            [options]="item.editorOptions"
+            [property]="item.key"
+            (changed)="applyChanges($event)"
+          ></app-inplace-editor-option>
+        } @else {
+          <app-inplace-editor-string
+            [readonly]="readonly"
+            [value]="item.value"
+            [property]="item.key"
+            (changed)="applyChanges($event)"
+          ></app-inplace-editor-string>
+        }
+      </nz-descriptions-item>
+    </nz-descriptions>
+  </div>
+</nz-spin>

@@ -1,0 +1,11 @@
+<div class="right-panel">
+  <weather-data-module (onToggleDetail)="toggleWeatherDataOverlayVisible()" />
+  <div class="pt-4">
+    <event-notification-module
+      [events]="events()"
+      (locateEvent)="locateEvent.emit($event)"
+    />
+  </div>
+</div>
+
+<supervisor-weather-record-overlay [ds]="true" />

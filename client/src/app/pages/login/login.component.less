@@ -1,0 +1,88 @@
+:host {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  background-image: url("/assets/images/login/bg.png");
+  background-repeat: no-repeat;
+  background-color: #000108;
+  background-size: cover;
+  background-position: 50% center;
+}
+
+.headline {
+  text-shadow: 0px 2px 8px rgba(5, 28, 55, 0.12);
+  background: linear-gradient(0deg, #55a5f8 0%, #b0d7ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-family: "FangZhengZhongyi";
+  font-size: 39px;
+  line-height: 1;
+  text-align: center;
+}
+
+.subtitle {
+  color: #7eafec;
+  font-family: "微软雅黑";
+  font-size: 14px;
+  opacity: 0.7;
+  text-align: center;
+}
+.login-form-forget {
+  color: #7eafec;
+}
+
+.login-card {
+  width: 559px;
+  height: 431px;
+  background-image: url("/assets/images/login/panel.png");
+  background-color: transparent;
+  border: none;
+  padding: 120px 32px 0;
+  display: flex;
+  justify-content: center;
+
+  // margin: auto;
+  // margin-right: 10%;
+}
+.form-item {
+  height: 42px;
+  line-height: 42px;
+  background-image: url("/assets/images/login/form-item.png");
+  padding: 0 40px;
+  user-select: none;
+}
+.form-input {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  color: #7eafec;
+}
+.light-font {
+  color: #7eafec;
+}
+.error-font {
+  color: #f87171;
+}
+
+.form-button {
+  width: 291px;
+  height: 43px;
+  background-image: url("/assets/images/login/enter.png");
+  margin: 32px auto;
+  cursor: pointer;
+  &.loading,
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+::ng-deep {
+  .ant-checkbox-inner {
+    border-color: #7eafec;
+  }
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #7eafec;
+    border-color: #7eafec;
+  }
+}

@@ -1,0 +1,75 @@
+<div
+  class="dispatch-center"
+  [style.width.px]="standardScreenSize.width"
+  [style.height.px]="standardScreenSize.height"
+  [style.zoom]="scale()"
+>
+  <dispatch-left-panel
+    class="left-panel"
+    [allEvents]="events()"
+    [events]="filteredEvents()"
+    [operations]="filteredOperations()"
+    (locateEvent)="locateEvent($event)"
+    (toDashboardWithState)="toDashboardWithState($event)"
+  />
+  <div class="center-panel">
+    <dc-simulated-patrolling
+      [class.hidden]="!simulatedPatrollingVisible()"
+      [visible]="simulatedPatrollingVisible()"
+      (onClose)="closeSimulatedPatrollingVisible()"
+    />
+    <dispatch-center-map
+      [class.hidden]="simulatedPatrollingVisible()"
+      [events]="filteredEvents()"
+      (toggleSimulatedPatrolling)="toggleSimulatedPatrollingVisible()"
+      [operations]="filteredOperations()"
+    />
+  </div>
+
+  <dispatch-right-panel
+    class="right-panel"
+    [events]="events()"
+    [operations]="filteredOperations()"
+    (toggleSimulatedPatrolling)="toggleSimulatedPatrollingVisible()"
+    (locateEvent)="locateEvent($event)"
+  />
+  <div
+    class="skeleton-bg"
+    [style.width.px]="standardScreenSize.width"
+    [style.height.px]="standardScreenSize.height"
+  ></div>
+
+  <div class="top-mask" [style.width.px]="standardScreenSize.width * 0.36">
+    <div class="title-font">@if (!hideTitle) {上海轨道交通}防汛防台应急态势指挥台</div>
+  </div>
+
+  <div class="center-state">
+    @if (state().name) {
+      <typhoon-name [name]="state().text" />
+    }
+  </div>
+
+  <div
+    class="dispatch-dashboard"
+    [style.bottom.px]="dashboardVisible() ? 0 : -standardScreenSize.height"
+    [style.width.px]="standardScreenSize.width"
+    [style.height.px]="standardScreenSize.height"
+    [style.zoom]="scale()"
+  >
+    <dispatch-dashboard-map
+      class="dashboard-map"
+      [initialFilterState]="dashboardFilterState()"
+      [events]="filteredEvents()"
+      [operations]="filteredOperations()"
+      (closeDashboard)="closeDashboard()"
+      (followTypeChange)="followTypeChange($event)"
+    />
+    <dispatch-dashboard-panel
+      class="dashboard-panel"
+      [events]="filteredEvents()"
+      [allOperations]="operations()"
+      [operations]="filteredOperations()"
+      (openPatrollingLine)="openPatrollingLine($event)"
+    />
+  </div>
+</div>

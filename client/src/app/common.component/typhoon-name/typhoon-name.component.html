@@ -1,0 +1,18 @@
+<div class="typhoon-name">
+  <div class="typhoon-name-left"></div>
+  <div class="typhoon-name-center">
+    <div class="name-font" [style.font-size.px]="size()">
+      {{ name() }}
+    </div>
+  </div>
+  <div class="typhoon-name-right"></div>
+  @if (next()) {
+    <div class="next-step" (click)="onNext.emit()">
+      <img
+        class="ml-2"
+        src="assets/images/typhoon-library/digital-preplan/right-arrow.svg"
+        alt=""
+      />
+    </div>
+  }
+</div>

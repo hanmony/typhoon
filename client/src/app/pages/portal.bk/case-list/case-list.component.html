@@ -1,0 +1,114 @@
+<div class="bg-transparent h-[90px]"></div>
+<div class="case-list">
+  <div class="fuzzy-search">
+    <div class="search">
+      <input
+        class="input"
+        type="text"
+        placeholder="模糊检索消耗性能较大，请谨慎使用"
+        [(ngModel)]="searchText"
+        (keyup)="onSearchKeyup($event)"
+      />
+      <button class="button" (click)="onSearch()">模糊搜索</button>
+    </div>
+    <div class="flex justify-between">
+      <div class="year-filter">
+        <label class="label">年份搜索</label>
+        @for (item of yearOptions; track $index) {
+          <div
+            class="year"
+            [class]="{ active: selectedYears.includes(item) }"
+            (click)="toggleYear(item)"
+          >
+            {{ item }}
+          </div>
+        }
+      </div>
+      <div class="characteristic-filter">
+        <div
+          class="btn"
+          [class]="{ active: allCharacteristicsChecked }"
+          (click)="allCharacteristicsClick()"
+        >
+          全部案例
+        </div>
+        @for (item of characteristicOptions; track $index) {
+          <div
+            class="btn"
+            [class]="{ active: selectedCharacteristics.includes(item.value) }"
+            (click)="toggleCharacteristics(item.value)"
+          >
+            {{ item.label }}
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+  <div class="case-list-wrapper">
+    <div class="list-headline">
+      <span>案件列表</span>
+      <img src="" alt="" srcset="" />
+    </div>
+    <div class="case-list-container">
+      @for (item of list; track item) {
+        <div class="case-card">
+          <div (click)="toCaseDetail(item)">
+            <img src="assets/images/portal/OIP.jpg" alt="" srcset="" />
+          </div>
+          <div class="card-info">
+            <div>
+              <div class="text-left">
+                <span class="name">{{ getFullName(item) }}</span>
+                <!-- <span
+                nz-icon
+                nzType="heart"
+                [nzTheme]="focusList.includes(item) ? 'fill' : 'outline'"
+                style="font-size: 22px; margin-left: 12px; cursor: pointer"
+                [style]="{
+                  color: focusList.includes(item)
+                    ? 'var(--portal-primary)'
+                    : '#c7c9cb'
+                }"
+                (click)="toggleFocus(item)"
+              ></span> -->
+              </div>
+              <div class="text-right">
+                <label
+                  nz-checkbox
+                  [(ngModel)]="item.checked"
+                  (ngModelChange)="checkHandler(item)"
+                  [nzDisabled]="isCompareBtnDisabled(item)"
+                >
+                  对比
+                </label>
+              </div>
+            </div>
+            <div class="flex">
+              <div class="flex-1 text-left">
+                <ul class="info">
+                  <li>时间：{{ getCardTimeText(item) }}</li>
+                  <li>级别：{{ getCardDegreeText(item) }}</li>
+                  <li>最高：{{ getCardHighestText(item) }}</li>
+                </ul>
+              </div>
+              <div class="text-right pt-2 pr-2">
+                <button
+                  class="btn small"
+                  [class]="isCompareBtnActive(item) ? 'active' : 'disabled'"
+                  (click)="compareBtnClick(item)"
+                >
+                  对比
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+    @if (!list || !list.length) {
+      <div class="text-center pt-16">
+        <div class="no-data-font">暂无数据</div>
+      </div>
+    }
+  </div>
+</div>

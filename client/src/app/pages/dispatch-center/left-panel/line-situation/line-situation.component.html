@@ -1,0 +1,42 @@
+<dispatch-module-header title="线路情况" />
+<div class="pl-6">
+  <div class="tabs">
+    @for (tab of tabs; track tab) {
+      <div
+        class="tab-item"
+        [class.active]="activeTab === tab"
+        (click)="onTabItemClick(tab)"
+      >
+        {{ tab }}
+      </div>
+    }
+  </div>
+</div>
+<div class="w-full flex pl-8 pt-8 relative">
+  <div
+    class="chart-bg"
+    [class.isStation]="activeTab === '站点关闭'"
+    style="height: 160px; width: 160px"
+  >
+    <div #chartDom class="w-full h-full"></div>
+    <!-- <div class="line line-top"></div>
+    <div class="line line-bottom"></div> -->
+  </div>
+  <div class="label label-top">{{ data[1].name }}: {{ data[1].value }}</div>
+  @if (data[2]) {
+    <div class="label label-center">
+      {{ data[2].name }}: {{ data[2].value }}
+    </div>
+  }
+  <div class="label label-bottom">{{ data[0].name }}: {{ data[0].value }}</div>
+  <div class="flex-1 flex items-center justify-center pl-16">
+    <!-- <span class="font-bold text-white bg-blue-500 px-4 py-2 rounded-md">gap: 4% 6%;
+      {{ data[0].name }}详情
+    </span> -->
+    <detail-button
+      [text]="activeTab + '详情'"
+      [detailOperations]="detailOperations"
+      (click)="toDashboard($event)"
+    />
+  </div>
+</div>

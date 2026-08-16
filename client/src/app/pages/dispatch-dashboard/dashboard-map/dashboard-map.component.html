@@ -1,0 +1,37 @@
+<div class="top-header">
+  <div class="top-mask">
+    <div class="title-font">@if (!hideTitle) {上海轨道交通}防汛防台应急态势指挥台</div>
+  </div>
+</div>
+<dark-mode-svg />
+<div class="map-container">
+  <div class="map dark-bg dark-mode" #mapRef></div>
+</div>
+
+<div class="return-to-center" (click)="returnToCenter()">
+  <div><img src="/assets/images/dashboard/return.png" alt="" srcset="" /></div>
+  <div class="pl-1">返回</div>
+</div>
+
+<dispatch-top-action
+  [activeAction]="type"
+  (actionChange)="onTypeChange($event)"
+/>
+
+<dd-statistic-overlay
+  [currentType]="type"
+  [events]="events()"
+  [operations]="operations()"
+/>
+<dd-action-overlay
+  [currentType]="type"
+  (onStateChange)="onFilterStateChange($event)"
+/>
+
+@if (patrollingState().visible) {
+  <dashboard-patrolling-detail
+    [visible]="patrollingState().visible"
+    [initialLine]="patrollingState().line"
+    (onClose)="closePatrollingDetail()"
+  />
+}

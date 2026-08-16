@@ -1,0 +1,82 @@
+<div class="w-full flex justify-center">
+  <div class="relative">
+    <div class="w-full text-center absolute" style="top: -45px; left: 2px">
+      <div class="rate-button-group">
+        @for (r of rates; track r) {
+          <div
+            class="control-button short-button rate-button"
+            [class.disabled]="r !== currentRate"
+            (click)="onRateChange(r)"
+          >
+            <span>{{ r }}x</span>
+          </div>
+        }
+      </div>
+    </div>
+    <div
+      class="control-button previous-event-button"
+      [class.disabled]="previousDisabled"
+      (click)="onPreviousClick()"
+    >
+      <span>上一时间点</span>
+    </div>
+    <div
+      class="inline-block 2xl:w-[160px] w-[140px]"
+      style="text-align: center"
+    >
+      @if (!autoPlaying) {
+        <div
+          class="control-button rectangle-button"
+          [class.disabled]="autoPlayDisabled"
+          (click)="onAutoPlayClick()"
+        >
+          <span>自动播放</span>
+        </div>
+      } @else {
+        <div
+          class="control-button short-button"
+          [class.disabled]="processDisabled"
+          (click)="onProcessClick()"
+        >
+          <span>{{ stopping ? "继续" : "暂停" }}</span>
+        </div>
+        <div class="control-button short-button" (click)="onQuitClick()">
+          <span>退出</span>
+        </div>
+      }
+    </div>
+    <div
+      class="control-button next-event-button"
+      [class.disabled]="nextDisabled"
+      (click)="onNextClick()"
+    >
+      <span>下一时间点</span>
+    </div>
+  </div>
+  <div>
+    <div
+      class="radio-button 2xl:ml-12 ml-2"
+      [class.active]="composedViewRangeForbidden ? false : viewingRange === 0"
+      [class.forbidden]="composedViewRangeForbidden"
+      (click)="onViewingRangeClick(0)"
+    >
+      <span>全景俯瞰</span>
+    </div>
+    <div
+      class="radio-button 2xl:ml-4 ml-2"
+      [class.active]="composedViewRangeForbidden || viewingRange === 1"
+      [class.forbidden]="composedViewRangeForbidden"
+      (click)="onViewingRangeClick(1)"
+    >
+      <span>上海市域</span>
+      @if (composedViewRangeForbidden) {
+        <ng-container *ngTemplateOutlet="lock"></ng-container>
+      }
+    </div>
+  </div>
+</div>
+<ng-template #lock>
+  <div class="absolute right-[2px] top-[-4px]">
+    <span nz-icon style="color: yellow" nzType="lock" nzTheme="outline"></span>
+  </div>
+</ng-template>

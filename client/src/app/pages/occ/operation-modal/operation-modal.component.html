@@ -1,0 +1,202 @@
+@if (isCocc()) {
+  <div class="flex items-center mb-5">
+    <div class="label">所属线路：</div>
+    <occ-modal-select
+      [disabled]="isEditMode()"
+      [value]="values().line"
+      [options]="lines"
+      (change)="setLine($event)"
+    ></occ-modal-select>
+  </div>
+  <div class="flex items-center mb-5">
+    <div class="label">调整类型：</div>
+    <occ-modal-select
+      [disabled]="isEditMode()"
+      [value]="values().actionType"
+      [options]="actionTypeOptions"
+      (change)="setActionType($event)"
+    ></occ-modal-select>
+  </div>
+}
+<div class="flex">
+  <div class="label">地点类型：</div>
+  <div>
+    <div>
+      <occ-modal-select
+        [disabled]="isEditMode()"
+        [value]="values().locationType"
+        [options]="locationTypeOptions()"
+        (change)="onLocationTypeChange($event)"
+      ></occ-modal-select>
+      @if (showLocationButton()) {
+        <div class="ml-6 locate-button" (click)="handleLocate()">地图定位</div>
+      }
+      @if (showLocationSection()) {
+        <div class="inline-block text-nowrap ml-4">
+          @if (isCustomPosition()) {
+            <span>{{ values().customPosition }}</span>
+          }
+        </div>
+      }
+    </div>
+    @if (showLocationSection()) {
+      <div class="mt-2">
+        @if (isSingleStation() || isIntervalStation()) {
+          <occ-modal-select
+            [disabled]="isEditMode()"
+            class="mb-2"
+            [class.mr-4]="isSingleStation()"
+            [value]="values().startStation"
+            [placeholder]="isSingleStation() ? '请选择站点' : '起始站点'"
+            [options]="stationOptions()"
+            (change)="onStartStationChange($event)"
+          ></occ-modal-select>
+        }
+        @if (isIntervalStation()) {
+          <span> - </span>
+          <occ-modal-select
+            [disabled]="isEditMode()"
+            class="mr-4"
+            [value]="values().endStation"
+            placeholder="结束站点"
+            [options]="stationOptions()"
+            (change)="onEndStationChange($event)"
+          ></occ-modal-select>
+        }
+
+        @if (shouldShowDirection()) {
+          <occ-modal-select
+            style="min-width: 120px"
+            [value]="values().direction"
+            [options]="directionOptions()"
+            (change)="onDirectionChange($event)"
+          ></occ-modal-select>
+        }
+      </div>
+    }
+    <occ-error-tip [message]="errors().location" />
+  </div>
+</div>
+<!-- <div class="flex mb-5">
+  <div class="label">调整状态：</div>
+  <div>{{ subActionText() }}</div>
+</div> -->
+
+@if (isDistanceAdjustment()) {
+  <div class="flex mb-5">
+    <div class="label">调整间隔：</div>
+    <div class="flex items-center">
+      <nz-input-number
+        [(ngModel)]="values().distance"
+        nzSize="default"
+        nzMin="1"
+        nzMax="60"
+      />
+      <span class="ml-2">分钟</span>
+    </div>
+  </div>
+}
+
+@if (isLimit()) {
+  <div class="flex mb-5">
+    <div class="label">限速：</div>
+    <div class="flex items-center">
+      <span class="reduce-button" (click)="handleLimitStep(-15)">
+        <!-- <span nz-icon nzType="minus"></span> -->
+        <span>-15</span>
+      </span>
+      <nz-input-number
+        [(ngModel)]="values().limit"
+        nzSize="default"
+        [nzMin]="5"
+        [nzMax]="120"
+        [nzStep]="5"
+      />
+      <span class="reduce-button" (click)="handleLimitStep(+15)">
+        <!-- <span nz-icon nzType="plus"></span> -->
+        <span>+15</span>
+      </span>
+      <span class="ml-2">km/h</span>
+    </div>
+  </div>
+}
+
+@if (shouldShowReason()) {
+  <div class="flex mb-5">
+    <div class="label">调整原因：</div>
+    <occ-modal-textarea
+      placeholder="请输入调整原因"
+      [value]="values().description"
+      (changeValue)="setDescription($event)"
+    ></occ-modal-textarea>
+  </div>
+}
+@if (isClose()) {
+  <div class="flex mb-5">
+    <div class="label">关闭程度：</div>
+    <div>
+      <div
+        class="occ-radio-button"
+        [class.checked]="values().close === 1"
+        (click)="setClose(1)"
+      >
+        <span class="occ-radio-button-inner"></span>
+        <span>全部关闭</span>
+      </div>
+      <div
+        class="occ-radio-button"
+        [class.checked]="values().close === 2"
+        (click)="setClose(2)"
+      >
+        <span class="occ-radio-button-inner"></span>
+        <span>部分关闭</span>
+      </div>
+    </div>
+  </div>
+}
+<div class="flex mb-5">
+  <div class="label">结束待定：</div>
+  <div>
+    <div class="flex items-center">
+      <nz-switch [(ngModel)]="values().isEndTimeOptional">
+        开始时间待定
+      </nz-switch>
+    </div>
+  </div>
+</div>
+
+@if (!values().isEndTimeOptional) {
+  <div class="flex">
+    <div class="label">时间段：</div>
+    <div>
+      <div class="flex items-center">
+        <nz-range-picker
+          [nzShowTime]="{ nzFormat: 'HH:mm' }"
+          nzFormat="yyyy-MM-dd HH:mm"
+          [(ngModel)]="values().time"
+          (ngModelChange)="onTimeChange($event)"
+        ></nz-range-picker>
+      </div>
+      <div>
+        <occ-error-tip [message]="errors().time" />
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="flex">
+    <div class="label">开始时间：</div>
+    <div>
+      <div class="flex items-center">
+        <nz-date-picker
+          [nzShowTime]="{ nzFormat: 'HH:mm' }"
+          nzFormat="yyyy-MM-dd HH:mm"
+          [(ngModel)]="values().startTime"
+          (ngModelChange)="onStartTimeChange($event)"
+        ></nz-date-picker>
+      </div>
+      <div>
+        <occ-error-tip [message]="errors().time" />
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,20 @@
+<span class="relative">
+  <img
+    class="select-none"
+    src="assets/images/map/timeline/wind-circle.png"
+    draggable="false"
+    alt=""
+    srcset=""
+  />
+  @if (!hidden) {
+    <img
+      @fade
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none"
+      src="assets/images/map/timeline/wind-circle-center.png"
+      draggable="false"
+      alt=""
+      srcset=""
+    />
+  }
+</span>
+<span class="hide-text">{{ hidden ? "显示" : "隐藏" }}风圈</span>

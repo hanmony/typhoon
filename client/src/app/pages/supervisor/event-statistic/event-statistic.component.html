@@ -1,0 +1,158 @@
+@if (visible()) {
+  <div @horizontalInOutReverse class="statistical-table-modal">
+    <div class="statistical-box">
+      <div class="modal-header">
+        <div>
+          <span>事件统计</span>
+        </div>
+        <div class="mr-4">
+          <img
+            class="mb-2 cursor-pointer hover:scale-110"
+            src="assets/images/map/dock/statistical-table-modal/close.png"
+            alt=""
+            (click)="close()"
+          />
+        </div>
+      </div>
+      <div class="modal-body flex">
+        <div class="h-full modal-sidder">
+          <div class="h-full flex flex-col justify-center">
+            <div class="tab-item active">台风期间全事件列表</div>
+            <!-- <div class="gap-line"></div>
+            <div
+              class="tab-item"
+              (click)="setCurrentTableType('current')"
+              [class.active]="currentTableType === 'current'"
+            >
+              当前时间点的事件
+            </div> -->
+          </div>
+        </div>
+        <div class="flex-1 pl-4 pr-8">
+          <div class="category-options">
+            @for (category of categories; track $index) {
+              <div
+                class="category-option"
+                (click)="onCategoryChange(category.key)"
+                [class.active]="currentCategoryKey() === category.key"
+              >
+                <span class="category-font">
+                  {{ category.name }}
+                </span>
+              </div>
+            }
+          </div>
+          <!-- <div class="subType-options">
+            @for (subType of currentSubTypes(); track $index) {
+              <div
+                class="subType-option"
+                (click)="onSubTypeChange(subType.value)"
+                [class.active]="currentSubTypeKey() === subType.value"
+              >
+                {{ subType.label }}
+              </div>
+            }
+          </div> -->
+
+          <div>
+            <table class="statistical-table w-full">
+              <thead>
+                <tr class="text-left">
+                  @for (column of columns; track $index) {
+                    <th
+                      class="whitespace-nowrap"
+                      [style.width]="
+                        column.width ? column.width + 'px' : undefined
+                      "
+                    >
+                      {{ column.label }}
+                    </th>
+                  }
+                </tr>
+              </thead>
+              <tbody class="custom-scroll-bar">
+                @for (row of finalTableData; track $index) {
+                  <tr class="row" [class.terminated-font]="row.terminated">
+                    <!-- { label: '', key: 'severity' },
+                    { label: '线路', key: 'line' },
+                    { label: '地点', key: 'location', width: 120 },
+                    { label: '上下行', key: 'direction' },
+                    { label: '发生时间', key: 'startTime' },
+                    { label: '抢修状态', key: 'repairStatus' },
+                    { label: '过境前后', key: 'passing' }, -->
+                    <td class="w-[48px] text-center">
+                      @if (row.severity) {
+                        <span
+                          class="w-3 h-3 rounded-full inline-flex items-center justify-center"
+                          [style.background]="
+                            row.terminated ? '#ffffff91' : '#00ffff'
+                          "
+                        >
+                          <svg
+                            style="width: 12px; height: 12px; color: #000000"
+                            xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M5 12l5 5L20 7"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            ></path>
+                          </svg>
+                        </span>
+                      }
+                    </td>
+                    <td class="w-[90px]">
+                      {{ row.line }}
+                    </td>
+                    <td class="">
+                      {{ getPosition(row) }}
+                    </td>
+                    <td class="w-[84px]">
+                      {{ row.direction }}
+                    </td>
+                    <td class="w-[120px]">
+                      {{ getStartTime(row) }}
+                    </td>
+                    <td
+                      class="w-[100px]"
+                      [style.color]="getEventRepairStateColor(row)"
+                    >
+                      {{ getEventRepairStateText(row) }}
+                    </td>
+                    <td class="w-[84px]" [style.color]="getPastColor(row)">
+                      {{ getPastText(row) }}
+                    </td>
+                    <td class="w-[84px]">
+                      {{ getEventType(row) }}
+                    </td>
+                    <td class="w-[144px]" [class.truncate]="true">
+                      <span nz-tooltip [nzTooltipTitle]="row.description">
+                        <span class="truncate-text">
+                          {{ row.description }}
+                        </span>
+                      </span>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+            @if (!finalTableData.length) {
+              <div
+                class="text-center category-font py-8"
+                style="font-size: 32px; line-height: 1.5"
+              >
+                暂无数据
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer"></div>
+  </div>
+}

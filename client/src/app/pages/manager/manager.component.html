@@ -1,0 +1,108 @@
+<nz-page-header>
+  <nz-avatar nz-page-header-avatar nzIcon="database"></nz-avatar>
+  <nz-page-header-title>台风案例库管理系统</nz-page-header-title>
+  <nz-page-header-extra>
+    <nz-avatar nzIcon="user"></nz-avatar>
+
+    <a nz-dropdown [nzDropdownMenu]="menu">
+      {{ settings.user?.name }}
+      <span nz-icon nzType="down"></span>
+    </a>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <ul nz-menu nzSelectable>
+        <li nz-menu-item (click)="backToHome()">返回首页</li>
+        <li nz-menu-divider></li>
+        <li nz-menu-item (click)="handleChangePassword()">修改密码</li>
+        <li nz-menu-divider></li>
+        <li nz-menu-item (click)="handleLogout()">退出登录</li>
+      </ul>
+    </nz-dropdown-menu>
+  </nz-page-header-extra>
+</nz-page-header>
+
+<nz-layout class="inner-layout">
+  <nz-sider nzWidth="200px">
+    <ul nz-menu nzMode="inline" class="sider-menu">
+      <li nz-submenu nzOpen nzTitle="案例库" nzIcon="file">
+        <ul>
+          <li
+            nz-menu-item
+            routerLink="list"
+            routerLinkActive="ant-menu-item-selected"
+          >
+            案例库列表
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzOpen nzTitle="案例管理" nzIcon="file-text">
+        <ul>
+          <li
+            nz-menu-item
+            routerLink="document-list"
+            routerLinkActive="ant-menu-item-selected"
+          >
+            文件列表
+          </li>
+        </ul>
+      </li>
+      <li
+        nz-submenu
+        nzOpen
+        nzTitle="AI 知识库"
+        nzIcon="robot"
+        *rolesIn="['admin', 'manager']"
+      >
+        <ul>
+          <li
+            nz-menu-item
+            routerLink="knowledge-base"
+            routerLinkActive="ant-menu-item-selected"
+          >
+            知识库管理
+          </li>
+          <li
+            nz-menu-item
+            routerLink="ai-chat"
+            routerLinkActive="ant-menu-item-selected"
+          >
+            AI 智能问答
+          </li>
+        </ul>
+      </li>
+      <li
+        nz-submenu
+        nzOpen
+        nzTitle="系统管理"
+        nzIcon="laptop"
+        *rolesIn="['admin', 'manager']"
+      >
+        <ul>
+          <li
+            nz-menu-item
+            routerLink="user-list"
+            routerLinkActive="ant-menu-item-selected"
+          >
+            用户管理
+          </li>
+          <li
+            nz-menu-item
+            routerLink="log-list"
+            routerLinkActive="ant-menu-item-selected"
+          >
+            系统日志
+          </li>
+          <li
+            nz-menu-item
+            routerLink="llm-models"
+            routerLinkActive="ant-menu-item-selected"
+          >
+            模型管理
+          </li>
+          <!-- <li nz-menu-item>备份和恢复</li> -->
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-content class="inner-content"><router-outlet></router-outlet></nz-content>
+</nz-layout>
+<nz-footer>台风案例库 V1.0</nz-footer>

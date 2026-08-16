@@ -1,0 +1,107 @@
+.default-text {
+  color: var(--case-text-primary);
+}
+
+.deep-text {
+  color: var(--case-primary);
+}
+
+.timeline-mask {
+  @apply absolute w-full h-full top-0 left-0;
+  z-index: -2;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.6) 60%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.timeline-strip {
+  background-image: url(/assets/images/map/timeline/strip.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  position: absolute;
+  bottom: 16px;
+  left: 0;
+  width: 100%;
+  z-index: -1;
+}
+
+.children-inline {
+  & > * {
+    display: inline-block;
+  }
+}
+.timeline-progress {
+  position: absolute;
+  top: 4px;
+  width: calc(100% - 32px - 32px);
+  left: 32px;
+  text-align: left;
+  height: 9px;
+  z-index: -1;
+  .progress-bar {
+    height: 100%;
+    border-radius: 5px;
+    width: var(--progress);
+    background-color: #277474;
+    transition: none;
+    &.trans {
+      transition: width 100ms ease-in-out;
+    }
+  }
+}
+
+.expand-button {
+  width: 34px;
+  color: var(--case-primary);
+  cursor: pointer;
+  &.disabled {
+    cursor: not-allowed;
+  }
+  .stuff-block {
+    width: 6px;
+  }
+  .expand-icon {
+    display: flex;
+  }
+  .left {
+    position: relative;
+    left: 0;
+  }
+  .right {
+    position: relative;
+    right: 0;
+  }
+  .text-row {
+    font-size: 13px;
+    line-height: 13px;
+    text-align: center;
+  }
+
+  &:hover {
+    &:not(.disabled) {
+      .left {
+        left: 2px;
+      }
+      .right {
+        right: 2px;
+      }
+    }
+  }
+}
+
+.time-tip-box {
+  display: inline-block;
+  color: #00d2ff;
+  border-radius: 25px;
+  height: 50px;
+  line-height: 50px;
+  font-size: 20px;
+  border: 1px solid #00d2ff;
+  box-shadow:
+    0 0 0rem #00d2ff70,
+    0 0 1rem #00d2ff99 inset;
+  padding: 0 0.75rem;
+}

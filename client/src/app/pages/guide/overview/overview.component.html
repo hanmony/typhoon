@@ -1,0 +1,34 @@
+<div style="flex: 0.5 1 0%"></div>
+<div id="overview-effects">
+  <div id="overview-effects-title" class="title-font yellow">事件影响</div>
+  @for (item of infos.effects; track $index) {
+    <div id="overview-effects-infos">
+      <span class="dot" [style.background]="item.dot"></span>
+      <span class="label-font">{{ item.label }}</span>
+      <span class="value-font">{{ item.value }}</span>
+    </div>
+  }
+</div>
+<div class="flex-1"></div>
+<div id="overview-measures">
+  <div id="overview-measures-title" class="title-font green">运行措施</div>
+  @for (item of infos.measures; track $index) {
+    <div id="overview-measures-infos">
+      <span class="dot" [style.background]="item.dot"></span>
+      <span class="label-font">{{ item.label }}</span>
+      <span class="value-font">{{ item.value }}</span>
+    </div>
+  }
+</div>
+<div class="flex-1"></div>
+<div id="overview-publicOpinions">
+  <div id="overview-publicOpinions-title" class="title-font blue">舆情信息</div>
+  @for (item of infos.publicOpinions; track $index) {
+    <div id="overview-publicOpinions-infos">
+      <span class="dot" [style.background]="item.dot"></span>
+      <span class="label-font">{{ item.label }}</span>
+      <span class="value-font">{{ item.value }}</span>
+    </div>
+  }
+</div>
+<div style="flex: 0.5 1 0%"></div>

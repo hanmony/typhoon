@@ -1,0 +1,16 @@
+<div class="inline-block">
+  <a
+    class="text-blue-300"
+    nz-dropdown
+    [nzDropdownMenu]="menu"
+    nzTrigger="click"
+  >
+    {{ settings.user?.name }}
+    <span class="ml-1" nz-icon nzType="down"></span>
+  </a>
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu nzSelectable>
+      <li nz-menu-item (click)="handleLogout()">退出登录</li>
+    </ul>
+  </nz-dropdown-menu>
+</div>

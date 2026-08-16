@@ -1,0 +1,48 @@
+<div class="line-module">
+  <div class="pt-3 pl-4 pr-2 flex justify-between items-center">
+    <!-- <div class="line-name" [style]="{ '--line-color': lineColor() }">
+      <span>{{ line() }}</span>
+    </div> -->
+    <div>
+      <nz-select
+        style="min-width: 120px"
+        modify
+        [(ngModel)]="line"
+        (ngModelChange)="onLineChange($event)"
+      >
+        @for (line of lines; track line) {
+          <nz-option [nzLabel]="line" [nzValue]="line"></nz-option>
+        }
+      </nz-select>
+    </div>
+    <div class="text-right">
+      <extreme-tabs
+        [tabs]="['今日数据', '总计数据']"
+        [activeTab]="activeDuration()"
+        (onClick)="setActiveDuration($event)"
+      />
+    </div>
+  </div>
+  <div class="flex py-4 pl-4">
+    <div class="relative flex justify-center items-center">
+      <dual-line-chart [data]="currentLineEvents()" />
+      <div
+        class="absolute pointer-events-none left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center opacity-70"
+      >
+        <div class="text-2xl">{{ total() }}</div>
+        <span>事件总数</span>
+      </div>
+    </div>
+    <div class="flex-1 flex items-center">
+      <div class="w-full grid grid-cols-1 gap-x-10 gap-y-1 pl-6 pr-2">
+        @for (item of currentLineEvents(); track $index) {
+          <div class="flex items-center">
+            <span class="rect mr-2" [style.background]="item.color"></span>
+            <span class="flex-1 text-sm">{{ item.name }}</span>
+            <span [style.color]="item.color">{{ item.value }}</span>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,115 @@
+:host {
+  position: absolute;
+  bottom: 0;
+  left: 1rem;
+  z-index: 501;
+
+  // width: 60%;
+  padding-bottom: 1.8125rem;
+  pointer-events: none;
+  width: calc(100vw - 25rem);
+}
+.box-wrapper {
+  background: linear-gradient(
+    -38deg,
+    rgba(3, 0, 0, 0.24),
+    rgba(24, 98, 182, 0.65)
+  );
+  border-radius: 4px;
+  border: 2px solid #2081ff99;
+  padding: 0.875rem;
+  padding-left: 0rem;
+  pointer-events: all;
+}
+
+.list-title {
+  width: 12.4rem;
+  height: 2.1rem;
+  background-image: url("/assets/images/dispatch-center/map/event-overlay-title.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  padding-left: 2rem;
+}
+.list-title-font {
+  font-weight: normal;
+  font-size: 1rem;
+  line-height: 2rem;
+  background: linear-gradient(0deg, #acddff 0%, #ffffff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.border-separator {
+  border-left: 1px solid #ffffff22;
+  border-right: 1px solid #ffffff22;
+}
+
+.field-title {
+  font-size: 0.875rem;
+  padding-left: 1.5rem;
+  display: inline-block;
+  background: url("/assets/images/cocc/line-name-arrow.png") no-repeat left
+    center;
+  background-size: 100% auto;
+  min-width: 97px;
+  height: 2rem;
+  line-height: 2rem;
+  color: #fff;
+}
+
+.line-label {
+  display: inline-flex;
+  min-width: 3.2rem;
+  height: 1.5rem;
+  background: linear-gradient(0deg, #091b35, #5876ae);
+  border: 1px solid #3f516f;
+  align-items: center;
+  padding: 2px 6px 1px;
+  color: #c1dcfc;
+  font-size: 0.752rem;
+  text-align: center;
+}
+.field-value {
+  font-size: 0.875rem;
+  color: #42deff;
+}
+.position-value {
+  font-size: 0.875rem;
+  color: #c1dcfc;
+}
+
+.partial-halt-box {
+  background: linear-gradient(0deg, #142d5d88, #0a1d3488);
+  border: 1px solid #38496c88;
+  // width: 587px;
+  // height: 83px;
+  padding: 1.5rem 1rem 0;
+  margin-bottom: 32px;
+  position: relative;
+  color: #c1dcfc;
+
+  .sticky-top {
+    position: absolute;
+    left: 4px;
+    top: -8px;
+  }
+
+  &:last-child {
+    margin-bottom: 4px;
+  }
+}
+
+.category-name {
+  display: inline-block;
+  background: url("/assets/images/cocc/line-name-arrow.png") no-repeat center
+    center;
+  background-size: 100% auto;
+  min-width: 97px;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  padding-left: 2rem;
+  font-size: 1rem;
+  color: #fff; // #f9f902
+}

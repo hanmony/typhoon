@@ -1,0 +1,39 @@
+.statistical-table {
+  font-size: 14px;
+  thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* 重要  表格固定算法 */
+    text-align: left;
+    color: #00ffffe1;
+    th {
+      padding: 0 8px;
+    }
+  }
+  tbody {
+    display: block;
+    background-color: transparent;
+    max-height: calc(50vh - 24px);
+    overflow-y: overlay;
+    tr {
+      min-height: 44px;
+    }
+    td {
+      min-height: 44px;
+      padding: 8px;
+    }
+    .row {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+      border-bottom: 1px solid #ffffff41;
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+}
+
+.terminated-font {
+  color: #ffffff91;
+}

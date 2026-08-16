@@ -1,0 +1,111 @@
+@fontSize: 24px !important;
+@fontColor: #a5b2c8;
+@terminatedColor: #a5b2c877;
+
+@borderColor: rgba(103, 133, 177, 0.38) !important;
+@innerBorderColor: rgba(0, 90, 232, 0.13) !important;
+@rowBgColor: rgba(26, 67, 124, 0.38) !important;
+
+.ev-table {
+  font-size: @fontSize;
+  border-color: @borderColor;
+  background-color: @rowBgColor;
+  border-left: 1px solid @borderColor;
+  border-collapse: separate;
+  border-spacing: 0;
+  display: table;
+  width: 100%;
+  table-layout: auto;
+  color: @fontColor;
+
+  thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* 重要  表格固定算法 */
+  }
+
+  th,
+  td {
+    border-color: @innerBorderColor;
+  }
+
+  tbody {
+    display: block;
+    max-height: 880px;
+    table-layout: fixed;
+    overflow-y: overlay;
+    > div {
+      display: table;
+      width: 100%;
+    }
+    td {
+      border-right: 2px solid @innerBorderColor;
+      border-bottom: 2px solid @innerBorderColor;
+    }
+  }
+}
+.ev-table-header {
+  // border-top: 1px solid @borderColor;
+  // border-bottom: 1px solid @borderColor;
+  th {
+    border-top: 1px solid @borderColor;
+    border-bottom: 1px solid @borderColor;
+    background-color: rgba(25, 54, 98, 0.38);
+    padding: 12px 0 18px 0;
+    font-weight: 600;
+  }
+}
+
+.ev-row {
+  width: 100%;
+  display: table-row;
+  table-layout: fixed;
+
+  &.shining-animation {
+    animation: shining 2s ease-in-out infinite;
+  }
+  &.terminated-font {
+    color: @terminatedColor;
+  }
+}
+.ev-cell {
+  padding: 16px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.border-both {
+  border-left: 2px solid #005ae816;
+  border-right: 2px solid #005ae816;
+}
+
+.image-hover-effect {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  filter: hue-rotate(0deg);
+  &:hover {
+    filter: hue-rotate(-15deg);
+  }
+}
+
+.ordering-color {
+  color: #02f4f5;
+}
+
+@keyframes shining {
+  0% {
+    box-shadow:
+      inset 0 0 0px #15d3ff85,
+      inset 0 0 0px #15d3ffb8;
+  }
+  50% {
+    box-shadow:
+      inset 0 0 15px #15d3ff85,
+      inset 0 0 18px #15d3ffb8;
+  }
+  100% {
+    box-shadow:
+      inset 0 0 2px #15d3ff85,
+      inset 0 0 4px #15d3ffb8;
+  }
+}

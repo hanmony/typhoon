@@ -1,0 +1,119 @@
+:host {
+  position: relative;
+  display: block;
+  width: 100vw;
+  height: 100%;
+}
+.top-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 133px;
+  background: url("/assets/images/occ/top-header-bg.png") no-repeat center
+    center;
+  background-size: 100% auto;
+  z-index: 800;
+  user-select: none;
+  pointer-events: none;
+}
+
+.top-mask {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 800;
+  width: 45%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .title-font {
+    text-shadow: 0px 2px 8px rgba(5, 28, 55, 0.12);
+    background: linear-gradient(
+      0deg,
+      rgba(119, 186, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0.95) 100%
+    );
+    background-clip: text;
+    color: transparent;
+    font-family: "FangZhengZhongyi";
+    font-size: 34px;
+  }
+}
+
+::ng-deep .leaflet-control-attribution {
+  display: none;
+}
+
+.dark-mode {
+  &:not(.leaflet-safari) {
+    ::ng-deep.leaflet-tile-pane {
+      filter: url("#x-rays") contrast(2) grayscale(0.47) saturate(1.2);
+    }
+  }
+
+  &.leaflet-safari {
+    ::ng-deep.leaflet-tile-pane {
+      filter: url("#x-rays") contrast(2) grayscale(0.47) saturate(1.2);
+    }
+  }
+}
+
+.map-container {
+  width: 100%;
+  height: 100%;
+  -webkit-mask: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 93%,
+    rgba(0, 0, 0, 0.9) 95%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+  mask: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 93%,
+    rgba(0, 0, 0, 0.9) 95%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+}
+
+.dark-bg {
+  background: linear-gradient(
+    to right,
+    #081835 0%,
+    #081835 15%,
+    #173f6d 85%,
+    #173f6d 100%
+  );
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+.return-to-center {
+  position: absolute;
+  top: 44px;
+  left: 16px;
+  z-index: 600;
+  text-align: center;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+
+  img {
+    transition: transform 0.2s ease-in-out;
+  }
+
+  &:hover {
+    color: #5274aa;
+    img {
+      transform: scale(1.05);
+    }
+  }
+}

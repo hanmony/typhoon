@@ -1,0 +1,16 @@
+<div>
+  <nz-descriptions nzLayout="horizontal" [nzColumn]="1">
+    <nz-descriptions-item nzTitle="用户名"> {{ data.id }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="角色">
+      <app-role-selector [(roles)]="roles"></app-role-selector>
+    </nz-descriptions-item>
+  </nz-descriptions>
+</div>
+
+<div *nzModalTitle>
+  <p>修改角色</p>
+</div>
+<div *nzModalFooter class="flex gap-2 w-full justify-end">
+  <button nz-button nzType="primary" (click)="handleConfirm()">确定</button>
+  <button nz-button (click)="handleCancel()">取消</button>
+</div>

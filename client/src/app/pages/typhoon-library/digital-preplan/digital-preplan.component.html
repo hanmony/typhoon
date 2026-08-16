@@ -1,0 +1,50 @@
+<div class="digital-preplan-wrapper">
+  <div class="header-bg">
+    <div class="tabs">
+      <div
+        class="h-tab-item h-button-left"
+        [class.active]="tabKey === 0"
+        (click)="onTabChange(0)"
+      >
+        @if (!hideTitle) {上海轨道交通}示意图
+      </div>
+      <div
+        class="h-tab-item h-button-middle"
+        [class.active]="tabKey === 1"
+        (click)="onTabChange(1)"
+      >
+        行车交路及运力配置图
+      </div>
+      <div
+        class="h-tab-item h-button-middle"
+        [class.active]="tabKey === 2"
+        (click)="onTabChange(2)"
+      >
+        预警行动要求对照表
+      </div>
+      <div
+        class="h-tab-item h-button-right"
+        [class.active]="tabKey === 3"
+        (click)="onTabChange(3)"
+      >
+        指挥体系图
+      </div>
+    </div>
+  </div>
+  <div class="tab-container">
+    @switch (tabKey) {
+      @case (0) {
+        <digital-preplan-lines />
+      }
+      @case (1) {
+        <digital-preplan-config />
+      }
+      @case (2) {
+        <digital-preplan-compare />
+      }
+      @case (3) {
+        <digital-preplan-command />
+      }
+    }
+  </div>
+</div>

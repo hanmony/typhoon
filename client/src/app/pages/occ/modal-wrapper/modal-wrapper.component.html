@@ -1,0 +1,24 @@
+<div class="event-modal-wrapper" [class.hide]="isHide()">
+  <div class="event-modal animate__animated animate__zoomIn">
+    <div class="event-modal-body-wrapper">
+      <div class="bg-modal-top"></div>
+      <div class="event-modal-body">
+        <div class="header">{{ title() }}</div>
+        <div class="header-separator"></div>
+        <div class="form">
+          <ng-content></ng-content>
+          <div class="flex items-center justify-end pr-8 relative top-2 z-10">
+            <div class="action-button mr-4" (click)="handleSubmit()">
+              {{ actionText() }}
+            </div>
+            <div class="action-button cancel" (click)="handleCancel()">
+              取消
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-modal-bottom"></div>
+      </div>
+    </div>
+  </div>
+</div>

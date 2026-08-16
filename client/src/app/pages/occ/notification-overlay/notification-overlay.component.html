@@ -1,0 +1,108 @@
+@if (!isHide()) {
+  <div @horizontalInOutReverse class="notification-overlay">
+    <!-- <div class="notification-title">
+      <span>公告通知</span>
+    </div>
+    <div class="notification-item mt-1">
+      <div class="notification-italic-font">
+        <span>应急管理部</span>
+      </div>
+      <div class="notification-italic-font">
+        <span>2028/1/8 10:25</span>
+      </div>
+    </div>
+    <div class="notification-content my-3">
+      <span class="line-clamp-3">
+        暂无
+      </span>
+    </div> -->
+    <div class="notification-title">
+      <div class="title-font">
+        <span>{{ currentLine() }}事件</span>
+      </div>
+      <div>
+        <span>总数量：{{ total() }}起</span>
+      </div>
+    </div>
+    <div class="notification-event mt-1">
+      <div style="width: 114px">
+        <img
+          draggable="false"
+          class="relative bottom-4"
+          src="/assets/images/occ/notification-event-today.png"
+          alt=""
+          srcset=""
+        />
+      </div>
+      <div class="flex-1 pl-2 pr-4 py-4 flex flex-col justify-between">
+        <div class="opacity-60 text-base">今日事件</div>
+        <div class="font-bold pb-2" style="font-size: 23px">
+          {{ eventStatistics()?.todayNumber }}
+        </div>
+        <div class="flex justify-between gap-1" style="font-size: 13px">
+          <div class="">
+            <span class="mr-2 opacity-60">占比总事件</span>
+            <span class="opacity-85" style="color: #2cc4e4; font-size: 14px">{{
+              eventStatistics()?.todayPercentage
+            }}</span>
+          </div>
+          <div class="">
+            <span class="mr-2 opacity-60">同比昨日</span>
+            <span
+              class="opacity-85"
+              style="font-size: 14px"
+              [style.color]="
+                eventStatistics()?.todayGreaterThanYesterday
+                  ? '#ff684f'
+                  : '#14be4c'
+              "
+              >{{
+                eventStatistics()?.todayPercentageGreaterThanYesterday
+              }}</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="notification-event">
+      <div style="width: 114px">
+        <img
+          draggable="false"
+          class="relative bottom-4"
+          src="/assets/images/occ/notification-event-important.png"
+          alt=""
+          srcset=""
+        />
+      </div>
+      <div class="flex-1 pl-2 pr-4 py-4 flex flex-col justify-between">
+        <div class="opacity-60 text-base">重点事件</div>
+        <div class="font-bold pb-2" style="font-size: 23px">
+          {{ eventStatistics()?.severityNumber }}
+        </div>
+        <div class="flex justify-between gap-1" style="font-size: 13px">
+          <div class="">
+            <span class="mr-2 opacity-60">占比总事件</span>
+            <span class="opacity-85" style="color: #2cc4e4; font-size: 14px">{{
+              eventStatistics()?.severityPercentage
+            }}</span>
+          </div>
+          <div class="">
+            <span class="mr-2 opacity-60">同比昨日</span>
+            <span
+              class="opacity-85"
+              style="font-size: 14px"
+              [style.color]="
+                eventStatistics()?.severityGreaterThanYesterday
+                  ? '#ff684f'
+                  : '#14be4c'
+              "
+              >{{
+                eventStatistics()?.severityPercentageGreaterThanYesterday
+              }}</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}

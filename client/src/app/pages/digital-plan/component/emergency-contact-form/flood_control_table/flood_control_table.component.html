@@ -1,0 +1,50 @@
+<div class="material-transfer-table">
+  <!-- 防汛应急抢修服务应急联络 -->
+  <div *ngFor="let company of getFilteredCompanies()" class="company-section">
+    <div class="company-header">{{ company.companyName }}</div>
+    <img
+      src="/assets/images/digital-plan/caveEntranceTableBg1.png"
+      alt=""
+      class="line-img-header"
+    />
+    <!-- 按线路分组 -->
+    <div
+      *ngFor="let lineGroup of getLineGroups(company.locations); let i = index"
+      class="line-section"
+      [ngStyle]="{ '--order': i }"
+    >
+      <img
+        *ngIf="lineGroup.iconPath"
+        [src]="lineGroup.iconPath"
+        class="line-icon"
+      />
+
+      <div class="line-section-content">
+        <div class="line-table">
+          <!-- 只在每个线路组的第一个数据项前显示表头 -->
+          <div class="table-header" *ngIf="lineGroup.items.length > 0">
+            <div class="header-cell">设置地点</div>
+            <div class="header-cell">负责人</div>
+            <div class="header-cell">联系电话</div>
+            <div class="header-cell">人数</div>
+            <div class="header-cell">应急队伍属性</div>
+          </div>
+          <div *ngFor="let item of lineGroup.items" class="table-row">
+            <div class="table-cell">{{ item.setupLocation }}</div>
+            <div class="table-cell">{{ item.responsiblePerson }}</div>
+            <div class="table-cell">{{ item.contactPhone }}</div>
+            <div class="table-cell">{{ item.numberOfPeople }}</div>
+            <div class="table-cell">{{ item.emergencyTeamAttribute }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <img
+      src="/assets/images/digital-plan/caveEntranceTableBg3.png"
+      alt=""
+      class="line-img-footer"
+    />
+  </div>
+  <!-- 无数据提示 -->
+  <div *ngIf="getFilteredCompanies().length === 0" class="no-data">无数据</div>
+</div>

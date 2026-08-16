@@ -1,0 +1,69 @@
+services:
+    nginx:
+        image: "nginx"
+        depends_on:
+            - node
+        volumes:
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./nginx/conf.d:/etc/nginx/conf.d
+            - ./client:/usr/share/nginx/html
+            - ./maps:/usr/share/nginx/html/tiles
+        ports:
+            - "12080:80"
+    node:
+        image: "node:20.11.0"
+        working_dir: /home/node/app
+        environment:
+            - NODE_ENV=production
+            - TZ=Asia/Shanghai
+            - SERVER_HOST=0.0.0.0    # HOST address
+            - HOST=0.0.0.0
+            - PORT=3000       # HOST port
+            - SECRET=secret-of-typhoon
+            - DATABASE_URI=mongodb://mongodb:27017/typhoon
+            # RAG Knowledge Base
+            - EMBEDDING_MODEL=text-embedding-v3
+            - EMBEDDING_API_KEY=sk-xxx
+            - EMBEDDING_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
+            - EMBEDDING_DIMENSION=1024
+            - QDRANT_URL=http://qdrant:6333
+            - QDRANT_COLLECTION_NAME=knowledge_base
+            - LLM_MODEL=deepseek-chat
+            - LLM_API_KEY=sk-xxx
+            - LLM_BASE_URL=https://api.deepseek.com/v1
+            - KB_UPLOAD_DIR=/data/knowledge-base
+            - KB_CHUNK_SIZE=500
+            - KB_CHUNK_OVERLAP=50
+        volumes:
+            - ./server:/home/node/app
+            - ./volumes/knowledge-base:/data/knowledge-base
+        depends_on:
+            - mongodb
+            - qdrant
+        command: /bin/bash -c "rm -rf node_modules.bk && npm config set registry=http://mirrors.cloud.tencent.com/npm/ && npm i -g nodemon && npm i && nodemon --ignore node_modules dist/main"
+    mongodb:
+        image: mongodb/mongodb-community-server
+        hostname: mongodb
+        restart: always
+        user: root:root
+        volumes:
+            - ./volumes/mongodb-data:/data/db
+            - ./volumes/mongodb-dump:/dump
+        ports:
+           - 27017:27017
+        command: ["--replSet", "dbrs", "--bind_ip_all"]
+        healthcheck:
+            test: echo "try { rs.status() } catch (err) { rs.initiate({_id:'dbrs',members:[{_id:0,host:'mongodb'}]}) }" | mongosh --port 27017 --quiet
+            interval: 5s
+            timeout: 30s
+            start_period: 0s
+            start_interval: 1s
+            retries: 30
+    qdrant:
+        image: qdrant/qdrant:latest
+        restart: always
+        ports:
+            - "6333:6333"
+            - "6334:6334"
+        volumes:
+            - ./volumes/qdrant-data:/qdrant/storage

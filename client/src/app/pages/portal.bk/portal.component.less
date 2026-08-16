@@ -1,0 +1,28 @@
+.portal {
+  background-color: #f6f8fb;
+  height: 100vh;
+  // overflow: hidden;
+}
+
+.custom-bounce {
+  animation: bounceC 2s infinite;
+}
+
+@keyframes bounceC {
+  0%,
+  15%,
+  85%,
+  100% {
+    transform: translate(-50%, -15%) rotate(90deg);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translate(-50%, 0) rotate(90deg);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.pin {
+  position: fixed;
+  top: 0;
+}

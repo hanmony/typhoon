@@ -1,0 +1,35 @@
+<div class="dock position" style="top: 56px" [style.left.px]="dockX()">
+  @for (tool of actionTools; track $index) {
+    <div class="tool" [class.disabled]="tool.inactive" draggable="false">
+      <img
+        class="pt-4 pb-1 select-none cursor-pointer"
+        draggable="false"
+        [src]="tool.image"
+        alt=""
+        srcset=""
+        (click)="onToolClick(tool)"
+      />
+      <div>
+        <span class="select-none">{{ tool.name }}</span>
+      </div>
+    </div>
+  }
+</div>
+
+<div class="dock position" style="bottom: 70px" [style.left.px]="dockX()">
+  @for (tool of bottomActionTools; track $index) {
+    <div class="tool" [class.disabled]="tool.inactive" draggable="false">
+      <img
+        class="pt-4 pb-1 select-none cursor-pointer"
+        draggable="false"
+        [src]="tool.image"
+        alt=""
+        srcset=""
+        (click)="onToolClick(tool)"
+      />
+      <div>
+        <span class="select-none">{{ tool.name }}</span>
+      </div>
+    </div>
+  }
+</div>

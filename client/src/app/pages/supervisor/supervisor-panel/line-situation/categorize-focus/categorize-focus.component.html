@@ -1,0 +1,56 @@
+<div class="flex">
+  <div class="w-1/2">
+    <ng-container
+      *ngTemplateOutlet="
+        title;
+        context: { label: '总计事件', count: total().total }
+      "
+    >
+    </ng-container>
+    <div>
+      <focus-pie-chart
+        [data]="focusData()"
+        [centerLabel]="severityPercentage()"
+      />
+    </div>
+    <div class="flex justify-between px-4">
+      @for (item of legends; track $index) {
+        <div class="flex items-center">
+          <div class="rect" [style.background-color]="item.color"></div>
+          <div class="legend-label">{{ item.label }}</div>
+        </div>
+      }
+    </div>
+  </div>
+  <div class="w-1/2">
+    <ng-container
+      *ngTemplateOutlet="
+        title;
+        context: { label: '需抢修事件情况', count: undefined }
+      "
+    >
+    </ng-container>
+    <div>
+      <supervisor-categorize-repair [events]="events()" />
+    </div>
+  </div>
+</div>
+
+<ng-template #title let-label="label" let-count="count">
+  <div class="flex justify-center -mt-1">
+    <div class="label-bg pr-4">
+      <div class="duration-label">
+        <span>{{ label }}</span>
+        @if (count || count === 0) {
+          <span>：</span>
+        }
+      </div>
+      @if (count || count === 0) {
+        <div class="total-number">
+          <span>{{ count }}</span>
+          <span style="margin-left: 0.2rem; font-size: 0.8rem">起</span>
+        </div>
+      }
+    </div>
+  </div>
+</ng-template>

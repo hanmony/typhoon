@@ -1,0 +1,102 @@
+<nz-card nzTitle="用户管理" [nzExtra]="actions">
+  <ng-template #actions>
+    <nz-space>
+      <nz-upload
+        *nzSpaceItem
+        nzAction="/user/import"
+        [nzHeaders]="httpHeaders"
+        (nzChange)="handleUploadChange($event)"
+      >
+        <button nz-button>
+          <span nz-icon nzType="upload"></span>
+          批量导入
+        </button>
+      </nz-upload>
+      <button nz-button (click)="handleCreateNewUser()">新建</button>
+    </nz-space>
+  </ng-template>
+
+  <nz-table
+    #theTable
+    [nzData]="users"
+    (nzQueryParams)="onQueryParamsChange($event)"
+  >
+    <thead>
+      <tr>
+        <th nzColumnKey="id" #th_id nzCustomFilter [nzFilterFn]="true">
+          用户名
+          <th-string-filter [th]="th_id" placeholder="请输入用户名筛选用户" />
+        </th>
+        <th nzColumnKey="name" #th_name [nzFilterFn]="true" nzCustomFilter>
+          名字
+          <th-string-filter [th]="th_name" placeholder="请输入名字筛选用户" />
+        </th>
+        <th
+          [nzFilterFn]="true"
+          [nzFilters]="rolesFilters"
+          nzColumnKey="role"
+          [nzFilterMultiple]="false"
+        >
+          角色
+        </th>
+        <th
+          [nzFilterFn]="true"
+          [nzFilters]="linesFilters"
+          nzColumnKey="line"
+          [nzFilterMultiple]="false"
+        >
+          线路
+        </th>
+        <th
+          nzColumnKey="department"
+          #th_department
+          [nzFilterFn]="true"
+          nzCustomFilter
+        >
+          部门
+          <th-string-filter
+            [th]="th_department"
+            placeholder="请输入部门筛选用户"
+          />
+        </th>
+        <th>岗位</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of theTable.data">
+        <td>{{ user.id }}</td>
+        <td>{{ user.name }}</td>
+        <td><app-role-list [roles]="user.roles"></app-role-list></td>
+        <td>{{ user.line }}</td>
+        <td>{{ user.department }}</td>
+        <td>{{ user.job }}</td>
+        <td>
+          <button
+            nz-button
+            nzType="link"
+            nz-popconfirm
+            nzPopconfirmTitle="是否确定要重置此用户的密码?"
+            nzPopconfirmPlacement="bottom"
+            (nzOnConfirm)="handleResetPassword(user)"
+          >
+            重置密码
+          </button>
+          <button nz-button nzType="link" (click)="handleChangeRoles(user)">
+            修改角色
+          </button>
+          <button
+            nz-button
+            nzType="link"
+            nz-popconfirm
+            nzPopconfirmTitle="是否确定要删除此用户?"
+            nzPopconfirmPlacement="bottom"
+            (nzOnConfirm)="handleDeleteUser(user)"
+          >
+            删除
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-card>

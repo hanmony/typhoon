@@ -1,0 +1,7 @@
+<div class="w-full h-5 overflow-hidden relative" style="top: -1px">
+  @if (message()) {
+    <div @verticalInOutRelative class="h-full flex items-center pl-4">
+      <span class="text-red-400 text-xs">{{ message() }}</span>
+    </div>
+  }
+</div>

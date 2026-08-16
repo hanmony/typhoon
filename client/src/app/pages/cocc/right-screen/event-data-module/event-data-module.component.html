@@ -1,0 +1,41 @@
+<div class="pb-4">
+  <div class="tabs">
+    @for (tab of tabs; track tab) {
+      <div
+        class="tab-item"
+        [class.active]="activeTab === tab"
+        (click)="onTabItemClick(tab)"
+      >
+        {{ tab }}
+      </div>
+    }
+  </div>
+</div>
+
+<div
+  class="grid grid-cols-4 gap-y-4 overflow-y-auto custom-scroll-bar"
+  style="height: 300px"
+>
+  @for (card of shownData(); track $index) {
+    <div class="flex items-center justify-center" style="height: 142px">
+      <cocc-event-card [data]="card" />
+    </div>
+  }
+</div>
+
+<div class="pb-4">
+  <div class="tabs">
+    <div class="tab-item active">待验证事件</div>
+  </div>
+</div>
+
+<div
+  class="grid grid-cols-4 overflow-y-auto custom-scroll-bar"
+  style="height: 141px"
+>
+  @for (card of toBeVerifiedData(); track $index) {
+    <div class="flex items-center justify-center">
+      <cocc-event-card [data]="card" />
+    </div>
+  }
+</div>

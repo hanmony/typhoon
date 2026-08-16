@@ -1,0 +1,71 @@
+<div class="discover-page" id="portal-discover">
+  <div class="discover-title">台风案例库</div>
+  <div class="discover-content">
+    <div class="category">
+      @for (category of categories; track category.type) {
+        <div
+          class="category-item"
+          [class]="{
+            active: activeCategoryType === category.type,
+          }"
+          (click)="onCategoryChange(category.type)"
+        >
+          <div class="item-left">
+            <div class="name">
+              {{ category.name }}
+            </div>
+            <div class="example-list">
+              @for (item of category.list; track item) {
+                <div
+                  class="example-item"
+                  [class]="{ active: activeCategoryType === category.type }"
+                >
+                  <span class="mr-3">·</span>
+                  <span>{{ getFullName(item) }}</span>
+                </div>
+              } @empty {
+                <div class="no-data-font">暂无案例</div>
+              }
+            </div>
+          </div>
+
+          <div class="item-right">
+            <span
+              nz-icon
+              nzType="right-circle"
+              [nzTheme]="
+                activeCategoryType === category.type ? 'fill' : 'outline'
+              "
+              class="color-primary"
+              style="font-size: 44px"
+            ></span>
+          </div>
+        </div>
+      }
+    </div>
+    <div class="flex-1">
+      @if (list && list.length) {
+        <div class="typhoon-card-list">
+          @for (item of list; track item) {
+            <div
+              class="typhoon-card"
+              [style]="{ backgroundImage: 'url(assets/images/portal/OIP.jpg)' }"
+              (click)="toCaseDetail(item)"
+            >
+              <div class="card-info">
+                <div class="name">
+                  <span>{{ getFullName(item) }}</span>
+                </div>
+                <div class="info">{{ getDescription(item) }}</div>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="w-full h-full flex items-center justify-center">
+          <div class="no-data-font">暂无案例</div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

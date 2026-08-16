@@ -1,0 +1,52 @@
+.dark-mode {
+  &:not(.leaflet-safari) {
+    ::ng-deep.leaflet-tile-pane {
+      filter: url("#x-rays") contrast(2) grayscale(0.47) saturate(1.2);
+    }
+  }
+
+  &.leaflet-safari {
+    ::ng-deep.leaflet-tile-pane {
+      filter: url("#x-rays") contrast(2) grayscale(0.47) saturate(1.2);
+    }
+  }
+}
+
+.dark-bg {
+  background: linear-gradient(
+    to right,
+    #081835 0%,
+
+    #173f6d 100%
+  );
+}
+
+.dark-bg {
+  background: linear-gradient(
+    to right,
+    #081835 0%,
+    #081835 15%,
+    #173f6d 85%,
+    #173f6d 100%
+  );
+}
+
+::ng-deep .leaflet-control-attribution {
+  display: none;
+}
+
+::ng-deep .stroke-text {
+  text-shadow:
+    #000 1px 0 0,
+    #000 0 1px 0,
+    #000 -1px 0 0,
+    #000 0 -1px 0;
+}
+
+::ng-deep .hover-border {
+  border: 1px solid transparent;
+  border-radius: 4px;
+  &:hover {
+    border: 1px solid var(--case-primary);
+  }
+}

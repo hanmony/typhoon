@@ -1,0 +1,98 @@
+<div class="top-header">
+  <div class="top-mask">
+    <div class="title-font">@if (!hideTitle) {上海轨道交通}防汛防台应急态势指挥台</div>
+  </div>
+</div>
+
+<cocc-line-select-overlay
+  (change)="onLineChange($event)"
+  [class.hidden]="isHide()"
+/>
+
+<cocc-dock
+  [class.hidden]="isHide()"
+  (clickEventList)="onEventListClick()"
+  (clickOperationList)="onOperationListClick()"
+  (setEffectVisibility)="setEffectVisibility($event)"
+/>
+
+<cocc-left-panel
+  [isHide]="notificationListVisible()"
+  [lines]="currentShownLines()"
+  [events]="shouldShowEvents()"
+  [operations]="shouldShowOperations()"
+/>
+
+<left-screen-right-panel
+  [events]="allEvents()"
+  [operations]="allOperations()"
+  [shouldShowEvents]="shouldShowEvents()"
+  [shouldShowOperations]="shouldShowOperations()"
+/>
+<cocc-map
+  class="h-full w-full"
+  [events]="shouldShowEvents()"
+  [operations]="shouldShowOperations()"
+  (onMapClick)="onMapClick()"
+/>
+
+<cocc-event-list-modal
+  [class.hidden]="isHide()"
+  [data]="allEvents()"
+  (onAdd)="onEventListAdd()"
+/>
+<cocc-operation-list-modal
+  [class.hidden]="isHide()"
+  [data]="allOperations()"
+  (onAdd)="onOperationListAdd()"
+  (onTable)="toggleOperationTablePanel()"
+/>
+
+@if (simulatePatrollingModalVisible()) {
+  <cocc-simulate-patrolling
+    (showMessage)="showMessage.emit($event)"
+    (removeMessage)="removeMessage.emit()"
+    (onLocationQuery)="onLocationQuery.emit($event)"
+    (onClose)="closeSimulatePatrollingModal()"
+  />
+}
+
+@if (dutyModalVisible()) {
+  <occ-modal-wrapper
+    [isHide]="isHide()"
+    title="值班公司信息"
+    action="edit"
+    (onClose)="closeDutyModal()"
+    (onSubmit)="onDutyModalSubmit()"
+  >
+    <cocc-duty-model />
+  </occ-modal-wrapper>
+}
+
+@if (notificationActionVisible()) {
+  <occ-modal-wrapper
+    [isHide]="isHide()"
+    title="通告汇报"
+    submitText="发送"
+    action="add"
+    (onClose)="closeNotificationActionModal()"
+    (onSubmit)="onNotificationActionModalSubmit()"
+  >
+    <cocc-notification-action-model [events]="allEvents()" />
+  </occ-modal-wrapper>
+}
+
+<cocc-notification-list-overlay
+  [events]="allEvents()"
+  [visible]="notificationListVisible()"
+  (onLocate)="locateEvent($event)"
+  (onAdd)="toggleNotificationActionModal(true)"
+  (onClose)="closeNotificationList()"
+/>
+
+<ds-illustration-modal [left]="420" [top]="160" [hideEvent]="true" />
+
+<cocc-operation-table-panel
+  [operations]="allOperations()"
+  [paginationConfig]="paginationConfig"
+/>

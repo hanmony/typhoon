@@ -1,0 +1,27 @@
+<dashboard-panel-header
+  [title]="panelTitle()"
+  [type]="type()"
+  [total]="total()"
+  [paginationConfig]="paginationConfig()"
+  (onPresetChange)="onPresetChange($event)"
+  (onPageIndexChange)="onPageIndexChangeManually($event)"
+  (handleAutoTurn)="handleAutoTurn()"
+  (toggleRecordDrawer)="toggleRecordDrawer()"
+/>
+<div class="p-4">
+  @if (type() === "event") {
+    <dashboard-event-table
+      [events]="eventsFilterByPreset()"
+      [paginationConfig]="paginationConfig()"
+      (onPageIndexChange)="onPageIndexChangeManually($event)"
+    />
+  } @else if (type() === "operation") {
+    <dashboard-operation-table
+      [operations]="operationsFilterByPreset()"
+      [paginationConfig]="paginationConfig()"
+      (openPatrollingLine)="openPatrollingLine.emit($event)"
+    />
+  }
+</div>
+
+<dashboard-op-record-drawer [operations]="recordOperations()" />

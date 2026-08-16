@@ -1,0 +1,1007 @@
+app-chat-panel {
+  display: block;
+  width: calc(100% - 64px);
+  height: 100%;
+  overflow: hidden;
+}
+
+// ============================================
+// Color System
+// ============================================
+@bg-deep: #060612;
+@bg-primary: rgba(8, 8, 22, 0.97);
+@bg-secondary: rgba(12, 12, 30, 0.96);
+@bg-surface: rgba(20, 20, 46, 0.7);
+@bg-input: rgba(10, 10, 26, 0.92);
+@border-subtle: rgba(74, 158, 255, 0.07);
+@border-dim: rgba(74, 158, 255, 0.14);
+@border-active: rgba(74, 158, 255, 0.5);
+@text-primary: rgba(215, 225, 255, 0.95);
+@text-secondary: rgba(145, 165, 210, 0.8);
+@text-muted: rgba(90, 110, 165, 0.55);
+@accent: #4a9eff;
+@accent-cyan: #00d4ff;
+@accent-glow: rgba(74, 158, 255, 0.12);
+@accent-glow-strong: rgba(74, 158, 255, 0.28);
+@user-bubble-from: #1a6dd4;
+@user-bubble-to: #1890ff;
+@success: #52c41a;
+@danger: #ff4d4f;
+
+// ============================================
+// Animations
+// ============================================
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes borderPulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.9; }
+}
+
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes breathe {
+  0%, 100% {
+    opacity: 0.4;
+    box-shadow: 0 0 4px @accent;
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 10px @accent;
+  }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes scanAcross {
+  0% { left: -30%; }
+  100% { left: 130%; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes gridPulse {
+  0%, 100% { opacity: 0.025; }
+  50% { opacity: 0.055; }
+}
+
+@keyframes topLineShimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+// ============================================
+// Main Panel
+// ============================================
+.chat-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: @bg-primary;
+  color: @text-primary;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-left: 1px solid @border-subtle;
+  box-shadow:
+    -4px 0 48px rgba(0, 8, 32, 0.5),
+    inset 0 0 80px rgba(74, 158, 255, 0.01);
+  overflow: hidden;
+}
+
+// ============================================
+// Scanline Background
+// ============================================
+.scanline-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(74, 158, 255, 0.012) 2px,
+    rgba(74, 158, 255, 0.012) 4px
+  );
+  animation: gridPulse 5s ease-in-out infinite;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, @accent, @accent-cyan, transparent);
+    opacity: 0.12;
+    animation: scanline 8s linear infinite;
+  }
+}
+
+// ============================================
+// Top Decorative Line
+// ============================================
+.top-line {
+  position: relative;
+  height: 2px;
+  flex-shrink: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    @accent 20%,
+    @accent-cyan 50%,
+    @accent 80%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  opacity: 0.5;
+  z-index: 1;
+  animation: topLineShimmer 6s linear infinite;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -3px 10%;
+    background: inherit;
+    filter: blur(8px);
+    opacity: 0.35;
+  }
+}
+
+// ============================================
+// Header
+// ============================================
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: @bg-secondary;
+  border-bottom: 1px solid @border-subtle;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .header-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(74, 158, 255, 0.14), rgba(0, 212, 255, 0.06));
+    border: 1px solid rgba(74, 158, 255, 0.18);
+    color: @accent;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 13px;
+      background: linear-gradient(135deg, @accent, @accent-cyan);
+      opacity: 0.06;
+      filter: blur(6px);
+    }
+  }
+
+  .title-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .title {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: @text-primary;
+  }
+
+  .subtitle {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    color: @text-muted;
+    text-transform: uppercase;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    font-size: 9px;
+    letter-spacing: 1.8px;
+    margin-right: 4px;
+    transition: all 0.3s;
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: @text-muted;
+      transition: all 0.3s;
+    }
+
+    .status-text {
+      font-weight: 500;
+      color: @text-muted;
+      transition: color 0.3s;
+    }
+
+    &.online {
+      .status-dot {
+        background: @success;
+        box-shadow: 0 0 6px rgba(82, 196, 26, 0.5);
+        animation: breathe 2.5s ease-in-out infinite;
+      }
+      .status-text {
+        color: rgba(82, 196, 26, 0.75);
+      }
+    }
+  }
+
+  .btn-group {
+    display: flex;
+    gap: 2px;
+
+    button {
+      color: @text-muted;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+
+      &:hover {
+        color: @text-primary;
+        background: rgba(74, 158, 255, 0.08);
+      }
+      &.active {
+        color: @accent;
+        background: rgba(74, 158, 255, 0.1);
+      }
+
+      // 智能模式激活态 — 青色发光
+      &.active[title*="智能模式"] {
+        color: @accent-cyan;
+        background: rgba(0, 212, 255, 0.1);
+        box-shadow: 0 0 8px rgba(0, 212, 255, 0.2);
+      }
+    }
+  }
+}
+
+// ============================================
+// Message List
+// ============================================
+.message-scroll {
+  flex: 1;
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.message-list {
+  height: 100%;
+  overflow-y: auto;
+  padding: 16px;
+  position: relative;
+  z-index: 1;
+
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(74, 158, 255, 0.12);
+    border-radius: 3px;
+    &:hover {
+      background: rgba(74, 158, 255, 0.25);
+    }
+  }
+}
+
+// 「回到底部」悬浮按钮（暂停跟随时显示，纯图标）
+.jump-bottom-btn {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  z-index: 5;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid @border-active;
+  background: @bg-secondary;
+  color: @accent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4), 0 0 12px @accent-glow;
+  backdrop-filter: blur(8px);
+  animation: fadeIn 0.2s ease;
+  transition: all 0.2s ease;
+
+  .anticon {
+    font-size: 16px;
+  }
+
+  &:hover {
+    background: rgba(74, 158, 255, 0.18);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 18px @accent-glow-strong;
+  }
+}
+
+// ============================================
+// HUD Corners
+// ============================================
+.hud-corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  z-index: 2;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    background: @accent;
+    opacity: 0.3;
+    transition: opacity 0.3s;
+  }
+}
+
+.hud-tl {
+  top: 6px;
+  left: 6px;
+  &::before { width: 14px; height: 1px; top: 0; left: 0; }
+  &::after  { width: 1px; height: 14px; top: 0; left: 0; }
+}
+.hud-tr {
+  top: 6px;
+  right: 6px;
+  &::before { width: 14px; height: 1px; top: 0; right: 0; }
+  &::after  { width: 1px; height: 14px; top: 0; right: 0; }
+}
+.hud-bl {
+  bottom: 6px;
+  left: 6px;
+  &::before { width: 14px; height: 1px; bottom: 0; left: 0; }
+  &::after  { width: 1px; height: 14px; bottom: 0; left: 0; }
+}
+.hud-br {
+  bottom: 6px;
+  right: 6px;
+  &::before { width: 14px; height: 1px; bottom: 0; right: 0; }
+  &::after  { width: 1px; height: 14px; bottom: 0; right: 0; }
+}
+
+// ============================================
+// Messages
+// ============================================
+.message {
+  margin-bottom: 14px;
+  display: flex;
+  animation: messageSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &.user {
+    justify-content: flex-end;
+  }
+  &.assistant {
+    justify-content: flex-start;
+  }
+}
+
+.bubble {
+  max-width: 85%;
+  font-size: 13px;
+  line-height: 1.7;
+  word-break: break-word;
+}
+
+// ---- User Bubble ----
+.user-bubble {
+  padding: 10px 14px;
+  border-radius: 14px 14px 4px 14px;
+  background: linear-gradient(135deg, @user-bubble-from, @user-bubble-to);
+  color: #fff;
+  position: relative;
+  box-shadow:
+    0 2px 16px rgba(24, 144, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), transparent 60%);
+    pointer-events: none;
+  }
+}
+
+// ---- Assistant Bubble ----
+.assistant-bubble {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  max-width: 90%;
+
+  .ai-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(74, 158, 255, 0.1), rgba(0, 212, 255, 0.04));
+    border: 1px solid rgba(74, 158, 255, 0.12);
+    color: @accent;
+    margin-top: 2px;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 10px;
+      background: @accent;
+      opacity: 0.04;
+      filter: blur(4px);
+    }
+  }
+
+  .bubble-content {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 14px 14px 14px 4px;
+    background: rgba(22, 24, 56, 0.92);
+    color: rgba(220, 230, 255, 0.97);
+    border: 1px solid rgba(74, 158, 255, 0.18);
+    position: relative;
+    backdrop-filter: blur(6px);
+    min-width: 0;
+
+    // Markdown — p
+    p {
+      margin: 0 0 8px;
+      &:last-child { margin-bottom: 0; }
+    }
+
+    // Markdown — pre
+    pre {
+      background: rgba(4, 4, 14, 0.75);
+      border: 1px solid rgba(74, 158, 255, 0.08);
+      border-radius: 8px;
+      padding: 10px 12px;
+      overflow-x: auto;
+      margin: 8px 0;
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, @accent, transparent);
+        opacity: 0.25;
+      }
+    }
+
+    // Markdown — inline code
+    code {
+      background: rgba(74, 158, 255, 0.07);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: @accent;
+      border: 1px solid rgba(74, 158, 255, 0.08);
+    }
+
+    // Markdown — code block
+    pre code {
+      background: none;
+      padding: 0;
+      border: none;
+      color: @text-primary;
+    }
+
+    // Markdown — table
+    table {
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 8px 0;
+      width: 100%;
+      border: 1px solid rgba(74, 158, 255, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+
+      th, td {
+        border-right: 1px solid rgba(74, 158, 255, 0.05);
+        border-bottom: 1px solid rgba(74, 158, 255, 0.05);
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+      th:last-child, td:last-child { border-right: none; }
+      tr:last-child td { border-bottom: none; }
+      th {
+        background: rgba(74, 158, 255, 0.05);
+        color: @accent;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+      }
+    }
+
+    ul, ol { padding-left: 20px; margin: 4px 0; }
+    li { margin: 2px 0; }
+
+    blockquote {
+      border-left: 2px solid @accent;
+      padding-left: 12px;
+      margin: 8px 0;
+      color: @text-secondary;
+      position: relative;
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(180deg, @accent, transparent);
+      }
+    }
+
+    h1, h2, h3, h4 {
+      color: @text-primary;
+      margin: 12px 0 6px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    strong { color: #dce8ff; }
+
+    a {
+      color: @accent;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(74, 158, 255, 0.25);
+      transition: all 0.2s;
+      &:hover {
+        border-bottom-color: @accent;
+        text-shadow: 0 0 8px rgba(74, 158, 255, 0.3);
+      }
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid rgba(74, 158, 255, 0.06);
+      margin: 12px 0;
+    }
+  }
+}
+
+// ============================================
+// Thinking Block
+// ============================================
+.thinking-block {
+  margin-bottom: 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  background: rgba(99, 102, 241, 0.05);
+  overflow: hidden;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.4), transparent);
+    opacity: 0.5;
+  }
+
+  .thinking-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    color: rgba(165, 180, 252, 0.75);
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s;
+
+    &:hover {
+      background: rgba(99, 102, 241, 0.06);
+    }
+
+    .thinking-icon {
+      display: flex;
+      align-items: center;
+      color: rgba(165, 180, 252, 0.5);
+    }
+
+    .anticon { font-size: 12px; }
+
+    .collapse-icon {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      transition: transform 0.25s ease;
+
+      &.collapsed {
+        transform: rotate(-90deg);
+      }
+    }
+  }
+
+  .thinking-content {
+    padding: 0 10px 8px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: @text-secondary;
+    animation: fadeIn 0.2s ease;
+
+    markdown {
+      display: block;
+      p:last-child { margin-bottom: 0; }
+      pre {
+        background: rgba(4, 4, 14, 0.6);
+        border: 1px solid rgba(99, 102, 241, 0.08);
+        border-radius: 6px;
+        padding: 6px 8px;
+        font-size: 11px;
+      }
+      code {
+        background: rgba(99, 102, 241, 0.06);
+        padding: 1px 4px;
+        border-radius: 3px;
+        font-size: 11px;
+        color: #a5b4fc;
+      }
+      pre code {
+        background: none;
+        padding: 0;
+        color: @text-secondary;
+      }
+    }
+  }
+}
+
+// ============================================
+// Typing / Cursor
+// ============================================
+.typing-text {
+  color: @text-secondary;
+  font-size: 12px;
+  animation: fadeIn 0.3s ease;
+}
+
+.token-summary {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(74, 158, 255, 0.1);
+  font-size: 10px;
+  color: @text-secondary;
+  letter-spacing: 0.3px;
+  opacity: 0.85;
+}
+
+.cursor-block {
+  display: inline-block;
+  width: 2px;
+  height: 14px;
+  background: @accent;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: cursorBlink 0.8s infinite;
+  box-shadow: 0 0 6px rgba(74, 158, 255, 0.4);
+}
+
+// ============================================
+// Status Bar / Step Indicator
+// ============================================
+.status-bar {
+  padding: 8px 16px;
+  background: @bg-secondary;
+  border-top: 1px solid @border-subtle;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.status-bar-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.scan-effect {
+  position: absolute;
+  top: 0;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(74, 158, 255, 0.05), transparent);
+  animation: scanAcross 2.5s linear infinite;
+  pointer-events: none;
+}
+
+.step-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: @text-muted;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+
+  &.active {
+    color: @accent;
+    .step-icon .anticon {
+      animation: spin 1s linear infinite;
+    }
+  }
+
+  &.done {
+    color: @success;
+    .step-icon svg { color: @success; }
+  }
+}
+
+.step-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  .anticon { font-size: 12px; }
+}
+
+.step-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: @text-muted;
+  transition: all 0.3s;
+}
+
+.step-line {
+  flex: 1;
+  height: 1px;
+  background: rgba(74, 158, 255, 0.15);
+  margin: 0 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.step-label {
+  white-space: nowrap;
+}
+
+.status-text-animated {
+  font-size: 10px;
+  color: @text-muted;
+  letter-spacing: 1px;
+  animation: fadeIn 0.3s ease;
+}
+
+// ============================================
+// Input Area
+// ============================================
+.input-area {
+  padding: 12px 16px 14px;
+  background: @bg-secondary;
+  border-top: 1px solid @border-subtle;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.input-wrapper {
+  position: relative;
+  border-radius: 12px;
+
+  input[type="text"] {
+    width: 100%;
+    background: @bg-input;
+    border: 1px solid @border-dim;
+    border-radius: 12px;
+    color: @text-primary;
+    padding: 10px 14px;
+    font-size: 13px;
+    transition: all 0.25s ease;
+    position: relative;
+    z-index: 1;
+    height: 40px;
+
+    &::placeholder {
+      color: @text-muted;
+    }
+
+    &:focus {
+      border-color: @border-active;
+      box-shadow:
+        0 0 0 3px @accent-glow,
+        0 0 24px rgba(74, 158, 255, 0.06);
+      outline: none;
+    }
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.input-glow {
+  position: absolute;
+  inset: -1px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, @accent, @accent-cyan, @accent);
+  background-size: 200% 200%;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 0;
+  filter: blur(2px);
+}
+
+.input-wrapper:focus-within .input-glow {
+  opacity: 0.12;
+  animation: gradientShift 3s ease infinite;
+}
+
+.input-border-animate {
+  // reserved for animated border effect
+}
+
+.input-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+// ============================================
+// Cyber Buttons
+// ============================================
+.cyber-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+
+  .btn-content {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn-glow {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.25s;
+    pointer-events: none;
+  }
+
+  &:hover .btn-glow {
+    opacity: 1;
+  }
+
+  &.primary {
+    .btn-glow {
+      background: linear-gradient(135deg, rgba(74, 158, 255, 0.25), rgba(0, 212, 255, 0.1));
+      box-shadow: 0 0 14px rgba(74, 158, 255, 0.15);
+    }
+  }
+
+  &.danger {
+    .btn-glow {
+      background: linear-gradient(135deg, rgba(255, 77, 79, 0.25), rgba(255, 120, 117, 0.1));
+      box-shadow: 0 0 14px rgba(255, 77, 79, 0.15);
+    }
+  }
+}
+
+// ============================================
+// Bottom Line
+// ============================================
+.bottom-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 16px;
+  background: @bg-secondary;
+  border-top: 1px solid @border-subtle;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(74, 158, 255, 0.1), transparent);
+  }
+
+  .version,
+  .timestamp {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: @text-muted;
+    opacity: 0.5;
+  }
+}

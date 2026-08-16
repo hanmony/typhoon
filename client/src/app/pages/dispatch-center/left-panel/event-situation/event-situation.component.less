@@ -1,0 +1,64 @@
+.duration-label {
+  text-shadow: 0px 2px 8px rgba(5, 28, 55, 0.12);
+  // font-style: italic;
+  padding-right: 0.25rem;
+  background: linear-gradient(0deg, #acddff 0%, #ffffff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-family: "FangZhengZhongyi";
+  font-size: 1.125rem;
+  text-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.label-bg {
+  background-image: url(/assets/images/dispatch-center/label-bg.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  padding-top: 0.4rem;
+}
+
+.total-number {
+  font-family: "PangMenZhengDao";
+  font-weight: 400;
+  font-size: 1.5rem;
+  color: #00a1ff;
+  background: linear-gradient(-28deg, #4facfe 0%, #00f2fe 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding-bottom: 0.1rem;
+}
+
+.category-number {
+  font-size: 0.875rem;
+  color: #cedce6;
+  text-align: center;
+}
+
+.category-bar-bg {
+  width: 38px;
+  height: 158px;
+  background: #0b2143;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  .category-bar-value {
+    width: 100%;
+    background: linear-gradient(90deg, #0072ff 0%, #00c6ff 100%);
+    border-radius: 0.25rem;
+    transition: height 0.3s ease-in-out;
+  }
+}
+
+.category-label {
+  font-size: 18px;
+  color: #c6d7ff;
+  padding-top: 0.2rem;
+}

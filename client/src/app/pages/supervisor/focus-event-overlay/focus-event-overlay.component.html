@@ -1,0 +1,100 @@
+<div @verticalInOut class="event-list-wrapper">
+  <!-- <div>
+    <div class="event-list-title">
+      <span class="event-list-title-font"> 重点事件展示 </span>
+    </div>
+  </div> -->
+  <div #outerContainer class="event-list">
+    <div #innerContainer class="inner-list">
+      @for (item of severityEvents(); track $index) {
+        <div class="event-card" (click)="handleLocate(item)">
+          <div style="padding: 1rem 1rem 0; min-height: 50%">
+            <div class="flex justify-between items-center leading-5">
+              <div class="name line-clamp-1">{{ getEventLabel(item) }}</div>
+              <div class="line">{{ item.line }}</div>
+            </div>
+            <div class="py-2 text-wrap leading-4 text-sm line-clamp-2">
+              {{ item.description }}
+            </div>
+          </div>
+          <div style="padding: 0 1rem">
+            <div class="separator"></div>
+          </div>
+          <div
+            class="flex flex-1 items-center"
+            style="padding: 0.2rem 0.6rem 0.2rem 0.6rem"
+          >
+            <div class="pr-2">
+              <img
+                [width]="32"
+                src="assets/images/occ/map/locate-icon.png"
+                alt=""
+                srcset=""
+              />
+            </div>
+            <div class="flex-1 info-font leading-none">
+              <div class="inline-block text-center">
+                @for (row of getEventPosition(item); track $index) {
+                  <div>{{ row }}</div>
+                }
+              </div>
+            </div>
+            <div class="state">
+              <div
+                class="info-font"
+                style="margin-bottom: 0.25rem"
+                [style.height.px]="22 * 0.8"
+              >
+                @if (item.locationType === "区间") {
+                  <span>[{{ item.direction }}]</span>
+                }
+              </div>
+              <div [style.height.px]="25 * 0.8">
+                @if (getEventState(item)) {
+                  <span
+                    class="state-marker"
+                    [class]="getEventStateColorClass(item)"
+                  >
+                    {{ getEventState(item) }}
+                  </span>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+      @if (!severityEvents().length) {
+        <div
+          class="text-center font-fangzheng py-6"
+          style="font-size: 32px; line-height: 1.5"
+        >
+          暂无重点事件
+        </div>
+      }
+    </div>
+  </div>
+
+  @if (directorVisible) {
+    @if (leftVisible) {
+      <div class="left-arrow" (click)="handleScroll('left')">
+        <img
+          style="width: 100%"
+          src="assets/images/cocc/direct-arrow.png"
+          alt=""
+          draggable="false"
+        />
+      </div>
+    }
+    @if (rightVisible) {
+      <div class="right-arrow" (click)="handleScroll('right')">
+        <img
+          style="width: 100%"
+          class="rotate-180"
+          src="assets/images/cocc/direct-arrow.png"
+          alt=""
+          draggable="false"
+        />
+      </div>
+    }
+  }
+</div>

@@ -1,0 +1,305 @@
+<table class="op-table" style="--tag-height: 2rem">
+  <thead>
+    <tr class="op-table-header">
+      <th [style.width.px]="88">
+        <ng-container
+          *ngTemplateOutlet="
+            order;
+            context: { $implicit: { label: '线路号', prop: 'line' } }
+          "
+        >
+        </ng-container>
+      </th>
+      <th [style.width.px]="88">状态</th>
+      <th [style.width.px]="88">类型</th>
+      <th [style.width.px]="112">计划调整时间</th>
+      <th>地点</th>
+      <th [style.width.px]="184">运营详情</th>
+      <th [style.width.px]="112">计划恢复时间</th>
+      <th [style.width.px]="112">巡道情况</th>
+      <th [style.width.px]="92">是否阻碍行车</th>
+    </tr>
+  </thead>
+  <tbody
+    #tbodyRef
+    class="overflow-y-auto custom-scroll-bar"
+    [style.max-height]="'calc(100vh - 8rem)'"
+    (wheel)="manuallyScroll()"
+    (touchmove)="manuallyScroll()"
+  >
+    <div>
+      @for (lineVO of dataSet(); track lineVO.line; let lineIndex = $index) {
+        @for (
+          collection of lineVO.collections;
+          track collection.key;
+          let keyIndex = $index
+        ) {
+          @for (
+            op of collection.operations;
+            track op.id;
+            let opIndex = $index
+          ) {
+            <tr class="op-row">
+              @if (keyIndex === 0 && opIndex === 0) {
+                <td
+                  class="op-cell"
+                  [attr.data-line]="lineVO.line"
+                  [rowSpan]="lineVO.total"
+                  [style.width.px]="88"
+                >
+                  <span>
+                    <img
+                      width="51"
+                      [src]="getLineMark(lineVO.line)"
+                      alt=""
+                      srcset=""
+                    />
+                  </span>
+                </td>
+              }
+              @if (opIndex === 0) {
+                <td
+                  class="op-cell"
+                  [attr.data-line]="lineVO.line"
+                  [style.width.px]="88"
+                  [rowSpan]="collection.operations.length"
+                >
+                  <ev-table-state-tag
+                    [bgColor]="collection.stateColor"
+                    [label]="collection.state"
+                    [terminated]="false"
+                  ></ev-table-state-tag>
+                </td>
+              }
+              @if (opIndex === 0) {
+                <td
+                  class="op-cell"
+                  [style.width.px]="88"
+                  [rowSpan]="collection.operations.length"
+                >
+                  <ng-container
+                    *ngTemplateOutlet="actionType; context: { $implicit: op }"
+                  ></ng-container>
+                </td>
+              }
+              @if (opIndex === 0) {
+                <td
+                  class="op-cell"
+                  [style.width.px]="112"
+                  [rowSpan]="collection.operations.length"
+                >
+                  {{ getTimeText(collection.startTime) }}
+                </td>
+              }
+              <td class="op-cell">
+                <ng-container
+                  *ngTemplateOutlet="position; context: { $implicit: op }"
+                ></ng-container>
+              </td>
+              @if (keyIndex === 0 && opIndex === 0) {
+                <td
+                  class="op-cell"
+                  [style.width.px]="184"
+                  [rowSpan]="lineVO.total"
+                >
+                  <ng-container
+                    *ngTemplateOutlet="opDetail; context: { $implicit: lineVO }"
+                  ></ng-container>
+                </td>
+              }
+              <td class="op-cell" [style.width.px]="112">
+                <ng-container
+                  *ngTemplateOutlet="endTime; context: { $implicit: op }"
+                ></ng-container>
+              </td>
+              @if (keyIndex === 0 && opIndex === 0) {
+                <td
+                  class="op-cell"
+                  [style.width.px]="112"
+                  [rowSpan]="lineVO.total"
+                >
+                  <ng-container
+                    *ngTemplateOutlet="
+                      patrollingDetail;
+                      context: { $implicit: lineVO.patrollingInfo }
+                    "
+                  ></ng-container>
+                </td>
+              }
+              @if (keyIndex === 0 && opIndex === 0) {
+                <td
+                  class="op-cell"
+                  [style.width.px]="92"
+                  [rowSpan]="lineVO.total"
+                >
+                  <ng-container
+                    *ngTemplateOutlet="obstruct; context: { $implicit: lineVO }"
+                  ></ng-container>
+                </td>
+              }
+            </tr>
+          }
+        }
+
+        @if (lineVO.collections.length === 0) {
+          <ng-container
+            *ngTemplateOutlet="emptyLineRow; context: { $implicit: lineVO }"
+          ></ng-container>
+        }
+      }
+    </div>
+  </tbody>
+</table>
+
+<ng-template #order let-data>
+  <div
+    class="cursor-pointer"
+    [class.ordering-color]="orderConfig().prop === data.prop"
+    (click)="handleOrdering(data.prop)"
+  >
+    <span class="mr-2"> {{ data.label }}</span>
+    <span>
+      <nz-icon
+        class="transition-transform"
+        style="position: relative; top: 2px"
+        [class.-rotate-180]="
+          orderConfig().prop === data.prop && !orderConfig().asc
+        "
+        nzType="caret-down"
+        nzTheme="outline"
+      />
+    </span>
+  </div>
+</ng-template>
+
+<ng-template #emptyLineRow let-lineVO>
+  <tr class="op-row">
+    <td class="op-cell" [style.width.px]="88">
+      <span>
+        <img width="51" [src]="getLineMark(lineVO.line)" alt="" srcset="" />
+      </span>
+    </td>
+    <td class="op-cell" [style.width.px]="88">
+      <span> -- </span>
+    </td>
+    <td class="op-cell" [style.width.px]="88">
+      <span> -- </span>
+    </td>
+    <td class="op-cell" [style.width.px]="112">
+      <span> -- </span>
+    </td>
+    <td class="op-cell">
+      <span> -- </span>
+    </td>
+    <td class="op-cell" [style.width.px]="184">
+      <span class="green-font"> 正常运行 </span>
+    </td>
+    <td class="op-cell" [style.width.px]="112">
+      <span> -- </span>
+    </td>
+    <td class="op-cell" [style.width.px]="112">
+      <ng-container
+        *ngTemplateOutlet="
+          patrollingDetail;
+          context: { $implicit: lineVO.patrolling }
+        "
+      ></ng-container>
+    </td>
+    <td class="op-cell" [style.width.px]="92">
+      <ng-container
+        *ngTemplateOutlet="obstruct; context: { $implicit: lineVO }"
+      ></ng-container>
+    </td>
+  </tr>
+</ng-template>
+
+<ng-template #opDetail let-lineVO>
+  <div>
+    @if (getOperationDetailText(lineVO)) {
+      <div>
+        <span>{{ getOperationDetailText(lineVO) }}</span>
+      </div>
+    } @else {
+      <div>
+        <div><span>运营数据调整中</span></div>
+        <div><span>请等待</span></div>
+      </div>
+    }
+  </div>
+</ng-template>
+
+<ng-template #patrollingDetail let-data>
+  @if (!data) {
+    <span> -- </span>
+  } @else {
+    @if (data.patrolling && !data.finished) {
+      <div>
+        <div class="green-font">
+          <span>巡道中</span>
+          <span class="ml-1">({{ data.currentCount }})</span>
+        </div>
+        <div>
+          <span>结束时间：</span>
+          <span>{{ formatExpirationInMinutes(data.expiration) }}</span>
+        </div>
+      </div>
+    } @else {
+      <span> -- </span>
+    }
+  }
+</ng-template>
+
+<ng-template #actionType let-op>
+  <div>
+    @if (op.actionType === "停运") {
+      @if (op.locationType === "区间") {
+        <div>{{ op.actionType }}</div>
+        <div>(部分)</div>
+      } @else {
+        <span> {{ op.actionType }} </span>
+      }
+    } @else {
+      <span> {{ op.actionType }} </span>
+    }
+  </div>
+</ng-template>
+
+<ng-template #obstruct let-lineVO>
+  @if (
+    lineVO.patrollingInfo &&
+    lineVO.patrollingInfo.patrolling &&
+    !lineVO.patrollingInfo.finished
+  ) {
+    <div>
+      <span>{{ getObstructText(lineVO) }}</span>
+      <span class="inline-block w-8"> </span>
+    </div>
+  } @else {
+    <span> -- </span>
+  }
+</ng-template>
+
+<ng-template #endTime let-op>
+  <div class="">
+    @if (op.isEndTimeOptional) {
+      <span>待定</span>
+    } @else {
+      <span>{{ getTimeText(op.endTime) }}</span>
+    }
+  </div>
+</ng-template>
+
+<ng-template #position let-op>
+  <div>
+    <div>
+      <span>{{ getPositionText(op) }}</span>
+    </div>
+    <div>
+      @if (op.actionType === "限速") {
+        <span class="text-[#1dd782]">{{ op.limit }}km/h</span>
+      } @else if (op.actionType === "间隔调整") {
+        <span class="text-[#1dd782]">{{ op.distance }}分钟</span>
+      }
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,17 @@
+{
+  "/api": {
+    "target": "https://typhoon2.stage.leadinvr.com",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/uploadFile": {
+    "target": "https://typhoon2.stage.leadinvr.com",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/socket.io": {
+    "target": "https://typhoon2.stage.leadinvr.com",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

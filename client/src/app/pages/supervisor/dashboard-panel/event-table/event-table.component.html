@@ -1,0 +1,253 @@
+<div class="ev-table" style="--tag-height: 2rem">
+  <div class="ev-table-thead">
+    <div class="justify-center" [style.width.px]="colWidth[0]">序号</div>
+    <div [style.width.px]="colWidth[1]">
+      <ng-container
+        *ngTemplateOutlet="
+          order;
+          context: { $implicit: { label: '线路号', prop: 'line' } }
+        "
+      >
+      </ng-container>
+    </div>
+    <div [style.width.px]="colWidth[2]">
+      <ng-container
+        *ngTemplateOutlet="
+          order;
+          context: { $implicit: { label: '时间', prop: 'startTime' } }
+        "
+      >
+      </ng-container>
+    </div>
+    <div class="justify-center" [style.width.px]="excessWidth().location">
+      地点
+    </div>
+    <div [style.width.px]="colWidth[3]">上下行</div>
+    <div class="justify-center" [style.width.px]="colWidth[4]">
+      <ng-container
+        *ngTemplateOutlet="
+          order;
+          context: { $implicit: { label: '类型', prop: 'eventType' } }
+        "
+      >
+      </ng-container>
+    </div>
+    <div class="justify-center flex-1" [style.width.px]="excessWidth().detail">
+      事件详情
+    </div>
+    <div class="justify-center" [style.width.px]="colWidth[5]">
+      <ng-container
+        *ngTemplateOutlet="
+          order;
+          context: { $implicit: { label: '事件状态', prop: 'state' } }
+        "
+      >
+      </ng-container>
+    </div>
+    <div [style.width.px]="colWidth[6]">事件备注</div>
+  </div>
+  <div class="ev-table-body">
+    <div
+      #contentRef
+      class="ev-table-body-content custom-scroll-bar overflow-y-auto overflow-x-hidden"
+      #scrollContainer
+      (wheel)="manuallyScroll()"
+      (touchmove)="manuallyScroll()"
+      [style.max-height]="'calc(100vh - 8rem)'"
+    >
+      @for (page of dataSet(); track $index) {
+        <div class="content-page">
+          @for (item of page; track item.id) {
+            <tr
+              class="ev-row"
+              [attr.ev-row-id]="item.id"
+              [class.terminated-font]="item.terminated"
+              (click)="onRowClick(item.id)"
+            >
+              <div class="ev-cell">
+                <div [style.width.px]="colWidth[0] - 2">
+                  {{ item.index }}
+                </div>
+              </div>
+              <div class="ev-cell">
+                <div [style.width.px]="colWidth[1] - 2">
+                  <span>
+                    <img
+                      width="51"
+                      [src]="getLineMark(item.line)"
+                      alt=""
+                      srcset=""
+                    />
+                  </span>
+                </div>
+              </div>
+              <div class="ev-cell">
+                <div [style.width.px]="colWidth[2] - 2">
+                  {{ getStartTime(item) }}
+                </div>
+              </div>
+              <div class="ev-cell">
+                <div [style.width.px]="excessWidth().location - 2">
+                  <ng-container
+                    *ngTemplateOutlet="location; context: { $implicit: item }"
+                  >
+                  </ng-container>
+                </div>
+              </div>
+              <div class="ev-cell">
+                <div [style.width.px]="colWidth[3] - 2">
+                  {{ item.direction }}
+                </div>
+              </div>
+              <div class="ev-cell">
+                <div [style.width.px]="colWidth[4] - 2">
+                  {{ item.eventType }}
+                </div>
+              </div>
+              <div class="ev-cell">
+                <div
+                  [style.width.px]="excessWidth().detail - 2"
+                  [style.padding-left.px]="8"
+                >
+                  <div class="flex">
+                    <div class="text-center flex items-center w-8 mr-2">
+                      @if (item.severity) {
+                        <img
+                          width="24"
+                          src="/assets/images/dashboard/start-icon.png"
+                          alt=""
+                          srcset=""
+                        />
+                      }
+                    </div>
+                    <div
+                      class="flex-1 text-left text-wrap"
+                      style="width: calc(100% - 32px)"
+                    >
+                      <span class="line-clamp-3">
+                        {{ item.description }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="ev-cell">
+                <div [style.width.px]="colWidth[5] - 2">
+                  <ev-table-state-tag
+                    [bgColor]="getEventRepairStateColor(item)"
+                    [label]="getEventRepairStateText(item)"
+                    [terminated]="!!item.terminated"
+                  ></ev-table-state-tag>
+                </div>
+              </div>
+              <div class="ev-cell">
+                <div [style.padding]="0" [style.width.px]="colWidth[6] - 2">
+                  <ng-container
+                    *ngTemplateOutlet="other; context: { $implicit: item }"
+                  >
+                  </ng-container>
+                </div>
+              </div>
+            </tr>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>
+
+<ng-template #location let-data>
+  <div>
+    @if (data.locationType === "全线") {
+      <div class="line-clamp-1" [title]="data.locationType">
+        {{ data.locationType }}
+      </div>
+    } @else if (data.locationType === "自定义") {
+      <div class="line-clamp-1" [title]="data.customPosition">
+        {{ data.customPosition }}
+      </div>
+    } @else if (data.locationType === "站点" || data.locationType === "车场") {
+      <div class="line-clamp-1" [title]="data.startStation">
+        {{ data.startStation }}
+      </div>
+    } @else if (data.locationType === "区间") {
+      <div class="line-clamp-1" [title]="data.startStation">
+        {{ data.startStation }}
+      </div>
+      <div style="line-height: 10px">-</div>
+      <div class="line-clamp-1" [title]="data.endStation">
+        {{ data.endStation }}
+      </div>
+    }
+  </div>
+</ng-template>
+
+<ng-template #other let-data>
+  <div class="flex" style="height: 40px">
+    <div class="flex items-center justify-center" [style.width.px]="40">
+      @if (data.supervision) {
+        <img
+          class="image-hover-effect"
+          width="24"
+          src="/assets/images/dashboard/protect-icon.png"
+          alt=""
+          srcset=""
+          (click)="onAction($event, 'supervision', data)"
+        />
+      }
+    </div>
+    <div
+      class="flex items-center justify-center border-both"
+      [style.width.px]="40"
+    >
+      @if (showRepairInfoIcon(data)) {
+        <img
+          class="image-hover-effect"
+          width="24"
+          src="/assets/images/dashboard/tool-icon.png"
+          alt=""
+          srcset=""
+          (click)="onAction($event, 'urgentRepair', data)"
+        />
+      }
+    </div>
+    <div class="flex items-center justify-center" [style.width.px]="40">
+      @if (data.images && data.images.length > 0) {
+        <img
+          class="image-hover-effect"
+          width="24"
+          src="/assets/images/dashboard/image-icon.png"
+          alt=""
+          srcset=""
+          (click)="readImages(data)"
+        />
+      }
+    </div>
+  </div>
+</ng-template>
+
+<dashboard-detail-popup
+  [config]="popupConfig()"
+  (onClose)="closeDetailPopup()"
+/>
+
+<ng-template #order let-data>
+  <div
+    class="cursor-pointer"
+    [class.ordering-color]="orderConfig().prop === data.prop"
+    (click)="handleOrdering(data.prop)"
+  >
+    <span class="mr-2"> {{ data.label }}</span>
+    <span>
+      <nz-icon
+        class="transition-transform"
+        style="position: relative; top: 2px"
+        [class.-rotate-180]="
+          orderConfig().prop === data.prop && !orderConfig().asc
+        "
+        nzType="caret-down"
+        nzTheme="outline"
+      />
+    </span>
+  </div>
+</ng-template>

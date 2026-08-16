@@ -1,0 +1,94 @@
+<div class="flex justify-center flex-col mb-[5%]" [style.transform]="transform">
+  <h1 class="headline">申轨防汛智策云平台</h1>
+  <h5 class="subtitle mb-12">WELCOME TO THE SYSTEM</h5>
+  <div class="login-card">
+    <form [formGroup]="validateForm" style="width: 388px">
+      <div class="form-item">
+        <span
+          class="mr-4 transition"
+          [class.error-font]="userNameError"
+          nz-icon
+          nzType="user"
+          nzTheme="outline"
+        ></span>
+        <span>账户</span>
+        <span class="mx-4 light-font">|</span>
+        <span
+          ><input
+            class="form-input"
+            type="text"
+            formControlName="userName"
+            (keyup)="onUerNameKeyup($event)"
+        /></span>
+      </div>
+      <div class="h-[28px] pl-[35%] overflow-hidden">
+        @if (userNameError) {
+          <span @dropdown class="error-font inline-block text-xs">
+            {{ userNameError }}
+          </span>
+        }
+      </div>
+      <div class="form-item">
+        <span
+          class="mr-4"
+          [class.text-red-500]="passwordError"
+          nz-icon
+          nzType="lock"
+          nzTheme="outline"
+        ></span>
+        <span>密码</span>
+        <span class="mx-4 light-font">|</span>
+        <span
+          ><input
+            #passwordRef
+            class="form-input"
+            type="password"
+            formControlName="password"
+            (keyup)="onPasswordKeyup($event)"
+        /></span>
+      </div>
+      <div class="h-[28px] pl-[35%] overflow-hidden">
+        @if (passwordError) {
+          <span @dropdown class="error-font inline-block text-xs">
+            {{ passwordError }}
+          </span>
+        }
+      </div>
+      <div class="mt-[6px] flex justify-between select-none">
+        <div>
+          <label nz-checkbox formControlName="remember">记住我</label>
+        </div>
+        @if (!isAndroidTablet) {
+          <div>
+            <a
+              nzTrigger="click"
+              class="login-form-forget"
+              nz-popover
+              [nzPopoverContent]="userPopover"
+              nzPopoverTrigger="click"
+              [(nzPopoverVisible)]="userListVisible"
+            >
+              切换用户
+            </a>
+            <ng-template #userPopover>
+              <app-login-user-list
+                (selectUser)="selectUser($event)"
+              ></app-login-user-list>
+            </ng-template>
+          </div>
+        }
+      </div>
+      <div>
+        <div
+          class="form-button"
+          [class.loading]="landing"
+          (click)="submitForm()"
+        ></div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- <div>
+  <a class="button" routerLink="../manager/list">Login</a>
+</div> -->

@@ -1,0 +1,26 @@
+<div class="weather-map-wrapper">
+  <div class="weather-map">
+    <div #shortcutRef class="render-inner"></div>
+  </div>
+</div>
+<div class="weather-info-wrapper">
+  <div class="weather-info">
+    <div class="grid grid-cols-2 gap-y-5">
+      @for (item of infos; track $index) {
+        <div class="weather-info-item">
+          <div class="weather-info-item-icon">
+            <img [src]="item.icon" alt="" />
+          </div>
+          <div class="pl-2">
+            <div class="weather-info-item-value">
+              {{ item.value }}
+            </div>
+            <div class="weather-info-item-title">
+              {{ item.title }}
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

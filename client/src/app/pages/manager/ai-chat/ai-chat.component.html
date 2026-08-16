@@ -1,0 +1,136 @@
+<div class="chat-container ai-chat-page">
+  <div class="chat-header">
+    <h2>AI 智能问答</h2>
+    <div class="header-actions">
+      <button nz-button nzSize="small"
+        [class.active]="showThinking()"
+        (click)="toggleThinking()"
+        title="思考过程"
+        aria-label="展开思考过程">
+        <span nz-icon [nzType]="showThinking() ? 'eye' : 'eye-invisible'" nzTheme="outline"></span>
+      </button>
+      <nz-radio-group [(ngModel)]="selectedCategory" nzSize="small" aria-label="分类筛选">
+        <label nz-radio-button [nzValue]="undefined">全部</label>
+        <label nz-radio-button nzValue="typhoon_case">台风案例</label>
+        <label nz-radio-button nzValue="regulation">管理规定</label>
+        <label nz-radio-button nzValue="emergency_plan">应急预案</label>
+        <label nz-radio-button nzValue="other">其他</label>
+      </nz-radio-group>
+      <button nz-button nzSize="small" (click)="onClear()" aria-label="清空对话">
+        <span nz-icon nzType="delete" nzTheme="outline"></span>
+        清空对话
+      </button>
+    </div>
+  </div>
+
+  <div class="message-list" #messageList>
+    @if (messages().length === 0) {
+      <div class="empty-hint">
+        <span
+          nz-icon
+          nzType="robot"
+          nzTheme="outline"
+          style="font-size: 48px; color: #d9d9d9"
+        ></span>
+        <p>基于知识库的 AI 智能问答，试试问一个台风相关的问题</p>
+      </div>
+    }
+
+    @for (msg of messages(); track $index) {
+      <div
+        class="message"
+        [class.user]="msg.role === 'user'"
+        [class.assistant]="msg.role === 'assistant'"
+      >
+        @if (msg.role === "user") {
+          <div class="bubble user-bubble">{{ msg.content }}</div>
+        } @else {
+          <div
+            class="bubble assistant-bubble"
+            #assistantBubble
+            (click)="onMessageClick($event)"
+          >
+            @if (showThinking() && msg.thinking) {
+              <div class="thinking-block">
+                <div class="thinking-header" (click)="msg.thinkingCollapsed = !msg.thinkingCollapsed">
+                  <span nz-icon nzType="bulb" nzTheme="outline"></span>
+                  <span>思考过程</span>
+                  <span nz-icon [nzType]="msg.thinkingCollapsed ? 'down' : 'up'" nzTheme="outline"></span>
+                </div>
+                @if (!msg.thinkingCollapsed) {
+                  <div class="thinking-content">
+                    <markdown [data]="msg.thinking"></markdown>
+                  </div>
+                }
+              </div>
+            }
+            @if (msg.content) {
+              <markdown [data]="msg.content"></markdown>
+            } @else if (msg.streaming && (!msg.thinking || !showThinking())) {
+              <span class="typing-cursor">{{ statusText || '思考中' }}</span>
+            }
+            @if (msg.streaming) {
+              <span class="cursor-blink">|</span>
+            }
+          </div>
+          @if (getReferencedSources(msg).length > 0) {
+            <div class="sources">
+              <span class="sources-label">参考来源：</span>
+              @for (item of getReferencedSources(msg); track item.num) {
+                <nz-tag
+                  nzColor="green"
+                  style="background-color: #6abe3933"
+                  [nzBordered]="false"
+                  [nzTooltipTitle]="item.source.content"
+                  nz-tooltip
+                  [attr.data-source-index]="item.num"
+                >
+                  [{{ item.num }}] {{ item.source.documentName }} ({{
+                    item.source.score * 100 | number: "1.0-0"
+                  }}%)
+                </nz-tag>
+              }
+            </div>
+          }
+        }
+      </div>
+    }
+  </div>
+
+  @if (statusText) {
+    <div class="status-bar">
+      <span nz-icon nzType="loading" nzTheme="outline"></span>
+      {{ statusText }}
+    </div>
+  }
+
+  <div class="input-area">
+    <textarea
+      nz-input
+      [(ngModel)]="inputText"
+      placeholder="输入问题，按 Enter 发送，Shift+Enter 换行"
+      [nzAutosize]="{ minRows: 1, maxRows: 4 }"
+      (keydown)="onKeydown($event)"
+      [disabled]="loading"
+      aria-label="问题输入框"
+    ></textarea>
+    <div class="input-actions">
+      @if (loading) {
+        <button nz-button nzDanger (click)="onStop()" aria-label="停止">
+          <span nz-icon nzType="pause-circle" nzTheme="outline"></span>
+          停止
+        </button>
+      } @else {
+        <button
+          nz-button
+          nzType="primary"
+          (click)="onSend()"
+          [disabled]="!inputText.trim()"
+        >
+          <span nz-icon nzType="send" nzTheme="outline"></span>
+          发送
+        </button>
+      }
+    </div>
+  </div>
+</div>

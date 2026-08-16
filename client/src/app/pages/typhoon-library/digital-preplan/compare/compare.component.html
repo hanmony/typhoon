@@ -1,0 +1,41 @@
+<h3 class="headline">
+  <span
+    ><img
+      class="mr-2"
+      src="assets/images/typhoon-library/digital-preplan/right-arrow.svg"
+      alt=""
+      srcset=""
+  /></span>
+  <span>预警行动要求</span>
+</h3>
+
+<div class="compare-wrapper">
+  <div class="alerts">
+    @for (alert of alerts; track alert.key) {
+      <div
+        class="alert-item"
+        [class.active]="activeAlert === alert.key"
+        style="--color: {{ alert.activeColor }}"
+        (click)="changeAlert(alert.key)"
+      >
+        <div class="alert-label">{{ alert.label }}</div>
+        <div class="alert-key">{{ alert.key }}</div>
+      </div>
+    }
+  </div>
+  <div class="data-list">
+    @for (item of list; track item.key) {
+      <div>
+        <div class="data-title">{{ item.label }}</div>
+        @if ((activeAlertDto?.data)![item.key]) {
+          <div class="limit-height custom-scroll-bar">
+            @for (text of (activeAlertDto?.data)![item.key]; track $index) {
+              <div class="data-content">{{ text }}</div>
+            }
+          </div>
+        }
+      </div>
+    }
+    <div></div>
+  </div>
+</div>

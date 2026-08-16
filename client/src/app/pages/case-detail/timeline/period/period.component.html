@@ -1,0 +1,23 @@
+@if (isKeyPeriod) {
+  <div class="absolute w-full" style="top: -100%; left: 0">
+    <div class="text-center">
+      <img src="assets/images/map/timeline/key-marker.png" alt="" srcset="" />
+    </div>
+    <div class="px-10">
+      <div class="key-border"></div>
+    </div>
+  </div>
+}
+@for (item of points; track $index) {
+  <div class="text-center">
+    <timeline-normal-point
+      (click)="onPointClick(item)"
+      [disabled]="disabled"
+      [active]="selectedTiming?.startTime === item.startTime"
+      [border]="normalPointShouldBorder(item)"
+      [blink]="autoPlaying && item.startTime === autoPlayTime"
+      [ban]="autoPlaying"
+      [isKey]="!isKeyPeriod && item.isKey"
+    />
+  </div>
+}

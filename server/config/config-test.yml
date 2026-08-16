@@ -1,0 +1,11 @@
+# test
+env: test
+server:
+    host: 0.0.0.0
+    port: 3000
+    secret: secret-of-typhoon
+mongodb: mongodb://127.0.0.1:27017/typhoon
+x5:
+    sync: 0
+    privateHost: http://172.20.41.45/timer
+    publicHost: https://x5.shmetro.com:9091/timer

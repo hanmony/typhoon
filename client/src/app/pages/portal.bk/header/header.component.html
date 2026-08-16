@@ -1,0 +1,38 @@
+<div class="portal-header">
+  <div>关于</div>
+  <div class="pr-4 text-center">
+    <img src="assets/images/portal/portal-logo@2x.png" alt="" srcset="" />
+  </div>
+  <div class="flex justify-end">
+    <div class="action-item clickable">
+      <span
+        nz-icon
+        nzType="search"
+        nzTheme="outline"
+        style="font-size: 22px"
+        (click)="onQueryClick()"
+      ></span>
+    </div>
+    <div class="action-item clickable" (click)="openManagement()">
+      <img
+        class="icon"
+        src="assets/images/portal/management-icon@2x.png"
+        alt=""
+      />
+      <span>进入后台</span>
+    </div>
+
+    <div class="action-item clickable" nz-dropdown [nzDropdownMenu]="menu">
+      <img class="icon" src="assets/images/portal/profile-icon@2x.png" alt="" />
+      <span>{{ settings.user?.name }}</span>
+    </div>
+  </div>
+</div>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu nzSelectable>
+    <li nz-menu-item (click)="handleChangePassword()">修改密码</li>
+    <li nz-menu-divider></li>
+    <li nz-menu-item (click)="handleLogout()">退出</li>
+  </ul>
+</nz-dropdown-menu>

@@ -1,0 +1,91 @@
+<div
+  class="line-card"
+  [class.isSupervisor]="isSupervisor()"
+  [class.clickable]="true"
+  [style]="{
+    '--primaryColor': data().primaryColor,
+    '--secondaryColor': data().secondaryColor,
+  }"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    id="图层_1"
+    data-name="图层 1"
+    viewBox="0 0 143.67 151.74"
+  >
+    <polygon
+      fill="var(--secondaryColor)"
+      points="8.19 7.27 66.18 7.27 72.6 0.73 143.61 0.73 143.61 141 135.34 151.71 0.02 151.71 0.02 17.97 8.19 7.27"
+    />
+    <polyline
+      fill="none"
+      stroke="var(--primaryColor)"
+      stroke-width="2"
+      points="142.64 9.53 142.64 1.71 133.77 1.71"
+    />
+    <polyline
+      fill="none"
+      stroke="var(--primaryColor)"
+      stroke-width="2"
+      points="1 28.81 1 18 8.85 8.11 19.6 8.11"
+    />
+    <polyline
+      fill="none"
+      stroke="var(--primaryColor)"
+      stroke-width="2"
+      points="1.03 142.92 1.03 150.74 9.89 150.74"
+    />
+    <polyline
+      fill="none"
+      stroke="var(--primaryColor)"
+      stroke-width="2"
+      points="142.67 124.01 142.67 140.54 134.86 150.69 87.64 150.69"
+    />
+    <polygon
+      fill="var(--primaryColor)"
+      points="29.63 6.13 35.09 6.13 41.23 0 35.77 0 29.63 6.13"
+    />
+    <polygon
+      fill="var(--primaryColor)"
+      points="37.13 6.13 42.59 6.13 48.73 0 43.27 0 37.13 6.13"
+    />
+    <polygon
+      fill="var(--primaryColor)"
+      points="44.63 6.13 50.09 6.13 56.23 0 50.77 0 44.63 6.13"
+    />
+    <polygon
+      fill="var(--primaryColor)"
+      points="52.14 6.13 57.59 6.13 63.73 0 58.27 0 52.14 6.13"
+    />
+    <polygon
+      fill="var(--primaryColor)"
+      points="59.64 6.13 65.09 6.13 71.23 0 65.77 0 59.64 6.13"
+    />
+  </svg>
+
+  <div class="absolute top-0 left-0 bottom-0 right-0">
+    <div class="card-top">
+      @if (data().patrolling && !data().finished) {
+        <div
+          class="patrolling-tag animate-pulse"
+          [class.isSupervisor]="isSupervisor()"
+        >
+          巡
+        </div>
+      }
+    </div>
+    <div class="name-font text-center">{{ data().name }}</div>
+
+    <div class="card-bottom">
+      @if (data().patrolling) {
+        @if (data().finished) {
+          <div class="time-font">结束时间：</div>
+          <div class="time-font">{{ endTime() }}</div>
+        } @else {
+          <div class="time-font">预计结束时间：</div>
+          <div class="time-font">{{ formatExpiration(data().expiration) }}</div>
+        }
+      }
+    </div>
+  </div>
+</div>

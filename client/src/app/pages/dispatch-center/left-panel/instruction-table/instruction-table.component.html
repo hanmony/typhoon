@@ -1,0 +1,59 @@
+<dispatch-module-header title="应急值班" />
+<div class="pl-8">
+  <table class="instruction-table">
+    <thead>
+      <tr class="text-left text-lg">
+        <!-- <th style="width: 32px"></th> -->
+        <th class="relative" style="width: 12px">
+          <span class="tangle"></span>
+        </th>
+        @for (item of columns; track item.key) {
+          <th
+            [style.width]="item.width ? item.width + 'px' : 'auto'"
+            [class.text-center]="item.align === 'center'"
+          >
+            {{ item.name }}
+          </th>
+        }
+      </tr>
+    </thead>
+    <tbody
+      #tableBody
+      class="custom-scroll-bar"
+      [style.max-height.px]="maxHeight()"
+      (wheel)="manuallyScroll()"
+      (touchmove)="manuallyScroll()"
+    >
+      @for (row of data; track $index) {
+        <tr class="instruction-table-row">
+          <td class="relative" style="width: 12px">
+            <span class="tangle"></span>
+          </td>
+          @for (item of columns; track item.key) {
+            <td
+              class="text-left"
+              [class.pr-4]="item.key === 'content'"
+              [class.text-center]="item.align === 'center'"
+              [style.width]="item.width ? item.width + 'px' : 'auto'"
+              [ngStyle]="item.style"
+            >
+              <span class="line-clamp-1">
+                {{ row[item.key] || " - " }}
+              </span>
+            </td>
+          }
+        </tr>
+      }
+
+      @if (data.length === 0) {
+        <tr class="instruction-table-row">
+          <td colspan="100%" class="text-center">暂无数据</td>
+        </tr>
+        <tr class="instruction-table-row"></tr>
+        <tr class="instruction-table-row"></tr>
+        <tr class="instruction-table-row"></tr>
+        <tr class="instruction-table-row"></tr>
+      }
+    </tbody>
+  </table>
+</div>

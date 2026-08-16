@@ -1,0 +1,69 @@
+.line-card {
+  width: 143px;
+  height: 151px;
+  display: inline-flex;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+  opacity: 0.4;
+
+  &.isSupervisor {
+    width: 114.4px;
+    height: 120.8px;
+
+    .card-top {
+      height: 41.6px;
+      padding: 6px 10px;
+    }
+    .name-font {
+      font-size: 1.25rem;
+    }
+    .card-bottom {
+      padding: 10px;
+    }
+    .time-font {
+      font-size: 0.875rem;
+      line-height: 1rem;
+    }
+  }
+
+  &.clickable {
+    opacity: 1;
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  > svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.card-top {
+  height: 52px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 8px 12px;
+}
+
+.name-font {
+  font-family: "PangMenZhengDao";
+  font-weight: 400;
+  font-size: 24px;
+  color: #ffffff;
+  font-style: italic;
+}
+
+.card-bottom {
+  padding: 12px;
+  text-align: left;
+}
+
+.time-font {
+  color: #ffffff;
+  line-height: 18px;
+  font-style: italic;
+  opacity: 0.89;
+}

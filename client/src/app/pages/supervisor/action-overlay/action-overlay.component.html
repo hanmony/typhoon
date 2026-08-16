@@ -1,0 +1,31 @@
+@if (!isHide()) {
+  <div @verticalInOut class="actions">
+    @for (item of actions(); track item.key) {
+      <div
+        class="action-button"
+        [class.active]="item.key === activeAction()"
+        (click)="handleAction(item.key)"
+      >
+        <div class="action-font">{{ item.name }}</div>
+      </div>
+    }
+
+    @if (!isHide() && isIntelligentTool()) {
+      <div @zoomInOut class="sub-actions">
+        @for (item of intelligentSubActions; track item.key) {
+          <div
+            class="sub-action-button"
+            [class.disabled]="item.disabled"
+            [class.active]="activeAction() === item.key"
+            (click)="handleSubAction(item)"
+          >
+            <div class="icon">
+              <img class="w-12" [src]="item.icon" alt="" srcset="" />
+            </div>
+            <div class="text-center text-xs">{{ item.name }}</div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+}

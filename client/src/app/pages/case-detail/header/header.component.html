@@ -1,0 +1,88 @@
+<div class="case-header" [style.zoom]="zoom">
+  <div class="case-header-mark"></div>
+  <div class="header-left flex flex-1 justify-end">
+    <!-- <case-header-filter-item
+      label="路线选择"
+      [model]="filterModel.lines"
+      [disabled]="autoPlaying"
+      [dropdownVisible]="optionsVisible"
+      (toggleDropdownVisible)="toggleOptions()"
+      (closeDropdown)="closeOptions()"
+      (onChange)="onValueChange($event, 'lines')"
+      (onAllChange)="onAllChange('lines')"
+    />
+    <case-header-filter-item
+      label="运营事件"
+      [model]="filterModel.opEvents"
+      [disabled]="autoPlaying"
+      [dropdownVisible]="optionsVisible"
+      (toggleDropdownVisible)="toggleOptions()"
+      (closeDropdown)="closeOptions()"
+      (onChange)="onValueChange($event, 'opEvents')"
+      (onAllChange)="onAllChange('opEvents')"
+    />
+    <case-header-filter-item
+      label="行车措施"
+      [model]="filterModel.trafficMeasures"
+      [disabled]="autoPlaying"
+      [dropdownVisible]="optionsVisible"
+      (toggleDropdownVisible)="toggleOptions()"
+      (closeDropdown)="closeOptions()"
+      (onChange)="onValueChange($event, 'trafficMeasures')"
+      (onAllChange)="onAllChange('trafficMeasures')"
+    /> -->
+    <!-- <div
+      class="filter-item"
+      [class.disabled]="autoPlaying"
+      (click)="handleFilterButtonClick()"
+    >
+      条件筛选
+    </div> -->
+  </div>
+  <div class="case-title">
+    <div class="case-title-text">{{ data?.name || "台风案例库台" }}</div>
+  </div>
+  <div class="header-right flex flex-1">
+    <!-- <case-header-filter-item
+      [reverse]="true"
+      label="客运措施"
+      [model]="filterModel.passengerTransportMeasures"
+      [disabled]="autoPlaying"
+      [dropdownVisible]="optionsVisible"
+      (toggleDropdownVisible)="toggleOptions()"
+      (closeDropdown)="closeOptions()"
+      (onChange)="onValueChange($event, 'passengerTransportMeasures')"
+      (onAllChange)="onAllChange('passengerTransportMeasures')"
+    />
+    <case-header-filter-item
+      [reverse]="true"
+      label="客运处置"
+      [model]="filterModel.passengerDisposals"
+      [disabled]="autoPlaying"
+      [dropdownVisible]="optionsVisible"
+      (toggleDropdownVisible)="toggleOptions()"
+      (closeDropdown)="closeOptions()"
+      (onChange)="onValueChange($event, 'passengerDisposals')"
+      (onAllChange)="onAllChange('passengerDisposals')"
+    />
+    <case-header-filter-item
+      [reverse]="true"
+      label="施工调整"
+      [model]="filterModel.constructionAdjustments"
+      [disabled]="autoPlaying"
+      [dropdownVisible]="optionsVisible"
+      (toggleDropdownVisible)="toggleOptions()"
+      (closeDropdown)="closeOptions()"
+      (onChange)="onValueChange($event, 'constructionAdjustments')"
+      (onAllChange)="onAllChange('constructionAdjustments')"
+    /> -->
+  </div>
+</div>
+
+<div
+  class="filter-button"
+  [class.disabled]="autoPlaying"
+  (click)="handleFilterButtonClick()"
+>
+  <div class="button-font fangzheng-blue-white">条件筛选</div>
+</div>

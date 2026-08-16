@@ -1,0 +1,91 @@
+<div *ngIf="visible" #modal class="line-events-modal">
+  <div class="header">
+    <div class="flex-1">{{ lineName }} - {{ headerText }}</div>
+    @if (tabKey !== "overview") {
+      <div class="mr-4" (click)="backToOverview()">
+        <img
+          class="mb-2 cursor-pointer hover:scale-110"
+          style="width: 26px; height: 26px"
+          src="assets/images/map/modal/return.png"
+        />
+      </div>
+    } @else {
+      <div class="mr-4" (click)="close()" style="color: #3eeff2">
+        <span
+          class="mb-2 cursor-pointer hover:scale-110"
+          nz-icon
+          style="width: 26px; height: 26px"
+          nzType="close"
+          nzTheme="outline"
+        ></span>
+      </div>
+    }
+  </div>
+  <div class="content">
+    @if (data) {
+      @if (tabKey === "overview") {
+        @for (item of overviewItemsWithValue; track item.key) {
+          <div class="overview-item">
+            <div class="flex-1">
+              <span>
+                <span>{{ item.label }}</span>
+                <span>总计：</span>
+              </span>
+              <span class="value">{{ item.value }}</span>
+              <span class="unit">起</span>
+            </div>
+            <div class="flex items-center">
+              @if (item.value > 0) {
+                <div class="detail-button" (click)="toDetail(item.key)">
+                  查看详情
+                </div>
+              }
+            </div>
+          </div>
+        }
+      } @else {
+        <div>
+          <table class="tab-table">
+            <thead>
+              <tr class="text-left text-lg">
+                @for (item of columns; track item.key) {
+                  <th
+                    [class.text-center]="item.align === 'center'"
+                    [style.width]="item.width ? item.width + 'px' : 'auto'"
+                  >
+                    {{ item.name }}
+                  </th>
+                }
+              </tr>
+            </thead>
+            <tbody class="custom-scroll-bar">
+              @for (event of tableData; track $index) {
+                <tr class="row">
+                  @for (item of columns; track item.key) {
+                    <td
+                      class="py-2"
+                      [class.text-center]="item.align === 'center'"
+                      [style.width]="item.width ? item.width + 'px' : 'auto'"
+                    >
+                      <line-events-modal-table-cell
+                        [event]="event"
+                        [key]="item.key"
+                        (handleLocate)="handleLocate($event)"
+                      />
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+      <!-- @switch (tabKey) {
+        @case "overview": {
+          <div>123</div>
+        }
+      } -->
+    }
+  </div>
+  <div class="footer"></div>
+</div>

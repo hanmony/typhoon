@@ -1,0 +1,89 @@
+<!-- document.list.component.html -->
+<div class="document-list-container">
+  <div class="header">
+    <h2>文档列表</h2>
+    <div class="text-right mb-2">
+      <button nz-button nzType="primary" (click)="showImportModal()">
+        导入文件夹列表
+      </button>
+    </div>
+  </div>
+
+  <div class="documents-content">
+    <nz-table
+      #documentsTable
+      [nzData]="documents"
+      [nzTotal]="total"
+      [nzLoading]="loading"
+      [nzPageIndex]="pageIndex"
+      [nzPageSize]="pageSize"
+      (nzPageIndexChange)="onPageIndexChange($event)"
+      (nzPageSizeChange)="onPageSizeChange($event)"
+      [nzShowSizeChanger]="true"
+      [nzFrontPagination]="false"
+    >
+      <thead>
+        <tr>
+          <th>文件名</th>
+          <th>上传时间</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let document of documentsTable.data">
+          <td>{{ document.fileName }}</td>
+          <td>{{ document.uploadTime }}</td>
+          <td>
+            <button
+              nz-button
+              nzDanger
+              (click)="deleteDocument(document.id)"
+              style="margin-right: 8px"
+            >
+              删除
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<!-- 导入文件夹列表模态框 -->
+<nz-modal
+  [(nzVisible)]="isImportModalVisible"
+  nzTitle="导入文件夹列表"
+  (nzOnOk)="handleImportModalOk()"
+  (nzOnCancel)="handleImportModalCancel()"
+  nzWidth="600px"
+>
+  <ng-container *nzModalContent>
+    <div class="time-selector-section">
+      <div>更新时间：</div>
+      <nz-date-picker
+        nzShowTime
+        nzFormat="yyyy-MM-dd HH:mm:ss"
+        [(ngModel)]="selectedDate"
+        (ngModelChange)="onDateChange($event)"
+        style="width: 100%; margin: 10px 0"
+      ></nz-date-picker>
+    </div>
+
+    <div class="upload-section">
+      <h3>文件上传</h3>
+      <nz-upload
+        nzAction="/uploadFile/upload"
+        [(nzFileList)]="fileList"
+        [nzMultiple]="true"
+        [nzShowUploadList]="true"
+        [nzBeforeUpload]="beforeUpload"
+        (nzChange)="handleUploadChange($event)"
+      >
+        <button nz-button>
+          <i nz-icon nzType="upload"></i>
+          选择文件
+        </button>
+      </nz-upload>
+    </div>
+  </ng-container>
+</nz-modal>

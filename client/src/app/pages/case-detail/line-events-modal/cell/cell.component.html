@@ -1,0 +1,44 @@
+<div class="flex justify-center items-center">
+  @if (isArray) {
+    <div class="text-center text-sm leading-4">
+      @for (item of data; track $index) {
+        <div>{{ item }}</div>
+      }
+    </div>
+  } @else {
+    <span class="whitespace-break-spaces">{{ data }}</span>
+  }
+  @if (key === "location" && data) {
+    @if (shouldTooltip) {
+      <img
+        class="ml-4 cursor-pointer hover:scale-110"
+        style="width: 26px; height: 26px"
+        src="assets/images/map/modal/location.png"
+        nz-tooltip
+        [nzTooltipTrigger]="null"
+        [nzTooltipTitle]="tooltipTpl"
+        [nzTooltipVisible]="showTooltip"
+        nzTooltipPlacement="right"
+        nzTooltipColor="transparent"
+        (click)="showTooltip = true"
+      />
+    } @else {
+      <img
+        class="ml-4 cursor-pointer hover:scale-110"
+        style="width: 26px; height: 26px"
+        src="assets/images/map/modal/location.png"
+        (click)="onLocateIconClock()"
+      />
+    }
+  }
+</div>
+
+<ng-template #tooltipTpl>
+  <div class="tooltip-box">
+    @for (item of getStations(event); track $index) {
+      <div class="value-item" (click)="onTooltipItemClick(item.name)">
+        {{ item.name }}
+      </div>
+    }
+  </div>
+</ng-template>

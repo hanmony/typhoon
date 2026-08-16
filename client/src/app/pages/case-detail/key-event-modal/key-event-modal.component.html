@@ -1,0 +1,117 @@
+@if (popupVisible) {
+  <div @horizontalInOutCenter class="key-event-modal">
+    <div class="header">
+      <span>{{ currentPopupDto?.eventName }}</span>
+      @if (hasAccessory) {
+        <span
+          class="ml-4 hover:text-[#3eeff2] cursor-pointer"
+          nz-icon
+          nzType="play-circle"
+          nzTheme="fill"
+          (click)="onPlayClick()"
+        ></span>
+      }
+      <img
+        class="close hover:scale-110"
+        src="/assets/images/map/modal/popup/close.png"
+        alt=""
+        srcset=""
+        (click)="onPopupCloseClick()"
+      />
+    </div>
+    <div class="body">
+      <span> {{ currentPopupDto?.description }}</span>
+    </div>
+    <div class="footer"></div>
+  </div>
+}
+@if (reportVisible) {
+  <div @horizontalInOutRelative class="pdf-report-modal">
+    <div class="header">
+      <div class="title">
+        <img
+          class="mr-1 scale-90"
+          src="/assets/images/map/modal/report/icon.png"
+          alt=""
+          srcset=""
+        />
+        <span class="fangzheng-blue-white text-xl inline-blick pr-2"
+          >重点事件</span
+        >
+        <span
+          class="close transition-all text-gray-400 hover:scale-110 hover:text-gray-300"
+          nz-icon
+          nzType="close-circle"
+          nzTheme="fill"
+          style="font-size: 24px"
+          (click)="onReportCloseClick()"
+        ></span>
+      </div>
+    </div>
+    <div class="basic-info-wrapper">
+      <div class="basic-info-content">
+        <div class="basic-info-headline">
+          <span>{{ currentReportDto?.eventName }}</span>
+          @if (hasAccessory) {
+            <span
+              class="ml-4 hover:text-[#3eeff2] cursor-pointer"
+              nz-icon
+              nzType="play-circle"
+              nzTheme="fill"
+              (click)="onPlayClick()"
+            ></span>
+          }
+        </div>
+        <div class="basic-info-items">
+          @for (item of basicItems; track $index) {
+            <div class="basic-info-item">
+              <div class="label">{{ item.label }}:</div>
+              <div class="value">{{ item.value }}</div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+    <div #detailWrapperRef class="detail-info custom-scroll-bar">
+      <div class="detail-info-content">
+        @for (info of detailInfo; track $index) {
+          <div class="detail-info-section">
+            <div class="detail-info-headline">{{ info.label }}</div>
+            @if (info.description) {
+              <div class="detail-info-description">
+                {{ info.description }}
+              </div>
+            }
+            @if (info.items) {
+              @for (item of info.items; track $index) {
+                <div class="detail-info-item">
+                  <div class="time">{{ item.time }}</div>
+                  <div class="content">{{ item.content }}</div>
+                </div>
+              }
+            }
+            @if (info.list) {
+              <ul class="detail-info-ul">
+                @for (li of info.list; track $index) {
+                  <li class="detail-info-li">
+                    {{ li }}
+                  </li>
+                }
+              </ul>
+            }
+          </div>
+        }
+      </div>
+      <div class="basic-info-wrapper down">
+        <div class="basic-info-items">
+          @for (item of additionalItems; track $index) {
+            <div class="basic-info-item">
+              <div class="label">{{ item.label }}:</div>
+              <div class="value">{{ item.value }}</div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+}

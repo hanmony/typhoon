@@ -1,0 +1,10 @@
+<div class="w-full h-[28px] flex items-center justify-center relative">
+  <span class="main-font" [style.font-size]="currentValue ? '20px' : '15px'">
+    {{ currentValue || "暂无" }}
+  </span>
+  @if (diff) {
+    <span @horizontalInOutRelative class="diff-font"
+      >{{ diff > 0 ? "+" : "" }}{{ diff }}</span
+    >
+  }
+</div>

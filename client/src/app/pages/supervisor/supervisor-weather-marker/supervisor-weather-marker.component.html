@@ -1,0 +1,14 @@
+<div class="pr-3 flex">
+  @for (m of allMarkers; track m.src) {
+    <ng-container
+      *ngTemplateOutlet="marker; context: { src: m.src }"
+    ></ng-container>
+  }
+</div>
+
+<ng-template #marker let-src="src">
+  <div class="marker">
+    <img [src]="src" alt="" srcset="" />
+    <div class="marker-base"></div>
+  </div>
+</ng-template>

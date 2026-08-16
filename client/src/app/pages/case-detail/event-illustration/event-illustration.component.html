@@ -1,0 +1,46 @@
+<div
+  class="fixed"
+  style="top: 90px; z-index: 800; right: calc(var(--panel-width) + 10px)"
+>
+  <div class="flex mb-4" style="min-height: 66px">
+    @if (weatherAlerts.length) {
+      @for (wl of weatherAlerts; track wl) {
+        <div @verticalInOutRelative class="ml-1">
+          <img
+            style="width: 76px; height: auto"
+            [src]="getWeatherAlertImage(wl)"
+            alt=""
+            srcset=""
+          />
+        </div>
+      }
+    }
+  </div>
+</div>
+<!-- 分开，防止屏幕蒙层 -->
+<div
+  class="fixed"
+  style="top: 160px; z-index: 800; right: calc(var(--panel-width) + 10px)"
+>
+  <div
+    class="flex flex-col overflow-visible justify-between"
+    [style.height]="symbolTips.length * 73.4 + 'px'"
+    style="width: 75px; transition: all 0.5s linear"
+  >
+    @if (symbolTips.length) {
+      @for (st of symbolTips; track st.symbol) {
+        <div @horizontalInOut class="flex items-center mb-2">
+          <img
+            [class.cursor-pointer]="clickable"
+            [class.hover-border]="clickable"
+            style="width: 75px; height: auto"
+            [src]="st.symbol"
+            alt=""
+            srcset=""
+            (click)="onSymbolClick(st)"
+          />
+        </div>
+      }
+    }
+  </div>
+</div>

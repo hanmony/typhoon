@@ -1,0 +1,28 @@
+.team-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.team-item-title {
+  line-height: 32px;
+}
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #0ba0e6;
+  border-radius: 50%;
+  opacity: 0.36;
+  margin-right: 7px;
+  cursor: pointer;
+  &:last-child {
+    margin-right: 0;
+  }
+  &.active {
+    opacity: 1;
+    cursor: default;
+  }
+}

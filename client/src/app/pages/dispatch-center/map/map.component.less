@@ -1,0 +1,93 @@
+:host {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  --animate-duration: 0.5s;
+}
+
+::ng-deep .leaflet-control-attribution {
+  display: none;
+}
+
+.dark-mode {
+  &:not(.leaflet-safari) {
+    ::ng-deep.leaflet-tile-pane {
+      filter: url("#x-rays") contrast(2) grayscale(0.47) saturate(1.2);
+    }
+  }
+
+  &.leaflet-safari {
+    ::ng-deep.leaflet-tile-pane {
+      filter: url("#x-rays") contrast(2) grayscale(0.47) saturate(1.2);
+    }
+  }
+}
+
+.map-container {
+  width: 100%;
+  height: 100%;
+  -webkit-mask: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 50%,
+    transparent 100%
+  );
+  mask: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 50%,
+    transparent 100%
+  );
+}
+
+.dark-bg {
+  background: linear-gradient(
+    to right,
+    #081835 0%,
+    #081835 15%,
+    #173f6d 85%,
+    #173f6d 100%
+  );
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+::ng-deep .team-overlay-marker-count {
+  font-family: "DIN";
+  font-weight: bold;
+  font-size: 29px;
+  // line-height: 1;
+  background: linear-gradient(0deg, var(--gradient-color) 0%, #ffffff 100%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+::ng-deep .shining-box {
+  background-color: #0b255290;
+  width: 100%;
+  box-shadow: inset 0px 0px 12px 0px rgba(92, 178, 254, 0.72);
+  .option-item {
+    color: var(--case-text-primary);
+    cursor: pointer;
+    &:hover {
+      color: #40e6fe77;
+    }
+    &.checked {
+      color: #40e6fe;
+    }
+  }
+}
+
+.emergency-response-alerts {
+  position: absolute;
+  top: 122px;
+  left: 144px;
+  z-index: 3;
+  font-size: 24px;
+  text-align: center;
+  pointer-events: none;
+}

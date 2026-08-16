@@ -1,0 +1,260 @@
+<cocc-list-shell
+  titleText="事件列表"
+  [visible]="visible()"
+  [isHide]="isHide()"
+  (onAdd)="onAdd.emit()"
+>
+  <div class="flex px-6 pt-3">
+    @if (visible()) {
+      <div>
+        <table class="statistical-table w-full">
+          <thead>
+            <tr class="text-left">
+              <th class="w-[84px] text-center">来源</th>
+              <th class="w-[64px] text-center">重点</th>
+              <th class="w-[96px]">线路</th>
+              <th class="w-[96px]">事件类型</th>
+              <th>位置</th>
+              <th class="w-[96px]">抢修状态</th>
+              <th class="w-[144px]">操作</th>
+            </tr>
+          </thead>
+          <tbody class="custom-scroll-bar">
+            @for (row of data(); track $index) {
+              <tr class="row" [class.terminated-font]="row.terminated">
+                <td class="w-[84px] text-center">
+                  @if (row.source === "OCC") {
+                    <nz-tag nzColor="blue">OCC</nz-tag>
+                  }
+                  @if (row.source === "COCC") {
+                    <nz-tag nzColor="orange">COCC</nz-tag>
+                  }
+                </td>
+                <td class="w-[64px] text-center">
+                  @if (row.severity) {
+                    <span
+                      class="w-3 h-3 rounded-full inline-flex items-center justify-center"
+                      [style.background]="
+                        row.terminated ? '#ffffff91' : '#00ffff'
+                      "
+                    >
+                      <svg
+                        style="width: 12px; height: 12px; color: #000000"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M5 12l5 5L20 7"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                      </svg>
+                    </span>
+                  }
+                </td>
+                <td class="w-[96px]">
+                  {{ row.line }}
+                </td>
+                <td class="w-[96px]" [class.truncate]="true">
+                  {{ row.eventType }}
+                </td>
+                <td [class.truncate]="true">
+                  {{ getEventPosition(row) }}
+                </td>
+                <td class="w-[96px]">
+                  @if (row.urgentRepair) {
+                    <span
+                      class="cursor-pointer hover:underline"
+                      nz-dropdown
+                      [nzDropdownMenu]="menu"
+                      nzTrigger="click"
+                      [style.color]="getEventRepairStateColor(row)"
+                    >
+                      {{ getEventRepairStateText(row) }}
+                    </span>
+                  } @else {
+                    <span [style.color]="getEventRepairStateColor(row)">
+                      {{ getEventRepairStateText(row) }}
+                    </span>
+                  }
+
+                  <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <ul nz-menu [nzSelectable]="false">
+                      @for (item of repairOptions; track item.value) {
+                        <li
+                          nz-menu-item
+                          (click)="updateRepairState(row, item.value)"
+                        >
+                          {{ item.label }}
+                        </li>
+                      }
+                    </ul>
+                  </nz-dropdown-menu>
+                </td>
+                <td class="w-[144px]">
+                  <span
+                    nz-icon
+                    title="抢修"
+                    [style.color]="
+                      row.repairUnits && row.repairUnits.length
+                        ? '#00ffffe1'
+                        : '#ffffff91'
+                    "
+                    nzType="tool"
+                    nzTheme="outline"
+                    class="cursor-pointer hover:text-[#00ffffe1]"
+                    (click)="updateRepairInfo(row)"
+                  ></span>
+                  <span
+                    nz-icon
+                    title="督办"
+                    [style.color]="row.supervision ? '#00ffffe1' : '#ffffff91'"
+                    nzType="pushpin"
+                    nzTheme="outline"
+                    class="cursor-pointer ml-2 hover:text-[#00ffffe1]"
+                    (click)="updateSupervisionInfo(row)"
+                  ></span>
+                  @if (!row.terminated) {
+                    <span
+                      nz-icon
+                      [title]="row.isShow ? '显示' : '隐藏'"
+                      [style.color]="row.isShow ? '#00ffffe1' : '#ffffff91'"
+                      [nzType]="row.isShow ? 'eye' : 'eye-invisible'"
+                      nzTheme="outline"
+                      class="cursor-pointer ml-2 hover:text-[#00ffffe1]"
+                      (click)="toggleEventVisible(row)"
+                    ></span>
+                  }
+                  <span
+                    nz-icon
+                    title="编辑"
+                    nzType="edit"
+                    nzTheme="outline"
+                    [class.ml-2]="!row.terminated"
+                    class="cursor-pointer text-[#ffffff91] hover:text-[#00ffffe1]"
+                    (click)="editEvent(row)"
+                  ></span>
+                  <span
+                    nz-icon
+                    title="结束"
+                    nzType="send"
+                    nzTheme="outline"
+                    class="cursor-pointer ml-2 text-[#ffffff91] hover:text-[#ef4444e1]"
+                    (click)="terminateEvent(row)"
+                  ></span>
+                  <span
+                    nz-icon
+                    title="删除"
+                    nzType="delete"
+                    nzTheme="outline"
+                    class="cursor-pointer ml-2 text-[#ffffff91] hover:text-[#ef4444e1]"
+                    nz-popconfirm
+                    nzPopconfirmTitle="确定删除吗？"
+                    (nzOnConfirm)="removeEvent(row)"
+                    nzPopconfirmPlacement="top"
+                  ></span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+        @if (!data().length) {
+          <div
+            class="text-center font-fangzheng py-8"
+            style="font-size: 32px; line-height: 1.5"
+          >
+            暂无数据
+          </div>
+        }
+      </div>
+    }
+  </div>
+</cocc-list-shell>
+
+<ng-template #terminateTpl>
+  <div class="pb-4">
+    <nz-alert
+      nzShowIcon
+      nzType="warning"
+      nzMessage="若事件需要抢修， 结束后将变更抢修状态为已结束！"
+    ></nz-alert>
+  </div>
+  <div class="flex items-center">
+    <div>事件结束时间：</div>
+    <div>
+      <nz-date-picker
+        [nzShowTime]="{ nzFormat: 'HH:mm' }"
+        [nzFormat]="'yyyy-MM-dd HH:mm'"
+        [ngModel]="endTime()"
+      ></nz-date-picker>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #repairTpl>
+  <div class="flex items-center">
+    <div class="w-[80px]">抢修单位：</div>
+    <div>
+      <nz-select
+        class="min-w-48"
+        [nzMode]="'multiple'"
+        [nzAllowClear]="true"
+        [nzMaxMultipleCount]="3"
+        [(ngModel)]="repairUpdateState().repairUnits"
+      >
+        @for (item of repairUnits; track item) {
+          <nz-option [nzValue]="item" [nzLabel]="item"></nz-option>
+        }
+      </nz-select>
+    </div>
+  </div>
+  <div class="flex items-center mt-4">
+    <div class="w-[80px]">负责人：</div>
+    <div>
+      <input
+        nz-input
+        type="text"
+        class="w-48"
+        [(ngModel)]="repairUpdateState().responsiblePerson"
+      />
+    </div>
+  </div>
+  <div class="flex items-center mt-4">
+    <div class="w-[80px]">联系电话：</div>
+    <div>
+      <input
+        nz-input
+        type="text"
+        class="w-48"
+        [(ngModel)]="repairUpdateState().contactPhone"
+      />
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #supervisionTpl>
+  <div class="flex items-center">
+    <div class="w-[80px]">督办：</div>
+    <div>
+      <nz-switch [(ngModel)]="supervisionUpdateState().supervision"></nz-switch>
+    </div>
+  </div>
+  <div class="flex items-center mt-4">
+    <div class="w-[80px]">关联点：</div>
+    <div>
+      <nz-select
+        class="min-w-48"
+        [nzAllowClear]="true"
+        [(ngModel)]="supervisionUpdateState().associatedPoint"
+      >
+        @for (item of supervisionAssociatedPoints; track item) {
+          <nz-option [nzValue]="item" [nzLabel]="item"></nz-option>
+        }
+      </nz-select>
+    </div>
+  </div>
+</ng-template>

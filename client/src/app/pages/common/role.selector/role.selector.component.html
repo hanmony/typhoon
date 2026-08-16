@@ -1,0 +1,10 @@
+<nz-select
+  nzMode="multiple"
+  [(ngModel)]="roles"
+  nzPlaceHolder="请选择角色"
+  (ngModelChange)="selectedRolesChanged()"
+>
+  <ng-container *ngFor="let role of selectRoles()">
+    <nz-option [nzLabel]="role.label" [nzValue]="role.value">111</nz-option>
+  </ng-container>
+</nz-select>

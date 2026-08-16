@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="152px" height="136px" viewBox="0 0 152 136" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title></title>
+    <defs>
+        <radialGradient cx="50%" cy="71.504447%" fx="50%" fy="71.504447%" r="112.408796%" gradientTransform="translate(0.500000,0.715044),scale(0.891875,1.000000),rotate(90.000000),translate(-0.500000,-0.715044)" id="radialGradient-1">
+            <stop stop-color="#3196FA" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#3196FA" stop-opacity="0" offset="37.9497257%"></stop>
+            <stop stop-color="#3196FA" offset="100%"></stop>
+        </radialGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#5FC7FD" offset="0%"></stop>
+            <stop stop-color="#3196FA" stop-opacity="0.2" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="数字预案-蓝对照表切图" transform="translate(-459.000000, -628.000000)" fill="url(#radialGradient-1)" stroke="url(#linearGradient-2)" stroke-width="1.5">
+            <g id="路径-2" transform="translate(460.000000, 629.000000)">
+                <path d="M121.533014,133.735356 C138.875051,120.006993 150,98.7773083 150,74.9509517 C150,33.5566841 116.421356,0 75,0 C33.5786438,0 0,33.5566841 0,74.9509517 C0,98.8038351 11.1497342,120.054262 28.5249319,133.781181" id="路径"></path>
+            </g>
+        </g>
+    </g>
+</svg>

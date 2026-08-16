@@ -1,0 +1,343 @@
+.command-wrapper {
+  padding: 0 24px 48px;
+  max-height: calc(100vh - 210px);
+  overflow: auto;
+}
+
+.line {
+  height: 1px;
+  background-color: #00ffff;
+}
+.vertical-line {
+  height: 100%;
+  position: relative;
+  &.line-append {
+    &::before {
+      height: calc(100% + var(--line-append));
+    }
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 1px;
+    left: 50%;
+    width: 1px;
+    height: calc(100% - 1px);
+    background-color: #00ffff;
+  }
+}
+.arrow {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 10px solid #00ffff;
+}
+
+.departments {
+  display: inline-flex;
+  padding-left: 89px;
+  padding-right: 10px;
+  .departments-main {
+    display: inline-flex;
+    flex-direction: column;
+  }
+  .departments-line {
+    width: 54px;
+    position: relative;
+    .line {
+      width: 100%;
+      position: absolute;
+      top: 50%;
+      left: 0;
+    }
+    .arrow {
+      position: absolute;
+      top: calc(50% - 4px);
+      left: 100%;
+      transform: rotate(90deg);
+    }
+  }
+}
+.department {
+  display: inline-flex;
+  .department-box {
+    height: 54px;
+    width: 207px;
+    background: url("/assets/images/typhoon-library/digital-preplan/command/department-box.svg")
+      no-repeat;
+    position: relative;
+    left: 5px;
+  }
+  .department-label {
+    text-align: center;
+    color: #00ffff;
+    font-size: 16px;
+    line-height: 54px;
+  }
+  .department-line {
+    width: 54px;
+    position: relative;
+    .line {
+      width: 100%;
+      position: absolute;
+      top: 50%;
+      left: 0;
+    }
+    &:not(.first) {
+      &::before {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 50%;
+        border-left: 1px solid #00ffff;
+      }
+    }
+    &:not(.last) {
+      &::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        height: 50%;
+        border-left: 1px solid #00ffff;
+      }
+    }
+  }
+}
+
+.headquarters {
+  display: flex;
+  align-items: center;
+  padding-right: 10px;
+  .headquarters-box {
+    height: 197px;
+    width: 385px;
+    background: url("/assets/images/typhoon-library/digital-preplan/command/headquarters-box.svg")
+      no-repeat;
+
+    position: relative;
+  }
+  .headquarters-label {
+    height: 42px;
+    line-height: 42px;
+    color: #00ffff;
+    font-size: 16px;
+    padding: 0 16px;
+  }
+  .headquarters-content {
+    padding: 14px;
+  }
+  .headquarters-text {
+    font-size: 14px;
+    .label {
+      display: inline-block;
+      text-align-last: justify;
+      width: 70px;
+    }
+  }
+  .headquarters-line {
+    width: 104px;
+    position: relative;
+    .line {
+      width: 100%;
+      position: absolute;
+      top: 50%;
+      left: 0;
+    }
+    .arrow {
+      position: absolute;
+      top: calc(50% - 4px);
+      left: 100%;
+      transform: rotate(90deg);
+    }
+  }
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  padding-top: 42px;
+  .center-box {
+    height: 197px;
+    width: 385px;
+    background: url("/assets/images/typhoon-library/digital-preplan/command/center-box.svg")
+      no-repeat;
+    position: relative;
+  }
+
+  .center-label {
+    height: 42px;
+    line-height: 42px;
+    color: #00ffff;
+    font-size: 16px;
+    padding: 0 12px;
+    white-space: nowrap;
+  }
+  .center-content {
+    padding: 24px 14px;
+  }
+  .center-text {
+    font-size: 14px;
+    .label {
+      display: inline-block;
+      text-align-last: justify;
+      width: 70px;
+    }
+  }
+}
+
+.companies {
+  white-space: nowrap;
+}
+.company {
+  display: inline-flex;
+  flex-direction: column;
+  padding-right: 16px;
+  // &.large {
+  //   .company-box {
+  //     height: 235px;
+  //     width: 186px;
+  //     background-image: url("/assets/images/typhoon-library/digital-preplan/command/company-box-large.svg");
+  //   }
+  // }
+  .company-box {
+    height: 182px;
+    width: 164px;
+    background: url("/assets/images/typhoon-library/digital-preplan/command/box-1.svg")
+      no-repeat;
+
+    &.b2 {
+      height: 226px;
+      width: 188px;
+      background-image: url("/assets/images/typhoon-library/digital-preplan/command/box-2.svg");
+    }
+    &.b3 {
+      height: 226px;
+      width: 160px;
+      background-image: url("/assets/images/typhoon-library/digital-preplan/command/box-3.svg");
+    }
+    &.b4 {
+      height: 247px;
+      width: 160px;
+      background-image: url("/assets/images/typhoon-library/digital-preplan/command/box-4.svg");
+    }
+    &.b5 {
+      height: 266px;
+      width: 160px;
+      background-image: url("/assets/images/typhoon-library/digital-preplan/command/box-5.svg");
+    }
+    position: relative;
+    padding-top: 16px;
+    // display: flex;
+    // flex-direction: column;
+  }
+  .company-label {
+    color: #00ffff;
+    font-size: 16px;
+    // line-height: 54px;
+    text-align: left;
+    padding: 0 8px 4px;
+  }
+  .company-content {
+    padding: 0 8px;
+    font-size: 14px;
+  }
+  .company-text {
+    // display: flex;
+    .label {
+      // width: 70px;
+      color: #b6bac2;
+      span {
+        // display: inline-block;
+        // text-align-last: justify;
+        // width: 70px;
+        white-space: nowrap;
+      }
+    }
+    .value {
+      color: white;
+      white-space: normal;
+      // word-wrap: break-word;
+      // word-break: keep-all;
+    }
+  }
+
+  .company-top-line {
+    height: 38px;
+    position: relative;
+    &:not(.first) {
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 50%;
+        border-top: 1px solid #00ffff;
+      }
+    }
+    &:not(.last) {
+      &::after {
+        content: "";
+        position: absolute;
+        right: -16px;
+        top: 0;
+        width: calc(50% + 16px);
+        border-top: 1px solid #00ffff;
+      }
+    }
+    .arrow {
+      position: absolute;
+      // top: calc(50% - 4px);
+      left: calc(50% - 4px);
+      bottom: 0;
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.top-contain {
+  height: 38px;
+  position: relative;
+  .vertical-line {
+    &::before {
+      left: calc(50% - 8px);
+    }
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    left: calc(50% - 8px);
+    top: 0;
+    width: var(--top-contain-width, calc(50% + 16px));
+    border-top: 1px solid #00ffff;
+  }
+  .arrow {
+    position: absolute;
+    // top: calc(50% - 4px);
+    left: calc(50% - 12px);
+    bottom: 0;
+    transform: rotate(180deg);
+  }
+}
+
+.bottom-line {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 1px;
+    height: var(--bottom-line-height, 38px);
+    border-left: 1px solid #00ffff;
+    // transform: rotate(90deg);
+  }
+  .arrow {
+    position: absolute;
+    // top: calc(50% - 4px);
+    left: calc(50% - 4px);
+    top: var(--bottom-bottom-height, 38px);
+    transform: rotate(180deg);
+  }
+}

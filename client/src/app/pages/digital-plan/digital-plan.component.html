@@ -1,0 +1,390 @@
+<div class="digital-plan-container">
+  <div class="top-section">
+    <div class="title">防汛防台数字预案智汇查询</div>
+    <div class="top-right" (click)="backToPortal()">
+      <img
+        src="/assets/images/digital-plan/exitIcon.png"
+        alt=""
+        class="mr-2"
+      /><span class="exit-login">回到首页</span>
+    </div>
+  </div>
+
+  <div class="middle-section" *ngIf="showMiddleSection">
+    <div class="left-section">
+      <div class="top-command">
+        <div class="top-command-header"><span>指挥体系圈</span></div>
+        <div class="top-command-content">
+          <img
+            src="/assets/images/digital-plan/topCommand.png"
+            alt=""
+            (click)="showImagePreviewModal()"
+            style="cursor: pointer"
+          />
+        </div>
+        <img
+          src="/assets/images/digital-plan/bottomBg.png"
+          alt=""
+          class="top-command-bottom"
+        />
+      </div>
+      <div class="bottom-command">
+        <div class="top-command-header"><span>分级预警行动要求</span></div>
+        <div class="top-command-content">
+          <div (click)="showWarningModal('redAlert')" style="cursor: pointer">
+            <img src="/assets/images/digital-plan/icon2.png" alt="" />
+            <div>红色预警行动要求</div>
+          </div>
+          <div
+            (click)="showWarningModal('orangeAlert')"
+            style="cursor: pointer"
+          >
+            <img src="/assets/images/digital-plan/icon3.png" alt="" />
+            <div>橙色预警行动要求</div>
+          </div>
+          <div
+            (click)="showWarningModal('yellowAlert')"
+            style="cursor: pointer"
+          >
+            <img src="/assets/images/digital-plan/icon4.png" alt="" />
+            <div>黄色预警行动要求</div>
+          </div>
+          <div (click)="showWarningModal('blueAlert')" style="cursor: pointer">
+            <img src="/assets/images/digital-plan/icon5.png" alt="" />
+            <div>蓝色预警行动要求</div>
+          </div>
+        </div>
+        <img
+          src="/assets/images/digital-plan/bottomBg.png"
+          alt=""
+          class="top-command-bottom"
+        />
+      </div>
+    </div>
+    <div class="right-section">
+      <div class="header">
+        <div class="title">台风至停运状态下-行车交路/运力配置</div>
+        <button
+          (click)="updateInterval('five')"
+          class="button"
+          [ngClass]="{ selected: currentInterval === 'five' }"
+        >
+          5分钟
+        </button>
+        <button
+          (click)="updateInterval('eightyPercent')"
+          class="button"
+          [ngClass]="{ selected: currentInterval === 'eightyPercent' }"
+        >
+          8分钟
+        </button>
+        <button
+          (click)="updateInterval('ten')"
+          class="button"
+          [ngClass]="{ selected: currentInterval === 'ten' }"
+        >
+          10分钟
+        </button>
+        <div
+          class="search"
+          (click)="showModal()"
+          [ngClass]="{ expanded: isSearchExpanded }"
+        >
+          <img src="/assets/images/digital-plan/searchIcon.png" alt="" /><span
+            >文件搜索</span
+          >
+        </div>
+      </div>
+      <div class="content">
+        <div
+          class="lineItem"
+          *ngFor="let item of lineItems; trackBy: trackByLineId"
+        >
+          <div class="lineItem-icon">
+            <img
+              [src]="'/assets/images/digital-plan/lineIcon/' + item.icon"
+              alt="线路"
+            />
+          </div>
+          <div class="lineItem-content">
+            <div class="svg-dom" [attr.data-id]="item.id"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 文档预览弹框 -->
+    <div
+      class="preview-modal-overlay"
+      *ngIf="isPreviewModalVisible"
+      (click)="hidePreviewModal()"
+    >
+      <div class="preview-modal-container" (click)="$event.stopPropagation()">
+        <div class="preview-modal-header">
+          <span class="preview-modal-title">{{
+            currentPreviewDocument?.name
+          }}</span>
+          <div class="preview-modal-header-actions">
+            <button
+              *ngIf="hasAttachments && isAttachmentMode"
+              class="attachment-toggle-btn"
+              (click)="toggleAttachmentMode()"
+            >
+              查看主文档
+            </button>
+
+            <button
+              *ngIf="
+                hasAttachments && !isAttachmentMode && !isViewingAttachment
+              "
+              class="attachment-toggle-btn"
+              (click)="toggleAttachmentMode()"
+            >
+              查看附件
+            </button>
+
+            <button
+              *ngIf="hasAttachments && !isAttachmentMode && isViewingAttachment"
+              class="attachment-toggle-btn"
+              (click)="toggleAttachmentMode()"
+            >
+              返回附件列表
+            </button>
+
+            <div class="preview-modal-close" (click)="hidePreviewModal()">
+              <img
+                src="/assets/images/simulated-patrolling/backward.png"
+                alt="关闭"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="preview-modal-content">
+          <!-- 主文档预览 -->
+          <div *ngIf="!isAttachmentMode" class="preview-content">
+            <iframe
+              [src]="safePreviewUrl"
+              frameborder="0"
+              class="preview-iframe"
+              *ngIf="safePreviewUrl"
+            ></iframe>
+            <div class="preview-loading" *ngIf="loadingPreview">
+              <span>加载中...</span>
+            </div>
+          </div>
+
+          <!-- 附件列表 -->
+          <div class="attachment-list" *ngIf="isAttachmentMode">
+            <div class="attachment-list-header">
+              <h3>附件列表</h3>
+            </div>
+            <div class="attachment-list-content">
+              <div
+                *ngFor="let attachment of attachments; let i = index"
+                class="attachment-item"
+              >
+                <div class="attachment-item-info">
+                  <span class="attachment-item-name">{{
+                    attachment.name
+                  }}</span>
+                </div>
+                <div class="attachment-item-actions">
+                  <button
+                    class="attachment-action-btn view-btn"
+                    (click)="viewAttachment(attachment)"
+                  >
+                    预览
+                  </button>
+                  <button
+                    class="attachment-action-btn download-btn"
+                    (click)="downloadAttachment(attachment)"
+                  >
+                    下载
+                  </button>
+                </div>
+              </div>
+              <div class="no-attachments" *ngIf="attachments.length === 0">
+                <span>无附件</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 图片预览弹框 -->
+    <div
+      class="preview-modal-overlay"
+      *ngIf="isImagePreviewModalVisible"
+      (click)="hideImagePreviewModal()"
+    >
+      <div class="preview-modal-container" (click)="$event.stopPropagation()">
+        <div class="preview-modal-header">
+          <span class="preview-modal-title">指挥体系圈放大图</span>
+          <div class="preview-modal-close" (click)="hideImagePreviewModal()">
+            <img
+              src="/assets/images/simulated-patrolling/backward.png"
+              alt="关闭"
+            />
+          </div>
+        </div>
+        <div class="preview-modal-content">
+          <digital-preplan-command />
+        </div>
+      </div>
+    </div>
+
+    <!-- 分级预警行动要求弹框 -->
+    <app-warning-popup
+      [isVisible]="isWarningModalVisible"
+      [title]="currentWarningTitle"
+      [content]="currentWarningContent"
+      (close)="hideWarningModal()"
+    ></app-warning-popup>
+  </div>
+
+  <app-line-diagram
+    *ngIf="showLineDiagram"
+    class="line-diagram"
+  ></app-line-diagram>
+
+  <app-emergency-contact-form
+    *ngIf="showEmergencyContactForm"
+    class="line-diagram"
+  ></app-emergency-contact-form>
+
+  <app-grading-table
+    *ngIf="showGradingTable"
+    class="line-diagram"
+  ></app-grading-table>
+
+  <app-typhoon-measures
+    *ngIf="showTyphoonMeasures"
+    class="line-diagram"
+  ></app-typhoon-measures>
+
+  <div class="bottom-section">
+    <div class="bottom-section">
+      <div class="bottom-buttons">
+        <div class="btn" (click)="showEmergencyContactFormComponent()">
+          <img src="/assets/images/digital-plan/btnIcon.png" alt="" /><span
+            >应急联络表</span
+          >
+        </div>
+        <div class="btn" (click)="showLineDiagramComponent()">
+          <img src="/assets/images/digital-plan/btnIcon.png" alt="" /><span
+            >线路示意图</span
+          >
+        </div>
+        <!-- 首页图标 -->
+        <img
+          src="/assets/images/digital-plan/homeIcon.png"
+          alt=""
+          (click)="showHomeContent()"
+          style="cursor: pointer"
+        />
+        <div class="btn" (click)="showGradingTableComponent()">
+          <img src="/assets/images/digital-plan/btnIcon.png" alt="" /><span
+            >出入口定级表</span
+          >
+        </div>
+        <div class="btn" (click)="showTyphoonMeasuresComponent()">
+          <img src="/assets/images/digital-plan/btnIcon.png" alt="" /><span
+            >台风&措施</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" *ngIf="isModalVisible" (click)="hideModal()">
+      <div class="modal-container" (click)="$event.stopPropagation()">
+        <div class="header">文件列表</div>
+        <div class="modalContent">
+          <div class="w-[5%] h-[100%] flex items-center justify-left">
+            <img [src]="sidderImg" alt="" class="w-full h-full" />
+          </div>
+          <div class="w-[94%] h-[92%]">
+            <div class="w-full h-[50px] flex items-center justify-left">
+              <div class="searchWrapper">
+                <input
+                  type="text"
+                  placeholder="输入搜索关键词"
+                  class="searchInput"
+                />
+                <img
+                  src="/assets/images/digital-plan/searchIcon.png"
+                  class="searchButtonInside"
+                />
+              </div>
+            </div>
+            <div class="tableContainer">
+              <table class="w-full">
+                <thead>
+                  <tr class="tr">
+                    <th class="th" style="width: 70%">案例名称</th>
+                    <th class="th" style="width: 30%">操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    class="tr"
+                    *ngFor="
+                      let record of paginatedCaseList;
+                      trackBy: trackByLineId
+                    "
+                  >
+                    <td class="caseTd">{{ record.name }}</td>
+                    <td class="caseTd">
+                      <span
+                        class="preview-btn"
+                        (click)="
+                          $event.stopPropagation();
+                          $event.preventDefault();
+                          previewDocument(record)
+                        "
+                      >
+                        预览
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div
+                class="pagination-controls flex justify-center items-center py-4 text-white"
+              >
+                <button
+                  class="pagination-btn mr-2"
+                  (click)="previousPage()"
+                  [disabled]="currentPage === 1"
+                >
+                  上一页
+                </button>
+
+                <span class="pagination-info mr-2">
+                  {{ currentPage }} / {{ totalPages }}
+                </span>
+
+                <button
+                  class="pagination-btn"
+                  (click)="nextPage()"
+                  [disabled]="currentPage === totalPages"
+                >
+                  下一页
+                </button>
+              </div>
+              <div class="text-center py-4 text-white" *ngIf="loadingMore">
+                加载中...
+              </div>
+              <div
+                class="text-center py-4 text-white"
+                *ngIf="!hasMore && caseFollowList.length > 0"
+              >
+                已加载全部数据
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

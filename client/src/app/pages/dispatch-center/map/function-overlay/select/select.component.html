@@ -1,0 +1,43 @@
+<div class="function-overlay-select" (click)="toggleDropDown()">
+  <div class="select-icon">
+    <img
+      src="/assets/images/dispatch-center/map/overlay-select-icon.png"
+      alt=""
+      srcset=""
+    />
+  </div>
+  <div class="flex-1">
+    <span class="main-font">{{ label() }}</span>
+  </div>
+  <div>
+    <nz-icon
+      class="transition-transform"
+      [class.rotate-90]="dropDownVisible()"
+      nzType="caret-right"
+      style="color: #c7dbf5"
+      nzTheme="outline"
+    />
+  </div>
+</div>
+@if (dropDownVisible()) {
+  <div class="drop-down-box">
+    @if (multiple()) {
+      <div
+        class="drop-down-item"
+        [class.selected]="isAllChecked()"
+        (click)="onSelectAllClick()"
+      >
+        <span>{{ selectAllLabel() }}</span>
+      </div>
+    }
+    @for (item of options(); track $index) {
+      <div
+        class="drop-down-item"
+        [class.selected]="isItemChecked(item)"
+        (click)="onOptionClick(item)"
+      >
+        <span>{{ item.label }}</span>
+      </div>
+    }
+  </div>
+}

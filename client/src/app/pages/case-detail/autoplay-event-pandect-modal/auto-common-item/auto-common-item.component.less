@@ -1,0 +1,54 @@
+// :host {
+//   &:nth-of-type(even) {
+//     .info-item {
+//       background-color: #191d23;
+//     }
+//   }
+// }
+
+.info-item {
+  height: 40px;
+  line-height: 40px;
+  color: #b7c1d4;
+  font-size: 16px;
+  padding: 0 12px;
+  display: flex;
+  border-bottom: 1px solid #8db8d850;
+  cursor: pointer;
+  &:nth-child(even) {
+    background-color: #191d23;
+  }
+
+  // &:nth-last-child(1) {
+  //   border-bottom: none;
+  // }
+}
+
+.line-label {
+  color: #00ffff;
+  flex: 1;
+  padding-left: 16px;
+}
+
+.detail-info {
+  color: #b7c1d4;
+  font-size: 16px;
+  // line-height: 40px;
+  padding: 0 16px 0 28px;
+  border-bottom: 1px solid #8db8d850;
+}
+
+.action-button {
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 4px;
+  line-height: 1;
+  color: #ffffffdd;
+  background: linear-gradient(to bottom, #062b54 0%, #02101c 100%);
+  border: 1px solid #026990;
+  margin-right: 8px;
+  cursor: pointer;
+  &:active {
+    background: linear-gradient(to bottom, #02101c 0%, #062b54 100%);
+  }
+}

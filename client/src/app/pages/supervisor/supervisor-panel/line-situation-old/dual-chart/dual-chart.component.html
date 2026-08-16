@@ -1,0 +1,17 @@
+<div class="flex flex-col justify-center relative" style="width: 100%">
+  <div class="chart-bg relative z-10" style="height: 11rem; width: 100%">
+    <div #chartDom class="w-full h-full"></div>
+  </div>
+  <!-- <div class="text-xs flex justify-center gap-8">
+    @for (item of data(); track item.name) {
+      <div class="flex items-center justify-center text-white">
+        <span class="dot mr-2" [style.background]="getItemColor($index)"></span>
+        <span class="flex-1">{{ item.name }}</span>
+      </div>
+    }
+  </div> -->
+  <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+    <div class="total-count">{{ total() }}</div>
+    <div class="total-count-label">事件总数</div>
+  </div>
+</div>

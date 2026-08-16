@@ -1,0 +1,22 @@
+.info-item {
+  min-height: 40px;
+  line-height: 40px;
+  color: #b7c1d4;
+  font-size: 16px;
+  padding: 0 12px;
+  display: flex;
+  border-bottom: 1px solid #8db8d850;
+  cursor: pointer;
+  &:nth-child(even) {
+    background-color: #191d23;
+  }
+  &.highlight {
+    color: #00ffff;
+  }
+  .info-value {
+    display: inline-block;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    line-height: 1.5;
+  }
+}

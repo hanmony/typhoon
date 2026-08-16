@@ -1,0 +1,47 @@
+<div class="flex -mt-2">
+  <div class="pl-4 flex justify-center items-center">
+    <div>
+      @for (d of effectDurations; track d.key) {
+        <div class="">
+          <div class="label-bg pt-2">
+            <div class="duration-label">{{ d.label }}</div>
+          </div>
+          <div class="light-color -mt-1">
+            <span class="text-xs">事件数量：</span>
+            <span class="effected-count">{{ d.value }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+  <dual-chart
+    class="flex-1 flex justify-center items-center"
+    [data]="chartData"
+  />
+</div>
+<div class="bottom-separator pt-2"></div>
+<div
+  #scrollContainer
+  class="grid grid-cols-2 custom-scroll-bar overflow-y-auto pl-4 pr-4 pt-1"
+  style="height: 11rem"
+  (wheel)="manuallyScroll()"
+  (touchmove)="manuallyScroll()"
+>
+  @for (line of lineEffectInfo; track line.name) {
+    <div class="">
+      <div class="line-label-bg pt-2">
+        <div class="duration-label">{{ line.name }}</div>
+      </div>
+      <div class="light-color flex justify-between pr-4 -mt-1">
+        <div>
+          <span class="text-xs">未影响：</span>
+          <span class="normal-count">{{ line.normal }}</span>
+        </div>
+        <div>
+          <span class="text-xs">影响运营：</span>
+          <span class="effected-count">{{ line.effected }}</span>
+        </div>
+      </div>
+    </div>
+  }
+</div>

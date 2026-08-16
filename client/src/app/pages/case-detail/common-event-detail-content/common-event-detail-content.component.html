@@ -1,0 +1,6 @@
+@for (item of data; track $index) {
+  <div class="info-item" [class.highlight]="item.highlight">
+    <span class="whitespace-nowrap">{{ item.label }}：</span>
+    <span class="info-value">{{ item.value }}</span>
+  </div>
+}

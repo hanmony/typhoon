@@ -1,0 +1,30 @@
+<div @horizontalInOutReverse class="statistic-overlay">
+  <div class="statistic-title">
+    <div class="title-font">
+      <span>{{ currentTypeText() }}统计</span>
+    </div>
+  </div>
+  @for (item of data(); track $index) {
+    <div class="statistic-event mt-1">
+      <div style="width: 114px">
+        <img
+          draggable="false"
+          class="relative bottom-4"
+          [src]="item.icon"
+          alt=""
+          srcset=""
+          [style.filter]="'hue-rotate(' + item.hue + 'deg)'"
+        />
+      </div>
+      <div class="flex-1 pl-2 pr-4 py-4 flex flex-col">
+        <div class="opacity-60 text-lg leading-8">{{ item.label }}</div>
+        <div
+          class="text-white font-pangmen"
+          style="font-size: 42px; line-height: 48px"
+        >
+          {{ item.value }}
+        </div>
+      </div>
+    </div>
+  }
+</div>

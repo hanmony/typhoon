@@ -1,0 +1,15 @@
+<div
+  class="line-list grid grid-cols-7 gap-y-20"
+  [class.isCocc]="isCocc()"
+  [class.isSupervisor]="isSupervisor()"
+>
+  @for (item of lines; track item.name) {
+    <div class="text-center">
+      <patrolling-line-card
+        [isSupervisor]="isSupervisor()"
+        [data]="item"
+        (click)="toDetail.emit(item)"
+      />
+    </div>
+  }
+</div>

@@ -1,0 +1,50 @@
+<div class="flex" style="line-height: 34.6px">
+  <div class="headline">上海气象局发布</div>
+  <div class="publish-time ml-2">
+    <span>{{ publishTime() }}</span>
+  </div>
+  <div>
+    <img
+      class="ml-2 cursor-pointer hover:scale-105"
+      style="width: 32px"
+      src="/assets/images/map/dock/book.png"
+      alt=""
+      (click)="onToggleDetail.emit()"
+    />
+  </div>
+</div>
+
+<div #markersWrapper class="overflow-x-hidden whitespace-nowrap px-3">
+  @if (allMarkers().length === 0) {
+    <div class="text-center value-font pt-6">暂无数据</div>
+  } @else if (allMarkers().length === 1) {
+    <div class="flex items-center justify-center pt-4">
+      <div class="marker" style="width: 129px; height: 96px">
+        <img width="102" [src]="allMarkers()[0].src" alt="" srcset="" />
+        <div class="marker-base"></div>
+      </div>
+    </div>
+  } @else {
+    @for (p of separatedMarkers(); track $index) {
+      <div
+        [id]="'separatedMarkersPage-' + $index"
+        class="inline-block w-full h-full"
+      >
+        <div class="grid grid-cols-2 gap-y-4 pt-1 pl-1">
+          @for (m of p; track m.src) {
+            <ng-container
+              *ngTemplateOutlet="marker; context: { src: m.src }"
+            ></ng-container>
+          }
+        </div>
+      </div>
+    }
+  }
+</div>
+
+<ng-template #marker let-src="src">
+  <div class="marker">
+    <img width="68" [src]="src" alt="" srcset="" />
+    <div class="marker-base"></div>
+  </div>
+</ng-template>

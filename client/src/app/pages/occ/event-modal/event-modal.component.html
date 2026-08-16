@@ -1,0 +1,220 @@
+@if (isCocc()) {
+  <div class="flex items-center mb-5">
+    <div class="label">所属线路：</div>
+    <occ-modal-select
+      [disabled]="isEditMode()"
+      [value]="values().line"
+      [options]="lines"
+      (change)="setLine($event)"
+    ></occ-modal-select>
+  </div>
+}
+<div class="flex items-center mb-5">
+  <div class="label">事件类型：</div>
+  <occ-modal-select
+    [value]="values().eventType"
+    [options]="eventTypeOptions"
+    (change)="setEventType($event)"
+  ></occ-modal-select>
+  @if (isOtherEvent()) {
+    <occ-modal-input
+      class="ml-6"
+      placeholder="请输入"
+      [value]="values().otherEvent"
+      (changeValue)="setOtherEvent($event)"
+    ></occ-modal-input>
+  }
+</div>
+<div class="flex">
+  <div class="label">地点类型：</div>
+  <div>
+    <div>
+      <occ-modal-select
+        [disabled]="isEditMode()"
+        [value]="values().locationType"
+        [options]="locationOptions()"
+        (change)="onLocationTypeChange($event)"
+      ></occ-modal-select>
+      @if (locationButtonVisible()) {
+        <div class="ml-6 locate-button" (click)="handleLocate()">地图定位</div>
+      }
+      <div class="inline-block text-nowrap ml-4">
+        @if (isCustomPosition()) {
+          <span>{{ values().customPosition }}</span>
+        }
+      </div>
+    </div>
+    <div class="mt-2">
+      @if (isSingleStation() || isIntervalStation()) {
+        <occ-modal-select
+          [disabled]="isEditMode()"
+          [class.mb-2]="isIntervalStation()"
+          [class.mr-4]="isSingleStation()"
+          [value]="values().startStation"
+          [placeholder]="isSingleStation() ? '请选择站点' : '起始站点'"
+          [options]="stationOptions()"
+          (change)="onStartStationChange($event)"
+        ></occ-modal-select>
+      }
+      @if (isIntervalStation()) {
+        <span> - </span>
+        <occ-modal-select
+          [disabled]="isEditMode()"
+          class="mr-4"
+          [value]="values().endStation"
+          placeholder="结束站点"
+          [options]="stationOptions()"
+          (change)="onEndStationChange($event)"
+        ></occ-modal-select>
+      }
+
+      @if (isDepot()) {
+        <occ-modal-select
+          [disabled]="isEditMode()"
+          [value]="values().startStation"
+          [placeholder]="depotOptions().length ? '请选择车场' : '暂无可选车场'"
+          [options]="depotOptions()"
+          (change)="onStartStationChange($event)"
+        ></occ-modal-select>
+      }
+
+      @if (shouldShowDirection()) {
+        <occ-modal-select
+          style="min-width: 120px"
+          [value]="values().direction"
+          [options]="directionOptions()"
+          (change)="onDirectionChange($event)"
+        ></occ-modal-select>
+      }
+      @if (isIntervalStation()) {
+        <div class="inline-block text-nowrap ml-4">
+          <span>{{ values().customPosition }}</span>
+        </div>
+      }
+    </div>
+    <occ-error-tip [message]="errors().location" />
+  </div>
+</div>
+@if (isTrainBreakdown()) {
+  <div class="flex items-center mb-5">
+    <div class="label">列车号：</div>
+    <occ-modal-input
+      class=""
+      placeholder="请输入列车号"
+      [value]="values().trainNumber"
+      (changeValue)="setTrainNumber($event)"
+    ></occ-modal-input>
+  </div>
+}
+<div class="flex mb-5">
+  <div class="label">事件说明：</div>
+  <occ-modal-textarea
+    placeholder="请输入事件说明"
+    [value]="values().description"
+    (changeValue)="setDescription($event)"
+  ></occ-modal-textarea>
+</div>
+<div class="flex mb-5">
+  <div class="label">严重程度：</div>
+  <div>
+    <div
+      class="occ-radio-button"
+      [class.checked]="!values().severity"
+      (click)="setSeverity(0)"
+    >
+      <span class="occ-radio-button-inner"></span>
+      <span>普通事件</span>
+    </div>
+    <div
+      class="occ-radio-button"
+      [class.checked]="values().severity"
+      (click)="setSeverity(1)"
+    >
+      <span class="occ-radio-button-inner"></span>
+      <span>重点事件</span>
+    </div>
+  </div>
+</div>
+<div class="flex mb-5">
+  <div class="label">需要抢修：</div>
+  <div>
+    <div
+      class="occ-radio-button"
+      [class.checked]="!values().urgentRepair"
+      (click)="setUrgentRepair(0)"
+    >
+      <span class="occ-radio-button-inner"></span>
+      <span>否</span>
+    </div>
+    <div
+      class="occ-radio-button"
+      [class.checked]="values().urgentRepair"
+      (click)="setUrgentRepair(1)"
+    >
+      <span class="occ-radio-button-inner"></span>
+      <span>是</span>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="flex mb-5">
+  <div class="label">影响运营：</div>
+  <div>
+    <div
+      class="occ-radio-button"
+      [class.checked]="!values().effect"
+      (click)="setEffect(0)"
+    >
+      <span class="occ-radio-button-inner"></span>
+      <span>否</span>
+    </div>
+    <div
+      class="occ-radio-button"
+      [class.checked]="values().effect"
+      (click)="setEffect(1)"
+    >
+      <span class="occ-radio-button-inner"></span>
+      <span>是</span>
+    </div>
+  </div>
+</div>
+
+@if (values().effect) {
+  <div class="flex items-center mb-5">
+    <div class="label">影响时长：</div>
+    <occ-modal-select
+      [value]="effectDurationValue"
+      [options]="effectDurations"
+      (change)="setEffectDuration($event)"
+    ></occ-modal-select>
+  </div>
+} -->
+
+<div class="flex items-center mb-5">
+  <div class="label pb-2">现场照片：</div>
+  <image-upload-group [fileList]="values().images">
+    <img
+      src="assets/images/occ/map/uploader-button.png"
+      draggable="false"
+      class="select-none cursor-pointer active:opacity-75"
+      alt="image-uploader"
+    />
+  </image-upload-group>
+</div>
+<div class="flex">
+  <div class="label">开始时间：</div>
+  <div>
+    <div class="flex items-center">
+      <nz-date-picker
+        [nzShowTime]="{ nzFormat: 'HH:mm' }"
+        nzFormat="yyyy-MM-dd HH:mm"
+        [(ngModel)]="values().startTime"
+        (ngModelChange)="onStartTimeChange($event)"
+        [nzAllowClear]="false"
+      ></nz-date-picker>
+    </div>
+    <div>
+      <occ-error-tip [message]="errors().startTime" />
+    </div>
+  </div>
+</div>

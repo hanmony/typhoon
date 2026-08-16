@@ -1,0 +1,491 @@
+<div class="kb-page">
+  <!-- 页面头部 -->
+  <header class="kb-header">
+    <div class="kb-header-left">
+      <div class="kb-icon-wrap">
+        <span nz-icon nzType="database" nzTheme="outline"></span>
+      </div>
+      <div class="kb-header-text">
+        <h2>知识库管理</h2>
+        <p class="kb-subtitle">文档上传、向量化处理与元数据管理</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- 上传区域 -->
+  <section class="kb-upload-section">
+    <div class="upload-card">
+      <div class="upload-label">
+        <span nz-icon nzType="cloud-upload" nzTheme="outline"></span>
+        <span>上传文档</span>
+      </div>
+      <div class="upload-row">
+        <nz-select
+          [(ngModel)]="uploadCategory"
+          nzSize="large"
+          class="upload-category-select"
+        >
+          @for (opt of categoryOptions; track opt.value) {
+            <nz-option [nzValue]="opt.value" [nzLabel]="opt.label"></nz-option>
+          }
+        </nz-select>
+        <input
+          type="file"
+          #fileInput
+          accept=".xlsx,.xls,.txt,.md,.pdf"
+          (change)="onFileSelected($event)"
+          hidden
+        />
+        <button
+          nz-button
+          nzType="primary"
+          nzSize="large"
+          [nzLoading]="uploading"
+          (click)="fileInput.click()"
+          class="upload-btn"
+        >
+          <span nz-icon nzType="upload"></span>
+          选择文件上传
+        </button>
+        <span class="upload-hint">支持 Excel、TXT、Markdown、PDF 格式</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 文档列表 -->
+  <section class="kb-table-section">
+    <div class="table-toolbar">
+      <div class="table-toolbar-left">
+        <h3>文档列表</h3>
+        <span class="table-count">共 {{ total }} 条</span>
+      </div>
+      <div class="table-toolbar-right">
+        <nz-select
+          [(ngModel)]="filterCategory"
+          nzAllowClear
+          nzPlaceHolder="按分类筛选"
+          nzSize="default"
+          class="filter-select"
+          (ngModelChange)="onFilterCategoryChange($event)"
+        >
+          @for (opt of categoryOptions; track opt.value) {
+            <nz-option [nzValue]="opt.value" [nzLabel]="opt.label"></nz-option>
+          }
+        </nz-select>
+        <button
+          nz-button
+          nzType="primary"
+          nzSize="default"
+          [nzLoading]="batchGenerating"
+          (click)="onBatchGenerateMetadata()"
+          class="batch-retry-btn"
+        >
+          <span nz-icon nzType="reload" nzTheme="outline"></span>
+          批量重试 metadata
+        </button>
+      </div>
+    </div>
+
+    <nz-table
+      [nzData]="documents"
+      [nzLoading]="loading || isAnyProcessing"
+      [nzPageSize]="pageSize"
+      [nzTotal]="total"
+      [nzPageIndex]="page"
+      [nzShowSizeChanger]="false"
+      nzSize="small"
+      class="kb-table"
+      (nzPageIndexChange)="onPageChange($event)"
+    >
+      <thead>
+        <tr>
+          <th nzWidth="22%">文件名</th>
+          <th nzWidth="7%">类型</th>
+          <th nzWidth="8%">大小</th>
+          <th nzWidth="13%">分类</th>
+          <th nzWidth="12%">标签</th>
+          <th nzWidth="9%">状态</th>
+          <th nzWidth="6%">分段</th>
+          <th nzWidth="11%">上传时间</th>
+          <th nzWidth="12%">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (doc of documents; track doc._id) {
+          <tr class="kb-row">
+            <td>
+              <span class="doc-name" [title]="doc.name">{{ doc.name }}</span>
+            </td>
+            <td>
+              <span class="doc-type-badge">{{ doc.fileType }}</span>
+            </td>
+            <td class="cell-muted">{{ doc.fileSize | number:'1.0-0' }} B</td>
+            <td>
+              <nz-select
+                [(ngModel)]="doc.category"
+                nzSize="small"
+                class="inline-category-select"
+                [disabled]="isAnyProcessing"
+                (ngModelChange)="onCategoryChange(doc, $event)"
+              >
+                @for (opt of categoryOptions; track opt.value) {
+                  <nz-option [nzValue]="opt.value" [nzLabel]="opt.label"></nz-option>
+                }
+              </nz-select>
+            </td>
+            <td>
+              @if (getAllTags(doc).length === 0) {
+                <span class="cell-muted">—</span>
+              } @else {
+                <div class="tags-cell">
+                  @for (tag of getAllTags(doc).slice(0, 2); track tag) {
+                    <span class="tag-chip">{{ tag }}</span>
+                  }
+                  @if (getAllTags(doc).length > 2) {
+                    <span class="tag-more">+{{ getAllTags(doc).length - 2 }}</span>
+                  }
+                </div>
+              }
+            </td>
+            <td>
+              <div class="status-cell">
+                <span class="status-dot" [class]="'status-' + doc.status"></span>
+                <span class="status-label">{{ statusMap[doc.status]?.label || '未知' }}</span>
+                @if ((doc.status === -1 || doc.status === -2) && doc.statusMessage) {
+                  <span class="error-info" [nzTooltipTitle]="doc.statusMessage" nz-tooltip>
+                    <span nz-icon nzType="info-circle" nzTheme="outline"></span>
+                  </span>
+                }
+              </div>
+            </td>
+            <td class="cell-muted">{{ doc.chunkCount ?? '-' }}</td>
+            <td class="cell-muted">{{ doc.createdAt | date:'yyyy-MM-dd HH:mm' }}</td>
+            <td>
+              <div class="action-btns">
+                @if (doc.status === 0 || doc.status === -1) {
+                  <button
+                    nz-button
+                    nzSize="small"
+                    nzType="primary"
+                    [disabled]="isAnyProcessing"
+                    [nzLoading]="processingIds.has(doc._id)"
+                    (click)="onProcess(doc)"
+                    class="action-btn"
+                  >
+                    处理
+                  </button>
+                  <button
+                    nz-button
+                    nzSize="small"
+                    nzType="default"
+                    [disabled]="isAnyProcessing"
+                    (click)="toggleConfigPanel(doc)"
+                    [nzTooltipTitle]="getConfigSummary(doc)"
+                    nz-tooltip
+                    class="action-btn-icon"
+                  >
+                    <span nz-icon nzType="setting" nzTheme="outline"></span>
+                  </button>
+                }
+                @if (doc.status === 1 || doc.status === 2) {
+                  <span class="processing-badge">
+                    <span class="pulse-dot"></span>
+                    处理中
+                  </span>
+                }
+                @if (doc.status === 3) {
+                  <button
+                    nz-button
+                    nzSize="small"
+                    nzType="default"
+                    [disabled]="isAnyProcessing"
+                    [nzLoading]="processingIds.has(doc._id)"
+                    (click)="onReProcess(doc)"
+                    class="action-btn"
+                  >
+                    重新处理
+                  </button>
+                  <button
+                    nz-button
+                    nzSize="small"
+                    nzType="default"
+                    [disabled]="isAnyProcessing"
+                    (click)="toggleConfigPanel(doc)"
+                    [nzTooltipTitle]="getConfigSummary(doc)"
+                    nz-tooltip
+                    class="action-btn-icon"
+                  >
+                    <span nz-icon nzType="setting" nzTheme="outline"></span>
+                  </button>
+                }
+                <button
+                  nz-button
+                  nzSize="small"
+                  nzDanger
+                  [disabled]="isAnyProcessing"
+                  (click)="onDelete(doc)"
+                  class="action-btn-icon action-btn-delete"
+                >
+                  <span nz-icon nzType="delete" nzTheme="outline"></span>
+                </button>
+                <button
+                  nz-button
+                  nzSize="small"
+                  nzType="default"
+                  (click)="openDrawer(doc)"
+                  class="action-btn-icon"
+                >
+                  <span nz-icon nzType="edit" nzTheme="outline"></span>
+                </button>
+              </div>
+              <!-- 分段配置面板 -->
+              @if (expandedConfigId === doc._id) {
+                <div class="chunk-config-panel">
+                  <div class="config-header">分段配置</div>
+                  <div class="config-row">
+                    <label>策略</label>
+                    <nz-select
+                      [(ngModel)]="configForm.strategy"
+                      nzSize="small"
+                      class="config-select"
+                    >
+                      @for (opt of strategyOptions; track opt.value) {
+                        <nz-option [nzValue]="opt.value" [nzLabel]="opt.label"></nz-option>
+                      }
+                    </nz-select>
+                  </div>
+                  <div class="config-row">
+                    <label>分段长度</label>
+                    <nz-input-number
+                      [(ngModel)]="configForm.chunkSize"
+                      [nzMin]="100"
+                      [nzMax]="5000"
+                      [nzStep]="100"
+                      nzSize="small"
+                      class="config-number"
+                    ></nz-input-number>
+                  </div>
+                  <div class="config-row">
+                    <label>重叠量</label>
+                    <nz-input-number
+                      [(ngModel)]="configForm.overlap"
+                      [nzMin]="0"
+                      [nzMax]="1000"
+                      [nzStep]="10"
+                      nzSize="small"
+                      class="config-number"
+                    ></nz-input-number>
+                  </div>
+                  <div class="config-actions">
+                    @if (doc.status === 0 || doc.status === -1) {
+                      <button
+                        nz-button
+                        nzSize="small"
+                        nzType="primary"
+                        [disabled]="isAnyProcessing"
+                        [nzLoading]="processingIds.has(doc._id)"
+                        (click)="onProcess(doc)"
+                      >
+                        处理
+                      </button>
+                    }
+                    @if (doc.status === 3) {
+                      <button
+                        nz-button
+                        nzSize="small"
+                        nzType="primary"
+                        [disabled]="isAnyProcessing"
+                        (click)="onSaveConfig(doc)"
+                      >
+                        保存配置
+                      </button>
+                    }
+                    <button
+                      nz-button
+                      nzSize="small"
+                      nzType="default"
+                      (click)="expandedConfigId = null"
+                    >
+                      取消
+                    </button>
+                  </div>
+                </div>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </nz-table>
+
+    <!-- 批量重试结果弹窗 -->
+    <nz-modal
+      [nzVisible]="batchResultVisible"
+      nzTitle="批量重试结果"
+      [nzFooter]="null"
+      [nzWidth]="640"
+      (nzOnCancel)="onBatchResultClose()"
+    >
+      <ng-container *nzModalContent>
+        @if (batchResult) {
+          @if (!batchResult.failed || batchResult.failed.length === 0) {
+            @if (batchResult.processed > 0) {
+              <p class="batch-result-success">已成功处理 {{ batchResult.processed }} 个文档</p>
+            } @else {
+              <p class="batch-result-empty">无需重试（所有文档已有元数据）</p>
+            }
+          } @else {
+            @if (batchResult.processed === 0) {
+              <p class="batch-result-summary batch-result-all-failed">全部失败</p>
+            } @else {
+              <p class="batch-result-summary">
+                成功 <strong>{{ batchResult.processed }}</strong> 个，失败 <strong>{{ batchResult.failed.length }}</strong> 个
+              </p>
+            }
+            <div class="batch-failed-list">
+              @for (item of batchResult.failed; track item.id) {
+                <div class="batch-failed-item">
+                  <div class="batch-failed-name">{{ item.name }}</div>
+                  <div class="batch-failed-error">{{ item.error }}</div>
+                </div>
+              }
+            </div>
+          }
+        }
+      </ng-container>
+    </nz-modal>
+  </section>
+
+  <!-- 文档详情抽屉 -->
+  <nz-drawer
+    [nzVisible]="drawerVisible"
+    nzTitle=" "
+    [nzWidth]="460"
+    (nzOnClose)="closeDrawer()"
+    class="kb-drawer"
+  >
+    <ng-container *nzDrawerContent>
+      @if (currentDoc) {
+        <div class="drawer-content">
+          <!-- 文件名头部 -->
+          <div class="drawer-file-header">
+            <div class="drawer-file-icon">
+              <span nz-icon nzType="file-text" nzTheme="outline"></span>
+            </div>
+            <div class="drawer-file-info">
+              <div class="drawer-file-name">{{ currentDoc.name }}</div>
+              <div class="drawer-file-meta">
+                <span>{{ currentDoc.fileType }}</span>
+                <span class="meta-dot"></span>
+                <span>{{ currentDoc.fileSize | number:'1.0-0' }} B</span>
+                <span class="meta-dot"></span>
+                <span>{{ currentDoc.createdAt | date:'yyyy-MM-dd HH:mm' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 状态信息（失败/元数据失败时展示原因） -->
+          @if ((currentDoc.status === -1 || currentDoc.status === -2) && currentDoc.statusMessage) {
+            <div class="drawer-block">
+              <div class="status-message-box">
+                <span nz-icon nzType="warning" nzTheme="outline"></span>
+                <span class="status-message-text">{{ currentDoc.statusMessage }}</span>
+              </div>
+            </div>
+          }
+
+          <!-- 系统标签 -->
+          <div class="drawer-block">
+            <div class="drawer-block-header">
+              <span class="drawer-block-title">系统标签</span>
+              <button
+                nz-button
+                nzSize="small"
+                nzType="default"
+                [nzLoading]="generating"
+                (click)="onGenerateMetadata()"
+                class="generate-btn"
+              >
+                <span nz-icon nzType="thunderbolt" nzTheme="outline"></span>
+                生成
+              </button>
+            </div>
+            <div class="drawer-block-body">
+              @if (currentDoc.autoTags && currentDoc.autoTags.length > 0) {
+                <div class="tag-list">
+                  @for (tag of currentDoc.autoTags; track tag) {
+                    <span class="auto-tag">{{ tag }}</span>
+                  }
+                </div>
+              } @else {
+                <span class="placeholder">暂无系统标签，点击「生成」自动分析</span>
+              }
+            </div>
+          </div>
+
+          <div class="drawer-divider"></div>
+
+          <!-- 自定义标签 -->
+          <div class="drawer-block">
+            <div class="drawer-block-title" style="margin-bottom: 10px;">自定义标签</div>
+            <nz-select
+              [ngModel]="currentDoc.manualTags || []"
+              nzMode="tags"
+              nzSize="small"
+              nzPlaceHolder="输入后回车添加标签"
+              class="tags-select"
+              [nzTokenSeparators]="[',', ' ', '，']"
+              (ngModelChange)="onManualTagsChange($event)"
+            >
+            </nz-select>
+          </div>
+
+          <div class="drawer-divider"></div>
+
+          <!-- 摘要 -->
+          <div class="drawer-block">
+            <div class="drawer-block-header">
+              <span class="drawer-block-title">摘要</span>
+              @if (!isEditingSummary) {
+                <button
+                  nz-button
+                  nzSize="small"
+                  nzType="link"
+                  (click)="startEditSummary()"
+                  class="edit-link"
+                >
+                  编辑
+                </button>
+              }
+            </div>
+            <div class="drawer-block-body">
+              @if (isEditingSummary) {
+                <div class="summary-editor">
+                  <textarea
+                    nz-input
+                    [(ngModel)]="editingSummary"
+                    [nzAutosize]="{ minRows: 4, maxRows: 8 }"
+                    class="summary-textarea"
+                  ></textarea>
+                  <div class="summary-editor-actions">
+                    <button nz-button nzSize="small" nzType="primary" (click)="onSaveSummary()">
+                      保存
+                    </button>
+                    <button nz-button nzSize="small" nzType="default" (click)="cancelEditSummary()">
+                      取消
+                    </button>
+                  </div>
+                </div>
+              } @else {
+                @if (currentDoc.summary) {
+                  <div class="summary-text">{{ currentDoc.summary }}</div>
+                } @else {
+                  <span class="placeholder">暂无摘要</span>
+                }
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </ng-container>
+  </nz-drawer>
+</div>

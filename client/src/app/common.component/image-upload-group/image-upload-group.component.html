@@ -1,0 +1,31 @@
+<nz-upload
+  [nzAction]="uploadEndpoint"
+  class="custom-upload-list"
+  nzListType="picture-card"
+  nzAccept=".jpg,.png,.jpeg"
+  [nzMultiple]="true"
+  nzFileType="image/png,image/jpeg"
+  [nzShowUploadList]="{
+    showPreviewIcon: true,
+    showRemoveIcon: true,
+    showDownloadIcon: false,
+  }"
+  [nzFileList]="fileList"
+  [nzPreview]="handlePreview"
+  [nzRemove]="onFileRemove"
+  (nzFileListChange)="onFileListChange($event)"
+  (nzChange)="handleImportStatusChange($event)"
+>
+  <ng-content></ng-content>
+</nz-upload>
+
+<nz-modal
+  [nzVisible]="previewVisible"
+  [nzContent]="modalContent"
+  [nzFooter]="null"
+  (nzOnCancel)="previewVisible = false"
+>
+  <ng-template #modalContent>
+    <img [src]="previewImage" [ngStyle]="{ width: '100%' }" />
+  </ng-template>
+</nz-modal>

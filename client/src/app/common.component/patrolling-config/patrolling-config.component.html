@@ -1,0 +1,80 @@
+<div class="patrolling-config-box">
+  <div class="flex justify-between pt-2">
+    <div>巡道速度：</div>
+    <div>
+      <div
+        class="number-action"
+        [class.disabled]="speedMinusDisabled"
+        (click)="onSpeedMinus()"
+      >
+        -
+      </div>
+      <input
+        type="number"
+        class="speed-input"
+        maxlength="99"
+        minlength="1"
+        [(ngModel)]="speed"
+        (ngModelChange)="onSpeedChange($event)"
+        name="speed"
+      />
+      <div
+        class="number-action"
+        [class.disabled]="speedPlusDisabled"
+        (click)="onSpeedPlus()"
+      >
+        +
+      </div>
+    </div>
+    <div>
+      <span>KM/H</span>
+    </div>
+  </div>
+  <div class="separator"></div>
+  <div class="flex justify-between">
+    <div>
+      <span>总里程：</span>
+      <span>{{ totalDistance }}</span>
+      <span class="unit">KM</span>
+    </div>
+    <div class="flex-1"></div>
+    <div>
+      <span>预计耗时：</span>
+      <span>{{ consume() }}</span>
+      <span class="unit">MIN</span>
+    </div>
+  </div>
+  <div class="separator"></div>
+  <div class="flex justify-between items-center">
+    <span class="text-nowrap">巡道开始时间：</span>
+    <span>
+      <nz-date-picker
+        class="start-time-picker"
+        [nzShowTime]="{ nzFormat: 'HH:mm' }"
+        nzPlaceHolder="请选择"
+        nzFormat="MM-dd HH:mm"
+        [(ngModel)]="startTime"
+        [nzAllowClear]="false"
+        [nzSuffixIcon]="timeIcon"
+      ></nz-date-picker>
+    </span>
+  </div>
+  <div class="flex justify-center pt-2">
+    <div
+      class="confirm-button"
+      [class.disabled]="confirmDisabled()"
+      (click)="onConfirm()"
+    >
+      开始巡道
+    </div>
+    <div class="cancel-button ml-2" (click)="onCancel()">取消</div>
+  </div>
+</div>
+
+<ng-template #timeIcon>
+  <img
+    src="/assets/images/simulated-patrolling/clock-icon.png"
+    alt=""
+    srcset=""
+  />
+</ng-template>

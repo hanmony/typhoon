@@ -1,0 +1,50 @@
+<dispatch-module-header title="应急值守点" />
+<div class="flex">
+  <div class="py-4 pl-8">
+    <div class="chart-bg relative" style="height: 200px; width: 200px">
+      <div #chartDom class="w-full h-full"></div>
+      <div
+        class="absolute top-0 left-0 translate-x-[50%] translate-y-[50%] w-[50%] h-[50%]"
+      >
+        <div
+          class="w-full h-full rounded-full flex items-center justify-center flex-col"
+        >
+          <div class="text-3xl font-bold">354</div>
+          <div class="text-base" style="color: #289df5">应急值守点</div>
+        </div>
+      </div>
+      <div class="absolute right-[-64px] top-[12px]">
+        <span class="mr-2">资源不足:</span>
+        <span style="color: #d08c1b">30%</span>
+      </div>
+      <div class="absolute right-[50%] bottom-[-14px] translate-x-1/2">
+        <span class="mr-2">资源充足:</span>
+        <span style="color: #289df5">70%</span>
+      </div>
+    </div>
+  </div>
+  <div class="flex-1 flex flex-col justify-center items-end pr-8">
+    <div>
+      <div class="text-xl">254</div>
+      <div class="text-base text-[#9FA9BA]">资源充足</div>
+      <div class="pt-2">
+        <div
+          class="progress"
+          [class.large]="large()"
+          style="--color: #289df5; --percentage: 70%"
+        ></div>
+      </div>
+    </div>
+    <div class="mt-8">
+      <div class="text-xl">100</div>
+      <div class="text-base text-[#9FA9BA]">资源不足</div>
+      <div class="pt-2">
+        <div
+          class="progress"
+          [class.large]="large()"
+          style="--color: #d08c1b; --percentage: 30%"
+        ></div>
+      </div>
+    </div>
+  </div>
+</div>

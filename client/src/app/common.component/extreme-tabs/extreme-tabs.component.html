@@ -1,0 +1,11 @@
+<div class="tabs">
+  @for (tab of tabs(); track tab) {
+    <div
+      class="tab-item"
+      [class.active]="activeTab() === tab"
+      (click)="onTabItemClick(tab)"
+    >
+      {{ tab }}
+    </div>
+  }
+</div>

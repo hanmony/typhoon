@@ -1,0 +1,84 @@
+<div class="notification-detail-wrapper">
+  <div class="bg-modal-top"></div>
+  <div class="modal-body">
+    <div class="header">
+      <div class="ring-icon"></div>
+      <div>
+        <span>{{ data().type }}</span>
+      </div>
+      <div class="flex-1">
+        @if (data().lines.includes("全线网")) {
+          <span>—全线网</span>
+        } @else {
+          <span class="ml-2 relative -top-[1px]">
+            <img width="36" [src]="currentLineMark()" alt="" srcset="" />
+          </span>
+        }
+      </div>
+      <div class="time">
+        <span>发布时间：{{ publishTime() }}</span>
+      </div>
+    </div>
+    <div class="header-separator"></div>
+    <div class="content">
+      <span>{{ data().content }}</span>
+    </div>
+    @if (data().type === "重点事件") {
+      <div class="pl-4 pb-2">
+        <span class="mr-2">
+          <img
+            width="18"
+            src="/assets/images/supervisor/notification/link-icon.png"
+            alt=""
+            srcset=""
+          />
+        </span>
+        <span class="text-sm">关联事件：</span>
+      </div>
+      <div class="pl-4 pr-4">
+        @for (ev of currentLineEvents(); track ev.id) {
+          <div class="event-box">
+            <div class="flex">
+              <div style="width: 45%">
+                <span class="label">事件类型：</span>
+                <span class="value">{{
+                  ev.eventType === "其他事件" ? ev.otherEvent : ev.eventType
+                }}</span>
+              </div>
+              <div class="flex" style="width: 55%">
+                <span class="label text-nowrap">事件位置：</span>
+                <span>
+                  <span class="value">{{ getEventPosition(ev) }} </span>
+                  <span class="locate-icon" (click)="handleLocate(ev)">
+                    <span nz-icon nzType="environment" nzTheme="fill"> </span>
+                  </span>
+                </span>
+              </div>
+            </div>
+            <div class="flex">
+              <div style="width: 45%">
+                <span class="label">抢修状态：</span>
+                <span class="value">{{ getEventRepairStateText(ev) }}</span>
+              </div>
+              <div style="width: 55%">
+                <span class="label">影响时间：</span>
+                <span class="value">{{ getEventEffectDurationText(ev) }}</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+  <div class="bg-modal-bottom">
+    <div
+      class="action-button"
+      [class.cancel]="data().lines.length <= 1"
+      style="margin-right: 10%"
+      (click)="handleNext()"
+    >
+      下一条
+    </div>
+    <div class="action-button" (click)="handleCollapse()">收起</div>
+  </div>
+</div>

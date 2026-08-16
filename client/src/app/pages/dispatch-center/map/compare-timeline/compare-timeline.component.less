@@ -1,0 +1,95 @@
+:host {
+  position: absolute;
+  bottom: 64px;
+  width: 100%;
+  z-index: 800;
+  pointer-events: none;
+  padding: 0 126px;
+}
+.compare-timeline-item {
+  position: relative;
+  display: flex;
+  align-items: end;
+}
+.compare-timeline {
+  position: relative;
+  flex: 1;
+}
+
+.timeline-strip {
+  background-image: url(/assets/images/map/timeline/strip.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  width: 100%;
+  height: 26px;
+  z-index: -2;
+}
+
+.content {
+  .inter-container {
+    width: 100%;
+    &.tile-mode {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+    }
+
+    &.overflow-mode {
+      display: block;
+      overflow-x: hidden;
+      text-wrap: nowrap;
+    }
+  }
+}
+
+.arrow {
+  background-image: url(/assets/images/map/timeline/arrow.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  position: absolute;
+  bottom: 66px;
+  width: 27px;
+  height: 27px;
+  z-index: -1;
+  cursor: pointer;
+  pointer-events: all;
+  bottom: 6px;
+
+  &.disable {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:not(.disable):hover {
+    opacity: 0.75;
+  }
+  &:not(.disable):active {
+    opacity: 1;
+  }
+
+  &.left {
+    left: -11px;
+  }
+  &.right {
+    right: -11px;
+    transform: rotate(180deg);
+  }
+}
+
+.box {
+  background-image: url(/assets/images/dispatch-center/compare-simple-action.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  width: 224px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  font-size: 20px;
+  margin-bottom: 0px;
+  user-select: none;
+}

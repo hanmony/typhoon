@@ -1,0 +1,67 @@
+@if (!isHide()) {
+  <div @verticalInOut class="actions">
+    <div
+      class="action-button"
+      [class.active]="activeAction() === 'line-filter'"
+      (click)="onLineButtonClick()"
+    >
+      <div class="action-font">线路筛选</div>
+    </div>
+
+    @for (item of shownActions(); track $index) {
+      <ng-container
+        *ngTemplateOutlet="
+          button;
+          context: {
+            $implicit: {
+              meta: item,
+              label: item.name,
+              active: activeAction() === item.key,
+              options: item.options,
+            },
+          }
+        "
+      ></ng-container>
+    }
+  </div>
+}
+@if (lineSelectOverlayVisible()) {
+  <supervisor-line-selection-overlay
+    [isDD]="true"
+    [cacheLines]="cacheLines()"
+    (change)="onLineChange($event)"
+  />
+}
+
+<ng-template #button let-data>
+  <div
+    nz-dropdown
+    [nzDropdownMenu]="menu"
+    nzTrigger="click"
+    class="action-button"
+    [class.active]="data.active"
+    (nzVisibleChange)="onVisibleChange(data.meta, $event)"
+  >
+    <div class="action-font">{{ getButtonText(data.meta) }}</div>
+    <nz-icon
+      class="transition-transform ml-1"
+      [class.-rotate-180]="data.active"
+      nzType="caret-down"
+      style="color: #c7dbf5"
+      nzTheme="outline"
+    />
+  </div>
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu [nzSelectable]="false">
+      @for (op of data.options; track $index) {
+        <li
+          nz-menu-item
+          [nzSelected]="data.meta.value === op.value"
+          (click)="handleSelect(data.meta, op.value)"
+        >
+          {{ op.label }}
+        </li>
+      }
+    </ul>
+  </nz-dropdown-menu>
+</ng-template>

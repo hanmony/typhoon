@@ -1,0 +1,107 @@
+@if (visible()) {
+  <div @popup class="statistical-table-modal" [class.hidden]="isHide()">
+    <div class="statistical-box">
+      <div class="modal-header">
+        <span>{{ titleText() }}</span>
+
+        <span class="mr-6">
+          <img
+            title="关闭"
+            style="top: -2px"
+            class="cursor-pointer relative hover:scale-110"
+            src="/assets/images/map/modal/popup/close.png"
+            alt=""
+            srcset=""
+            (click)="onCloseClick()"
+          />
+        </span>
+      </div>
+      <div class="modal-body flex">
+        <div class="flex px-2 pt-3">
+          <div>
+            <table class="statistical-table w-full">
+              <thead>
+                <tr class="text-left">
+                  <th class="w-[64px] text-center">重点</th>
+                  <th class="w-[96px]">线路</th>
+                  <th class="w-[120px]">事件类型</th>
+                  <th>位置</th>
+                  <th class="w-[100px]">抢修状态</th>
+                  <th class="w-[32px]"></th>
+                </tr>
+              </thead>
+              <tbody class="custom-scroll-bar">
+                @for (row of data(); track $index) {
+                  <tr class="row">
+                    <th class="w-[64px] text-center">
+                      @if (row.severity) {
+                        <span
+                          class="w-3 h-3 rounded-full inline-flex items-center justify-center"
+                          style="background: #00ffff"
+                        >
+                          <svg
+                            style="width: 12px; height: 12px; color: #000000"
+                            xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M5 12l5 5L20 7"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            ></path>
+                          </svg>
+                        </span>
+                      }
+                    </th>
+                    <td class="w-[96px]">
+                      {{ row.line }}
+                    </td>
+                    <td class="w-[120px]" [class.truncate]="true">
+                      {{ row.eventType }}
+                    </td>
+                    <td [class.truncate]="true">
+                      <span nz-tooltip [nzTooltipTitle]="getEventPosition(row)">
+                        <span class="truncate-text">
+                          {{ getEventPosition(row) }}
+                        </span>
+                      </span>
+                    </td>
+                    <td
+                      class="w-[100px]"
+                      [style.color]="getEventRepairStateColor(row)"
+                    >
+                      {{ getEventRepairStateText(row) }}
+                    </td>
+                    <td class="w-[32px]">
+                      <img
+                        class="cursor-pointer"
+                        width="16"
+                        src="assets/images/occ/map/locate-icon.png"
+                        alt=""
+                        srcset=""
+                        (click)="handleLocating(row)"
+                      />
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+            @if (!data().length) {
+              <div
+                class="text-center font-fangzheng py-8"
+                style="font-size: 32px; line-height: 1.5"
+              >
+                暂无数据
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </div>
+}

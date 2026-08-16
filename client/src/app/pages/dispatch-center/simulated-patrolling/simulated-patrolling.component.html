@@ -1,0 +1,33 @@
+<div class="main-container">
+  <div class="header-block"></div>
+  @if (detailPageVisible()) {
+    <patrolling-detail
+      @horizontalInOut
+      [visible]="visible()"
+      (onClose)="closeDetailPage()"
+      [initialLine]="initialDetailLine()"
+    />
+  } @else {
+    <div style="padding: 12px 164px 0">
+      <span class="backward" (click)="onClose.emit()">
+        <span>关闭</span>
+        <span>
+          <img
+            [width]="36"
+            class="inline-block ml-2"
+            src="/assets/images/simulated-patrolling/backward.png"
+            alt=""
+            srcset=""
+          />
+        </span>
+      </span>
+    </div>
+    <patrolling-line-list
+      style="height: 100%"
+      @horizontalInOutReverse
+      [visible]="visible()"
+      (onClose)="onClose.emit()"
+      (toDetail)="toDetail($event)"
+    />
+  }
+</div>

@@ -1,0 +1,85 @@
+@if (visible()) {
+  <div @verticalInOut>
+    <div class="flex justify-between">
+      <div class="pointer-events-auto">
+        <div class="list-title">
+          <span class="list-title-font">{{ line() }} </span>
+        </div>
+      </div>
+      <div class="pointer-events-auto">
+        <extreme-select
+          [dropUp]="true"
+          [class.is-supervisor]="true"
+          [isSupervisor]="true"
+          [value]="selectedDate()"
+          [options]="dateOptions()"
+          placeholder="日期选择"
+          (onChange)="onDateChange($event)"
+        ></extreme-select>
+      </div>
+    </div>
+    <div class="box-wrapper">
+      <div class="h-full flex justify-between">
+        <div class="flex-1 with-right-separator">
+          <div class="field-title">站点关闭数量</div>
+          <div class="flex justify-between px-4 pt-2">
+            <div class="flex-1">
+              <div class="field-value red-font">{{ state().closeCount }}</div>
+              <div class="field-label">关闭数量</div>
+            </div>
+            <div class="flex-1">
+              <div class="field-value orange-font">
+                {{ state().closePercent }}
+              </div>
+              <div class="field-label">关闭占比</div>
+            </div>
+          </div>
+        </div>
+        <div class="with-right-separator" style="flex: 2">
+          <div class="field-title">事件情况</div>
+          <div class="flex justify-between px-4 pt-2">
+            @for (item of state().categories; track $index) {
+              <div class="flex-1">
+                <div class="field-value" [style.color]="item.color">
+                  {{ item.count }}
+                </div>
+                <div class="field-label">{{ item.name }}</div>
+              </div>
+            }
+          </div>
+        </div>
+        <!-- <div class="flex-1">
+          <div class="field-title">异常信息数据</div>
+          <div class="flex justify-center items-center pt-6">
+            <div class="field-label">
+              <span>暂未接入数据</span>
+            </div>
+          </div>
+        </div> -->
+        <div class="flex-1">
+          <div class="field-title">抢修事件</div>
+          <div class="flex justify-between px-2 pt-2">
+            <div class="flex-1">
+              <div class="field-value blue-font">
+                {{ state().pendingStateCount }}
+              </div>
+              <div class="field-label">等待抢修</div>
+            </div>
+            <div class="flex-1">
+              <div class="field-value orange-font">
+                {{ state().repairingStateCount }}
+              </div>
+              <div class="field-label">抢修中</div>
+            </div>
+            <div class="flex-1">
+              <div class="field-value yellow-font">
+                {{ state().finishedStateCount }}
+              </div>
+              <div class="field-label">抢修完成</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}

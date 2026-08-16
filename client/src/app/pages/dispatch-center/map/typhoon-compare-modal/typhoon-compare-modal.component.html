@@ -1,0 +1,67 @@
+@if (visible()) {
+  <div @scaleInOut class="typhoon-compare-modal">
+    <div class="header">
+      <div>选择添加对比的历史台风</div>
+      <div>
+        <img
+          class="cursor-pointer transition-transform hover:rotate-180"
+          src="/assets/images/dashboard/close-icon.png"
+          alt=""
+          srcset=""
+          (click)="onClose()"
+        />
+      </div>
+    </div>
+    <div class="content custom-scroll-bar">
+      @for (item of list; track item.id) {
+        <div class="box" [class.active]="selectIds().includes(item.id)">
+          <div class="name">{{ item.name }}</div>
+          <div class="info">
+            <div>
+              <span class="label">台风等级：</span>
+              <span class="value">{{ item.level }}</span>
+            </div>
+            <div>
+              <span class="label">预警等级：</span>
+              <span
+                class="value"
+                [style.color]="getTyphoonDegreeColor(item.degree)"
+              >
+                {{ item.degree }}
+              </span>
+            </div>
+            <div>
+              <span class="label">总计事件：</span>
+              <span class="value">{{ item.totalEventCount }}</span>
+            </div>
+            <div>
+              <span class="label">最大风力：</span>
+              <span class="value">{{ item.speed }}</span>
+            </div>
+            <div>
+              <span class="label">台风走向：</span>
+              <span class="value">{{ item.direction }}</span>
+            </div>
+
+            <div>
+              <span class="label">影响时长：</span>
+              <span class="value">{{ item.effectDuration }}</span>
+            </div>
+          </div>
+          <div class="action">
+            <span
+              class="action-button"
+              [class.cancel]="selectIds().includes(item.id)"
+              (click)="onSelect(item.id)"
+            >
+              {{ selectIds().includes(item.id) ? "取消" : "加入地图" }}
+            </span>
+          </div>
+        </div>
+      }
+    </div>
+    <div class="footer">
+      <span class="confirm-button" (click)="onConfirm()">确认</span>
+    </div>
+  </div>
+}

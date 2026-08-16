@@ -1,0 +1,120 @@
+:host {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+  &.hide {
+    // width: 0%;
+    // height: 0%;
+    display: none;
+  }
+}
+
+.modal-container {
+  width: 80vw;
+  height: calc(100vh - 100px);
+  background-color: rgba(8, 24, 53, 1);
+  position: relative;
+  .patrolling-bg {
+    width: 100%;
+    height: 100%;
+    background-image: url("/assets/images/simulated-patrolling/main-bg.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    user-select: none;
+  }
+}
+
+.backward {
+  display: inline-flex;
+  align-items: center;
+  font-size: 18px;
+  color: #84a3cb;
+  cursor: pointer;
+
+  &:active,
+  &:hover {
+    opacity: 0.85;
+    color: #5078b1;
+  }
+}
+
+.train-button {
+  --border-color: #558cff;
+  --text-color: #b1c1db;
+  --hover-color: #5078b1;
+  display: inline-flex;
+  align-items: center;
+  font-size: 18px;
+  box-shadow: 3px 2px 2px 0px rgba(2, 10, 22, 0.61);
+  border-radius: 10px;
+  border: 2px solid var(--border-color);
+  height: 38px;
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--text-color);
+  text-align: center;
+  padding: 0 12px;
+  cursor: pointer;
+  transition: all 0.1s linear;
+  user-select: none;
+
+  &:hover {
+    color: var(--hover-color);
+    border-color: var(--hover-color);
+  }
+  &:active {
+    color: var(--text-color);
+    border-color: var(--border-color);
+  }
+
+  &.add {
+    --border-color: #558cff;
+    --text-color: #b1c1db;
+    --hover-color: #5078b1;
+  }
+
+  &.remove {
+    --border-color: #9d2533;
+    --text-color: #f67080;
+    --hover-color: #a34f59;
+  }
+
+  &.reset {
+    --border-color: #f1bc50;
+    --text-color: #fadca0;
+    --hover-color: #917846;
+  }
+}
+
+.safety-button {
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  --ant-error-color: #fa6400;
+}
+
+::ng-deep {
+  .patrolling-confirm-modal {
+    .ant-modal-header {
+      border-radius: 8px 8px 0 0;
+    }
+    .ant-modal-content {
+      border-radius: 8px;
+    }
+    .ant-modal-confirm-btns,
+    .ant-modal-footer {
+      .ant-btn {
+        .safety-button();
+      }
+    }
+  }
+}

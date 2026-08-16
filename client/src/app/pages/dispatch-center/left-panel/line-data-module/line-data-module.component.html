@@ -1,0 +1,57 @@
+<dispatch-module-header title="线路数据" />
+<div #outerContainer class="lines-wrapper">
+  <div #innerContainer class="lines">
+    @for (line of lines; track line.name) {
+      <div
+        class="inline-flex flex-col relative pt-3"
+        [style.width.px]="width()"
+      >
+        <div class="absolute left-2">
+          <div class="line-name">
+            <span>{{ line.name }}</span>
+          </div>
+        </div>
+        <div class="relative flex justify-center">
+          <dual-line-chart [data]="line.events" />
+          <div
+            class="absolute cursor-pointer left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center opacity-70 z-10"
+            (click)="toDashboard(line.name)"
+          >
+            <div class="text-2xl">{{ line.total }}</div>
+            <span class="text-lg">总事件数</span>
+          </div>
+        </div>
+        <div class="pt-3">
+          <div class="grid grid-cols-2 gap-x-10 gap-y-0 px-8">
+            @for (item of line.events; track $index) {
+              <div class="flex items-center">
+                <span class="rect mr-2" [style.background]="item.color"></span>
+                <span class="flex-1 legend-font mr-2">{{ item.name }}</span>
+                <span [style.color]="item.color" [style.font-size.px]="18">{{
+                  item.value
+                }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+@if (directorVisible) {
+  @if (leftVisible) {
+    <div class="left-arrow" (click)="manualScroll('left')">
+      <img src="assets/images/cocc/direct-arrow.png" alt="" draggable="false" />
+    </div>
+  }
+  @if (rightVisible) {
+    <div class="right-arrow" (click)="manualScroll('right')">
+      <img
+        class="rotate-180"
+        src="assets/images/cocc/direct-arrow.png"
+        alt=""
+        draggable="false"
+      />
+    </div>
+  }
+}

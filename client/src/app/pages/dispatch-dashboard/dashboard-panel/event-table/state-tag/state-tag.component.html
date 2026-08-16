@@ -1,0 +1,16 @@
+<div class="wrapper" [class.alternating]="alternating">
+  <span
+    class="state-tag next"
+    [class.opacity-50]="nextState.terminated"
+    [style.--color]="nextState.bgColor"
+  >
+    {{ nextState.label }}
+  </span>
+  <span
+    class="state-tag current"
+    [class.opacity-50]="currentState.terminated"
+    [style.--color]="currentState.bgColor"
+  >
+    {{ currentState.label }}
+  </span>
+</div>

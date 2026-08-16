@@ -1,0 +1,403 @@
+<table class="op-table" style="--tag-height: 40px" [class.isCOCC]="isCOCC()">
+  <thead>
+    <tr class="op-table-header">
+      <th [style.width.px]="122">
+        <ng-container
+          *ngTemplateOutlet="
+            order;
+            context: { $implicit: { label: '线路号', prop: 'line' } }
+          "
+        >
+        </ng-container>
+      </th>
+      <th [style.width.px]="144">状态</th>
+      <th [style.width.px]="144">类型</th>
+      <th [style.width.px]="184">计划调整时间</th>
+      <th>地点</th>
+      <th [style.width.px]="256">运营详情</th>
+      <th [style.width.px]="184">计划恢复时间</th>
+      <th [style.width.px]="236">巡道情况</th>
+      <th [style.width.px]="168">是否阻碍行车</th>
+    </tr>
+  </thead>
+  <tbody
+    #tbodyRef
+    class="overflow-y-auto custom-scroll-bar"
+    [style.max-height]="maxHeight()"
+  >
+    <div>
+      @for (lineVO of dataSet(); track lineVO.line; let lineIndex = $index) {
+        @for (
+          collection of lineVO.collections;
+          track collection.key;
+          let keyIndex = $index
+        ) {
+          @for (
+            op of collection.operations;
+            track op.id;
+            let opIndex = $index
+          ) {
+            <tr class="op-row">
+              @if (keyIndex === 0 && opIndex === 0) {
+                <td
+                  class="op-cell"
+                  [attr.data-line]="lineVO.line"
+                  [rowSpan]="lineVO.total"
+                  [style.width.px]="122"
+                >
+                  <span>
+                    <img
+                      width="68"
+                      [src]="getLineMark(lineVO.line)"
+                      alt=""
+                      srcset=""
+                    />
+                  </span>
+                </td>
+              }
+              @if (opIndex === 0) {
+                <td
+                  class="op-cell"
+                  [attr.data-line]="lineVO.line"
+                  [style.width.px]="144"
+                  [rowSpan]="collection.operations.length"
+                >
+                  <ev-table-state-tag
+                    [bgColor]="collection.stateColor"
+                    [label]="collection.state"
+                    [terminated]="false"
+                  ></ev-table-state-tag>
+                </td>
+              }
+              @if (opIndex === 0) {
+                <td
+                  class="op-cell"
+                  [style.width.px]="144"
+                  [rowSpan]="collection.operations.length"
+                >
+                  <ng-container
+                    *ngTemplateOutlet="actionType; context: { $implicit: op }"
+                  ></ng-container>
+                </td>
+              }
+              @if (opIndex === 0) {
+                <td
+                  class="op-cell"
+                  [style.width.px]="184"
+                  [rowSpan]="collection.operations.length"
+                >
+                  {{ getTimeText(collection.startTime) }}
+                </td>
+              }
+              <td class="op-cell">
+                <ng-container
+                  *ngTemplateOutlet="position; context: { $implicit: op }"
+                ></ng-container>
+              </td>
+              @if (keyIndex === 0 && opIndex === 0) {
+                <td
+                  class="op-cell"
+                  [style.width.px]="256"
+                  [rowSpan]="lineVO.total"
+                >
+                  <ng-container
+                    *ngTemplateOutlet="opDetail; context: { $implicit: lineVO }"
+                  ></ng-container>
+                </td>
+              }
+              <td class="op-cell" [style.width.px]="184">
+                <ng-container
+                  *ngTemplateOutlet="endTime; context: { $implicit: op }"
+                ></ng-container>
+              </td>
+              @if (keyIndex === 0 && opIndex === 0) {
+                <td
+                  class="op-cell"
+                  [style.width.px]="236"
+                  [rowSpan]="lineVO.total"
+                >
+                  <ng-container
+                    *ngTemplateOutlet="
+                      patrollingDetail;
+                      context: { $implicit: lineVO.patrollingInfo }
+                    "
+                  ></ng-container>
+                </td>
+              }
+              @if (keyIndex === 0 && opIndex === 0) {
+                <td
+                  class="op-cell"
+                  [style.width.px]="168"
+                  [rowSpan]="lineVO.total"
+                >
+                  <ng-container
+                    *ngTemplateOutlet="obstruct; context: { $implicit: lineVO }"
+                  ></ng-container>
+                </td>
+              }
+            </tr>
+          }
+        }
+
+        @if (lineVO.collections.length === 0) {
+          <ng-container
+            *ngTemplateOutlet="emptyLineRow; context: { $implicit: lineVO }"
+          ></ng-container>
+        }
+      }
+    </div>
+  </tbody>
+</table>
+
+<ng-template #order let-data>
+  <div
+    class="cursor-pointer"
+    [class.ordering-color]="orderConfig().prop === data.prop"
+    (click)="handleOrdering(data.prop)"
+  >
+    <span class="mr-2"> {{ data.label }}</span>
+    <span>
+      <nz-icon
+        class="transition-transform"
+        style="position: relative; top: 2px"
+        [class.-rotate-180]="
+          orderConfig().prop === data.prop && !orderConfig().asc
+        "
+        nzType="caret-down"
+        nzTheme="outline"
+      />
+    </span>
+  </div>
+</ng-template>
+
+<ng-template #emptyLineRow let-lineVO>
+  <tr class="op-row">
+    <td class="op-cell" [style.width.px]="122">
+      <span>
+        <img width="68" [src]="getLineMark(lineVO.line)" alt="" srcset="" />
+      </span>
+    </td>
+    <td class="op-cell" [style.width.px]="144">
+      <span> -- </span>
+    </td>
+    <td class="op-cell" [style.width.px]="144">
+      <span> -- </span>
+    </td>
+    <td class="op-cell" [style.width.px]="184">
+      <span> -- </span>
+    </td>
+    <td class="op-cell">
+      <span> -- </span>
+    </td>
+    <td class="op-cell" [style.width.px]="256">
+      <span class="green-font"> 正常运行 </span>
+      @if (isCOCC()) {
+        <span class="inline-block w-8"></span>
+      }
+    </td>
+    <td class="op-cell" [style.width.px]="184">
+      <span> -- </span>
+    </td>
+    <td class="op-cell" [style.width.px]="236">
+      <ng-container
+        *ngTemplateOutlet="
+          patrollingDetail;
+          context: { $implicit: lineVO.patrolling }
+        "
+      ></ng-container>
+    </td>
+    <td class="op-cell" [style.width.px]="168">
+      <ng-container
+        *ngTemplateOutlet="obstruct; context: { $implicit: lineVO }"
+      ></ng-container>
+    </td>
+  </tr>
+</ng-template>
+
+<ng-template #opDetail let-lineVO>
+  @if (
+    detailTextFormState().editing && detailTextFormState().key === lineVO.line
+  ) {
+    <ng-container
+      *ngTemplateOutlet="detailTextModifyCell; context: { $implicit: lineVO }"
+    ></ng-container>
+  } @else {
+    <div>
+      @if (getOperationDetailText(lineVO)) {
+        <div>
+          <span>{{ getOperationDetailText(lineVO) }}</span>
+        </div>
+        @if (isCOCC()) {
+          <div class="text-center">
+            <nz-icon
+              class="cursor-pointer hover:text-[#1dd782] ml-2"
+              nzType="edit"
+              nzTheme="outline"
+              (click)="showDetailTextModifyCell(lineVO)"
+            />
+          </div>
+        }
+      } @else {
+        <div>
+          <div><span>运营数据调整中</span></div>
+          <div><span>请等待</span></div>
+        </div>
+        @if (isCOCC()) {
+          <span class="inline-block w-8">
+            <nz-icon
+              class="cursor-pointer hover:text-[#1dd782] ml-2"
+              nzType="edit"
+              nzTheme="outline"
+              (click)="showDetailTextModifyCell(lineVO)"
+            />
+          </span>
+        }
+      }
+    </div>
+  }
+</ng-template>
+
+<ng-template #patrollingDetail let-data>
+  @if (!data) {
+    <span> -- </span>
+  } @else {
+    @if (data.patrolling && !data.finished) {
+      <div>
+        <div
+          class="green-font hover:underline cursor-pointer"
+          (click)="openPatrollingLine.emit(data.name)"
+        >
+          <span>巡道中</span>
+          <span class="ml-1">({{ data.currentCount }})</span>
+        </div>
+        <div>
+          <span>结束时间：</span>
+          <span>{{ formatExpirationInMinutes(data.expiration) }}</span>
+        </div>
+      </div>
+    } @else {
+      <span> -- </span>
+    }
+  }
+</ng-template>
+
+<ng-template #actionType let-op>
+  <div>
+    @if (op.actionType === "停运") {
+      @if (op.locationType === "区间") {
+        <div>{{ op.actionType }}</div>
+        <div>(部分)</div>
+      } @else {
+        <span> {{ op.actionType }} </span>
+      }
+    } @else {
+      <span> {{ op.actionType }} </span>
+    }
+  </div>
+</ng-template>
+
+<ng-template #obstruct let-lineVO>
+  @if (
+    detailObstructingFormState().editing &&
+    detailObstructingFormState().key === lineVO.line
+  ) {
+    <ng-container
+      *ngTemplateOutlet="obstructModifyCell; context: { $implicit: lineVO }"
+    ></ng-container>
+  } @else {
+    @if (
+      lineVO.patrollingInfo &&
+      lineVO.patrollingInfo.patrolling &&
+      !lineVO.patrollingInfo.finished
+    ) {
+      <div>
+        <span>{{ getObstructText(lineVO) }}</span>
+        <span class="inline-block w-8">
+          <nz-icon
+            class="cursor-pointer hover:text-[#1dd782] ml-2"
+            nzType="edit"
+            nzTheme="outline"
+            (click)="showObstructModifyCell(lineVO)"
+          />
+        </span>
+      </div>
+    } @else {
+      <span> -- </span>
+    }
+  }
+</ng-template>
+
+<ng-template #endTime let-op>
+  <div class="">
+    @if (op.isEndTimeOptional) {
+      <span>待定</span>
+    } @else {
+      <span>{{ getTimeText(op.endTime) }}</span>
+    }
+  </div>
+</ng-template>
+
+<ng-template #detailTextModifyCell let-lineVO>
+  <div class="flex flex-col">
+    <div class="flex-1">
+      <textarea
+        nz-input
+        rows="4"
+        type="text"
+        class="w-full custom-scroll-bar"
+        [(ngModel)]="detailTextFormState().value"
+      ></textarea>
+    </div>
+    <div class="ml-2">
+      <nz-icon
+        class="cursor-pointer hover:text-red-500"
+        nzType="close"
+        nzTheme="outline"
+        (click)="hideDetailTextModifyCell()"
+      />
+      <nz-icon
+        class="ml-2 *:cursor-pointer hover:text-blue-500"
+        nzType="check"
+        nzTheme="outline"
+        (click)="confirmDetailTextModify(lineVO)"
+      />
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #obstructModifyCell let-lineVO>
+  <div class="flex flex-col">
+    <div class="flex-1">
+      <nz-switch [(ngModel)]="detailObstructingFormState().value" />
+    </div>
+    <div class="ml-2">
+      <nz-icon
+        class="cursor-pointer hover:text-red-500"
+        nzType="close"
+        nzTheme="outline"
+        (click)="hideObstructModifyCell()"
+      />
+      <nz-icon
+        class="ml-2 *:cursor-pointer hover:text-blue-500"
+        nzType="check"
+        nzTheme="outline"
+        (click)="confirmObstructModify(lineVO)"
+      />
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #position let-op>
+  <div>
+    <div>
+      <span>{{ getPositionText(op) }}</span>
+    </div>
+    <div>
+      @if (op.actionType === "限速") {
+        <span class="text-[#1dd782]">{{ op.limit }}km/h</span>
+      } @else if (op.actionType === "间隔调整") {
+        <span class="text-[#1dd782]">{{ op.distance }}分钟</span>
+      }
+    </div>
+  </div>
+</ng-template>

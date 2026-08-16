@@ -1,0 +1,22 @@
+<ng-container>
+    <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="isActived" [nzDropdownMenu]="searchMenu"
+        (nzVisibleChange)="onVisibleChanged($event)">
+        <span nz-icon nzType="filter"></span>
+        <span *ngIf="showValue">{{value}}</span>
+    </nz-filter-trigger>
+
+    <nz-dropdown-menu #searchMenu="nzDropdownMenu">
+        <div class="ant-table-filter-dropdown">
+            <div class="search-box">
+                <nz-input-group [nzSuffix]="inputClearTplName">
+                    <input type="text" nz-input [(ngModel)]="value" [placeholder]="placeholder" />
+                </nz-input-group>
+                <ng-template #inputClearTplName>
+                    <span nz-icon class=" ant-input-clear-icon" nzTheme="fill" nzType="close-circle" *ngIf="value"
+                        (click)="value=undefined"></span>
+                </ng-template>
+            </div>
+        </div>
+    </nz-dropdown-menu>
+
+</ng-container>

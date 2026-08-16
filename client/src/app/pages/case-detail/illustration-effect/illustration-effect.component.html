@@ -1,0 +1,153 @@
+@switch (subType) {
+  @case ("关闭车站") {
+    <ng-container *ngTemplateOutlet="closeStation"></ng-container>
+  }
+  @case ("关闭出入口") {
+    <ng-container *ngTemplateOutlet="closeEntrances"></ng-container>
+  }
+  @case ("停运") {
+    <ng-container *ngTemplateOutlet="halt"></ng-container>
+  }
+  @case ("限速") {
+    <ng-container *ngTemplateOutlet="limitSpeed"></ng-container>
+  }
+  @case ("间隔调整") {
+    <ng-container *ngTemplateOutlet="intervalAdjustment"></ng-container>
+  }
+  @case ("正线留车") {
+    <ng-container *ngTemplateOutlet="leaveTrainFront"></ng-container>
+  }
+  @case ("交路调整") {
+    <ng-container *ngTemplateOutlet="intervalAdjustment"></ng-container>
+  }
+  @case ("提前巡道") {
+    <ng-container *ngTemplateOutlet="patrolInAdvance"></ng-container>
+  }
+  @default {
+    <ng-container *ngTemplateOutlet="opEvent"></ng-container>
+  }
+}
+
+<ng-template #point let-color>
+  <div
+    class="block rounded-full play-pulse ml-4"
+    style="width: 15px; height: 15px; --shadow-width: 10px"
+    [style.--shadow-color]="color"
+  ></div>
+</ng-template>
+<ng-template #closeStation>
+  <ng-container
+    *ngTemplateOutlet="point; context: { $implicit: 'rgba(229, 0, 119, 1)' }"
+  ></ng-container>
+</ng-template>
+<ng-template #closeEntrances>
+  <ng-container
+    *ngTemplateOutlet="point; context: { $implicit: 'rgba(229, 0, 119, 1)' }"
+  ></ng-container>
+</ng-template>
+<ng-template #opEvent>
+  <ng-container
+    *ngTemplateOutlet="point; context: { $implicit: 'rgba(255, 255, 255, 1)' }"
+  ></ng-container>
+</ng-template>
+<ng-template #leaveTrainFront>
+  <ng-container
+    *ngTemplateOutlet="point; context: { $implicit: '#fcd34d' }"
+  ></ng-container>
+</ng-template>
+
+<ng-template #line let-color>
+  <div
+    class="block animate-pulse ml-2"
+    style="width: 36px; height: 12px; border-radius: 6px"
+    [style.background-color]="color"
+  ></div>
+</ng-template>
+
+<ng-template #lineWithBorder let-color>
+  <div
+    class="block ml-2"
+    style="
+      width: 36px;
+      height: 12px;
+      border-radius: 6px;
+      border-bottom-width: 3px;
+      border-style: solid;
+      border-top-width: 3px;
+    "
+    [style.background-color]="color.m"
+    [style.border-color]="color.b"
+  ></div>
+</ng-template>
+
+<ng-template #staticLine let-color>
+  <div
+    class="block ml-2"
+    style="width: 36px; height: 12px; border-radius: 6px"
+    [style.background-color]="color"
+  ></div>
+</ng-template>
+
+<ng-template #halt>
+  <ng-container
+    *ngTemplateOutlet="line; context: { $implicit: '#ef4444' }"
+  ></ng-container>
+</ng-template>
+<ng-template #limitSpeed>
+  <ng-container
+    *ngTemplateOutlet="line; context: { $implicit: '#fcd34d' }"
+  ></ng-container>
+</ng-template>
+<ng-template #intervalAdjustment>
+  <ng-container
+    *ngTemplateOutlet="staticLine; context: { $implicit: '#2563eb' }"
+  ></ng-container>
+</ng-template>
+<ng-template #intervalAdjustment>
+  <ng-container
+    *ngTemplateOutlet="line; context: { $implicit: '#2563eb' }"
+  ></ng-container>
+</ng-template>
+<ng-template #patrolInAdvance>
+  <ng-container
+    *ngTemplateOutlet="
+      lineWithBorder;
+      context: {
+        $implicit: {
+          m: '#10b981',
+          b: '#2563eb',
+        },
+      }
+    "
+  ></ng-container>
+</ng-template>
+<ng-template #patrolInAdvance2>
+  <div
+    class="block ml-2 flow-line-svg"
+    style="
+      width: 36px;
+      height: 12px;
+      border-radius: 6px;
+      background-color: #55555580;
+    "
+  >
+    <svg
+      class="align-top"
+      viewBox="0 0 36 12"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        class="flow-line-svg"
+        stroke="#10b98190"
+        stroke-opacity="1"
+        stroke-width="12"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-dasharray="8,24"
+        stroke-dashoffset="36"
+        fill="none"
+        d="M 0,6 L 36,6"
+      ></path>
+    </svg>
+  </div>
+</ng-template>

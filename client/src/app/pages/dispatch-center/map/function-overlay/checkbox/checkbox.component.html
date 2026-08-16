@@ -1,0 +1,22 @@
+<span class="relative">
+  <img
+    class="select-none cursor-pointer"
+    src="assets/images/map/timeline/wind-circle.png"
+    draggable="false"
+    alt=""
+    srcset=""
+  />
+  @if (checked()) {
+    <img
+      @fade
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none"
+      src="assets/images/map/timeline/wind-circle-center.png"
+      draggable="false"
+      alt=""
+      srcset=""
+    />
+  }
+</span>
+@if (label()) {
+  <span class="label-text">{{ label() }}</span>
+}

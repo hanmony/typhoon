@@ -1,0 +1,86 @@
+<div
+  class="absolute w-full top-0 left-0 flex justify-between items-center py-4 px-8"
+>
+  <div>
+    <extreme-select
+      [value]="line"
+      [options]="lineOptions()"
+      (onChange)="onLineChange($event)"
+    ></extreme-select>
+    @if (hasValidTour()) {
+      <div class="patrolling-tag animate-pulse ml-4">巡</div>
+    }
+  </div>
+  <div>
+    <span class="backward" (click)="handleReturn()">
+      <span>返回</span>
+      <span>
+        <img
+          class="inline-block ml-2"
+          src="/assets/images/simulated-patrolling/backward.png"
+          alt=""
+          srcset=""
+        />
+      </span>
+    </span>
+  </div>
+</div>
+<div class="w-full" style="height: 100%; padding: 0 24px">
+  <div class="w-full" style="height: 100%; padding: 76px 0 0" #diagram></div>
+</div>
+<div
+  class="absolute w-full bottom-0 left-0 flex justify-start items-center px-8 pb-2 backdrop-blur-sm"
+>
+  <span class="inline-flex items-center mr-6">
+    <img
+      class="inline-block mr-2 rounded-2xl select-none"
+      style="width: 38px; height: auto; border-radius: 12px"
+      src="/assets/images/simulated-patrolling/train-add-icon.png"
+      alt=""
+      srcset=""
+      draggable="false"
+    />
+    <span class="train-button add" (click)="onAddTrain()">增加巡道车辆</span>
+  </span>
+
+  <span class="inline-flex items-center mr-6">
+    <img
+      class="inline-block mr-2 rounded-2xl select-none"
+      style="width: 38px; height: auto; border-radius: 12px"
+      src="/assets/images/simulated-patrolling/train-remove-icon.png"
+      alt=""
+      srcset=""
+      draggable="false"
+    />
+    <span
+      class="train-button remove"
+      nz-dropdown
+      nzPlacement="topCenter"
+      [nzDropdownMenu]="removeMenu"
+      nzTrigger="click"
+      >删除巡道车辆</span
+    >
+  </span>
+
+  <span class="inline-flex items-center">
+    <img
+      class="inline-block mr-2 rounded-2xl select-none"
+      style="width: 38px; height: auto; border-radius: 12px"
+      src="/assets/images/simulated-patrolling/train-reset-icon.png"
+      alt=""
+      srcset=""
+      draggable="false"
+    />
+    <span class="train-button reset" (click)="onQueryToReset()">巡道重置</span>
+  </span>
+</div>
+
+<nz-dropdown-menu #removeMenu="nzDropdownMenu">
+  <ul nz-menu nzSelectable>
+    @for (t of tours; track t.id) {
+      <li nz-menu-item (click)="onQueryToRemove(t)">
+        {{ t.serialNumber }}号车
+      </li>
+    }
+  </ul>
+</nz-dropdown-menu>

@@ -1,0 +1,156 @@
+<div class="compare-table-wrapper">
+  <div
+    class="cli overflow-y-auto custom-scroll-bar"
+    style="max-height: calc(100vh - 150px)"
+  >
+    <!-- <div class="h-[20px]"></div> -->
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th class="section-title"></th>
+          <th class="label-title"></th>
+          @for (item of tableData; track $index) {
+            <th>
+              <div>
+                {{ item.detail?.name }} -
+                {{ getValue(item.detail, "台风类型") }}
+              </div>
+              <div class="time-text">{{ getTimeText(item.detail) }}</div>
+            </th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="section-title"></td>
+          <td class="label-title">路径</td>
+          @for (item of tableData; track $index) {
+            <td>
+              @if (item.detail) {
+                <compare-path-cell [data]="item" />
+              }
+            </td>
+          }
+        </tr>
+        @for (section of sections; track $index) {
+          @for (column of section.columns; track $index) {
+            <tr>
+              @if ($index === 0) {
+                <td class="section-title" [rowSpan]="getRowSpan(section)">
+                  {{ section.label }}
+                </td>
+              }
+              <ng-container
+                *ngTemplateOutlet="common; context: { $implicit: column }"
+              ></ng-container>
+            </tr>
+          }
+          @if (section.label === "运行措施") {
+            <tr>
+              <ng-container
+                *ngTemplateOutlet="evaluation; context: { $implicit: section }"
+              ></ng-container>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+<ng-template #alert let-data>
+  <div class="pl-4">
+    @if (data) {
+      <img style="width: 60px" [src]="getWeatherIcon(data)" alt="" srcset="" />
+    }
+  </div>
+</ng-template>
+
+<ng-template #halt let-data>
+  <span
+    [class.link-text]="data.meta.clickConfig?.clickable(data.item)"
+    (click)="onCellContentClick(data.meta, data.item)"
+  >
+    {{ data.meta.valueGetter(data.item) }}
+  </span>
+</ng-template>
+
+<ng-template #common let-meta>
+  <td class="label-title">{{ meta.label }}</td>
+  @for (item of tableData; track $index) {
+    <td
+      [class.hightest]="meta.highestColor && isHighest(meta, $index)"
+      [style.color]="
+        meta.highestColor && isHighest(meta, $index)
+          ? meta.highestColor
+          : undefined
+      "
+    >
+      @if (meta.tmp && meta.tmp === "alert") {
+        <div class="flex justify-center items-center text-center">
+          <div>{{ getCaseField(meta.key, item.detail) }}</div>
+          <ng-container
+            *ngTemplateOutlet="alert; context: { $implicit: item.detail }"
+          ></ng-container>
+        </div>
+      } @else if (meta.tmp && meta.tmp === "halt") {
+        <ng-container
+          *ngTemplateOutlet="halt; context: { $implicit: { meta, item } }"
+        ></ng-container>
+      } @else {
+        <div [class.text-left]="meta.alignLeft" class="whitespace-pre-line">
+          <span (click)="onCellContentClick(meta, item)">
+            @if (meta.valueGetter) {
+              {{ meta.valueGetter(item) }}
+            } @else {
+              {{ getCaseField(meta.key, item.detail) }}
+            }
+          </span>
+        </div>
+      }
+    </td>
+  }
+</ng-template>
+
+<ng-template #evaluation let-section>
+  <td class="label-title">总体评价</td>
+  @for (item of tableData; track $index) {
+    <td>
+      @if (item.evaluation) {
+        <div class="flex justify-between pb-2">
+          <div class="text-left" style="line-height: 24px; width: 160px">
+            @if (item.evaluation.timeliness) {
+              <div>
+                <span class="mr-2">及时性</span>
+                <nz-rate
+                  [ngModel]="item.evaluation.timeliness"
+                  nzDisabled
+                ></nz-rate>
+              </div>
+            }
+            @if (item.evaluation.reasonability) {
+              <div>
+                <span class="mr-2">合理性</span>
+                <nz-rate
+                  [ngModel]="item.evaluation.reasonability"
+                  nzDisabled
+                ></nz-rate>
+              </div>
+            }
+          </div>
+          <div class="flex flex-1 text-center items-center justify-center pr-2">
+            @if (item.evaluation.overallRating) {
+              <span
+                class="eva-summary"
+                [class.green]="item.evaluation.overallRating === '优'"
+                [class.blue]="item.evaluation.overallRating === '良'"
+                [class.brown]="item.evaluation.overallRating === '差'"
+                >{{ item.evaluation.overallRating }}</span
+              >
+            }
+          </div>
+        </div>
+        <compare-evaluation-text [text]="item.evaluation.text" />
+      }
+    </td>
+  }
+</ng-template>

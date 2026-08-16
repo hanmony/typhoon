@@ -1,0 +1,36 @@
+.guide {
+  @apply w-screen h-screen overflow-auto relative;
+}
+.dark-bg {
+  background: #071a30;
+}
+
+::ng-deep .leaflet-control-attribution {
+  display: none;
+}
+
+.info {
+  position: absolute;
+  top: 0;
+  // right: 96px;
+  right: 0;
+  height: 100%;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  overflow: hidden;
+  padding-right: 96px;
+}
+.headline {
+  text-align: right;
+}
+.milestones {
+  overflow: visible;
+}
+#guide-headline {
+  margin-top: -24px;
+  opacity: 0;
+  transform: translate(300px, 0);
+}

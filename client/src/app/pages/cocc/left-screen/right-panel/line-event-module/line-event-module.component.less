@@ -1,0 +1,29 @@
+.line-name {
+  display: inline-block;
+  background: url("/assets/images/cocc/line-name-arrow.png") no-repeat center
+    center;
+  background-size: 100% auto;
+  min-width: 97px;
+  height: 43px;
+  line-height: 43px;
+  padding-left: 26px;
+  font-size: 14px;
+  color: var(--line-color); // #f9f902
+}
+
+.rect {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+}
+
+.line-module {
+  ::ng-deep .ant-select-selector {
+    border: 1px solid rgba(54, 229, 255, 0.58) !important;
+    border-radius: 2px !important;
+    box-shadow: inset 0px 0px 12px 0px rgba(92, 178, 254, 0.72);
+  }
+  ::ng-deep .ant-select .anticon {
+    color: rgba(54, 229, 255, 0.58) !important;
+  }
+}

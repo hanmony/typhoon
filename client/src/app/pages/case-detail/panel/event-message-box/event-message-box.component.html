@@ -1,0 +1,47 @@
+<div
+  @horizontalInOutRelative
+  class="message-box"
+  (click)="handleClick()"
+  [id]="'message-box-' + data.event._id"
+  [class.unread]="false"
+>
+  <div class="message-box-content">
+    <div class="flex items-center pr-4">
+      <div class="state-tag" [class.expired]="data.expired">
+        {{ stateText }}
+      </div>
+    </div>
+    <div class="title">{{ message }}</div>
+    <div>
+      <div class="icon">
+        <span
+          nz-icon
+          [nzType]="data.collapse ? 'down' : 'up'"
+          nzTheme="outline"
+        ></span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="overflow-hidden">
+  @if (!data.collapse) {
+    <div @dropdown class="detail-box whitespace-pre-wrap">
+      @for (item of items; track $index) {
+        <div
+          class="message-item"
+          [class]="{
+            'inline-block': item.width !== 'full',
+            'w-1/2': item.width === 'half',
+            'w-1/3': item.width === '1/3',
+            'w-full': item.width === 'full',
+          }"
+        >
+          <div class="message-type">{{ item.label }}</div>
+          <div class="message-text" [class.opacity-0]="item.value === '@@##'">
+            {{ item.value }}
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

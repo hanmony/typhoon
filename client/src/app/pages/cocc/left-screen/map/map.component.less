@@ -1,0 +1,53 @@
+:host {
+  position: relative;
+  --animate-duration: 0.5s;
+}
+
+::ng-deep .leaflet-control-attribution {
+  display: none;
+}
+
+.dark-mode {
+  &:not(.leaflet-safari) {
+    ::ng-deep.leaflet-tile-pane {
+      filter: url("#x-rays") contrast(2) grayscale(0.47) saturate(1.2);
+    }
+  }
+
+  &.leaflet-safari {
+    ::ng-deep.leaflet-tile-pane {
+      filter: url("#x-rays") contrast(2) grayscale(0.47) saturate(1.2);
+    }
+  }
+}
+
+.map-container {
+  width: 100%;
+  height: 100%;
+  .map {
+    width: 100%;
+    height: 100%;
+  }
+  -webkit-mask: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 50%,
+    transparent 100%
+  );
+  mask: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 50%,
+    transparent 100%
+  );
+}
+
+.dark-bg {
+  background: linear-gradient(
+    to right,
+    #081835 0%,
+    #081835 15%,
+    #173f6d 85%,
+    #173f6d 100%
+  );
+}

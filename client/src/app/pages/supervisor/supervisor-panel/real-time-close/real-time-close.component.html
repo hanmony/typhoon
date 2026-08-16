@@ -1,0 +1,34 @@
+<div class="flex pl-1 pt-1">
+  <div class="flex-1 flex justify-end">
+    <!-- <div class="base-bg" style="width: 280px; height: 240px"> -->
+    <div class="base-bg" style="width: 100%; height: 138px">
+      <div #chart class="w-full h-full"></div>
+    </div>
+    <!-- </div> -->
+  </div>
+  <div
+    #scrollContainer
+    class="overflow-y-auto custom-scroll-bar pr-2"
+    style="max-height: 138px; width: 50%"
+    (wheel)="manuallyScroll()"
+    (touchmove)="manuallyScroll()"
+  >
+    @for (line of separatedLineCloseData; track line.name) {
+      <div class="">
+        <div class="line-label-bg pt-1">
+          <div class="duration-label">{{ line.name }}</div>
+        </div>
+        <div class="light-color flex justify-between -mt-1">
+          <div>
+            <span class="text-xs">站点关闭：</span>
+            <span class="effected-count">{{ line.closed }}</span>
+          </div>
+          <div>
+            <span class="text-xs">占比：</span>
+            <span class="effected-count">{{ line.closedPercent }}%</span>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

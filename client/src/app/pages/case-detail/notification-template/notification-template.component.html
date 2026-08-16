@@ -1,0 +1,28 @@
+<div class="flex items-center pr-8">
+  <div class="icon mr-4" [style.color]="color">
+    <span nz-icon class="text-2xl" [nzType]="iconType" nzTheme="outline"></span>
+  </div>
+  <div class="pb-1 text-base">{{ eventTitle }}</div>
+</div>
+<div>
+  <div class="flex-1 border border-red-400">
+    @for (item of content; track $index) {
+      <div>
+        @if (!item.isArray) {
+          <span [class.highlight]="item.highlight">{{ item.value }}</span>
+        } @else {
+          <span>
+            @for (subItem of item.array; track $index) {
+              <span [class.highlight]="subItem.highlight">
+                {{ subItem.value }}
+              </span>
+              @if (item.array?.length !== $index + 1) {
+                <span> {{ subItem.separator || " - " }} </span>
+              }
+            }
+          </span>
+        }
+      </div>
+    }
+  </div>
+</div>

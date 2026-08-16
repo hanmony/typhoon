@@ -1,0 +1,21 @@
+<div
+  class="dispatch-dashboard"
+  [style.width.px]="standardScreenSize.width"
+  [style.height.px]="standardScreenSize.height"
+  [style.zoom]="scale()"
+>
+  <dispatch-dashboard-map
+    class="dashboard-map"
+    [initialFilterState]="dashboardFilterState()"
+    [events]="filteredEvents()"
+    [operations]="filteredOperations()"
+    (closeDashboard)="closeDashboard()"
+  />
+  <dispatch-dashboard-panel
+    class="dashboard-panel"
+    [events]="filteredEvents()"
+    [allOperations]="operations()"
+    [operations]="filteredOperations()"
+    (openPatrollingLine)="openPatrollingLine($event)"
+  />
+</div>

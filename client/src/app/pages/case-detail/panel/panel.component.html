@@ -1,0 +1,63 @@
+<div
+  class="fixed top-0 right-0 h-screen z-[998] dark-bg user-select-none"
+  style="width: var(--panel-width)"
+>
+  <div class="h-[70px]"></div>
+  <panel-thumbnail [data]="typhoonMeta" [mainTyphoonModel]="typhoonModel" />
+  <div class="title-bg ml-8">
+    <div class="title-font fangzheng-blue-white text-[20px]">台风历史数据</div>
+  </div>
+  <div class="typhoon-history-data grid grid-cols-2" [style.zoom]="zoom">
+    <div class="hexagon-bg alert">
+      <img
+        class="hexagon-icon"
+        src="assets/images/map/panel/history-alert.png"
+        alt=""
+        srcset=""
+      />
+      <div class="history-label">预警响应</div>
+      <div class="history-value">
+        <panel-animation-number [value]="globalEventCount.alert" />
+      </div>
+    </div>
+    <div class="hexagon-bg command">
+      <img
+        class="hexagon-icon"
+        src="assets/images/map/panel/history-command.png"
+        alt=""
+        srcset=""
+      />
+      <div class="history-label">路网指令</div>
+      <div class="history-value">
+        <panel-animation-number [value]="globalEventCount.directive" />
+      </div>
+    </div>
+    <div class="hexagon-bg midea">
+      <img
+        class="hexagon-icon"
+        style="width: 57px; left: 13.5%; top: 36%"
+        src="assets/images/map/panel/history-midea.png"
+        alt=""
+        srcset=""
+      />
+      <div class="history-label">媒体宣传</div>
+      <div class="history-value">
+        <panel-animation-number [value]="globalEventCount.propaganda" />
+      </div>
+    </div>
+    <div class="hexagon-bg info">
+      <img
+        class="hexagon-icon"
+        src="assets/images/map/panel/history-info.png"
+        alt=""
+        srcset=""
+      />
+      <div class="history-label">信息报告</div>
+      <div class="history-value">
+        <panel-animation-number [value]="globalEventCount.report" />
+      </div>
+    </div>
+  </div>
+  <div class="h-8"></div>
+  <panel-event-tabs />
+</div>

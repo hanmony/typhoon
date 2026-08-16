@@ -1,0 +1,65 @@
+@if (visible()) {
+  @for (timeline of timelines(); track timeline.id) {
+    <div @verticalInOut class="compare-timeline-item">
+      <div>
+        <div class="box">
+          <span>
+            <nz-icon
+              class="cursor-pointer transition-transform hover:scale-105 pointer-events-auto"
+              [nzType]="timeline.state.visible ? 'eye' : 'eye-invisible'"
+              style="font-size: 22px; color: #cae8ff"
+              nzTheme="fill"
+              (click)="toggleVisible(timeline.id)"
+            />
+          </span>
+          <span class="mx-2">{{ timeline.state.instance.name }}</span>
+          <span>
+            <nz-icon
+              class="cursor-pointer transition-transform hover:scale-105 pointer-events-auto"
+              nzType="minus-circle"
+              style="font-size: 20px; color: #17ffff"
+              nzTheme="fill"
+              (click)="cancelComparing(timeline.id)"
+            />
+          </span>
+        </div>
+        <div class="px-4 pt-1">
+          <div
+            [style.border-color]="timeline.color"
+            style="border-top: 2px dashed"
+          ></div>
+        </div>
+      </div>
+      <div class="compare-timeline">
+        <div class="timeline-strip"></div>
+        <div class="content">
+          <div
+            class="inter-container"
+            #contentRef
+            [class.tile-mode]="isTileMode(timeline.id)"
+            [class.overflow-mode]="isOverflowMode(timeline.id)"
+          >
+            @for (item of timeline.points; track $index) {
+              <compare-timeline-point
+                [style.margin-right.px]="isOverflowMode(timeline.id) ? 50 : 0"
+                [data]="item"
+                [active]="isActive(timeline, item)"
+                (onSelect)="onSelectedChange(timeline, item)"
+              />
+            }
+          </div>
+        </div>
+        <div
+          class="arrow left"
+          [class.disable]="isTileMode(timeline.id)"
+          (click)="onArrowClick('left')"
+        ></div>
+        <div
+          class="arrow right"
+          [class.disable]="isTileMode(timeline.id)"
+          (click)="onArrowClick('right')"
+        ></div>
+      </div>
+    </div>
+  }
+}

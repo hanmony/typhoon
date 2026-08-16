@@ -1,0 +1,66 @@
+<div class="weather-carousel">
+  <div class="relative">
+    <div
+      #outerContainer
+      [style.width.px]="containerWidth()"
+      class="carousel-options-container"
+    >
+      <div
+        #innerContainer
+        class="carousel-options"
+        [style.padding-left.px]="cardRect().gap"
+        [style.transform]="getInnerTransform()"
+      >
+        @for (item of allOptions(); track $index) {
+          <div
+            class="carousel-item"
+            [style.width.px]="cardRect().width"
+            [style.height.px]="cardRect().height"
+            [style.margin-right.px]="cardRect().gap"
+            [class.gradual-hide]="getGradualHideBoolean($index)"
+            [class.active]="value() === item.name"
+            (click)="onItemClick(item.name)"
+          >
+            <div class="item-label">
+              <div class="font">{{ item.name }}</div>
+            </div>
+            <div class="item-icon">
+              <img
+                [style.transform]="'scale(' + scale() + ')'"
+                src="{{ item.icon }}"
+                alt=""
+                draggable="false"
+                class="user-select-none"
+              />
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div
+      class="arrow left-arrow"
+      [class.disabled]="!leftArrayVisible()"
+      (click)="onLeftArrowClick()"
+    >
+      <img
+        class="rotate-180"
+        src="assets/images/extreme-weather/desktop-arrow.png"
+        alt=""
+        draggable="false"
+      />
+    </div>
+
+    <div
+      class="arrow right-arrow"
+      [class.disabled]="!rightArrayVisible()"
+      (click)="onRightArrowClick()"
+    >
+      <img
+        src="assets/images/extreme-weather/desktop-arrow.png"
+        alt=""
+        draggable="false"
+      />
+    </div>
+  </div>
+</div>

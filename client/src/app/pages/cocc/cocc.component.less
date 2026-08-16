@@ -1,0 +1,50 @@
+:host {
+  --animate-duration: 0.3s;
+}
+
+.cocc {
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+.safety-button {
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  --ant-error-color: #fa6400;
+}
+
+::ng-deep {
+  .cocc-terminate-command-modal {
+    .ant-modal-header {
+      border-radius: 8px 8px 0 0;
+    }
+    .ant-modal-content {
+      border-radius: 8px;
+    }
+    .ant-modal-confirm-btns,
+    .ant-modal-footer {
+      .ant-btn {
+        .safety-button();
+      }
+    }
+  }
+}
+
+::ng-deep .shining-box {
+  background-color: #0b255290;
+  width: 100%;
+  box-shadow: inset 0px 0px 12px 0px rgba(92, 178, 254, 0.72);
+  .option-item {
+    color: var(--case-text-primary);
+    cursor: pointer;
+    &:hover {
+      color: #40e6fe77;
+    }
+    &.checked {
+      color: #40e6fe;
+    }
+  }
+}

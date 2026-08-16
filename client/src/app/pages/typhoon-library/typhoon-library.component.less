@@ -1,0 +1,118 @@
+#typhoon-library {
+  background: url(/assets/images/typhoon-library/bg.jpg) no-repeat;
+  background-size: 100% 100%;
+  // padding-top: 96px;
+}
+
+.typhoon-library-header {
+  width: 100%;
+  height: 177px;
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  background: url(/assets/images/typhoon-library/header.png) no-repeat;
+  background-position: center;
+  text-align: center;
+  padding-top: 16px;
+  display: flex;
+  font-size: 14px;
+  justify-content: space-between;
+
+  .title {
+    font-size: 32px;
+    font-family: "FangZhengZhongyi";
+    color: white;
+    letter-spacing: 6px;
+  }
+
+  .enter-button {
+    width: 178px;
+    height: 35px;
+    background: url(/assets/images/typhoon-library/enter-button.svg) no-repeat;
+    display: inline-block;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    &:hover {
+      backdrop-filter: grayscale(20%) hue-rotate(17deg) contrast(120%);
+      color: #5274aa;
+    }
+  }
+  .user-info {
+    padding-right: 32px;
+    cursor: pointer;
+    line-height: 35px;
+    display: flex;
+    align-items: center;
+    .icon {
+      margin-right: 16px;
+      width: 28px;
+    }
+  }
+}
+
+.typhoon-library-content {
+  display: flex;
+  // height: calc(100vh - 96px);
+  height: 100vh;
+  padding-top: 96px;
+}
+
+.digital-preplan-button {
+  // position: fixed;
+  // bottom: 15%;
+  // right: 65px;
+  width: 85px;
+  height: 85px;
+  text-align: center;
+  user-select: none;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+  &:hover {
+    img {
+      filter: grayscale(20%) hue-rotate(17deg) contrast(120%);
+    }
+    .text {
+      color: #91b4ec;
+    }
+  }
+  &:active {
+    opacity: 0.55;
+  }
+  .text {
+    position: absolute;
+    white-space: nowrap;
+    left: 50%;
+    transform: translate(-50%, 25%);
+    top: 50%;
+    font-size: 14px;
+    color: white;
+  }
+}
+
+.digital-preplan-modal {
+  ::ng-deep &.ant-modal {
+    padding-bottom: 0;
+    top: 50px;
+    .ant-modal-body {
+      padding: 0;
+    }
+    .ant-modal-content {
+      background-color: transparent;
+    }
+    &.ant-modal .ant-modal-close {
+      color: #5d667b;
+      top: 20px;
+      right: 16px;
+      &:hover {
+        color: #cfcfcf;
+      }
+    }
+  }
+}

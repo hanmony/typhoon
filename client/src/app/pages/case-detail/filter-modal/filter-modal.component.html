@@ -1,0 +1,27 @@
+@if (visible) {
+  <div @horizontalInOutReverse class="filter-modal">
+    <div class="modal-header">
+      <span class="header-font">条件筛选</span>
+      <div class="mr-4">
+        <img
+          class="mb-2 cursor-pointer hover:scale-110"
+          src="assets/images/map/dock/statistical-table-modal/close.png"
+          alt=""
+          (click)="close()"
+        />
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="flex justify-between" style="height: 400px">
+        @for (category of categories; track $index) {
+          <filter-category
+            [category]="category"
+            (onChange)="onValueChange($event, category.key)"
+            (onAllChange)="onAllChange(category.key)"
+          />
+        }
+      </div>
+    </div>
+    <div class="modal-footer"></div>
+  </div>
+}

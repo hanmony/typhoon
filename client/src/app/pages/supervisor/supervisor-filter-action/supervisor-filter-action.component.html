@@ -1,0 +1,31 @@
+<!-- <div class="bg-red-600 w-12 h-12"></div> -->
+@for (category of categoryOptions; track category.key) {
+  <div class="category-item">
+    <div
+      class="category-button"
+      [class.active]="openedCategory() === category.key"
+      (click)="onCategoryClick(category.key)"
+    >
+      <div class="icon-container" [style.--size]="category.iconSize">
+        <img [src]="category.icon" alt="" srcset="" />
+      </div>
+      <div class="flex-1 text-center label pl-1 pr-6">{{ category.label }}</div>
+    </div>
+    <div
+      class="sub-options"
+      [style.height.px]="
+        openedCategory() === category.key ? category.children.length * 30 : 0
+      "
+    >
+      @for (item of category.children; track item.key) {
+        <div
+          class="sub-option"
+          [class.active]="isSubOptionActive(category.key, item.key)"
+          (click)="onSubOptionClick(item.key)"
+        >
+          <div class="label pl-2">{{ item.label }}</div>
+        </div>
+      }
+    </div>
+  </div>
+}

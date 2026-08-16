@@ -1,0 +1,29 @@
+.chart-bg {
+  background-image: url("/assets/images/dispatch-center/line-situation/only-dot.png");
+  background-size: 62%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.progress {
+  width: 100px;
+  height: 8px;
+  border-radius: 4px;
+  position: relative;
+  background: #fff;
+
+  &:before {
+    content: "";
+    position: absolute;
+    width: var(--percentage);
+    height: 100%;
+    background-color: var(--color);
+    border-radius: 4px;
+    left: 0;
+    top: 0;
+  }
+
+  &.large {
+    width: 240px;
+  }
+}

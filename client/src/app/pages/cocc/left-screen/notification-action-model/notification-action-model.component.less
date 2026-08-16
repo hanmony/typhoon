@@ -1,0 +1,58 @@
+.label {
+  display: inline-block;
+  width: 80px;
+  margin-right: 8px;
+  text-wrap: nowrap;
+  white-space: nowrap;
+  padding-top: 1px;
+}
+
+.notification-action {
+  ::ng-deep .ant-select-selector {
+    border: 1px solid rgba(112, 174, 255, 0.58) !important;
+    border-radius: 2px !important;
+    background-color: rgba(112, 174, 255, 0.06);
+  }
+  ::ng-deep .ant-select .anticon {
+    color: rgba(112, 174, 255, 0.58) !important;
+  }
+}
+
+.action-button {
+  background: #00e4e4;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1;
+  color: #101010;
+  border: 1px solid #026990;
+  cursor: pointer;
+  user-select: none;
+  &.disable {
+    cursor: not-allowed;
+    background: #00e4e444;
+  }
+  &:hover {
+    background: #00e4e499;
+  }
+}
+
+::ng-deep .event-select-modal {
+  ::ng-deep &.ant-modal {
+    padding-bottom: 0;
+    // top: calc(50vh - 101px);
+    .ant-modal-body {
+      padding: 0;
+    }
+    .ant-modal-content {
+      background-color: transparent;
+      box-shadow: none;
+    }
+    &.ant-modal .ant-modal-close {
+      display: none;
+    }
+  }
+}

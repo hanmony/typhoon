@@ -1,0 +1,136 @@
+.color-primary {
+  color: var(--portal-primary);
+}
+.discover-page {
+  height: 100vh;
+  width: 100vw;
+  padding-top: 70px;
+  background-color: #f6f8fb;
+}
+.discover-title {
+  font-size: 44px;
+  font-weight: 500;
+  color: #000000;
+  line-height: 62px;
+  letter-spacing: 5px;
+  @apply px-8 py-6 text-center;
+}
+
+.discover-content {
+  @apply flex;
+  padding: 0 72px;
+}
+@media screen {
+  @media (min-width: 1551px) {
+    .category {
+      margin-right: 100px;
+    }
+    .category-item {
+      max-width: 43vw;
+    }
+  }
+  @media (max-width: 1550px) {
+    .category {
+      margin-right: 64px;
+    }
+    .category-item {
+      max-width: 33vw;
+    }
+  }
+}
+.category {
+  margin-right: 100px;
+  .category-item {
+    @apply flex pb-6 cursor-pointer;
+    width: 600px;
+    .name {
+      color: #999999;
+    }
+    &:hover,
+    &.active {
+      .name {
+        color: var(--portal-primary);
+      }
+    }
+    .item-left {
+      flex: 1;
+      .name {
+        font-size: 26px;
+        font-weight: 500;
+        line-height: 37px;
+      }
+      .example-list {
+        @apply grid grid-cols-2 py-3;
+        min-height: 84px;
+        row-gap: 10px;
+        .example-item {
+          font-size: 18px;
+          font-weight: 400;
+          color: #999999;
+          line-height: 25px;
+          &.active {
+            font-size: 20px;
+            color: #333333;
+          }
+        }
+      }
+    }
+    &:not(:last-child) {
+      border-bottom: 1px solid #97979750;
+      margin-bottom: 32px;
+    }
+    .item-right {
+      @apply flex items-center justify-center;
+    }
+  }
+}
+
+.typhoon-card-list {
+  // padding: 0 72px;
+  // @apply grid flex-1;
+  // row-gap: 32px;
+  // column-gap: 32px;
+  // @media screen and (max-width: 1920px) {
+  //   @apply grid-cols-2;
+  // }
+
+  // @media screen and (min-width: 1921px) {
+  //   @apply grid-cols-3;
+  // }
+  display: grid;
+  width: 100%;
+  height: 100%;
+  justify-content: space-evenly;
+  align-content: space-evenly;
+  grid-template-columns: repeat(2, 2fr);
+  grid-template-rows: repeat(2, 2fr);
+  row-gap: 32px;
+  column-gap: 32px;
+}
+.typhoon-card {
+  // height: 100px;
+  @apply bg-no-repeat bg-cover relative cursor-pointer;
+  &:hover {
+    @apply shadow-md;
+  }
+  .card-info {
+    @apply absolute bottom-0 left-0 right-0 p-4 text-center;
+    background: rgba(255, 255, 255, 0.6);
+    color: #000000;
+  }
+  .name {
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    padding-bottom: 8px;
+  }
+  .info {
+    font-size: 18px;
+    letter-spacing: 1px;
+  }
+}
+
+.no-data-font {
+  font-size: 18px;
+  color: #999999;
+}

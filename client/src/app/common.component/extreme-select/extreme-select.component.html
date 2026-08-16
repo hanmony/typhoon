@@ -1,0 +1,48 @@
+<div class="select-icon" [class.isSupervisor]="isSupervisor">
+  <img
+    [width]="isSupervisor ? 16 : undefined"
+    src="/assets/images/dispatch-center/map/overlay-select-icon.png"
+    alt=""
+    srcset=""
+  />
+</div>
+<div class="flex-1">
+  <span class="main-font" [class.isSupervisor]="isSupervisor">{{ label }}</span>
+</div>
+<div>
+  @if (!disabled) {
+    <nz-icon
+      class="transition-transform"
+      [class.rotate-90]="dropDownVisible && !dropUp"
+      [class.-rotate-90]="dropDownVisible && dropUp"
+      nzType="caret-right"
+      style="color: #c7dbf5"
+      nzTheme="outline"
+    />
+  }
+</div>
+
+@if (dropDownVisible) {
+  <div class="drop-down-box" [class.dropUp]="dropUp">
+    @if (multiple) {
+      <div
+        class="drop-down-item"
+        [class.isSupervisor]="isSupervisor"
+        [class.selected]="isAllChecked()"
+        (click)="onSelectAllClick()"
+      >
+        <span>{{ selectAllLabel }}</span>
+      </div>
+    }
+    @for (item of options; track $index) {
+      <div
+        class="drop-down-item"
+        [class.isSupervisor]="isSupervisor"
+        [class.selected]="isItemChecked(item)"
+        (click)="onOptionClick(item)"
+      >
+        <span>{{ item.label }}</span>
+      </div>
+    }
+  </div>
+}

@@ -1,0 +1,81 @@
+@if (visible) {
+  <div @horizontalInOut class="public-opinion-information">
+    <div class="header">
+      <div class="ml-16"><span>舆情信息</span></div>
+      <div class="mr-4 pb-1">
+        <img
+          class="cursor-pointer hover:scale-110"
+          src="assets/images/map/dock/public-opinion-information-close.png"
+          alt=""
+          (click)="close()"
+        />
+      </div>
+    </div>
+    <div class="content">
+      <div class="data-content grid grid-cols-2">
+        <div class="cell">
+          <div class="statistics-icon">
+            <img
+              src="assets/images/map/dock/statistics-red.png"
+              alt=""
+              srcset=""
+            />
+          </div>
+          <div>
+            <div class="number-font pr-1">
+              {{ formatNumber(getValue(data, "热线接听总量")) }}
+            </div>
+            <div class="label-font">热线接听</div>
+          </div>
+        </div>
+        <div class="cell">
+          <div class="statistics-icon">
+            <img
+              src="assets/images/map/dock/statistics-blue.png"
+              alt=""
+              srcset=""
+            />
+          </div>
+          <div>
+            <div class="number-font">
+              {{ formatNumber(getValue(data, "人工接听总量")) }}
+            </div>
+            <div class="label-font">人工接听</div>
+          </div>
+        </div>
+        <div class="cell">
+          <div class="statistics-icon">
+            <img
+              src="assets/images/map/dock/statistics-red.png"
+              alt=""
+              srcset=""
+            />
+          </div>
+          <div>
+            <div class="number-font pr-1">
+              {{ formatNumber(getValue(data, "台风相关咨询建议")) }}
+            </div>
+            <div class="label-font">咨询建议</div>
+          </div>
+        </div>
+
+        <div class="cell">
+          <div class="statistics-icon">
+            <img
+              src="assets/images/map/dock/statistics-blue.png"
+              alt=""
+              srcset=""
+            />
+          </div>
+          <div>
+            <div class="number-font">
+              {{ getValue(data, "舆情概况") }}
+            </div>
+            <div class="label-font">总体判断</div>
+          </div>
+        </div>
+      </div>
+      <div class="pad-bottom"></div>
+    </div>
+  </div>
+}

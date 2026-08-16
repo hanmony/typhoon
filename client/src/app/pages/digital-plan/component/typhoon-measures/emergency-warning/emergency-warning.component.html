@@ -1,0 +1,116 @@
+<div class="emergency-warning-container">
+  <div class="emergency-warning-content">
+    <table class="emergency-warning-table">
+      <thead>
+        <tr>
+          <th rowspan="2" class="response-level-header">响应等级</th>
+          <th colspan="2" class="department-header">集团领导</th>
+          <th colspan="3" class="department-header">
+            党委党建工作部/运营部/云设部/安监部/监护办/建设集团
+          </th>
+          <th colspan="4" class="department-header">
+            调度指挥中心/维保公司及专业分公司/运营公司资产公司等
+          </th>
+        </tr>
+        <tr>
+          <th>集团防汛指挥部总指挥（主要领导）</th>
+          <th>集团防汛指挥部副总指挥（分管领导）</th>
+          <th>主要领导</th>
+          <th>分管领导</th>
+          <th>职能科室</th>
+          <th>主要领导</th>
+          <th>分管领导</th>
+          <th>职能科室</th>
+          <th>线路管理部维护部</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let level of responseLevels">
+          <td class="response-level-cell">{{ level.level }}</td>
+          <!-- 集团领导 -->
+          <td class="warning-cell">
+            <img
+              *ngIf="level.showWarningColumns.includes(0)"
+              [src]="warningImages[level.warningKey]"
+              [alt]="level.level"
+            />
+          </td>
+          <td class="warning-cell">
+            <img
+              *ngIf="level.showWarningColumns.includes(1)"
+              [src]="warningImages[level.warningKey]"
+              [alt]="level.level"
+            />
+          </td>
+          <!-- 党委党建工作部等 -->
+          <td class="warning-cell">
+            <img
+              *ngIf="level.showWarningColumns.includes(2)"
+              [src]="warningImages[level.warningKey]"
+              [alt]="level.level"
+            />
+          </td>
+          <td class="warning-cell">
+            <img
+              *ngIf="level.showWarningColumns.includes(3)"
+              [src]="warningImages[level.warningKey]"
+              [alt]="level.level"
+            />
+          </td>
+          <td class="warning-cell">
+            <img
+              *ngIf="level.showWarningColumns.includes(4)"
+              [src]="warningImages[level.warningKey]"
+              [alt]="level.level"
+            />
+          </td>
+          <!-- 调度指挥中心等 -->
+          <td class="warning-cell">
+            <img
+              *ngIf="level.showWarningColumns.includes(5)"
+              [src]="warningImages[level.warningKey]"
+              [alt]="level.level"
+            />
+          </td>
+          <td class="warning-cell">
+            <img
+              *ngIf="level.showWarningColumns.includes(6)"
+              [src]="warningImages[level.warningKey]"
+              [alt]="level.level"
+            />
+          </td>
+          <td class="warning-cell">
+            <img
+              *ngIf="level.showWarningColumns.includes(7)"
+              [src]="warningImages[level.warningKey]"
+              [alt]="level.level"
+            />
+          </td>
+          <td class="warning-cell">
+            <img
+              *ngIf="level.showWarningColumns.includes(8)"
+              [src]="warningImages[level.warningKey]"
+              [alt]="level.level"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="emergency-warning-notes">
+      <ol>
+        <li>
+          COCC接到集团防汛指挥部"I、II、III、IV"级应急响应启动信息后，立即启动集团"I、II、III、IV"级应急响应运行，并向集团相关单位、部门进行发布。
+        </li>
+        <li>
+          各领导干部、业务骨干及各岗位应接到应急响应信息后，对应响应级别进入应急值班状态，进到到位做好指挥、靠前盯控。
+        </li>
+        <li>
+          值班期间一律在岗，24小时在位，不得饮酒、不得随意离岗，遇情况及时处置、及时报告。
+        </li>
+        <li>
+          各单位、部门根据职责分工和相关预案及处理要求，落实防汛防台措施，加强巡视检查密度，做好收集工作，有关情况及时上报。
+        </li>
+      </ol>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="text-right pt-2 -mb-6 relative z-10">
+  <extreme-tabs
+    [tabs]="['今日数据', '总计数据']"
+    [activeTab]="activeDuration()"
+    (onClick)="setActiveDuration($event)"
+  />
+</div>
+<div class="flex justify-center">
+  <div class="ball-container">
+    <div class="total">
+      <div class="label">事件总数</div>
+      <div class="value">{{ total() }}</div>
+    </div>
+    <div class="w-full h-full">
+      @for (ev of eventTypes(); track $index) {
+        <ng-container
+          *ngTemplateOutlet="item; context: { d: ev, index: $index }"
+        ></ng-container>
+      }
+    </div>
+  </div>
+</div>
+
+<ng-template #item let-index="index" let-d="d">
+  <div class="event-item" [style.transform]="getTransform(index)">
+    <div class="label">{{ d.label }}</div>
+    <div class="value">{{ d.value }}</div>
+  </div>
+</ng-template>

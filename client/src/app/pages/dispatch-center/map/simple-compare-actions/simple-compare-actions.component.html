@@ -1,0 +1,25 @@
+@if (show) {
+  @for (item of currentExistState; track item.id) {
+    <div @horizontalInOut class="box">
+      <span>
+        <nz-icon
+          class="cursor-pointer transition-transform hover:scale-105"
+          [nzType]="item.visible ? 'eye' : 'eye-invisible'"
+          style="font-size: 22px; color: #cae8ff"
+          nzTheme="fill"
+          (click)="toggleVisible(item.id)"
+        />
+      </span>
+      <span class="mx-2">{{ item.instance.name }}</span>
+      <span>
+        <nz-icon
+          class="cursor-pointer transition-transform hover:scale-105"
+          nzType="minus-circle"
+          style="font-size: 20px; color: #17ffff"
+          nzTheme="fill"
+          (click)="cancelComparing(item.id)"
+        />
+      </span>
+    </div>
+  }
+}

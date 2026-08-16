@@ -1,0 +1,141 @@
+<dispatch-module-header title="天气数据" />
+<div class="flex relative">
+  <div class="weather-info pl-2 pr-4" style="width: 72%">
+    <div class="weather-info-box justify-between py-4">
+      <div>
+        <div class="flex items-center">
+          <div class="relative" style="width: 130px; height: 100px">
+            <img
+              class="absolute top-0 left-1/2 -translate-x-1/2"
+              style="width: 60px"
+              src="/assets/images/dispatch-center/weather-cloud-icon.png"
+              alt=""
+            />
+            <img
+              class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-2/3"
+              style="width: 130px"
+              src="/assets/images/dispatch-center/weather-icon-base.png"
+              alt=""
+            />
+          </div>
+          <div class="flex flex-1 pr-4 pb-4 justify-between">
+            <div class="pr-2">
+              <div class="flex items-center pb-2">
+                <div class="decoration-left level"></div>
+                <div class="text-2xl mx-[16px]">级别</div>
+                <div class="decoration-right level"></div>
+              </div>
+              <div class="value-font text-center level">
+                {{ typhoonLevel() }}
+              </div>
+            </div>
+            <div class="separator"></div>
+            <div class="pl-2">
+              <div class="flex items-center pb-2">
+                <div class="decoration-left power"></div>
+                <div class="text-2xl mx-[16px]">风力</div>
+                <div class="decoration-right power"></div>
+              </div>
+              <div class="value-font text-center power">
+                {{ typhoonPower() }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <div class="relative" style="width: 130px; height: 100px">
+            <img
+              class="absolute top-0 left-[48%] -translate-x-1/2"
+              style="width: 60px"
+              src="/assets/images/dispatch-center/weather-tendency-icon.png"
+              alt=""
+            />
+            <img
+              class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-2/3"
+              style="width: 130px"
+              src="/assets/images/dispatch-center/weather-icon-base.png"
+              alt=""
+            />
+          </div>
+          <div class="pb-4">
+            <div class="text-xl" style="min-width: 240px">{{ timeText() }}</div>
+            <div class="flex py-[6px] items-center">
+              <div class="text-lg mr-5">未来趋势：</div>
+              <div class="tendency-value">
+                <span class="text-2xl mr-4">{{ tendencyKeyword() }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="flex items-center">
+          <div class="relative" style="width: 130px; height: 100px">
+            <img
+              class="absolute top-0 left-[49%] -translate-x-1/2"
+              style="width: 42px"
+              src="/assets/images/dispatch-center/weather-location-icon.png"
+              alt=""
+            />
+            <img
+              class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-2/3"
+              style="width: 130px"
+              src="/assets/images/dispatch-center/weather-icon-base.png"
+              alt=""
+            />
+          </div>
+          <div class="flex flex-1 pr-2 pb-6 justify-between">
+            <div class="pr-2">
+              <div class="flex items-center pb-2">
+                <div class="decoration-left level"></div>
+                <div class="text-2xl mx-[16px]">台风位置参考</div>
+                <div class="decoration-right level"></div>
+              </div>
+              <div
+                class="value-font text-center level"
+                style="line-height: 1.2"
+              >
+                {{ landingLocation() }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <div class="relative" style="width: 130px; height: 100px">
+            <img
+              class="absolute top-0 left-[49%] -translate-x-1/2"
+              style="width: 42px"
+              src="/assets/images/dispatch-center/weather-time-icon.png"
+              alt=""
+            />
+            <img
+              class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-2/3"
+              style="width: 130px"
+              src="/assets/images/dispatch-center/weather-icon-base.png"
+              alt=""
+            />
+          </div>
+          <div>
+            <div class="flex flex-1 pr-2 pb-6 justify-between">
+              <div class="pr-2">
+                <div class="flex items-center pb-2">
+                  <div class="decoration-left level"></div>
+                  <div class="text-2xl mx-[16px]">预计登陆时间</div>
+                  <div class="decoration-right level"></div>
+                </div>
+                <div class="value-font text-center level">
+                  {{ landingTime() }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="weather-info pl-2 section-separator" style="width: 28%">
+    <div class="weather-info-box" style="display: block">
+      <ds-extreme-markers (onToggleDetail)="onToggleDetail.emit()" />
+    </div>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+:host {
+  display: block;
+  position: absolute;
+  top: 4.4rem;
+  right: 0;
+  z-index: 500;
+}
+
+.panel {
+  width: 23rem;
+  position: relative;
+  z-index: 2;
+  // height: 1032px;
+  height: calc(100vh - 4.2rem - 0.3rem - 1rem);
+  border-radius: 0.25rem;
+  background: rgba(5, 25, 53, 0.75);
+  padding: 0 0.05rem 0.75rem 0.125rem;
+  transition: width 0.3s ease-in-out;
+  &.collapsed {
+    width: 0px;
+    overflow: hidden;
+  }
+}
+
+.panel-toggle {
+  position: absolute;
+  left: -2rem;
+  bottom: 50%;
+  z-index: 3;
+  transform: translate(0, 50%);
+  .delta {
+    width: 0px;
+    height: 6rem;
+    border: 1rem solid transparent;
+    border-right-color: #1483fa;
+  }
+
+  .toggle-icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(1px, -50%);
+    color: rgb(194, 192, 192);
+    cursor: pointer;
+
+    &.collapsed {
+      transform: translate(1px, -50%) rotate(180deg);
+    }
+    &:active {
+      color: #fff;
+    }
+  }
+}
+
+.title {
+  background: url("/assets/images/supervisor/panel-title-bg.png") no-repeat;
+  // background-position: ;
+  background-size: 100% auto;
+  display: flex;
+  align-items: center;
+  height: 2.5625rem; // 82px
+  padding-left: 2.125rem; // 68px;
+  padding-bottom: 1rem;
+  position: relative;
+}
+
+.title-font {
+  font-family: "Fangzhengzhongyi";
+  font-weight: 400;
+  font-size: 1rem; // 40px
+  padding-right: 8px;
+  // text-shadow: 1px 1px 0px rgba(22, 22, 19, 0.27);
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 1) 80%,
+    rgba(208, 210, 170, 1) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

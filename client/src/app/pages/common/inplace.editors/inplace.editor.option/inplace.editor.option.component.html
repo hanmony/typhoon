@@ -1,0 +1,14 @@
+<app-inplace-editor-shell
+  (onSave)="save()"
+  (onEdit)="startEdit()"
+  [readonly]="readonly"
+>
+  <span normal>{{ value }}</span>
+  <nz-select modify [(ngModel)]="editingValue" class="w-32">
+    <nz-option
+      *ngFor="let option of options"
+      [nzLabel]="option"
+      [nzValue]="option"
+    ></nz-option>
+  </nz-select>
+</app-inplace-editor-shell>

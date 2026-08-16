@@ -1,0 +1,7 @@
+<svg width="440" height="110" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1">
+  <g>
+   <path stroke-miterlimit="10" stroke-width="2" stroke="#F39800" fill="#F2DF93" d="m384.29984,107.45l-328.5,0c-29.1,0 -52.7,-23.6 -52.7,-52.7l0,0c0,-29.1 23.6,-52.7 52.7,-52.7l328.4,0c29.1,0 52.7,23.6 52.7,52.7l0,0c0.1,29.1 -23.5,52.7 -52.6,52.7z"/>
+   <circle fill="#EFA715" r="52.7" cy="55.25" cx="55.79984"/>
+   <text x="-294.60016" y="-262.75" font-size="52.0964px" font-family="'PingFangSC-Medium-GBpc-EUC-H'" fill="#FFFFFF" transform="matrix(1 0 0 1 326.601 336.391)">终</text>
+  </g>
+</svg>

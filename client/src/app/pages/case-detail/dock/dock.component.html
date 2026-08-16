@@ -1,0 +1,42 @@
+<div class="cursor-pointer" (click)="backToHome()">
+  <div class="py-2">
+    <img
+      class="select-none"
+      draggable="false"
+      src="assets/images/map/dock/back-to-home.png"
+      alt=""
+      srcset=""
+    />
+  </div>
+</div>
+
+<div class="dock" draggable="false">
+  @for (tool of visibleTools; track $index) {
+    <div class="tool" [class.disabled]="tool.disabled" draggable="false">
+      <img
+        class="pt-4 pb-1 select-none cursor-pointer"
+        draggable="false"
+        [src]="tool.image"
+        alt=""
+        srcset=""
+        (click)="onToolClick(tool)"
+      />
+      <div>
+        <span class="select-none">{{ tool.name }}</span>
+      </div>
+    </div>
+  }
+</div>
+<typhoon-detail-modal
+  [typhoonMeta]="typhoonMeta"
+  [selectedTiming]="selectedTiming"
+/>
+<common-event-modal #commonEventModal />
+<dock-illustration-modal />
+<statistical-table-modal
+  [allEvents]="allEvents"
+  [selectedTiming]="selectedTiming"
+/>
+@if (data) {
+  <dock-public-opinion-information [data]="data" />
+}

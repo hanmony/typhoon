@@ -1,0 +1,52 @@
+<div class="relative inline-block group">
+  <button
+    class="x-button"
+    [style.letter-spacing]="text().length === 4 ? '0.5rem' : '0.2rem'"
+  >
+    {{ text() }}
+  </button>
+  <div
+    class="absolute invisible opacity-0 group-hover:visible group-hover:opacity-100 bottom-full left-1/2 -translate-x-1/2 mb-3 w-72 transition-all duration-300 ease-out transform group-hover:translate-y-0 translate-y-2"
+  >
+    <div
+      class="relative p-4 pr-0 bg-gradient-to-br from-blue-950/95 to-blue-900/95 backdrop-blur-md rounded-lg border border-white/10 shadow-[0_0_30px_rgba(79,70,229,0.15)]"
+      style="border: 1px solid rgba(110, 135, 197, 0.2)"
+    >
+      <div class="flex items-center gap-3 mb-2">
+        <h3 class="text-sm font-semibold text-white pl-4">{{ text() }}</h3>
+      </div>
+
+      <div
+        class="space-y-2 overflow-y-auto custom-scroll-bar pr-4"
+        style="max-height: 200px"
+      >
+        @for (lineItem of detailInfo(); track $index) {
+          <div class="flex items-center gap-2 text-sm text-gray-300">
+            <svg
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="w-4 h-4"
+              [style.color]="lineItem.isAllClose ? '#FF4500' : '#FF7F00'"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                fill-rule="evenodd"
+              ></path>
+            </svg>
+            <span>{{ lineItem.line }}</span>
+          </div>
+          @for (op of lineItem.ops; track $index) {
+            <div class="flex items-center gap-2 text-xs text-gray-400 pl-8">
+              <span>{{ getText(op) }}</span>
+            </div>
+          }
+        }
+
+        @if (!detailInfo().length) {
+          <div class="text-lg py-2 px-8 font-fangzheng">暂无</div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

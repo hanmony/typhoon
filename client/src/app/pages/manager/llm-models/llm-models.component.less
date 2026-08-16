@@ -1,0 +1,102 @@
+// — Dark mode tokens (consistent with project convention) —
+@surface-0: #09090b;
+@surface-1: #111114;
+@surface-2: #18181b;
+@surface-3: #1f1f23;
+@border-subtle: fade(#fff, 8%);
+@text-primary: fade(#fff, 90%);
+@text-secondary: fade(#fff, 55%);
+
+:host {
+  display: block;
+  padding: 24px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: @text-primary;
+  }
+}
+
+.role-tag {
+  margin-left: 8px;
+}
+
+.url-cell {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// — Drawer footer: dark mode safe —
+.drawer-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 14px 24px;
+  border-top: 1px solid @border-subtle;
+  background: @surface-1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+// — Override NG-ZORRO table for dark background —
+:host ::ng-deep {
+  .ant-table {
+    background: transparent;
+  }
+  .ant-table-thead > tr > th {
+    background: @surface-2;
+    color: @text-secondary;
+    border-bottom-color: @border-subtle;
+  }
+  .ant-table-tbody > tr > td {
+    border-bottom-color: @border-subtle;
+  }
+  .ant-table-tbody > tr:hover > td {
+    background: @surface-3;
+  }
+
+  // Drawer dark overrides
+  .ant-drawer-content {
+    background: @surface-1;
+  }
+  .ant-drawer-header {
+    background: @surface-1;
+    border-bottom-color: @border-subtle;
+  }
+  .ant-drawer-title {
+    color: @text-primary;
+  }
+  .ant-drawer-body {
+    background: @surface-1;
+  }
+  .ant-drawer-close {
+    color: @text-secondary;
+  }
+
+  // Form label dark overrides
+  .ant-form-item-label > label {
+    color: @text-secondary;
+  }
+
+  // Code tag
+  code {
+    background: @surface-2;
+    color: @text-primary;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+  }
+}

@@ -1,0 +1,68 @@
+<nz-card nzTitle="案例库列表" [nzExtra]="actions">
+  <ng-template #actions>
+    <nz-upload
+      *rolesIn="['admin', 'manager', 'editor']"
+      nzAction="/manager/import"
+      (nzChange)="handleImportStatusChange($event)"
+    >
+      <button nz-button>
+        <span nz-icon nzType="upload"></span>
+        导入新的案例库
+      </button>
+    </nz-upload>
+  </ng-template>
+
+  <nz-radio-group [(ngModel)]="caseStatus" nzButtonStyle="solid">
+    <label nz-radio-button nzValue="0">已上架</label>
+    <label nz-radio-button nzValue="1">待发布</label>
+    <label nz-radio-button nzValue="2">编辑中</label>
+  </nz-radio-group>
+  <p></p>
+  <nz-table [nzData]="(cases$ | async) ?? []" #theTable [nzLoading]="loading">
+    <thead>
+      <tr>
+        <th>案例名称</th>
+        <th>案例年份</th>
+        <th>台风生成时间</th>
+        <th>台风消散时间</th>
+        <th>案例更新时间</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of theTable.data">
+        <td>{{ item.name }}</td>
+        <td>{{ item.values | valueOf: "台风年度" | valueOf: "value" }}</td>
+        <td>
+          {{ item.values | valueOf: "台风生成时间" | valueOf: "value" }}
+        </td>
+        <td>
+          {{ item.values | valueOf: "台风消散时间" | valueOf: "value" }}
+        </td>
+        <td>{{ item.updatedAt | date: "medium" }}</td>
+        <td>
+          <div class="flex gap-2">
+            <button nz-button (click)="toFrontEndGuide(item)">大屏</button>
+            <button nz-button nzType="primary" (click)="edit(item)">
+              详情
+            </button>
+            <button
+              *ngIf="item.status != 0"
+              nz-button
+              nzDanger
+              nz-popconfirm
+              nzPopconfirmTitle="是否确定要删除此案例（该操作无法撤销）?"
+              nzPopconfirmPlacement="bottom"
+              (nzOnConfirm)="handleDeleteCase(item)"
+            >
+              删除
+            </button>
+            <button nz-button [nzLoading]="exporting" (click)="export(item)">
+              导出
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-card>

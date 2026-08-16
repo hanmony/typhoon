@@ -1,0 +1,59 @@
+@if (visible) {
+  <div #modal @horizontalInOut class="autoplay-event-pandect-modal">
+    <div class="header">
+      <span>{{ title }}</span>
+      @if (closeable) {
+        <span
+          nz-icon
+          nzType="close"
+          nzTheme="outline"
+          class="pt-1 pr-1 cursor-pointer text-[#b7c1d4] hover:text-[var(--case-primary)]"
+          (click)="close()"
+        ></span>
+      } @else {
+        <span
+          nz-icon
+          [nzType]="collapsed ? 'plus-circle' : 'minus-circle'"
+          nzTheme="outline"
+          class="pt-1 pr-1 cursor-pointer text-[#b7c1d4] hover:text-[var(--case-primary)]"
+          (click)="toggleCollapsed()"
+        ></span>
+      }
+    </div>
+    <div class="content-wrapper" [class.collapsed]="collapsed">
+      <div class="content-bg" [class.collapsed]="collapsed"></div>
+      <div class="content custom-scroll-bar" [class.collapsed]="collapsed">
+        @if (!collapsed) {
+          @for (item of formattedData; track $index) {
+            @if (category === "施工调整") {
+              <auto-construction-item [data]="item" />
+            } @else {
+              <auto-common-item
+                [data]="item"
+                (detailHandler)="handleDetail($event)"
+                (locateHandler)="handleLocate($event)"
+                (accessoryHandler)="handleViewAccessories($event)"
+              />
+            }
+          }
+        }
+      </div>
+
+      <div class="footer" [class.collapsed]="collapsed"></div>
+    </div>
+    @if (detailPanel.visible) {
+      <div @horizontalInOut class="detail-panel">
+        <common-event-detail-box
+          [title]="detailPanel.title + '详情'"
+          style="--height: 388px"
+          [closeable]="true"
+          (closeHandler)="handleCloseDetail()"
+        >
+          @if (detailPanel.ev) {
+            <common-event-detail-content [ev]="detailPanel.ev" />
+          }
+        </common-event-detail-box>
+      </div>
+    }
+  </div>
+}

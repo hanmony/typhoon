@@ -1,0 +1,44 @@
+.title-font {
+  text-shadow: 0px 2px 8px rgba(5, 28, 55, 0.12);
+  font-style: italic;
+  padding-right: 4px;
+  background: linear-gradient(
+    180deg,
+    rgba(14, 197, 236, 0.96) 0%,
+    rgba(49, 190, 255, 0.96) 0%,
+    rgba(239, 252, 254, 0.96) 58.7646484375%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-family: "FangZhengZhongyi";
+  font-size: 20px;
+}
+.item {
+  display: inline-block;
+  height: 34px;
+  line-height: 34px;
+}
+.active {
+  position: relative;
+  &:before {
+    content: "";
+    position: absolute;
+    top: -5%;
+    left: -25%;
+    width: 150px;
+    height: 110%;
+    background-image: url(/assets/images/map/label-bg.png);
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    background-position: center;
+    opacity: 0.75;
+  }
+}
+
+.empty-font {
+  text-shadow: 0px 2px 8px rgba(5, 28, 55, 0.12);
+  color: rgba(239, 252, 254, 0.66);
+  font-family: "FangZhengZhongyi";
+  font-size: 24px;
+}

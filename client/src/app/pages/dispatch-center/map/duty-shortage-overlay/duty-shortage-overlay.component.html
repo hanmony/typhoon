@@ -1,0 +1,28 @@
+@if (visible() && isRemote()) {
+  <div class="flex justify-center">
+    <div @verticalInOut class="total-shortage">
+      <span>物资紧缺：</span>
+      <span class="number">3</span>
+    </div>
+  </div>
+  <div @verticalInOut class="shortage-cards">
+    @for (item of shortageCards; track $index) {
+      <div class="shortage-card">
+        <div class="pr-4">
+          <img
+            src="/assets/images/dispatch-center/map/duty-overlay-icon.png"
+            alt=""
+            srcset=""
+          />
+        </div>
+        <div>
+          <div class="label">物资紧缺</div>
+          <div>
+            <span class="position">{{ item.position }}</span>
+            <span class="subfix mx-1">值守点</span>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+}

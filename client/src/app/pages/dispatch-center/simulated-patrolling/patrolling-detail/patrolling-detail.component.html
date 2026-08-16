@@ -1,0 +1,40 @@
+<div
+  class="page-wrapper absolute w-full top-0 left-0 flex justify-between items-center"
+  [class.isSupervisor]="isSupervisor()"
+>
+  <div>
+    <extreme-select
+      [class.is-supervisor]="isSupervisor()"
+      [isSupervisor]="isSupervisor()"
+      [value]="line"
+      [options]="lineOptions()"
+      (onChange)="onLineChange($event)"
+    ></extreme-select>
+    @if (hasValidTour()) {
+      <div class="patrolling-tag animate-pulse ml-4">巡</div>
+    }
+  </div>
+  <div>
+    <span class="backward" (click)="onClose.emit()">
+      <span>返回</span>
+      <span>
+        <img
+          [width]="isSupervisor() ? 32 : 36"
+          class="inline-block ml-2"
+          src="/assets/images/simulated-patrolling/backward.png"
+          alt=""
+          srcset=""
+        />
+      </span>
+    </span>
+  </div>
+</div>
+<div class="diagram-wrapper w-full" [class.isSupervisor]="isSupervisor()">
+  <div
+    class="w-full diagram-dom"
+    [class.isSupervisor]="isSupervisor()"
+    #diagram
+  ></div>
+</div>
+
+<!-- <div style="height: 500px; background-color: rgb(124, 164, 199)"></div> -->

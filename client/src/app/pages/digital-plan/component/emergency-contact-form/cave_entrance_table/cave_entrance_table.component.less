@@ -1,0 +1,168 @@
+.cave-entrance-table {
+  width: 100%;
+  column-count: 2;
+  column-gap: 18px;
+  column-fill: balance;
+  padding: 20px;
+  margin: 0;
+  box-sizing: border-box;
+
+  .line-section {
+    break-inside: avoid;
+    margin-bottom: 8px;
+    background-image: url("/assets/images/digital-plan/caveEntranceTableBg.png");
+    background-size: 100% 96%;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 16px;
+    box-sizing: border-box;
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    overflow: hidden;
+    &:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+      z-index: 10;
+    }
+
+    .line-icon {
+      width: 80px;
+      height: 40px;
+      position: absolute;
+      left: 5px;
+      top: 0px;
+      z-index: 1000;
+    }
+
+    .line-section-content {
+      overflow: hidden;
+      border-radius: 10px;
+    }
+
+    .line-table {
+      width: 100%;
+      margin-top: 20px;
+
+      .table-header {
+        font-family: FZZongYi-M05S;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: bold;
+        font-weight: 400;
+        font-size: 18px;
+        color: #00f4ff;
+        line-height: 20px;
+        margin-bottom: 8px;
+
+        .header-cell {
+          padding: 8px 8px;
+          text-align: center;
+          &:nth-child(1) {
+            flex: 0 0 16%;
+          }
+          &:nth-child(2) {
+            flex: 0 0 14%;
+          }
+          &:nth-child(3) {
+            flex: 0 0 6%;
+          }
+          &:nth-child(4),
+          &:nth-child(5) {
+            flex: 0 0 27%;
+          }
+          &:last-child {
+            border-right: none;
+          }
+        }
+      }
+
+      .table-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: PingFang SC;
+        font-weight: 400;
+        font-size: 14px;
+        color: #ecf4ff;
+        background-color: #00f4ff14;
+        border-radius: 10px;
+        margin-bottom: 6px;
+        transition: background-color 0.3s ease;
+
+        &:nth-child(even) {
+          background-color: rgba(0, 0, 0, 0.205);
+        }
+
+        .table-cell {
+          padding: 8px 8px;
+          text-align: center;
+          word-break: break-word;
+
+          &:nth-child(1) {
+            flex: 0 0 16%;
+          }
+          &:nth-child(2) {
+            flex: 0 0 14%;
+          }
+          &:nth-child(3) {
+            flex: 0 0 6%;
+          }
+          &:nth-child(4),
+          &:nth-child(5) {
+            flex: 0 0 27%;
+          }
+          &:last-child {
+            border-right: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #00f4ff 0%, #008c9e 100%);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #008c9e;
+}
+
+/* 加载动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.line-section {
+  animation: fadeIn 0.5s ease-out forwards;
+  animation-delay: calc(var(--order) * 0.05s);
+  opacity: 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .cave-entrance-table {
+    column-count: 1;
+  }
+}

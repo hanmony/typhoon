@@ -1,0 +1,219 @@
+.fixed-header-font {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.header-font {
+  font-weight: 400;
+  font-size: 34px;
+  text-shadow: 0px 2px 8px rgba(5, 28, 55, 0.12);
+  background: linear-gradient(
+    0deg,
+    rgba(49, 190, 255, 0.96) 0%,
+    rgba(239, 252, 254, 0.96) 45%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-family: "FangZhengZhongyi";
+  line-height: 34px;
+}
+
+.video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+
+  .video-core {
+    display: block;
+    // width: 1920px;
+    // height: 1080px;
+    width: 100vw;
+    height: 100vh;
+    object-fit: fill;
+    margin: 0 auto;
+  }
+  // clip: rect(0px, 200px, 200px, 0px);
+}
+.card-wrapper {
+  display: inline-block;
+  width: 20%; // 453px will reset
+  height: 325px; // 555px
+  text-align: center;
+
+  // margin-right: 48px;
+  // &:last-child {
+  //   margin-right: 0;
+  // }
+
+  transition: all 0.2s ease-in-out;
+
+  &.interact {
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.02);
+
+      .card-image {
+        img {
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+}
+
+.screen-panel {
+  background-image: url("/assets/images/portal/screen-panel.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  box-sizing: content-box;
+}
+
+.card {
+  display: inline-block;
+  width: 265px; // 453px
+  height: 325px; // 555px
+  background-image: url("/assets/images/portal/card-bg.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  top: 0;
+}
+
+.card-round {
+  width: 68%;
+  height: 57.6%;
+  // height: 232px;
+  background-image: url("/assets/images/portal/card-round.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  margin-left: -34%;
+  z-index: -1;
+}
+
+.card-image {
+  text-align: center;
+  padding-top: 14%;
+  min-height: 63%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  > img {
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+// .curved-image {
+//   transform: perspective(500px) rotateY(20deg);
+//   transform-origin: center;
+// }
+.card-empty-font {
+  text-align: center;
+  font-family: "fangzhengzhongyi";
+  font-size: 27px;
+  // line-height: 34px;
+  color: #00edf5;
+}
+
+.card-title {
+  text-align: center;
+  font-family: "fangzhengzhongyi";
+  font-size: 27px;
+  line-height: 34px;
+
+  background-image: url("/assets/images/portal/card-font-bg.png");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+
+  padding-bottom: 15%;
+}
+
+.card-add-info {
+  text-align: center;
+  // font-family: "fangzhengzhongyi";
+  font-size: 12px;
+  line-height: 22px;
+  color: #ffffff43;
+  position: relative;
+  top: -8%;
+}
+
+.arrow {
+  width: 75px;
+  height: 75px;
+  position: absolute;
+  top: 39%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: all;
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  > img {
+    width: 100%;
+    height: 100%;
+  }
+  &:hover {
+    opacity: 0.8;
+  }
+  &:active {
+    opacity: 0.75;
+  }
+}
+.left-arrow {
+  left: 3%;
+}
+.right-arrow {
+  right: 3%;
+}
+
+.lamp-dots {
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .lamp-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ffffff80;
+    margin-right: 8px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &.active {
+      background: linear-gradient(to bottom, #e8e073, #e99f50);
+    }
+  }
+}
+
+.ring-alert {
+  position: absolute;
+  right: 120px;
+  top: 120px;
+}

@@ -1,0 +1,77 @@
+<dispatch-module-header title="线网事件" />
+<div class="flex">
+  <div class="pl-4" style="width: 280px">
+    <div class="pl-2">
+      <div class="tabs">
+        @for (tab of tabs; track tab) {
+          <div
+            class="tab-item"
+            [class.active]="activeTab === tab"
+            (click)="onTabItemClick(tab)"
+          >
+            {{ tab }}
+          </div>
+        }
+      </div>
+    </div>
+    <div class="base-bg" style="width: 280px; height: 240px">
+      <div #chart class="w-full h-full"></div>
+    </div>
+  </div>
+  <div class="flex-1">
+    <div class="flex w-full justify-end pt-4">
+      <div class="text-center">
+        <div class="total-number-bg">
+          <div class="relative">
+            <span
+              class="total-number cursor-pointer"
+              dispatchCenterEventListPopup
+              [data]="todayFinished"
+              [titleText]="'今日完成抢修'"
+              (locating)="locateEvent.emit($event)"
+              >{{ todayFinished.length }}</span
+            >
+          </div>
+        </div>
+        <div class="total-label">今日完成抢修</div>
+      </div>
+    </div>
+
+    <div class="flex w-full justify-end pt-10">
+      <div class="w-full pl-4">
+        <div class="legend-item" style="--dot-color: #58e8fc">
+          <div class="relative flex-1 text-left">
+            <span
+              dispatchCenterEventListPopup
+              [data]="data.pending"
+              [titleText]="activeTab + ' - 等待抢修'"
+              (locating)="locateEvent.emit($event)"
+              class="cursor-pointer hover:underline"
+              >等待抢修</span
+            >
+          </div>
+          <div>
+            <span>{{ data.pending.length }}</span>
+            <span class="ml-1">起</span>
+          </div>
+        </div>
+        <div class="legend-item" style="--dot-color: #efd564">
+          <div class="relative flex-1 text-left">
+            <span
+              dispatchCenterEventListPopup
+              [data]="data.repairing"
+              [titleText]="activeTab + ' - 抢修中'"
+              class="cursor-pointer hover:underline"
+              (locating)="locateEvent.emit($event)"
+              >抢修中</span
+            >
+          </div>
+          <div>
+            <span>{{ data.repairing.length }}</span>
+            <span class="ml-1">起</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

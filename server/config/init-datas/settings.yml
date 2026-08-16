@@ -1,0 +1,6 @@
+- group: "系统切换"
+  items:
+      - name: "typhoon-command"
+        label: "是否开启（0,1）"
+        description: "智控调度系统配置"
+        value: 0

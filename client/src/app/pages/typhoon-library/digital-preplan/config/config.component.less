@@ -1,0 +1,44 @@
+.headline {
+  color: #3196fa;
+  font-size: 24px;
+  padding: 24px 80px;
+  margin-bottom: 0;
+  position: relative;
+  img {
+    position: relative;
+    top: -2px;
+  }
+  .duration-tabs {
+    position: absolute;
+    right: 80px;
+    top: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.43);
+    height: 40px;
+    span {
+      font-size: 14px;
+      color: #ffffff;
+      padding: 0 12px;
+      line-height: 35px;
+      display: inline-block;
+      border-bottom: 3px solid transparent;
+      vertical-align: top;
+      cursor: pointer;
+      &:hover {
+        color: #05dfe9;
+        // border-bottom: 3px solid #05dfe9;
+      }
+      &.active {
+        color: #05dfe9;
+        border-bottom: 3px solid #05dfe9;
+      }
+    }
+  }
+}
+
+.config-image {
+  padding: 0 96px 96px;
+  height: calc(100vh - 300px);
+  img {
+    width: 100%;
+  }
+}

@@ -1,0 +1,36 @@
+<div class="header">
+  <div>
+    <label
+      class="checkbox"
+      [class.checked]="isAllChecked"
+      (click)="toggleAll()"
+    >
+      @if (isAllChecked) {
+        <span class="icon" nz-icon nzType="check" nzTheme="outline"></span>
+      }
+    </label>
+  </div>
+  <div
+    class="label fangzheng-blue-white"
+    [class.checked]="isAllChecked"
+    (click)="toggleAll()"
+  >
+    {{ category.title }}
+  </div>
+</div>
+<div class="flex pl-4">
+  <div>
+    @for (op of category.model; track $index) {
+      <div
+        class="option-item"
+        [class]="{
+          checked: op.checked,
+          disabled: op.disabled,
+        }"
+        (click)="toggleItem(op)"
+      >
+        {{ op.label }}
+      </div>
+    }
+  </div>
+</div>

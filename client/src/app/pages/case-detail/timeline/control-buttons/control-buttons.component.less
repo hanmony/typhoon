@@ -1,0 +1,127 @@
+.control-button {
+  display: inline-block;
+  height: 33px;
+  line-height: 31px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 14px;
+  span {
+    color: #73cff2;
+  }
+  &:hover {
+    &:not(.disabled) {
+      span {
+        color: #ffffff;
+        text-shadow: 0px 3px 4px rgba(10, 68, 134, 0.67);
+        background: linear-gradient(0deg, #7ed7fb 0%, #ffffff 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+  }
+  &:active {
+    &:not(.disabled) {
+      opacity: 0.75;
+    }
+  }
+  &.disabled {
+    cursor: not-allowed;
+    filter: grayscale(100%);
+  }
+}
+
+.previous-event-button {
+  width: 107px;
+  background-image: url(/assets/images/map/timeline/control-buttons/previous-event-button.png);
+  &:hover {
+    &:not(.disabled) {
+      background-image: url(/assets/images/map/timeline/control-buttons/previous-event-hover-button.png);
+    }
+  }
+}
+.rectangle-button {
+  width: 94px;
+  background-image: url(/assets/images/map/timeline/control-buttons/auto-play-button.png);
+  &:hover {
+    &:not(.disabled) {
+      background-image: url(/assets/images/map/timeline/control-buttons/auto-play-hover-button.png);
+    }
+  }
+}
+.next-event-button {
+  width: 107px;
+  background-image: url(/assets/images/map/timeline/control-buttons/next-event-button.png);
+  &:hover {
+    &:not(.disabled) {
+      background-image: url(/assets/images/map/timeline/control-buttons/next-event-hover-button.png);
+    }
+  }
+}
+.short-button {
+  width: 62px;
+  background-image: url(/assets/images/map/timeline/control-buttons/short-button.png);
+  // &:hover {
+  //   &:not(.disabled) {
+  //     background-image: url(/assets/images/map/timeline/control-buttons/short-hover-button.png);
+  //   }
+  // }
+  &:not(:last-child) {
+    @apply 2xl:mr-3 mr-1;
+  }
+}
+
+.rate-button-group {
+  display: inline-flex;
+  height: 33px;
+  align-items: center;
+  margin: 0 auto 12px auto;
+}
+.rate-button {
+  display: flex;
+  width: 28px;
+  height: 28px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  border: 1px solid var(--case-primary);
+  margin-right: 8px;
+  cursor: pointer;
+  background-position: center center;
+  opacity: 0.8;
+  &.disabled {
+    cursor: pointer !important;
+    &:hover {
+      background-image: url(/assets/images/map/timeline/control-buttons/short-hover-button.png) !important;
+    }
+  }
+}
+
+.radio-button {
+  display: inline-block;
+  position: relative;
+  height: 33px;
+  line-height: 31px;
+  text-align: center;
+  font-size: 14px;
+  width: 94px;
+  background-image: url(/assets/images/map/timeline/control-buttons/auto-play-button.png);
+  filter: grayscale(100%);
+  &:hover,
+  &.active {
+    filter: none;
+    cursor: pointer;
+  }
+  &.forbidden {
+    &:hover {
+      filter: grayscale(100%);
+      &.active {
+        filter: none;
+      }
+    }
+    cursor: not-allowed;
+  }
+  span {
+    color: #73cff2;
+  }
+}

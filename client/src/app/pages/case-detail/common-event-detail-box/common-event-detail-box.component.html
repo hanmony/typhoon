@@ -1,0 +1,19 @@
+<div class="header">
+  <span>{{ title }}</span>
+  @if (closeable) {
+    <span
+      nz-icon
+      nzType="close"
+      nzTheme="outline"
+      class="pt-1 pr-1 cursor-pointer text-[#b7c1d4] hover:text-[var(--case-primary)]"
+      (click)="close()"
+    ></span>
+  }
+</div>
+<div class="content-wrapper">
+  <div class="content-bg"></div>
+  <div class="content custom-scroll-bar">
+    <ng-content></ng-content>
+  </div>
+  <div class="footer"></div>
+</div>
