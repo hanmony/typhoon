@@ -365,7 +365,7 @@ export class TyphoonService {
         // 获取台风列表
         const res: any = await this.sendRaw("/typhoon-info/list", {
             active: 0,
-            year: new Date().getFullYear() || year,
+            year: year || new Date().getFullYear(),
         });
 
         if (!res || !res.storm || !Array.isArray(res.storm)) {

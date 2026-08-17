@@ -32,13 +32,29 @@
 
 ### 步骤 4：建立 git 工作流与工作日志
 - **新增文件**：`.gitignore`（排除本地配置/密钥/构建产物）、`WORKLOG.md`（本文件）
-- **提交并推送**：GitHub `hanmony/typhoon`（走本机代理 127.0.0.1:7892）
+- **提交并推送**：GitHub `hanmony/typhoon`（走本机代理 127.0.0.1:7892，代理未启动时提交保留在本地）
+
+### 步骤 5：M1-1 实现 `get_typhoon_history` 工具（占位桩补全）
+- **修复 bug**：`server/src/typhoon/service/typhoon.service.ts:368` —— `getHistory(year)` 原来永远用当前年份（`new Date().getFullYear() || year`），改为 `year || new Date().getFullYear()`，同时修复了 `GET /typhoon/history?year` 生产接口
+- **重写**：`server/src/agent/tools/get-typhoon-history.tool.ts`
+  - 注入 `TyphoonService`（`TyphoonModule` 已在 agent.module.ts 导入，无需改模块）
+  - schema 按计划：`year`（必填，number）+ `tfid`（可选，string）
+  - 结果摘要化：台风列表返回 tfid/名称/起止时间/登陆点列表/峰值风力气压；tfid 模式额外返回路径摘要（首末点 + 均匀采样 ≤8 个中间点，注明"详细路径可在大屏查看"）
+  - 无数据返回明确文案（"XX 年无历史台风记录"），失败走 try-catch 兜底
+- **更新**：`server/src/agent/prompt/agent.prompt.ts` 第 4 条工具说明（参数改为 year 必填 + tfid 可选）
+- **验证**：dev 环境无 node_modules → `npm install` → `npm run build` ✅ 编译通过（`dist/agent/tools/get-typhoon-history.tool.js` 已生成）
+- **提交**：见 git 历史（feat(agent): 实现 get_typhoon_history 工具并编写任务规划 README，含步骤 6 的 README 产出）；推送失败——7892 代理未运行，待代理启动后重推
+
+### 步骤 6：编写 README 任务规划总纲
+- **产出**：根目录 `README.md` —— 智能体建设项目任务规划：工作方式约定、关键文档索引、开发环境速查、步骤 1–20 详细任务（每步含数据源/schema/改动文件/验收标准/预估工作量）、每步标准收尾动作、风险与依赖
+- **使用方式**：用户按步骤编号发指令（如"开始步骤 2"），每步只做该步骤
+- **当前状态**：步骤 1 已完成；步骤 2–20 待用户按编号发指令
 
 ---
 
 ## 待办（下一步）
 
-- [ ] M1：补全 5 个指挥工具——实现 `get_typhoon_history` + 新增值班/消息/预警历史/巡道 4 个工具 + prompt/前端映射
+- [ ] M1：补全 5 个指挥工具——✅ `get_typhoon_history` 已实现；待新增值班/消息/预警历史/巡道 4 个工具 + prompt/前端映射
 - [ ] M2：服务端会话持久化（`ChatSessionEntity` + 会话 CRUD + `sessionId` 可选兼容）
 - [ ] M3：研判最小链路——相似历史案例结构化匹配 + `alert-analyzer` 模块编排
 - [ ] M4：线路空间研判——迁移 `metro.2026.data` 到后端 + turf 风圈×线路相交计算
