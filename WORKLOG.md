@@ -122,6 +122,17 @@
 - **下一步**：文献 PDF 清洗（等用户确认）；清洗后 JSON 按仓库 caseman 结构导入 MongoDB
 - **提交**：见 git 历史
 
+### 步骤 12：制定数据导入详细计划写入 README（阶段〇 D0–D8）
+- **目的**：用户要求把"接下来要做的事"（案例导入 MongoDB、文献清洗、文献切片、向量化入库）制定成详细步骤写入 README，零基础可跟做，且不修改核心业务代码
+- **前期探查（本步骤完成）**：
+  - 文献盘点：`文献/` 目录 **26 篇学术论文 PDF**（台风路径预报/地铁洪水韧性/列车侧风稳定性等）；散落在资料夹的**官方文档 PDF 约 27 份**（防汛汇编预案 6/规定 2/通知 6/工作指令 7、台风案例基础数据 4、轩岚诺/梅花防御通知 2，跨目录重名需按文件名+大小去重）
+  - 敏感文件排除：`领导身份证.pdf`、值班表、联系方式/联络表类——不进库不进 git
+  - 无关文件排除：开题报告/答辩 pptx、会议纪要、`.idea/`、数据清单 txt（留作人工核对）
+  - 平台对齐（读了 4 个核心文件）：Qdrant 集合 `knowledge_base`（维度 1024、Cosine，payload 字段 content/documentId/documentName/chunkIndex/category 对齐 `qdrant.service.ts` 的 search 返回）；MongoDB `kb-documents`/`kb-chunks` 结构照抄 `kb-document.schema.ts`/`kb-chunk.schema.ts`；切片参数照抄 `chunk.service.ts` 的 `CATEGORY_CHUNK_PRESETS`（typhoon_case 800/80、regulation 500/50、emergency_plan 600/60、other 500/50）；文档分类只用平台已有 4 类（typhoon_case/regulation/emergency_plan/other），不新增分类（避免改核心代码）
+  - Embedding 配置：`server/.env` 的 `EMBEDDING_MODEL/BASE_URL/API_KEY`，维度须与 `EMBEDDING_DIMENSION=1024` 一致
+- **改动文件**：`README.md`（新增「阶段〇：数据导入」章节：D0–D8 步骤表 + 概念小课堂 + 前置条件 + 每步做法/改动文件/验收标准/预估工作量）
+- **提交**：见 git 历史
+
 ---
 
 ## 待办（下一步）
