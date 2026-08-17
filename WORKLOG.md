@@ -79,11 +79,22 @@
 - **验证**：`npm run build` ✅ 编译通过（`dist/agent/tools/get-severe-weather-history.tool.js` 已生成）
 - **提交**：见 git 历史
 
+### 步骤 10：M1-5 新增 `get_patrolling_tours` 巡道记录工具（README 步骤 5）
+- **数据源**：`TyphoonPatrollingService.getTours()`（当前指挥巡道记录；无指挥时该方法抛"当前指挥已结束"，工具内捕获转为明确文案）
+- **改动文件**：
+  - 新建 `server/src/agent/tools/get-patrolling-tours.tool.ts`：schema 无必填参数（可选 `line` 按线路过滤，精确匹配失败后模糊匹配）；按线路分组返回区段/开始时间/速度，上限 10 条；线路不存在时列出有记录的线路
+  - `server/src/typhoon/typhoon.module.ts`：exports 补上 `TyphoonPatrollingService`
+  - `server/src/agent/agent.module.ts`：注册第 8 个工具（"All 8 agent tools registered"）
+  - `server/src/agent/prompt/agent.prompt.ts`：新增第 8 条工具说明
+- **数据说明**：巡道 DTO 实际只有 `startTime` 无 `endTime`（计划文档"起止时间"以实际数据为准，返回开始时间）
+- **验证**：`npm run build` ✅ 编译通过（`dist/agent/tools/get-patrolling-tours.tool.js` 已生成）
+- **提交**：见 git 历史
+
 ---
 
 ## 待办（下一步）
 
-- [ ] M1：补全 5 个指挥工具——✅ `get_typhoon_history`、✅ `get_duty_info`、✅ `get_messages`、✅ `get_severe_weather_history` 已实现；待新增巡道 1 个工具 + prompt/前端映射（README 步骤 5、6）
+- [ ] M1：补全 5 个指挥工具——✅ 全部 5 个已实现（历史台风/值班/消息/预警历史/巡道）；待 README 步骤 6 集成收尾：prompt 统一检查 + 前端 `TOOL_DISPLAY_NAMES` 映射 + 前端构建验证 + 评估
 - [ ] M2：服务端会话持久化（`ChatSessionEntity` + 会话 CRUD + `sessionId` 可选兼容）
 - [ ] M3：研判最小链路——相似历史案例结构化匹配 + `alert-analyzer` 模块编排
 - [ ] M4：线路空间研判——迁移 `metro.2026.data` 到后端 + turf 风圈×线路相交计算

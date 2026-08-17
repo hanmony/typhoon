@@ -30,6 +30,7 @@ import { TyphoonCommandDetailService } from "./service/typhoon.command.detail.se
         TyphoonExtremeOperationService,
         TyphoonDutyService,
         TyphoonExtremeMessageService,
+        TyphoonPatrollingService,
     ],
     providers: [
         TyphoonService,
