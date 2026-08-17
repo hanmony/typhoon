@@ -90,11 +90,22 @@
 - **验证**：`npm run build` ✅ 编译通过（`dist/agent/tools/get-patrolling-tours.tool.js` 已生成）
 - **提交**：见 git 历史
 
+### 步骤 11：M1 集成收尾（README 步骤 6）
+- **prompt 一致性检查**：`agent.prompt.ts` 8 条工具说明逐一与各 tool schema 比对（参数名/必填性/默认值），✅ 一致，无需修改
+- **前端工具中文名**：`client/src/app/common.component/chat-panel/chat-panel.component.ts` 的 `TOOL_DISPLAY_NAMES` 增加 4 个新工具映射（值班信息/指挥消息/预警历史/巡道记录），共 8 个
+- **编译验证**：
+  - 后端 `npm run build` ✅ 通过（SERVER BUILD OK）
+  - 前端 `npm run build` ✅ 通过（CLIENT BUILD OK；initial bundle 超预算 111.79 kB 为既有警告，非本次改动引入）
+- **回归测试（20 条问题集）**：产出 `server/docs/AGENT_EVAL_SET.md`（A 工具正确性 8 条 / B 数据真实性 4 条 / C 指挥上下文 3 条 / D 回归 5 条，对应验收标准第 1–3、6 条）
+  - ⚠️ 本机 MongoDB(27017)/Qdrant(6333) 未运行，且无活跃指挥数据，**实机执行推迟到部署环境**（或本地启动数据库后）；测试集已作为文档交付，含执行前提、逐条期望行为、通过标准与记录表模板
+- **改动文件**：`client/.../chat-panel.component.ts`（TOOL_DISPLAY_NAMES）、新增 `server/docs/AGENT_EVAL_SET.md`
+- **提交**：见 git 历史
+
 ---
 
 ## 待办（下一步）
 
-- [ ] M1：补全 5 个指挥工具——✅ 全部 5 个已实现（历史台风/值班/消息/预警历史/巡道）；待 README 步骤 6 集成收尾：prompt 统一检查 + 前端 `TOOL_DISPLAY_NAMES` 映射 + 前端构建验证 + 评估
+- [x] M1：补全 5 个指挥工具——✅ 全部完成（历史台风/值班/消息/预警历史/巡道）；步骤 6 集成收尾 ✅（prompt 检查/前端映射/前后端构建通过）；20 条回归测试集已交付 `server/docs/AGENT_EVAL_SET.md`，实机执行待部署环境（本机无 MongoDB/Qdrant）
 - [ ] M2：服务端会话持久化（`ChatSessionEntity` + 会话 CRUD + `sessionId` 可选兼容）
 - [ ] M3：研判最小链路——相似历史案例结构化匹配 + `alert-analyzer` 模块编排
 - [ ] M4：线路空间研判——迁移 `metro.2026.data` 到后端 + turf 风圈×线路相交计算

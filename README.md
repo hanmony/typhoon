@@ -55,7 +55,7 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
 | 步骤 3 | 新增 `get_messages` 指挥消息工具 | ✅ 完成（2026-08-17） |
 | 步骤 4 | 新增 `get_severe_weather_history` 预警历史工具 | ✅ 完成（2026-08-17） |
 | 步骤 5 | 新增 `get_patrolling_tours` 巡道记录工具 | ✅ 完成（2026-08-17） |
-| 步骤 6 | M1 集成收尾：prompt 统一检查 + 前端 `TOOL_DISPLAY_NAMES` 映射 + 构建验证 + 评估 | ⬜ 待做 |
+| 步骤 6 | M1 集成收尾：prompt 统一检查 + 前端 `TOOL_DISPLAY_NAMES` 映射 + 构建验证 + 评估 | ✅ 完成（2026-08-17） |
 
 #### 步骤 1：实现 `get_typhoon_history` 工具 ✅
 - **内容**：注入 `TyphoonService.getHistory(year)`；schema 改为 `year`（必填）+ `tfid`（可选）；结果摘要化（首末点/峰值风力气压/登陆点列表/采样路径概览）；无数据返回明确文案。
