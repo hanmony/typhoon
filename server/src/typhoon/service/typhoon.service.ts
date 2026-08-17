@@ -1,6 +1,9 @@
 import { HttpService } from "@nestjs/axios";
 import { Injectable, Logger } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { catchError, lastValueFrom, map, of } from "rxjs";
+import * as fs from "fs";
+import * as path from "path";
 import { RepoService } from "src/database/service/repo/repo.service";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { TyphoonCommandService } from "./typhoon.command.service";
@@ -18,19 +21,12 @@ export class TyphoonService {
         private readonly repo: RepoService,
         private readonly http: HttpService,
         private readonly typhoonCommand: TyphoonCommandService,
+        private readonly config: ConfigService,
     ) {}
 
-    protected readonly apiHost: string = "https://eolink.o.apispace.com";
-
-    protected readonly apiToken: string = "KK58WTUG3Y";
-
-    protected readonly YourPrivateKey = `-----BEGIN PRIVATE KEY-----
-    MC4CAQAwBQYDK2VwBCIEIEIVD0OVFpZ4mULsCiWmVNP6D0vghDv6LG7suEy/YV6M
-    -----END PRIVATE KEY-----`;
-
-    protected readonly YOUR_KEY_ID = "KNB287JR8B";
-
-    protected readonly YOUR_PROJECT_ID = "2D88FF95CK";
+    protected get apiHost(): string {
+        return this.config.get<string>("TYPHOON_API_HOST") || "https://eolink.o.apispace.com";
+    }
 
     protected historySaving = false;
 
@@ -50,17 +46,26 @@ export class TyphoonService {
         }
 
         try {
-            const privateKey = await importPKCS8(this.YourPrivateKey, "EdDSA");
+            const keyId = this.config.get<string>("QWEATHER_KEY_ID");
+            const projectId = this.config.get<string>("QWEATHER_PROJECT_ID");
+            const privateKeyPath = this.config.get<string>("QWEATHER_PRIVATE_KEY_PATH");
+            Failed.check(keyId, "未配置 QWEATHER_KEY_ID");
+            Failed.check(projectId, "未配置 QWEATHER_PROJECT_ID");
+            Failed.check(privateKeyPath, "未配置 QWEATHER_PRIVATE_KEY_PATH");
+
+            const resolvedPrivateKeyPath = path.resolve(process.cwd(), privateKeyPath);
+            const privateKeyPem = fs.readFileSync(resolvedPrivateKeyPath, "utf8");
+            const privateKey = await importPKCS8(privateKeyPem, "EdDSA");
             const iat = now - 30;
             const exp = iat + 900;
             const customPayload = {
-                sub: this.YOUR_PROJECT_ID,
+                sub: projectId,
                 iat: iat,
                 exp: exp,
             };
 
             this.JWT_TOKEN = await new SignJWT(customPayload)
-                .setProtectedHeader({ alg: "EdDSA", kid: this.YOUR_KEY_ID })
+                .setProtectedHeader({ alg: "EdDSA", kid: keyId })
                 .sign(privateKey);
 
             this.jwtExpireTime = exp;
@@ -96,7 +101,7 @@ export class TyphoonService {
 
         const activeStorms = res.result.typhons;
 
-        if (activeStorms.length >= 0) {
+        if (activeStorms.length > 0) {
             //使用 Promise.allSettled 替代 Promise.all，避免单个失败影响整体
             const stormTrackResults = await Promise.allSettled(
                 activeStorms.map(async storm => {
@@ -110,25 +115,40 @@ export class TyphoonService {
             for (let i = 0; i < stormTrackResults.length; i++) {
                 const trackResult = stormTrackResults[i];
                 const activeStorm = activeStorms[i];
+                const dto = new TyphoonTwoDto();
                 if (trackResult.status === "fulfilled") {
-                    const storm = trackResult.value.result;
-                    const dto = new TyphoonTwoDto();
-                    dto.tfid = storm.tfid;
-                    dto.name = storm.name;
-                    dto.name_en = storm.name_en;
-                    dto.starttime = storm.starttime;
-                    dto.endtime = storm.endtime;
-                    dto.is_active = activeStorm.is_active;
-                    dto.tracks = storm.tracks;
-                    dto.forecasts = storm.forecasts.cn;
-                    dto.lands = storm.lands;
-                    data.push(dto);
+                    const response = trackResult.value as any;
+                    const storm = response?.result ?? response;
+                    dto.tfid = storm?.tfid ?? activeStorm.tfid;
+                    dto.name = storm?.name ?? activeStorm.name ?? "";
+                    dto.name_en = storm?.name_en ?? activeStorm.name_en ?? "";
+                    dto.starttime = storm?.starttime ?? activeStorm.starttime ?? "";
+                    dto.endtime = storm?.endtime ?? activeStorm.endtime ?? "";
+                    dto.is_active = activeStorm.is_active ?? storm?.is_active ?? "1";
+                    dto.tracks = Array.isArray(storm?.tracks) ? storm.tracks : [];
+                    dto.forecasts = Array.isArray(storm?.forecasts)
+                        ? storm.forecasts
+                        : Array.isArray(storm?.forecasts?.cn)
+                          ? storm.forecasts.cn
+                          : [];
+                    dto.lands = Array.isArray(storm?.lands) ? storm.lands : [];
+                } else {
+                    logger.warn(`活跃台风 ${activeStorm.tfid} 详情查询失败，仅返回列表摘要`);
+                    dto.tfid = activeStorm.tfid;
+                    dto.name = activeStorm.name ?? "";
+                    dto.name_en = activeStorm.name_en ?? "";
+                    dto.starttime = activeStorm.starttime ?? "";
+                    dto.endtime = activeStorm.endtime ?? "";
+                    dto.is_active = activeStorm.is_active ?? "1";
                 }
+                data.push(dto);
             }
 
-            data.forEach(async item => {
-                await this.update(item);
-            });
+            const saveResults = await Promise.allSettled(data.map(item => this.update(item)));
+            const failedSaves = saveResults.filter(result => result.status === "rejected").length;
+            if (failedSaves > 0) {
+                logger.warn(`${failedSaves} 条活跃台风缓存写入失败，不影响本次查询结果`);
+            }
         }
 
         this.currentData = data;
@@ -368,17 +388,17 @@ export class TyphoonService {
             year: year || new Date().getFullYear(),
         });
 
-        if (!res || !res.storm || !Array.isArray(res.storm)) {
+        if (!res?.result || !Array.isArray(res.result.typhons)) {
             Failed.throw("返回结构错误");
         }
 
-        const histotyStorms = res.result.typhons;
+        const historyStorms = res.result.typhons;
         const data: TyphoonTwoDto[] = [];
-        if (histotyStorms.length > 0) {
+        if (historyStorms.length > 0) {
             // const tfidList = res.filter(item => item.name !== "未命名").map(item => item.tfid);
             // 使用 Promise.all 处理所有 tfid 的异步请求
             const stormTrackResults = await Promise.allSettled(
-                histotyStorms.map(async storm => {
+                historyStorms.map(async storm => {
                     // 台风实况和路径API提供全球主要海洋流域的台风实时位置、等级、气压、风速以及活跃台风的轨迹路径。
                     const res2 = await this.sendRaw(`/typhoon-info/reaatime-typhoon`, {
                         tfid: storm.tfid, // 可能需要调整具体的 API 路径
@@ -388,25 +408,41 @@ export class TyphoonService {
             );
             for (let i = 0; i < stormTrackResults.length; i++) {
                 const trackResult = stormTrackResults[i];
+                const listItem = historyStorms[i];
+                const dto = new TyphoonTwoDto();
                 if (trackResult.status === "fulfilled") {
-                    const storm = trackResult.value;
-                    const dto = new TyphoonTwoDto();
-                    dto.tfid = storm.tfid;
-                    dto.name = storm.name;
-                    dto.name_en = storm.name_en;
-                    dto.starttime = storm.starttime;
-                    dto.endtime = storm.endtime;
-                    dto.is_active = storm.is_active;
-                    dto.tracks = storm.tracks;
-                    dto.forecasts = storm.forecasts.cn;
-                    dto.lands = storm.lands;
-                    data.push(dto);
+                    const response = trackResult.value as any;
+                    const storm = response?.result ?? response;
+                    dto.tfid = storm?.tfid ?? listItem.tfid;
+                    dto.name = storm?.name ?? listItem.name ?? "";
+                    dto.name_en = storm?.name_en ?? listItem.name_en ?? "";
+                    dto.starttime = storm?.starttime ?? listItem.starttime ?? "";
+                    dto.endtime = storm?.endtime ?? listItem.endtime ?? "";
+                    dto.is_active = storm?.is_active ?? listItem.is_active ?? "0";
+                    dto.tracks = Array.isArray(storm?.tracks) ? storm.tracks : [];
+                    dto.forecasts = Array.isArray(storm?.forecasts)
+                        ? storm.forecasts
+                        : Array.isArray(storm?.forecasts?.cn)
+                          ? storm.forecasts.cn
+                          : [];
+                    dto.lands = Array.isArray(storm?.lands) ? storm.lands : [];
+                } else {
+                    logger.warn(`历史台风 ${listItem.tfid} 详情查询失败，仅返回列表摘要`);
+                    dto.tfid = listItem.tfid;
+                    dto.name = listItem.name ?? "";
+                    dto.name_en = listItem.name_en ?? "";
+                    dto.starttime = listItem.starttime ?? "";
+                    dto.endtime = listItem.endtime ?? "";
+                    dto.is_active = listItem.is_active ?? "0";
                 }
+                data.push(dto);
             }
 
-            data.forEach(async item => {
-                await this.update(item);
-            });
+            const saveResults = await Promise.allSettled(data.map(item => this.update(item)));
+            const failedSaves = saveResults.filter(result => result.status === "rejected").length;
+            if (failedSaves > 0) {
+                logger.warn(`${failedSaves} 条历史台风缓存写入失败，不影响本次查询结果`);
+            }
         }
         // let data: TyphoonNewDto[] = [];
         // data = typhoonList.filter(item => {
@@ -478,7 +514,8 @@ export class TyphoonService {
 
         const fullpath = `${this.apiHost}${path}`;
 
-        const token = "whxcpn36cgcxktsl73u770xsc1jx9fa0";
+        const token = this.config.get<string>("TYPHOON_API_TOKEN");
+        Failed.check(token, "未配置 TYPHOON_API_TOKEN");
 
         const ob = this.http
             .get(fullpath, {
@@ -500,7 +537,9 @@ export class TyphoonService {
 
     private async getSevereWeatherList<T>(): Promise<T> {
         await this.login();
-        const fullpath = "https://nc4gkkf7kx.re.qweatherapi.com/weatheralert/v1/current/31.24/121.49";
+        const apiHost = this.config.get<string>("QWEATHER_API_HOST");
+        Failed.check(apiHost, "未配置 QWEATHER_API_HOST");
+        const fullpath = `${apiHost.replace(/\/$/, "")}/weatheralert/v1/current/31.24/121.49`;
         const ob = this.http
             .get(fullpath, {
                 headers: {

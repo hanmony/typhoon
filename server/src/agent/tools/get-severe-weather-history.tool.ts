@@ -1,5 +1,5 @@
 import { Injectable, Logger } from "@nestjs/common";
-import dayjs from "dayjs";
+import * as dayjs from "dayjs";
 import { TyphoonService } from "src/typhoon/service/typhoon.service";
 import { TyphoonSevereWeatherNewHistoryDto } from "src/typhoon/domain/typhoon.severe.weather.new.history.dto";
 import { IToolDefinition, IToolExecutor } from "./tool.interface";

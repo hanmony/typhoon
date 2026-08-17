@@ -7,7 +7,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { catchError } from 'rxjs';
 
-window.pdfWorkerSrc = 'assets/js/pdf.worker.min.js';
+window.pdfWorkerSrc = 'assets/js/pdf.worker.min.mjs';
 
 interface IFileDto {
   filename: string;
@@ -54,7 +54,7 @@ export class DocumentComponent {
         if (/.+doc?x$/.test(res.filename)) {
           this.isDocx = true;
           this.renderDocx(downloadUrl);
-        } else if (/.+pdf$/) {
+        } else if (/.+pdf$/.test(res.filename)) {
           // this.renderPdf(fileUrl);
           setTimeout(() => {
             this.isPdf = true;

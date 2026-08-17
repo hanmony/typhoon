@@ -109,7 +109,7 @@ const getInitialComposeOptions = (options: Option[]) => {
 export class CaseDetailComponent implements AfterViewInit {
   @ViewChild('mapRef') mapRef?: ElementRef;
   @ViewChild(TemplateRef, { static: false })
-  notificationTemplateRef!: TemplateRef<{}>;
+  notificationTemplateRef!: TemplateRef<any>;
   @ViewChild('timelineRef') timelineRef?: TimelineComponent;
   @ViewChild(DockComponent) dockRef?: DockComponent;
   @ViewChild(PanelComponent) panelRef?: PanelComponent;

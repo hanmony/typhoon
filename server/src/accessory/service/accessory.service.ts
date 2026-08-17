@@ -1,7 +1,8 @@
 import * as fs from "fs";
 import * as mime from "mime-types";
 import * as path from "path";
-import * as sharp from "sharp";
+import * as sharpModule from "sharp";
+import type { Sharp } from "sharp";
 
 import { Injectable, Logger } from "@nestjs/common";
 import { InjectConnection } from "@nestjs/mongoose";
@@ -11,6 +12,9 @@ import { pipeline } from "stream/promises";
 import { accessoryUploadPath } from "../domain/accessory.constants";
 import { AccessoryDto } from "../domain/accessory.dto";
 import { AccessoryMetaDto } from "../domain/accessory.meta.dto";
+
+type SharpFactory = (input?: Buffer) => Sharp;
+const sharp = ((sharpModule as unknown as { default?: SharpFactory }).default ?? sharpModule) as SharpFactory;
 
 @Injectable()
 export class AccessoryService {

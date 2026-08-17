@@ -5,7 +5,7 @@
 ## 1. 环境准备
 
 - 操作系统：推荐 Linux（如 Ubuntu 20.04+）、Windows Server 2019+ 或 macOS
-- Node.js：v18.x 或更高
+- Node.js：v22.x LTS（与根目录及前后端 `.node-version` 保持一致）
 - npm/yarn：建议使用 npm v9+ 或 yarn v1.22+
 - MongoDB：v5.x 或更高，建议独立部署
 - Docker（可选）：用于容器化部署

@@ -1,5 +1,5 @@
 import { Injectable, Logger } from "@nestjs/common";
-import dayjs from "dayjs";
+import * as dayjs from "dayjs";
 import { TyphoonPatrollingService } from "src/typhoon/service/typhoon.extreme.patrolling.service";
 import { TyphoonPatrollingTourDto } from "src/typhoon/domain/typhoon.extreme.patrolling.dto";
 import { IToolDefinition, IToolExecutor } from "./tool.interface";
@@ -38,12 +38,15 @@ export class GetPatrollingToursTool implements IToolExecutor {
             let list: TyphoonPatrollingTourDto[];
             try {
                 list = await this.patrollingService.getTours();
-            } catch {
-                // getTours 无当前指挥时抛"当前指挥已结束"
-                return {
-                    success: true,
-                    data: JSON.stringify({ message: "当前无指挥（指挥已结束），暂无巡道记录。" }),
-                };
+            } catch (err) {
+                // 只把明确的“无当前指挥”识别为空数据；数据库等异常必须继续上抛。
+                if ((err as Error).message.includes("当前指挥已结束")) {
+                    return {
+                        success: true,
+                        data: JSON.stringify({ message: "当前无指挥（指挥已结束），暂无巡道记录。" }),
+                    };
+                }
+                throw err;
             }
             if (!list || list.length === 0) {
                 return {
@@ -107,7 +110,9 @@ export class GetPatrollingToursTool implements IToolExecutor {
                     lineCount: tours.length,
                     total: filtered.length,
                     tours,
-                    note: truncated ? `巡道记录较多，仅展示前 ${GetPatrollingToursTool.MAX_ENTRIES} 条，完整记录可在指挥大屏查看。` : undefined,
+                    note: truncated
+                        ? `巡道记录较多，仅展示前 ${GetPatrollingToursTool.MAX_ENTRIES} 条，完整记录可在指挥大屏查看。`
+                        : undefined,
                 }),
             };
         } catch (err) {

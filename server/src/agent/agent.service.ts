@@ -19,7 +19,12 @@ export class AgentService {
         private readonly diag: AgentDiagnosticsService,
     ) {}
 
-    chatStream(question: string, history?: AgentHistoryItem[], from?: string, modelId?: string): Observable<AgentStreamEvent> {
+    chatStream(
+        question: string,
+        history?: AgentHistoryItem[],
+        from?: string,
+        modelId?: string,
+    ): Observable<AgentStreamEvent> {
         return new Observable<AgentStreamEvent>(subscriber => {
             (async () => {
                 const t0 = Date.now();
@@ -314,6 +319,10 @@ export class AgentService {
             get_operations: "运营事件",
             search_documents: "知识库文档",
             get_typhoon_history: "历史台风",
+            get_duty_info: "值班信息",
+            get_messages: "指挥消息",
+            get_severe_weather_history: "预警历史",
+            get_patrolling_tours: "巡道记录",
         };
         return names[name] || name;
     }

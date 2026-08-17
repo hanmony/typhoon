@@ -10,6 +10,7 @@ dist/
 # 环境与密钥
 .env.local
 server/.env
+server/qweather/*private*.pem
 qdrant-config.yaml
 
 # 运行期数据

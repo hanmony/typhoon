@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 
 // 从 pdfjs-dist 导入
 import * as pdfjsLib from 'pdfjs-dist';
-import 'pdfjs-dist/build/pdf.worker.entry';
 
 interface PdfAttachment {
   content: Uint8Array;
@@ -27,7 +26,7 @@ export class PdfAttachmentService {
     // 配置 PDF.js worker（确保在浏览器环境中）
     if (typeof window !== 'undefined') {
       pdfjsLib.GlobalWorkerOptions.workerSrc =
-        'pdfjs-dist/build/pdf.worker.entry';
+        'assets/js/pdf.worker.min.mjs';
     }
   }
 
@@ -51,7 +50,7 @@ export class PdfAttachmentService {
       // 1. 加载PDF文档 - 使用配置对象以支持更多选项
       const loadingTask = pdfjsLib.getDocument({
         url: pdfUrl,
-        cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.4.120/cmaps/',
+        cMapUrl: 'assets/cmaps/',
         cMapPacked: true,
         withCredentials: true,
       });

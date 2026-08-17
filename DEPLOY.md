@@ -36,7 +36,7 @@ nginx (C:\nginx-1.28.0)  ← 监听 12080
 
 | 软件 | 版本 | 说明 |
 |---|---|---|
-| Node.js | v20.19.x | 前后端构建与运行 |
+| Node.js | v22.x LTS | 前后端构建与运行；Node 20 已结束安全维护，Node 24 不受 Angular 19 支持 |
 | npm | 10.x | 源建议用 `http://mirrors.cloud.tencent.com/npm/`（内网快） |
 | MongoDB | 8.2.2 | **必须以副本集模式运行**（`--replSet rs0`），否则事务接口报错 |
 | Qdrant | 1.17.0 | Windows 原生版，`C:\data\qdrant\qdrant.exe` |

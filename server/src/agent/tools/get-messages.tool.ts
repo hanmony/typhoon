@@ -1,5 +1,5 @@
 import { Injectable, Logger } from "@nestjs/common";
-import dayjs from "dayjs";
+import * as dayjs from "dayjs";
 import { TyphoonExtremeMessageService } from "src/typhoon/service/typhoon.extreme.message.service";
 import { IToolDefinition, IToolExecutor } from "./tool.interface";
 import { ToolExecutionResult } from "../domain/agent.types";
