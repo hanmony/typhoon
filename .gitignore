@@ -1,0 +1,22 @@
+# 本地工具 / IDE 配置
+.claude/settings.local.json
+.idea/
+
+# 依赖与构建产物
+node_modules/
+dist/
+*.tsbuildinfo
+
+# 环境与密钥
+.env.local
+server/.env
+qdrant-config.yaml
+
+# 运行期数据
+server/upload/
+server/logs/
+qdrant-storage/
+
+# 临时与备份
+*.log
+*.zip
