@@ -121,6 +121,21 @@
 - **验证**：`npm run build` ✅ 编译通过（`dist/database/entity/chat-session.schema.js` 已生成）
 - **提交**：见 git 历史
 
+### 步骤 14：M2-8 会话 CRUD 接口（README 步骤 8）
+- **接口**（挂在 `chat` 模块下，全部按当前登录用户隔离）：
+  - `POST /chat/sessions` 创建（type/from/title 均可选，默认 chat+cocc）
+  - `GET /chat/sessions?type=` 列表（摘要：id/type/from/title/messageCount/时间，按 updatedAt 倒序，上限 50）
+  - `GET /chat/sessions/:id` 详情（含完整消息列表；不存在或非本人会话抛"会话不存在/无权访问该会话"）
+  - `DELETE /chat/sessions/:id` 删除（同上校验）
+- **改动文件**：
+  - 新建 `server/src/chat/domain/dto/chat-session.dto.ts`（CreateChatSessionDto / ListChatSessionQueryDto）
+  - 新建 `server/src/chat/service/chat-session.service.ts`（create/list/get/remove + findOwned 归属校验，供步骤 9 复用）
+  - 新建 `server/src/chat/controller/chat-session.controller.ts`（@User() 取当前用户，写操作加 @ActionLog）
+  - `server/src/chat/chat.module.ts`：imports 补 DatabaseModule，注册 controller/service，exports ChatSessionService（步骤 9 供 AgentModule 用）
+  - `server/src/database/entity/chat-session.schema.ts`：补 createdAt/updatedAt 类型声明（timestamps 运行时自动维护，仓库既有惯例见 case.schema.ts）
+- **验证**：`npm run build` ✅ 编译通过（首轮报 createdAt/updatedAt 类型缺失，按仓库惯例在实体类补声明后通过）
+- **提交**：见 git 历史
+
 ---
 
 ## 待办（下一步）

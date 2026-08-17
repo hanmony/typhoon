@@ -40,6 +40,12 @@ export class ChatSessionEntity {
     /** 消息列表（role/content），服务端自动只保留最近 20 条 */
     @Prop({ type: [ChatSessionMessageSchema], default: [] })
     messages: ChatSessionMessageEntity[];
+
+    /** 创建时间（timestamps 自动维护） */
+    createdAt: Date;
+
+    /** 更新时间（timestamps 自动维护） */
+    updatedAt: Date;
 }
 
 export const ChatSessionSchema = SchemaFactory.createForClass(ChatSessionEntity);
