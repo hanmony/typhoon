@@ -1,3 +1,4 @@
+
 # 项目工作日志（WORKLOG）
 
 > 记录本项目每一步工作：日期、做了什么、改了哪些文件、提交记录。
@@ -99,6 +100,25 @@
 - **回归测试（20 条问题集）**：产出 `server/docs/AGENT_EVAL_SET.md`（A 工具正确性 8 条 / B 数据真实性 4 条 / C 指挥上下文 3 条 / D 回归 5 条，对应验收标准第 1–3、6 条）
   - ⚠️ 本机 MongoDB(27017)/Qdrant(6333) 未运行，且无活跃指挥数据，**实机执行推迟到部署环境**（或本地启动数据库后）；测试集已作为文档交付，含执行前提、逐条期望行为、通过标准与记录表模板
 - **改动文件**：`client/.../chat-panel.component.ts`（TOOL_DISPLAY_NAMES）、新增 `server/docs/AGENT_EVAL_SET.md`
+- **提交**：见 git 历史
+
+### 步骤 12：M2 开工准备——收编 codex 梳理成果 + 切 M2 分支
+- **背景**：M1 代码交由 codex 梳理，工作区留下一批未提交改动（M1 工具单测/依赖升级/密钥移出 git 等）
+- **做了什么**：
+  - 经用户确认：codex 梳理成果先提交到 main（独立提交 `1d35a49`），推送 GitHub 成功（7892 代理正常）
+  - 从干净的 main 切出 M2 独立分支 `m2-session-persistence`，M2 所有改动在该分支进行，codex 审查后合并回 main
+  - 经用户确认 M2 范围：本轮只做后端（步骤 7–9），步骤 10（前端迁移）留到二期
+- **安全确认**：`server/.env` 与 qweather 私钥已被 .gitignore 拦截并移出 git 历史（`.env.example` 保留）
+
+### 步骤 13：M2-7 新增 `ChatSessionEntity` 并注册 DatabaseModule（README 步骤 7）
+- **实体设计**（`server/src/database/entity/chat-session.schema.ts`）：
+  - `user`（归属用户，取 JWT payload.id 即登录用户名，index）/ `type`（chat|agent，index）/ `from`（cocc|library|manager）/ `title` / `messages[]`（嵌入 `{role, content}`，_id:false）
+  - `@Schema({ timestamps: true })` 自动提供 createdAt/updatedAt（符合计划文档 schema）
+- **改动文件**：
+  - 新建 `server/src/database/entity/chat-session.schema.ts`（ChatSessionEntity + ChatSessionMessageEntity）
+  - `server/src/database/database.module.ts`：注册 `defineMongoFeature(ChatSessionEntity)`
+  - `server/src/database/service/repo/repo.service.ts`：注入 `chatSessions` Model
+- **验证**：`npm run build` ✅ 编译通过（`dist/database/entity/chat-session.schema.js` 已生成）
 - **提交**：见 git 历史
 
 ---

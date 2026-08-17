@@ -26,6 +26,7 @@ import { LlmModelEntity } from "./entity/llm-model.schema";
 import { TyphoonNewEntity } from "./entity/typhoon.new.schema";
 import { TyphoonTwoEntity } from "./entity/typhoon.two.schema";
 import { TyphoonSevereWeatherNewHistoryEntity } from "./entity/typhoon.severe.weather.new.history.schema";
+import { ChatSessionEntity } from "./entity/chat-session.schema";
 
 @Module({
     imports: [
@@ -58,6 +59,7 @@ import { TyphoonSevereWeatherNewHistoryEntity } from "./entity/typhoon.severe.we
             defineMongoFeature(KbDocumentEntity),
             defineMongoFeature(KbChunkEntity),
             defineMongoFeature(LlmModelEntity),
+            defineMongoFeature(ChatSessionEntity),
         ]),
     ],
     providers: [RepoService],
