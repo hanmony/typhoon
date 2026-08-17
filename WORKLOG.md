@@ -151,12 +151,24 @@
 - **验证**：`npm run build` ✅ 编译通过
 - **提交**：见 git 历史
 
+### 步骤 16：M2 集成验证（Docker MongoDB + 假 LLM 全链路 e2e）
+- **环境搭建**（本机无真实 MongoDB/LLM key，全部本地化）：
+  - Docker Desktop 起 `mongo:7` 容器 `mongo-typhoon-test`（端口 27017，库 schooltyphoon），无副本集参数可跑通
+  - 测试用户 `m2test` 直接 mongosh 插入（InitService 只种 settings 不种用户）
+  - 真实 LLM key 失效（deepseek 401）→ 写本地假 LLM `server/scripts/mock-llm-server.js`（OpenAI 兼容，8123 端口，可确定性回答+记录请求 roles 用于验证历史加载），通过 `/llm-models` API 设为默认大模型，模型切换无需改代码
+- **e2e 脚本**：`server/scripts/session-e2e-test.js`（Node fetch，避免 Windows Git Bash 中文 GBK 乱码）
+  - **16/16 全部通过**：CRUD 4 项 / 第 1 轮流式+落库 2 条+自动标题 / 第 2 轮召回历史（答案含"小明"）+落库 4 条 / agent 流式+落库 6 条 / 不存在与非法格式 sessionId → SSE `event: error` 返回"会话不存在" / 回归：无 sessionId 流式正常且不落库 / 删除后 404
+- **过程中发现并修复 1 个 bug**：`chat.service.ts` 的 `loadHistory` await 原本在 try 块外——sessionId 无效时异常成为未捕获 Promise 拒绝，SSE 响应永不关闭（客户端挂起）。已移入 try 块走 `subscriber.error` → SSE error 事件正常收尾（agent.service.ts 无此问题）
+- **改动文件**：`server/src/chat/service/chat.service.ts`（bug 修复）、新增 `server/scripts/mock-llm-server.js`、`server/scripts/session-e2e-test.js`
+- **验证**：`npm run build` ✅ 编译通过；e2e 16/16 ✅
+- **提交**：见 git 历史
+
 ---
 
 ## 待办（下一步）
 
 - [x] M1：补全 5 个指挥工具——✅ 全部完成（历史台风/值班/消息/预警历史/巡道）；步骤 6 集成收尾 ✅（prompt 检查/前端映射/前后端构建通过）；20 条回归测试集已交付 `server/docs/AGENT_EVAL_SET.md`，实机执行待部署环境（本机无 MongoDB/Qdrant）
-- [ ] M2：服务端会话持久化（`ChatSessionEntity` + 会话 CRUD + `sessionId` 可选兼容）
+- [x] M2：服务端会话持久化——✅ 后端完成（`ChatSessionEntity` + 会话 CRUD + `sessionId` 可选兼容），e2e 16/16 通过；步骤 10（前端 localStorage 迁移）留二期
 - [ ] M3：研判最小链路——相似历史案例结构化匹配 + `alert-analyzer` 模块编排
 - [ ] M4：线路空间研判——迁移 `metro.2026.data` 到后端 + turf 风圈×线路相交计算
 - [ ] M5：前端入口（COCC 一键研判按钮 + 研判卡片）+ 评估测试

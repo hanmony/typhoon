@@ -32,14 +32,10 @@ export class ChatService {
             (async () => {
                 const t0 = Date.now();
 
-                // 0. 会话模式：传了 sessionId 则从服务端读最近 20 条历史（替代前端回传），否则保持原有无状态行为
+                // 会话模式：传了 sessionId 则从服务端读最近 20 条历史（替代前端回传），否则保持原有无状态行为
                 const persistSession = sessionId && userId ? { sessionId, userId, question } : undefined;
                 let resolvedHistory = history || [];
                 let historyLimit = 10;
-                if (persistSession) {
-                    resolvedHistory = await this.sessionService.loadHistory(userId, sessionId);
-                    historyLimit = SESSION_MAX_MESSAGES;
-                }
 
                 // metrics 收集变量
                 let intentMetrics: ChatMetrics["intent"];
@@ -49,6 +45,12 @@ export class ChatService {
                 let streamUsage: TokenUsage | undefined;
 
                 try {
+                    // 0. 会话历史加载（失败走 SSE error 事件）
+                    if (persistSession) {
+                        resolvedHistory = await this.sessionService.loadHistory(userId, sessionId);
+                        historyLimit = SESSION_MAX_MESSAGES;
+                    }
+
                     // 1. 意图分类
                     subscriber.next({ type: "status", data: "正在理解您的问题...", stage: "classifying" });
                     const tIntent = Date.now();
