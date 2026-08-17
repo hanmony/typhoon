@@ -14,6 +14,7 @@ import { GetCurrentStatusTool } from "./tools/get-current-status.tool";
 import { GetOperationsTool } from "./tools/get-operations.tool";
 import { SearchDocumentsTool } from "./tools/search-documents.tool";
 import { GetTyphoonHistoryTool } from "./tools/get-typhoon-history.tool";
+import { GetDutyInfoTool } from "./tools/get-duty-info.tool";
 
 const logger = new Logger("AgentModule");
 
@@ -26,15 +27,24 @@ const TOOL_REGISTRATION_PROVIDER = {
         operationsTool: GetOperationsTool,
         searchDocsTool: SearchDocumentsTool,
         historyTool: GetTyphoonHistoryTool,
+        dutyTool: GetDutyInfoTool,
     ) => {
         registry.register(GetCurrentStatusTool.definition, getStatusTool);
         registry.register(GetOperationsTool.definition, operationsTool);
         registry.register(searchDocsTool.buildDefinition(), searchDocsTool);
         registry.register(GetTyphoonHistoryTool.definition, historyTool);
-        logger.log("All 4 agent tools registered");
+        registry.register(GetDutyInfoTool.definition, dutyTool);
+        logger.log("All 5 agent tools registered");
         return registry;
     },
-    inject: [ToolRegistry, GetCurrentStatusTool, GetOperationsTool, SearchDocumentsTool, GetTyphoonHistoryTool],
+    inject: [
+        ToolRegistry,
+        GetCurrentStatusTool,
+        GetOperationsTool,
+        SearchDocumentsTool,
+        GetTyphoonHistoryTool,
+        GetDutyInfoTool,
+    ],
 };
 
 @Module({
@@ -56,6 +66,7 @@ const TOOL_REGISTRATION_PROVIDER = {
         GetOperationsTool,
         SearchDocumentsTool,
         GetTyphoonHistoryTool,
+        GetDutyInfoTool,
         TOOL_REGISTRATION_PROVIDER,
     ],
 })

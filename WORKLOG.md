@@ -50,11 +50,21 @@
 - **使用方式**：用户按步骤编号发指令（如"开始步骤 2"），每步只做该步骤
 - **当前状态**：步骤 1 已完成；步骤 2–20 待用户按编号发指令
 
+### 步骤 7：M1-2 新增 `get_duty_info` 值班查询工具（README 步骤 2）
+- **数据源**：`TyphoonDutyService.list()`（当前指挥 5 天值班表，无指挥返回空数组）
+- **改动文件**：
+  - 新建 `server/src/agent/tools/get-duty-info.tool.ts`：schema 无必填参数（可选 `date` YYYY-MM-DD）；按日期分组，只保留已安排值班人的条目 + 未安排部门数量汇总（unfilledCount），上限 20 条；无指挥/日期不在范围/该日未安排均返回明确文案
+  - `server/src/typhoon/typhoon.module.ts`：exports 补上 `TyphoonDutyService`（原来只在 providers 未导出）
+  - `server/src/agent/agent.module.ts`：注册第 5 个工具（provider + 工厂 + inject，日志改为 "All 5 agent tools registered"）
+  - `server/src/agent/prompt/agent.prompt.ts`：新增第 5 条工具说明
+- **验证**：`npm run build` ✅ 编译通过（`dist/agent/tools/get-duty-info.tool.js` 已生成）
+- **提交**：见 git 历史
+
 ---
 
 ## 待办（下一步）
 
-- [ ] M1：补全 5 个指挥工具——✅ `get_typhoon_history` 已实现；待新增值班/消息/预警历史/巡道 4 个工具 + prompt/前端映射
+- [ ] M1：补全 5 个指挥工具——✅ `get_typhoon_history`、✅ `get_duty_info` 已实现；待新增消息/预警历史/巡道 3 个工具 + prompt/前端映射（README 步骤 3、4、5、6）
 - [ ] M2：服务端会话持久化（`ChatSessionEntity` + 会话 CRUD + `sessionId` 可选兼容）
 - [ ] M3：研判最小链路——相似历史案例结构化匹配 + `alert-analyzer` 模块编排
 - [ ] M4：线路空间研判——迁移 `metro.2026.data` 到后端 + turf 风圈×线路相交计算
