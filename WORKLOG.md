@@ -60,11 +60,21 @@
 - **验证**：`npm run build` ✅ 编译通过（`dist/agent/tools/get-duty-info.tool.js` 已生成）
 - **提交**：见 git 历史
 
+### 步骤 8：M1-3 新增 `get_messages` 指挥消息工具（README 步骤 3）
+- **数据源**：`TyphoonExtremeMessageService.getAll()`（当前指挥消息，按时间倒序，无指挥返回空）
+- **改动文件**：
+  - 新建 `server/src/agent/tools/get-messages.tool.ts`：schema 无必填参数（可选 `limit`，默认 10，最大 20）；返回标题/类型/内容（超 200 字截断）/线路/发布时间（YYYY-MM-DD HH:mm），带 total 与截断提示；无指挥返回明确文案
+  - `server/src/typhoon/typhoon.module.ts`：exports 补上 `TyphoonExtremeMessageService`
+  - `server/src/agent/agent.module.ts`：注册第 6 个工具（"All 6 agent tools registered"）
+  - `server/src/agent/prompt/agent.prompt.ts`：新增第 6 条工具说明
+- **验证**：`npm run build` ✅ 编译通过（`dist/agent/tools/get-messages.tool.js` 已生成）
+- **提交**：见 git 历史
+
 ---
 
 ## 待办（下一步）
 
-- [ ] M1：补全 5 个指挥工具——✅ `get_typhoon_history`、✅ `get_duty_info` 已实现；待新增消息/预警历史/巡道 3 个工具 + prompt/前端映射（README 步骤 3、4、5、6）
+- [ ] M1：补全 5 个指挥工具——✅ `get_typhoon_history`、✅ `get_duty_info`、✅ `get_messages` 已实现；待新增预警历史/巡道 2 个工具 + prompt/前端映射（README 步骤 4、5、6）
 - [ ] M2：服务端会话持久化（`ChatSessionEntity` + 会话 CRUD + `sessionId` 可选兼容）
 - [ ] M3：研判最小链路——相似历史案例结构化匹配 + `alert-analyzer` 模块编排
 - [ ] M4：线路空间研判——迁移 `metro.2026.data` 到后端 + turf 风圈×线路相交计算

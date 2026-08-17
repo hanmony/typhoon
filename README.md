@@ -52,7 +52,7 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
 |---|---|---|
 | 步骤 1 | 实现 `get_typhoon_history`（占位桩补全 + 修复 getHistory 年份 bug） | ✅ 完成（2026-08-17） |
 | 步骤 2 | 新增 `get_duty_info` 值班查询工具 | ✅ 完成（2026-08-17） |
-| 步骤 3 | 新增 `get_messages` 指挥消息工具 | ⬜ 待做 |
+| 步骤 3 | 新增 `get_messages` 指挥消息工具 | ✅ 完成（2026-08-17） |
 | 步骤 4 | 新增 `get_severe_weather_history` 预警历史工具 | ⬜ 待做 |
 | 步骤 5 | 新增 `get_patrolling_tours` 巡道记录工具 | ⬜ 待做 |
 | 步骤 6 | M1 集成收尾：prompt 统一检查 + 前端 `TOOL_DISPLAY_NAMES` 映射 + 构建验证 + 评估 | ⬜ 待做 |

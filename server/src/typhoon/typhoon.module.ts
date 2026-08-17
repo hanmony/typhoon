@@ -23,7 +23,14 @@ import { TyphoonCommandDetailService } from "./service/typhoon.command.detail.se
 
 @Module({
     imports: [CommonModule, DatabaseModule, ConfigModule, HttpModule, LogModule, WebSocketModule],
-    exports: [TyphoonService, TyphoonCommandService, TyphoonExtremeEventService, TyphoonExtremeOperationService, TyphoonDutyService],
+    exports: [
+        TyphoonService,
+        TyphoonCommandService,
+        TyphoonExtremeEventService,
+        TyphoonExtremeOperationService,
+        TyphoonDutyService,
+        TyphoonExtremeMessageService,
+    ],
     providers: [
         TyphoonService,
         TyphoonCommandService,

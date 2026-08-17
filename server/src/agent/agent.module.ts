@@ -15,6 +15,7 @@ import { GetOperationsTool } from "./tools/get-operations.tool";
 import { SearchDocumentsTool } from "./tools/search-documents.tool";
 import { GetTyphoonHistoryTool } from "./tools/get-typhoon-history.tool";
 import { GetDutyInfoTool } from "./tools/get-duty-info.tool";
+import { GetMessagesTool } from "./tools/get-messages.tool";
 
 const logger = new Logger("AgentModule");
 
@@ -28,13 +29,15 @@ const TOOL_REGISTRATION_PROVIDER = {
         searchDocsTool: SearchDocumentsTool,
         historyTool: GetTyphoonHistoryTool,
         dutyTool: GetDutyInfoTool,
+        messagesTool: GetMessagesTool,
     ) => {
         registry.register(GetCurrentStatusTool.definition, getStatusTool);
         registry.register(GetOperationsTool.definition, operationsTool);
         registry.register(searchDocsTool.buildDefinition(), searchDocsTool);
         registry.register(GetTyphoonHistoryTool.definition, historyTool);
         registry.register(GetDutyInfoTool.definition, dutyTool);
-        logger.log("All 5 agent tools registered");
+        registry.register(GetMessagesTool.definition, messagesTool);
+        logger.log("All 6 agent tools registered");
         return registry;
     },
     inject: [
@@ -44,6 +47,7 @@ const TOOL_REGISTRATION_PROVIDER = {
         SearchDocumentsTool,
         GetTyphoonHistoryTool,
         GetDutyInfoTool,
+        GetMessagesTool,
     ],
 };
 
@@ -67,6 +71,7 @@ const TOOL_REGISTRATION_PROVIDER = {
         SearchDocumentsTool,
         GetTyphoonHistoryTool,
         GetDutyInfoTool,
+        GetMessagesTool,
         TOOL_REGISTRATION_PROVIDER,
     ],
 })
