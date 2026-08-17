@@ -70,11 +70,20 @@
 - **验证**：`npm run build` ✅ 编译通过（`dist/agent/tools/get-messages.tool.js` 已生成）
 - **提交**：见 git 历史
 
+### 步骤 9：M1-4 新增 `get_severe_weather_history` 预警历史工具（README 步骤 4）
+- **数据源**：`TyphoonService.getSevereWeatherhistory()`（已存在，当前指挥预警历史，无指挥返回空）
+- **改动文件**：
+  - 新建 `server/src/agent/tools/get-severe-weather-history.tool.ts`：schema 无参数；按发布时间升序返回预警时间线（名称/事件类型/等级中文映射蓝色黄橙红/发布更新解除映射/发布生效失效时间/是否结束及结束时间），兜底上限 50 条；无指挥返回明确文案
+  - `server/src/agent/agent.module.ts`：注册第 7 个工具（"All 7 agent tools registered"）
+  - `server/src/agent/prompt/agent.prompt.ts`：新增第 7 条工具说明
+- **验证**：`npm run build` ✅ 编译通过（`dist/agent/tools/get-severe-weather-history.tool.js` 已生成）
+- **提交**：见 git 历史
+
 ---
 
 ## 待办（下一步）
 
-- [ ] M1：补全 5 个指挥工具——✅ `get_typhoon_history`、✅ `get_duty_info`、✅ `get_messages` 已实现；待新增预警历史/巡道 2 个工具 + prompt/前端映射（README 步骤 4、5、6）
+- [ ] M1：补全 5 个指挥工具——✅ `get_typhoon_history`、✅ `get_duty_info`、✅ `get_messages`、✅ `get_severe_weather_history` 已实现；待新增巡道 1 个工具 + prompt/前端映射（README 步骤 5、6）
 - [ ] M2：服务端会话持久化（`ChatSessionEntity` + 会话 CRUD + `sessionId` 可选兼容）
 - [ ] M3：研判最小链路——相似历史案例结构化匹配 + `alert-analyzer` 模块编排
 - [ ] M4：线路空间研判——迁移 `metro.2026.data` 到后端 + turf 风圈×线路相交计算

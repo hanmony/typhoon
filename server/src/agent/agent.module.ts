@@ -16,6 +16,7 @@ import { SearchDocumentsTool } from "./tools/search-documents.tool";
 import { GetTyphoonHistoryTool } from "./tools/get-typhoon-history.tool";
 import { GetDutyInfoTool } from "./tools/get-duty-info.tool";
 import { GetMessagesTool } from "./tools/get-messages.tool";
+import { GetSevereWeatherHistoryTool } from "./tools/get-severe-weather-history.tool";
 
 const logger = new Logger("AgentModule");
 
@@ -30,6 +31,7 @@ const TOOL_REGISTRATION_PROVIDER = {
         historyTool: GetTyphoonHistoryTool,
         dutyTool: GetDutyInfoTool,
         messagesTool: GetMessagesTool,
+        severeWeatherHistoryTool: GetSevereWeatherHistoryTool,
     ) => {
         registry.register(GetCurrentStatusTool.definition, getStatusTool);
         registry.register(GetOperationsTool.definition, operationsTool);
@@ -37,7 +39,8 @@ const TOOL_REGISTRATION_PROVIDER = {
         registry.register(GetTyphoonHistoryTool.definition, historyTool);
         registry.register(GetDutyInfoTool.definition, dutyTool);
         registry.register(GetMessagesTool.definition, messagesTool);
-        logger.log("All 6 agent tools registered");
+        registry.register(GetSevereWeatherHistoryTool.definition, severeWeatherHistoryTool);
+        logger.log("All 7 agent tools registered");
         return registry;
     },
     inject: [
@@ -48,6 +51,7 @@ const TOOL_REGISTRATION_PROVIDER = {
         GetTyphoonHistoryTool,
         GetDutyInfoTool,
         GetMessagesTool,
+        GetSevereWeatherHistoryTool,
     ],
 };
 
@@ -72,6 +76,7 @@ const TOOL_REGISTRATION_PROVIDER = {
         GetTyphoonHistoryTool,
         GetDutyInfoTool,
         GetMessagesTool,
+        GetSevereWeatherHistoryTool,
         TOOL_REGISTRATION_PROVIDER,
     ],
 })
