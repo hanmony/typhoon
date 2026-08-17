@@ -6,6 +6,7 @@ import { AgentStreamEvent, AgentMessage, AgentToolCall, StreamRoundResult } from
 import { AgentHistoryItem } from "./domain/agent.dto";
 import { AgentPromptBuilder } from "./prompt/agent.prompt";
 import { AgentDiagnosticsService } from "./agent.diagnostics.service";
+import { ChatSessionService, SESSION_MAX_MESSAGES } from "src/chat/service/chat-session.service";
 
 const MAX_ROUNDS = 5;
 
@@ -17,6 +18,7 @@ export class AgentService {
         private readonly llmService: LlmService,
         private readonly toolRegistry: ToolRegistry,
         private readonly diag: AgentDiagnosticsService,
+        private readonly sessionService: ChatSessionService,
     ) {}
 
     chatStream(
@@ -24,6 +26,8 @@ export class AgentService {
         history?: AgentHistoryItem[],
         from?: string,
         modelId?: string,
+        sessionId?: string,
+        userId?: string,
     ): Observable<AgentStreamEvent> {
         return new Observable<AgentStreamEvent>(subscriber => {
             (async () => {
@@ -38,14 +42,24 @@ export class AgentService {
                 let firstToken = true;
 
                 try {
+                    // 0. 会话模式：传了 sessionId 则从服务端读最近 20 条历史（替代前端回传），否则保持原有无状态行为
+                    const persistSession = sessionId && userId ? { sessionId, userId, question } : undefined;
+                    let resolvedHistory = history || [];
+                    let historyLimit = 10;
+                    if (persistSession) {
+                        resolvedHistory = await this.sessionService.loadHistory(userId, sessionId);
+                        historyLimit = SESSION_MAX_MESSAGES;
+                    }
+                    let finalAnswer = "";
+
                     // 1. 构建 messages
                     const systemPrompt = AgentPromptBuilder.buildSystemPrompt(from);
                     this.logger.debug(`[agent] system prompt (${systemPrompt.length} chars):\n${systemPrompt}`);
                     const messages: Record<string, any>[] = [{ role: "system", content: systemPrompt }];
 
-                    if (history?.length) {
+                    if (resolvedHistory.length) {
                         messages.push(
-                            ...history.slice(-10).map(
+                            ...resolvedHistory.slice(-historyLimit).map(
                                 h =>
                                     ({
                                         role: h.role as "user" | "assistant",
@@ -168,6 +182,7 @@ export class AgentService {
 
                         // 情况 2：LLM 直接返回文本（流式已由 collectStreamRound 转发）
                         if (result.content) {
+                            finalAnswer = result.content;
                             streamDuration = Date.now() - roundT0;
 
                             this.diag.logRound(
@@ -188,7 +203,8 @@ export class AgentService {
 
                         // 情况 3：既没有内容也没有 tool_calls（边界情况）
                         this.logger.warn("[agent] empty response from LLM, no content and no tool_calls");
-                        subscriber.next({ type: "token", data: "抱歉，我暂时无法回答这个问题，请稍后再试。" });
+                        finalAnswer = "抱歉，我暂时无法回答这个问题，请稍后再试。";
+                        subscriber.next({ type: "token", data: finalAnswer });
                         break;
                     }
 
@@ -221,6 +237,16 @@ export class AgentService {
                         speed,
                         textTokens,
                     });
+
+                    // 会话写回：追加本轮问答（内部已兜底，失败不影响响应）
+                    if (persistSession && finalAnswer) {
+                        await this.sessionService.appendExchange(
+                            persistSession.userId,
+                            persistSession.sessionId,
+                            persistSession.question,
+                            finalAnswer,
+                        );
+                    }
 
                     subscriber.complete();
                 } catch (err) {

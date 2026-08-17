@@ -6,6 +6,7 @@ import { LlmModule } from "src/llm";
 import { KnowledgeBaseModule } from "src/knowledge-base";
 import { AlertModule } from "src/typhoon/alert/alert.module";
 import { TyphoonModule } from "src/typhoon/typhoon.module";
+import { ChatModule } from "src/chat/chat.module";
 import { AgentController } from "./agent.controller";
 import { AgentService } from "./agent.service";
 import { AgentDiagnosticsService } from "./agent.diagnostics.service";
@@ -65,6 +66,7 @@ const TOOL_REGISTRATION_PROVIDER = {
         KnowledgeBaseModule,
         AlertModule,
         TyphoonModule,
+        ChatModule,
         HttpModule,
         ConfigModule,
         ThrottlerModule.forRoot([{ name: "chat", ttl: 60000, limit: 15 }]),

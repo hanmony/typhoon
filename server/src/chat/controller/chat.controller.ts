@@ -3,6 +3,8 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ThrottlerGuard, Throttle } from "@nestjs/throttler";
 import { Response } from "express";
 import { ActionLog } from "src/diagnostics/lib/action.logger.interceptor";
+import { User } from "src/security/lib/decorator/user.decorator";
+import { UserDataDto } from "src/userman/domain/user.data.dto";
 import { ChatService } from "../service/chat.service";
 import { ChatQueryDto } from "../domain/dto/chat.dto";
 import { Subscription } from "rxjs";
@@ -18,7 +20,7 @@ export class ChatController {
     @Post("stream")
     @Throttle({ chat: { limit: 15, ttl: 60000 } })
     @ActionLog("AI对话", "流式对话")
-    async chatStream(@Body() dto: ChatQueryDto, @Res() res: Response) {
+    async chatStream(@Body() dto: ChatQueryDto, @User() user: UserDataDto, @Res() res: Response) {
         res.setHeader("Content-Type", "text/event-stream");
         res.setHeader("Cache-Control", "no-cache");
         res.setHeader("Connection", "keep-alive");
@@ -33,7 +35,14 @@ export class ChatController {
             if (subscription) subscription.unsubscribe();
         });
 
-        const stream$ = this.chatService.chatStream(dto.question, dto.history, dto.from, dto.modelId);
+        const stream$ = this.chatService.chatStream(
+            dto.question,
+            dto.history,
+            dto.from,
+            dto.modelId,
+            dto.sessionId,
+            user?.id,
+        );
 
         subscription = stream$.subscribe({
             next: event => {

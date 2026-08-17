@@ -3,6 +3,8 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ThrottlerGuard, Throttle } from "@nestjs/throttler";
 import { Response } from "express";
 import { Subscription } from "rxjs";
+import { User } from "src/security/lib/decorator/user.decorator";
+import { UserDataDto } from "src/userman/domain/user.data.dto";
 import { AgentService } from "./agent.service";
 import { AgentQueryDto } from "./domain/agent.dto";
 
@@ -16,7 +18,7 @@ export class AgentController {
     @ApiOperation({ summary: "AI Agent 对话（SSE 流式，支持 tool call）" })
     @Post("stream")
     @Throttle({ chat: { limit: 15, ttl: 60000 } })
-    async chatStream(@Body() dto: AgentQueryDto, @Res() res: Response) {
+    async chatStream(@Body() dto: AgentQueryDto, @User() user: UserDataDto, @Res() res: Response) {
         res.setHeader("Content-Type", "text/event-stream");
         res.setHeader("Cache-Control", "no-cache");
         res.setHeader("Connection", "keep-alive");
@@ -31,7 +33,14 @@ export class AgentController {
             if (subscription) subscription.unsubscribe();
         });
 
-        const stream$ = this.agentService.chatStream(dto.question, dto.history, dto.from, dto.modelId);
+        const stream$ = this.agentService.chatStream(
+            dto.question,
+            dto.history,
+            dto.from,
+            dto.modelId,
+            dto.sessionId,
+            user?.id,
+        );
 
         subscription = stream$.subscribe({
             next: event => {

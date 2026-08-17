@@ -1,4 +1,5 @@
 
+
 # 台风防台智策平台 — 智能体建设项目
 
 > 为上海轨道交通防汛防台指挥平台建设 AI 智能体。
@@ -109,7 +110,7 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
 |---|---|---|
 | 步骤 7 | 新增 `ChatSessionEntity` 并注册到 DatabaseModule | ✅ 完成（2026-08-17，m2-session-persistence 分支） |
 | 步骤 8 | 会话 CRUD 接口（创建/列表/详情/删除） | ✅ 完成（2026-08-17，m2-session-persistence 分支） |
-| 步骤 9 | `/chat/stream`、`/agent/stream` 支持可选 `sessionId`（向后兼容） | ⬜ 待做 |
+| 步骤 9 | `/chat/stream`、`/agent/stream` 支持可选 `sessionId`（向后兼容） | ✅ 完成（2026-08-17，m2-session-persistence 分支） |
 | 步骤 10 | 前端 localStorage 历史迁移到服务端会话（二期可选） | ⬜ 待做 |
 
 **要点**：`sessionId` 可选、默认无状态，不破坏现有前端协议；服务端自动截断历史（最近 20 条），替换"前端回传 ≤10 条"限制。

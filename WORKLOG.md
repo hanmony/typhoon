@@ -136,6 +136,21 @@
 - **验证**：`npm run build` ✅ 编译通过（首轮报 createdAt/updatedAt 类型缺失，按仓库惯例在实体类补声明后通过）
 - **提交**：见 git 历史
 
+### 步骤 15：M2-9 `/chat/stream`、`/agent/stream` 支持可选 `sessionId`（README 步骤 9）
+- **兼容策略落地**：两个 DTO 均新增**可选** `sessionId`——不传保持原有无状态行为（前端回传 ≤10 条历史，老前端零改动）；传入则：
+  - 开局从服务端读最近 20 条历史（`ChatSessionService.loadHistory`，替代前端 history，且放宽到 20 条）
+  - 流结束后原子写回本轮问答（`appendExchange`：$push user+assistant 两条 + $slice 自动截断只留 20 条；标题为空自动取问题前 30 字；写库失败仅告警不中断响应）
+  - 会话不存在/无权访问 → 按既有 Failed 异常走 SSE error 事件；会话 ID 非法（非 ObjectId）同样返回"会话不存在"
+- **改动文件**：
+  - `server/src/chat/service/chat-session.service.ts`：新增 `loadHistory` / `appendExchange`（原子 $push+$slice，findOwned 增加 isValidObjectId 校验，导出 SESSION_MAX_MESSAGES=20）
+  - `server/src/chat/domain/dto/chat.dto.ts`、`server/src/agent/domain/agent.dto.ts`：新增可选 sessionId
+  - `server/src/chat/controller/chat.controller.ts`、`server/src/agent/agent.controller.ts`：注入 @User()，向 service 传 sessionId+userId
+  - `server/src/chat/service/chat.service.ts`：开局 loadHistory（历史上限 10→20 仅会话模式）、subscribeStream 累积 assistant 文本并在 complete 时写回
+  - `server/src/agent/agent.service.ts`：同 chat；finalAnswer 收集（末轮 content / 兜底文案），结束前写回会话
+  - `server/src/agent/agent.module.ts`：imports 补 ChatModule（复用 ChatSessionService）
+- **验证**：`npm run build` ✅ 编译通过
+- **提交**：见 git 历史
+
 ---
 
 ## 待办（下一步）

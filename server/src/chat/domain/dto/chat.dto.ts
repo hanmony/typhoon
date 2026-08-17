@@ -29,4 +29,12 @@ export class ChatQueryDto {
     @IsOptional()
     @IsString()
     modelId?: string;
+
+    @ApiProperty({
+        description: "会话 ID（可选）：传入则从服务端读取最近 20 条历史（忽略前端 history），问答结束后写回会话；不传保持原有无状态行为",
+        required: false,
+    })
+    @IsOptional()
+    @IsString()
+    sessionId?: string;
 }
