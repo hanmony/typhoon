@@ -6,7 +6,7 @@ extract_docs.py — 步骤 D3：文本提取（PDF / docx / .doc / .xls → 纯�
 ====
 1. 读 docs_import/filter_manifest.json（D2 产出），只处理其中的 keep 清单与待定清单，
    **绝不自行遍历源数据目录**——敏感文件在 D2 已排除，本脚本碰不到它们。
-2. keep 批次（当前清单 74 份）：
+2. keep 批次（当前清单 72 份；另有 5 份扫描件在 D2 已排除）：
    - PDF：pdfplumber 主提取（对双栏论文/公式更稳），失败或几乎为空时降级 PyPDF2 再试；
    - docx：python-docx（按文档顺序提取段落 + 表格，表格一行一单元格拼成一行）。
 3. 待定批次（当前清单 0 份；保留兼容逻辑）：
@@ -125,19 +125,31 @@ def extract_pdf(path):
 
 
 def effective_body_chars(text):
-    """剔除反复出现的水印/页眉行后的正文字符数（水印行出现 ≥3 次才剔除）"""
+    """剔除反复出现的水印/页眉/印章行后的正文字符数（同一行出现 ≥3 次即剔除）。
+
+    2026-08-18 修订（D4 发现）：只剔除频率最高的 1 类行会漏判无文字层扫描件——
+    沪汛办31号/交办794号全文是 4 类数字碎片交替出现（"0 0 0 0"×168 等），
+    单类剔除后仍剩 671 字骗过阈值；改为剔除全部 ≥3 次的行。
+    """
     from collections import Counter
     lines = [l.strip() for l in text.splitlines() if l.strip()]
     if not lines:
         return 0
-    most, freq = Counter(lines).most_common(1)[0]
-    if freq >= WATERMARK_MIN_REPEAT:
-        return max(0, len(text) - freq * len(most))
-    return len(text)
+    counter = Counter(lines)
+    repeated_chars = sum(n * len(l) for l, n in counter.items()
+                         if n >= WATERMARK_MIN_REPEAT)
+    return max(0, len(text) - repeated_chars)
 
 
 def extract_docx(path):
-    """docx：python-docx 按文档顺序提取段落 + 表格"""
+    """docx：python-docx 按文档顺序提取段落 + 表格。
+
+    2026-08-18 修订（D4 前置诊断）：只取 w:t 文本，不用 itertext()。
+    原因：本批 12 份 docx 的 XML 不规范——w:p / w:r 元素上直挂了文本节点，
+    itertext() 会把同一句收 3 遍（p.text + r.text + t.text 各一份），
+    实测梅花.docx 22129 字 → 7571 字，行数不变；另会带入 posOffset
+    图片定位垃圾（如 -127000297180）。w:t 是 OOXML 正文的规范存放位置。
+    """
     import docx
     doc = docx.Document(path)
     from docx.oxml.ns import qn
@@ -146,8 +158,7 @@ def extract_docx(path):
         tag = child.tag
         if tag == qn("w:p"):
             # 段落
-            texts = child.itertext()
-            line = "".join(texts).strip()
+            line = "".join(t.text or "" for t in child.iter(qn("w:t"))).strip()
             if line:
                 lines.append(line)
         elif tag == qn("w:tbl"):
@@ -155,7 +166,7 @@ def extract_docx(path):
             for row in child.iter(qn("w:tr")):
                 cells = []
                 for tc in row.iter(qn("w:tc")):
-                    cells.append("".join(tc.itertext()).strip())
+                    cells.append("".join(t.text or "" for t in tc.iter(qn("w:t"))).strip())
                 cells = [c.replace("\n", " ").replace("|", "/") for c in cells]
                 if any(cells):
                     lines.append(" | ".join(cells))

@@ -30,3 +30,7 @@ clean_output/
 # 文档提取输出（构建产物）
 docs_import/text/
 docs_import/extract_metadata.json
+
+# 文档清洗输出（构建产物）
+docs_import/text_clean/
+docs_import/clean_report.json

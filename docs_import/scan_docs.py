@@ -78,6 +78,14 @@ RULES = [
          bucket="exclude_scan",
          restore_bucket="keep_academic", restore_category=CAT_OTHER,
          reason="疑似扫描件——D3 实测剔除重复水印后正文为空（14 页为图片），用户确认不保留"),
+    dict(kind="name", name="《交通运输部办公厅关于做好暑期汛期道路运输和城市客运安全生产工作的通知》【交办运函（2023）794号】.pdf",
+         bucket="exclude_scan",
+         restore_bucket="keep_official", restore_category=CAT_REGULATION,
+         reason="疑似扫描件——D4 实测全文为印章/页码数字碎片循环（无文字层），按用户扫描件政策剔除"),
+    dict(kind="name", name="《关于进一步做好防汛隐患排查工作的通知》【沪汛办（2023）31号】.pdf",
+         bucket="exclude_scan",
+         restore_bucket="keep_official", restore_category=CAT_REGULATION,
+         reason="疑似扫描件——D4 实测全文为印章/页码数字碎片循环（无文字层），按用户扫描件政策剔除"),
 
     # ── 2. M4 线路空间研判材料 ────────────────────────────────────────
     dict(kind="dir", path="上海市地铁线路和站点",
