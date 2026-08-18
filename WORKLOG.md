@@ -218,8 +218,22 @@
   - **最终数字**：72 份全部清洗成功，30628→11763 行、1546223→1459924 字；R1 剔 (cid) 2151 处/整行删 569；R2 页码 3059+邻页眉 114；R3 短行 1634/长行 293；R4 合并 13081；空输出退出码 1（fail-loud）
 - **验收（README 抽查要求）**：✅ 学术论文（页眉留 1、cid 全清、参考文献保留、双栏交错为 D3 层已记录局限）；✅ 预案（文件编号页眉留 1 并并入前言段、正文完整）；✅ 通知（段落完整、附件清单保留）；✅ 梅花.docx 端到端单一副本；✅ 72 份全部有内容
 - **改动文件**：`docs_import/clean_docs_text.py`（新增）、`docs_import/scan_docs.py`（+2 exclude_scan 规则）、`docs_import/extract_docs.py`（docx w:t-only + 扫描检测强化）、`docs_import/filter_manifest.json`、`docs_import/盘点清单.md`、`.gitignore`（text_clean/、clean_report.json）、`README.md`（D4 状态 ✅ + 执行结果 + D2/D3 终态数字）
-- **codex 审查状态**：D4 及 D3 补丁待用户决定是否送 codex 审查（建议见本步收尾报告）
+- **codex 审查状态**：D4 及 D3 补丁已送 codex 审查，修复见下一条目
 - **提交**：见 git 历史
+
+### D4 codex 审查：修复清洗截断与产物边界（codex 提交 8cc901f，已合入）
+- **审查范围**：`clean_docs_text.py` + D3 补丁（docx w:t-only / 扫描检测）+ `scan_docs.py` 文案
+- **修复 5 类**（均保留原文案，仅补丁）：
+  1. **R4 超长合并截断正文**（最严重）：原实现合并结果 >1000 字时 `out[-1][:MERGE_CAP]` 直接砍掉尾部——codex 改为拒绝合并、两行原样保留（`test_r4_cap_never_truncates_content` 覆盖）
+  2. 表格/`=== sheet` 边界：原来只查当前行，改为两侧均不合并
+  3. 空行计入 R3 去重的统计噪声：空行交给 R5（短行去重 1634→1495）
+  4. 预检加固：元数据敏感路径正则拦截（命中退出码 1）+ 输出路径冲突检测 + TypeError 捕获
+  5. **产物边界**：只清 `text_clean/` 内清单外旧 txt（含越界链接防护），其他文件不碰——首次运行实删 2 份已排除扫描件的残留 txt
+- **附带修复**：`extract_docs.py` 的 `effective_body_chars` 改为只统计非重复行字符（换行/空行噪声不再垫高扫描件判定）；`scan_docs.py` help 文案去掉"3 份"硬编码
+- **新增测试**：`docs_import/test_d4_boundaries.py`（12 项虚构边界测试，不读真实资料/敏感源文件）——本机全部通过（Ran 12 tests OK）
+- **验证**：测试全绿；真实数据重跑无回归；两次运行汇总数字逐项一致（30628→11842 行、1546223→1466488 字）——超长合并修复救回 6564 字正文；`clean_report.md` 仅时间戳与 stale 计数（2→0 中间态→终态）差异
+- **改动文件**：`docs_import/clean_docs_text.py`、`docs_import/extract_docs.py`、`docs_import/scan_docs.py`、`docs_import/test_d4_boundaries.py`（新增）、`docs_import/clean_report.md`、`README.md`（D4 节同步终态数字与审查结果）
+- **提交**：8cc901f（codex）+ 本条目对应文档同步提交（见 git 历史）
 
 ---
 

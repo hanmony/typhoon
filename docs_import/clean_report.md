@@ -1,6 +1,6 @@
 # D4 文本清洗报告
 
-- 生成时间：2026-08-18T17:28:54+08:00
+- 生成时间：2026-08-18T17:32:54+08:00
 - 生成脚本：`docs_import/clean_docs_text.py`
 - 输入目录：`C:\Users\86182\Desktop\typhoon-data-db-audit\docs_import\text`
 - 输出目录：`C:\Users\86182\Desktop\typhoon-data-db-audit\docs_import\text_clean`
@@ -16,7 +16,7 @@
 | R5 空行 | 连续空行压成 1 行 | — |
 | R6 参考文献 | 保留不删 | — |
 
-- 本次清理清单外旧 TXT：2 份
+- 本次清理清单外旧 TXT：0 份
 
 ## 汇总：72 份，30628 行 → 11842 行，1546223 字 → 1466488 字
 
