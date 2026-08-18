@@ -75,6 +75,9 @@ REPORT_MD = "clean_report.md"
 CJK_CLASS = "一-鿿　-〿＀-￯"
 CID_RE = re.compile(r"\(cid:\d+\)")
 READABLE_RE = re.compile(r"[A-Za-z0-9一-鿿]")
+SENSITIVE_PATH_RE = re.compile(
+    r"身份证|值班表|值班安排|值班名单|联系方式|通讯录|联络表|联系人|联络员|负责人|手机号码|联系电话"
+)
 PAGE_NO_RE = re.compile(r"^[\d ]{1,16}$")        # 纯数字+空格（页码行）
 ROMAN_RE = re.compile(r"^[ivxlIVXL]{1,6}$")      # 纯罗马数字（扉页页码）
 # 编号列表项开头（不参与近重复去重，保留语境）
@@ -194,8 +197,9 @@ def should_merge(cur, nxt):
         return False                       # 下一行是大写/数字/编号/标题
     if nxt.endswith("："):
         return False                       # 下一行是冒号结尾的标题
-    if " | " in cur or cur.startswith("==="):
-        return False                       # 表格行/sheet 行不合并
+    if (" | " in cur or cur.startswith("===") or
+            " | " in nxt or nxt.startswith("===")):
+        return False                       # 表格行/sheet 行两侧均不合并
     if len(cur) <= HEADING_GUARD_SHORT and len(nxt) >= HEADING_GUARD_LONG:
         return False                       # 短标题 + 长正文
     return True
@@ -213,18 +217,17 @@ def merge_lines(lines):
         cur = out[-1]
         if should_merge(cur, line):
             if cur.endswith("-") and line[0].islower() and line[0].isascii():
-                out[-1] = cur[:-1] + line     # 去掉断词连字符
+                combined = cur[:-1] + line    # 去掉断词连字符
             else:
-                out[-1] = cur + join_sep(cur, line) + line
-            if len(out[-1]) > MERGE_CAP:
-                # 超长：保留当前长度并让下一行另起（防整页连成一行）
-                out[-1] = out[-1][:MERGE_CAP]
-                out.append("")
-                merge_count += 0
-            else:
+                combined = cur + join_sep(cur, line) + line
+            if len(combined) <= MERGE_CAP:
+                out[-1] = combined
                 merge_count += 1
                 if len(samples) < 3:
                     samples.append(f"{cur[-30:]} ⏎ {line[:30]}")
+            else:
+                # 超长：拒绝本次合并，两行都原样保留，绝不截断正文。
+                out.append(line)
         else:
             out.append(line)
     return out, merge_count, samples
@@ -260,6 +263,8 @@ def clean_text(text):
         if line is None:
             continue
         key = norm_key(line)
+        if not key:
+            continue                       # 空行交给 R5，不计入 R3 去重
         keys[key] = keys.get(key, 0) + 1
         if key not in reps:
             reps[key] = line
@@ -289,6 +294,8 @@ def clean_text(text):
         if line is None:
             continue
         key = norm_key(line)
+        if not key:
+            continue                       # 空行交给 R5 压缩
         if key in page_keys or key in roman_keys:
             cleaned[i] = None
             stats["r2_page"] += 1
@@ -327,7 +334,7 @@ def clean_text(text):
             if pre_drop[j] is not None:
                 next_key = norm_key(pre_drop[j])
                 break
-        if prev_key in long_keys or next_key in long_keys:
+        if prev_key in long_keep1 or next_key in long_keep1:
             cleaned[i] = None
             stats["r2_adjacent"] += 1
             if len(removed_samples["R2邻页眉"]) < 5:
@@ -387,19 +394,29 @@ def main():
 
     # 预检：txt 存在、路径约束、text/ 无清单外残留 txt（沿用 D3 加固思路）
     expected = {}
+    expected_outputs = set()
     preflight_errors = []
     for d in ok_docs:
         rel = d.get("relpath")
+        if isinstance(rel, str) and SENSITIVE_PATH_RE.search(rel):
+            preflight_errors.append(f"元数据疑似包含敏感文件，拒绝读取: {rel}")
+            continue
         try:
-            src = resolve_under(in_dir, text_relpath(rel))
-            dst = resolve_under(out_dir, text_relpath(rel))
-        except ValueError as e:
+            txt_rel = text_relpath(rel)
+            src = resolve_under(in_dir, txt_rel)
+            dst = resolve_under(out_dir, txt_rel)
+        except (TypeError, ValueError) as e:
             preflight_errors.append(str(e))
             continue
         if not os.path.isfile(src):
-            preflight_errors.append(f"txt 不存在: {text_relpath(rel)}")
+            preflight_errors.append(f"txt 不存在: {txt_rel}")
+            continue
+        dst_key = os.path.normcase(dst)
+        if dst_key in expected_outputs:
+            preflight_errors.append(f"输出路径冲突: {txt_rel}")
             continue
         expected[os.path.normcase(src)] = (rel, src, dst)
+        expected_outputs.add(dst_key)
     for dirpath, _, filenames in os.walk(in_dir):
         for filename in filenames:
             if not filename.lower().endswith(".txt"):
@@ -415,14 +432,33 @@ def main():
             print(f"  - {message}")
         sys.exit(1)
 
-    # 逐份清洗
+    # 逐份清洗。只清除 text_clean/ 内不属于当前元数据的旧 txt，避免已排除
+    # 扫描件被 D5 误收；其他文件一律不碰。
     os.makedirs(out_dir, exist_ok=True)
+    stale_outputs = []
+    for dirpath, _, filenames in os.walk(out_dir):
+        for filename in filenames:
+            if not filename.lower().endswith(".txt"):
+                continue
+            candidate = os.path.abspath(os.path.join(dirpath, filename))
+            full = os.path.realpath(candidate)
+            try:
+                if os.path.commonpath([out_dir, full]) != out_dir:
+                    print(f"[ERROR] 输出目录内存在越界链接，拒绝清理: {candidate}")
+                    sys.exit(1)
+            except ValueError:
+                print(f"[ERROR] 输出目录内存在越界链接，拒绝清理: {candidate}")
+                sys.exit(1)
+            if os.path.normcase(full) not in expected_outputs:
+                os.remove(candidate)
+                stale_outputs.append(os.path.relpath(candidate, out_dir).replace(os.sep, "/"))
     file_results = []
     empty_outputs = []
     grand = {"files": 0, "lines_in": 0, "lines_out": 0, "chars_in": 0,
              "chars_out": 0, "r1_cid_tokens": 0, "r1_dropped": 0,
              "r2_page": 0, "r2_adjacent": 0, "r3_dup_short": 0,
-             "r3_dup_long": 0, "r4_merges": 0}
+             "r3_dup_long": 0, "r4_merges": 0,
+             "stale_outputs_removed": len(stale_outputs)}
     for rel, src, dst in sorted(expected.values(), key=lambda x: x[0]):
         with open(src, "r", encoding="utf-8") as f:
             text = f.read()
@@ -485,6 +521,7 @@ def main():
     print(f"R2 页码: {s['r2_page']} + 邻页眉 {s['r2_adjacent']}")
     print(f"R3 近重复: 短行 {s['r3_dup_short']} / 长行 {s['r3_dup_long']}")
     print(f"R4 断行合并: {s['r4_merges']} 处")
+    print(f"清理清单外旧 txt: {s['stale_outputs_removed']} 份")
     print(f"[out] {report_json}")
     print(f"[out] {os.path.join(os.path.dirname(out_dir), REPORT_MD)}")
     print(f"[out] 清洗文本目录: {out_dir}")
@@ -516,6 +553,7 @@ def write_md_report(report, path):
     a(f"| R4 断行 | 行尾无标点+下行非标题 → 合并 | {s['r4_merges']} 处 |")
     a("| R5 空行 | 连续空行压成 1 行 | — |")
     a("| R6 参考文献 | 保留不删 | — |\n")
+    a(f"- 本次清理清单外旧 TXT：{s['stale_outputs_removed']} 份\n")
     a(f"## 汇总：{s['files']} 份，{s['lines_in']} 行 → {s['lines_out']} 行，"
       f"{s['chars_in']} 字 → {s['chars_out']} 字\n")
     a("## 逐份明细\n")

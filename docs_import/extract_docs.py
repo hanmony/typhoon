@@ -136,9 +136,10 @@ def effective_body_chars(text):
     if not lines:
         return 0
     counter = Counter(lines)
-    repeated_chars = sum(n * len(l) for l, n in counter.items()
-                         if n >= WATERMARK_MIN_REPEAT)
-    return max(0, len(text) - repeated_chars)
+    # 只统计非重复正文行本身的字符，换行符和重复水印均不计入，避免大量
+    # 空行/换行噪声把无文字层扫描件“垫高”到 200 字阈值以上。
+    return sum(len(line) for line in lines
+               if counter[line] < WATERMARK_MIN_REPEAT)
 
 
 def extract_docx(path):

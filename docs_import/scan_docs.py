@@ -343,7 +343,7 @@ def main():
     ap.add_argument("root", nargs="?", default=DEFAULT_ROOT, help="数据根目录")
     ap.add_argument("out", nargs="?", default=DEFAULT_OUT, help="输出目录")
     ap.add_argument("--include-scans", action="store_true",
-                    help="OCR 完成后显式恢复纳入 3 份扫描件；默认仍排除")
+                    help="OCR 完成后显式恢复纳入扫描件；默认仍排除")
     args = ap.parse_args()
 
     root = find_innermost(args.root)
