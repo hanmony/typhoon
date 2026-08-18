@@ -29,6 +29,35 @@ describe("ChatSessionService", () => {
         });
     });
 
+    it("copies validated legacy messages into a new session", async () => {
+        const messages = [
+            { role: "user" as const, content: "旧问题" },
+            { role: "assistant" as const, content: "旧回答" },
+        ];
+        chatSessions.create.mockResolvedValue({ messages });
+
+        await service.create(user, { type: "agent", from: "cocc", messages });
+
+        expect(chatSessions.create).toHaveBeenCalledWith({
+            user,
+            type: "agent",
+            from: "cocc",
+            title: "",
+            messages,
+        });
+    });
+
+    it("filters a session list by type and source", async () => {
+        const lean = jest.fn().mockResolvedValue([]);
+        const limit = jest.fn().mockReturnValue({ lean });
+        const sort = jest.fn().mockReturnValue({ limit });
+        chatSessions.find.mockReturnValue({ sort });
+
+        await service.list(user, "chat", "cocc");
+
+        expect(chatSessions.find).toHaveBeenCalledWith({ user, type: "chat", from: "cocc" });
+    });
+
     it("rejects invalid, missing, and foreign sessions", async () => {
         await expect(service.findOwned(user, "not-an-object-id")).rejects.toThrow("会话不存在");
         expect(chatSessions.findById).not.toHaveBeenCalled();

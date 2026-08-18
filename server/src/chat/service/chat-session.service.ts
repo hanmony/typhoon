@@ -23,20 +23,20 @@ export class ChatSessionService {
             type: dto.type ?? "chat",
             from: dto.from ?? "cocc",
             title: dto.title ?? "",
-            messages: [],
+            messages: (dto.messages ?? []).slice(-SESSION_MAX_MESSAGES).map(message => ({
+                role: message.role,
+                content: message.content,
+            })),
         });
         return session;
     }
 
     /** 当前用户的会话列表（摘要，不含 messages 内容），按最近更新倒序，上限 50 条 */
-    async list(user: string, type?: ChatSessionType) {
+    async list(user: string, type?: ChatSessionType, from?: ChatSessionFrom) {
         const filter: Record<string, unknown> = { user };
         if (type) filter.type = type;
-        const sessions = await this.repo.chatSessions
-            .find(filter)
-            .sort({ updatedAt: -1 })
-            .limit(LIST_LIMIT)
-            .lean();
+        if (from) filter.from = from;
+        const sessions = await this.repo.chatSessions.find(filter).sort({ updatedAt: -1 }).limit(LIST_LIMIT).lean();
         return sessions.map(s => ({
             id: s._id,
             type: s.type,
@@ -84,10 +84,7 @@ export class ChatSessionService {
         try {
             Failed.check(isValidObjectId(id), "会话不存在");
             const autoTitle = question.trim().slice(0, 30) || "新会话";
-            await this.repo.chatSessions.updateOne(
-                { _id: id, user, title: "" },
-                { $set: { title: autoTitle } },
-            );
+            await this.repo.chatSessions.updateOne({ _id: id, user, title: "" }, { $set: { title: autoTitle } });
             await this.repo.chatSessions.updateOne(
                 { _id: id, user },
                 {

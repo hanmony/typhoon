@@ -1,14 +1,24 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsIn, IsOptional, IsString, MaxLength } from "class-validator";
+import { Type } from "class-transformer";
+import { ArrayMaxSize, IsArray, IsIn, IsOptional, IsString, MaxLength, ValidateNested } from "class-validator";
+import { ChatHistoryItem } from "src/common/domain/chat-history.dto";
 import { ChatSessionFrom, ChatSessionType } from "src/database/entity/chat-session.schema";
 
 export class CreateChatSessionDto {
-    @ApiProperty({ description: "会话类型：chat（普通对话）或 agent（指挥 Agent）", required: false, enum: ["chat", "agent"] })
+    @ApiProperty({
+        description: "会话类型：chat（普通对话）或 agent（指挥 Agent）",
+        required: false,
+        enum: ["chat", "agent"],
+    })
     @IsOptional()
     @IsIn(["chat", "agent"])
     type?: ChatSessionType;
 
-    @ApiProperty({ description: "会话来源：cocc / library / manager", required: false, enum: ["cocc", "library", "manager"] })
+    @ApiProperty({
+        description: "会话来源：cocc / library / manager",
+        required: false,
+        enum: ["cocc", "library", "manager"],
+    })
     @IsOptional()
     @IsIn(["cocc", "library", "manager"])
     from?: ChatSessionFrom;
@@ -18,6 +28,14 @@ export class CreateChatSessionDto {
     @IsString()
     @MaxLength(60)
     title?: string;
+
+    @ApiProperty({ description: "待迁移的旧聊天记录（最多 20 条）", required: false, type: [ChatHistoryItem] })
+    @IsOptional()
+    @IsArray()
+    @ArrayMaxSize(20)
+    @ValidateNested({ each: true })
+    @Type(() => ChatHistoryItem)
+    messages?: ChatHistoryItem[];
 }
 
 export class ListChatSessionQueryDto {
@@ -25,4 +43,9 @@ export class ListChatSessionQueryDto {
     @IsOptional()
     @IsIn(["chat", "agent"])
     type?: ChatSessionType;
+
+    @ApiProperty({ description: "按会话来源过滤（可选）", required: false, enum: ["cocc", "library", "manager"] })
+    @IsOptional()
+    @IsIn(["cocc", "library", "manager"])
+    from?: ChatSessionFrom;
 }

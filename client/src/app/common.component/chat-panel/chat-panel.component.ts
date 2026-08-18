@@ -70,6 +70,8 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   private cancelStream: (() => void) | null = null;
+  /** 每次发送/停止都会递增；旧流的迟到回调看到代次不一致后直接丢弃。 */
+  private streamSeq = 0;
   /** 待执行的滚动动作：'stick'=跟随输出，'jump'=强制到底。ngAfterViewChecked 消费后清空。 */
   private pendingScroll: 'stick' | 'jump' | null = null;
   private readonly stick = new StickToBottom();
@@ -83,7 +85,7 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
   /** 会话加载请求序号：防止模式快速切换时过期响应覆盖新会话 */
   private sessionLoadSeq = 0;
   /** localStorage 历史 key（服务端不可用时的回退存储，始终镜像最近历史） */
-  private historyKey = '';
+  private userId = 'anonymous';
   private readonly agentModeKey = 'cocc-agent-mode';
   private pendingThinking = '';
 
@@ -94,7 +96,7 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.historyKey = `cocc-chat-history-${this.getUserId()}`;
+    this.userId = this.getUserId();
     this.messages.set([
       {
         role: 'assistant',
@@ -102,8 +104,9 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
       },
     ]);
     this.loadAgentMode();
+    this.migrateLegacyHistoryKey(this.currentSessionType());
     // 历史迁移到服务端会话：优先加载服务端最新会话，失败回退 localStorage
-    void this.loadServerSession('chat');
+    void this.loadServerSession(this.currentSessionType());
   }
 
   ngAfterViewChecked() {
@@ -159,6 +162,7 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   ngOnDestroy() {
+    ++this.streamSeq;
     this.cancelStream?.();
     this.cancelStream = null;
     this.stick.dispose();
@@ -188,23 +192,32 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   /** 发起一轮问答：优先走服务端会话（sessionId），创建失败退回无状态（前端回传历史） */
   private async sendStream(question: string) {
+    const streamSeq = ++this.streamSeq;
+    // 发送动作使尚未完成的初始化加载失效，避免迟到响应覆盖正在发送的消息。
+    ++this.sessionLoadSeq;
     const currentMessages = this.messages();
     const assistantIndex = currentMessages.length - 1;
     const type = this.currentSessionType();
 
     // 服务端会话：不存在则创建；创建失败退回无状态模式（历史由前端回传 + localStorage 回退保存）
-    let sessionId = this.currentSessionId();
+    let sessionId = this.getSessionId(type);
     if (!sessionId) {
       try {
-        const created = await this.chatApi.createSession(type);
+        const legacyMessages = this.getMigratableMessages(currentMessages.slice(0, -2));
+        const created = await this.chatApi.createSession(type, legacyMessages, 'cocc');
+        if (streamSeq !== this.streamSeq) {
+          void this.chatApi.deleteSession(created._id).catch(() => undefined);
+          return;
+        }
         sessionId = created._id;
         this.setSessionId(type, sessionId);
       } catch {
+        if (streamSeq !== this.streamSeq) return;
         this.msg.warning('会话创建失败，本轮对话仅保存在本地');
       }
     }
     // 等待创建期间模式已切换：本轮作废，避免消息串到另一个会话
-    if (this.currentSessionType() !== type) {
+    if (streamSeq !== this.streamSeq || this.currentSessionType() !== type) {
       this.loading = false;
       return;
     }
@@ -230,6 +243,7 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     const callbacks = {
       onToken: token => {
+        if (streamSeq !== this.streamSeq) return;
         // 第一个 token：完成前序步骤，追加"生成回答"
         if (firstToken) {
           this.steps.update(s => {
@@ -252,9 +266,10 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.pendingScroll = 'stick';
       },
       onError: err => {
+        if (streamSeq !== this.streamSeq) return;
         // 服务端会话已不存在（如被其他端删除）：置空，下次发送自动重建
         if (/会话不存在|无权访问/.test(err.message)) {
-          this.setSessionId(this.currentSessionType(), null);
+          this.setSessionId(type, null);
         }
         this.messages.update(msgs => {
           const updated = [...msgs];
@@ -266,6 +281,7 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
           return updated;
         });
         this.loading = false;
+        this.cancelStream = null;
         this.statusText = '';
         this.steps.set([]);
         this.msg.error(`请求失败: ${err.message}`);
@@ -273,24 +289,31 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.saveHistory();
       },
       onComplete: () => {
+        if (streamSeq !== this.streamSeq) return;
         this.messages.update(msgs => {
           const updated = [...msgs];
-          updated[assistantIndex] = { ...updated[assistantIndex], streaming: false };
+          updated[assistantIndex] = {
+            ...updated[assistantIndex],
+            streaming: false,
+          };
           return updated;
         });
         this.loading = false;
+        this.cancelStream = null;
         this.statusText = '';
         this.steps.set([]);
         // 会话模式下服务端已自动落库；localStorage 镜像保留作为回退
         this.saveHistory();
       },
       onStatus: status => {
+        if (streamSeq !== this.streamSeq) return;
         this.statusText = status.replace(/\.\.\.+$/, '');
       },
       onStage: _stage => {
         // stage 事件保留接口兼容，步进由事件类型驱动
       },
       onThinking: thinking => {
+        if (streamSeq !== this.streamSeq) return;
         this.statusText = '';
         this.pendingThinking += thinking;
         this.messages.update(msgs => {
@@ -304,6 +327,7 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.pendingScroll = 'stick';
       },
       onTool: (data: ToolEventData) => {
+        if (streamSeq !== this.streamSeq) return;
         const displayName = TOOL_DISPLAY_NAMES[data.name] || data.name;
         if (data.status === 'executing') {
           // 完成前序步骤，追加工具步骤
@@ -326,6 +350,7 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
         }
       },
       onUsage: (data: UsageEventData) => {
+        if (streamSeq !== this.streamSeq) return;
         this.messages.update(msgs => {
           const updated = [...msgs];
           updated[assistantIndex] = {
@@ -339,7 +364,7 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     // 有会话 → 服务端管理历史；无会话（创建失败回退）→ 前端回传历史（保持原有无状态行为）
     const options = sessionId ? { sessionId } : { history: this.buildHistory() };
-    if (this.agentMode()) {
+    if (type === 'agent') {
       this.cancelStream = this.chatApi.queryAgentStream(question, callbacks, options);
     } else {
       this.cancelStream = this.chatApi.queryStream(question, callbacks, options);
@@ -347,6 +372,7 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   onStop() {
+    ++this.streamSeq;
     if (this.cancelStream) {
       this.cancelStream();
       this.cancelStream = null;
@@ -406,7 +432,7 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
         // 删除失败（离线等）：旧会话成为服务端孤儿，不影响后续使用
       });
     }
-    localStorage.removeItem(this.historyKey);
+    localStorage.removeItem(this.historyKey(this.currentSessionType()));
   }
 
   private currentSessionType(): 'chat' | 'agent' {
@@ -414,7 +440,11 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   private currentSessionId(): string | null {
-    return this.agentMode() ? this.agentSessionId : this.chatSessionId;
+    return this.getSessionId(this.currentSessionType());
+  }
+
+  private getSessionId(type: 'chat' | 'agent'): string | null {
+    return type === 'chat' ? this.chatSessionId : this.agentSessionId;
   }
 
   private setSessionId(type: 'chat' | 'agent', id: string | null) {
@@ -431,7 +461,7 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
     let session: ChatSessionDetail | null = null;
     let failed = false;
     try {
-      const list = await this.chatApi.listSessions(type);
+      const list = await this.chatApi.listSessions(type, 'cocc');
       if (list.length > 0) {
         session = await this.chatApi.getSession(list[0].id);
       }
@@ -443,18 +473,19 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
     if (seq !== this.sessionLoadSeq || this.currentSessionType() !== type) return;
     if (failed) {
       this.setSessionId(type, null);
-      this.loadHistory();
+      this.loadHistory(type);
       return;
     }
     this.setSessionId(type, session?._id ?? null);
-    this.messages.set(
-      session
-        ? [
-            { role: 'assistant', content: WELCOME_CONTENT },
-            ...session.messages.map(m => ({ role: m.role, content: m.content })),
-          ]
-        : [{ role: 'assistant', content: WELCOME_CONTENT }],
-    );
+    if (session) {
+      this.messages.set([
+        { role: 'assistant', content: WELCOME_CONTENT },
+        ...session.messages.map(m => ({ role: m.role, content: m.content })),
+      ]);
+    } else {
+      // 服务端可用但还没有会话时仍要展示旧历史，首次发送时再将其写入新会话。
+      this.loadHistory(type);
+    }
     this.pendingScroll = 'jump';
   }
 
@@ -466,17 +497,18 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
     try {
       const token = this.storage.token;
       if (token) {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        return payload.sub || payload.userId || 'anonymous';
+        const encoded = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+        const payload = JSON.parse(atob(encoded.padEnd(Math.ceil(encoded.length / 4) * 4, '=')));
+        return payload.id || payload.sub || payload.userId || 'anonymous';
       }
     } catch {}
     return 'anonymous';
   }
 
   /** localStorage 历史（服务端不可用时的回退数据源；空数据时回落到欢迎语） */
-  private loadHistory() {
+  private loadHistory(type: 'chat' | 'agent') {
     try {
-      const raw = localStorage.getItem(this.historyKey);
+      const raw = localStorage.getItem(this.historyKey(type));
       if (raw) {
         const parsed = JSON.parse(raw) as ChatMessage[];
         if (Array.isArray(parsed) && parsed.length > 0) {
@@ -501,7 +533,40 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
         if (usage) entry.usage = usage;
         return entry;
       });
-    localStorage.setItem(this.historyKey, JSON.stringify(msgs));
+    localStorage.setItem(this.historyKey(this.currentSessionType()), JSON.stringify(msgs));
+  }
+
+  private historyKey(type: 'chat' | 'agent'): string {
+    return `cocc-chat-history-${this.userId}-${type}`;
+  }
+
+  /** 将步骤 10 以前共用的历史 key 一次性归入启动时的模式，避免 chat/agent 串历史。 */
+  private migrateLegacyHistoryKey(type: 'chat' | 'agent') {
+    try {
+      const targetKey = this.historyKey(type);
+      const legacyKeys = [`cocc-chat-history-${this.userId}`];
+      // 步骤 10 原实现没有识别 JWT 的 id，已登录用户的旧历史也可能误存在 anonymous 下。
+      if (this.userId !== 'anonymous') legacyKeys.push('cocc-chat-history-anonymous');
+      for (const legacyKey of legacyKeys) {
+        const legacy = localStorage.getItem(legacyKey);
+        if (legacy && !localStorage.getItem(targetKey)) {
+          localStorage.setItem(targetKey, legacy);
+        }
+        if (legacy) localStorage.removeItem(legacyKey);
+      }
+    } catch {}
+  }
+
+  /** 创建服务端会话时只迁移完整旧消息；当前正在发送的一问一答由流接口自己持久化。 */
+  private getMigratableMessages(messages: ChatMessage[]): { role: 'user' | 'assistant'; content: string }[] {
+    return messages
+      .filter(message => message.content && (message.role === 'user' || message.role === 'assistant'))
+      .map(message => ({
+        role: message.role,
+        content: message.content.slice(0, 2000),
+      }))
+      .filter((_, index, items) => !(index === 0 && items[index].role === 'assistant'))
+      .slice(-20);
   }
 
   private loadAgentMode() {

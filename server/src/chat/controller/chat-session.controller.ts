@@ -22,7 +22,7 @@ export class ChatSessionController {
     @ApiOperation({ summary: "当前用户的会话列表" })
     @Get("sessions")
     async list(@User() user: UserDataDto, @Query() query: ListChatSessionQueryDto) {
-        return this.sessionService.list(user.id, query.type);
+        return this.sessionService.list(user.id, query.type, query.from);
     }
 
     @ApiOperation({ summary: "会话详情（含消息列表）" })

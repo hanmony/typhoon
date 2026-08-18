@@ -27,15 +27,21 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
   let fixture: ComponentFixture<ChatPanelComponent>;
   let chatApi: jasmine.SpyObj<ChatApi>;
   let msg: jasmine.SpyObj<NzMessageService>;
+  let storage: { token: string | null };
 
   const WELCOME = '你好！我是防汛智策助手，有什么可以帮助你的吗？';
-  const HISTORY_KEY = 'cocc-chat-history-anonymous'; // token 为空 → anonymous
+  const HISTORY_KEY = 'cocc-chat-history-anonymous-chat'; // token 为空 → anonymous
+  const AGENT_HISTORY_KEY = 'cocc-chat-history-anonymous-agent';
+  const LEGACY_HISTORY_KEY = 'cocc-chat-history-anonymous';
   interface CapturedCallbacks {
     onToken: (token: string) => void;
     onComplete: () => void;
     onError: (err: Error) => void;
   }
-  const streamCallbacks: { chat?: CapturedCallbacks; agent?: CapturedCallbacks } = {};
+  const streamCallbacks: {
+    chat?: CapturedCallbacks;
+    agent?: CapturedCallbacks;
+  } = {};
 
   const sessionSummary = (id: string, type: 'chat' | 'agent' = 'chat'): ChatSessionSummary => ({
     id,
@@ -57,6 +63,7 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
       'queryAgentStream',
     ]);
     msg = jasmine.createSpyObj<NzMessageService>('NzMessageService', ['warning', 'error']);
+    storage = { token: null };
     // 默认：无服务端会话；发送即捕获回调并返回取消函数
     chatApi.listSessions.and.returnValue(Promise.resolve([]));
     chatApi.createSession.and.resolveTo({
@@ -67,6 +74,7 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
       createdAt: '',
       updatedAt: '',
     });
+    chatApi.deleteSession.and.resolveTo({ code: 0 });
     chatApi.queryStream.and.callFake((_q: string, cb: CapturedCallbacks) => {
       streamCallbacks.chat = cb;
       return () => {};
@@ -83,7 +91,7 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
       providers: [
         { provide: ChatApi, useValue: chatApi },
         { provide: NzMessageService, useValue: msg },
-        { provide: StorageService, useValue: { token: null } },
+        { provide: StorageService, useValue: storage },
         provideMarkdown(),
         // 模板中 nz-icon 用到的 outline 图标需静态注册，避免动态加载失败影响测试
         {
@@ -133,12 +141,18 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
     fixture.detectChanges();
     flushMicrotasks();
 
-    expect(chatApi.listSessions).toHaveBeenCalledWith('chat');
+    expect(chatApi.listSessions).toHaveBeenCalledWith('chat', 'cocc');
     expect(chatApi.getSession).toHaveBeenCalledWith('s1');
     expect(component.messages().length).toBe(3);
     expect(component.messages()[0].content).toBe(WELCOME);
-    expect(component.messages()[1]).toEqual({ role: 'user', content: '老问题' });
-    expect(component.messages()[2]).toEqual({ role: 'assistant', content: '老回答' });
+    expect(component.messages()[1]).toEqual({
+      role: 'user',
+      content: '老问题',
+    });
+    expect(component.messages()[2]).toEqual({
+      role: 'assistant',
+      content: '老回答',
+    });
   }));
 
   it('服务端不可用 → 回退读取 localStorage 历史', fakeAsync(() => {
@@ -165,7 +179,7 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
     component.onSend();
     flushMicrotasks();
 
-    expect(chatApi.createSession).toHaveBeenCalledWith('chat');
+    expect(chatApi.createSession).toHaveBeenCalledWith('chat', [], 'cocc');
     const options = chatApi.queryStream.calls.mostRecent().args[2] as QueryStreamOptions;
     expect(options?.sessionId).toBe('s-new');
     expect(options?.history).toBeUndefined();
@@ -246,8 +260,11 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
     flushMicrotasks();
 
     expect(component.agentMode()).toBeTrue();
-    expect(chatApi.listSessions).toHaveBeenCalledWith('agent');
-    expect(component.messages()[1]).toEqual({ role: 'user', content: 'agent 老问题' });
+    expect(chatApi.listSessions).toHaveBeenCalledWith('agent', 'cocc');
+    expect(component.messages()[1]).toEqual({
+      role: 'user',
+      content: 'agent 老问题',
+    });
   }));
 
   it('服务端会话不存在错误 → 置空会话，下次发送自动重建', fakeAsync(() => {
@@ -262,5 +279,137 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
     component.onSend();
     flushMicrotasks();
     expect(chatApi.createSession.calls.count()).toBe(2);
+  }));
+
+  it('restores the saved Agent mode and loads its cocc session on startup', fakeAsync(() => {
+    flushMicrotasks();
+    localStorage.setItem('cocc-agent-mode', 'agent');
+    chatApi.listSessions.calls.reset();
+    chatApi.listSessions.and.returnValue(Promise.resolve([]));
+
+    fixture = TestBed.createComponent(ChatPanelComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    flushMicrotasks();
+
+    expect(component.agentMode()).toBeTrue();
+    expect(chatApi.listSessions).toHaveBeenCalledOnceWith('agent', 'cocc');
+  }));
+
+  it('migrates the legacy shared local history into the first server session', fakeAsync(() => {
+    flushMicrotasks();
+    localStorage.setItem(
+      LEGACY_HISTORY_KEY,
+      JSON.stringify([
+        { role: 'assistant', content: WELCOME },
+        { role: 'user', content: '旧问题' },
+        { role: 'assistant', content: '旧回答' },
+      ]),
+    );
+    chatApi.createSession.calls.reset();
+
+    fixture = TestBed.createComponent(ChatPanelComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    flushMicrotasks();
+    expect(component.messages().map(message => message.content)).toContain('旧问题');
+
+    component.inputText = '新问题';
+    component.onSend();
+    flushMicrotasks();
+
+    expect(chatApi.createSession).toHaveBeenCalledWith(
+      'chat',
+      [
+        { role: 'user', content: '旧问题' },
+        { role: 'assistant', content: '旧回答' },
+      ],
+      'cocc',
+    );
+    expect(localStorage.getItem(LEGACY_HISTORY_KEY)).toBeNull();
+  }));
+
+  it('uses the JWT id claim for user-specific local history', fakeAsync(() => {
+    flushMicrotasks();
+    storage.token = `header.${btoa(JSON.stringify({ id: 'user-42' }))}.signature`;
+    localStorage.setItem(LEGACY_HISTORY_KEY, JSON.stringify([{ role: 'user', content: '用户 42 的历史' }]));
+
+    fixture = TestBed.createComponent(ChatPanelComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    flushMicrotasks();
+
+    expect(component.messages()[0].content).toBe('用户 42 的历史');
+    expect(localStorage.getItem('cocc-chat-history-user-42-chat')).toContain('用户 42 的历史');
+    expect(localStorage.getItem(LEGACY_HISTORY_KEY)).toBeNull();
+  }));
+
+  it('does not start a stream when the user stops while session creation is pending', fakeAsync(() => {
+    flushMicrotasks();
+    let resolveCreate!: (session: any) => void;
+    chatApi.createSession.and.returnValue(new Promise(resolve => (resolveCreate = resolve)));
+
+    component.inputText = '稍后发送';
+    component.onSend();
+    component.onStop();
+    resolveCreate({ _id: 'late-session' });
+    flushMicrotasks();
+
+    expect(chatApi.queryStream).not.toHaveBeenCalled();
+    expect(chatApi.deleteSession).toHaveBeenCalledWith('late-session');
+    expect(component.loading).toBeFalse();
+  }));
+
+  it('keeps chat and Agent fallback histories in separate keys', fakeAsync(() => {
+    flushMicrotasks();
+    component.inputText = '普通聊天';
+    component.onSend();
+    flushMicrotasks();
+    streamCallbacks.chat?.onToken('普通回答');
+    streamCallbacks.chat?.onComplete();
+
+    component.toggleAgentMode();
+    flushMicrotasks();
+    expect(component.messages()).toEqual([{ role: 'assistant', content: WELCOME }]);
+
+    component.inputText = 'Agent 问题';
+    component.onSend();
+    flushMicrotasks();
+    streamCallbacks.agent?.onToken('Agent 回答');
+    streamCallbacks.agent?.onComplete();
+
+    expect(localStorage.getItem(HISTORY_KEY)).toContain('普通回答');
+    expect(localStorage.getItem(AGENT_HISTORY_KEY)).toContain('Agent 回答');
+  }));
+
+  it('does not let a late startup response overwrite a message being sent', fakeAsync(() => {
+    flushMicrotasks();
+    let resolveList!: (sessions: ChatSessionSummary[]) => void;
+    chatApi.listSessions.and.returnValue(new Promise(resolve => (resolveList = resolve)));
+
+    fixture = TestBed.createComponent(ChatPanelComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+    component.inputText = '立即发送';
+    component.onSend();
+    resolveList([]);
+    flushMicrotasks();
+
+    expect(component.messages().some(message => message.content === '立即发送')).toBeTrue();
+    expect(chatApi.queryStream).toHaveBeenCalled();
+  }));
+
+  it('clears the session id captured by a failed stream, not the newly selected mode', fakeAsync(() => {
+    flushMicrotasks();
+    component.inputText = '普通问题';
+    component.onSend();
+    flushMicrotasks();
+    (component as any).agentSessionId = 'agent-session';
+
+    component.agentMode.set(true);
+    streamCallbacks.chat?.onError(new Error('会话不存在'));
+
+    expect((component as any).chatSessionId).toBeNull();
+    expect((component as any).agentSessionId).toBe('agent-session');
   }));
 });

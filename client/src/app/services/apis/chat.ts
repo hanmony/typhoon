@@ -65,6 +65,8 @@ export interface ChatSessionDetail {
   updatedAt: string;
 }
 
+export type ChatSessionMessage = Pick<ChatMessage, 'role' | 'content'>;
+
 @Injectable({ providedIn: 'root' })
 export class ChatApi extends _BaseApi {
   constructor(
@@ -74,11 +76,7 @@ export class ChatApi extends _BaseApi {
     super(http);
   }
 
-  queryStream(
-    question: string,
-    callbacks: QueryStreamCallbacks,
-    options?: QueryStreamOptions,
-  ): () => void {
+  queryStream(question: string, callbacks: QueryStreamCallbacks, options?: QueryStreamOptions): () => void {
     const { history, from, modelId, sessionId } = options || {};
     return fetchSSEStream(callbacks as SSEStreamHandlers, {
       url: `${env.baseUrl}/chat/stream`,
@@ -95,11 +93,7 @@ export class ChatApi extends _BaseApi {
   }
 
   /** Agent 模式流式查询 — 请求 /agent/stream 端点 */
-  queryAgentStream(
-    question: string,
-    callbacks: QueryStreamCallbacks,
-    options?: QueryStreamOptions,
-  ): () => void {
+  queryAgentStream(question: string, callbacks: QueryStreamCallbacks, options?: QueryStreamOptions): () => void {
     const { history, from, modelId, sessionId } = options || {};
     return fetchSSEStream(callbacks as SSEStreamHandlers, {
       url: `${env.baseUrl}/agent/stream`,
@@ -116,13 +110,22 @@ export class ChatApi extends _BaseApi {
   }
 
   /** 创建服务端会话（type: chat=普通对话 / agent=指挥 Agent；title 由服务端自动生成） */
-  createSession(type: 'chat' | 'agent'): Promise<ChatSessionDetail> {
-    return this.http.postSilent(`${env.baseUrl}/chat/sessions`, { type });
+  createSession(
+    type: 'chat' | 'agent',
+    messages: ChatSessionMessage[] = [],
+    from: 'cocc' | 'library' | 'manager' = 'cocc',
+  ): Promise<ChatSessionDetail> {
+    return this.http.postSilent(`${env.baseUrl}/chat/sessions`, {
+      type,
+      from,
+      ...(messages.length ? { messages } : {}),
+    });
   }
 
   /** 当前用户的会话列表（按最近更新倒序；失败静默，调用方自行兜底） */
-  listSessions(type?: 'chat' | 'agent'): Promise<ChatSessionSummary[]> {
-    return this.http.getSilent(`${env.baseUrl}/chat/sessions`, type ? { type } : undefined);
+  listSessions(type?: 'chat' | 'agent', from?: 'cocc' | 'library' | 'manager'): Promise<ChatSessionSummary[]> {
+    const query = { ...(type ? { type } : {}), ...(from ? { from } : {}) };
+    return this.http.getSilent(`${env.baseUrl}/chat/sessions`, Object.keys(query).length ? query : undefined);
   }
 
   /** 会话详情（含服务端存储的消息列表；失败静默） */
