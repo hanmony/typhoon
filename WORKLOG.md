@@ -235,6 +235,21 @@
 - **改动文件**：`docs_import/clean_docs_text.py`、`docs_import/extract_docs.py`、`docs_import/scan_docs.py`、`docs_import/test_d4_boundaries.py`（新增）、`docs_import/clean_report.md`、`README.md`（D4 节同步终态数字与审查结果）
 - **提交**：8cc901f（codex）+ 本条目对应文档同步提交（见 git 历史）
 
+### 步骤 D5：切片（chunking）——按平台 4 类预设切块
+- **目的**：把 72 份清洗后 txt 按平台切片预设切成小块，供 D6 向量化入库；不修改核心业务代码
+- **做法**：新建 `docs_import/chunk_docs.py`——切片算法逐行照抄 `chunk.service.ts`：
+  - `CATEGORY_CHUNK_PRESETS` 四类预设（typhoon_case 800/80、regulation 500/50、emergency_plan 600/60、other 500/50，段落/滑窗策略）
+  - `chunkByParagraph`（按空行分段累积、超长段回退滑窗、上一块尾部 overlap 字符带进下一块）
+  - `chunkText`（定长滑窗 + `findBreakPoint` 断点对齐 ±20% 容忍、`trim()` 边界行为）
+  - 全部 1:1 移植 TypeScript 语义（含 `text[end]` 越界等价跳过、`Math.floor` 取整），保证离线切片与平台在线行为一致
+  - 预检沿用 D4 加固：敏感路径正则拦截、`resolve_under` 越界防护、未知分类报错、txt 缺失报错
+- **执行结果**：72 份 → **3002 片**（other 25 份 2608 片滑窗、emergency_plan 9 份 175 片、regulation 38 份 219 片；typhoon_case 本次无文档——案例数据 D1 已入 MongoDB）；平均 42 片/份；空切片退出码 1
+- **验收**：✅ 72 份全部有切片；✅ 抽查 3 份各取前 3 片：内容连贯、句号边界完整、相邻片重叠 48~60 字（±2 字符差为 `trim()` 吃掉边界换行所致，与平台行为一致）；✅ 报告可核对
+- **产出**：`docs_import/chunks.jsonl`（已 gitignore）+ `chunk_report.json`（已 gitignore）+ `chunk_report.md`（入库）
+- **改动文件**：`docs_import/chunk_docs.py`（新增）、`.gitignore`（chunks.jsonl/chunk_report.json）、`README.md`（D5 状态 ✅ + 执行结果）
+- **codex 审查状态**：D5 待用户决定是否送 codex 审查（建议见本步收尾报告）
+- **提交**：见 git 历史
+
 ---
 
 ## 待办（下一步）
