@@ -6,31 +6,35 @@ extract_docs.py — 步骤 D3：文本提取（PDF / docx / .doc / .xls → 纯�
 ====
 1. 读 docs_import/filter_manifest.json（D2 产出），只处理其中的 keep 清单与待定清单，
    **绝不自行遍历源数据目录**——敏感文件在 D2 已排除，本脚本碰不到它们。
-2. keep 批次（60 份）：
+2. keep 批次（当前清单 74 份）：
    - PDF：pdfplumber 主提取（对双栏论文/公式更稳），失败或几乎为空时降级 PyPDF2 再试；
    - docx：python-docx（按文档顺序提取段落 + 表格，表格一行一单元格拼成一行）。
-3. 待定批次（17 份，D2 标记待定）：
+3. 待定批次（当前清单 0 份；保留兼容逻辑）：
    - .doc 老格式：MS Word COM 主提取（中文保真度高，冒烟测试已验证）→ antiword 降级
      → 都不可用则跳过并在报告中列出（不阻塞整体进度）；
    - .xls 老格式：pandas + xlrd → 失败则跳过并列出；
    - 待定 docx（工作总结×3、梅花.docx）：与 keep 同法提取，但状态标 pending，供用户决策。
 4. 疑似扫描件判定：PDF 提取字符数 < 200 或 < 30 字符/页 → 标记 suspect_scan（仍存 txt，
    D4/D5 可跳过或人工确认）。
-5. 输出：
+5. 提取前验证 manifest 无未归类项、路径未越界、源文件大小与 SHA-256 未变化；
+   正常重跑会清理 text/ 中不再属于当前清单的旧 txt，防止 D4 误读残留文件。
+6. 输出：
    - docs_import/text/  每份文档一个 .txt（UTF-8，目录结构镜像源目录）
    - docs_import/extract_metadata.json  逐份元数据（路径/大小/分类/提取方式/字数/页数/状态）
-6. 验收兜底：keep 清单必须逐份得到 ok/suspect_scan 结果；任何一份 failed 则退出码 1。
+7. 验收兜底：keep 清单必须逐份得到 ok/suspect_scan 结果；任何一份 failed 则退出码 1。
 
 用法
 ====
     python -X utf8 docs_import/extract_docs.py [manifest路径] [输出目录]
 """
 import argparse
+import hashlib
 import json
 import os
 import re
 import subprocess
 import sys
+from datetime import datetime
 
 # ──────────────────────────────────────────────────────────────────────
 # 配置区
@@ -44,6 +48,41 @@ SUSPECT_SCAN_MIN_CHARS = 200      # 全文不足 200 字符 → 疑似扫描件
 SUSPECT_SCAN_MIN_PER_PAGE = 30    # 平均每页不足 30 字符 → 疑似扫描件
 LOW_YIELD_MIN_CHARS = 5000        # ≥10 页文档不足 5000 字符 → 告警"字数偏少"
 WATERMARK_MIN_REPEAT = 3          # 同一行出现 ≥3 次视为水印/页眉
+ALLOWED_CATEGORIES = {"typhoon_case", "regulation", "emergency_plan", "other"}
+ALLOWED_EXTENSIONS = {".pdf", ".docx", ".doc", ".xls"}
+SENSITIVE_PATH_RE = re.compile(
+    r"身份证|值班表|值班安排|值班名单|联系方式|通讯录|联络表|联系人|联络员|负责人|手机号码|联系电话"
+)
+
+
+def sha256_of(path, chunk=1024 * 1024):
+    """流式计算清单内非敏感文件的 SHA-256。"""
+    digest = hashlib.sha256()
+    with open(path, "rb") as source:
+        for block in iter(lambda: source.read(chunk), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def resolve_under(root, relpath):
+    """解析清单相对路径，并拒绝绝对路径或 ../ 越界。"""
+    if not isinstance(relpath, str) or not relpath.strip():
+        raise ValueError("清单 relpath 为空")
+    rel_os = relpath.replace("/", os.sep)
+    if os.path.isabs(rel_os):
+        raise ValueError(f"清单路径必须是相对路径: {relpath}")
+    root_abs = os.path.realpath(os.path.abspath(root))
+    full = os.path.realpath(os.path.abspath(os.path.join(root_abs, rel_os)))
+    try:
+        if os.path.commonpath([root_abs, full]) != root_abs:
+            raise ValueError(f"清单路径越界: {relpath}")
+    except ValueError:
+        raise ValueError(f"清单路径越界: {relpath}")
+    return full
+
+
+def text_relpath(relpath):
+    return os.path.splitext(relpath)[0] + ".txt"
 
 
 # ──────────────────────────────────────────────────────────────────────
@@ -128,7 +167,8 @@ def extract_doc_word_com(path):
     import win32com.client
     word = None
     try:
-        word = win32com.client.Dispatch("Word.Application")
+        # DispatchEx 创建独立 Word 进程，避免误用并关闭用户已经打开的 Word。
+        word = win32com.client.DispatchEx("Word.Application")
         word.Visible = False
         word.DisplayAlerts = 0
         doc = word.Documents.Open(path, ReadOnly=True)
@@ -205,10 +245,77 @@ def main():
     root = manifest["source_root_innermost"]
     out_dir = os.path.abspath(args.out)
     text_dir = os.path.join(out_dir, "text")
-    os.makedirs(text_dir, exist_ok=True)
 
-    keep_items = manifest["keep"]
-    pending_items = manifest["pending"]
+    keep_items = manifest.get("keep")
+    pending_items = manifest.get("pending")
+    if not isinstance(keep_items, list) or not isinstance(pending_items, list):
+        print("[ERROR] manifest 缺少 keep/pending 列表")
+        sys.exit(1)
+    if manifest.get("unclassified"):
+        print("[ERROR] D2 manifest 仍有未归类文件，拒绝启动 D3")
+        sys.exit(1)
+
+    # 提取前完整校验清单，确保 D2 与 D3 之间源文件没有被替换，且清单不能越界读取。
+    preflight_errors = []
+    output_owners = {}
+    for item, is_pending in ([(x, False) for x in keep_items] +
+                             [(x, True) for x in pending_items]):
+        relpath = item.get("relpath")
+        try:
+            full = resolve_under(root, relpath)
+            out_rel = text_relpath(relpath)
+            resolve_under(text_dir, out_rel)
+        except ValueError as e:
+            preflight_errors.append(str(e))
+            continue
+        if SENSITIVE_PATH_RE.search(relpath):
+            preflight_errors.append(f"清单疑似包含敏感文件，拒绝读取: {relpath}")
+            continue
+        ext = os.path.splitext(relpath)[1].lower()
+        if ext not in ALLOWED_EXTENSIONS:
+            preflight_errors.append(f"不支持的扩展名 {ext}: {relpath}")
+        if not is_pending and item.get("category") not in ALLOWED_CATEGORIES:
+            preflight_errors.append(f"知识库分类非法: {relpath} -> {item.get('category')}")
+        output_key = out_rel.casefold()
+        if output_key in output_owners:
+            preflight_errors.append(
+                f"输出路径冲突: {output_owners[output_key]} / {relpath} -> {out_rel}")
+        else:
+            output_owners[output_key] = relpath
+        expected_hash = item.get("sha256")
+        if not isinstance(expected_hash, str) or not re.fullmatch(r"[0-9a-f]{64}", expected_hash):
+            preflight_errors.append(f"缺少有效 SHA-256: {relpath}")
+            continue
+        if not os.path.isfile(full):
+            preflight_errors.append(f"源文件不存在: {relpath}")
+            continue
+        actual_size = os.path.getsize(full)
+        if actual_size != item.get("size"):
+            preflight_errors.append(
+                f"源文件大小已变化: {relpath}（清单 {item.get('size')} / 当前 {actual_size}）")
+            continue
+        actual_hash = sha256_of(full)
+        if actual_hash != expected_hash:
+            preflight_errors.append(f"源文件 SHA-256 已变化: {relpath}")
+
+    if preflight_errors:
+        print(f"[ERROR] D3 提取前校验失败（{len(preflight_errors)} 项）：")
+        for message in preflight_errors:
+            print(f"  - {message}")
+        sys.exit(1)
+
+    os.makedirs(text_dir, exist_ok=True)
+    expected_outputs = {text_relpath(x["relpath"]).replace("\\", "/").casefold()
+                        for x in keep_items + pending_items}
+    # 清理已不在当前 manifest 的旧 txt，避免 D4/D5 误读历史残留。
+    for dirpath, _, filenames in os.walk(text_dir):
+        for filename in filenames:
+            if not filename.lower().endswith(".txt"):
+                continue
+            existing = os.path.relpath(os.path.join(dirpath, filename), text_dir).replace(os.sep, "/")
+            if existing.casefold() not in expected_outputs:
+                os.remove(os.path.join(dirpath, filename))
+
     print(f"[extract] keep 批次 {len(keep_items)} 份 / 待定批次 {len(pending_items)} 份")
     print(f"[extract] 源根目录（只读）: {root}")
 
@@ -216,18 +323,22 @@ def main():
     pending_attempts = []
 
     def save_txt(relpath, text):
-        dest = os.path.join(text_dir, os.path.splitext(relpath)[0] + ".txt")
+        dest = resolve_under(text_dir, text_relpath(relpath))
         os.makedirs(os.path.dirname(dest), exist_ok=True)
         with open(dest, "w", encoding="utf-8") as f:
             f.write(text)
         return dest
 
-    def process(relpath, size, category, is_pending):
-        full = os.path.join(root, relpath)
+    def process(relpath, size, expected_hash, category, is_pending):
+        full = resolve_under(root, relpath)
         ext = os.path.splitext(relpath)[1].lower()
+        old_dest = resolve_under(text_dir, text_relpath(relpath))
+        if os.path.exists(old_dest):
+            os.remove(old_dest)
         entry = {
             "relpath": relpath,
             "size": size,
+            "sha256": expected_hash,
             "category": category,
             "extractor": None,
             "char_count": 0,
@@ -268,7 +379,12 @@ def main():
             return entry
 
         # 保存 txt
-        saved = save_txt(relpath, text)
+        try:
+            save_txt(relpath, text)
+        except Exception as e:
+            entry["status"] = "skipped" if is_pending else "failed"
+            entry["note"] = f"写入 txt 失败: {type(e).__name__} {str(e)[:160]}"
+            return entry
         entry["char_count"] = len(text)
 
         # 状态判定
@@ -298,14 +414,16 @@ def main():
     # keep 批次
     failed_keep = 0
     for item in keep_items:
-        e = process(item["relpath"], item["size"], item["category"], is_pending=False)
+        e = process(item["relpath"], item["size"], item["sha256"],
+                    item["category"], is_pending=False)
         if e["status"] == "failed":
             failed_keep += 1
         documents.append(e)
 
     # 待定批次
     for item in pending_items:
-        e = process(item["relpath"], item["size"], "pending", is_pending=True)
+        e = process(item["relpath"], item["size"], item["sha256"],
+                    "pending", is_pending=True)
         pending_attempts.append(e)
         if e["status"] == "skipped":
             print(f"  [SKIP] {e['note'][:80]}  {item['relpath']}")
@@ -319,7 +437,7 @@ def main():
         pending_count[e["status"]] = pending_count.get(e["status"], 0) + 1
 
     meta = {
-        "generated": "2026-08-18",
+        "generated": datetime.now().astimezone().isoformat(timespec="seconds"),
         "step": "D3",
         "script": "docs_import/extract_docs.py",
         "manifest": os.path.abspath(args.manifest),

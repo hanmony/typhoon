@@ -4,6 +4,7 @@
   "step": "D2",
   "source_root": "C:\\Users\\86182\\AppData\\Roaming\\JetBrains\\PyCharm2026.1\\extensions\\台风资料",
   "source_root_innermost": "C:\\Users\\86182\\AppData\\Roaming\\JetBrains\\PyCharm2026.1\\extensions\\台风资料\\台风资料\\台风资料",
+  "scan_policy": "exclude",
   "category_enum": [
     "typhoon_case",
     "regulation",

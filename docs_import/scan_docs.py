@@ -32,6 +32,7 @@ import json
 import os
 import re
 import sys
+from datetime import datetime
 
 # ──────────────────────────────────────────────────────────────────────
 # 配置区
@@ -45,7 +46,8 @@ CAT_EMERGENCY_PLAN = "emergency_plan"  # 预案/处置方案
 CAT_REGULATION = "regulation"          # 规定/通知/指令/报告
 
 # 规则表：按顺序匹配，命中即归类（前一条优先）
-# 每条：kind 匹配方式（"name" 精确文件名 / "regex" 文件名正则 / "dir" 路径含目录片段 / "ext" 扩展名）
+# 每条：kind 匹配方式（"name" 精确文件名 / "regex" 文件名正则 / "path_regex" 路径正则 /
+#       "dir" 路径含目录片段 / "ext" 扩展名）
 #       + 可选 path 限定（路径必须同时包含该片段）
 RULES = [
     # ── 1. 敏感文件（红线，绝不读取内容） ──────────────────────────────
@@ -57,17 +59,24 @@ RULES = [
          bucket="exclude_sensitive", reason="轨交支援人员联系方式"),
     dict(kind="regex", pattern=r"^附件[1-6].*\.docx$", path="防汛防台基础数据",
          bucket="exclude_sensitive", reason="各单位负责人/联络员名单与应急联络表"),
+    # 文件新增或改名时仍按敏感关键词先拦截，避免落入后续普通文档规则并被读取哈希。
+    dict(kind="path_regex",
+         pattern=r"身份证|值班表|值班安排|值班名单|联系方式|通讯录|联络表|联系人|联络员|负责人|手机号码|联系电话",
+         bucket="exclude_sensitive", reason="路径含人员身份、排班或联络信息关键词"),
 
     # ── 1.5 疑似扫描件（D3 实测无文字层，用户确认不保留） ─────────────
-    # 2026-08-18 用户决策：如需 OCR 后重新纳入，删除本组规则并重跑本脚本即可
+    # 2026-08-18 用户决策：默认排除；OCR 后可用 --include-scans 显式恢复纳入。
     dict(kind="name", name="附件：沪汛办〔2022〕40号+关于切实做好今年第11号台风“轩岚诺”防御工作的通知.pdf",
          bucket="exclude_scan",
+         restore_bucket="keep_official", restore_category=CAT_REGULATION,
          reason="疑似扫描件——D3 实测全文仅 2 字（无文字层），用户确认不保留"),
     dict(kind="name", name="《上海市防汛指挥部办公室关于认真贯彻落实习近平总书记重要指示精神进一步做好当前防汛救灾工作的通知》【沪汛办（2023）30号】.pdf",
          bucket="exclude_scan",
+         restore_bucket="keep_official", restore_category=CAT_REGULATION,
          reason="疑似扫描件——D3 实测全文仅 3 字（无文字层），用户确认不保留"),
     dict(kind="name", name="气候、分类和概率预测在成本损失率情况下的价值.pdf",
          bucket="exclude_scan",
+         restore_bucket="keep_academic", restore_category=CAT_OTHER,
          reason="疑似扫描件——D3 实测剔除重复水印后正文为空（14 页为图片），用户确认不保留"),
 
     # ── 2. M4 线路空间研判材料 ────────────────────────────────────────
@@ -136,12 +145,25 @@ RULES = [
          reason="近年主要影响台风汇总表（与汇编附件9为同内容，按哈希去重）"),
 
     # ── 4.5 原待定 17 份（2026-08-18 用户决策：全部纳入） ─────────────
-    dict(kind="ext", ext=".doc",
+    dict(kind="name", name="切实做好2022年第11号台风“轩岚诺”防御工作.doc",
          bucket="keep_official", category=CAT_REGULATION,
-         reason="梅花速报/停运预报/轩岚诺防御通知——D3 经 Word COM 提取成功，用户确认纳入"),
-    dict(kind="regex", pattern=r"工作总结.*\.docx$",
+         reason="轩岚诺防御通知——D3 经 Word COM 提取成功，用户确认纳入"),
+    dict(kind="regex", pattern=r"^9月(?:14日上海地铁部分线路停运|15日上海地铁地面、高架区段首班车运营时间或将延至7时)的预报\.doc$",
+         path="梅花 - 副本/台风期间设施设备情况",
          bucket="keep_official", category=CAT_REGULATION,
-         reason="保障工作总结——D3 提取成功，用户确认纳入"),
+         reason="梅花停运预报——D3 经 Word COM 提取成功，用户确认纳入"),
+    dict(kind="regex", pattern=r"^“梅花”速报.*\.doc$", path="建设集团姚均",
+         bucket="keep_official", category=CAT_REGULATION,
+         reason="梅花速报——D3 经 Word COM 提取成功，用户确认纳入"),
+    dict(kind="name", name="【报运管部】指挥中心防御第6号台风“烟花”保障工作总结0729.docx",
+         bucket="keep_official", category=CAT_REGULATION,
+         reason="烟花保障工作总结——D3 提取成功，用户确认纳入"),
+    dict(kind="name", name="【报运管部】运管中心防御第14号台风“灿都”保障工作总结0923.docx",
+         bucket="keep_official", category=CAT_REGULATION,
+         reason="灿都保障工作总结——D3 提取成功，用户确认纳入"),
+    dict(kind="name", name="调度指挥中心防御第12号台风“梅花”保障工作总结-运管部.docx",
+         bucket="keep_official", category=CAT_REGULATION,
+         reason="梅花保障工作总结——D3 提取成功，用户确认纳入"),
     dict(kind="name", name="防汛防台相关规章及处置要求.xls",
          bucket="keep_official", category=CAT_REGULATION,
          reason="规章及处置要求——D3 经 pandas 提取成功，用户确认纳入"),
@@ -256,6 +278,9 @@ def match_rule(relpath, fname, ext, rule):
         # 注意：文件名中「工作总结」等关键词不在开头，必须用 search 而非 match
         if not re.search(rule["pattern"], fname):
             return None
+    elif kind == "path_regex":
+        if not re.search(rule["pattern"], relpath):
+            return None
     elif kind == "dir":
         if rule["path"] not in relpath:
             return None
@@ -282,11 +307,17 @@ def match_rule(relpath, fname, ext, rule):
     return result
 
 
-def classify(relpath, ext, fname):
+def classify(relpath, ext, fname, include_scans=False):
     """按规则表顺序归类；未命中任何规则返回 (None, None)"""
     for rule in RULES:
         hit = match_rule(relpath, fname, ext, rule)
         if hit is not None:
+            if include_scans and hit["bucket"] == "exclude_scan":
+                return rule["restore_bucket"], {
+                    "bucket": rule["restore_bucket"],
+                    "category": rule["restore_category"],
+                    "reason": "扫描件经 --include-scans 显式恢复纳入（应先完成 OCR）",
+                }
             return hit["bucket"], hit
     return None, None
 
@@ -303,6 +334,8 @@ def main():
     ap = argparse.ArgumentParser(description="步骤 D2：文献与文档盘点（过滤清单生成器）")
     ap.add_argument("root", nargs="?", default=DEFAULT_ROOT, help="数据根目录")
     ap.add_argument("out", nargs="?", default=DEFAULT_OUT, help="输出目录")
+    ap.add_argument("--include-scans", action="store_true",
+                    help="OCR 完成后显式恢复纳入 3 份扫描件；默认仍排除")
     args = ap.parse_args()
 
     root = find_innermost(args.root)
@@ -324,11 +357,12 @@ def main():
 
     # 1) 遍历归类（全部文件都进清单，不剪枝）
     for dirpath, dirnames, filenames in os.walk(root):
+        dirnames.sort()
         for fname in sorted(filenames):
             full = os.path.join(dirpath, fname)
             rel = os.path.relpath(full, root).replace(os.sep, "/")
             ext = os.path.splitext(fname)[1].lower()
-            bucket, info = classify(rel, ext, fname)
+            bucket, info = classify(rel, ext, fname, include_scans=args.include_scans)
             if bucket is None:
                 bucket = "unclassified"
                 info = {"reason": "未命中任何规则——需要人工补规则"}
@@ -366,11 +400,12 @@ def main():
 
     # 3) 输出 manifest
     manifest = {
-        "generated": "2026-08-18",
+        "generated": datetime.now().astimezone().isoformat(timespec="seconds"),
         "script": "docs_import/scan_docs.py",
         "step": "D2",
         "source_root": os.path.abspath(args.root),
         "source_root_innermost": root,
+        "scan_policy": "include-after-ocr" if args.include_scans else "exclude",
         "category_enum": ["typhoon_case", "regulation", "emergency_plan", "other"],
         "summary": {**{k: len(v) for k, v in buckets.items()},
                     "duplicates": len(duplicates)},
@@ -393,7 +428,8 @@ def main():
             for e in buckets["exclude_irrelevant"]
         ],
         "pending": [
-            {"relpath": e["relpath"], "size": e["size"], "reason": e["reason"]}
+            {"relpath": e["relpath"], "size": e["size"], "sha256": e["sha256"],
+             "reason": e["reason"]}
             for e in buckets["pending"]
         ],
         "m4": [
@@ -419,6 +455,8 @@ def main():
         f.write(f"- 生成时间：{manifest['generated']}\n")
         f.write(f"- 数据根目录（最内层）：`{root}`\n")
         f.write(f"- 生成脚本：`docs_import/scan_docs.py`\n\n")
+        f.write(f"- 扫描件策略：`{manifest['scan_policy']}`；默认排除，完成 OCR 后可用 "
+                "`--include-scans` 显式恢复纳入\n\n")
         s = manifest["summary"]
         f.write("## 汇总\n\n")
         f.write(f"| 类别 | 数量 |\n|---|---:|\n")
