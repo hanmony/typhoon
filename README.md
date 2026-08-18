@@ -168,11 +168,12 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
   | `other`（学术文献） | sliding_window（滑窗） | 500 | 50 |
 
   - 滑窗与按段的区别：滑窗是"定长窗口向前滚"，段与段边界不断开；按段是"以自然段为单位凑块"。中文官方文档结构规整用按段；论文长段落多用滑窗。
-  - 输出 `docs_import/chunks.jsonl`：每行一个切片，字段 = `{documentId, documentName, category, chunkIndex, content, chunkConfig}`。
-- **执行结果（2026-08-18）**：
-  - **产出**：`docs_import/chunk_docs.py`——切片算法（`chunkByParagraph`/`chunkText`/`findBreakPoint` 三个函数）逐行照抄平台 `chunk.service.ts` 的 TypeScript 实现（含断点对齐 ±20% 容忍、超长段回退滑窗、`trim()` 边界行为），保证离线切片与平台在线切片行为一致；预检沿用 D4 加固（敏感路径拦截、`resolve_under` 越界防护、txt 缺失报错）。
+  - 输出 `docs_import/chunks.jsonl`：每行一个切片，字段 = `{documentId, sourceRelpath, documentName, category, chunkIndex, content, chunkConfig}`。
+- **执行结果（2026-08-18，终态含 codex D5 审查加固）**：
+  - **产出**：`docs_import/chunk_docs.py`——切片算法（`chunkByParagraph`/`chunkText`/`findBreakPoint` 三个函数）移植自平台 `chunk.service.ts` 的 TypeScript 实现（含断点对齐 ±20% 容忍、超长段回退滑窗、`trim()` 边界行为）。**BMP 字符（中文、常见符号）切片行为与平台完全一致**；非 BMP 字符（如部分数学符号/emoji）因 JavaScript 按 UTF-16 码元计数、Python 按 Unicode 字符计数，相关切片边界可能有少量偏移——实测全部 72 份共 25 个非 BMP 字符，**正文完整保留**，数量写入报告供核对。预检沿用 D4 加固（敏感路径拦截、`resolve_under` 越界防护、txt 缺失报错、documentId 冲突检测）。
+  - **字段约定**：`documentId`（去扩展名相对路径）= **D6 的临时来源键**；`sourceRelpath`（带扩展名相对路径）= D6 建 `kb-documents` 与幂等匹配的依据；D6 写入后 `kb-chunks.documentId` 与 Qdrant payload 的 `documentId` 必须是 **Mongo `_id` 字符串**。
   - **数字**：72 份 → **3002 片**——`other` 学术论文 25 份 2608 片（滑窗 500/50）、`emergency_plan` 预案 9 份 175 片（段落 600/60）、`regulation` 38 份 219 片（段落 500/50）；平均每份 42 片；`typhoon_case` 分类本次无文档（案例数据已在 D1 入 MongoDB，不走文献管线）。
-  - **验收**：✅ 72 份全部有切片（空切片即退出码 1）；✅ 抽查 3 份（预案/论文/通知各取前 3 片）：内容连贯、相邻片重叠 48~60 字（±2 字符差为 `trim()` 吃掉边界换行所致，与平台行为一致）、句号边界完整；✅ 输出 `chunks.jsonl`（已 gitignore）+ `chunk_report.json`/`chunk_report.md`（报告可核对）。
+  - **验收**：✅ 72 份全部有切片（空切片即退出码 1）；✅ 抽查 3 份（预案/论文/通知各取前 3 片）：内容连贯、相邻片重叠 48~60 字（±2 字符差为 `trim()` 吃掉边界换行所致，与平台行为一致）、句号边界完整；✅ 新增 D5 测试 10 项（预设一致/断点边界/滑窗重叠/超长段回退/非 BMP 保留/jsonl 映射/冲突 fail-loud/敏感拦截），docs_import 全量 22 项测试通过；✅ 输出 `chunks.jsonl`（已 gitignore）+ `chunk_report.json`/`chunk_report.md`（报告可核对）。
 - **教学**：切片是 RAG 效果的**关键旋钮**——片太大检索不精准（一篇 2 万字论文整段命中，回答被无关内容淹没）；片太小语义不完整（一句话孤零零命中，缺上下文）。平台预设是既有调参结果，直接沿用最稳。
 - **改动文件**：新增 `chunk_docs.py`。
 - **验收**：72 份文档切片完成；切片数在合理区间（72 篇 × 平均每篇 10～50 片）；任取 3 片人工检查——内容连贯、重叠部分确实重复了上一片尾部 50 字。
@@ -183,10 +184,16 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
   1. **向量化**：逐片调用 `.env` 里的 `EMBEDDING_BASE_URL`（OpenAI 兼容接口，请求体同 `embedding.service.ts`），批量 16 片/次，失败重试 3 次；
   2. **写 Qdrant**：写入 `knowledge_base` 集合。每点 = `{id: 切片唯一ID, vector: 1024 维, payload: {content, documentId, documentName, chunkIndex, category}}`——payload 字段**严格对齐** `qdrant.service.ts` 的 `search()` 返回字段，平台检索才拿得到内容；
   3. **写 MongoDB**：`kb-documents` 插入 1 条文档记录（name/fileType/filePath/fileSize/status=3(chunked+indexed)/chunkCount/category/chunkConfig），`kb-chunks` 插入每片 1 条（documentId/chunkIndex/content/qdrantPointId 指向 Qdrant 点 ID）——两个集合的结构照抄 `kb-document.schema.ts`、`kb-chunk.schema.ts`。
-  - **幂等**：导入前按文件名查 `kb-documents` 是否已存在 → 存在则先删 Qdrant 中该 documentId 的点 + Mongo 旧记录再写。
+  - **幂等**：导入前按 `sourceRelpath`（写入 `kb-documents.filePath`）匹配是否已存在 → 存在则先删 Qdrant 中该 documentId 的点 + Mongo 旧记录再写。
+- **D6 契约（codex 审查 D5 时确定，执行必须遵守）**：
+  1. D5 的 `documentId` 只是**临时来源键**；D6 创建 `kb-documents` 后，必须把 **Mongo `_id` 字符串**写入 `kb-chunks.documentId` 和 Qdrant payload 的 `documentId`；
+  2. 幂等匹配**优先用 `sourceRelpath`**（= `kb-documents.filePath`），不要只用文件名；
+  3. **不要把 chunks.jsonl 整行直接插入 `kb-chunks`**——Mongo 切片表只写 `documentId` / `chunkIndex` / `content` / `qdrantPointId` 四个字段；
+  4. `kb-documents.filePath` **不能指向 D8 会删除的临时目录**——D6 应先把可重处理文件（清洗后 txt）放入永久目录（或明确长期保留 `text_clean/`），filePath 指向该处；
+  5. **删除旧数据前先完成 Embedding 连通性与 1024 维校验**，避免校验失败后旧知识也被删光。
 - **教学**：这一步你第一次完整看到"一条数据的两条命"——文字存 MongoDB（给人看/管理用），向量存 Qdrant（给机器算相似度用），靠 `qdrantPointId` 互相关联。`status=3` 表示"已入库"，管理后台知识库列表就是读这个字段显示的。
 - **改动文件**：新增 `index_docs.py`（业务代码零改动）。
-- **验收**：Qdrant `knowledge_base` 点数 = chunks.jsonl 行数；`kb-documents` 53 条（重名去重后）；管理后台「知识库」页面能看到新文档、状态为已入库。
+- **验收**：Qdrant `knowledge_base` 点数 = chunks.jsonl 行数（3002）；`kb-documents` 72 条（72 个文件名与临时文档键均已验证唯一）；管理后台「知识库」页面能看到新文档、状态为已入库。
 - **预估工作量**：1 天（含接口调试）。
 
 #### 步骤 D7：检索验证

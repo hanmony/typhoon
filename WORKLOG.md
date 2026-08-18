@@ -241,14 +241,25 @@
   - `CATEGORY_CHUNK_PRESETS` 四类预设（typhoon_case 800/80、regulation 500/50、emergency_plan 600/60、other 500/50，段落/滑窗策略）
   - `chunkByParagraph`（按空行分段累积、超长段回退滑窗、上一块尾部 overlap 字符带进下一块）
   - `chunkText`（定长滑窗 + `findBreakPoint` 断点对齐 ±20% 容忍、`trim()` 边界行为）
-  - 全部 1:1 移植 TypeScript 语义（含 `text[end]` 越界等价跳过、`Math.floor` 取整），保证离线切片与平台在线行为一致
+  - 按 TypeScript 语义移植（含 `text[end]` 越界等价跳过、`Math.floor` 取整）；**BMP 字符切片行为与平台一致**，非 BMP 字符因 JS UTF-16 码元 vs Python Unicode 字符计数差异边界可能少量偏移（实测全量 25 个，正文完整保留，报告可核对）
   - 预检沿用 D4 加固：敏感路径正则拦截、`resolve_under` 越界防护、未知分类报错、txt 缺失报错
 - **执行结果**：72 份 → **3002 片**（other 25 份 2608 片滑窗、emergency_plan 9 份 175 片、regulation 38 份 219 片；typhoon_case 本次无文档——案例数据 D1 已入 MongoDB）；平均 42 片/份；空切片退出码 1
 - **验收**：✅ 72 份全部有切片；✅ 抽查 3 份各取前 3 片：内容连贯、句号边界完整、相邻片重叠 48~60 字（±2 字符差为 `trim()` 吃掉边界换行所致，与平台行为一致）；✅ 报告可核对
 - **产出**：`docs_import/chunks.jsonl`（已 gitignore）+ `chunk_report.json`（已 gitignore）+ `chunk_report.md`（入库）
 - **改动文件**：`docs_import/chunk_docs.py`（新增）、`.gitignore`（chunks.jsonl/chunk_report.json）、`README.md`（D5 状态 ✅ + 执行结果）
-- **codex 审查状态**：D5 待用户决定是否送 codex 审查（建议见本步收尾报告）
+- **codex 审查状态**：D5 已送 codex 审查，修复见下一条目
 - **提交**：见 git 历史
+
+### D5 codex 审查：加固切片与 D6 映射契约（codex 提交 b8b1880，已合入）
+- **修复/加固**：
+  1. 文档表述修正：算法移植**仅对 BMP 字符行为一致**——JS 按 UTF-16 码元、Python 按 Unicode 字符计数，非 BMP 字符（数学符号/emoji）相关切片边界可能少量偏移；新增 `NON_BMP_RE` 统计，实测全量 **25 个非 BMP 字符**（正文完整保留），写入报告并终端 WARN
+  2. `chunks.jsonl` 新增 `sourceRelpath` 字段（带扩展名统一分隔符相对路径）；新增 `source_document_id`/`source_document_name`（统一分隔符，跨平台稳定）
+  3. `int()` → `math.floor`（贴 JS `Math.floor` 语义）；预检新增空元数据报错、documentId 冲突检测（casefold，fail loud）
+  4. **D6 契约 5 条**（已写入 README D6 节）：documentId 是临时来源键，D6 必须把 Mongo `_id` 字符串写入 kb-chunks.documentId 与 Qdrant payload.documentId；幂等匹配优先 sourceRelpath；kb-chunks 只写 documentId/chunkIndex/content/qdrantPointId 四字段；filePath 不得指向 D8 会删的临时目录；删旧数据前先验 Embedding 连通性与 1024 维
+- **新增测试**：`docs_import/test_d5_boundaries.py`（10 项：预设一致/断点边界/滑窗重叠/段落切分/超长回退/非 BMP 保留/jsonl 映射/冲突 fail-loud/敏感拦截）——本机 22 项全量（D4 12 + D5 10）通过
+- **验证**：重跑 D5 与 codex 产物一致（72 份 → 3002 片、非 BMP 25 个 WARN 正常）
+- **改动文件**：`docs_import/chunk_docs.py`、`docs_import/test_d5_boundaries.py`（新增）、`docs_import/chunk_report.md`、`README.md`（D5/D6 节同步）
+- **提交**：b8b1880（codex）+ 本条目对应文档同步提交（见 git 历史）
 
 ---
 
