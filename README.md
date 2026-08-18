@@ -1,4 +1,3 @@
-
 # 台风防台智策平台 — 智能体建设项目
 
 > 为上海轨道交通防汛防台指挥平台建设 AI 智能体。
@@ -55,7 +54,7 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
 | 步骤 | 任务 | 状态 |
 |---|---|---|
 | 步骤 D0 | 案例数据清洗 `clean_data.py`（日期/缺失值/字段名统一） | ✅ 完成（2026-08-17） |
-| 步骤 D1 | 案例数据导入 MongoDB（cases / actions / pathinfos） | ⬜ 待做 |
+| 步骤 D1 | 案例数据导入 MongoDB（cases / actions / pathinfos） | ✅ 完成（2026-08-18） |
 | 步骤 D2 | 文献与文档盘点：过滤清单（剔除敏感/无关文件） | ⬜ 待做 |
 | 步骤 D3 | 文本提取：PDF / docx → 纯文本 | ⬜ 待做 |
 | 步骤 D4 | 文本清洗：页眉页脚 / 断行 / 乱码 | ⬜ 待做 |
@@ -94,6 +93,17 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
 - **改动文件**：新增 `import_cases_to_mongo.py`（业务代码零改动）。
 - **验收**：MongoDB 中 6 个案例、7 条路径（722 点）计数正确；抽查「梅花」案例在管理后台案例库页可见、路径大屏可画。
 - **预估工作量**：0.5 天。
+
+**执行结果（2026-08-18）**
+- **产出**：根目录 `import_cases_to_mongo.py`（独立脚本，依赖 pymongo）；导入报告 `clean_output/import_report.json`。
+- **数据落库**（`mongodb://127.0.0.1:27017/schooltyphoon`，Docker 容器 `mongo-typhoon-test`）：
+  - `cases` 6 条（status=0 案例库可见；name=「台风命名」值；values 按 CaseConfigItem 结构）；
+  - `actions` 946 条（caseId=案例 _id、items 用中文列名对齐前端详情页、空结束时间→3000 年、自由文本时间尽力解析共 100 条近似值全部记入报告）；
+  - `pathinfos` 722 点 / 7 条（caseId=案例名；power 拼回「18米/秒,8级」、贝碧嘉/普拉桑 4 段管道风圈展开为七级/十级/十二级文本——前端 `getPower`/`formatRadius` 正则对全部点校验通过）；
+  - 「舆情及敏感信息」2 行跳过（不在 ActionCategory 枚举，内容已存在于总览 values）；利奇马无案例台账，其 134 个路径点按源 case_id `201908利奇马` 保留。
+- **幂等**：按 name 先删旧案例+其事件、按 caseId 删旧路径再插入，重复执行结果不变（实测连跑 3 次计数稳定）。
+- **验收**：✅ 计数一致（6/946/722）；✅ 其他集合零触碰；✅ 前端查询语义复现（getCases(status=0)、getPathInfos(name)、getEvents(caseId,category)）；⚠️ 管理后台页面为登录态页面，本机无账号密码，页面可见性待用户登录后人工确认（数据层已验证）。
+- **环境备注**：本机 Windows 重装后 MongoDB 已不存在，本次使用 Docker 容器（mongo:7）恢复；容器未配置 `--replSet rs0`，平台事务接口（案例导入/编辑）需副本集，仅影响后台手动导入流程，D1 数据读写不受影响。
 
 #### 步骤 D2：文献与文档盘点：过滤清单
 - **盘点结果（已探明，写进脚本）**：

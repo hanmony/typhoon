@@ -133,11 +133,31 @@
 - **改动文件**：`README.md`（新增「阶段〇：数据导入」章节：D0–D8 步骤表 + 概念小课堂 + 前置条件 + 每步做法/改动文件/验收标准/预估工作量）
 - **提交**：见 git 历史
 
+## 2026-08-18
+
+### 步骤 D1：案例数据导入 MongoDB（cases / actions / pathinfos）
+- **目的**：把 clean_data.py 清洗出的 `clean_output/{cases,tracks}.json` 按平台 caseman 结构导入 MongoDB `schooltyphoon` 库（不修改任何核心业务代码，server/、client/ 一律不动）
+- **产出**：根目录 `import_cases_to_mongo.py`（独立脚本，依赖 pymongo；`python import_cases_to_mongo.py`，支持 --uri/--input/--report）
+- **导入语义对齐**（读了 caseman 导入器与前端渲染代码后确定）：
+  - `cases.name` = 总览「台风命名」值；`status=0`（normal，案例库页可见）；`values` 结构照抄 ExcelBaseDto（key/type/value/editorType/editorOptions）
+  - `actions.caseId` = 案例 `_id`（ObjectId）；`items` 用中文键（前端 notification-template 按 `发布方式/工作要点/预警发布` 等读取）；`fromDate/toDate` 缺失结束时间用 3000-01-01（平台约定「无结束时间」）
+  - `pathinfos.caseId` = 案例 **name**（前端 `getPathInfos(detail.name)` 按名字查）；`power` 拼成「18米/秒,8级」格式、风圈半径拼成「七级：东北x 东南y 西南z 西北w；…」三段式（东北|东南|西南|西北顺序），满足前端 `getPower`/`formatRadius` 正则
+- **数据落库结果**：6 案例 / 946 事件 / 7 条路径 722 点（梅花 312 事件 97 点、贝碧嘉 241/102、烟花 220/147、轩岚诺 66/122、普拉桑 75/76、灿都 34/44、利奇马仅路径 134 点——无案例台账，按源 case_id「201908利奇马」保留）
+- **处理要点**：
+  - 幂等：按 name 先删旧 case（连带 actions/pathinfos）再插入；连跑 3 次计数稳定
+  - 「舆情及敏感信息」事件不在平台 ActionCategory 枚举（11 类），跳过（内容已在案例总览 values 中）
+  - 自由文本时间尽力解析（ISO 前缀+后缀「21时起」/「9月15日18:26」/纯时刻区间锚定同类事件 mode 日期），100 条近似值全部记入 `import_report.json` 告警可核对
+  - 敏感数据红线：领导身份证.pdf、值班表、联系方式类文件全程未进库未进 git
+- **验收**：计数核对 ✅（导入前后 MongoDB 计数一致）；其他集合零触碰 ✅（llmmodels/staffs/settings/chatsessions/userlogs 不变）；前端渲染正则全量校验 ✅（722 点 power 0 异常、radius 0 异常）；后端 `npm run start:prod` 启动且连上该库 ✅；⚠️ 管理后台案例库页/路径大屏为登录态页面，请用户登录后人工确认（admin 账号有已设置的密码，脚本无法代验）
+- **环境备注**：本机 MongoDB 为 Docker 容器 `mongo-typhoon-test`（mongo:7，映射 27017，无 --replSet rs0——只影响平台手动导入/编辑的事务接口，D1 读写不受影响）
+- **改动文件**：`import_cases_to_mongo.py`（新增）、`README.md`（D1 状态 ✅ + 执行结果附录）
+- **提交**：见 git 历史
+
 ---
 
 ## 待办（下一步）
 
-- [x] M1：补全 5 个指挥工具——✅ 全部完成（历史台风/值班/消息/预警历史/巡道）；步骤 6 集成收尾 ✅（prompt 检查/前端映射/前后端构建通过）；20 条回归测试集已交付 `server/docs/AGENT_EVAL_SET.md`，实机执行待部署环境（本机无 MongoDB/Qdrant）
+- [x] M1：补全 5 个指挥工具——✅ 全部完成（历史台风/值班/消息/预警历史/巡道）；步骤 6 集成收尾 ✅（prompt 检查/前端映射/前后端构建通过）；20 条回归测试集已交付 `server/docs/AGENT_EVAL_SET.md`，实机执行待部署环境（本机 MongoDB 已就绪（Docker 容器）、Qdrant 待启动）
 - [ ] M2：服务端会话持久化（`ChatSessionEntity` + 会话 CRUD + `sessionId` 可选兼容）
 - [ ] M3：研判最小链路——相似历史案例结构化匹配 + `alert-analyzer` 模块编排
 - [ ] M4：线路空间研判——迁移 `metro.2026.data` 到后端 + turf 风圈×线路相交计算
