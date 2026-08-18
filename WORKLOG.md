@@ -301,12 +301,19 @@
 - **回溯扩大**：重跑 10 问并核对全部 50 个返回片段，Mongo 缺失 0、content 不一致 0；原 3 处抽查不足已补齐。Q2–Q10 文档/切片基本复现；Q1 用报告问题连续 3 次得到稳定但不同的 top5，因原临时 JSON 已删除，原 Q1 明细只能视为不可精确复现的历史快照。
 - **范围**：仅修订 `docs_import/d7_report.md`、`README.md`、`WORKLOG.md`；未改 `server/`、`client/`。
 
+### 步骤 D8：临时目录清理（2026-08-18，README 步骤 D8）
+- **执行**（用户确认清单后）：删除 `docs_import/text/`（D3 原始提取，1.8MB）、`docs_import/text_clean/`（D4 清洗中间态，1.7MB）、两处 `__pycache__/`（0.1MB）——全部为 gitignored 可再生物
+- **保留**：`text_permanent/`（72 份正式清洗文本，已入库，filePath 指向）、`chunks.jsonl`（README 明确保留）、各 `.json` 报告（clean/chunk/index_report.json 与 extract_metadata.json，保证复验可复现）、`clean_output/`（D1 清洗审计记录）
+- **验证**：kbdocuments 72 条 filePath **全部指向 text_permanent**（0 条指向已删目录），D6 契约 4 保持成立；`.gitignore` 复查覆盖全部产物目录
+- **改动文件**：`README.md`（D8 状态 ✅ + 执行结果）、`WORKLOG.md`（本条目）；删除项均 gitignored，无 git 变更
+- **提交**：见 git 历史
+
 ---
 
 ## 待办（下一步）
 
-- [x] D7：检索验证——10 个领域问题走 `kb-query`/管理后台知识库问答，核对命中片段（✅ 9/9 命中相关片段、敏感 0 命中，2026-08-18，报告 `docs_import/d7_report.md`）
-- [ ] D8：临时目录清理——清理 `text_clean`/`text/` 等临时产物，保留 `text_permanent/`（filePath 指向它）
+- [x] D7：检索验证——10 个领域问题走 `kb-query`/管理后台知识库问答，核对命中片段（✅ 主题召回 9/9 冒烟通过、敏感 0 命中；答案证据级 7/9，Q7/Q8 待生产验收前补强，2026-08-18，报告 `docs_import/d7_report.md`）
+- [x] D8：临时目录清理——清理 `text_clean`/`text/` 等临时产物，保留 `text_permanent/`（✅ 2026-08-18，filePath 指向验证通过）
 
 - [x] M1：补全 5 个指挥工具——✅ 全部完成（历史台风/值班/消息/预警历史/巡道）；步骤 6 集成收尾 ✅（prompt 检查/前端映射/前后端构建通过）；20 条回归测试集已交付 `server/docs/AGENT_EVAL_SET.md`，实机执行待部署环境（本机 MongoDB 已就绪（Docker 容器）、Qdrant 待启动）
 - [ ] M2：服务端会话持久化（`ChatSessionEntity` + 会话 CRUD + `sessionId` 可选兼容）

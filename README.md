@@ -61,7 +61,7 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
 | 步骤 D5 | 切片（chunking）：按平台 4 类预设切块 | ✅ 完成（2026-08-18） |
 | 步骤 D6 | 向量化 + 写入 Qdrant + MongoDB 知识库表 | ✅ 完成（2026-08-18，data-database-audit 分支） |
 | 步骤 D7 | 检索验证：抽样提问核对命中结果 | ✅ 完成（2026-08-18，data-database-audit 分支） |
-| 步骤 D8 | 收尾：清理临时文件 + 提交推送 | ⬜ 待做 |
+| 步骤 D8 | 收尾：清理临时文件 + 提交推送 | ✅ 完成（2026-08-18，data-database-audit 分支） |
 
 **概念小课堂（零基础必读，每步开工前先读懂对应条目）**
 
@@ -211,6 +211,7 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
 - 清理 `docs_import/` 中体积大的中间文件（txt 保留或压缩，chunks.jsonl 保留）；确认 `.gitignore` 覆盖所有产物目录。
 - 更新本 README 状态（⬜ → ✅）、追加 WORKLOG、git 提交并推送（代理未运行则保留本地并告知）。
 - **预估工作量**：0.5 天。
+- **执行结果（2026-08-18）**：已删除临时中间产物 `docs_import/text/`（D3 原始提取，1.8MB）、`docs_import/text_clean/`（D4 清洗中间态，1.7MB）、两处 `__pycache__/`（0.1MB）——全部为 gitignored 可再生物，正式清洗文本 `text_permanent/`（72 份，已入库）不受影响；**保留** `chunks.jsonl`、各 `.json` 报告（保证后续复验可复现）、`clean_output/`（D1 审计记录）。清理后验证：kbdocuments 72 条 filePath **全部指向 text_permanent**（0 条指向已删目录），D6 契约 4 保持成立。`.gitignore` 复查覆盖全部产物目录（text/、text_clean/、*.json、chunks.jsonl、server/.env、__pycache__）。
 
 ---
 
