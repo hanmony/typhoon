@@ -25,7 +25,7 @@ CWCs represent the wind speed a vehicle is able to withstand as a the vehicle ha
 Thus, they do not represent the limits for the overturning of the vehicle dimensions (Chen et al., 2018; Guo et al., 2020; Hemida and Krajnovi´c, in operational conditions but give a common reference frame to 2010; Liu et al., 2022; Mun˜oz-Paniagua and García, 2019; Sicot et al., compare different vehicles. 2018; Xia et al., 2021; Zhang et al., 2018). Others are focused on opti-
 More recently, however, new studies on conventional trains (having mising the shape of high-speed trains to improve the behaviour under maximum speeds ranged between 160 km/h and 250 km/h) have crosswind with special attention in nose shape (Cheli et al., 2010;
 highlighted that the characteristic wind speeds found for those vehicles Shuanbao et al., 2014; Wang et al., 2021). But, while high-speed trains * Corresponding author.
-E-mail address: carlosesteban.araya@polimi.it (C.E. Araya Reyes).
+E-mail address: [已脱敏邮箱] (C.E. Araya Reyes).
 https://doi.org/10.1016/j.jweia.2023.105588
 Received 22 May 2023; Received in revised form 18 October 2023; Accepted 18 October 2023
 0167-6105/©2023TheAuthors.PublishedbyElsevierLtd.ThisisanopenaccessarticleundertheCCBY-NC-NDlicense(http://creativecommons.org/licenses/bync-nd/4.0/).

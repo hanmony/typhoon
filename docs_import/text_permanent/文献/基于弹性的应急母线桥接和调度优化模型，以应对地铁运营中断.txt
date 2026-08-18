@@ -6,7 +6,7 @@ JiefeiZhangID 1☯,GangRen2,3,4☯*,JianhuaSong2,3,4☯
 2 JiangsuKeyLaboratoryofUrbanITS,SoutheastUniversity,Nanjing,China,3 JiangsuProvince
 CollaborativeInnovationCenterofModernUrbanTrafficTechnologies,SoutheastUniversity,Nanjing,China,
 4 SchoolofTransportation,SoutheastUniversity,Nanjing,Jiangsu,China a1111111111 a1111111111 ☯Theseauthorscontributedequallytothiswork.
-a1111111111 *rengang@seu.edu.cn
+a1111111111 *[已脱敏邮箱]
 Abstract
 Bus-bridgingevacuationservicescansignificantlyenhancemetroresilienceduringoperationaldisruptions.Aresilience-basedoptimizationmodelwasproposedtogenerateabus
 OPENACCESS

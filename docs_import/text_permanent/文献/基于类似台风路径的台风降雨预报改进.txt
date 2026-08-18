@@ -2,12 +2,12 @@ Article
 Improving Typhoon-Induced Rainfall Forecasts Based on Similar
 Typhoon Tracks
 Gi-MoonYuk1,2,JinlongZhu3,Sun-KwonYoon4,*,Jong-SukKim3 andYoung-IlMoon1,*
-1 DepartmentofCivilEngineering,TheUniversityofSeoul,Seoul02504,RepublicofKorea;gmoon@uos.ac.kr orgmoon@bayesianworks.com
+1 DepartmentofCivilEngineering,TheUniversityofSeoul,Seoul02504,RepublicofKorea;[已脱敏邮箱] [已脱敏邮箱]
 2 DivisionofResearchDepartment,Bayesianworks,Jeonju54896,RepublicofKorea
 3 SchoolofWaterResourcesandHydropowerEngineeringScience,WuhanUniversity,Wuhan430072,China;
-jinlong@lmd.ist.hokudai.ac.jp(J.Z.);jongsuk@whu.edu.cn(J.-S.K.)
+[已脱敏邮箱](J.Z.);[已脱敏邮箱](J.-S.K.)
 4 UrbanInfrastructureResearchDivision,DisasterManagementResearchCenter,TheSeoulInstitute,
-Seoul06756,RepublicofKorea * Correspondence:skyoon@si.re.kr(S.-K.Y.);ymoon@uos.ac.kr(Y.-I.M.);Tel.:+82-2-2144-2924(S.-K.Y.)
+Seoul06756,RepublicofKorea * Correspondence:[已脱敏邮箱](S.-K.Y.);[已脱敏邮箱](Y.-I.M.);Tel.:[已脱敏电话](S.-K.Y.)
 Abstract
 Typhoonsposeseverethreatstocoastalregionsthroughdestructivewindsandextreme rainfall,withrainfall-inducedfloodingoftencausingmorecasualtiesandeconomicdamage thanwinddamagealone. Accurateprecipitationforecastingisthereforeparamountfor effectivedisasterriskmanagement. Thisstudyproposesatrajectory-basedframeworkfor predictingcumulativerainfallfromtyphoonevents,basedonthepremisethatcyclones with similar tracks yield comparable precipitation due to topographic interactions. An extensivedatasetoftyphoonsoverEastAsia(1979–2022)isanalyzed,andtwonewsimilaritymetrics—theKernelDensitySimilarityIndex(KDSI)andtheComprehensiveIndex (CI)—areintroducedtoquantifytrackresemblance. Theirpredictiveskillisbenchmarked againstexistingindices, includingfuzzyC-means, convexhullarea, andtrianglemesh methods. Optimalperformanceisachievedusinganensembleof13analogouscyclones, whichminimizesroot-mean-squareerror(RMSE).Validationacrossalargesampledemon-
 stratesthattheproposedmodelovercomeslimitationsofearlierapproaches,providinga robustandefficienttoolforforecastingtyphoon-inducedrainfall.

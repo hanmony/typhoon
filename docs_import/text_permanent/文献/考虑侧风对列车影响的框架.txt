@@ -24,11 +24,11 @@ Where a licence is displayed above, please note the terms and conditions of the 
 When citing, please reference the published version.
 Take down policy
 While the University of Birmingham exercises care and attention in making items available there are rare occasions when an item has been uploaded in error or has been deemed to be commercially or otherwise sensitive.
-If you believe that this is the case for this document, please contact UBIRA@lists.bham.ac.uk providing details and we will remove access to the work immediately and investigate.
+If you believe that this is the case for this document, please contact [已脱敏邮箱] providing details and we will remove access to the work immediately and investigate.
 Download date: 04. 11. 2025
 A framework for the consideration of the effects of crosswinds on trains
 Chris Baker, School of Civil Engineering, University of Birmingham, Edgbaston, Birmingham, United
-Kingdom. B15 2TT; e mail c.j.baker@bham.ac.uk; Tel +44(0)1214145067
+Kingdom. B15 2TT; e mail [已脱敏邮箱]; Tel [已脱敏电话]
 Abstract
 High winds have a number of different effects on the design and operation of trains, the most important being the need to design trains that will not blow over in high winds. The current
 European design methodology is contained within a draft CEN code of practice (CEN 2009). In this paper the author will argue that there are inconsistencies and inadequacies in the approach adopted in that document, particularly in the levels of complexity of the different components and in the uncertainties that are involved. This leads to a proposal for a revised methodology that is more consistent in terms of the complexity of its components and can be used for train authorisation and route risk analysis. In particular the paper addresses the following issues.

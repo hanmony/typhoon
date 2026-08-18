@@ -10,10 +10,12 @@ D5 已把 72 份清洗后文档切成 3002 片（chunks.jsonl）。本脚本把�
   契约 1  documentId：D5 的 documentId 只是临时来源键；本脚本写入
          kb-chunks.documentId 与 Qdrant payload.documentId 的，
          一律是 kb-documents 的 Mongo _id 字符串。
-  契约 2  幂等匹配优先用 sourceRelpath（= kb-documents.filePath），
-         不用文件名。
+  契约 2  幂等匹配由 sourceRelpath 映射为 text_permanent 稳定相对键，
+         再与 kb-documents.filePath 的同一后缀比较；不用文件名，也不把
+         工作树绝对根目录当成文档身份。
   契约 3  不把 chunks.jsonl 整行插入 kb-chunks；只写
-         documentId / chunkIndex / content / qdrantPointId 四字段。
+         documentId / chunkIndex / content / qdrantPointId 四个业务字段，
+         另写与 Mongoose schema 一致的 createdAt / updatedAt 标准时间戳。
   契约 4  kb-documents.filePath 指向永久目录 docs_import/text_permanent/
          （文本固化进 git，D8 不会删除），而非 D8 要清理的临时目录。
   契约 5  删除旧数据之前，先完成 Embedding 连通性与 1024 维校验；
@@ -25,7 +27,7 @@ D5 已把 72 份清洗后文档切成 3002 片（chunks.jsonl）。本脚本把�
   - kb-documents 字段：name / fileType / filePath / fileSize / status
     / category / chunkConfig / chunkCount / statusMessage（+ timestamps）
     status：1=解析中 → 3=入库完成；本脚本离线导入，先写 1 完成改 3。
-  - kb-chunks 四字段 + timestamps（契约 3）
+  - kb-chunks 四个业务字段 + createdAt / updatedAt（契约 3）
   - Qdrant：集合 knowledge_base，1024 维 Cosine；
     payload = content / documentId / documentName / chunkIndex / category
     （照抄 qdrant.service.ts upsertPoints）
@@ -38,6 +40,12 @@ D5 已把 72 份清洗后文档切成 3002 片（chunks.jsonl）。本脚本把�
 autoTags / summary 不生成：平台由 LLM（llm_models 集合配置）生成，
 D6 离线导入不覆盖该路径；入库后平台侧可用 listDocumentsWithoutMetadata
 补齐（README D6 节有说明）。
+
+正文安全
+========
+  路径红线继续 fail loud；允许文档正文里的真实邮箱、带标签电话、明确
+  联系人姓名在永久 txt 与入库 chunk 两处使用同一规则脱敏，职责用语
+  （如“现场负责人”）保留。
 
 失败处理
 ========
@@ -55,6 +63,7 @@ D6 离线导入不覆盖该路径；入库后平台侧可用 listDocumentsWithou
     --embedding-dimension   三件套（缺了会 fail loud）
     --qdrant-url / --qdrant-collection / --database-uri
     --dry-run               只做预检（连通性 + 维度 + 计数），不写任何数据
+    --resume-missing        仅补建当前数据库中缺失的计划内文档；用于网络中断恢复
 
 输出
 ====
@@ -62,11 +71,9 @@ D6 离线导入不覆盖该路径；入库后平台侧可用 listDocumentsWithou
   docs_import/index_report.md    人读报告
 """
 import argparse
-import hashlib
 import json
 import os
 import re
-import shutil
 import sys
 import time
 import uuid
@@ -97,6 +104,16 @@ DEFAULTS = {
 SENSITIVE_PATH_RE = re.compile(
     r"身份证|值班表|值班安排|值班名单|联系方式|通讯录|联络表|联系人|联络员|负责人|手机号码|联系电话"
 )
+
+# 允许入库的公开资料也可能在页眉/作者信息里夹带联系方式。路径拦截抓不到这类
+# 内容，因此在永久化与入库前统一脱敏；职责用语（如“现场负责人”）不属于个人
+# 联系方式，不能整段误删。
+EMAIL_RE = re.compile(r"(?i)\b[A-Z0-9._%+-]+@[A-Z0-9.-]*[A-Z0-9]\.?\b")
+LABELED_PHONE_RE = re.compile(
+    r"(?i)(?P<label>(?:Tel(?:ephone)?\.?|电话|联系电话)\s*[:：]?\s*)"
+    r"(?P<number>\+?[0-9][0-9()\-—－ ]{6,}[0-9])"
+)
+CHINESE_CONTACT_NAME_RE = re.compile(r"(联系人\s*[:：]\s*)[\u4e00-\u9fff·]{2,8}")
 
 EMBED_BATCH_SIZE = 25          # 照抄 embedding.service.ts batchSize
 EMBED_RETRIES = 2              # 照抄 callApiWithRetry(retries=2)
@@ -153,12 +170,44 @@ def resolve_config(args):
 # ──────────────────────────────────────────────────────────────────────
 # 文本永久化（契约 4：filePath 不能指向 D8 会删除的临时目录）
 # ──────────────────────────────────────────────────────────────────────
-def md5_of(path):
-    h = hashlib.md5()
-    with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(65536), b""):
-            h.update(chunk)
-    return h.hexdigest()
+def redact_sensitive_content(text):
+    """脱敏正文里的真实联系方式，返回 (脱敏后文本, 替换次数)。"""
+    count = 0
+
+    def replace_email(_match):
+        nonlocal count
+        count += 1
+        return "[已脱敏邮箱]"
+
+    def replace_phone(match):
+        nonlocal count
+        count += 1
+        return match.group("label") + "[已脱敏电话]"
+
+    def replace_contact(match):
+        nonlocal count
+        count += 1
+        return match.group(1) + "[已脱敏联系人]"
+
+    text = EMAIL_RE.sub(replace_email, text)
+    text = LABELED_PHONE_RE.sub(replace_phone, text)
+    text = CHINESE_CONTACT_NAME_RE.sub(replace_contact, text)
+    return text, count
+
+
+def permanent_relpath(rel):
+    """D5 sourceRelpath 对应的永久 txt 相对路径（稳定、与工作树根目录无关）。"""
+    return (os.path.splitext(rel)[0] + ".txt").replace("\\", "/")
+
+
+def permanent_file_key(path):
+    """从任意工作树的绝对 filePath 提取稳定的 text_permanent 相对键。"""
+    normalized = str(path).replace("\\", "/")
+    marker = "/docs_import/text_permanent/"
+    index = normalized.casefold().find(marker.casefold())
+    if index < 0:
+        return None
+    return normalized[index + len(marker):].casefold()
 
 
 def copy_text_to_permanent(text_dir, permanent_dir):
@@ -170,6 +219,7 @@ def copy_text_to_permanent(text_dir, permanent_dir):
     os.makedirs(perm_root, exist_ok=True)
     mapping = {}
     copied = 0
+    redactions = 0
     for dirpath, _, filenames in os.walk(text_root):
         for fn in sorted(filenames):
             if not fn.lower().endswith(".txt"):
@@ -178,23 +228,31 @@ def copy_text_to_permanent(text_dir, permanent_dir):
             rel = os.path.relpath(src, text_root).replace("\\", "/")
             dst = os.path.join(perm_root, os.path.relpath(src, text_root))
             os.makedirs(os.path.dirname(dst), exist_ok=True)
-            if os.path.isfile(dst) and md5_of(dst) == md5_of(src):
-                pass
-            else:
-                shutil.copy2(src, dst)
+            with open(src, "r", encoding="utf-8") as f:
+                source_text = f.read()
+            safe_text, replaced = redact_sensitive_content(source_text)
+            redactions += replaced
+            current_text = None
+            if os.path.isfile(dst):
+                with open(dst, "r", encoding="utf-8") as f:
+                    current_text = f.read()
+            if current_text != safe_text:
+                with open(dst, "w", encoding="utf-8", newline="") as f:
+                    f.write(safe_text)
                 copied += 1
             mapping[rel] = os.path.abspath(dst)
     if not mapping:
         print(f"[ERROR] text_clean 下没有 txt 文件: {text_dir}")
         sys.exit(1)
-    print(f"[D6] 文本永久化：{len(mapping)} 份 → {perm_root}（本次复制 {copied} 份）")
-    return mapping
+    print(f"[D6] 文本永久化：{len(mapping)} 份 → {perm_root}（本轮更新 {copied} 份，"
+          f"脱敏 {redactions} 处）")
+    return mapping, redactions
 
 
 def permanent_path(rel, perm_mapping):
     """sourceRelpath 保留原始后缀（.docx/.pdf/.doc/.xls），永久目录里是
     同 relpath 换 .txt 后缀的清洗文本。"""
-    txt_rel = os.path.splitext(rel)[0] + ".txt"
+    txt_rel = permanent_relpath(rel)
     if txt_rel not in perm_mapping:
         raise KeyError(f"text_clean 中找不到 {rel} 对应的 {txt_rel}")
     return perm_mapping[txt_rel]
@@ -337,6 +395,8 @@ def main():
     ap.add_argument("--database-uri")
     ap.add_argument("--dry-run", action="store_true",
                     help="只做预检（连通性 + 维度 + 计数），不删除/不写入")
+    ap.add_argument("--resume-missing", action="store_true",
+                    help="仅补建数据库中缺失的计划内文档，不重建已存在文档")
     args = ap.parse_args()
 
     cfg = resolve_config(args)
@@ -365,6 +425,13 @@ def main():
         print("[ERROR] chunks.jsonl 为空")
         sys.exit(1)
 
+    # 永久 txt 与实际入库切片使用同一套脱敏规则，避免只清 Git 文件却遗漏
+    # Mongo/Qdrant。职责用语不动，只替换真实邮箱、带标签电话和明确联系人姓名。
+    chunk_redactions = 0
+    for row in rows:
+        row["content"], replaced = redact_sensitive_content(row["content"])
+        chunk_redactions += replaced
+
     # 敏感拦截（第二道防线：D4/D5 已拦，这里再确认入库数据不含敏感来源）
     bad = sorted({r["sourceRelpath"] for r in rows if SENSITIVE_PATH_RE.search(r["sourceRelpath"])})
     if bad:
@@ -374,7 +441,7 @@ def main():
         sys.exit(1)
 
     # 3. 文本永久化（契约 4）
-    perm_mapping = copy_text_to_permanent(args.text_dir, PERMANENT_TEXT_DIR)
+    perm_mapping, permanent_redactions = copy_text_to_permanent(args.text_dir, PERMANENT_TEXT_DIR)
 
     # 4. Mongo 连通
     try:
@@ -413,17 +480,31 @@ def main():
     groups = {}
     for row in rows:
         groups.setdefault(row["sourceRelpath"], []).append(row)
-    doc_rels = list(groups)
-    print(f"[D6] 待导入：{len(doc_rels)} 份文档 / {len(rows)} 片")
+    all_doc_rels = list(groups)
+    doc_rels = all_doc_rels
+    print(f"[D6] 导入计划：{len(all_doc_rels)} 份文档 / {len(rows)} 片")
+
+    if args.resume_missing:
+        existing_keys = {
+            key for doc in kb_docs.find({"filePath": {"$exists": True}})
+            if (key := permanent_file_key(doc.get("filePath"))) is not None
+        }
+        doc_rels = [rel for rel in all_doc_rels
+                    if permanent_relpath(rel).casefold() not in existing_keys]
+        resume_chunks = sum(len(groups[rel]) for rel in doc_rels)
+        print(f"[D6] 断点恢复：仅补建 {len(doc_rels)} 份缺失文档 / {resume_chunks} 片")
 
     if args.dry_run:
         print(f"[D6] --dry-run：预检全部通过，Qdrant 现有点数 = {qdrant.count()}，"
               "未做任何删除/写入")
         sys.exit(0)
 
-    # 7. 幂等清理（契约 2：按 filePath=sourceRelpath 匹配先删旧）
+    # 7. 幂等清理（契约 2）：仍按 filePath 识别同一来源，但比较的是
+    # text_permanent 后的稳定相对键，不能把工作树绝对根目录当成身份。
     planned_paths = [permanent_path(r, perm_mapping) for r in doc_rels]
-    old_docs = list(kb_docs.find({"filePath": {"$in": planned_paths}}))
+    planned_keys = {permanent_relpath(r).casefold() for r in doc_rels}
+    old_docs = [doc for doc in kb_docs.find({"filePath": {"$exists": True}})
+                if permanent_file_key(doc.get("filePath")) in planned_keys]
     for old in old_docs:
         old_id = str(old["_id"])
         qdrant.delete_by_document_id(old_id)
@@ -434,7 +515,11 @@ def main():
               f"（Qdrant 点 + kb-chunks + kb-documents）")
     else:
         print("[D6] 幂等清理：未发现旧数据，跳过")
-    stray = kb_docs.count_documents({"filePath": {"$nin": planned_paths}})
+    all_planned_keys = {permanent_relpath(rel).casefold() for rel in all_doc_rels}
+    stray = sum(
+        1 for doc in kb_docs.find({"filePath": {"$exists": True}})
+        if permanent_file_key(doc.get("filePath")) not in all_planned_keys
+    )
     if stray:
         print(f"[WARN] kb-documents 存在 {stray} 条 filePath 不在本次计划内的记录，"
               "保持不动（可能来自平台上传，勿误删）")
@@ -467,7 +552,7 @@ def main():
             })
             doc_id = str(doc.inserted_id)
 
-            # kb-chunks 四字段（契约 3）；qdrantPointId 先行生成
+            # kb-chunks 四个业务字段 + 标准时间戳（契约 3）；qdrantPointId 先行生成
             point_ids = [str(uuid.uuid4()) for _ in range(n)]
             kb_chunks.insert_many([{
                 "documentId": doc_id,
@@ -527,7 +612,7 @@ def main():
     mongo_docs = kb_docs.count_documents({})
     mongo_chunks = kb_chunks.count_documents({})
     qdrant_points = qdrant.count()
-    expect_docs = len(doc_rels) - len(failed)
+    expect_docs = len(all_doc_rels) - len(failed)
     expect_chunks = len(rows) - sum(len(groups[f["sourceRelpath"]]) for f in failed)
     for label, actual, expect in (
         ("kb-documents", mongo_docs, expect_docs),
@@ -538,16 +623,45 @@ def main():
         print(f"  {label}: {actual}（期望 {expect}）[{mark}]")
         if actual != expect:
             errors.append(f"{label} 计数不符：{actual} != {expect}")
+    # 报告必须描述数据库最终全貌，而不只是本轮补建的文档；否则使用
+    # --resume-missing 后会生成只有一两行、却声称 72 份成功的假报告。
+    stored_by_key = {}
+    duplicate_keys = set()
+    planned_keys_all = {permanent_relpath(rel).casefold() for rel in all_doc_rels}
+    for doc in kb_docs.find({"filePath": {"$exists": True}}):
+        key = permanent_file_key(doc.get("filePath"))
+        if key not in planned_keys_all:
+            continue
+        if key in stored_by_key:
+            duplicate_keys.add(key)
+        stored_by_key[key] = doc
+    if duplicate_keys:
+        errors.append(f"稳定 filePath 键存在重复记录：{len(duplicate_keys)} 个")
+
+    final_doc_results = []
+    for rel in all_doc_rels:
+        doc = stored_by_key.get(permanent_relpath(rel).casefold())
+        if doc is None:
+            continue
+        first = groups[rel][0]
+        final_doc_results.append({
+            "mongoId": str(doc["_id"]),
+            "sourceRelpath": rel,
+            "name": first["documentName"],
+            "category": first["category"],
+            "chunkCount": doc.get("chunkCount", 0),
+        })
+
     done_chunks = kb_chunks.count_documents(
-        {"documentId": {"$in": [r["mongoId"] for r in doc_results]}})
+        {"documentId": {"$in": [r["mongoId"] for r in final_doc_results]}})
     if done_chunks != expect_chunks:
         errors.append(f"成功文档切片数 {done_chunks} != 期望 {expect_chunks}")
 
     # 10. 报告
     summary = {
         "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
-        "documents_total": len(doc_rels),
-        "documents_succeeded": len(doc_results),
+        "documents_total": len(all_doc_rels),
+        "documents_succeeded": len(final_doc_results),
         "documents_failed": len(failed),
         "chunks_total": len(rows),
         "qdrant_points": qdrant_points,
@@ -556,20 +670,22 @@ def main():
         "mongo_uri": cfg["DATABASE_URI"],
         "qdrant_collection": cfg["QDRANT_COLLECTION_NAME"],
         "text_permanent_dir": os.path.abspath(PERMANENT_TEXT_DIR),
+        "permanent_text_redactions": permanent_redactions,
+        "indexed_chunk_redactions": chunk_redactions,
     }
     out_dir = os.path.dirname(os.path.abspath(args.chunks_jsonl))
     report_json = os.path.normpath(os.path.join(out_dir, os.path.basename(REPORT_JSON)))
     report_md = os.path.normpath(os.path.join(out_dir, os.path.basename(REPORT_MD)))
     with open(report_json, "w", encoding="utf-8") as f:
-        json.dump({"summary": summary, "documents": doc_results, "failed": failed},
+        json.dump({"summary": summary, "documents": final_doc_results, "failed": failed},
                   f, ensure_ascii=False, indent=2)
-    write_md_report(summary, doc_results, failed, report_md)
+    write_md_report(summary, final_doc_results, failed, report_md)
     print(f"[out] {report_json}")
     print(f"[out] {report_md}")
 
     if failed:
         print()
-        print("[ERROR] 以下文档导入失败（重跑幂等，仅重建失败文档）：")
+        print("[ERROR] 以下文档导入失败；可用 --resume-missing 仅补建缺失文档：")
         for f_ in failed:
             print(f"  - {f_['sourceRelpath']}: {f_['error']}")
         sys.exit(1)
@@ -599,10 +715,18 @@ def write_md_report(summary, doc_results, failed, path):
     a("## 契约落实")
     a("")
     a("1. kb-chunks.documentId 与 Qdrant payload.documentId = Mongo _id 字符串（非 D5 临时键）")
-    a("2. 幂等匹配按 sourceRelpath（= kb-documents.filePath），不用文件名")
-    a("3. kb-chunks 只写 documentId / chunkIndex / content / qdrantPointId 四字段")
+    a("2. 幂等匹配按 sourceRelpath 映射出的 text_permanent 稳定相对键，"
+      "与 kb-documents.filePath 后缀比较；不用文件名或工作树绝对根目录")
+    a("3. kb-chunks 只写 documentId / chunkIndex / content / qdrantPointId 四个业务字段，"
+      "另写 createdAt / updatedAt 标准时间戳")
     a("4. filePath 指向永久目录 text_permanent/，不指向 D8 会删除的临时目录")
     a("5. 删除旧数据前已完成 Embedding 连通性与 1024 维校验")
+    a("")
+    a("## 敏感内容复核")
+    a("")
+    a(f"- 永久 txt 脱敏替换：{summary['permanent_text_redactions']} 处")
+    a(f"- 入库切片脱敏替换：{summary['indexed_chunk_redactions']} 处")
+    a("- 脱敏范围：真实邮箱、带标签电话、明确联系人姓名；职责制度用语保留。")
     a("")
     a("## 逐文档明细（Mongo _id ↔ 来源）")
     a("")

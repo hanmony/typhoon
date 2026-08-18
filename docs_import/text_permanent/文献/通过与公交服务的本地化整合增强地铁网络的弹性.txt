@@ -23,8 +23,8 @@ Metro systems have been acting as a key solution for supporting mobility needs i
 Singaporeasanexample,acitywithapopulationof5milliongeneratedaround1millionmetrotripsperdayin2011.Such aheavydependenceimposesenormousstrainsonmetrosystemsandmakesservicedisruptionshardlyaffordable.Evenlimitedservicedisruptionsinmetrosystemscouldresultinsignificantproductivitylossandwidespreadconfusion.Takethe
 16th December 2011 disruption in Singapore’s metro network for example: train services at 11 stations were disrupted for5handmorethan100,000commuterswereaffected.Thus,thereliabilityofmetronetworkanditsresiliencetopotential disruptionsshouldbewellensured.
 Resilienceofasystemreferstotheabilitytowithstanddisruptionswithinacceptablereductioninserviceperformance.In thecontextofmetrosystems,theresiliencecouldbemeasuredbythelossofcapacityandtheservicelevelrecoveryefforts fordisruptionresponses.Insteadofrelyingonpost-disruptionrecoveryoperations(e.g.,runningbusbridgingservices),a moreeffectivewayistoimprovetheintrinsicresiliencesothatpossibledisruptions(withinacertaindisruptionscale)incur
-Correspondingauthor.Tel.:+8615821519920.
-E-mailaddresses:jinjg05@gmail.com(J.G.Jin),isetlc@nus.edu.sg(L.C.Tang),sunlijun@nus.edu.sg(L.Sun),ceeleedh@nus.edu.sg(D.-H.Lee).
+Correspondingauthor.Tel.:[已脱敏电话].
+E-mailaddresses:[已脱敏邮箱](J.G.Jin),[已脱敏邮箱](L.C.Tang),[已脱敏邮箱](L.Sun),[已脱敏邮箱](D.-H.Lee).
 1366-5545/$-seefrontmatter2014ElsevierLtd.Allrightsreserved.
 http://dx.doi.org/10.1016/j.tre.2014.01.002
 18 J.G.Jinetal./TransportationResearchPartE63(2014)17–30

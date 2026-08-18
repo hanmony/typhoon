@@ -17,7 +17,7 @@ eling and computational techniques. These models
 Because weather radar is capable of providing high provide increasingly fine spatial and temporal resotemporalandspatialresolutionoveracertainarea,itrelution forecast fields for users in an ever-decreasing mainsthemostusefulinstrumenttosurveysevereweather over land and near coasts where such radar systems are
 Denotescontentthatisimmediatelyavailableuponpublica- available.Radarextrapolationisawell-establishedtechtionasopenaccess. niquetoperformquantitativeprecipitationnowcasting (QPN). For instance, Thunderstorm Identification,
 Tracking,AnalysisandNowcasting(TITAN)tracked
-Correspondingauthor:Dr.Kao-ShenChung,kschung@atm.ncu.
+Correspondingauthor:Dr.Kao-ShenChung,[已脱敏邮箱].
 edu.tw and extrapolated storms linearly by identifying the
 DOI:10.1175/MWR-D-19-0193.1
 2020AmericanMeteorologicalSociety.Forinformationregardingreuseofthiscontentandgeneralcopyrightinformation,consulttheAMSCopyright

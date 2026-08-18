@@ -21,7 +21,7 @@ tions ( Chen and Meng, 2001 ; Needham et al., 2015 ; Chen and Xu, 2017 ). Li et 
 From 1950 to 2020, an average of 27 typhoons formed annually in the The Typhoon Committee emphasizes that improving track and
 WNP, with approximately seven making landfall along China’s coastline intensity forecast accuracy is key to reducing TC-related losses each year ( Zhou et al., 2022 ). These landfalls have resulted in severe eco- ( ESCAP/WMO, 2021 ). Accurate forecasts of landfall location, intensity nomic losses, including approximately $28.34 billion in net losses along and post-landfall behavior are essential for refining warning zones, en- ✩ Peer review under the responsibility of Editorial Board of Atmospheric and Oceanic Science Letters.
 ∗ Corresponding author.
-E-mail address: wanghong@nuist.edu.cn (H. Wang) .
+E-mail address: [已脱敏邮箱] (H. Wang) .
 https://doi.org/10.1016/j.aosl.2025.100675
 Received 6 May 2025; Revised 3 June 2025; Accepted 2 July 2025
 Available online xxx

@@ -7,7 +7,7 @@ ABSTRACT: The annual-mean position errors (PE) of tropical cyclone (TC) track fo
 China Meteorological Administration (CMA), and Joint Typhoon Warning Center of the United States (JTWC)] are analyzed to document the past improvements and project future tendency in track forecast accuracy for TCs in the western North Pacific. An improvement of 48 h (2 days) in lead time has been achieved in the past 30 years, but with noticeable stepwise periods of improvements with superposed short-term fluctuations. The stepwise improvement features differ among the three forecast agencies, but are highly related to the development of objective forecast guidance and the application strategy. As demonstrated by an exponential model for the growth of PEs with lead time for TCs of tropical storm category and above, the improvements in the past 10 years have mainly been due to the reduction in analysis errors rather than the reduction in the error growth rate. If the current trend continues, a further 2-day improvement in TC track forecast lead
 times may be projected for the coming 15 years up to 2035, and we certainly have not reached yet the limit of TC track predictability in the western North Pacific.
 KEYWORDS: Tropical cyclones; Forecast verification/skill; Operational forecasting https://doi.org/10.1175/BAMS-D-20-0308.1
-Corresponding author: Dr. Hui Yu, yuh@typhoon.org.cn
+Corresponding author: Dr. Hui Yu, [已脱敏邮箱]
 In final form 20 September 2021 ©2022 American Meteorological Society
 For information regarding reuse of this content and general copyright information, consult the AMS Copyright Policy.
 AMERICAN METEOROLOGICAL SOCIETY FEBRUARY 2022 E410

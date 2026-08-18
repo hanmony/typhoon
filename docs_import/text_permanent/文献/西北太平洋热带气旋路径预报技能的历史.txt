@@ -34,7 +34,7 @@ Goerss(2000)firstillustratedthesuperiorTCtrackforeel (GSM) and typhoon model (TY
 1COAMPSisatrademarkoftheNavalResearchLaboratory. For the western North Pacific in 1997 he demonstrated thattheTCtrackforecasterrorsforbothaglobal-model consensus (GSM, NOGAPS, and UKMO) and a re-
 Corresponding author address: James S. Goerss, NRL, 7 Grace gional-model consensus (GFDN and TYM) were sig-
 HopperAve.Stop2,Monterey,CA93943-5502.
-E-mail:goerss@nrlmry.navy.mil nificantly less than the errors for the best of the indi-
+E-mail:[已脱敏邮箱] nificantly less than the errors for the best of the indi-
 Brought to you by Shanghai University of Engineering Science | Unauthenticated | Downloaded 11/04/25 10:43 AM UTC
 634 WEATHER AND FORECASTING VOLUME19 cludesalinearinterpolatortofillinmissing12-and36h forecasts, a forecast position check (the 6-h/12-h old
 NWP model 6-h/12-h interpolated forecast position mustbewithin333kmofthecurrentforecasteranalyzed position), and a forecast track speedcheck(60-ktmaximum)forallforecastperiodsbeyond12h.NWPmodel interpolated tracks that fail the 12-h forecast position check are eliminated from the interpolator, while those failing the 60-kt speed check are truncated before the

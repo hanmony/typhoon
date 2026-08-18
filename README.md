@@ -184,16 +184,18 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
   1. **向量化**：逐片调用 `.env` 里的 `EMBEDDING_BASE_URL`（OpenAI 兼容接口，请求体同 `embedding.service.ts`），批量 25 片/次，失败重试 2 次（指数退避）；
   2. **写 Qdrant**：写入 `knowledge_base` 集合。每点 = `{id: 切片唯一ID, vector: 1024 维, payload: {content, documentId, documentName, chunkIndex, category}}`——payload 字段**严格对齐** `qdrant.service.ts` 的 `search()` 返回字段，平台检索才拿得到内容；
   3. **写 MongoDB**：`kb-documents` 插入 1 条文档记录（name/fileType/filePath/fileSize/status=3(chunked+indexed)/chunkCount/category/chunkConfig），`kb-chunks` 插入每片 1 条（documentId/chunkIndex/content/qdrantPointId 指向 Qdrant 点 ID）——两个集合的结构照抄 `kb-document.schema.ts`、`kb-chunk.schema.ts`。
-  - **幂等**：导入前按 `sourceRelpath`（写入 `kb-documents.filePath`）匹配是否已存在 → 存在则先删 Qdrant 中该 documentId 的点 + Mongo 旧记录再写。
+  - **幂等**：导入前把 `sourceRelpath` 映射为 `text_permanent` 下的稳定相对键，再与 `kb-documents.filePath` 的同一后缀匹配；不依赖文件名，也不把工作树绝对根目录当成身份。命中后先删 Qdrant 中该 documentId 的点 + Mongo 旧记录再写，因此换工作树重跑也不会重复。
+  - **中断恢复**：若外部 Embedding 服务持续抖动导致个别文档在重试后仍失败，脚本会回滚该文档；随后使用 `--resume-missing` 只补数据库中缺失的计划内文档，不删除、重算已成功文档。
 - **D6 契约（codex 审查 D5 时确定，执行必须遵守）**：
   1. D5 的 `documentId` 只是**临时来源键**；D6 创建 `kb-documents` 后，必须把 **Mongo `_id` 字符串**写入 `kb-chunks.documentId` 和 Qdrant payload 的 `documentId`；
-  2. 幂等匹配**优先用 `sourceRelpath`**（= `kb-documents.filePath`），不要只用文件名；
-  3. **不要把 chunks.jsonl 整行直接插入 `kb-chunks`**——Mongo 切片表只写 `documentId` / `chunkIndex` / `content` / `qdrantPointId` 四个字段；
+  2. 幂等匹配把 `sourceRelpath` 映射为 `text_permanent` 下的稳定相对键，再与 `kb-documents.filePath` 后缀比较；不要只用文件名或工作树绝对根目录；
+  3. **不要把 chunks.jsonl 整行直接插入 `kb-chunks`**——Mongo 切片表只写 `documentId` / `chunkIndex` / `content` / `qdrantPointId` 四个业务字段，另写 schema 标准时间戳 `createdAt` / `updatedAt`；
   4. `kb-documents.filePath` **不能指向 D8 会删除的临时目录**——D6 应先把可重处理文件（清洗后 txt）放入永久目录（或明确长期保留 `text_clean/`），filePath 指向该处；
   5. **删除旧数据前先完成 Embedding 连通性与 1024 维校验**，避免校验失败后旧知识也被删光。
+  - **正文敏感信息**：D2 的敏感文件路径继续 fail loud；允许文档正文里夹带的真实邮箱、带标签电话、明确联系人姓名，在永久 txt 和实际入库 chunk 两处使用同一规则脱敏，避免只改 Git 文件却遗漏 MongoDB/Qdrant。普通职责用语（如“现场负责人”）保留。
 - **教学**：这一步你第一次完整看到"一条数据的两条命"——文字存 MongoDB（给人看/管理用），向量存 Qdrant（给机器算相似度用），靠 `qdrantPointId` 互相关联。`status=3` 表示"已入库"，管理后台知识库列表就是读这个字段显示的。
 - **改动文件**：新增 `docs_import/index_docs.py` + `docs_import/text_permanent/`（72 份清洗文本固化进 git，filePath 指向此处）（业务代码零改动）。
-- **验收（2026-08-18 已执行）**：`--dry-run` 预检全绿后全量导入——**72 份文档 / 3002 片全部入库**，kb-documents 72 条、kb-chunks 3002 条、Qdrant `knowledge_base` 3002 点三处计数一致（脚本自动核对）；Embedding 实测 `Qwen/Qwen3-Embedding-8B`（OpenAI 兼容接口，1024 维），中途 3 次网络抖动（1 超时 + 2 SSL 断连）均被重试机制自动恢复、无文档失败；抽查 13 个 Qdrant 点：payload.documentId 全部为 Mongo `_id` 字符串、chunkIndex 与 kb-chunks 一致、向量 1024 维。报告见 `docs_import/index_report.md`（json 版 gitignored）。管理后台「知识库」页面显示留待平台运行环境（部署机）验证。
+- **验收（2026-08-18 已执行）**：`--dry-run` 预检全绿后完成全量导入——**72 份文档 / 3002 片全部入库**，kb-documents 72 条（status=3）、kb-chunks 3002 条、Qdrant `knowledge_base` 3002 点，向量维度 1024。全量重建时外部 Embedding 服务持续 SSL/超时抖动，1 份文档在重试后失败并被完整回滚；`--resume-missing` 随后仅补建该 1 份/24 片并恢复完整计数。codex 又滚动核对全部 3002 个 Qdrant 点：Mongo 文档引用、点 ID、documentId、chunkIndex、content 均一一对应，双向孤儿数据 0；Git 永久 txt、Mongo 和 Qdrant 中邮箱/身份证格式/手机号/带标签电话/明确联系人姓名命中均为 0。报告见 `docs_import/index_report.md`（json 版 gitignored）。管理后台「知识库」页面显示留待平台运行环境（部署机）验证。
 - **预估工作量**：1 天（含接口调试）。
 
 #### 步骤 D7：检索验证

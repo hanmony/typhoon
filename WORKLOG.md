@@ -274,6 +274,16 @@
 - **codex 审查建议**：D6 脚本 2 处修复 + 入库数据契约值得送 codex 复核
 - **提交**：见 git 历史
 
+### D6 codex 审查：修复跨工作树幂等、正文脱敏与中断恢复（2026-08-18）
+- **原 2 个 bug**：`.env` 补读 `EMBEDDING_BASE_URL` / `EMBEDDING_API_KEY` 合理；`sourceRelpath` 原后缀映射为永久 `.txt` 合理，72 份均能命中。
+- **幂等缺陷与修复**：原实现把当前工作树绝对 `filePath` 当身份，只在同一路径重跑成立；现改为比较 `docs_import/text_permanent/` 后的稳定相对键，跨工作树/换机器仍按 filePath 语义删旧重建，同名不同路径文档互不覆盖。
+- **中断恢复缺陷与修复**：全量复验时外部 Embedding 服务持续 SSL/超时，1 份/24 片在 2 次重试后失败并完整回滚；原提示“重跑仅重建失败文档”不实，实际会重建全部 72 份。新增 `--resume-missing`，dry-run 只选中缺失 1 份/24 片，实际补建成功并恢复 72/3002/3002；最终报告仍重建完整 72 行。
+- **敏感信息处理**：72 份 `text_permanent` 中发现允许文档正文夹带公开论文邮箱、电话和一处明确联系人，共 25 份、59 处；永久 txt 与入库 chunk 共用同一脱敏规则，避免只改 Git 不改数据库。复扫 Git txt、Mongo、Qdrant：邮箱、身份证格式、手机号、带标签电话、明确联系人姓名均 0 命中；被排除的敏感源目录/文件未读取。
+- **契约 1–5**：Mongo `_id` 字符串写入两端 documentId；稳定 filePath 键幂等；kbchunks 为 4 个业务字段 + schema 标准时间戳；72 个 filePath 全指向永久目录；删除旧数据前已做 Embedding 连通与 1024 维验证。README、脚本头注释、人读报告已同步真实口径。
+- **全量验收**：kbdocuments 72（status=3 为 72）/ kbchunks 3002 / Qdrant 3002，向量维度 1024；滚动核对全部 3002 点，文档引用、点 ID、documentId、chunkIndex、content 错配 0，Mongo/Qdrant 双向孤儿 0。`index_report.md` 72 行、72 个唯一 Mongo ID、切片和 3002，与 gitignored JSON 结果一致。
+- **测试**：D4–D6 边界测试 28/28 通过；新增 D6 6 条覆盖配置读取、后缀映射、跨工作树身份、正文脱敏、数字表格防误判、永久复制幂等。
+- **范围**：仅改 `docs_import/`、`README.md`、`WORKLOG.md`；未改 `server/`、`client/`，未提交 `chunks.jsonl` / `index_report.json` / `text_clean/`。
+
 ---
 
 ## 待办（下一步）

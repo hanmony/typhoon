@@ -8,7 +8,7 @@ ClimateandEnvironmentalChange,CollaborativeInnovationCenteronForecastandEvaluati
 MeteorologicalDisasters,NanjingUniversityofInformationScienceandTechnology,Nanjing210044,China
 2 ShanghaiTyphoonInstituteofChinaMeteorologicalAdministration,Shanghai200030,China
 3 Asia-PacificTyphoonCollaborativeResearchCenter,Shanghai200030,China
-4 DepartmentofAtmosphericSciences,SOEST,UniversityofHawaiiatManoa,Honolulu,HI96822,USA * Correspondence:chengm@typhoon.org.cn
+4 DepartmentofAtmosphericSciences,SOEST,UniversityofHawaiiatManoa,Honolulu,HI96822,USA * Correspondence:[已脱敏邮箱]
 Abstract: Thetrackforecastsoftropicalcyclones(TC)inthewesternNorthPacific(WNP)basin during2021typhoonseasonwithfiveglobalmodelsandfourregionalmodelsareevaluatedhere.
 Theresultsshowthattheaveragedirectpositionerrors(DPEs)oftheglobalandregionalmodels are approximately 80, 150, 200, 300, and 400 km at 24 h, 48 h, 72 h, 96 h, and 120 h lead-times, respectively. TheEuropeanCentreforMedium-RangeWeatherForecastsIntegratedForecasting
 System (ECMWF-IFS) achieved the best track forecast performance at each lead among the five globalmodels.Amongthefourregionalmodels,TheChinaMeteorologicalAdministrationTropical

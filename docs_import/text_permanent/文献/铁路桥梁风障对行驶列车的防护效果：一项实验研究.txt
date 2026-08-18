@@ -18,7 +18,7 @@ The Chinese high-speed railway has entered a rapid development conventionally ad
 more than 80% of the railways are bridges. Owing to the high elevation measuring the mean ground-level pressure upstream and downstream of the bridge deck above the ground, the wind speed at the deck level is from a porous fence under different surface conditions. Xiong et al.
 typically high, which may result in a large wind load being exerted on (2006) evaluated the protective effect of a wind barrier of the Lanzhou high-speed trains. To ensure the safety of moving trains when crossing Xinjiang Railway based on field measurements, in which the surface bridges under strong winds, wind barriers are often installed on both pressure and aerodynamic characteristics of a train were obtained.
 sides of the bridges, with the aim of maintaining a relatively low wind Based on the method of machine vision to detect the vibration offset of speed environment for the train (Xiang et al., 2014). rolling stock, Li et al. (2011) conducted a full-scale vehicle test on the * Corresponding author. Department of Bridge Engineering, Southwest Jiaotong University, Chengdu, 610031, China.
-E-mail address: zhujin19880102@126.com (J. Zhu).
+E-mail address: [已脱敏邮箱] (J. Zhu).
 https://doi.org/10.1016/j.jweia.2021.104879
 Received 10 August 2021; Received in revised form 13 December 2021; Accepted 13 December 2021
 Availableonline17December2021

@@ -19,7 +19,7 @@ The network metric of betweenness centrality, weighted network,flooding,impact,m
 Authorforcorrespondence:
 a 26% reduction, and although key routes still flood, the
 MariaPregnolato
-benefits of this strategy are more evenly distributed across e-mail:m.pregnolato@ncl.ac.uk the transport network as flood depths are reduced across the model domain. Both options should form part of an urbanfloodriskmanagementstrategy,butthismethodcanbe used to optimize investment and target limited resources at criticallocations,enablinggreeninfrastructurestrategiestobe gradually implemented over the longer term to provide citywidebenefits.Thisframeworkprovidesameansofprioritizing limited financial resources to improve resilience. This is
+benefits of this strategy are more evenly distributed across e-mail:[已脱敏邮箱] the transport network as flood depths are reduced across the model domain. Both options should form part of an urbanfloodriskmanagementstrategy,butthismethodcanbe used to optimize investment and target limited resources at criticallocations,enablinggreeninfrastructurestrategiestobe gradually implemented over the longer term to provide citywidebenefits.Thisframeworkprovidesameansofprioritizing limited financial resources to improve resilience. This is
 One contribution to a special feature ‘City particularlyimportantasfloodmanagementinvestmentsmust analytics:mathematicalmodellingandcomtypically exceed a far higher benefit–cost threshold than putationalanalyticsforurbanbehaviour’.
 2016TheAuthors.PublishedbytheRoyalSocietyunderthetermsoftheCreativeCommons
 AttributionLicensehttp://creativecommons.org/licenses/by/4.0/,whichpermitsunrestricted use,providedtheoriginalauthorandsourcearecredited.
@@ -223,7 +223,7 @@ A BC measure of the network, weighted according to travel time, is shown to prov
 This framework provides a means of prioritizing limited financial resources to improve transport networkresilience.Thisisparticularlyimportantasfloodriskmanagementinvestmentstypicallyhave amuchhigherbenefitcostthresholdthantransportinfrastructureinvestments.IntheUK,thisisaround
 8:1 for transport [41] compared with 2:1 for flood risk management [60]. By capturing the value to the transport network from flood management interventions, it is possible to create new business modelsthatprovidebenefits,andenhancetheresilienceof,bothtransportandfloodriskmanagement infrastructures.
 Dataaccessibility. Datasupportingthispublicationareopenlyavailableunderan‘OpenDataCommonsOpenDatabase
-License’.Additionalmetadataareavailableat:10.17634/154300-16.PleasecontactNewcastleResearchDataServiceat rdm@ncl.ac.ukforaccessinstructions.DTM,OSMasterMapandITNareavailableunderlicensefromtheOrdnance
+License’.Additionalmetadataareavailableat:10.17634/154300-16.PleasecontactNewcastleResearchDataServiceat [已脱敏邮箱],OSMasterMapandITNareavailableunderlicensefromtheOrdnance
 SurveyUK.CensusdataavailablefromtheOfficeforNationalStatistics,UK.CityCATis‘property’ofNewcastle
 University;PythonisfreelyavailableandNetworkXpubliclyavailableunderaBSDlicense.
 Authors’contributions. M.P.,A.F.,C.R.andV.G.undertookandimplementedtheanalysis.Allauthorscontributedtothe developmentanddesignoftheresearchdescribedinthisarticle.Allauthorscontributedtothepreparationofthis article.

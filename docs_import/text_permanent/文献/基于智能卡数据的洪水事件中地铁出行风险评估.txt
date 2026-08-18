@@ -33,7 +33,7 @@ The return periods of rainfall, time-to-peak, and duration have an impact on the
 Furthermore, the traditional census tends to underestimate subway transportation exposure due to subway travel. Subway travel risk increases significantly under the extreme rainfall scenario and requires further research. This study provides risk maps for making travel decisions before departures and support for subway operatorstodevelopriskwarnings.
 1. Introduction
 The intensity and frequency of extreme weather is increasing with climate change, and major metropolitan areas around the world are at increased flood risk (Hettiarachchi et al. 2018). Flash floods resulting from torrential downpours can quickly turn deadly in a densely packed modern city. In a densely populated modern city, pluvial flooding caused by torrential downpours can be fatal. However, many
-CONTACTJingHuang j_huang@hhu.edu.cn
+CONTACTJingHuang [已脱敏邮箱]
 Supplementaldataforthisarticlecanbeaccessedonlineathttps://doi.org/10.1080/19475705.2022.2134056
 2022TheAuthor(s).PublishedbyInformaUKLimited,tradingasTaylor&FrancisGroup
 This is an Open Access article distributed under the terms of the Creative Commons Attribution-NonCommercial License (http:// creativecommons.org/licenses/by-nc/4.0/), which permits unrestricted non-commercial use, distribution, and reproduction in any medium,providedtheoriginalworkisproperlycited.

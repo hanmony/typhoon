@@ -6,7 +6,7 @@ Michael V. Martello 1 & Andrew J. Whittle1
 Futuresealevelrise(SLR)andassociatedincreasesinthefrequencyandintensityofcoastal flooding poses significant threats to coastal communities and transit systems. Yet current literature and practice lack methods for estimating flood damage costs to transit systems.
 Here, we construct an event-specific flood damage cost estimation framework for transit systems, simulating separately flood ingress into underground spaces. We apply this frameworktotheMBTArailtransitsysteminBoston,estimatingdamagesunderseveralcoastal flood events with SLR and project expected annualized losses (EAL) through 2100 with uncertain SLR. We estimate EALs to the MBTA system have doubled since 2008 to $24.4M/yearandareexpected toreach$58M/yearby2030underallSLRscenarios.Our results suggest that absent adaptation schemes, particularly at tunnel ingress locations, coastalfloodriskwillcontinuetoaccelerate,potentiallyresultinginpermanentinundationof underground and low-lying sections of the transit system.
 1DepartmentofCivil&EnvironmentalEngineering,MassachusettsInstituteofTechnology,77MassachusettsAvenue,Cambridge,MA,USA.
-email:martello@mit.edu
+email:[已脱敏邮箱]
 COMMUNICATIONSEARTH&ENVIRONMENT| (2023) 4:137 |https://doi.org/10.1038/s43247-023-00804-7|www.nature.com/commsenv 1;,:)(0987654321
 COMMUNICATIONSEARTH&ENVIRONMENT|https://doi.org/10.1038/s43247-023-00804-7
 C

@@ -5,14 +5,14 @@ Areas under Land Subsidence Scenario: A Case Study of Beijing
 GuangpengWang1,2,3 ,YongLiu1,2,3,ZiyingHu1,2,3,GuomingZhang1,2,3,JifuLiu1,2,3,YanliLyu1,2,3,
 YuGu1,2,3,XichenHuang1,2,3,QingyanZhang1,2,3andLianyouLiu1,2,3,*
 1 KeyLaboratoryofEnvironmentalChangeandNaturalDisaster,MinistryofEducation,BeijingNormal
-University,Beijing100875,China;bnuwang@mail.bnu.edu.cn(G.W.);201731480037@mail.bnu.edu.cn(Y.L.);
-201831051090@mail.bnu.edu.cn(Z.H.);zgm@bnu.edu.cn(G.Z.);liujifu@bnu.edu.cn(J.L.);
-lyl@bnu.edu.cn(Y.L.);201821051165@mail.bnu.edu.cn(Y.G.);201931051090@mail.bnu.edu.cn(X.H.);
-201921051163@mail.bnu.edu.cn(Q.Z.)
+University,Beijing100875,China;[已脱敏邮箱](G.W.);[已脱敏邮箱](Y.L.);
+[已脱敏邮箱](Z.H.);[已脱敏邮箱](G.Z.);[已脱敏邮箱](J.L.);
+[已脱敏邮箱](Y.L.);[已脱敏邮箱](Y.G.);[已脱敏邮箱](X.H.);
+[已脱敏邮箱](Q.Z.)
 2 EngineeringResearchCenterofDesertificationandBlown-sandControl,MinistryofEducation,
 BeijingNormalUniversity,Beijing100875,China
 3 FacultyofGeographicalScience,AcademyofDisasterReductionandEmergencyManagement,
-BeijingNormalUniversity,Beijing100875,China * Correspondence:lyliu@bnu.edu.cn;Tel.:+86-10-58802600
+BeijingNormalUniversity,Beijing100875,China * Correspondence:[已脱敏邮箱];Tel.:[已脱敏电话]
 Abstract:Floodingisoneofthemostdestructivenaturaleventsthatseverelydamagetheground andinundateundergroundinfrastructure.Subwaysystemsinmetropolitanareasaresusceptibleto flooding,whichmaybeexacerbatedwhenlandsubsidenceoccurs.However,previousstudieshave focusedonfloodriskevaluationonregional/watershed-scalesandlandsubsidencemonitoringin plains,insteadofonsubwayfloodriskevaluationandhowlandsubsidenceaggravatestheflood
 
 riskinsubwaysystems. Usingtheproposedriskindicatorsandfieldsurveydata,wepresenta

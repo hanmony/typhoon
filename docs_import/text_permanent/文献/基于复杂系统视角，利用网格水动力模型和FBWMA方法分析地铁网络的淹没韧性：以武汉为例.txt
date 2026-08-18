@@ -4,14 +4,14 @@ Inundation Resilience Analysis of Metro-Network from a
 Complex System Perspective Using the Grid Hydrodynamic
 Model and FBWM Approach: A Case Study of Wuhan
 HaiSun1,2 ,MeixinLi1,HuiJiang3,XuejingRuan4,*andWenchiShou5
-1 CollegeofEngineering,OceanUniversityofChina,Qingdao266100,China;sunhai@ouc.edu.cn(H.S.);
-21200911126@stu.ouc.edu.cn(M.L.)
+1 CollegeofEngineering,OceanUniversityofChina,Qingdao266100,China;[已脱敏邮箱](H.S.);
+[已脱敏邮箱](M.L.)
 2 KeyLaboratoryofMarineEnvironmentandEcology,MinistryofEducation,OceanUniversityofChina,
 Qingdao266100,China
-3 GuangdongProvincialSeismologicalBureau,Guangzhou510070,China;jianghui@cea-igp.ac.cn
+3 GuangdongProvincialSeismologicalBureau,Guangzhou510070,China;[已脱敏邮箱]
 4 CollegeofCivilEngineeringandArchitecture,QingdaoAgriculturalUniversity,Qingdao266109,China
 5 SchoolofArchitectureandBuiltEnvironment,DeakinUniversity,Melbourne,NSW2751,Australia;
-w.shou@westernsydney.edu.au * Correspondence:201301034@qau.edu.cn;Tel.:+86-150-5329-5106
+[已脱敏邮箱] * Correspondence:[已脱敏邮箱];Tel.:[已脱敏电话]
 Abstract:Theupwardtrendofmetrofloodingdisastersinevitablybringsnewchallengestourban undergroundfloodmanagement. Itisessentialtoevaluatetheresilienceofmetrosystemssothat efficientflooddisasterplansforpreparation,emergencyresponse,andtimelymitigationmaybe developed. Traditional response solutions merged multiple sources of data and knowledge to supportdecision-making. Anobviousdrawbackisthatoriginaldatasourcesforevaluationsare oftenstationary,inaccurate,andsubjective,owingtothecomplexityanduncertaintyofthemetro
 Citation:Sun,H.;Li,M.;Jiang,H.; station’sactualphysicalenvironment. Meanwhile, thefloodpropagationpathinsidethewhole
 Ruan,X.;Shou,W.Inundation metrostationnetworkwaspronetobeneglected.Thispaperpresentsacomprehensiveapproachto

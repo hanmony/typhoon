@@ -18,7 +18,7 @@ system(Pedlosky1987).Fornumericalweatherforecast
 Becauseoftheremarkableprogressincomputational models, forecast uncertainties are inevitably caused by powerandnumericalweatherprediction(NWP)models, thechaoticgrowthofinitialconditionerrorsandmodel track forecastsof TCs have been improvedsignificantly imperfections(Lorenz1995;ZhangandZhao2016).Asa during the past few decades. Additionally, the use of a result, the atmosphere cannot be completely described multimodel consensus in operational centers became with a single deterministic forecast as a result of these widespread about 15 years ago in an effort to improve inherent uncertainties. The prediction of forecast untrackforecasts,whichusuallyoutperformstheindividual certainty is therefore necessary. Multimodel consensus models (Krishnamurti et al. 2010; Sampson et al. 2005;
 methods produce a more skillful deterministic forecast,
 Goerss et al. 2004). There are two main methods for buttheystilldonotprovideanadequatemeasureofthe uncertainty associated with the forecast. In ensemble predictionsystems(EPSs),thetwomajorsourcesofun-
-Correspondingauthoraddress:XipingZhang,zhangxp@typhoon.
+Correspondingauthoraddress:XipingZhang,[已脱敏邮箱].
 org.cn certainty,theinitialconditionsandthemodelerror,are
 DOI:10.1175/WAF-D-17-0071.1
 2017AmericanMeteorologicalSociety.Forinformationregardingreuseofthiscontentandgeneralcopyrightinformation,consulttheAMSCopyright

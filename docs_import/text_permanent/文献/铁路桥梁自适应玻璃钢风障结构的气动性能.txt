@@ -3,9 +3,9 @@ Article
 Aerodynamic Performance of an Adaptive GFRP
 Wind Barrier Structure for Railway Bridges
 YiqingDai1,* ,XueweiDai2,YuBai1andXuhuiHe2
-1 DepartmentofCivilEngineering,MonashUniversity,Clayton,VIC3800,Australia;Yu.Bai@monash.edu
+1 DepartmentofCivilEngineering,MonashUniversity,Clayton,VIC3800,Australia;[已脱敏邮箱]
 2 SchoolofCivilEngineering,CentralSouthUniversity,Changsha410075,China;
-154811068@csu.edu.cn(X.D.);xuhuihe@csu.edu.cn(X.H.) * Correspondence: yiqing.dai@monash.edu
+[已脱敏邮箱](X.D.);[已脱敏邮箱](X.H.) * Correspondence: [已脱敏邮箱]
 
 Received: 2September2020;Accepted: 19September2020;Published: 22September2020
 Abstract: Windbarrierstructuresonrailwaybridgesareinstalledtomitigatethewindeffectson travellingtrains;however,theycauseadditionalwindloadsandassociatedaerodynamiceffectson thebridge. Aninnovativeconceptwasdevelopedforawindbarrierstructureinthisstudythatused aglass–fibre–reinforcedpolymer(GFRP)thatmaydeformproperlywhensubjectedtoacrosswind.
