@@ -55,13 +55,15 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
 |---|---|---|
 | 步骤 D0 | 案例数据清洗 `clean_data.py`（日期/缺失值/字段名统一） | ✅ 完成（2026-08-17） |
 | 步骤 D1 | 案例数据导入 MongoDB（cases / actions / pathinfos） | ✅ 完成（2026-08-18） |
-| 步骤 D2 | 文献与文档盘点：过滤清单（剔除敏感/无关文件） | ⬜ 待做 |
-| 步骤 D3 | 文本提取：PDF / docx → 纯文本 | ⬜ 待做 |
-| 步骤 D4 | 文本清洗：页眉页脚 / 断行 / 乱码 | ⬜ 待做 |
-| 步骤 D5 | 切片（chunking）：按平台 4 类预设切块 | ⬜ 待做 |
-| 步骤 D6 | 向量化 + 写入 Qdrant + MongoDB 知识库表 | ⬜ 待做 |
-| 步骤 D7 | 检索验证：抽样提问核对命中结果 | ⬜ 待做 |
-| 步骤 D8 | 收尾：清理临时文件 + 提交推送 | ⬜ 待做 |
+| 步骤 D2 | 文献与文档盘点：过滤清单（剔除敏感/无关文件） | ✅ 完成（2026-08-18，data-database-audit 分支） |
+| 步骤 D3 | 文本提取：PDF / docx → 纯文本 | ✅ 完成（2026-08-18，data-database-audit 分支） |
+| 步骤 D4 | 文本清洗：页眉页脚 / 断行 / 乱码 | ✅ 完成（2026-08-18，data-database-audit 分支） |
+| 步骤 D5 | 切片（chunking）：按平台 4 类预设切块 | ✅ 完成（2026-08-18，data-database-audit 分支） |
+| 步骤 D6 | 向量化 + 写入 Qdrant + MongoDB 知识库表 | ✅ 完成（2026-08-18，data-database-audit 分支） |
+| 步骤 D7 | 检索验证：抽样提问核对命中结果 | ✅ 完成（2026-08-18，data-database-audit 分支） |
+| 步骤 D8 | 收尾：清理临时文件 + 提交推送 | ✅ 完成（2026-08-18，data-database-audit 分支） |
+
+> **阶段〇（D0–D8）已全部完成**：详细执行结果、验收记录、codex 审查结论以 **data-database-audit 分支**的 `README.md` / `WORKLOG.md` / `docs_import/*_report.md` 为准（本分支为计划总纲，状态同步至此）。D7 结论：主题召回 9/9 冒烟通过、敏感 0 命中、答案证据级 7/9（Q7/Q8 需在生产问答验收前补强）；D6 数据：kbdocuments 72 / kbchunks 3002 / Qdrant 3002，向量 1024 维。
 
 **概念小课堂（零基础必读，每步开工前先读懂对应条目）**
 
