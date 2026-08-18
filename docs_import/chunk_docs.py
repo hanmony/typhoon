@@ -9,8 +9,10 @@ D4 清洗后的 txt 太长（几百 KB），不能直接向量化：
   - 平台知识库问答按「切片」检索（Qdrant 每点 = 一个切片）。
 
 本脚本把每份 txt 按平台 `chunk.service.ts` 的 `CATEGORY_CHUNK_PRESETS`
-切成小块，算法（chunkByParagraph / chunkText / findBreakPoint）逐行照抄
-平台 TypeScript 实现，保证离线切片与平台在线切片行为一致。
+切成小块，算法（chunkByParagraph / chunkText / findBreakPoint）按平台
+TypeScript 实现移植。BMP 字符输入的切片行为一致；非 BMP 字符（如部分
+数学符号/emoji）因 JavaScript 按 UTF-16 码元计数、Python 按 Unicode 字符
+计数，边界可能有少量偏移，但字符会完整保留，数量写入报告供核对。
 
 分类预设（照抄 CATEGORY_CHUNK_PRESETS）
 ========================================
@@ -28,7 +30,7 @@ D4 清洗后的 txt 太长（几百 KB），不能直接向量化：
 输出
 ====
   docs_import/chunks.jsonl     每行一个切片 JSON：
-      {documentId, documentName, category, chunkIndex, content, chunkConfig}
+      {documentId, sourceRelpath, documentName, category, chunkIndex, content, chunkConfig}
   docs_import/chunk_report.json 汇总统计（脚本可核对）
   docs_import/chunk_report.md   人读报告（分类计数 + 每文档切片数）
 
@@ -36,6 +38,7 @@ D4 清洗后的 txt 太长（几百 KB），不能直接向量化：
 ============================================
   documentId   = 源文件相对路径（去扩展名，唯一稳定；D6 导入时映射到
                  kb-documents 的 Mongo _id 后写入 kb-chunks.documentId）
+  sourceRelpath = 带扩展名的源文件相对路径；D6 用它建立 kb-documents 并做幂等匹配
   documentName = 源文件名（kb-documents.name）
   chunkIndex   = 文档内从 0 连续编号（kb-chunks.chunkIndex）
   chunkConfig  = 该分类的 {strategy, chunkSize, overlap}（kb-documents.chunkConfig）
@@ -47,6 +50,7 @@ D4 清洗后的 txt 太长（几百 KB），不能直接向量化：
 """
 import argparse
 import json
+import math
 import os
 import re
 import sys
@@ -75,6 +79,7 @@ SENSITIVE_PATH_RE = re.compile(
 
 # findBreakPoint 的断点字符（照抄平台）
 BREAK_CHARS = set("\n。！？.!?；;")
+NON_BMP_RE = re.compile(r"[\U00010000-\U0010FFFF]")
 
 
 # ──────────────────────────────────────────────────────────────────────
@@ -102,13 +107,23 @@ def text_relpath(relpath):
     return os.path.splitext(relpath)[0] + ".txt"
 
 
+def source_document_id(relpath):
+    """跨平台稳定的 D6 临时文档键：统一分隔符后去扩展名。"""
+    return os.path.splitext(relpath.replace("\\", "/"))[0]
+
+
+def source_document_name(relpath):
+    """从统一后的相对路径取文件名，避免依赖当前操作系统分隔符。"""
+    return relpath.replace("\\", "/").rsplit("/", 1)[-1]
+
+
 def find_break_point(text, pos, tolerance):
     """照抄 chunk.service.ts 的 findBreakPoint：在 pos±tolerance 窗口内
     找最后一个断点字符，返回断点后一位；找不到返回 pos。
     注意 JS 端 `end` 可能等于 len(text)（text[end] 为 undefined 不匹配），
     Python 端 i < len(text) 等价跳过。"""
-    start = max(0, int(pos - tolerance))
-    end = min(len(text), int(pos + tolerance))
+    start = max(0, math.floor(pos - tolerance))
+    end = min(len(text), math.floor(pos + tolerance))
     for i in range(end, start - 1, -1):
         if i < len(text) and text[i] in BREAK_CHARS:
             return i + 1
@@ -208,6 +223,9 @@ def main():
     ok_docs = [d for d in docs if d.get("status") in ("ok", "suspect_scan")]
     print(f"[D5] 元数据共 {len(docs)} 份，纳入切片 {len(ok_docs)} 份"
           f"（status=ok/suspect_scan）")
+    if not ok_docs:
+        print("[ERROR] 元数据中没有可切片文档")
+        sys.exit(1)
 
     in_root = os.path.realpath(os.path.abspath(args.in_dir))
     if not os.path.isdir(in_root):
@@ -216,6 +234,7 @@ def main():
 
     preflight_errors = []
     jobs = []
+    source_owners = {}
     for d in ok_docs:
         rel = d.get("relpath")
         if isinstance(rel, str) and SENSITIVE_PATH_RE.search(rel):
@@ -233,6 +252,13 @@ def main():
         if not os.path.isfile(src):
             preflight_errors.append(f"txt 不存在: {text_relpath(rel)}")
             continue
+        source_id = source_document_id(rel)
+        source_key = source_id.casefold()
+        if source_key in source_owners:
+            preflight_errors.append(
+                f"D6 临时 documentId 冲突: {source_owners[source_key]} / {rel} -> {source_id}")
+            continue
+        source_owners[source_key] = rel
         jobs.append((d, src))
 
     if preflight_errors:
@@ -247,15 +273,18 @@ def main():
     doc_results = []
     empty_docs = []
     total_chunks = 0
+    total_non_bmp = 0
     sliced = []   # [(d, src, chunks)]
 
     for d, src in sorted(jobs, key=lambda x: x[0].get("relpath", "")):
         rel = d["relpath"]
-        name = d.get("name") or os.path.basename(rel)
+        name = d.get("name") or source_document_name(rel)
         category = d.get("category", "other")
         config = CATEGORY_CHUNK_PRESETS[category]
         with open(src, "r", encoding="utf-8") as f:
             text = f.read()
+        non_bmp_chars = len(NON_BMP_RE.findall(text))
+        total_non_bmp += non_bmp_chars
 
         if config["strategy"] == "paragraph":
             chunks = chunk_by_paragraph(text, config["chunkSize"], config["overlap"])
@@ -266,11 +295,13 @@ def main():
             empty_docs.append(rel)
         sliced.append((d, src, chunks))
         doc_results.append({
-            "documentId": os.path.splitext(rel)[0],
+            "documentId": source_document_id(rel),
+            "sourceRelpath": rel.replace("\\", "/"),
             "documentName": name,
             "category": category,
             "chunkCount": len(chunks),
             "chunkConfig": config,
+            "nonBmpChars": non_bmp_chars,
         })
         total_chunks += len(chunks)
         print(f"{len(chunks):>5} 片  [{category:<14}] {rel}")
@@ -283,8 +314,9 @@ def main():
             config = CATEGORY_CHUNK_PRESETS[category]
             for i, chunk in enumerate(chunks):
                 row = {
-                    "documentId": os.path.splitext(rel)[0],
-                    "documentName": d.get("name") or os.path.basename(rel),
+                    "documentId": source_document_id(rel),
+                    "sourceRelpath": rel.replace("\\", "/"),
+                    "documentName": d.get("name") or source_document_name(rel),
                     "category": category,
                     "chunkIndex": i,
                     "content": chunk,
@@ -299,6 +331,7 @@ def main():
         "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
         "documents": len(doc_results),
         "total_chunks": total_chunks,
+        "non_bmp_chars": total_non_bmp,
         "by_category": {c: {"documents": len(v), "chunks": sum(v)}
                         for c, v in sorted(by_category.items())},
         "empty_documents": empty_docs,
@@ -316,6 +349,9 @@ def main():
     print(f"{summary['documents']} 份文档 → {total_chunks} 片")
     for c, v in summary["by_category"].items():
         print(f"  {c}: {v['documents']} 份 / {v['chunks']} 片")
+    if total_non_bmp:
+        print(f"[WARN] 检出 {total_non_bmp} 个非 BMP 字符：内容完整保留，"
+              "切片边界可能与 JavaScript 有少量偏移")
     print(f"[out] {os.path.abspath(args.out)}")
     print(f"[out] {report_json}")
     print(f"[out] {report_md}")
@@ -336,8 +372,10 @@ def write_md_report(summary, doc_results, path):
     a("# D5 切片报告")
     a("")
     a(f"- 生成时间：{summary['generated_at']}")
-    a("- 生成脚本：`docs_import/chunk_docs.py`（算法照抄平台 `chunk.service.ts`）")
+    a("- 生成脚本：`docs_import/chunk_docs.py`（算法移植自平台 `chunk.service.ts`）")
     a(f"- 文档数：{summary['documents']}，切片总数：{summary['total_chunks']}")
+    a(f"- 非 BMP 字符：{summary['non_bmp_chars']} 个（完整保留；因 JS/Python 字符计数差异，"
+      "相关切片边界可能少量偏移）")
     a("")
     a("## 分类汇总")
     a("")

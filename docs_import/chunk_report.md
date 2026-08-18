@@ -1,8 +1,9 @@
 # D5 切片报告
 
-- 生成时间：2026-08-18T17:36:27+08:00
-- 生成脚本：`docs_import/chunk_docs.py`（算法照抄平台 `chunk.service.ts`）
+- 生成时间：2026-08-18T17:51:02+08:00
+- 生成脚本：`docs_import/chunk_docs.py`（算法移植自平台 `chunk.service.ts`）
 - 文档数：72，切片总数：3002
+- 非 BMP 字符：25 个（完整保留；因 JS/Python 字符计数差异，相关切片边界可能少量偏移）
 
 ## 分类汇总
 
