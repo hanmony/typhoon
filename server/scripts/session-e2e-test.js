@@ -6,7 +6,7 @@
  *
  * 用法：
  *   node scripts/session-e2e-test.js [BASE_URL] [TOKEN]
- *   - 不传 TOKEN 时用用户名密码登录（默认 m2test / M2test123!，可改用 --user/--pass 参数）
+ *   - 不传 TOKEN 时用用户名密码登录（默认 m2test / M2test123!，用户名和密码可作为第 3、4 个位置参数传入）
  *
  * 验证点（M2 验收）：
  *   1. 创建/列表/详情/删除 会话 CRUD
@@ -85,7 +85,11 @@ async function main() {
 
     // 0. 登录（未提供 token 时）
     if (!TOKEN) {
-        const resp = await apiJson("/auth/login", { method: "POST", token: "", body: { username: USER, password: PASS } });
+        const resp = await apiJson("/auth/login", {
+            method: "POST",
+            token: "",
+            body: { username: USER, password: PASS },
+        });
         TOKEN = resp.token || "";
         check("登录获取 token", !!TOKEN, TOKEN ? "OK" : JSON.stringify(resp));
         if (!TOKEN) {
@@ -97,7 +101,11 @@ async function main() {
     // 1. CRUD
     const created = await apiJson("/chat/sessions", { method: "POST", body: { type: "chat", from: "cocc" } });
     const sid = created._id;
-    check("创建会话", !!sid && created.user === "m2test" && created.type === "chat", sid ? `id=${sid}` : JSON.stringify(created));
+    check(
+        "创建会话",
+        !!sid && created.user === USER && created.type === "chat",
+        sid ? `id=${sid}` : JSON.stringify(created),
+    );
 
     const list = await apiJson("/chat/sessions");
     check("会话列表包含新会话", Array.isArray(list) && list.some(s => s.id === sid));
@@ -111,7 +119,11 @@ async function main() {
 
     const d1 = await apiJson(`/chat/sessions/${sid}`);
     check("第 1 轮落库（2 条消息）", d1.messages.length === 2, `${d1.messages.length} 条`);
-    check("自动标题取问题前 30 字", d1.title === "我叫小明，请记住这个名字".slice(0, 30), `title=${JSON.stringify(d1.title)}`);
+    check(
+        "自动标题取问题前 30 字",
+        d1.title === "我叫小明，请记住这个名字".slice(0, 30),
+        `title=${JSON.stringify(d1.title)}`,
+    );
 
     // 3. chat stream 第 2 轮（历史应被加载 → 假模型能"记住"名字）
     const r2 = await readSse(await stream("/chat/stream", { question: "我刚才说我叫什么？", sessionId: sid }));

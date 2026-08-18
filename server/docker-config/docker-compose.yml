@@ -11,7 +11,7 @@ services:
         ports:
             - "12080:80"
     node:
-        image: "node:20.11.0"
+        image: "node:22"
         working_dir: /home/node/app
         environment:
             - NODE_ENV=production

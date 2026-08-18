@@ -54,7 +54,7 @@ export class ChatService {
                     // 1. 意图分类
                     subscriber.next({ type: "status", data: "正在理解您的问题...", stage: "classifying" });
                     const tIntent = Date.now();
-                    const { sources, chatResult } = await this.intentClassifier.classify(question, history);
+                    const { sources, chatResult } = await this.intentClassifier.classify(question, resolvedHistory);
                     const intentElapsed = Date.now() - tIntent;
                     this.diag.logIntent(question, sources);
 
@@ -183,7 +183,9 @@ export class ChatService {
         ];
         if (history?.length) {
             messages.push(
-                ...history.slice(-historyLimit).map(h => ({ role: h.role as "user" | "assistant", content: h.content })),
+                ...history
+                    .slice(-historyLimit)
+                    .map(h => ({ role: h.role as "user" | "assistant", content: h.content })),
             );
         }
         messages.push({ role: "user", content: question });
@@ -200,7 +202,9 @@ export class ChatService {
         const messages: ChatMessage[] = [{ role: "system", content: systemPrompt }];
         if (history?.length) {
             messages.push(
-                ...history.slice(-historyLimit).map(h => ({ role: h.role as "user" | "assistant", content: h.content })),
+                ...history
+                    .slice(-historyLimit)
+                    .map(h => ({ role: h.role as "user" | "assistant", content: h.content })),
             );
         }
         messages.push({ role: "user", content: question });

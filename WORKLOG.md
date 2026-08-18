@@ -163,12 +163,20 @@
 - **验证**：`npm run build` ✅ 编译通过；e2e 16/16 ✅
 - **提交**：见 git 历史
 
+### 步骤 17：Codex 审查 M2 步骤 7–9
+- **修复 2 个回归/逻辑问题**：
+  - `AgentService` 新增 `ChatSessionService` 依赖后，M1 单测仍按旧构造参数实例化，导致测试编译失败；已补齐测试依赖。
+  - 会话模式下最终 prompt 使用了服务端历史，但意图分类仍使用前端 `history`；已统一改为 `resolvedHistory`，确保追问分类和最终回答使用同一份服务端上下文。
+- **补充自动化测试**：新增会话 CRUD 核心逻辑、用户隔离、最近 20 条截断、原子写回、chat/agent 持久化和无 `sessionId` 兼容性测试。
+- **环境修复**：Docker Compose 的 Node 镜像由 20.11 对齐到项目声明的 Node 22。
+- **验证**：服务端构建通过；M1+M2 相关测试 14/14 通过；ESLint 与 Docker Compose 配置校验通过；真实 MongoDB 临时库验证 24 条消息写入后准确保留最后 20 条，测试库已清理。
+
 ---
 
 ## 待办（下一步）
 
 - [x] M1：补全 5 个指挥工具——✅ 全部完成（历史台风/值班/消息/预警历史/巡道）；步骤 6 集成收尾 ✅（prompt 检查/前端映射/前后端构建通过）；20 条回归测试集已交付 `server/docs/AGENT_EVAL_SET.md`，实机执行待部署环境（本机无 MongoDB/Qdrant）
-- [x] M2：服务端会话持久化——✅ 后端完成（`ChatSessionEntity` + 会话 CRUD + `sessionId` 可选兼容），e2e 16/16 通过；步骤 10（前端 localStorage 迁移）留二期
+- [x] M2：服务端会话持久化——✅ 后端完成并通过 Codex 审查（`ChatSessionEntity` + 会话 CRUD + `sessionId` 可选兼容），e2e 16/16、M1+M2 相关自动化测试 14/14 通过；步骤 10（前端 localStorage 迁移）留二期
 - [ ] M3：研判最小链路——相似历史案例结构化匹配 + `alert-analyzer` 模块编排
 - [ ] M4：线路空间研判——迁移 `metro.2026.data` 到后端 + turf 风圈×线路相交计算
 - [ ] M5：前端入口（COCC 一键研判按钮 + 研判卡片）+ 评估测试
