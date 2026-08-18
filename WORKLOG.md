@@ -190,6 +190,16 @@
 - **改动文件**：`docs_import/extract_docs.py`（新增）、`.gitignore`（text/ 与 metadata 为构建产物）、`README.md`（D3 状态 ✅ + 执行结果）
 - **提交**：见 git 历史
 
+### 步骤 D2/D3 修订：17 份待定全部纳入、3 份疑似扫描件剔除（用户决策）
+- **背景**：D3 完成后向用户报告，用户决策：① 17 份待定**全部纳入**；② 3 份疑似扫描件**不保留**
+- **执行**：
+  - `scan_docs.py`：4 条 pending 规则改为 `keep_official`（regulation）；新增 3 条 `exclude_scan` 规则（沪汛办 40 号/30 号/气候论文，理由注明"用户确认不保留，OCR 后可恢复"）；新增 `exclude_scan` 桶（manifest scope=scan）；删除被遮蔽的 40 号旧 keep 规则；规则表文档同步改为 8 类
+  - 重跑 D2：保留 A 25、保留 B 49（34+17−2）、排除扫描件 3、待定 0、未归类 0——与预期完全一致
+  - 删除 3 份扫描件残留 txt，重跑 D3：keep 74 份全部 ok（ok=74、suspect_scan 0），验收通过
+- **改动文件**：`docs_import/scan_docs.py`、`docs_import/filter_manifest.json`、`docs_import/盘点清单.md`、`docs_import/extract_metadata.json`（已 gitignore）、`README.md`（D2/D3 执行结果改为修订后终态）
+- **codex 审查状态**：D2、D3 及本次修订**尚未提交 codex 审查**（用户已知悉，审查建议已写入本步报告）
+- **提交**：见 git 历史
+
 ---
 
 ## 待办（下一步）

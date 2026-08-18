@@ -4,12 +4,13 @@ scan_docs.py — 步骤 D2：文献与文档盘点（过滤清单生成器）
 
 功能
 ====
-1. 遍历「台风资料」数据根目录（自动下沉到最内层），把每个文件归入 7 类：
+1. 遍历「台风资料」数据根目录（自动下沉到最内层），把每个文件归入 8 类：
    keep_academic      学术论文 PDF → 平台分类 other
    keep_official      官方预案/规定/通知/指令/报告 → emergency_plan 或 regulation
    exclude_sensitive  敏感文件（身份证/值班表/联系方式）——不进库、不进 git
+   exclude_scan       疑似扫描件（D3 实测无文字层，用户确认不保留）
    exclude_irrelevant 无关文件（开题答辩/会议纪要/系统建设文档/照片视频等）
-   pending            待定（.doc/.xls 老格式、工作总结、文件名不明的 docx）
+   pending            待定（当前规则下为空——原 17 份已全部确认纳入）
    m4                 M4 线路空间研判材料（本阶段不处理）
    d0_excel           Excel 表格（D0 案例管线领域，文献管线不处理）
 2. keep 列表按 SHA-256 内容去重（跨目录重名按内容识别，比「文件名+大小」更可靠，
@@ -57,6 +58,18 @@ RULES = [
     dict(kind="regex", pattern=r"^附件[1-6].*\.docx$", path="防汛防台基础数据",
          bucket="exclude_sensitive", reason="各单位负责人/联络员名单与应急联络表"),
 
+    # ── 1.5 疑似扫描件（D3 实测无文字层，用户确认不保留） ─────────────
+    # 2026-08-18 用户决策：如需 OCR 后重新纳入，删除本组规则并重跑本脚本即可
+    dict(kind="name", name="附件：沪汛办〔2022〕40号+关于切实做好今年第11号台风“轩岚诺”防御工作的通知.pdf",
+         bucket="exclude_scan",
+         reason="疑似扫描件——D3 实测全文仅 2 字（无文字层），用户确认不保留"),
+    dict(kind="name", name="《上海市防汛指挥部办公室关于认真贯彻落实习近平总书记重要指示精神进一步做好当前防汛救灾工作的通知》【沪汛办（2023）30号】.pdf",
+         bucket="exclude_scan",
+         reason="疑似扫描件——D3 实测全文仅 3 字（无文字层），用户确认不保留"),
+    dict(kind="name", name="气候、分类和概率预测在成本损失率情况下的价值.pdf",
+         bucket="exclude_scan",
+         reason="疑似扫描件——D3 实测剔除重复水印后正文为空（14 页为图片），用户确认不保留"),
+
     # ── 2. M4 线路空间研判材料 ────────────────────────────────────────
     dict(kind="dir", path="上海市地铁线路和站点",
          bucket="m4", reason="地铁线路站点坐标——M4 线路空间研判用"),
@@ -100,9 +113,6 @@ RULES = [
          bucket="keep_official",
          category="__by_name__",  # 预案→emergency_plan，其余→regulation（见下）
          reason="官方应急预案/管理规定"),
-    dict(kind="name", name="附件：沪汛办〔2022〕40号+关于切实做好今年第11号台风“轩岚诺”防御工作的通知.pdf",
-         bucket="keep_official", category=CAT_REGULATION,
-         reason="轩岚诺防御工作通知"),
     dict(kind="name", name="切实做好2022年第12号台风“梅花”防御工作.pdf",
          bucket="keep_official", category=CAT_REGULATION,
          reason="梅花防御工作通知"),
@@ -125,17 +135,21 @@ RULES = [
          bucket="keep_official", category=CAT_REGULATION,
          reason="近年主要影响台风汇总表（与汇编附件9为同内容，按哈希去重）"),
 
-    # ── 5. 待定（D3 阶段再决定） ──────────────────────────────────────
+    # ── 4.5 原待定 17 份（2026-08-18 用户决策：全部纳入） ─────────────
     dict(kind="ext", ext=".doc",
-         bucket="pending", reason=".doc 老格式（梅花速报/停运预报/轩岚诺防御通知）——D3 测试提取工具后决定"),
+         bucket="keep_official", category=CAT_REGULATION,
+         reason="梅花速报/停运预报/轩岚诺防御通知——D3 经 Word COM 提取成功，用户确认纳入"),
     dict(kind="regex", pattern=r"工作总结.*\.docx$",
-         bucket="pending", reason="保障工作总结——README D2 待定项，D3 确认后决定是否纳入"),
+         bucket="keep_official", category=CAT_REGULATION,
+         reason="保障工作总结——D3 提取成功，用户确认纳入"),
     dict(kind="name", name="防汛防台相关规章及处置要求.xls",
-         bucket="pending", reason=".xls 老格式——D3 测试提取工具后决定"),
+         bucket="keep_official", category=CAT_REGULATION,
+         reason="规章及处置要求——D3 经 pandas 提取成功，用户确认纳入"),
     dict(kind="name", name="梅花.docx",
-         bucket="pending", reason="文件名不明确——待人工确认内容后再归类"),
+         bucket="keep_official", category=CAT_REGULATION,
+         reason="上海轨道交通防汛防台信息快报——D3 提取确认内容，用户确认纳入"),
 
-    # ── 6. 无关文件 ───────────────────────────────────────────────────
+    # ── 5. 无关文件 ───────────────────────────────────────────────────
     dict(kind="dir", path="开题",
          bucket="exclude_irrelevant", reason="开题报告/开题答辩（学生作业）与统计画图代码"),
     dict(kind="dir", path="会议纪要",
@@ -149,7 +163,7 @@ RULES = [
     dict(kind="dir", path="914公交接驳现场照片",
          bucket="exclude_irrelevant", reason="现场照片——知识库本轮只收文本"),
     dict(kind="dir", path="建设集团姚均",
-         bucket="exclude_irrelevant", reason="现场材料目录——.doc 速报已归待定，其余现场材料排除"),
+         bucket="exclude_irrelevant", reason="现场材料目录——.doc 速报已归保留 B，其余现场材料排除"),
     dict(kind="ext", ext=".jpg",
          bucket="exclude_irrelevant", reason="现场照片——知识库本轮只收文本"),
     dict(kind="ext", ext=".png",
@@ -195,7 +209,7 @@ RULES = [
     dict(kind="name", name="6.29台风事件字段.xlsx",
          bucket="exclude_irrelevant", reason="事件字段设计文档"),
 
-    # ── 7. D0 案例管线领域（Excel 表格，文献管线不处理） ──────────────
+    # ── 6. D0 案例管线领域（Excel 表格，文献管线不处理） ──────────────
     dict(kind="ext", ext=".xlsx",
          bucket="d0_excel", reason="Excel 表格——案例数据管线（D0）领域，已在 clean_data.py 处理范围"),
     dict(kind="ext", ext=".xls",
@@ -300,6 +314,7 @@ def main():
         "keep_academic": [],
         "keep_official": [],
         "exclude_sensitive": [],
+        "exclude_scan": [],
         "exclude_irrelevant": [],
         "pending": [],
         "m4": [],
@@ -370,6 +385,10 @@ def main():
             for e in buckets["exclude_sensitive"]
         ] + [
             {"relpath": e["relpath"], "size": e["size"],
+             "scope": "scan", "reason": e["reason"]}
+            for e in buckets["exclude_scan"]
+        ] + [
+            {"relpath": e["relpath"], "size": e["size"],
              "scope": "irrelevant", "reason": e["reason"]}
             for e in buckets["exclude_irrelevant"]
         ],
@@ -407,8 +426,9 @@ def main():
             ("保留 A——学术文献（other）", "keep_academic"),
             ("保留 B——官方文档（emergency_plan / regulation）", "keep_official"),
             ("排除——敏感（不进库不进 git）", "exclude_sensitive"),
+            ("排除——疑似扫描件（用户确认不保留）", "exclude_scan"),
             ("排除——无关", "exclude_irrelevant"),
-            ("待定（D3 再决定）", "pending"),
+            ("待定", "pending"),
             ("M4 线路空间研判材料", "m4"),
             ("D0 案例管线领域（Excel）", "d0_excel"),
             ("重复（按 SHA-256 去重）", "duplicates"),
@@ -434,9 +454,11 @@ def main():
                     ["relpath", "category", "size"])
         write_table("排除：敏感文件（绝不进库、绝不进 git）", buckets["exclude_sensitive"],
                     ["relpath", "size", "reason"])
+        write_table("排除：疑似扫描件（D3 实测无文字层，用户确认不保留）", buckets["exclude_scan"],
+                    ["relpath", "size", "reason"])
         write_table("排除：无关文件", buckets["exclude_irrelevant"],
                     ["relpath", "size", "reason"])
-        write_table("待定（D3 阶段再决定）", buckets["pending"],
+        write_table("待定", buckets["pending"],
                     ["relpath", "size", "reason"])
         write_table("M4 线路空间研判材料（本阶段不处理）", buckets["m4"],
                     ["relpath", "size", "reason"])
@@ -454,6 +476,7 @@ def main():
     print(f"保留 A 学术文献 : {s['keep_academic']}")
     print(f"保留 B 官方文档 : {s['keep_official']}")
     print(f"排除 敏感       : {s['exclude_sensitive']}")
+    print(f"排除 扫描件     : {s['exclude_scan']}")
     print(f"排除 无关       : {s['exclude_irrelevant']}")
     print(f"待定            : {s['pending']}")
     print(f"M4 材料         : {s['m4']}")
