@@ -111,9 +111,16 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
 | 步骤 7 | 新增 `ChatSessionEntity` 并注册到 DatabaseModule | ✅ 完成（2026-08-17，m2-session-persistence 分支） |
 | 步骤 8 | 会话 CRUD 接口（创建/列表/详情/删除） | ✅ 完成（2026-08-17，m2-session-persistence 分支） |
 | 步骤 9 | `/chat/stream`、`/agent/stream` 支持可选 `sessionId`（向后兼容） | ✅ 完成（2026-08-17，m2-session-persistence 分支） |
-| 步骤 10 | 前端 localStorage 历史迁移到服务端会话（二期可选） | ⬜ 待做 |
+| 步骤 10 | 前端 localStorage 历史迁移到服务端会话 | ✅ 完成（2026-08-18，m2-session-persistence 分支） |
 
 **要点**：`sessionId` 可选、默认无状态，不破坏现有前端协议；服务端自动截断历史（最近 20 条），替换"前端回传 ≤10 条"限制。
+
+**步骤 10 实现**：前端加载时优先读取服务端最新会话（列表 → 详情），发送时无会话则自动创建并携带 `sessionId`（历史改由服务端管理，前端不再回传）；**localStorage 回退保留**——服务端/MongoDB 不可用时自动回退读取本地历史，每轮对话结束 localStorage 仍镜像保存，创建会话失败时提示「本轮对话仅保存在本地」并按原有无状态方式（回传历史）继续。chat/agent 两种模式各自维护独立会话，模式切换加载对应最新会话；服务端报「会话不存在/无权访问」时置空会话、下次发送自动重建；会话加载带序号防竞态；清空对话尽力删除服务端会话并同步清空本地。
+
+**验收口径**：
+- ✅ **模拟联调通过**：本机 Docker MongoDB + 假 LLM 全链路——服务端会话 e2e 17/17 通过；前端 chat-panel 单测 9/9 通过（`tsconfig.spec.chatpanel.json`）；前后端 `npm run build` 编译通过。
+- ⬜ **待办：MongoDB 实机联调（部署机）**——步骤 8～10 需在真实部署环境对会话 CRUD、流式落库、前端历史迁移做整体验收；未完成前不宣称「迁移验收完成」。
+- M2 不依赖 Qdrant 或 Embedding API（会话为纯 MongoDB 文档存储）。
 
 ---
 

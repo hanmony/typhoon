@@ -171,12 +171,29 @@
 - **环境修复**：Docker Compose 的 Node 镜像由 20.11 对齐到项目声明的 Node 22。
 - **验证**：服务端构建通过；M1+M2 相关测试 14/14 通过；ESLint 与 Docker Compose 配置校验通过；真实 MongoDB 临时库验证 24 条消息写入后准确保留最后 20 条，测试库已清理。
 
+### 步骤 18：M2-10 前端 localStorage 历史迁移到服务端会话（README 步骤 10）
+- **设计（双写回退，localStorage 回退必须保留）**：
+  - 加载：优先服务端最新会话（`list → get`），失败回退 localStorage 历史（空则欢迎语）
+  - 发送：无 `sessionId` 自动 `createSession`；创建失败 → 提示「会话创建失败，本轮对话仅保存在本地」+ 按原有无状态方式回传历史继续；服务端报「会话不存在/无权访问」→ 置空会话、下次自动重建
+  - 双写：`onComplete`/`onError` 无条件 `saveHistory`，localStorage 始终镜像最近历史，任何时刻可降级
+  - chat/agent 各自独立会话；模式切换加载对应最新会话（`sessionLoadSeq` 序号 + 类型双重防竞态）；清空 = 尽力删除服务端会话 + 清空本地
+- **改动文件**：
+  - `client/src/app/services/apis/chat.ts`：`QueryStreamOptions` 增可选 `sessionId`；新增 `ChatSessionSummary`/`ChatSessionDetail` 接口与 `createSession`/`listSessions`/`getSession`/`deleteSession` 四个方法（均 Silent 变体，错误不弹全局 toast、由调用方处理）
+  - `client/src/app/common.component/chat-panel/chat-panel.component.ts`：迁移逻辑全量（见设计）
+  - 新增 `client/src/app/common.component/chat-panel/chat-panel.component.spec.ts`（9 条用例）与 `client/tsconfig.spec.chatpanel.json`——仓库 259 个历史 spec 存在大量既有编译错误（引用不存在的导出，非本步引入），无法全量跑 karma；用 scoped tsconfig + `--include` 只编译运行本组件单测
+- **验证**：
+  - 服务端 e2e **17/17 通过**（Docker Mongo + mock LLM 模拟联调）；前端单测 **9/9 通过**；前后端 `npm run build` ✅
+  - 单测踩坑：模板 `nz-icon` 需在 TestBed 静态注册 8 个 outline 图标（`NZ_ICONS`），否则动态加载异常被 zone 捕获导致用例误失败——已注册
+  - **验收口径：模拟联调通过 ≠ 迁移验收完成**——MongoDB 实机联调（部署机）列为待办（见下）
+- **提交**：见 git 历史
+
 ---
 
 ## 待办（下一步）
 
 - [x] M1：补全 5 个指挥工具——✅ 全部完成（历史台风/值班/消息/预警历史/巡道）；步骤 6 集成收尾 ✅（prompt 检查/前端映射/前后端构建通过）；20 条回归测试集已交付 `server/docs/AGENT_EVAL_SET.md`，实机执行待部署环境（本机无 MongoDB/Qdrant）
-- [x] M2：服务端会话持久化——✅ 后端完成并通过 Codex 审查（`ChatSessionEntity` + 会话 CRUD + `sessionId` 可选兼容），e2e 16/16、M1+M2 相关自动化测试 14/14 通过；步骤 10（前端 localStorage 迁移）留二期
+- [x] M2：服务端会话持久化——✅ 步骤 7–9 后端完成并通过 Codex 审查（`ChatSessionEntity` + 会话 CRUD + `sessionId` 可选兼容），e2e 16/16、M1+M2 相关自动化测试 14/14 通过；步骤 10 前端迁移 ✅（双写回退保留 localStorage，模拟联调 e2e 17/17 + 前端单测 9/9）
+- [ ] M2 实机联调（待办）：步骤 8～10 在部署机真实 MongoDB 上整体验收——会话 CRUD、流式落库（20 条截断）、前端历史迁移；未完成前不宣称「迁移验收完成」
 - [ ] M3：研判最小链路——相似历史案例结构化匹配 + `alert-analyzer` 模块编排
 - [ ] M4：线路空间研判——迁移 `metro.2026.data` 到后端 + turf 风圈×线路相交计算
 - [ ] M5：前端入口（COCC 一键研判按钮 + 研判卡片）+ 评估测试

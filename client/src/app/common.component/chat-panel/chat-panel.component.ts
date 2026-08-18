@@ -14,7 +14,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { MarkdownComponent } from 'ngx-markdown';
 import { CommonNzModule } from '../../common.nz.module';
-import { ChatApi, ChatMessage, ThinkingRound, ToolEventData, UsageEventData } from '../../services/apis/chat';
+import { ChatApi, ChatMessage, ChatSessionDetail, ThinkingRound, ToolEventData, UsageEventData } from '../../services/apis/chat';
 import { buildChatHistory } from '../../services/apis/chat-history';
 import { StorageService } from '../../services/storage.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -77,6 +77,12 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
   showJumpButton = signal(false);
   /** 触摸滑动起点 Y，用于判断手指上滑。 */
   private lastTouchY: number | null = null;
+  /** 服务端会话 id：chat 与 agent 各自独立；null=尚未建立（下次发送时自动创建） */
+  private chatSessionId: string | null = null;
+  private agentSessionId: string | null = null;
+  /** 会话加载请求序号：防止模式快速切换时过期响应覆盖新会话 */
+  private sessionLoadSeq = 0;
+  /** localStorage 历史 key（服务端不可用时的回退存储，始终镜像最近历史） */
   private historyKey = '';
   private readonly agentModeKey = 'cocc-agent-mode';
   private pendingThinking = '';
@@ -89,16 +95,15 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   ngOnInit() {
     this.historyKey = `cocc-chat-history-${this.getUserId()}`;
-    this.loadHistory();
+    this.messages.set([
+      {
+        role: 'assistant',
+        content: WELCOME_CONTENT,
+      },
+    ]);
     this.loadAgentMode();
-    if (this.messages().length === 0) {
-      this.messages.set([
-        {
-          role: 'assistant',
-          content: WELCOME_CONTENT,
-        },
-      ]);
-    }
+    // 历史迁移到服务端会话：优先加载服务端最新会话，失败回退 localStorage
+    void this.loadServerSession('chat');
   }
 
   ngAfterViewChecked() {
@@ -178,9 +183,31 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
       this.steps.set([]);
     }
 
+    void this.sendStream(question);
+  }
+
+  /** 发起一轮问答：优先走服务端会话（sessionId），创建失败退回无状态（前端回传历史） */
+  private async sendStream(question: string) {
     const currentMessages = this.messages();
     const assistantIndex = currentMessages.length - 1;
-    const history = this.buildHistory();
+    const type = this.currentSessionType();
+
+    // 服务端会话：不存在则创建；创建失败退回无状态模式（历史由前端回传 + localStorage 回退保存）
+    let sessionId = this.currentSessionId();
+    if (!sessionId) {
+      try {
+        const created = await this.chatApi.createSession(type);
+        sessionId = created._id;
+        this.setSessionId(type, sessionId);
+      } catch {
+        this.msg.warning('会话创建失败，本轮对话仅保存在本地');
+      }
+    }
+    // 等待创建期间模式已切换：本轮作废，避免消息串到另一个会话
+    if (this.currentSessionType() !== type) {
+      this.loading = false;
+      return;
+    }
 
     let firstToken = true;
     const thinkingRounds: ThinkingRound[] = [];
@@ -225,6 +252,10 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.pendingScroll = 'stick';
       },
       onError: err => {
+        // 服务端会话已不存在（如被其他端删除）：置空，下次发送自动重建
+        if (/会话不存在|无权访问/.test(err.message)) {
+          this.setSessionId(this.currentSessionType(), null);
+        }
         this.messages.update(msgs => {
           const updated = [...msgs];
           updated[assistantIndex] = {
@@ -238,6 +269,7 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.statusText = '';
         this.steps.set([]);
         this.msg.error(`请求失败: ${err.message}`);
+        // 双写：localStorage 始终镜像最近历史，服务端不可用时可直接回退
         this.saveHistory();
       },
       onComplete: () => {
@@ -249,6 +281,7 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.loading = false;
         this.statusText = '';
         this.steps.set([]);
+        // 会话模式下服务端已自动落库；localStorage 镜像保留作为回退
         this.saveHistory();
       },
       onStatus: status => {
@@ -304,10 +337,12 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
       },
     };
 
+    // 有会话 → 服务端管理历史；无会话（创建失败回退）→ 前端回传历史（保持原有无状态行为）
+    const options = sessionId ? { sessionId } : { history: this.buildHistory() };
     if (this.agentMode()) {
-      this.cancelStream = this.chatApi.queryAgentStream(question, callbacks, { history });
+      this.cancelStream = this.chatApi.queryAgentStream(question, callbacks, options);
     } else {
-      this.cancelStream = this.chatApi.queryStream(question, callbacks, { history });
+      this.cancelStream = this.chatApi.queryStream(question, callbacks, options);
     }
   }
 
@@ -342,11 +377,15 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   toggleAgentMode() {
-    this.agentMode.update(v => {
-      const next = !v;
-      localStorage.setItem(this.agentModeKey, next ? 'agent' : 'chat');
-      return next;
-    });
+    const next = !this.agentMode();
+    this.agentMode.set(next);
+    localStorage.setItem(this.agentModeKey, next ? 'agent' : 'chat');
+    // 流式输出中切换模式：先停止当前流，避免输出串到另一个会话的消息列表
+    if (this.loading) {
+      this.onStop();
+    }
+    // 切换模式 = 切换会话：加载对应类型的服务端最新会话
+    void this.loadServerSession(next ? 'agent' : 'chat');
   }
 
   onClear() {
@@ -359,7 +398,68 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.onStop();
     // 清空面板属强制滚动场景：无视当前 sticky 状态重置贴底、隐藏「回到底部」按钮
     this.pendingScroll = 'jump';
+    // 旧会话作废：置空 id（下次发送自动新建），并尽力删除服务端会话
+    const oldId = this.currentSessionId();
+    this.setSessionId(this.currentSessionType(), null);
+    if (oldId) {
+      this.chatApi.deleteSession(oldId).catch(() => {
+        // 删除失败（离线等）：旧会话成为服务端孤儿，不影响后续使用
+      });
+    }
     localStorage.removeItem(this.historyKey);
+  }
+
+  private currentSessionType(): 'chat' | 'agent' {
+    return this.agentMode() ? 'agent' : 'chat';
+  }
+
+  private currentSessionId(): string | null {
+    return this.agentMode() ? this.agentSessionId : this.chatSessionId;
+  }
+
+  private setSessionId(type: 'chat' | 'agent', id: string | null) {
+    if (type === 'chat') {
+      this.chatSessionId = id;
+    } else {
+      this.agentSessionId = id;
+    }
+  }
+
+  /** 从服务端加载指定类型的最新会话（历史优先服务端，不可用时回退 localStorage） */
+  private async loadServerSession(type: 'chat' | 'agent') {
+    const seq = ++this.sessionLoadSeq;
+    let session: ChatSessionDetail | null = null;
+    let failed = false;
+    try {
+      const list = await this.chatApi.listSessions(type);
+      if (list.length > 0) {
+        session = await this.chatApi.getSession(list[0].id);
+      }
+    } catch {
+      // 未登录或服务端/MongoDB 不可用：回退 localStorage 历史（迁移前的旧行为）
+      failed = true;
+    }
+    // 过期响应（模式又切换了）直接丢弃，避免旧会话消息覆盖当前会话
+    if (seq !== this.sessionLoadSeq || this.currentSessionType() !== type) return;
+    if (failed) {
+      this.setSessionId(type, null);
+      this.loadHistory();
+      return;
+    }
+    this.setSessionId(type, session?._id ?? null);
+    this.messages.set(
+      session
+        ? [
+            { role: 'assistant', content: WELCOME_CONTENT },
+            ...session.messages.map(m => ({ role: m.role, content: m.content })),
+          ]
+        : [{ role: 'assistant', content: WELCOME_CONTENT }],
+    );
+    this.pendingScroll = 'jump';
+  }
+
+  private buildHistory() {
+    return buildChatHistory(this.messages(), MAX_HISTORY_ROUNDS);
   }
 
   private getUserId(): string {
@@ -373,6 +473,7 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
     return 'anonymous';
   }
 
+  /** localStorage 历史（服务端不可用时的回退数据源；空数据时回落到欢迎语） */
   private loadHistory() {
     try {
       const raw = localStorage.getItem(this.historyKey);
@@ -381,11 +482,15 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
         if (Array.isArray(parsed) && parsed.length > 0) {
           this.messages.set(parsed.map(m => ({ ...m, streaming: false })));
           this.pendingScroll = 'jump';
+          return;
         }
       }
     } catch {}
+    this.messages.set([{ role: 'assistant', content: WELCOME_CONTENT }]);
+    this.pendingScroll = 'jump';
   }
 
+  /** localStorage 镜像保存：服务端模式与回退模式都写，保证任何时刻可降级 */
   private saveHistory() {
     const msgs = this.messages()
       .filter(m => m.content)
@@ -397,10 +502,6 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
         return entry;
       });
     localStorage.setItem(this.historyKey, JSON.stringify(msgs));
-  }
-
-  private buildHistory() {
-    return buildChatHistory(this.messages(), MAX_HISTORY_ROUNDS);
   }
 
   private loadAgentMode() {
