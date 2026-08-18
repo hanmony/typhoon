@@ -21,6 +21,8 @@ qdrant-storage/
 # 临时与备份
 *.log
 *.zip
+__pycache__/
+*.py[cod]
 
 # 数据清洗输出（构建产物）
 clean_output/

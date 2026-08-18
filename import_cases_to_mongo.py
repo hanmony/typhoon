@@ -17,10 +17,11 @@ import_cases_to_mongo.py — 台风案例数据导入 MongoDB（README 步骤 D1
               radius 统一为「七级：东北x 东南x 西南x 西北x；十级：…；十二级：…」
               （前端 formatRadius 正则要求；JSON 路径源的 4 段管道值按 东北|东南|西南|西北 顺序展开）
 
-幂等
-====
-每个案例导入前：先删同名案例旧文档（cases.name）+ 其 actions（按旧 _id），
-再删同 caseId 旧路径点，最后插入。重复执行结果不变。
+安全与幂等
+==========
+默认只做 dry-run，不连接数据库。只有显式传入 --apply 才会写库。
+写入前先在内存构建和验证全部文档；替换单个案例或路径失败时恢复原数据。
+重复执行结果不变，并保留案例最初的 createdAt。
 
 跳过与告警
 ==========
@@ -30,7 +31,11 @@ import_cases_to_mongo.py — 台风案例数据导入 MongoDB（README 步骤 D1
 
 用法
 ====
-    python import_cases_to_mongo.py [--uri mongodb://127.0.0.1:27017/schooltyphoon] [--input clean_output] [--report import_report.json]
+    # 默认预演，不写数据库
+    python import_cases_to_mongo.py
+
+    # 确认后写正式库（必须显式 --apply）
+    python import_cases_to_mongo.py --uri mongodb://127.0.0.1:27017/schooltyphoon --apply
 
 依赖
 ====
@@ -41,9 +46,11 @@ import json
 import os
 import re
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
+from urllib.parse import urlsplit, urlunsplit
 
 try:
+    from bson import ObjectId
     from pymongo import MongoClient
 except ImportError:
     sys.exit("缺少 pymongo，请先安装：pip install pymongo")
@@ -153,12 +160,16 @@ class Reporter:
         self.skipped = []
         self.cases = []
         self.paths = []
+        self.time_quality = {"exact": 0, "inferred": 0, "unknown": 0}
 
     def warn(self, category, message):
         self.warnings.append({"category": category, "message": message})
 
     def skip(self, category, message):
         self.skipped.append({"category": category, "message": message})
+
+    def record_time_quality(self, quality):
+        self.time_quality[quality] += 1
 
 
 REPORTER = None  # 全局报告器，main 里初始化；工具函数通过 warn() 上报
@@ -167,6 +178,28 @@ REPORTER = None  # 全局报告器，main 里初始化；工具函数通过 warn
 def warn(category, message):
     if REPORTER is not None:
         REPORTER.warn(category, message)
+
+
+def record_time_quality(quality):
+    if REPORTER is not None:
+        REPORTER.record_time_quality(quality)
+
+
+def mask_mongo_uri(uri):
+    """报告和终端中隐藏 MongoDB 用户名、密码。"""
+    try:
+        parts = urlsplit(uri)
+        hostname = parts.hostname or ""
+        if ":" in hostname and not hostname.startswith("["):
+            hostname = f"[{hostname}]"
+        netloc = hostname
+        if parts.port:
+            netloc += f":{parts.port}"
+        if parts.username is not None:
+            netloc = f"***:***@{netloc}"
+        return urlunsplit((parts.scheme, netloc, parts.path, parts.query, parts.fragment))
+    except (TypeError, ValueError):
+        return "<invalid MongoDB URI>"
 
 
 def parse_dt(text, where):
@@ -198,11 +231,14 @@ def parse_action_time(text, year, anchor, where, which="first"):
     """
     s = str(text or "").strip()
     if s == "":
+        record_time_quality("unknown")
         return None
     # 1) 完整 ISO（精确）
     for fmt in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%d"):
         try:
-            return datetime.strptime(s, fmt)
+            value = datetime.strptime(s, fmt)
+            record_time_quality("exact")
+            return value
         except ValueError:
             pass
     # 2) ISO 日期（+时间）前缀 + 附加文本（「21时起」等）
@@ -211,20 +247,24 @@ def parse_action_time(text, year, anchor, where, which="first"):
         base = datetime.strptime(m.group(1)[:10], "%Y-%m-%d")
         t = _pick_time(s[len(m.group(0)):], base, which)
         warn(where, f"「{text}」→ 近似 {t:%Y-%m-%d %H:%M:%S}")
+        record_time_quality("inferred")
         return t
     # 3) 「9月15日18:26」式（有月有日，年份用台风年度）
     m = re.match(r"(\d{1,2})月(\d{1,2})日\s*(\d{1,2})[:：](\d{2})", s)
     if m:
         t = datetime(year, int(m.group(1)), int(m.group(2)), int(m.group(3)), int(m.group(4)))
         warn(where, f"「{text}」→ 近似 {t:%Y-%m-%d %H:%M:%S}")
+        record_time_quality("inferred")
         return t
     # 4) 纯时刻 / 「N时」区间 → 锚日期 + 时刻
     if _TIME_RE.search(s):
         t = _pick_time(s, anchor, which)
         warn(where, f"「{text}」→ 近似 {t:%Y-%m-%d %H:%M:%S}（锚日期 {anchor:%Y-%m-%d}）")
+        record_time_quality("inferred")
         return t
     # 5) 全部失败 → 锚日期 00:00
     warn(where, f"「{text}」→ 近似 {anchor:%Y-%m-%d} 00:00:00（无时间信息）")
+    record_time_quality("inferred")
     return anchor
 
 
@@ -267,7 +307,7 @@ def to_number(text, where):
         return 0.0
 
 
-def build_case(case):
+def build_case(case, created_at=None):
     """cases 集合文档：对齐 CaseEntity（name / values / status）"""
     overview = case.get("overview") or {}
     name = (overview.get("台风命名") or {}).get("value") or case.get("name") or case.get("case_id")
@@ -281,7 +321,14 @@ def build_case(case):
             "editorType": item.get("editor_type", ""),
             "editorOptions": [o.strip() for o in options.split(",") if o.strip()],
         }
-    return {"name": name, "values": values, "status": 0}
+    now = datetime.now(timezone.utc)
+    return {
+        "name": name,
+        "values": values,
+        "status": 0,
+        "createdAt": created_at or now,
+        "updatedAt": now,
+    }
 
 
 def build_action(category, row, year, anchor):
@@ -292,12 +339,17 @@ def build_action(category, row, year, anchor):
     for en, zh in key_map.items():
         if en in row:
             items[zh] = "" if row[en] is None else str(row[en])
+    from_date = parse_action_time(row.get("start_time", ""), year, anchor,
+                                  f"action.{category}.start_time", "first") or NO_END
+    to_date = parse_action_time(row.get("end_time", ""), year, anchor,
+                                f"action.{category}.end_time", "last") or NO_END
+    if from_date != NO_END and to_date != NO_END and to_date < from_date:
+        warn("time_order", f"action.{category}: 结束时间 {to_date} 早于开始时间 {from_date}，已标记为未知")
+        to_date = NO_END
     return {
         "category": category,
-        "fromDate": parse_action_time(row.get("start_time", ""), year, anchor,
-                                      f"action.{category}.start_time", "first") or NO_END,
-        "toDate": parse_action_time(row.get("end_time", ""), year, anchor,
-                                    f"action.{category}.end_time", "last") or NO_END,
+        "fromDate": from_date,
+        "toDate": to_date,
         "items": items,
         "accessories": [],
     }
@@ -346,50 +398,40 @@ def build_path_point(name, point):
     }
 
 
-# ──────────────────────────────────────────────────────────────────────
-# 导入流程
-# ──────────────────────────────────────────────────────────────────────
-def import_cases(db, cases, report):
-    """导入 cases + actions（按 name 幂等）"""
-    stats = {"cases": 0, "actions": 0, "deleted_cases": 0, "deleted_actions": 0}
+def prepare_payload(cases, tracks, report):
+    """先在内存中构建并验证全部文档；失败时数据库尚未发生任何变化。"""
+    prepared_cases = []
+    case_id_to_name = {}
+    names = set()
+
     for case in cases:
-        name = (case.get("overview") or {}).get("台风命名", {}).get("value") or case.get("name")
-        # 1) 删除同名旧案例 + 其事件（幂等）
-        old_ids = [doc["_id"] for doc in db.cases.find({"name": name})]
-        if old_ids:
-            del_res = db.actions.delete_many({"caseId": {"$in": old_ids}})
-            db.cases.delete_many({"name": name})
-            stats["deleted_cases"] += len(old_ids)
-            stats["deleted_actions"] += del_res.deleted_count
-            report.warn("idempotent", f"案例「{name}」已存在 {len(old_ids)} 条旧文档，已删除重建")
+        case_doc = build_case(case)
+        name = case_doc["name"]
+        if not name or name in names:
+            raise ValueError(f"案例名称为空或重复：{name!r}")
+        names.add(name)
+        case_id_to_name[case["case_id"]] = name
+        case_doc["_id"] = ObjectId()
 
-        # 2) 插入案例
-        doc = build_case(case)
-        res = db.cases.insert_one(doc)
-        case_oid = res.inserted_id
-        stats["cases"] += 1
-
-        # 3) 插入事件
         year = int((case.get("overview") or {}).get("台风年度", {}).get("value") or 2000)
+        action_docs = []
         per_category = {}
         for category in ACTION_CATEGORIES:
             rows = case.get("actions", {}).get(category, [])
             anchor = anchor_date(case, category) if rows else None
             for row in rows:
                 action = build_action(category, row, year, anchor)
-                action["caseId"] = case_oid
+                if not any(str(v or "").strip() for v in action["items"].values()):
+                    raise ValueError(f"案例「{name}」的「{category}」存在全空事件")
+                action["caseId"] = case_doc["_id"]
                 action["caseName"] = name
-                db.actions.insert_one(action)
-            stats["actions"] += len(rows)
+                action_docs.append(action)
             per_category[category] = len(rows)
 
-        # 4) 跳过类别记录
         for category, reason in SKIP_CATEGORIES.items():
             rows = case.get("actions", {}).get(category, [])
             if rows:
                 report.skip(category, f"案例「{name}」跳过 {len(rows)} 行：{reason}")
-
-        # 未识别类别告警（防止清洗产物未来新增类别被静默丢弃）
         known = set(ACTION_CATEGORIES) | set(SKIP_CATEGORIES)
         for category in case.get("actions", {}):
             if category not in known:
@@ -400,24 +442,96 @@ def import_cases(db, cases, report):
             "name": name,
             "overview_items": len(case.get("overview") or {}),
             "actions": per_category,
-            "actions_total": sum(per_category.values()),
+            "actions_total": len(action_docs),
         })
-        print(f"  ✓ 案例「{name}」：总览 {len(case.get('overview') or {})} 项，事件 {sum(per_category.values())} 条")
+        prepared_cases.append({"case": case_doc, "actions": action_docs})
+
+    prepared_paths = []
+    for case_id, points in tracks.items():
+        name = case_id_to_name.get(case_id, case_id)
+        docs = [build_path_point(name, p) for p in points]
+        for index, doc in enumerate(docs):
+            if doc["time"] is None or not (-180 <= doc["longitude"] <= 180) or not (-90 <= doc["latitude"] <= 90):
+                raise ValueError(f"路径「{name}」第 {index + 1} 点缺时间或经纬度非法")
+        prepared_paths.append({"case_id": case_id, "name": name, "points": docs})
+        report.paths.append({"case_id": case_id, "caseId_written": name, "points": len(docs)})
+
+    return prepared_cases, prepared_paths
+
+
+def ensure_indexes(db):
+    """为全新数据库补齐 Mongoose schema 声明的查询索引。"""
+    db.cases.create_index([("name", 1)], name="name_1")
+    db.actions.create_index([("caseId", 1)], name="caseId_1")
+    db.actions.create_index([("caseName", 1)], name="caseName_1")
+    db.actions.create_index([("category", 1)], name="category_1")
+    db.pathinfos.create_index([("caseId", 1)], name="caseId_1")
+
+
+# ──────────────────────────────────────────────────────────────────────
+# 导入流程
+# ──────────────────────────────────────────────────────────────────────
+def apply_cases(db, prepared_cases, report):
+    """替换 cases + actions；单个案例失败时恢复原数据。"""
+    stats = {"cases": 0, "actions": 0, "deleted_cases": 0, "deleted_actions": 0}
+    for prepared in prepared_cases:
+        case_doc = prepared["case"]
+        action_docs = prepared["actions"]
+        name = case_doc["name"]
+        old_cases = list(db.cases.find({"name": name}))
+        old_ids = [doc["_id"] for doc in old_cases]
+        old_actions = list(db.actions.find({"caseId": {"$in": old_ids}})) if old_ids else []
+
+        created_values = [doc.get("createdAt") for doc in old_cases if doc.get("createdAt")]
+        if created_values:
+            case_doc["createdAt"] = min(created_values)
+
+        # MongoDB 单机模式没有事务：先内存备份，写入失败就恢复旧文档。
+        if old_ids:
+            db.actions.delete_many({"caseId": {"$in": old_ids}})
+            db.cases.delete_many({"name": name})
+            stats["deleted_cases"] += len(old_ids)
+            stats["deleted_actions"] += len(old_actions)
+            report.warn("idempotent", f"案例「{name}」已存在 {len(old_ids)} 条旧文档，已删除重建")
+        try:
+            db.cases.insert_one(case_doc)
+            if action_docs:
+                db.actions.insert_many(action_docs, ordered=True)
+        except Exception:
+            db.actions.delete_many({"caseId": case_doc["_id"]})
+            db.cases.delete_many({"_id": case_doc["_id"]})
+            if old_cases:
+                db.cases.insert_many(old_cases, ordered=True)
+            if old_actions:
+                db.actions.insert_many(old_actions, ordered=True)
+            raise
+
+        stats["cases"] += 1
+        stats["actions"] += len(action_docs)
+        print(f"  ✓ 案例「{name}」：事件 {len(action_docs)} 条")
     return stats
 
 
-def import_paths(db, tracks, case_id_to_name, report):
-    """导入 pathinfos（按 caseId 幂等）；caseId = 案例名（前端按 name 查询）"""
+def apply_paths(db, prepared_paths):
+    """替换 pathinfos；单条路径失败时恢复原数据。"""
     stats = {"paths": 0, "points": 0, "deleted_points": 0}
-    for case_id, points in tracks.items():
-        name = case_id_to_name.get(case_id, case_id)  # 无案例台账的路径（利奇马）用源文件标题行编号
-        del_res = db.pathinfos.delete_many({"caseId": name})
-        stats["deleted_points"] += del_res.deleted_count
-        if points:
-            db.pathinfos.insert_many([build_path_point(name, p) for p in points])
+    for prepared in prepared_paths:
+        case_id = prepared["case_id"]
+        name = prepared["name"]
+        points = prepared["points"]
+        old_points = list(db.pathinfos.find({"caseId": name}))
+        db.pathinfos.delete_many({"caseId": name})
+        stats["deleted_points"] += len(old_points)
+        try:
+            if points:
+                db.pathinfos.insert_many(points, ordered=True)
+        except Exception:
+            db.pathinfos.delete_many({"caseId": name})
+            if old_points:
+                db.pathinfos.insert_many(old_points, ordered=True)
+            raise
         stats["paths"] += 1
         stats["points"] += len(points)
-        report.paths.append({"case_id": case_id, "caseId_written": name, "points": len(points)})
         print(f"  ✓ 路径「{name}」：{len(points)} 个点（源 case_id={case_id}）")
     return stats
 
@@ -427,6 +541,10 @@ def main():
     parser.add_argument("--uri", default=DEFAULT_URI, help="MongoDB 连接串")
     parser.add_argument("--input", default=DEFAULT_INPUT, help="clean_output 目录")
     parser.add_argument("--report", default=DEFAULT_REPORT, help="导入报告输出路径")
+    parser.add_argument("--apply", action="store_true",
+                        help="实际写入数据库；不加此参数时只做预演和校验")
+    parser.add_argument("--allow-other-database", action="store_true",
+                        help="允许写入非 schooltyphoon 库（仅用于显式指定的隔离测试库）")
     args = parser.parse_args()
 
     global REPORTER
@@ -438,42 +556,50 @@ def main():
     with open(os.path.join(args.input, "tracks.json"), encoding="utf-8") as f:
         tracks = json.load(f)
 
-    print(f"连接 {args.uri} …")
-    client = MongoClient(args.uri, serverSelectionTimeoutMS=10000)
-    db = client.get_default_database()
-    if db.name not in ("schooltyphoon",):
-        report.warn("db", f"库名「{db.name}」不是 schooltyphoon，请确认 --uri 是否正确")
-    print(f"目标库：{db.name}，导入前计数 → cases={db.cases.count_documents({})} "
-          f"actions={db.actions.count_documents({})} pathinfos={db.pathinfos.count_documents({})}")
-
-    # case_id → 案例名（路径 caseId 必须写案例名，前端 getPathInfos 按 name 查）
-    case_id_to_name = {}
-    for c in cases:
-        name = (c.get("overview") or {}).get("台风命名", {}).get("value") or c.get("name")
-        case_id_to_name[c["case_id"]] = name
-
-    print(f"\n[1/2] 导入案例与事件（{len(cases)} 个案例）")
-    stats_cases = import_cases(db, cases, report)
-
-    print(f"\n[2/2] 导入台风路径（{len(tracks)} 条）")
-    stats_paths = import_paths(db, tracks, case_id_to_name, report)
-
-    # ── 导入后核对 ──
-    after = {
-        "cases": db.cases.count_documents({}),
-        "actions": db.actions.count_documents({}),
-        "pathinfos": db.pathinfos.count_documents({}),
+    print("[1/3] 在内存中构建并校验全部文档")
+    prepared_cases, prepared_paths = prepare_payload(cases, tracks, report)
+    expected = {
+        "cases": len(prepared_cases),
+        "actions": sum(len(p["actions"]) for p in prepared_cases),
+        "paths": len(prepared_paths),
+        "points": sum(len(p["points"]) for p in prepared_paths),
     }
-    expected_points = sum(len(v) for v in tracks.values())
-    print("\n导入后核对：")
-    for col, n in after.items():
-        print(f"  {col}: {n}")
-    print(f"  期望：cases={len(cases)}  actions={stats_cases['actions']}  "
-          f"pathinfos={expected_points}（{len(tracks)} 条路径）")
-    ok = (after["cases"] == len(cases)
-          and after["actions"] == stats_cases["actions"]
-          and after["pathinfos"] == expected_points)
-    print("  " + ("✅ 计数全部一致" if ok else "❌ 计数不一致，请检查上面告警"))
+    print(f"  ✓ 校验通过：{expected['cases']} 案例 / {expected['actions']} 事件 / "
+          f"{expected['paths']} 条路径（{expected['points']} 点）")
+
+    database_name = None
+    after = dict(expected)
+    stats_cases = {"cases": expected["cases"], "actions": expected["actions"],
+                   "deleted_cases": 0, "deleted_actions": 0}
+    stats_paths = {"paths": expected["paths"], "points": expected["points"], "deleted_points": 0}
+    ok = True
+
+    if args.apply:
+        print(f"[2/3] 连接 {mask_mongo_uri(args.uri)}")
+        client = MongoClient(args.uri, serverSelectionTimeoutMS=10000)
+        db = client.get_default_database()
+        database_name = db.name
+        if db.name != "schooltyphoon" and not args.allow_other_database:
+            sys.exit(f"拒绝写入数据库「{db.name}」：测试库必须同时加 --allow-other-database")
+
+        print(f"  目标库：{db.name}；开始安全替换")
+        ensure_indexes(db)
+        stats_cases = apply_cases(db, prepared_cases, report)
+        stats_paths = apply_paths(db, prepared_paths)
+
+        case_ids = [p["case"]["_id"] for p in prepared_cases]
+        path_names = [p["name"] for p in prepared_paths]
+        after = {
+            "cases": db.cases.count_documents({"_id": {"$in": case_ids}}),
+            "actions": db.actions.count_documents({"caseId": {"$in": case_ids}}),
+            "paths": len(prepared_paths),
+            "points": db.pathinfos.count_documents({"caseId": {"$in": path_names}}),
+        }
+        ok = after == expected
+        print("[3/3] 仅核对本次导入范围：" + ("✅ 全部一致" if ok else "❌ 数量不一致"))
+    else:
+        print("[2/3] DRY-RUN 预演模式：未连接数据库，也未写入任何数据")
+        print("[3/3] 若确认要写隔离测试库，请显式添加 --apply --allow-other-database")
 
     # ── 告警聚合 + 报告落盘 ──
     warn_counts = {}
@@ -483,9 +609,10 @@ def main():
     report.warnings = [{"category": c, "message": m, "count": n} for (c, m), n in warn_counts.items()]
 
     summary = {
-        "mongo_uri": args.uri,
-        "database": db.name,
-        "collections_touched": ["cases", "actions", "pathinfos"],
+        "mode": "apply" if args.apply else "dry-run",
+        "mongo_uri": mask_mongo_uri(args.uri),
+        "database": database_name,
+        "collections_touched": ["cases", "actions", "pathinfos"] if args.apply else [],
         "totals": {
             "cases": stats_cases["cases"],
             "actions": stats_cases["actions"],
@@ -496,7 +623,9 @@ def main():
             "deleted_points": stats_paths["deleted_points"],
         },
         "verified": ok,
+        "expected_counts": expected,
         "verified_counts": after,
+        "time_quality": report.time_quality,
         "cases": report.cases,
         "paths": report.paths,
         "skipped": report.skipped,

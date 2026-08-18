@@ -1,0 +1,6 @@
+# 案例 Excel 清洗
+pandas==1.4.4
+openpyxl==3.0.10
+
+# MongoDB 导入与审计
+pymongo==4.17.0

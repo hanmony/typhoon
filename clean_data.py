@@ -4,7 +4,7 @@ clean_data.py — 台风案例数据清洗脚本（独立运行，不依赖项�
 
 功能
 ====
-1. 扫描「台风资料」目录，按文件名+大小去重（目录里存在 3 层重复副本）
+1. 扫描「台风资料」目录，按文件内容 SHA-256 去重
 2. 过滤无用文档（设计文档/值班表/照片/文献 PDF/测试用例等），只处理台风案例数据
 3. 解析三类数据：
    - 案例台账（16 个 sheet：台风总览信息 + 预警/行车/客运/事件/媒体等）
@@ -32,6 +32,7 @@ clean_data.py — 台风案例数据清洗脚本（独立运行，不依赖项�
     pip install pandas openpyxl
 """
 import json
+import hashlib
 import os
 import re
 import sys
@@ -55,6 +56,17 @@ TYPHOONS = {
     "梅花": ("2022", "202212", "梅花"),
     "贝碧嘉": ("2024", "202413", "贝碧嘉"),
     "普拉桑": ("2024", "202414", "普拉桑"),
+}
+
+# 台风编号与英文名采用权威元数据，不盲信可能由旧模板复制而来的 Excel 值。
+AUTHORITATIVE_NAMES = {
+    "201908": "Lekima",
+    "202106": "In-Fa",
+    "202114": "Chanthu",
+    "202211": "Hinnamnor",
+    "202212": "Muifa",
+    "202413": "Bebinca",
+    "202414": "Pulasan",
 }
 
 # 仓库 CaseImportService 认可的事件 sheet（ActionCategory）→ 输出统一英文名
@@ -297,7 +309,9 @@ def rows_as_dicts(df, header_idx, headers):
             if eng == key:
                 warn_column(key)
             rec[eng] = norm_text(vals[col])
-        if rec:
+        # 有些表尾只有“无标题提示列”有内容。丢弃无标题列后必须再次判空，
+        # 否则会生成 items 全空的垃圾事件。
+        if rec and any(norm_text(v) != "" for v in rec.values()):
             records.append(rec)
     return records
 
@@ -306,7 +320,7 @@ def rows_as_dicts(df, header_idx, headers):
 # 文件发现与分类
 # ──────────────────────────────────────────────────────────────────────
 def discover_files(root):
-    """递归收集 Excel 文件，按 (文件名, 大小) 去重，返回 [(路径, 文件名)]"""
+    """递归收集 Excel 文件，按文件内容 SHA-256 去重。"""
     seen = {}
     duplicates = []
     for dirpath, _, files in os.walk(root):
@@ -314,10 +328,13 @@ def discover_files(root):
             if not fn.lower().endswith((".xlsx", ".xls")):
                 continue
             p = os.path.join(dirpath, fn)
-            size = os.path.getsize(p)
-            key = (fn, size)
+            digest = hashlib.sha256()
+            with open(p, "rb") as source:
+                for chunk in iter(lambda: source.read(1024 * 1024), b""):
+                    digest.update(chunk)
+            key = digest.hexdigest()
             if key in seen:
-                duplicates.append({"kept": seen[key], "dropped": p})
+                duplicates.append({"kept": seen[key], "dropped": p, "sha256": key})
             else:
                 seen[key] = p
     return list(seen.values()), duplicates
@@ -393,6 +410,16 @@ def parse_action_sheet(df, sheet_name, typhoon_year):
     records = rows_as_dicts(df, idx, headers)
     # 时间字段清洗
     for rec in records:
+        # 梅花“媒体宣传”中有一条长文本错放在开始时间列。只有时间列有长文本时，
+        # 将其恢复到内容字段，不把宣传内容伪造成某天 00:00 的事件时间。
+        if (sheet_name.startswith("媒体宣传")
+                and len(norm_text(rec.get("start_time"))) >= 20
+                and not any(norm_text(rec.get(k)) for k in
+                            ("content", "publish_way", "read_count", "comment_count"))):
+            original = norm_text(rec.get("start_time"))
+            rec["content"] = original
+            rec["start_time"] = ""
+            warn("field_fix", f"{sheet_name}: 长文本从 start_time 修正到 content：{original[:40]}…")
         for col in ("start_time", "end_time"):
             if col in rec and rec[col] != "":
                 rec[col], _ = clean_datetime(rec[col], typhoon_year, f"{sheet_name}.{col}")
@@ -409,7 +436,61 @@ def parse_action_sheet(df, sheet_name, typhoon_year):
             if "start_time" not in rec:
                 rec["start_time"], _ = clean_datetime(rec["time"], typhoon_year, f"{sheet_name}.time")
             del rec["time"]
+
+        # 部分源表把宣传内容放在“日期/时间”列，经上面的合并步骤后才会出现。
+        if (sheet_name.startswith("媒体宣传")
+                and len(norm_text(rec.get("start_time"))) >= 20
+                and not any(norm_text(rec.get(k)) for k in
+                            ("content", "publish_way", "read_count", "comment_count"))):
+            original = norm_text(rec.get("start_time"))
+            rec["content"] = original
+            rec["start_time"] = ""
+            warn("field_fix", f"{sheet_name}: 长文本从 start_time 修正到 content：{original[:40]}…")
+
+        # 若校正后结束时间仍早于开始时间，不猜测真实日期：清空结束时间，
+        # 导入时会表示“未知”，原错误值保留在清洗报告供人工复核。
+        start = _parse_clean_iso(rec.get("start_time"))
+        end = _parse_clean_iso(rec.get("end_time"))
+        if start and end and end < start:
+            original_end = rec.get("end_time", "")
+            rec["end_time"] = ""
+            warn("time_order", f"{sheet_name}: 结束时间 {original_end} 早于开始时间 "
+                               f"{rec.get('start_time')}，已标记为未知，请人工核对源表")
     return records
+
+
+def _parse_clean_iso(value):
+    """只解析已经明确到日期的清洗结果；自由文本返回 None。"""
+    try:
+        return datetime.strptime(norm_text(value), "%Y-%m-%d %H:%M:%S")
+    except ValueError:
+        return None
+
+
+def ensure_authoritative_overview(case):
+    """补齐编号/英文名，并纠正已知模板复制错误。"""
+    overview = case["overview"]
+    code = case["code"]
+    expected = {
+        "台风年度": case["year"],
+        "台风编号": code,
+        "英文名称": AUTHORITATIVE_NAMES[code],
+    }
+    for key, value in expected.items():
+        old_value = (overview.get(key) or {}).get("value", "")
+        if old_value != value:
+            action = "补齐" if old_value == "" else f"纠正原值“{old_value}”"
+            warn("metadata_fix", f"{case['case_id']}.{key}: {action}为“{value}”")
+        if key not in overview:
+            overview[key] = {
+                "key": key,
+                "type": "通用",
+                "value": value,
+                "editor_type": "",
+                "editor_options": "",
+            }
+        else:
+            overview[key]["value"] = value
 
 
 def merge_date_time(date_iso, time_raw, typhoon_year, sheet_name):
@@ -586,10 +667,12 @@ def main():
 
         # ── 路径数据 ──
         if kind == "track_json":
-            if case_id not in track_files_used:  # JSON 结构化优先
-                tracks[case_id] = parse_track_json(
-                    pd.read_excel(path, sheet_name=xls.sheet_names[0], header=None, dtype=object), case_id)
-                track_files_used[case_id] = fn
+            # JSON 是结构化来源，显式覆盖此前扫描到的传统表，而不是依赖文件排序。
+            if case_id in track_files_used:
+                warn("track_priority", f"{case_id}: JSON 路径 {fn} 替换 {track_files_used[case_id]}")
+            tracks[case_id] = parse_track_json(
+                pd.read_excel(path, sheet_name=xls.sheet_names[0], header=None, dtype=object), case_id)
+            track_files_used[case_id] = fn
             continue
         if kind == "track_trad":
             if case_id not in track_files_used:
@@ -656,6 +739,7 @@ def main():
 
     # ── 录入表合并后的行去重（同一台风 6 个区域表可能重复记录同一事件）──
     for cid, case in cases.items():
+        ensure_authoritative_overview(case)
         for sheet, rows in case["actions"].items():
             seen = set()
             unique = []
