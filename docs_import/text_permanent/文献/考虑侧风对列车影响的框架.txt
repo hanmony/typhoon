@@ -1,0 +1,505 @@
+University of Birmingham
+A framework for the consideration of the effects of crosswinds on trains
+Baker, Christopher
+DOI:
+10.1016/j.jweia.2013.09.015
+License:
+None: All rights reserved
+Document Version
+Early version, also known as pre-print
+Citation for published version (Harvard):
+Baker, C 2013, 'A framework for the consideration of the effects of crosswinds on trains', Journal of Wind
+Engineering and Industrial Aerodynamics, vol. 123, pp. 130-142. https://doi.org/10.1016/j.jweia.2013.09.015
+Link to publication on Research at Birmingham portal
+Publisher Rights Statement:
+NOTICE: this is the author’s version of a work that was accepted for publication in Journal of Wind Engineering and Industrial Aerodynamics.
+Changes resulting from the publishing process, such as peer review, editing, corrections, structural formatting, and other quality control mechanisms may not be reflected in this document. Changes may have been made to this work since it was submitted for publication. A definitive version was subsequently published in Journal of Wind Engineering and Industrial Aerodynamics Volume 123, Pages 130–142.
+DOI: http://dx.doi.org/10.1016/j.jweia.2013.09.015
+General rights
+Unless a licence is specified above, all rights (including copyright and moral rights) in this document are retained by the authors and/or the copyright holders. The express permission of the copyright holder must be obtained for any use of this material other than for purposes permitted by law.
+•Users may freely distribute the URL that is used to identify this publication.
+•Users may download and/or print one copy of the publication from the University of Birmingham research portal for the purpose of private study or non-commercial research.
+•User may use extracts from the document in line with the concept of ‘fair dealing’ under the Copyright, Designs and Patents Act 1988 (?) •Users may not further distribute the material nor use it for the purposes of commercial gain.
+Where a licence is displayed above, please note the terms and conditions of the licence govern your use of this document.
+When citing, please reference the published version.
+Take down policy
+While the University of Birmingham exercises care and attention in making items available there are rare occasions when an item has been uploaded in error or has been deemed to be commercially or otherwise sensitive.
+If you believe that this is the case for this document, please contact UBIRA@lists.bham.ac.uk providing details and we will remove access to the work immediately and investigate.
+Download date: 04. 11. 2025
+A framework for the consideration of the effects of crosswinds on trains
+Chris Baker, School of Civil Engineering, University of Birmingham, Edgbaston, Birmingham, United
+Kingdom. B15 2TT; e mail c.j.baker@bham.ac.uk; Tel +44(0)1214145067
+Abstract
+High winds have a number of different effects on the design and operation of trains, the most important being the need to design trains that will not blow over in high winds. The current
+European design methodology is contained within a draft CEN code of practice (CEN 2009). In this paper the author will argue that there are inconsistencies and inadequacies in the approach adopted in that document, particularly in the levels of complexity of the different components and in the uncertainties that are involved. This leads to a proposal for a revised methodology that is more consistent in terms of the complexity of its components and can be used for train authorisation and route risk analysis. In particular the paper addresses the following issues.
+• The development of simple correlations for train overturning moment coefficient as a function of yaw angle.
+• The use of a simplified model of the train overturning phenomenon, which takes into account “real” effects (such as vehicle suspension, curvature, admittance effects and track roughness), through second order correction factors.
+• The calibration of this model using previously published data obtained using more complex methodologies.
+• The application of this methodology to risk based assessments for use in train authorisation and route risk analysis.
+• The consideration of the uncertainty chain throughout the calculation process.
+Emerging out of this work, the concept arises of a simple parameter referred to as the characteristic velocity, which combines train geometry and aerodynamic effects and can be used as an indication of train safety in high cross winds.
+Highlights
+• Critique of existing CEN methodology for determining the risk of trains overturning in cross winds.
+• New simplified and easily applicable methodology for train certification and route risk assessment, in which complex effects taken into account through second order corrections.
+• Definition of parameter called the characteristic wind speed that determines vehicle overturning characteristics.
+Keywords
+High speed trains; train aerodynamics; cross wind stability; force and moment coefficients; risk analysis, cross wind characteristics
+1. Introduction and rationale
+High winds have a number of effects on train operation – from wind borne debris being blown onto the track in relatively low wind conditions, to excessive track lateral forces, flange climbing (Andersson et al 2004), vehicle displacement leading to loading gauge infringement (O’Neil 2008) and pantograph sway (Baker 2009, 2010) at rather higher wind levels, to vehicle overturning resulting in major accidents at extreme wind levels (Baker et al 2009). This paper arises out of considerations by the author over the last few years of the issue of the train overturning issue, and in particular the methodologies laid out in the draft CEN code (CEN 2009). The outline of the methodology as set out in this code is shown in figure 1. The ultimate aim of the procedure is either to allow the acceptance of new vehicles, or to carry out a risk analysis of a particular vehicle running across a particular route. There are two basic inputs to the process – the nature of the wind
+characteristics that will be used in the analysis, and the vehicle aerodynamic characteristics that will be used. The wind characteristics can, at their most simple, be the assumption of a stationary wind, interpreted as the average gust speed, or as a gust of a specific form (such as the Chinese Hat gust, which is effectively a representation of an average gust – Bierbooms and Cheng 2002), or a full stochastic simulation of the wind that correctly reproduces the turbulent fluctuations of the correct magnitude and scale, properly correlated through space and time (Cheli et al 2003, 2004, 2007,
+2008, 2012). The aerodynamic coefficients required are, at the simplest, the rolling moment coefficient about the leeward rail, and for the most complex methods all six force and moment coefficients are required. These can be obtained either from existing correlations that give predictive formulae (CEN 2009), from CFD analysis (Diedrichs 2003), from wind tunnel tests of various types simple low turbulence experiments (Baker et al 2009), the use of a simulated atmospheric boundary layer (RSSB 2009c), complex moving model experiments (Baker 1986, Dorigati et al 2013) or from full scale tests (Baker 2003, Baker et al 2004). The wind data and aerodynamic coefficients are then input into some sort of model of the vehicle / wind system. Again this can have a number of levels of complexity ranging from a simple 3 mass model with no representation of vehicle suspension (eg
+4
+RSSB 2009a,b), through a more complex 5 mass model with suspension stiffness modelled (Diedrichs et al 2004), to a full MBS of the vehicle that allows fully for suspension effects. This can include, in principle, track roughness and irregularities (Li et al 2005, Baker 2010) and the effect of the vehicle on filtering high frequency wind speed fluctuations (the admittance effect) (Sterling et al 2009), although these effects are not included in CEN (2009). Such models can then be used to produce characteristic wind curves – CWCs – which are curves which show the wind speed at which a certain proportion of wheel unloading occurs (usually 90%, but this can take on different values), against either wind direction for a particular vehicle speed, or vehicle speed for a particular wind direction.
+These curves can then be used in one of two ways – either to determine, through a comparison with other vehicles, or through a comparison with an absolute standard, whether or not the vehicle can be accepted for operation (so called limit curves for high speed Class 1 trains are given in the Rolling
+Stock “Technical Standards for Interoperability” TSI 2008), or to calculate the risk of a wind induced accident on a particular route. The latter process includes assessing how often the wind speeds given by the cross wind characteristic are exceeded at a particular site, which requires a knowledge of route topography and wind conditions along the route, either from existing data or from meteorological stations (Andersson et al 2004).
+Perhaps the most important point to be appreciated from figure 1 is the sequential nature of the process. Thus any uncertainties in the input parameters (wind characteristics and aerodynamic coefficients) will propagate through the calculation of CWCs and into the risk analysis, being added to by uncertainties in the succeeding aspects of the calculation as well. This implies that there is little point in some aspects of the chain of calculations having very accurate methodologies with small uncertainties, where there are large uncertainties in other aspects. In section 8 of this paper we will consider this aspect in more detail. However, it is sufficient to say here that it will be shown there are major questions around the specification of wind conditions, and considerable uncertainties in the aerodynamic force coefficients whether they are obtained numerically or experimentally, that
+5
+makes the use of complex calculations of the vehicle dynamic system for the calculation of CWCs suspect.
+Such considerations lead the author to assert that, in general a simple, straightforward and transparent method for addressing all the above issues is to be preferred over complex methods, ideally based on very simple, easily understood principles, but with correction factors for real effects that have been calibrated by the more complex methods. Ideally such a method should result in a simple parameterisation which allows a straightforward assessment of the vehicle for train certification purposes. The same parameterisation should also be used in any route based risk analysis, and thus achieve consistency between the train certification process and the risk analysis process. There is also a need for a common framework to consider the range of cross wind problems mentioned at the start of the paper, that allows the similarities between the various issues to be made clear and the issues addressed in a consistent way, and any new methodology
+should take this into account. This assertion forms the basis of the analysis that follows, and it will ultimately be justified through an uncertainty study that uses the outcome of the analysis.
+In section 2 we consider the specification of generic forms for aerodynamic force and moment coefficient data, that allow the simple yet accurate parameterisation of a large range of experimental data for different sorts of trains. In section 3 the use of these force and moment coefficient parameters in a simple quasi-static analysis of the issue of cross wind stability is set out, based upon the three mass model as used in CEN (2009), which is based on a simple wind gust speed infringement criterion for vehicle overturning. Real effects – such as track curvature, train dynamic behaviour, track effects such as track roughness, and unsteady aerodynamics (admittance) effects – are included in the quasi-static models through simple correction factors (section 4), which are obtained from a calibration through the use of more complex methodologies (section 5). This approach leads to the development of a generic characteristic wind curve that relates the
+infringement wind speed to vehicle characteristics, and which has a general validity. This characteristic can then be used either as part of the vehicle acceptance process (section 6), or as
+6
+part of a wider risk analysis (section 7). An uncertainty analysis is then carried out to illustrate how uncertainties propagate through the calculation process (section 8), and finally some conclusions and suggestions for further work are made in section 9.
+7
+2. Aerodynamic forces and moment coefficients
+Figure 2 shows a vector diagram that relates the wind speed u, wind angle to the track β and vehicle velocity v. The wind speed relative to the vehicle V is given by
+(1)
+
+The yaw angle ψ , the wind angle relative to the moving vehicle, is given by
+Note that in the above the wind speed u will be taken as the instantaneous gust wind speed and
+
+and ψ as the instantaneous wind angle and yaw angles. For the issue of cross wind stability the appropriate duration for such values is of the order of 1 to 3 seconds. The appropriate aerodynamic information is given by the wind induced rolling moment about the leeward rail. This is given, in coefficient form, by
+(3)
+
+#$% = &%/0.5*+ℎ
+R is the lee rail rolling moment, ρ is the density of air and A and h are reference vehicle areas and
+L
+lengths (conventionally taken as 10m2 and 3m for all trains). Now it is shown in Baker (2011), through a consideration of a wide variety of train shapes that if the aerodynamic side and lift force coefficients are normalised with the value at 40 degrees, then data from a wide variety of sources collapse onto generic power law forms. Since the lee rail rolling moment coefficient is effectively a weighted sum of the side and lift force coefficients, the same can be expected to be true. We thus write for the case of the yaw angle less than the “transition” yaw angle ψ =3 4
+For yaw angles greater than ψ./0 (5)./012
+8
+where R is a constant and ψ , is given by ψ (6)
+9/5 sin6 7= sin 40&
+It is thus assumed that the rolling moment coefficients follow a power law form at low yaw angles and are constant at higher yaw angles. R is the ratio of the coefficient at 90 degrees to that at 40 degrees. The results of such an analysis are shown in figure 3, for the four categories of trains that were considered in Baker (2011) – highly streamlined leading vehicles, streamlined leading vehicles, blunt leading vehicles and trailing vehicles. Fuller details of this process are given in Baker (2011).
+Note that some of this data dates back to the early 1980s when experimental techniques were not as refined as at present, and high order of accuracy cannot be expected. It can be seen that that the best fit value of the exponent n in the low yaw angle range below the transition yaw angle, is around
+1.5 for the highly streamlined leading vehicles and streamlined conventional train leading vehicles,
+1.7 for trailing vehicles; and 1.2 for blunt low speed vehicles such as multiple units. At high yaw angles there is considerable scatter in the results, but for the different types of train there is a level of consistency, with R=1.25 being an appropriate conservative value for highly streamlined trains,
+R=1.5 being appropriate for streamlined and blunt leading vehicles, and R=2 being appropriate for intermediate vehicles. Note however that the fit at high yaw angles is poor, and indeed the trends shown by the experimental data are different for different types of vehicle, with highly streamlined vehicles having a rolling moment coefficient that falls in the high yaw angle range whilst the characteristic for trailing vehicles continues to increase. The assumption of constant R is a very simple (and conservative) assumption. It should be noted at this stage however that the low yaw angle range is of most practical importance. It will be seen below that this formulation is of very considerable use in the derivation of a simple formulation of the cross wind stability problem. Now in CEN (2009) a series of idealised curves are given for the rolling moment coefficients of different types of train. These are expressed in rather cumbersome algebraic forms rather than the power law
+formulation used here, and are not normalised in the same way. Figure 4 shows a comparison
+9
+between these curves and the above forms plotted in the same way as figure 3. It can be seen that these curves are of the same form, and the exponents of 1.2 and 1.5 provide a reasonable fit to the data. However, rather better fits could be obtained in this case by letting n take on values of 1.0 and
+1.4 for the two cases.
+3. Quasi-static analysis
+In considering the stability of train vehicles in cross winds the following effects need to be taken into account.
+• The destabilising effect of the aerodynamic forces, usually expressed as an aerodynamic moment about the leading rail.
+• The effect of cant (camber) and curvature. Ideally a train will go around a bend at its “balancing speed” and, as the track has an angle of inclination to the horizontal (the cant) the centrifugal effects will be balanced by the cross track component of the weight force, and there will be no extra side forces on the track. However such an ideal situation is seldom realised and trains often run with cant deficiency or cant excess. In CEN (2009) this is allowed for by the requirement to form a characteristic wind curve for unbalanced lateral accelerations of ±1m/s2.
+• The effect of vehicle suspension. The suspension system of the vehicle has three broad effects on the cross wind stability situation. In high cross winds the sprung mass will be displaced toward the leeward rail (although this movement will be limited) with a consequent reduction in the restoring moment that resists the aerodynamic overturning moment. The sprung mass will also rotate about its centre of rotation. The third effect is to modify the smaller scale lateral and vertical movements of the vehicle that can cause short term variations in wheel unloading.
+• The aerodynamic admittance effect. Sterling et al (2009) describes the concept of aerodynamic admittance, which specifies the filtering effect of the train size on the effect of small atmospheric turbulent gusts – essentially the larger gusts will load all of the train, and thus the unsteady forces caused by such gusts will be well correlated across the train, whilst the smaller gusts will only effect part of the train and will be poorly correlated. In Baker
+11
+(2010) a method is described for allowing for such effects in time domain calculations using the concept of the weighting function.
+• The effect of track roughness and irregularities. Railway tracks are not fully smooth and uniform, or perfectly aligned in the cross track direction, and these irregularities can cause significant wheel unloading whether or not cross winds are present. (Li et al 2005)
+In figure 5, we consider the case of a rail vehicle in a cross wind going through a curve of curvature C on canted track with a small cant angle ε. The vehicle is assumed to consist of two masses - the unsprung mass M and the sprung mass M, with the total mass M being the sum of these. (Later in u s the analysis the sprung mass will be considered to have two components relating to the primary and secondary suspensions, but for the sake of simplicity at this stage these will be combined together).
+The track semi-width is p, and the centre of gravity heights of the unsprung, sprung and total masses above the rail are q , q and q respectively. The wind is assumed to blow from the centre of the u s curve, displacing the centre of gravity of the sprung mass by a distance x laterally, and the distance of the overall centre of gravity by a distance y laterally. The action of the wind is represented by a rolling moment about the lee rail, and the windward wheel unloading factor is again assumed to be α. The centripretal effects are assumed to occur at the centre of gravity. Taking moments about the leeward rail one obtains.
+
+(7)
+
+Now if there were no cross winds, and the curvature forces were balanced by the lateral forces on the track, we can define the balancing speed through the following expression.
+F
+(8)
+
+From equations (7) and (8), making the assumption that the cant angle is small, one obtains the following expression.
+12
+GJ NJ
+• Now consider the lateral displacement of the centre of gravity of the sprung mass. This can be written as the sum of two components.
+(10)
+A = A9+A
+x is the displacement due to lateral movement of the sprung mass. Here we will assume that in high wind conditions, this is given by the distance to the bump stops. x is the displacement of the centre of gravity due to rotational displacement. This is assumed to be given by
+K (11)
+O
+where is the rotational stiffness in Nm/rad and can be expressed as where s is the suspension coefficient. In reality the moment coefficient in this equation should be that about the roll centre, but as this effect will essentially be second order, the coefficient about the leeward rail will be an adequate alternative. Thus x is given by
+(12) and equation (9) becomes
+We write this as
+(14)
+
+where the parameters f , f and f represent rotational suspension effects, lateral suspension s1 s2 c effects and curvature effects respectively, and are given by
+9 (15)
+R9 = 3 4
+GSTIST GHUIHU (16)
+R = 3 + 4
+G J G J
+13
+R =V3 4 −1W
+JN
+In the definition of the suspended mass has been split into the primary and secondary suspended
+R
+components. By analogy one can then also include other suspension effects, admittance effects and track roughness effects in a similar way.
+(18)
+
+Here allows for the suspension effects other than lateral and rotational displacements, for
+RX RY
+admittance (turbulence non-correlation) effects, and for track roughness and alignment effects.
+RZ
+This equation can be written as
+(19)
+
+where α is given by . Thus using equations (1) to (4) and (19) above one may write, for yaw angles below the transition yaw angle
+2.]^./012_`
+where is the overturning wind speed for the vehicle and c will be referred to in what follows as a
+
+characteristic velocity, which will be seen to be a parameter, with dimensions of velocity, that characterises the cross wind performance of the vehicle. It will be seen that this is a parameter of some utility. Now if we normalise the above expression using this characteristic velocity, we obtain
+(21)
+where and . Similarly for yaw angles greater than the transition angle one obtains from equations (1) to (5)
+(22)
+M5
+These equations can be solved in principle to give
+(23)
+14
+for yaw angles below the transition value, and
+(24)
+for higher yaw angles. Function F can only be found numerically, although function F has an explicit
+1 2
+solution. Thus for specific values of n, R and , the value of , effectively the overturning dimensionless wind speed, can thus be found as a function of wind direction. Figure 6a shows such values of for a range of values of for n=1.5 and assuming the low yaw angle moment characteristic extends to all yaw angles. It can be seen that there is a well defined, although rather “flat”, minimum in each curve at around wind directions of 70 to 90 degrees. Figure 6b shows a similar curve for = 1.0, for values of n of 1.2, 1.5, and 1.7, the values that the last section suggests are most relevant to the current situation. It can be see that the minimum of the curves are only weakly dependent on the value of n. Finally figure 6c shows similar curves for = 1.0, n= 1.5 and a range of values of R. The discontinuities in the curves represent the transition yaw angle, with the high yaw angle range being at the higher wind directions (wind from behind the vehicles). It can be
+seen that the minimum in these curves is either in the low yaw angle range, again at wind directions of between 70 and 90 degrees, or at the transition yaw angle between the low and high yaw angle ranges. Note that for R=2, it is effectively assumed that the low yaw angle characteristic is valid throughout the yaw angle range.
+Now the minimum value of these curves is of practical interest, since it gives the critical (minimum) value of the overturning wind speed for a particular value of . It will indeed be argued later in the paper that in practice this is the only wind direction of interest, since as the overturning wind speed rises away from its minimum value, the risk of it being exceeded in practice falls off very quickly, and the very large majority of the accident risk will be in the wind sector that corresponds to the minimum value of the above curves. In principle this value is given by
+(25)
+15
+This minimum will either occur at the wind angle corresponding to the minimum of the low yaw angle characteristics shown in figure 6, or at the intersection of the high and low yaw angle characteristics. The nature of the function , determined again from a numerical calculation, is eX shown in figure 7a for the low yaw angle characteristic only, for n= 1.2, 1.5 and n=1.7. It can be seen that at high values of the value of decreases with . The value of (=1.0) at represents the zero train velocity case. Thus the characteristic wind speed can be physically interpreted as the wind speed at which a stationary vehicle will overturn, if the low yaw angle rolling moment characteristic extends throughout the yaw angle range. The lower accident wind speeds occur for the smaller values of n (i.e. for blunt nosed vehicles) as would be expected. Figure 7b shows similar characteristics for n=1.5, and a variety of values of R. At the lower values of the
+value of depend upon the value of R, as the conditions are in the high yaw angle range. The value of at again represents the zero train velocity case. The utility of this approach should be noted. It offers a straightforward way of obtaining the normalised critical accident wind speed for a vehicle from the normalised vehicle velocity, provided that the form of the lee rail rolling moment coefficient – yaw angle curve is known (i.e. R and n). Only limited values of R and n seem to be of practical relevance. Since the normalisation is achieved through a characteristic velocity c, then the accident wind speed / vehicle speed characteristic can be easily calculated. For a particular vehicle this characteristic is thus effectively determined by the characteristic velocity. This parameter itself is of some utility, in offering a rapid comparison between vehicles of the susceptibility to cross wind effects.
+16
+4. Modifications for real effects
+In the last section we identified three factors that take account of effects that cannot easily be modelled in the simple quasi-steady analysis - to model a range of suspension effects, to
+RX RY
+model aerodynamic admittance effects and to model track roughness effects. In this section we
+RZ
+make some approximate calculations of these parameters. The approach taken to investigate such effects will use the calculation method outlined in Baker (2009, 2011). This is based on a simple two dimensional three body dynamic model of the vehicle / wind system which is a three mass model connected by horizontal, vertical and roll springs and dashpots. The train parameters that were used in the calculation are those given in that paper. In the version of the model that is used here body rotation effects are not taken into account. A fluctuating wind time history is simulated that has the same spectral and correlation statistics as the natural wind, based on the method of Cooper (1985).
+This is then used to calculate aerodynamic force and moment time histories on the train, allowing properly for the effects of atmospheric turbulence and aerodynamic admittance / weighting function. These time histories are then used in the train dynamic model. Time histories of track irregularities are calculated from the spectra provided by Li et al (2005) which are also input into the dynamic model. The outputs from the model are time histories of vehicle displacement and (of most relevant to the current paper) vehicle wheel reactions. We will take the parameter as 0.8 (i.e.
+E2
+cross winds are nominally allowed to cause 80% wheel unloading) for reasons that will soon become apparent. The model of course has its limitations, the most important being that it is two dimensional and does not allow for vehicle yawing and pitching motions, but is sufficient for the present purposes. The approach adopted to investigate the above second order effects is as follows.
+• Firstly suspension, atmospheric turbulence and track irregularity are “turned off” in the calculation, and thus effectively the model is run in a quasi-static mode, albeit with fluctuating time histories of wind speed and aerodynamic forces and moments. 50 one minute simulations for a particular vehicle speed and a particular wind speed (each with a different wind velocity and force simulation with the correct statistical properties) are run to
+17
+calculate a 50 sample ensemble of windward wheel unloading values. The average of these wheel unloading values is formed.
+• This process is carried out for vehicle speeds of 25, 37.5, 50, 62.5 and 75m/s, and by a process of trial and error a mean wind speed is found for each vehicle velocity which the average wheel unloading of the 50 run ensemble is 80%. These give the “quasi-steady” values of vehicle speed and overturning wind speed.
+• For the pairs of wind speed and vehicle speed thus identified, the “suspension effects”, “aerodynamic admittance”, and “track irregularity” and” are then “turned on” in the calculation, firstly in isolation from each other and then together, and in each case another
+50 run ensemble of the wheel unloading are found and a new average value of α is obtained. This allows the magnitude of each of the above effects to be determined.
+Before considering the results in detail it is necessary to understand the nature of the wheel unloading statistics. Figure 8 below shows two histograms for a 50 run ensemble for the quasisteady case for a vehicle speed of 50m/s and a mean wind speed of 30.4m/s, and a fixed turbulence intensity of 0.15. The mean wind speed value has been chosen so that the mean wheel unloading is
+0.8. The first shows the histogram of simulated wind speed, whilst the second shows the corresponding histogram of wheel unloading. It can be seen there is a considerable spread in both cases, which is to be expected as the calculation is a statistical one. Note firstly that the gust velocities in each simulation are significantly higher than the mean velocity as would be expected, and that an “average” wheel unloading of 80% includes individual occurrences of α of up to 95% (and thus the value of 80% has been chosen as the standard case to ensure that there are no instances of wheel unloading greater than 100%). This reflects the real situation, where any assumed value of wheel unloading will simply be an average representation of a highly fluctuating quantity.
+The results of this analysis are shown in figure 9, for a vehicle speed of 50m/s. The following comments can be made.
+18
+• Including suspension effects (which here includes the lateral movement of the sprung masses but excludes rotational movements) gives an effective value of the wheel unloading of 0.841 i.e. to further destabilise the vehicle. This gives
+If the lateral movements are inhibited in the calculation the effective value of wheel unloading falls to 0.781 and thus , which gives i.e. most of the effect of the suspension is due to lateral movement of the unsprung mass tending to destabilise the vehicle, whilst the other effects of the suspension are small and tend to stabilise the vehicle, presumably by effectively filtering out some of the higher frequency wind fluctuations. Note again that these calculations do not take account of suspension rotation, and effectively assume that .
+R9 = 1.0
+• The effect of including admittance effects is to give an effective wheel unloading 0.783 which gives , and resulting in a slight stabilisation of the
+RY = 0.783−0.80 = −0.017 vehicle as high frequency wind components are filtered out.
+• The effect of including track irregularity effects is to give an effective wheel unloading of
+0.830 which gives destabilising the vehicle.
+RZ = 0.830−0.80 = 0.03 • Including all effects together results in an effective wheel unloading giving a value of 0.851 which gives which is close to the value one obtains when adding the individual increments together (0.056), which suggests the various effects are broadly independent of each other.
+It should be emphasised that this analysis has only been carried out for one particular case, and one should be circumspect in generalising the results. Perhaps the most important point to arise from the above results however is the relative smallness of the variations from the quasi-static case – i.e.
+the effects of non rotational and lateral displacement suspension, admittance and track irregularity are all fairly small in relation to the basic value of wheel unloading, thus justifying the approach that has been taken (and in particular the assumption that the results can be superimposed in a linear manner). Certainly the variations due to these effects are small in comparison to the variation in
+19
+wheel unloading values due to oncoming wind turbulence shown in the histograms of figure 8. This point is also made in Cheli et al (2012), where the variability of cross wind characteristics is considered.
+5. Calibration of the methodology
+This section presents a calibration of the above methodology against the results of existing methods.
+A comparison is made between the form of the characteristic wind curves given by the present methodology and those calculated through other methods, essentially though choosing a value of the characteristic wind speed that fits the generalised characteristics described above to the calculations (table 1).
+• The results of using a five mass quasi-steady approach, for two trains as reported in CEN
+(2009). Vehicle 1 has a maximum speed of 160kph, and vehicle 2 a maximum speed of
+200kph. The shape of the rolling moment coefficient suggest that vehicle 1 is blunt (with a value of n=1.2) and vehicle 2 is streamlined (n=1.5).
+• Three sets of results from Diedrichs et al (2004) for the ICE2 with a maximum speed of
+280kph. The first is for a 5 mass model quasi-steady approach using aerodynamic characteristics from CFD calculations, the second is an equivalent approach using a full MBS simulation and the third uses the 5 mass model plus wind tunnel aerodynamic characteristics. Diedrichs presented results for trains on straight tracks and curves, but only the former will be considered here.
+• The results of Cheli et al (2007) for the ETR500 train with a maximum speed of 300kph • The TSI Class 1 values tabulated in TSI (2008) for trains with a maximum speed of 300kph.
+Generally the above data is presented in the literature in two forms – the variation of accident wind speed with vehicle speed for a 90 degree wind direction, and the variation of accident wind speed with wind direction for the maximum train speed, and a comparison will be made with the proposed methodology for the equivalent conditions. The specific cases are listed in table 1. Figure 10 shows the characteristic wind curves for all the cases listed. In all but one of the cases the dimensionless accident wind speed is plotted against dimensionless train speed . For the other case (for the d ̅
+ETR500) is plotted against wind direction β. In general it can be seen that the generalised cross d
+21
+wind characteristic, with the appropriate values of n and R, is a good fit to the calculations. Note that the fit has been made in the high speed, low yaw angle range – the range of practical importance.
+The major deviations occur at the lower vehicle speeds, and thus the high yaw angle range, where the parameterisation of the aerodynamic characteristics is somewhat crude i.e. the assumption of a constant value of R. Other than in the lower speed range the most significant disagreements between the generalised curves and the calculated data are for the 5 mass model calculations of
+CEN vehicle 1 (where the slope of the characteristic does not match that of the data.) In general however, the closeness of the form of the generalised characteristic to earlier calculations is encouraging. Table 2 shows values of c calculated from the curve fits described above and α from these values of c and equation 20. General trends in the values of c can be observed, with the value of c increasing with maximum train speed. For the ETR500, the ICE2 and the TSI limits for high speed
+Class 1 trains the values of c are around 38 to 41/s. For the other vehicles the values of c are around
+34 to 35m/s. Essentially, at a constant speed, the higher the value of c, the safer the vehicle. The values of α, where they can be calculated, are in the range 0.61 to 0.72, which seems reasonable, but do not give a sufficiently wide set of data to enable more detailed comments to be made. Two other points from the work of Diedrichs can be noted at this point – firstly that the difference between the assumed wind tunnel and CFD rolling moment coefficients can result in a 3m/s change in the characteristic velocity, and secondly that there is very little difference between the results of the 5 mass model and the full MBS simulation, which can be taken as further justification of the approach adopted here.
+22
+6. The use of the methodology for train authorisation
+The question now arises as to how the proposed methodology can be used in train authorisation and route risk assessment, We discuss the former in this section, and the latter in the next. In simple terms in train authorisation, the characteristic wind speed offers a simple way of comparing the cross wind susceptibility of different trains, either relative to one another or against a limit.
+This approach is clearly very simple and straightforward to apply and requires only a knowledge of the train aerodynamic rolling moment coefficient characteristic (to obtain C (40), n and R) and the
+RL
+train mass and suspension characteristics, the latter being required to give the parameter α. Now there is still some uncertainty in the specification and adequacy of the latter, and a rather fuller investigation is required to ensure the formulations given in equations (15) to (17) are adequate.
+Now whilst this methodology is very simple and convenient to use, it does not reflect some differences in train operation – primarily the differing amounts of time that trains travelling at different speeds will spend in any particular exposed section, and the consequences of a wind induced overturning incident in terms of fatalities. These points can however be taken into account in a relative simple manner, if the probability of an accident, and the risk of fatalities associated with such an accident, can be calculated for different trains. To enable the probability of an accident to be calculated we define a reference site – a length of straight level, track 1km long with one train per hour. The probability of the wind speed exceeding the overturning wind speed u is given by the
+Weibull distribution.
+no qr
+(26)
+M3 4 l = m p
+where λ and k’ are the parameters of a modified Weibull distribution. Note that this distribution is usually used to describe the parent wind speed – the cumulative distribution of hourly mean wind speeds, but is not used to describe extreme wind conditions or gust wind speeds. However, an analysis of wind speed data in the UK by the author (Baker 2013) has shown that the Weibull distribution is appropriate for the level of hourly mean wind speeds that are of relevance to train
+23
+overturning, and secondly, through a convolution with the normal distribution, that the Weibull distribution can be used to give the probability of gusts occurring, provided that the parameter k of is modified to k’, which is a function of k and ,I the turbulence intensity. We will thus adopt for our reference site values of these parameters of λ and k of 5m/s and 1.8 which are typical of exposed conditions in the north of England (Quinn and Baker 2010), giving a value of k’ of 1.6. If the probability of the wind exceeding the overturning wind speed is thus given by the above equation, we express the risk of a fatality in the following way.
+M3 w nxy 4 qr 9222 y | (27)
+s = log vm p 3 4R3 4 }
+Xz22y {X.XX
+The first term is the Weibull distribution with the overturning wind speed replaced by the dimensionless cross wind characteristic evaluated at the maximum vehicle speed v . The second m term is the proportion of the time the train spends in a 1km long reference section in any one hour, and the third term factors the risk of a fatality at 300kph to other speeds. The parameter m is not easily specified, but for road vehicle accidents takes on a value of 4 to 8 (Elvik et al 2004). The risk is expressed in a logarithmic form purely in terms of convenience as for any one site the risk will be small. Using this approach it is thus possible to determine values of c for different vehicle speeds that will result in the same risk of a fatality. Table 3 shows the results of such a calculation for a number of different values of m, assuming a limit of c for Class 1 trains of 40m/s. For the sake of
+simplicity we assume that the trains are “streamlined” in all cases (i.e. n = 1.5), although it is of course quite possible that at the lower train speeds, the vehicles would be blunter with lower values of n. The base risk, for the Class 1 train, is Ω =-10.2 for a train in a 1km section of track, which is consistent with the values for acceptable risk given in Andersson et al (2004). It can be seen that for m= 0, where the number of fatalities are not allowed for, the allowable values of c, for constant risk do not change by a great deal for the different sorts of trains, only falling to 36.0 m/s for 160kph conventional trains, but allowing for fatalities causes a greater differentiation, the equivalent figure falling to 30.6 m/s
+24
+7. The use of the methodology for route risk assessment
+The methodology described in the last section can clearly be applied to a risk analysis of a particular route, through its application at a number of different sites and the summation of overall accident probability. An outline of the methodology would be as follows. This is similar in overall outline to that proposed by Andersson et al, although the use of the above methodology makes it rather simpler to apply.
+• The route would need to be divided into sections of reasonably constant route characteristics such as vehicle speed, topography and curvature. For each section the characteristic wind velocity can then be calculated, taking into account the variation in the track curvature and thus curvature factor f. There will thus be a different CWC for each c section. In principle the effect of different track condition (through the roughness parameter f) could also be allowed for in the same way.
+r
+• The CWC is calculated for the relevant aerodynamic parameters n and R, and thus the accident wind speed can be calculated for the specific vehicle speed. One issue not considered here is the effect of different types of infrastructure, such as embankments of viaducts, on the lee rail rolling moment characteristics. This will be considered in a later paper. This accident wind speed will be the minimum value, at a wind direction of around
+80⁰ to the train direction.
+• The probability of this wind speed being exceeded can be specified from the modified
+Weibull parameters for each section (equation 6). These parameters should describe the wind probability distribution in a ±30⁰ sector normal to the track, since the minimum value of overturning wind speed will occur in this wind direction range. If such directional information is not valid, then the parameters for the whole wind direction range can be (conservatively) used. The reason for this approach is that the overturning wind speed increases significantly away from the minimum value. It can easily be shown from the
+25
+Weibull distribution that even a small increase in overturning wind speed reduces the risk very significantly for any one section. Thus it is proposed, that in line with the simplifications suggested earlier in this paper compared to the current methodology, only the wind characteristics from, say, a wind sector of ±30⁰ to the normal should be used in any risk calculation.
+• The probability of an accident in that section can then be obtained by multiplying the probability of the overturning wind speed being exceeded by the probability that there will be a train in the section (which will involve train speed and number of trains). The overall route probability can then be calculated by summing the probabilities of an incident in each section.
+• If required a figure for risk can then be calculated by factoring for the increase in fatalities with train speed as outlined above.
+26
+8. Model uncertainty and error propagation
+Equation 27 above offers a methodology for assessing the overall uncertainty in any risk calculations, and identifying the parameters that contribute least and most to such uncertainties. We take, as an example, a high speed train and adopt the following procedure.
+• Assign the following spread to the various parameters (based largely on the author’s experience);
+o Aerodynamic parameters 1.4<n<1.6, 5.4<C <6.6 o Vehicle parameters 0.6<α<0.7 o Wind parameters 6.5<λ<7.5, 1.8<k<2.2, 0.135<I<0.165
+Note that the ±10% variation assumed in C , will result in a ± 5% variation in c (from equation 20). Assuming c is around 40m/s, this will result in a ±2m/s variation due to changes in lee rail rolling moment coefficient. The results of Diedrichs et al (2004) show a variation in around 3m/s for c due to the difference between CFD and wind tunnel rolling coefficient measurements, which implies the assumed variation in C is realistic.
+• A thousand realisations of the risk are then carried out with the above parameters allowed to vary randomly between the limits, and the standard deviation of the logarithmic risk calculated.
+• The standard deviation is then calculated for the aerodynamic, vehicle and wind parameters alone and for pairs of these parameter sets.
+The results are shown in table 4. In considering these figures, it should be remembered that we are dealing with logarithmic risk. Thus the standard deviation of risk for all effects combined at 1.21 represents over an order of magnitude of risk uncertainty. Perhaps the most important point to arise is the relative unimportance of the uncertainty associated with the vehicle parameters when these are considered in combination with the other risks – which serves as an a posteriori justification of the basic premise of this paper that a complex multi-body simulation is not necessary for the risk
+27
+calculation. This comment is reinforced by the recent work of Sesma et al (2011). They studied the difference between simplified models of trains in cross winds and full MBS simulations. The major difference they found was caused by three dimensional effects in MBS simulations giving differential wheel unloading between the front and rear bogies, resulting in CWC variations of 2 to 3m/s.
+However they note that to carry out such calculations, yawing and pitching moment coefficients are required, which are not at all easy to measure, and conclude that in general it is not worth building a complex model, and that two dimensional models are sufficient. This is in line with the assumptions and conclusions of the work presented here.
+28
+9. Concluding remarks
+From what has been said in previous sections the following main conclusions can be drawn.
+• It is possible to obtain a good collapse of train rolling moment coefficient data in the important low yaw angle range, by normalising with the value at 40 degrees yaw. The form of this correlation is different for different train shapes, but in general can be predicted for specific train types. At higher yaw angles (which are less important practically), there is more scatter of the data, although a crude parameterisation is still possible.
+• These rolling moment coefficients can be used with a simple model of a train in a crosswind to predict generic cross wind characteristics that can easily be calculated and parameterised.
+• These crosswind characteristics are effectively specified by a characteristic velocity that can in principle be easily calculated for any type of train from simple geometric and mass parameters.
+• Thus a knowledge of the train aerodynamic parameters and geometric and mass parameters can be used to specify the characteristic velocity and the cross wind characteristic curve for each train, in an extremely simple way.
+• By using the results of earlier calculations using simple five mass models and complex multibody simulations, it has been possible to show that the method described in this report can adequately predict cross wind characteristics for a wide variety of trains, and that complex methods do not seem to be warranted, • A method is presented for the straightforward inclusion of this methodology into a risk based method for train certification and the calculation of route accident probability that properly takes into account site wind characteristics. It has also been shown that the methodology can be adapted in a straightforward manner to investigate other types of cross wind effect.
+29
+• Due to uncertainties in site wind characteristics, large uncertainties in accident risk for any particular site are inevitable. In the light of these uncertainties it has been shown that the uncertainties introduced through the simple modelling process proposed here are quite tolerable.
+These points being made however, it is clear that more work is required in some areas as follows.
+• There is a need to investigate further the rolling moment coefficient correlations using a range of new wind tunnel data that is becoming available. Much of this, mainly obtained through the recently completed EU sponsored AeroTRAIN project, is commercially confidential at present, but if it were available, its inclusion would greatly increase confidence in what is proposed.
+• There is a need to further calibrate the simple model against the more complex formulations that are available. Again this could be achieved through recent commercially confidential calculations of CWCs determined through the AeroTRAIN project.
+Finally it should be noted that the methodology adopted here can also be used to describe other cross wind issues such as lateral force exceedence, flange climbing, gauge infringement and pantograph sway, through the redefinition of the characteristic wind velocity into a relevant form. This allows the same generic CWCs to be used for these issues. This will be the subject of a further paper in due course.
+References
+Andersson E, Haggstrom J, Sima M and Stichel S (2004) “Assessment of train-overturning risk due to strong cross-winds”, Journal of Rail and Rapid Transit 218, 213-223
+Baker C J (1986) "Train aerodynamic forces and moments from moving model experiments", Journal of Wind Engineering and Industrial Aerodynamics, 24, 3, 227-252
+Baker C.J., 1991. “Ground vehicles in high cross winds - Part I Steady aerodynamic forces”, Journal of
+Fluids and Structures 5, 69-90.
+Baker C J (1991) "Ground vehicles in high cross winds - Part 2 Unsteady aerodynamic forces" Journal of Fluids and Structures 5, 91-111
+Baker C.J., 2003. “Wind overturning study: Full scale and wind tunnel measurements to determine the aerodynamic force and moment parameters of Mark 3 and Class 390 vehicles - Overview
+Report”, Report to Railway Safety
+Baker C J (2009) “The effect of unsteady crosswind forces on train dynamic behaviour”, 5th European and African Conference on Wind Engineering, Florence
+Baker C J (2010) "The simulation of unsteady aerodynamic cross wind forces on trains”, Journal of
+Wind Engineering & Industrial Aerodynamics 98, 88-99
+Baker C J (2011) “A meta-analysis of train crosswind aerodynamic force coefficient data”,
+Proceedings 13th International Conference on Wind Engineering, Amsterdam
+Baker C J (2013) “A risk based process for assessing train aerodynamic effects in design and operation”, submitted for publication in the Journal of Rail and Rapid Transit.
+Baker, C.J., Lopez-Calleja, F., Jones, J., Munday, J., (2004) “Measurements of the cross wind forces on trains”. Journal of Wind Engineering and Industrial Aerodynamics 92, 547–563.
+31
+Baker C J, Cheli F, Orellano A, Paradot N, Proppe C, Rocchi D (2009) “Cross wind effects on road and rail vehicles”, Vehicle Systems Dynamics 47, 8, 983–1022
+Baker C J, Hemida H, Iwnicki S, Xie G, Ongaro D (2011) ”The integration of cross wind forces into train dynamic modelling”, Journal of Rail and Rapid Transit 225, 2, 154-164
+Bierbooms W, Cheng P-W (2002) “ Stochastic gust model for design calculations of wind turbines”
+Journal of Wind Engineering and Industrial Aerodynamics 90, 1237–1251
+Bocciolone M., Cheli F., Corradi R, Muggiasca S. Tomasini G. 2008. “Crosswind action on rail vehicles:
+Wind tunnel experimental analysis”. Journal of Wind Engineering and Industrial Aerodynamics 96
+584-610
+CEN (2009) “Railway applications — Aerodynamics — Part 6: Requirements and test procedures for cross wind assessment”, CEN/TC 256, FprEN 14067-6:2009
+Cheli F, Corradi R., Diana G, Tomasini G, Roberti R, Cheli R, (2003). “Cross wind aerodynamic forces on rail vehicles—Part II numerical model for vehicle dynamic response computation”, Proceedings of
+World Congress on Railway Research, Edinburgh.
+Cheli F., Corradi R., Diana G., Tomasini G. (2004) “A Numerical-Experimental Approach to Evaluate the Aerodynamic Effects on Rail Vehicle Dynamics”. Vehicle System Dynamics Supplement 41, 707-
+716
+Cheli F, Corradi R, Diana G, Ripamonti F, Rocchi D, Tomasini G, (2007). “Methodologies for assessing trains CWC through time-domain multibody simulations”, Proceedings of the 12th International
+Conference on Wind Engineering, Cairns, Australia.
+Cheli F, Ripamonti F, Rocchi D, Tomasini G, Testa M (2008) “Risk analysis of cross wind on HS/HC
+Rome-Naples Railway Line” BBAA VI International Colloquium on Bluff Bodies Aerodynamics &
+Applications, Milano, Italy
+32
+Cheli F, Corradi R, Tomasini G (2012) “Crosswind action of rail vehicles - a methodology for the estimation of the characteristic wind curves”, Journal of Wind Engineering and Industrial
+Aerodynamics 104-106, 248-255.
+Cooper R K (1985) “Atmospheric turbulence with respect to moving ground vehicles”, Journal of
+Wind Engineering and Industrial Aerodynamics 17, 215–238.
+Diedrichs B (2003) “On computational fluid dynamics modelling of crosswind effects for high-speed rolling stock”, Journal of Rail and Rapid Transit 217, 203-226
+Diedrichs B, Ekequist M, Stichel S and Tengstrand H (2004) “Quasi-static modelling of wheel–rail reactions due to crosswind effects for various types of high-speed rolling stock”, Journal of Rail and
+Rapid Transit 218, 133-148
+Dorigati et al (2013)
+Elvik R, Christensen P, Amundsen A (2004) “Speed and road accidents - An evaluation of the Power
+Model”, Institute of Transport economics, Oslo, TOI report 740/2004
+Li Y, Qiang S, Liao H, Xu Y L (2005). “Dynamics of wind-rail vehicle –bridge systems”, Journal of Wind
+Engineering and Industrial Aerodynamics 93, 483-907
+O’Neil H (2008) “Gauge modelling of West Coast Main Line tilting trains”, Journal of Rail and Rapid
+Transit 222, 235-253
+Pearce W., Baker C.J., 1998. “Measurement of the unsteady crosswind forces and moments on ground vehicles. MIRA Conference on Vehicle Aerodynamics, Birmingham.
+Quinn A D, Baker C J, (2010) “Spatial and temporal correlations of wind speeds”, Proceedings of the institution of Civil Engineers. Structures and Buildings 163, 65-72
+RSSB (2009a) GM/RT2141 Resistance of Railway Vehicles to Derailment and Roll-Over. Railway
+Group Standard
+33
+RSSB (2009b) GM/RT2142 Resistance of Railway Vehicles to Roll-over in Gales. Railway Group
+Standard
+RSSB (2009c) GM/RC2542 Recommendations for Determination of Aerodynamic Rolling Moment
+Coefficient. Railway Group Standard
+Sanquer S., Barré C., Dufresne de Virel M., Cléon L-M. 2004 “Effect of cross winds on high-speed trains”: Journal of Wind Engineering and Industrial Aerodynamics 92 535-545
+Sesma I, Vinolas J, San Emeterio A and Gimenez J G (2011) “A comparison of crosswind calculations using a full vehicle and a simplified 2D model” Proceedings of the Institution of Mechanical
+Engineers, Part F: Journal of Rail and Rapid Transit, DOI: 10.1177/0954409711424094
+Sterling M, Baker C J, Bouferrouk A, O’Neil H, Wood S, Crosbie E, (2009) “An investigation of the aerodynamic admittances and aerodynamic weighting functions of trains” Journal of Wind
+Engineering and Industrial Aerodynamics 97, 512–522
+TSI (2008) “EU Technical Specification for Interoperability Relating to the ‘Rolling Stock’ Sub-System of the Trans-European High-Speed Rail System” HS RST TSI, 2008/232/EC
+WCRM (2004) Probabilities of overturning of Class 390 and Class 221 in high winds on the WCML –
+Library of reference reports, documents and data. Network Rail W091-189-TS-REP-005001
+34
+Author Train Method M (kg) C (40) n R α (kph) RL 0
+Vehicle 1
+CEN (2009) 5 mass model 160 32500 4.035 1.2 1.4 0.9
+Vehicle 2
+CEN (2009) 5 mass model 200 52429 6.395 1.5 1.0 0.9
+5 mass model –
+ICE2 A
+Diedrichs et al (2004) CFD data 250 60000 5.75 1.5 2.0 0.9
+Multi body
+ICE2 B
+Diedrichs et al (2004) simulation – CFD - 250 60000 5.75 1.5 2.0 0.9 data
+5 mass model –
+ICE2 C
+Diedrichs et al (2004) wind tunnel data 250 60000 1.5 2.0 0.9
+Cheli et al (2007) ETR500 simulation 300 1.5 1.3 0.9 (stochastic wind)
+Limits
+TSI (2008) 300 1.5 2 0.9
+Table 1 Parameters used in calculations.
+Max speed From fit to characteristic
+Author Train Method (kph) wind speed curves α c (m/s)
+Vehicle 1 5 mass
+CEN (2009) 160 0.61 34.1 model
+Vehicle 2 5 mass
+CEN (2009) 200 0.72 35.0 model
+5 mass
+Diedrichs et ICE2 A model –
+250 0.65 37.8 al (2004) CFD data
+Diedrichs et ICE2 B simulation
+250 0.66 38.1 al (2004) – CFD data
+5 mass model –
+Diedrichs et ICE2 C wind tunnel 250 40.5 al (2004) data
+Cheli et al simulation
+ETR500 300 40.8
+(2007) (stochastic wind)
+Limits
+TSI (2008) 300 40.1
+Table 2 Comparisons of characteristic wind speeds
+35
+m Class 1 – Class 2 – Conventional – Conventional -
+300kph 250kph 200kph 160kph
+0 40 38.6 37.2 36.0
+4 40 37.9 35.5 33.2
+8 40 37.1 33.7 30.6
+Table 3 Variation of characteristic wind speed for different train speeds, to equalise risk of overturning with Class 1 trains with c=40m/s (λ = 5m/s and k’ = 1.6, Base risk Ω = -10.2)
+Assumed uncertainties Standard deviation of logarithmic risk
+Aerodynamic + Vehicle + Wind 1.21
+Aerodynamic only 0.57
+Vehicle only 0.33
+Wind only 0.99
+Aerodynamic + Vehicle 0.64
+Aerodynamic + Wind 1.19
+Vehicle + Wind 1.11
+Table 4 Risk uncertainties
+36
+Wind characteristics Aero. coefficients • Gust magnitude • Formula • Chinese hat • CFD • Stochastic wind • Wind tunnel
+Vehicle / wind system • 3 mass model • 5 mass model • MBS ± admittance
+Cross wind characteristics
+Route risk analysis • Route topography Vehicle acceptance • Wind data
+Total route risk
+Figure 1 Outline of the CEN (2009) methodology
+37 u
+Figure 2 Velocity vectors
+38
+1.5
+0.5
+Figure 3 Parameterisation of lee rail rolling moment coefficients (Sources for data are given in Baker
+(2011). Legend indicates train type (ICE – German high speed train (CEN 2009); TGV – French high speed train (CEN 2009, Sanquer et al 2004); ETR – Italian high speed train (CEN 2009, Bocciolone
+2008); C390 – GB Class 390 (Baker 2003, WCRM (2004); APT – GB Advanced Passenger Train (Baker
+1991); DLW – GB Derby Lightweight (Baker 1991); C141 – GB Class 141 multiple unit (Baker 1991);
+M3 – GB Mark 3 coach (Baker et al 2003, WCRM 2004); VRDD – Finish railways double deck coach (Pearce and Baker 2008)), ground simulation (STBR – single track ballasted rail; DBRW – double ballasted rail leeward; DBRL – double ballasted rail leeward; FG – flat ground; Top – topography representation), wind simulation (LT – low turbulence; ABL – Atmospheric boundary layer) and scale)
+39 oitar rneiciffeoc tnemom gnillor liar eeL
+Streamlined leading vehicles
+C390 STBR LT 1:30
+C390 FG ABL 1:30
+C390 Top ABL 1:1
+APT FG LT 1:5
+APT STBR LT 1:35
+APT STBR LT 1:50 n=1.5
+Yaw angle (degrees) noitar tneiciffeoc
+Non streamlined leading vehicles
+DLW STBR LT 1:35 1
+C141 STBR LT 1:50
+C141 STBR ABL 1:50 n=1.2
+Yaw agle (degrees) oitar tneiciffeoc
+Trailing vehicles
+ETR 500 STBR LT 1:10
+TGV STBR LT 1:15
+M3 Top ABL 1:1
+M3 STBR LT 1:30
+M3 Top ABL 1:30
+VRDD FG ABL 1:40 n=1.7
+Yaw angle (degrees)
+Figure 4 CEN 2009 empirical curves
+Unsprung mass Sprung mass
+Wind direction αM/2 MCv2 q s
+Mg s q
+0.5ρAV2C
+M g x p p
+Figure 5 The simplified multi-body model (For the sake of clarity, the position of the overall centre of gravity at a height q perpendicular to the track and a displacement y from the track centreline has not been included. The centrifugal force acts through this point)
+41
+2.5 a) b) c)
+Figure 6 Generic accident wind speed curves (a - Low yaw angle range for n=1.5, for different values of normalised vehicle speed; b - Low yaw angle range for normalised vehicle speed of 1.0, for different values of n; c- Normalised vehicle speed of 1.0 and n=1.5, for different values of R)
+42 rabu vbar = 2.0 vbar = 1.5 vbar = 1.0 vbar = 0.5
+Wind direction (degrees) rabu n=1.7 n=1.5 n=1.2
+Wind direction (degrees)
+R=1.0
+R=1.25
+R=1.5
+R=1.75
+R=2.0
+Wind direction (degrees) a) b)
+Figure 7 Generalised cross wind characteristics. (a - Generalised cross wind characteristic assuming low yaw angle force characteristic applies throughout the yaw angle range, for different values of n;
+b - Generalised cross wind characteristic for n = 1.5 and different values of R)
+43
+50
+36 to 37 37 to 38 38 to 39 39 to 40 40 to 41 41 to 42 42 to 43 43 to 44
+Figure 8 Histograms of gust velocities and wheel unloading values for a 50 run ensemble of simulations with a vehicle speed of 50m/s and a mean wind speed of 30.4m/s
+44 secnerucco
+Gust velocities
+50
+0.65 to 0.70 to 0.75 to 0,80 to 0.85 to 0.90 to 0.95 to 1.00 to
+0.70 0.75 0.80 0.85 0.90 0.95 1.00 1.05
+Gust veocity ranges (m/s) secnerucco
+Quasi-static wheel unloading
+Wheel unloading ranges
+0.9
+0.8
+0.7
+0 10 20 30 40 50 60 70 80
+Figure 9. Wheel unloading values for the quasi-static case with real effects added
+45 gnidaolnu leehW
+Quasi-static
+Quasi-static + admittance
+Quasi-static + irregularities
+Quasi-static + suspension
+Quasi-static plus admittance, irregularities and suspension
+Vehicle speed m/s
+0 0.5 1 1.5 2 2.5
+Figure 10 CWC calculations and curve fits (open squares indicates points from calculations; solid lines are generic force characteristics for the values of n and R given in table 1)
+46
+CEN Vehicle 1 vbar
+CEN Vehicle 2
+ICE2 A
+ICE2 B
+ICE2 C
+ETR500
+Wwind direction (degrees)
+TSI
+Captions for figures
+Figure 1 Outline of the CEN (2009) methodology
+Figure 2 Velocity vectors
+Figure 3 Parameterisation of lee rail rolling moment coefficients (Sources for data are given in Baker
+(2011). Legend indicates train type (ICE – German high speed train (CEN 2009); TGV – French high speed train (CEN 2009, Sanquer et al 2004); ETR – Italian high speed train (CEN 2009, Bocciolone
+2008); C390 – GB Class 390 (Baker 2003, WCRM (2004); APT – GB Advanced Passenger Train (Baker
+1991); DLW – GB Derby Lightweight (Baker 1991); C141 – GB Class 141 multiple unit (Baker 1991);
+M3 – GB Mark 3 coach (Baker et al 2003, WCRM 2004); VRDD – Finish railways double deck coach (Pearce and Baker 2008)), ground simulation (STBR – single track ballasted rail; DBRW – double ballasted rail leeward; DBRL – double ballasted rail leeward; FG – flat ground; Top – topography representation), wind simulation (LT – low turbulence; ABL – Atmospheric boundary layer) and scale)
+Figure 4 CEN 2009 empirical curves
+Figure 5 The simplified multi-body model
+Figure 6 Generic accident wind speed curves (a - Low yaw angle range for n=1.5, for different values of normalised vehicle speed; b - Low yaw angle range for normalised vehicle speed of 1.0, for different values of n; c- Normalised vehicle speed of 1.0 and n=1.5, for different values of R)
+Figure 7 Generalised cross wind characteristics. (a) Generalised cross wind characteristic assuming low yaw angle force characteristic applies throughout the yaw angle range, for different values of n, b) Generalised cross wind characteristic for n = 1.5 and different values of R)
+Figure 8 Histograms of gust velocities and wheel unloading values for a 50 run ensemble of simulations with a vehicle speed of 50m/s an a mean wind speed of 30.4m/s
+Figure 9. Wheel unloading values for the quasi-static case with real effects added
+47
+Figure 10 CWC calculations and curve fits (open squares indicates points from calculations; solid lines are generic force characteristics for the values of n and R given in table 1)
+48

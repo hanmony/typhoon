@@ -130,7 +130,8 @@ def resolve_config(args):
     """优先级：命令行 > server/.env > DEFAULTS。返回 dict。"""
     env = load_env_file(args.env)
     cfg = dict(DEFAULTS)
-    for key in DEFAULTS:
+    # EMBEDDING_BASE_URL / EMBEDDING_API_KEY 无默认值，也必须允许从 .env 读取
+    for key in list(DEFAULTS) + ["EMBEDDING_BASE_URL", "EMBEDDING_API_KEY"]:
         if env.get(key):
             cfg[key] = env[key]
     overrides = {
@@ -188,6 +189,15 @@ def copy_text_to_permanent(text_dir, permanent_dir):
         sys.exit(1)
     print(f"[D6] 文本永久化：{len(mapping)} 份 → {perm_root}（本次复制 {copied} 份）")
     return mapping
+
+
+def permanent_path(rel, perm_mapping):
+    """sourceRelpath 保留原始后缀（.docx/.pdf/.doc/.xls），永久目录里是
+    同 relpath 换 .txt 后缀的清洗文本。"""
+    txt_rel = os.path.splitext(rel)[0] + ".txt"
+    if txt_rel not in perm_mapping:
+        raise KeyError(f"text_clean 中找不到 {rel} 对应的 {txt_rel}")
+    return perm_mapping[txt_rel]
 
 
 # ──────────────────────────────────────────────────────────────────────
@@ -412,7 +422,7 @@ def main():
         sys.exit(0)
 
     # 7. 幂等清理（契约 2：按 filePath=sourceRelpath 匹配先删旧）
-    planned_paths = [perm_mapping[r] for r in doc_rels]
+    planned_paths = [permanent_path(r, perm_mapping) for r in doc_rels]
     old_docs = list(kb_docs.find({"filePath": {"$in": planned_paths}}))
     for old in old_docs:
         old_id = str(old["_id"])
@@ -440,7 +450,7 @@ def main():
         category = first["category"]
         chunk_config = first["chunkConfig"]
         n = len(rel_rows)
-        doc_file = perm_mapping[rel]
+        doc_file = permanent_path(rel, perm_mapping)
         file_size = os.path.getsize(doc_file)
 
         doc_id = None

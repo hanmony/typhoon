@@ -1,0 +1,580 @@
+remote sensing
+Article
+Inundation Resilience Analysis of Metro-Network from a
+Complex System Perspective Using the Grid Hydrodynamic
+Model and FBWM Approach: A Case Study of Wuhan
+HaiSun1,2 ,MeixinLi1,HuiJiang3,XuejingRuan4,*andWenchiShou5
+1 CollegeofEngineering,OceanUniversityofChina,Qingdao266100,China;sunhai@ouc.edu.cn(H.S.);
+21200911126@stu.ouc.edu.cn(M.L.)
+2 KeyLaboratoryofMarineEnvironmentandEcology,MinistryofEducation,OceanUniversityofChina,
+Qingdao266100,China
+3 GuangdongProvincialSeismologicalBureau,Guangzhou510070,China;jianghui@cea-igp.ac.cn
+4 CollegeofCivilEngineeringandArchitecture,QingdaoAgriculturalUniversity,Qingdao266109,China
+5 SchoolofArchitectureandBuiltEnvironment,DeakinUniversity,Melbourne,NSW2751,Australia;
+w.shou@westernsydney.edu.au * Correspondence:201301034@qau.edu.cn;Tel.:+86-150-5329-5106
+Abstract:Theupwardtrendofmetrofloodingdisastersinevitablybringsnewchallengestourban undergroundfloodmanagement. Itisessentialtoevaluatetheresilienceofmetrosystemssothat efficientflooddisasterplansforpreparation,emergencyresponse,andtimelymitigationmaybe developed. Traditional response solutions merged multiple sources of data and knowledge to supportdecision-making. Anobviousdrawbackisthatoriginaldatasourcesforevaluationsare oftenstationary,inaccurate,andsubjective,owingtothecomplexityanduncertaintyofthemetro
+Citation:Sun,H.;Li,M.;Jiang,H.; station’sactualphysicalenvironment. Meanwhile, thefloodpropagationpathinsidethewhole
+Ruan,X.;Shou,W.Inundation metrostationnetworkwaspronetobeneglected.Thispaperpresentsacomprehensiveapproachto
+ResilienceAnalysisof analyzingtheresilienceofmetronetworkstosolvetheseproblems.Firstly,wedesignedasimplified
+Metro-NetworkfromaComplex weightedanddirectedmetronetworkmodulecontainingsixcharacteristicsbyatopologicalapproach
+SystemPerspectiveUsingtheGrid whileconsideringtheslopedirectionbetweensites.Subsequently,toestimatethedevastatingeffects
+HydrodynamicModelandFBWM anddetailsofthefloodhazardonthemetrosystem,a100-yearrainfall–floodscenariosimulation
+Approach:ACaseStudyofWuhan.
+wasconductedusinghigh-precisionDEMandagridhydrodynamicmodeltoidentifytheinitially
+RemoteSens.2022,14,3451.
+above-groundinundatedstations(nodes). Wedevelopedadynamicnodebreakdownalgorithm https://doi.org/10.3390/ to calculate the inundation sequence of the nodes in the weighted and directed network of the rs14143451 metro.Finally,weanalyzedtheresilienceofthemetronetworkintermsoftoughnessstrengthand
+AcademicEditor:RaffaeleAlbano organizationrecoverycapacity,respectively.Thefuzzybest–worstmethod(FBWM)wasdeveloped toobtaintheweightofeachassessmentmetricanddeterminethetoughnessstrengthofeachnode
+Received:19May2022
+and the entire network. The results were as follows. (1) A simplified three-dimensional metro
+Accepted:13July2022
+Published:18July2022 networkbasedonacomplexsystemperspectivewasestablishedthroughatopologicalapproach to explore the resilience of urban subways. (2) A grid hydrodynamic model was developed to
+Publisher’sNote:MDPIstaysneutral accuratelyandefficientlyidentifytheinitiallyfloodednodes,andadynamicbreakdownalgorithm withregardtojurisdictionalclaimsin realisticallyperformedthefloodingprocessofthesubwaynetwork.(3)Thenodetoughnessstrength publishedmapsandinstitutionalaffilwasobtainedautomaticallybyanonlinearFBWMmethodundertheconstraintoftheminimumerror iations.
+tosustaintheresilienceassessmentofthemetronetwork.Theresearchhasconsiderableimplications formanagingundergroundfloodingandenhancingtheresilienceofthemetronetwork.
+Copyright: © 2022 by the authors. Keywords:resilienceanalysis;metronetwork;floodsimulation;dynamicbreakdown;FBWM
+Licensee MDPI, Basel, Switzerland.
+This article is an open access article distributed under the terms and conditionsoftheCreativeCommons 1. Introduction
+Attribution(CCBY)license(https://
+Floodsareoneofthemostdevastatingandfrequentnaturaldisastersintheworld[1].
+creativecommons.org/licenses/by/
+From 1960 to 2014, floods have directly caused USD 2.5 billion in economic losses and
+4.0/).
+RemoteSens.2022,14,3451.https://doi.org/10.3390/rs14143451 https://www.mdpi.com/journal/remotesensing
+RemoteSens.2022,14,3451 2of28
+1254 deaths annually [2]. In recent decades, most urban areas with high vulnerability worldwidehavebeenexposedtotheriskoffloodhazardsduetorapidurbanizationand varyingclimatechange[3–7]. TheUnitedNationsindicatesthaturbanflooddisastershave causedmassivedamagetoinfrastructureandlivelihoods,resultinginbillionsineconomic lossesandcascadingeffectsonthepublicassetssuchasmetroinfrastructure[3]. By2050, theglobalpopulationofcitieswillgrowbymorethantwo-thirds,andthecriticalurban infrastructurenetworks,suchasenergy,power,andtransportationsystems,willincrease dramatically [8]. This rapid urbanization has contributed to high-density economies and facilitated urban development. Still, it has also resulted in higher risk and more vulnerability of cities to the threat of flooding hazards. Worse still, the frequency and intensityoffloodeventsareexpectedtoincreaseinthecomingyearsduetomorefrequent extremeprecipitationevents[9–11].
+With the expansion of urbanization, urban underground space has been exploited andusedtovariousdegrees. Asavitalpartoftheurbantransportationsystem,themetro undertakesmanypublicresponsibilitiesandplaysanessentialroleinalleviatingtraffic congestionandbenefitingcommuters. By2018,56countriesand178citiesworldwideoperatedmetroswithanaverageof168millionpassengersperday,andthisnumberisgrowing everyyear[12]. However,metrosystemsbelowthegroundarethefirstplaceswherefloodinginvades. Long-termsubsidenceanddensepassengertrafficcausethemetrosystem tobemorevulnerabletofloodingandatgreaterriskthanotherinfrastructure. Inrecent years,metrofloodshavebeenincreasinginseverityandfrequencyduetotheimpermeable concretesurfaceanduntimelyupdateofdrainagefacilities[13,14]. InJuly2021,theflood inundatedtheShenzhoulustation,resultinginsixstationsonLine21ofGuangzhouMetro beingsuspendedfor7h,withadirecteconomiclossofCNY9115million(Figure1a).On18
+July2021,theprotectivewallsofZhengzhouMetroline5weredestroyedbyheavyrain,and afloodflowedintothemetrotunnel,causing500passengerstobetrappedand14deaths (Figure 1b). On 2 September 2021, flooding occurred at approximately 46 places in the
+NewYorkmetro,almostshuttingdowntheentiremetronetwork(Figure1c). Thus,metro floodingdisastersshouldbehighlyemphasizedbyurbansafetymanagementpersonnel.
+Figure1.Themetrostationswereflooded.(a)ShenzhoulustationofGuangzhoumetroline21on30
+July2021. (b)Stationofmetroline5floodedduringheavyrainfallon18July2021,inZhengzhou.
+(c)TheNewYorkmetrostationwasattackedon2September2021.
+Researchonmetroflooddisasters,suchasfloodsimulationanddisasterriskmanagement,iscrucialforurbanmetroresilienceassessment[15–17]. Previousresearchmainly studiedthestaticriskassessmentofmetrolinesandhighlyvulnerablemetrostations[18].
+Afewstudiesfocusedonevaluatingurbanfloodriskusingtherainfallindexsystemand multi-criteriadecision-makingmethods;othersdeeplyresearchedtheemergencyresponse capabilityofpublicemergencydepartmentsinurbanfloods. Forexample,Lyuevaluated
+RemoteSens.2022,14,3451 3of28 the flood risk of the Guangzhou metro system by a GIS-based modeling approach and obtainedthehigh-riskmetrolinesandnodes[19]. Wangstudiedtheinfluenceofground subsidenceontheincreasingfloodriskofthemetrosystemandfinallyfoundthatland subsidenceisanessentialfactoraffectingfloodrisk[20]. YinusedFloodMaptoassessthe impactofcoastalfloodsonon-roademergencyresponseinNewYork[21]. However,there isagapinresearchconsideringtheinundationresilienceanalysisofundergroundfloods forthemetrosystemfromanetworkperspective. Duetothevaryingelevationsofeach stationandtheinterconnectednessofthestations,afailureatasinglestationwouldbring downtheentiresystemoreventrap alargenumberof people, makingrescuedifficult.
+Therefore,thereisanurgentneedtostudythecascadingeffectofnodes(stations)ofthe metronetworktobettercopewithmetrofloodingcausedbyheavyrainfallintheprocess ofurbanresiliencemanagement[22].
+Structurednetworkanalysismethodscouldbeemployedinmanyapplications,from trafficplanningtoscheduling,evacuationplanning,networkresilience,androbustness assessment[23,24]. Thenetworktopologyanalysisapproachcouldbecarriedouttostudy thedisasterresistanceofmetronetworks[25,26]. Somestudieshaveconsideredpassenger flowandpassengerpathsinnetworkconstruction[24,27]. Meanwhile,asetofindicators hasbeendevelopedtoquantifymetronetworks,forexample,connectivity,clustering,and shortestpaths[28,29]. Duetotheircommonfunctionalcharacteristics,metronetworksin differentcitiesalsohavesimilarstatisticalproperties[30,31].However,floodwaterintrusion intothemetrohasadirectionandspeed,andthepreviouslyconstructednetworkisno longersuitableforthedynamicinvestigationoffloodhazards. Therefore,itisnecessary to establish a novel and practical metro network for disaster resilience analysis, which combinesthedynamicandstructuralcharacteristicsofdisasters.
+Resilienceistheabilityofasystemtorespondtodamageandvarieswiththeintensity ofthehazard. Theacquisitionofanaccurateestimateoftheextentandintensityofflood inundation is an essential prerequisite for resilience assessment. For metro networks, damage caused by flooding could spread from the ground to the subsurface. Current metrofloodhazardanalysisonthegroundwasbasedonthestatisticalanalysisofhistorical rainfalldatatoquantifyhazardssuchasaveragerainfallandaveragerainyday[13,20,32].
+However, thefloodevolutionandmetroflooddetailsarenotavailablebythemethods mentioned above to better perceive the flood risk. Modeling approaches specialize in simulatingandobtainingevaluationparameterstopredictfuturehydrologicalresponsesin differentscenarios[33–35]. Two-dimensionalfloodinundationmodelscommonlyusedfor simulationincludeMIKE21,SOBEX,JFLOW,andUIM[36–38]. Theabovemodelscould getmoreaccurateinformationaboutfloodingwithtimeandspace,suchaswaterdepthand flowvelocityatdifferentmomentsandlocations,butrequireshigh-resolutiontopography androughnessdata. Additionally,theserawdataneedtobeconvertedtoaspecificinput formatbeforebeingfedintothecomputationalmodel,andtheconversionprocessoffilesin differentformatscommonlyresultsinsomelossofinformationandaccuracy. Inaddition, traditionaltwo-dimensionalhydrodynamicmodelsarecomplexandtime-consumingto manipulateandcomputeandcannotbeadaptedtoreal-timeapplications. Therefore,recent
+hydrodynamicmodelsmakeanefforttosimplifycalculationsandincreaseefficiency[39].
+Thegridhydrodynamicmodelwasaspatiallydistributedandphysicallybasedrainfall– runoffmodelthatwasconvenientlyandefficientlyintegratedwiththeGISsystemand directlysimulatedusingDEMdata[40,41].
+However,thereisstillverylimitedresearchonhowfloodingspreadswithinthemetro network. Despitetheevidencethaturbanfloodinghasaprobabilityofintrudingintothe subwayofupto50%[42],existingstudieshavenotinvestigatedtheissueoffloodpropagationpathsinthesubwaynetwork. TodahadtakenKyotoCityinJapanasanexampleto analyzethefloodspreadingprocessandflowcharacteristicsofgroundfloodsinundating undergroundspace[43]. Basedonthevolumeoffluid(VOF)method,Yoneyamasimulated the flood flow on the straight stairs in an underground area to obtain a more accurate velocity field [44]. Wu combined the smoothed particle hydrodynamics (SPH) method
+RemoteSens.2022,14,3451 4of28 withagraphicsprocessingunit(GPU)tocalculatethestepflowinthesubsurfacespace, obtainingabetterstepflowpatternwithhighercomputationalefficiency[45]. Forero-Ortiz usedMike21tosimulatetheevolutionofsurfacewaterflownearBarcelonametrostations andquantifyextremerainfallweather’scontributiontoexacerbatingmetroaccidents[46].
+Previousstudieshaveonlyfocusedontheintrusioncharacteristicsandstepwiseflowbut havenotstudiedthedynamicinundationprocessbetweensubwaystations[47–51].
+Resilienceevaluationcouldbeofgreatutilityinenhancingpreventionandemergency responsecapabilities. Theevaluationproceduregenerallyinvolvestheestablishmentofa comprehensiveindicatorsystem,ofwhichthedeterminationofrelativeweightsamong indicators is another important research aspect. In recent years, the indicator weights comparisonmethodscouldbedividedintomulti-criteriadecisionmethods(MCDM)and machinelearning(ML)techniques. MCDMmethodsthatareusedtocomparetheweights oftheindicators,suchastheanalytichierarchyprocess(AHP),entropyweightmethod,
+TOPSISmethod(techniquefororderpreferencebysimilaritytoanidealsolution),greytheory,andfuzzymethods[51–56]. Thedisadvantageofthesemethods,however,isthatthey relyexcessivelyontheexperienceofexpertstocomparetheseindicators[57,58]. MLmethods,suchasartificialneuralnetworks(ANN),supportvectormachine(SVM),Bayesian network(B.N.),randomforest(F.R.),andsoon,hasgoodapplicationinclassificationand indexprocessing,especiallywhendealingwithextensivesampledata[49,59–61]. However, inthecaseofasmallsample,theperformanceofMLmethodswillbesignificantlyreduced.
+Tosolvethoseproblems,wedevelopedahybridapproachfromtheperspectiveof urban metro network flood management. The study’s objectives are (1) to establish a simplifiednetworkbasedonfloodcharacteristics,combiningthemetrotopologyfeatures, node functions, and node social attributes, (2) to use a grid hydrodynamic model to identifynodessusceptibletofloodinganddevelopadynamicnodebreakdownalgorithm to simulate the subway’s flood propagation path and node inundation sequence, and
+(3) to estimate toughness strength of the metro network using the FBWM method and quantifyorganizationrecoverycapacity. Thispaperisorganizedasfollows. InSection2, themethodologyandmaterialsareintroduced. Thedatasourcesandresultsarepresented inSection3.
+2. MethodologyandMaterials
+Themainobjectiveofthisstudyistoproposeanintegratedmodelingapproachforthe resilienceofthemetrosystem. Theprocessconsistsofthreesteps. Firstly,wedesigneda simplifiedweightedanddirectednetworkmodelofthemetrobycombiningatopological approachandtheslopedirectionbetweensites. Subsequently, a100-yearrainfallflood scenariosimulationwasconductedusinghigh-precisionDEMandagridhydrodynamic modeltoidentifytheinitiallyabove-groundinundatedstations(nodes). Adynamicnode breakdownalgorithmwasalsodevelopedtocalculatetheinundationorderofthenodes.
+Finally,weevaluatedtheresilienceofthemetronetworkconcerningitstoughnessstrength andorganizationrecoverycapacity,respectively. Figure2demonstratestheframeworkof themethodologyusedinthispaper.
+RemoteSens.2022,14,3451 5of28
+Figure2.Theframeworkofmethodology.
+2.1. StudyArea
+Tovalidatethepracticalityoftheproposedmethod,wechoseWuhanmetronetwork asaninstanceastherearecountlessriversandabundantrainfallinWuhanregion,andthe metrowasexposedtoextremelyhigh-levelfloodriskwithrespecttoothercities. Wuhan islocatedintheeasternHubeiProvinceofChina(asshowninFigure3a),attheYangtze
+RiverandtheHanjiangRiverjunction. Thecityisintertwinedwithriversandlakes,and thewaterscoveraquarterofthecity’stotalarea. Wuhanhasanorthsubtropicalmonsoon climatewithanaverageannualtemperatureof15.8–17.5◦C(asshowninFigure3b). Ithas anannualprecipitationof1150mmto1450mm(asshowninFigure3c),allconcentrated betweenJuneandAugusteachyear,accountingforabout40%oftheannualprecipitation (as shown in Figure 3d). The city’s topography is dominated by low mountains, hills andplains,mostofwhicharebelow50mabovesealevelandwithrelativelylowterrain.
+Mostofthegeologicallayersonwhichthemetroislocatedareclay,siltandsiltysoftsoil.
+InJuly2016, threemetrostationsinWuhanweresubmerged, andtwowereinundated in June 2019. Therefore, Wuhan is characterized by frequently rainfall and low terrain owingtothegeographyandclimatology,andthatisthemainreasonwedecidedtoselect
+Wuhanastheresearcharea. Sincetheconstructionofhydraulicfacilitiesaroundtheregion recently, the risk of large-scale Flooding in Wuhan has been significantly reduced. The primary risk to the subway originates from the frequent heavy rainfall that caused the wateraccumulationontheground,andthewaterpouredthroughthesubwayentrance resultinginanemergencyrisksituation. Figure3illustratestheadministrationarea,the metrolinesandclimateofWuhan.
+RemoteSens.2022,14,3451 6of28
+Remote Sens. 2022, 14, x FOR PEER REVIEW 6 of 29
+Figure 3. Climate and location information for Wuhan. (a) Administrative region of Wuhan with
+Figure3.ClimateandlocationinformationforWuhan.(a)AdministrativeregionofWuhanwiththe the metro system. (b) Temperature of Wuhan. (c) Rainfall. (d) Rainfall days.
+metrosystem.(b)TemperatureofWuhan.(c)Rainfall.(d)Rainfalldays.
+2.2. Network Modeling: Simplified Three‐Dimensional Model of Metro Network under Flood
+2.2. NetworkModeling: SimplifiedThree-DimensionalModelofMetroNetworkunderFlood
+Evolution Scenario
+EvolutionScenario
+2.2.1. Basic Network
+2.2.1. BasicNetwork
+Most of the urban metro stations are located underground, and there are elevation
+Mostoftheurbanmetrostationsarelocatedunderground,andthereareelevation differences between different metro stations. Compared with the traditional differencesbetweendifferentmetrostations. Comparedwiththetraditionalsimplification simplification method, this paper made the subway network a complex network with method,thispapermadethesubwaynetworkacomplexnetworkwiththree-dimensional three‐dimensional properties. Figure 4 shows a simplified schematic diagram of the urban properties. Figure4showsasimplifiedschematicdiagramoftheurbanmetro.
+metro.
+Thestationswereabstractedasnodesinasimplifiedmetronetwork,andthetunnels
+The stations were abstracted as nodes in a simplified metro network, and the tunnels betweenstationsweretreatedasedges. Sincestationshavemanyentrancesandexitsand between stations were treated as edges. Since stations have many entrances and exits and ventilationsystems,highlyexposednodesareusuallythefirstplaceswherefloodwater ventilation systems, highly exposed nodes are usually the first places where floodwater intrudes. Duetothedifferentialelevationsofthestations,floodwaterattheinundated intrudes. Due to the differential elevations of the stations, flood water at the inundated nodesflowsthroughtheedgestothenodeswithlowertopography. Thus,thesubwaynetnodes flows through the edges to the nodes with lower topography. Thus, the subway workcouldbemodeledasadirectedandweightednetwork,whichreflectsthetopological network could be modeled as a directed and weighted network, which reflects the characteristicsofthemetrosystemanddynamicallyshowsthespatial–temporalprocessof
+topological characteristics of the metro system and dynamically shows the spatial– flteomodpionrga.l Tphroecmesest roof nfleotowdoinrkg.w Tahser empertersoe nnteetdwaosrka wwaesi grhetperdesaenndteddi raesc tae dwgerigahpthed G a=nd(N ,E), wdhireerceteNd gisrathphe sGe t= o(Nfn, oEd), ewshoefrGe ,Na nisd thEe issetth oef sneotdoefs eodf gGe,s a[n6d2 ]E. is the set of edges [62].
+RemoteSens.2022,14,3451 7of28
+Figure4.Urbanmetrodiagram.(a)RemotesensingimageoftheWuhancity.(b)Two-dimensional mapofurbanmetro.(c)Three-dimensionalmapofurbanmetro.
+2.2.2. NodeCharacteristics
+Thenetworkinthispaperassignedspecificcharacteristicsrelatedtoflooding. The characteristicsofnodessuchasnodedegree,nodestrength,nodebetweenness,closeness centrality,passengerflow,andGDPdensitywerefurthersub-defined.
+1. NodeDegree
+Nodedegreeindicatesthenumberofneighboringnodesthataredirectlyconnected to the node. There are two connection directions between nodes, such as i → j(out) or j→i(in),asshowninFigure5a. Thenode-outdegreedo representsthenumberofnodes thatfloodflowsfromnodeitoothernodes,andthenode-indegreedi isdescribedbythe numberofnodeswherethefloodflowsintonodei. Theparameterδ ,whosevalueswere ij allassignedas1,denotesthefloodflowbetweennodeiandnodej. Theinflowwasmarked asδi andtheoutflowwasspecifiedasδo. Thenodedegreed isthesumofnodeinput ij ij i degreeandnodeoutputdegree. Thecalculationformulaisasfollows:
+di = ∑ δi, (1) i j∈E ij do = ∑ δo, (2) i j∈E ij d = di+do, (3) i i i
+2. NodeStrength
+Thenodestrengthindicatesthecapacityofthenodetotolerateortransmitfloodwater.
+Thegreaterthenodestrength,thehigherthefloodrisktothenode. Inaweightednetwork, nodestrengthisdefinedasthesumoftheweightsofalltheedgesconnectedwithnodei.
+Theterraindifferencebetweennodesdeterminestheweightofedges. Ametronodecan receivefloodwaterfromahighernodeorpropagateittoalowernode. Thecorresponding relationshipbetweenterraindifferenceandedgeweightisshowninthefollowingtable.
+ThemaximumheightvariationbetweenWuhanmetrostationsis29.6m. Toquantifythe relativelevelsofriskbetweenstations,wecategorizedtheheightvariationintofivelevels andassigneddifferentweightstoeachleveldependonthefloodflowdirectionasshownin
+Table1. δ isaconstant,1,indicatingthatnodeiandnodejaredirectlyconnected. Nisthe
+RemoteSens.2022,14,3451 8of28 numberofnetworknodesandω istheweightofedgesbetweennodesiandj. Similarly, thenodestrengthcouldalsobedescribedasEquation(4)andFigure5b.
+D = δ ω , (4) i j=i∈N ij ij
+Figure5.(a)Nodedegreegraph.(b)Nodestrengthgraph.
+Table1.Relationshipbetweenelevationandedgeweight.
+WeightsfromLowtoHigh WeightsfromHightoLow
+DifferenceofTerrain(m)
+TerrainNodes TerrainNodes
+0–6 0.5 0.6
+6–12 0.4 0.7
+12–18 0.3 0.8
+18–24 0.2 0.9
+24–30 0.1 1
+3. NodeBetweenness
+Nodebetweenness,C,representstheabilityofthenodetodiffuseflood,asshownin
+Equation(5)below. Intheformula,σi denotesthenumberofpathsfrompointstopointt st throughnodei,andσ isthenumberofpathsfrompointstopointt. Nodebetweenness astheinitialparameteriscrucialinnodeimportanceevaluationwhichreflectsthefunction offlooddiffusionasshowninFigure6.
+C = ∑ σ s i t, (5) i s=v=t∈E σ
+Figure6.Nodebetweennessgraph.
+RemoteSens.2022,14,3451 9of28
+4. ClosenessCentrality
+Whenthenodesattheedgeofthenetworkandthecenterofthenetworkhavethe samenodestrength,itisnecessarytoconsidertheimpactofthesenodesontheoperation efficiencyoftheentiremetronetwork. Closecentralityshowstheaverageshortestdistance fromthisnodetoallothernodes,whichreflectsthedegreeofproximitybetweenthese nodes. Thesmallertheaverageshortestdistanceofanodeis, thegreaterthecloseness centralityofthispointis. Ifthereisnopathreachablebetweennodeiandnodej,thend is definedasinfinite,anditsreciprocalis0. Thecalculationformulaisasfollows:
+1 1
+C = = , (6) i d ∑ d i j=i ij
+5. PassengerFlow
+Passengerflowisanindextomeasurethenumberofpassengers,whichisrecorded as Pi [13,18,24]. In this paper, the average annual passenger flow was used to separate passengerflowintofivedifferentlevels,fromlowtohigh. Thehigherthepassengerflow, thehigherthecorrespondingimportance.
+6. GDPDensity
+The GDP density of nodes directly shows its social function and economic significance[19,20]. Inthispaper,GISwasusedtooverlaytheannualGDPandlocationcharacteristicsofthestudyarea,andtheGDPdensityofdifferentmetrostationswasrecorded as Mi.
+2.2.3. NodeToughnessStrength
+The toughness strength of a node we define as the vulnerability of the node to a hazard. Nodetoughnessstrengthreflectstheresilienceofnodesexposedtofloodevents. It isinverselyrelatedtoeachoftheabovefactors,andthereisacumulativeeffectbetween the factors. Node toughness strength reflects the resilience of nodes exposed to flood damage. Inthispaper,wedefinedthenodetoughnessstrengthasEquation(7). Thesix nodecharacteristicsandnodestrengthhaveaninversegrowthrelationship.
+x = , (7) i ξ d +ξ D +ξ B +ξ C +ξ Pi+ξ Mi
+1 i 2 i 3 i 4 i 5 6
+Intheformula,ξ ,ξ ,ξ ,ξ ,ξ ,andξ werenodedegreecouplingcoefficient,node
+1 2 3 4 5 6
+strength coupling coefficient, node betweenness coupling coefficient, closeness centralitycouplingcoefficient,passengerflowcouplingcoefficient,andGDPdensitycoupling coefficient,respectively.
+2.3. FloodHazardSimulation
+Thebreakdownofthemetronetworkoccurswhenthereiscontinuousheavyrainfall.
+Excessrainfallisdrivenbygravitytothesurfaceandflowstolowerterrain. Thegathered floodwater initially flows into the metro station entrances in low-lying areas, thereby causingthespreadoffloodwaterwithinthemetronetwork.
+2.3.1. SurfaceFloodingSimulation: IdentificationofFlood-ProneMetroNodes
+The breakdown of the metro network starts at the nodes that were first flooded.
+Initially,weidentifiedthenodesinthemetronetworkthataresusceptibletoinundation throughsubmersionsimulations. Bysettingdifferentfloodreturnperiodsandcarrying outsimulationsbasedonthegridhydrodynamicmodel,wecouldspecifytheinundated metronodesbasedonthesimulationoutcomes. Iftheinundationdepthoftheareaexceeds theheightofthewaterbarrierinfrontofthesubwayexit(0.6–1m),thesubwaystationis consideredtobeinundated. Consideringtheaccumulationofmassivewateraroundthe subway,theconventionalemergencymeasureistousesandbagsfortheinterception;the
+RemoteSens.2022,14,3451 10of28
+Remote Sens. 2022, 14, x FOR PEER REVIEW 10 of 29 heightofsandbagsisestimatedtobeabout1maccordingtopastpracticalexperience,so theheightofthewaterbarrierisdefinedas1minthispaper.
+interception; the height of sandbags is estimated to be about 1 m according to past
+1p.ractiIcnaul nexdpaetiroiennsceim, suol athtieo hneight of the water barrier is defined as 1 m in this paper.
+1. IInnutnhdisatipoanp seirm,ualagtrioidn hydrodynamics-based cellular automata model was used to simuIlna tethtihs epraapinerf,a lal flgroiodd hinygdrpordoycneassm[i4c1s‐]b.aTshede tcwelolu-dlaimr aeuntsoimonaatal smhaoldloewl wwaas tuerseedq utoa tions wsimerueldaties ctrheet irzaeindfaalnl fdloaopdpinlige dpraosceasstr [a4n1s].f oTrhme tawtioo‐ndirmuleenstoiotnhael schealllulolwar wauatteorm eqautaatmioonds el. A cweellruel adrisacuretotimzeadt oanndw aapspcloiemd paoss ae dtraonfscfeolrlmulaatriosnp arcuele, atoc ethlleu lcaerllsutlaatre a,uatnoemigahtab morohdoeold. A,a nda tcrealnluslfaorr mauattoimonatrounle w.Aas tcwoom-pdoimseedn osifo cneallluclealrl ssppaaccee, wa aceslcluhloasre snta,taen, da aneviognhbNoerhuomoadn, -atnydp ecell wa atrsanussfeodrmfoartitohne rnuelieg. hAb towrhoo‐doidm,eansssiohnoawl nceilnl sFpiagcuer wea7sa .chTohseenst, aatnedo af evaocnh Nceeullminanth‐teypceel lular
+acueltlo wmaast ounsedm foodr etlhea tntehigehnbeoxrhtomodo,m aes nstho(wwant einr Fleigvuerl,e fl7ao.w Threa tset)atwe aosf edaecthe rcmeliln ined thbey the pcerellvuiloaur saumtoommaetonnt’ smsotadteel (awt tahtee rnelexvt eml,oflmoewntr (awtea)teorf ltehvaetl,c felollwa nradteit)s wnaesi gdhebteorrminingecde bllys. The mthoe sptrcervitioicuasl mpaormtoenftt’hs estcaetlel u(wlaartearu lteovmela, tfolonww raastet)h oef dtheafitn cietilol nanodf itthse nteriagnhsbfoorrimnga ctieollns.r ules.
+TThheer mefoosret ,ctroitiaccacl upraartte olyf tdhees ccreilbluelathr eaufltooomdaetovno lwutaiso nthpe rdoecfeisnsi,titohne otwf toh-ed tirmanensfsoiromnaaltisohna llow wrualteesr. Teqhueraetfioornes, two earcecudriastcerleyt idzeesdc.riTbhe etheev ofllouotdio envaorlyutrieolna tpioroncsehsisp, tbheet wtweoe‐ndwimaetnesriloenvaell and flshoawllowwa swcaotnert reoqluleadtiobnyst hweerdee dSiascinret-tiVzeenda. nTthsey esvteomlutoiofneaqruya rteiolantsio(nsseheipE qbuetawtieoenns w(8a)t–e(r1 0)) level and flow was controlled by the de Saint‐Venant system of equations (see Equations
+(8)–(10)) ∂h ∂M ∂N + + =0, (8) ∂t𝜕h 𝜕∂Mx 𝜕N ∂y + + = 0, (8) 𝜕t 𝜕x 𝜕y √ ∂M ∂(uM) ∂(vM) ∂Z u2+v2 + + +gh +gn2u √ =0, (9) ∂N ∂(uN) ∂(vN) ∂Z u2+v2
+FFiigguurree 77.. ((aa)) VVoonn NNeeuummaannnn‐t-ytpyep eneniegihgbhobrohrohoodo. d(b.)(.b C).elCluellalru slapracsep adcifefedriefnfecree dnicaegdraimag. ram.
+EEqquuaattiioonn ((88)) isist htehceo ncotinntuinouuosuesq ueaqtuioanti,oann, daEnqdu aEtqiounatsio(9n)s an(9d) (1a0n)da r(e10th) eamreo mtheen tum emqoumateinotnusm. F eiqguuarteio7nbs.s Fhiogwurse t7hbe scheolwlusl athres pcealclueladri fsfpearecen cdeififnertehnrceee ind itmhreene sdiiomnesn,swiohnesr,e his twhheewrea hte irs dtheep twha,ttehr eddepisttha, nthcee odfistthanecwe aotfe trhesu wrfaatecre sfurorfmaceth ferormiv ethreb roivtteorm bo;tZtoims;t hZe isw ater l t e h v e e w l, a t t h e e r l e e l v e e v l, a t t h io e n el o e f va th ti e on f r o e f e th w e a f t r e e r e s w u a r t f e a r c s e u r r e fa la c t e i v re e la t t o iv t e h t e o b t a h s e e b o as f e t h of e t g h a e u g g a e u ; gMe; M an d N and N are the discharge in the x and y directions; u and v denote the average flow velocity are the discharge in the x and y directions; u and v denote the average flow velocity in
+in the x and y directions, respectively; n is the Manning roughness; t is the time; and g is thexandydirections,respectively;nistheManningroughness;tisthetime;andgisthe the gravity acceleration.
+gravityacceleration.
+The first term of the momentum equation reflects local acceleration, the second term
+Thefirsttermofthemomentumequationreflectslocalacceleration,thesecondterm reflects convective acceleration, and the first and second terms are inertial. Due to the flat reflects convective acceleration, and the first and second terms are inertial. Due to the
+
+fl te a r t ra e n r r o f i n th si m he ul s ed u l lo te d dp la p re th r e y b h ol o g ri e∂sZ w it w flu it c tu io uctu- ∂x aotfi otnheo ffltohoed.fl oRoedfe.rrRinegf ertori ntghet ositmheplsifiimedp lmifieetdhomd etohf oddifofufsdioifnf uwsiaovnesw, awvee s,cawne scaayn say ∂ ∂ M t +𝑔g𝑛n2𝑢u √ √ u √ 3 2+ h v2 −𝑔ℎg h ∂ ∂ Z x ≫ ∂(u ∂x M ) + ∂. ( ∂ vT y Mh ) e .cTonhveeccotinovne ctetiromn itse ram niosnalinnoeanrl inteeramr,t erm, wwhhiicchh wwiillll ccaauussee tthhee oosscciillllaattiioonn ooff tthhee ccaallccuullaattiioonn rreessuullttss wwhheenn ssoollvviinngg EEqquuaattiioonnss ((99)) aanndd (10).
+H(1o0)w. Hevoewr,eviterh, iats haless lsesism impapcatcto onn tthhee ccaalclcuulaltaitoino.n T.hiTs hairsticalret oicmleitso tmhiist sitethmi.s Siitmempl.ifieSdim pli-
+RemoteSens.2022,14,3451 11of28 fied shallow water equations in the x and y directions could be obtained, as shown
+Equations(11)–(13).
+
+∆t hk +hk Zk −Zk uk ∆t uk + vk
+M i k , + j 1 = M i k ,j −g i,j i+1 2 ,j ∆x i+1,j i,j −gn2 i,j i,j i,j i,j , (11)
+3 hk +hk /2 i,j i+1,j
+
+∆t hk +hk Zk −Zk vk ∆t uk + vk
+N i k , + j 1 = N i k ,j −g i,j i,j+ 2 1 ∆y i,j+1 i,j −gn2 i,j i,j i,j i,j , (12)
+3 hk +hk /2 i,j i,j+1
+
+∆t Mk −Mk ∆t Nk −Nk
+hk+1 = hk − i+1,j i,j − i,j+1 i,j , (13) i,j i,j ∆x ∆y where k is the number of cell iterations, and ∆t is the time step. The size of the grid is definedby∆xand∆y. Thepositionofthecellisdefinedbyiandj. Thewaterlevelvalue oftheunitisinitialized,aswellastheinitialwatervelocityofu0 = v0 . Thecellularspace i,j i,j differencediagramisshowninFigure7b.
+Sincetheexplicitdifferenceisusuallyunstable,thetimestepanddistancestepneedto
+
+belimited,asshowninEquation(14),wherecisthewavespeed,generallytakenas gH.
+∆x ∆t ≤ , (14)
+2. Raindesign
+Rainintensityisdeterminedusingtherecommendedformulaforthestudyarea,the formofexpressionofwhichisshowninEquations(15)and(16)[63].
+9.686(1+0.887lgP) i = , (15) (t+11.23)0.658
+1614(1+0.887lgP) q = , (16) (t+11.23)0.658
+InEquations(15)and(16):
+i—Designrainstormintensity(mm/min);
+P—Rainfallreturnperiod(a);
+t—Durationofrainfall(min);
+q—Designrainstormintensity[L/(s·hm2)].
+Short-term rainfall is determined using Chicago rain type; through the above
+Equations(15)and(16)transformation,Equations(17)and(18)canbeobtainedasfollows.
+Thedurationofrainfallis3h. TherainfallprocesslineisshowninFigure8.
+a (1−n)t
+I = 1 +b , (17)
+1 t1 +b n+1 r a (1−n)t
+I = 2 +b , (18) t2 +b n+1 1−r
+1−r
+RemoteSens.2022,14,3451 12of28
+Figure8.RainfallProcessLine.
+In Equations (17) and (18), I is the pre-peak rainfall intensity (mm/min), I is
+1 2
+the post-peak rainfall intensity (mm/min), t is the pre-peak rainfall duration (min), t is the post-peak rainfall duration (min), r is the rain peak coefficient, n = 0.658, a =9.686(1+0.887lgP),andb =11.23.
+2.3.2. InundationSequenceSimulationofStations: DynamicNodeBreakdownAlgorithm
+Themetronetworkinthefloodscenarioisadirectedandweightednetwork. Flood willspreadalongthetunneltolowterrain. Flooddiffusionisadynamicprocessvarying withtime, sothispaperdiscretizesthetimeandspacevariables. f (t) isusedtodefine whetherthenodeisinvalid.
+Atthemomentt whentheinundationdepthwithin300maroundthemetrostation isgreaterthanthelimith ,thestationisconsideredtobeflooded,namely f (t ) =0. For
+0 i 0
+thenodestateatanytime, f (t)isusedtodefinewhetherthenodeisinvalid,asshownin
+Equation(19).
+
+0,invalid f (t) = , (19) i 1,valid
+Therefore,aslongasthebreakdowntimeofthefirstnodeisknown,thebreakdown nodesatdifferenttimesandthecharacteristicsofgoodnodescouldbeobtainedbythe dynamicnodebreakdownalgorithm.
+Figure9showstheflowchartofmetrofloodpropagation. Thespecificcalculation stepsareasfollows:
+Step 1: Initialization parameters. Input node-in degrees, node-out degrees, edge lengths, edge weights, node passenger flow, and GDP density to form six n×n initial matrices.
+Step2: Calculationofflooddiffusionlengthbasedonfloodvelocityandintervaltime.
+Step3: Thecharacteristicsmatrixofeachnodeiscalculated.
+Step 4: Based on the set of breakdown node points at the previous moment, we determinedthebreakdownnodesatthenextmoment.
+Step5: Recordthe f (t)ofthebreakdownnodeas0andclearit. Then,startsearching forthebreakdownnodeofthenextmoment.
+RRememotoeteS Senens.s2. 022022,21, 41,43, 4x5 F1OR PEER REVIEW 1133 ooff 2289
+FFigiguurere9 9..F Flolowwc chhaarrtto offd dyynnaammicicn nooddeeb brereaakkddoowwnna alglgoorirtihthmm..
+22.4.4..R ReessiliileienncceeA AsssseessssmmeennttM Mooddeello offM MeetrtrooN Neetwtwoorrkk
+InInt hthisisp paappeer,r,t htheer eresisliileienncceeo offt htheem meetrtoron neetwtwoorkrkc coonnsissitsstso offt wtwoop paartrst:s:i tistst otouugghhnneessss sstrtreennggththa annddo orrggaannizizaatitoionnr reeccoovveerryyc caappaaccitiyty..T Thheef ufuzzzzyyb beesst–t–wwoorrssttm meeththoodd( F(FBBWWMM))w waass uusseeddt otoo obbttaainint thheew weeigighhtto offe eaacchha asssseessssmmeennttm meettrricica annddd deetteerrmminineet thheet toouugghhnneesssss sttrreennggthth ooffe eaacchh nnooddee aanndd tthhee eenntitriere nnetewtworokr.k O. rOgragnaiznaiztiaotnioanl arelcroevceorvye rwyaws raesprreepsernesteedn tbeyd tbhye ctohveceorvaegrea goef uorfbuarnb apnupbluicb leicmeemrgeerngceyn cfyorfcoersc.e s.
+2.4.1. ToughnessStrengthAssessmentModelforMetroNetwork
+2.4.1. Toughness Strength Assessment Model for Metro Network u
+Before carrying out a comprehensive assessment based on FBWM, we first used a
+Before carrying out a comprehensive assessment based on FBWM, we first used a simplefuzzytheory,amethodologytodescribeandprocesssystemuncertainty[17]. The simple fuzzy theory, a methodology to describe and process system uncertainty [17]. The pointoffuzzysettheory,whichwasadoptedinthisstudy,isthatthedegreeofmembership point of fuzzy set theory, which was adopted in this study, is that the degree of memberforanelementisusuallywithinaspecificinterval[0, 1]. Anyvaluewithintheinterval ship for an element is usually within a specific interval [0, 1]. Any value within the interval indicatesthatthecomponenthasacertaindegreeofmembership,or,inotherwords,ithas indicates that the component has a certain degree of membership, or, in other words, it apartbelongingtothefuzzyset. Thetriangularfuzzynumberisdeterminedby(L,U,M) has a part belonging to the fuzzy set. The triangular fuzzy number is determined by andsatisfies0≤ L ≤ M ≤U ≤1. L, M,andUdenotethelowerbounds,themostlikely
+(𝐿,𝑈,𝑀) and satisfies 0≤𝐿≤𝑀≤𝑈≤1. 𝐿,𝑀, and 𝑈 denote the lower bounds, the most value,andtheupperbounds,respectively,asshowninFigure10.Themembershipfunction likely value, and the upper bounds, respectively, as shown in Figure 10. The membership io tr fu ia z fu (T er i s (T fo l l
+
+as follows:
+0,A0,𝐴<L𝐿o r𝑜A𝑟𝐴>U𝑈
+RemoteSens.2022,14,3451 14of28
+Figure10.SchematicdiagramofeachparameterinTFNs.
+The operational laws of TFNs A = (L,M,U) and B = (L) were as follows[57].
+A±B= (L ±L ±M ±U
+A×B= (L 1 L 2 ,M 1 M 2 ,U 1 U 2 ), (21)
+
+A÷B= L1, M1, U1 ,
+U2 M2 L2
+Defuzzificationwasusedtoconvertthefuzzysetintoanaccuratevalueastheoutput tocarryoutthesubsequentwork. Thegradedmeanintegrationrepresentation(GMIR)of fuzzytriangularnumberscanbeexpressedbelow.
+L+4M+U
+R A = . (22)
+This section aims to obtain the importance of nodes by calculating index weights.
+FBWM (fuzzy best–worst method), proposed by Guo S in 2017, is a method to get the weightofeachindicatorbycomparingtheimportanceofotherindicatorswiththebest indicatorsandtheworstindicators[57].UsingFBWMtocalculatetheweightsoftheindices isacriticalstepinassessingtheoverallnetworkresilience.
+Inthispaper,theimportanceofeachindicatorwascomparedwitheachotheraccording toitscontributiontofloodrisk. Therelativeimportanceoftheindicatorswastransformed intofuzzytriangularnumbersbasedonTable2.
+Table2.TransformationrulesofLinguisticvariables[57].
+MembershipFunction
+LinguisticTerms (L,M,N)
+Equallyimportant(EI) (1,1,1)
+Weaklyimportant(WI) (2/3,1,3/2)
+Fairlyimportant(FI) (3/2,2,5/2)
+Veryimportant(VI) (5/2,3,7/2)
+Absolutelyimportant(AI) (7/2,4,9/2)
+ThespecificstepsofFBWMareasfollows.
+Step1: Determinethebestandworstindicators. Inthisstep,theimportanceofeach indicatoriscompared. ThebestindicatorBandtheworstindicatorWaredecided.
+Step2: Comparetheimportanceofotherevaluationindicatorswiththebestindicator
+BandtheworstindicatorWandrecordthemasa ,asshowninFigure11.
+BW
+RemoteSens.2022,14,3451 15of28
+Figure11.Importancecomparisonbetweenindicators.
+Step3:Determinetheoptimalfuzzyweightvalue(w ,w ,w )ofthebestindicator,the worst indicator, and each other indicator, of which, w =
+Lw,Mw,Uw
+B B B B
+w = Lw,Mw,Uw , w = Lw,Mw,Uw . In the previous step, the importance a
+W W W W j j j j BW
+of each indicator compared with the best indicator B and the worst indicator W is obtained. Toobtaintheoptimalfuzzyweight,weneededtominimizethemaximumvalueof
+
+wB −a . Therefore,anoptimizationmodelwasdevelopedtosolvethisproblem.
+
+j
+R w =1 s.t. Lw ≤ Mw ≤Uw , (24) j j j j =1,..., n
+
+Bringingm ax
+
+B −
+
+= ξintotheaboveequation,thenonlinearconstrained optimizationproblemwastransformedasfollows.
+minξ − R a B w
+
+(25) s.t. Lw ≤ Mw ≤Uw , j j j j =1,..., n
+
+IntheaboveEquation,ξ= L,andL ≤ M ≤U.Theoptimaltargetvalue isξ ∗ = (K∗,K∗,K∗),K∗ ≤ L minξ ∗ w B
+B w, j=1
+
+(26) s.t. Lw ≤ Mw ≤Uw , j =
+1,
+Accordingtotheruleoftriangularfuzzynumber,Equation(26)couldbecalculatedto obtaintheoptimalfuzzyweightvaluesofthebest,worst,andotherindicators,respectively.
+RemoteSens.2022,14,3451 16of28
+Step 4: The fuzzy weights w ,w can be refined using GMIR, as shown in
+Equations(27)and(28).
+Lw+4Mw+Uw w ∗ = B B B , (27)
+Lw +4Mw +Uw w ∗ = W W W. (28)
+2 ToughnessStrengthofMetroNetwork
+Thetoughnessstrengthofthenetworkconsistsofthenodetoughnessstrength. The networktoughnessstrengthslowlydecreasesduringtheperiodwhenthemetronetwork isdisrupted. Thus,thenetworktoughnessstrengthatacertainpointintimeisdefinedby
+Equation(29).
+
+X(t) =2 ∑ x − ∑ x f × 1+ t −143.3963, (29) i i T
+Intheformula,X(t)denotesthetoughnessstrengthofthemetronetworkatmoment t. x isthetoughnessstrengthofnodei. x isthetoughnessstrengthofthefloodednodeat i i momentt. Trepresentsthetimetakenfortheentiremetronetworktofail.
+2.4.2. OrganizationRecoveryCapacityofMetroNetwork
+Urbandepartmentsmustrespondtotheincidentsitesassoonaspossibleoncesuddenmetrofloodingandemergencyeventshappen. Fromtheperspectiveofurbanpublic safety,theresponseofemergencydepartmentscanalsoindicatetheresilienceofthemetro network. We defined this resilience as organization recovery capacity. To evaluate the organizationrecoverycapacityofthemetronetwork,weusedtheemergencyresponse coverageofpoliceandfiredepartmentsasacriterion. Inthispaper,theaccessibilityof submergedpathsaroundthesubwaystationwastemporarilydisregardedwhenconducting theshortestrouteanalysis,andpotentialtrafficjamswerenottakenintoaccountaswell.
+Sincetherescuetimeisapproximatelyinverselyproportionaltothestraight-linedistance, onlytheinfluenceofdirectdistanceontherescuetimeisconsideredinthispaperforan approximate estimation. GIS buffer analysis was carried out to determine the scope of emergencyresponseserviceswithintheadequatetime. WeusedtheGIS-basedshortest pathmethod,theshortestdistancebetweentwopoints. Theemergencyresponsespeed was set to be 30 km/h by taking the positions of the above two types of public service institutionsasthestartingpoint,combinedwiththeinfluenceofurbanregionaldriving speed and rainstorms. We set the reachable area of public emergency services within the specified rescue time as a buffer zone to determine its coverage and organization recoverycapacity.
+3. ResultsandDiscussion
+3.1. DataSource
+The research data used in this paper contain eight components listed below. The originsofthedataareshowninTable3.
+Table3.Datasourcesoftheresearchinthisarticle.
+Data Source
+http://eds.ceode.ac.cn/nuds/freedataquery
+Remote-sensingdata (accessedon15December2021) http://www.gscloud.cn
+DEM(30m×30m) (accessedon20November2021)
+WuhanlocalstandardsDB4201/T6412020
+DesignFormulaofRainstormIntensity (accessedon6December2021) https://iwuhan.org/webapps/WuhanMetroFlowDetail/
+MetropassengerflowinWuhan (accessedon12January2022)
+RemoteSens.2022,14,3451 17of28
+Table3.Cont.
+Data Source
+Remote Sens. 2022, 14, x FOR PEER REVIEW 17 of 29 http://tjj.hubei.gov.cn/tjsj/
+GDPdensity (accessedon15December2021) https://www.wuhanrt.com/public_forward.aspx
+Numberofmetrostations https://www.wuh(aancrcte.scsoemd/opnu1b5licD_efcoermwbaerrd.2a0s2p1x) (accessed on
+Number of metro stations https://www1.5w Duehcaenmrtb.ceorm 2/0p21u)b lic_forward.aspx
+Distancebetweenmetrostations https://www.wuha(narctc.ecsosmed/pounb7licN_ofovrewmabredr.2a0sp21x) (accessed on 7
+Distance between metro stations https://www.wuhanrt.com/public_forward.aspx
+November 2021)
+Elevationwithinthemetronetwork. (accessedon7January2022) https://www.wuhanrt.com/public_forward.aspx (accessed on 7
+Fieldworkestimation(Estimatedfromsubwayfloors)
+Elevation within the metro network. January 2022)
+Fieldwork estimation(Estimated from subway floors)
+The overall size of Wuhan is 8569.15 square kilometers. The remote sensing data containsbothurbanbuildingsandwaterbodies. Short-timerainfalldataandDEMdatafor
+The overall size of Wuhan is 8569.15 square kilometers. The remote sensing data
+Wuhanweretakenforthe3hfloodsimulationofthegridhydrodynamicmodel. Metro contains both urban buildings and water bodies. Short‐time rainfall data and DEM data passfeonr gWeurhflaonw waenred taGkDenP fodre tnhsei t3y hw floeored tshimeustlaattiiostni coaf lthdea gtaridu sheyddrtooddyentaemrmici mneodtheel. iMmeptroor tance of thpeasnseondgeesr .flTohwe ahnedig hGtDdPi fdfeernesnitcye woferme etthreo ssttaattisiotincasl adnadtat hueseddi sttoa ndceetebrmetiwnee etnhem etro statiiomnpsowrtaenreceu otfi ltihzee ndofdoers.t hTheem heeitgrohtn doifdfeerennectew oof rmkebtrroe astkadtioownsn ansidm thuel adtiisotannsc.e between metro stations were utilized for the metro node network breakdown simulations.
+3.2. FloodHazardAnalysisofMetroNetwork
+3.2.13..2F. lFolooodde HdaNzaordd AenBarleysaiks dofo MwentroA Nneatlwyosriks
+3.2.1. Flooded Node Breakdown Analysis
+Thefirstbreakdownnodesaretheflood-pronemetrostations. Theidentificationof flood-prTohnee fnirosdt berseiasktdhoewfinr sntosdteesp aoref tmhee tfrlooofldo‐pordonree smileietrnoc setamtiaonnsa.g Tehme eidnet.nTtifhicisatpioanp oefr used thegflroiodd‐hpyrdonroe dnyodneasm isi cthme foirdset lstteops oimf mueltartoe ftlhooed1 r0e0s-ilyieenacrer maiannfaagllemineWnt.u Thhaisn pcaiptyera unsdedo btain the grid hydrodynamic model to simulate the 100‐year rainfall in Wuhan city and obtain theinundationdepthmapof300mnearninemetrolines,asshowninFigure12. Through the inundation depth map of 300 m near nine metro lines, as shown in Figure 12. Through thesimulation,wedividedthewaterdepthintofivegrades. Whenthewaterdepthofthe the simulation, we divided the water depth into five grades. When the water depth of the areawithin300maroundthemetrostationwasbetween1and3m,weassumedthatthe area within 300 m around the metro station was between 1 and 3 m, we assumed that the
+nodeswereexposedtofloodrisk,andthesenodeswereconsideredflood-pronepoints.
+nodes were exposed to flood risk, and these nodes were considered flood‐prone points.
+Technically,weutilizedthebufferzoneanalysistoolinGIStogetthezonewithin300mof
+Technically, we utilized the buffer zone analysis tool in GIS to get the zone within 300 m thesouf btwhea ysusbtwataioy ns.taTthioeni. nTuhned aintuionnd-aptiroonn‐eprsotnaeti osntastiwonesr ewidereen tidifieendtifbieyd cboym cpoamripnagriwngh ether theiwnhuenthdeart itohne ianruenadaantidont hareeba uafnfde rthzeo bnueffoevr ezrolnaep poveedr.lapped.
+Figure 12. The prediction and identification of flood‐prone stations. (a) Submerged water depth of
+Figure12.Thepredictionandidentificationofflood-pronestations.(a)Submergedwaterdepthof the metro network. (b) Enlarged view of the flooded Yangluo Development Zone station. (c) themEnetlarorgnedet vwieowrk o.f( b th)eE fnloloadrgeded Rveniehwe Roofatdh estflaotioond.e dYangluoDevelopmentZonestation.(c)Enlarged viewofthefloodedRenheRoadstation.
+RemoteSens.2022,14,3451 18of28
+Bysurficialhydrodynamicsimulation, DazhiRoadStationofMetroLine1, Fanhu
+StationofMetroLine2,LinjiaohuStationandYunfeiRoadStationofMetroLine3,Renhe
+RoadStationofMetroLine4,MiaosuRoadStationofMetroLine6,QushuilouStationof
+MetroLine7,TongjiHospitalStation,andYangluoDevelopmentZoneStationofMetro
+Line11areflood-pronestations. Thesepointswereinputintothedynamicbreakdown nodealgorithmasinitialbreakdownpoints.
+3.2.2. NodeDynamicBreakdownProcess
+In this paper, the breakdown process of Wuhan metro nodes in a 100-year flood situationisimplementedbyMATLAB.Thereare200nodesand431edgesintheWuhan
+Metronetwork. Ittakes146.3minfromtheinitialinundationoftheflood-pronesitestothe timewhenallnodesinthenetworkbecomeflooded. Theinundationsequenceisshownin
+Figure13a.
+Figure13.(a)Inundationsequenceand(b)proportionofbreakdownnodesovertime.
+Figure13bshowstheproportionofbreakdownnodesvarieswithtime. Ataround
+20min,thenumberofbreakdownnodesincreasedrapidly. HongKongRoadandHongtu
+Boulevardstations,whichhadthelowesttoughnessstrength,werefloodedwithin20min.
+Additionally,thebreakdownratekeptrising,reachingamaximumslopeof0.048at40min.
+After 40 min, the rate of breakdown nodes gradually decreased. The rate of decline in the number of flooded nodes in the metro network continued to increase over 40 min.
+Therefore,withlimitedresourcesandtime,resiliencyrecoverymeasureswithin40min could maximize efficiency for preventing more nodes from flooding. Additionally, the highertheefficiencywas,thelesstheeconomicdamageandthesoonerpassengerswould berescuedfromtheflood.
+WhenTwas0,thetoughnessstrengthoftheinitialbreakdownnodesinthemetro networkwas0. Whenthefloodstartedtospreadtoothermetronodes,Twasthe283rd second. Thedurationoftheperiodfrom0to283swasrelativelyshort,butitprovided valuabletimefortheemergencytopreparereliefsuppliesandrushtothedisastersite.
+WhenTwas20min,thefloodednodesweredistributedintheareaaroundtheinitial breakdown node. The percentage of breakdown nodes reached 22.5%, and the node breakdownratewas0.039. Duringthistime,floodingspreadrapidlytothesurrounding areasandtheaveragetoughnessofthemetronodeswasdecreasing.
+WhenTwas40min,theproportionofbreakdownnodesinthemetronetworkrose to51%. Only40minhadpassedsincetheinitialnodeswereflooded,butthenumberof breakdownnodeshadexceededhalfofthemetronetworknodes.
+WhenTwas60min,thepercentageofbreakdownnodesinthemetronetworkwas alreadyashighas73%. Thelowesttoughnessstrengthamongtheremainingnodeswas
+RemoteSens.2022,14,3451 19of28 theBaotongTemplestation. Thisindicatesthatallkeynodesofhighimportancebutlow toughnessstrengthwouldbeinundatedabout1hafterthefloodwaterflowsintothemetro.
+3.3. ResilienceAssessmentofMetroNetwork
+3.3.1. EvaluationofNodeToughnessStrengthWeights
+Tocalculatethenodetoughnessstrength,wefirstneedtoacquiretherelativeweight magnitudeofeachindicatorasEquation(7). Weproposedtomeasuretherelativeimportance of nodes from five categories, the ability to receive floods, the ability to transmit floods,theriskofhumancasualties,theriskofeconomicloss,andthesignificanceofthe location,andassignaninitialweightingratiotoeachcategory. Nodeslocatedintheurban centerandsuburbsaredistinctineconomicstatusandsocialattributes,andtransferstations bearmoreresponsibilityforpassengercommutingthanotherordinarynodes. Ifthenodes withhightoughnessstrengthareflooded,thelossofthewholenetworkisevenheavier.
+Similarly,prioritizingthecriticalnodesduringrescuewillimproverescueefficiencyand saveresources. Therelativeimportanceofeachindicatorwasdeterminedbycalculating the contribution of each indicator to the five catalogs. The greater the contribution of theindicatortothesefivecapabilities,thelowerthetoughnessstrengthofthenode. The evaluationoutcomesoftherelativeimportanceofthesixindicatorsareshowninTable4.
+Inthetable,B denotesthebestindicator.
+Table4.Theevaluationoutcomesoftherelativeimportanceofthesixindicators.
+TheAbilityto TheAbilityto TheRiskof TheRiskof TheImportance
+Best
+Indicators\Category ReceiveFlood TransmitFlood Casualties EconomicLoss ofLocation
+(25%) (25%) (20%) (20%) (10%)
+Indicators/Bj
+Nodedegree 25% 25% - - - EI
+Nodestrength - 25% - - - FI
+Nodebetweenness 20% 20% - - WI
+Closenesscentrality - - - - 10% AI
+Passengerflow - - 20% - - VI
+GDPdensity - - - 20% - VI
+Accordingtotheevaluationindexsystemofnodetoughnessstrength,afuzzycomparison of the advantages and disadvantages of six indexes was carried out. The best indexisnodedegree,andtheworstindexisclosenesscentrality. Then,thecomparison levelsaretransformedintofuzzytriangularnumbers. Takingthesumofindexweights of1asaconstraint,weestablishedthetargetprogramexpressionaccordingtotheabove
+Equations(24)–(26).
+Theweightofeachindexiscomposedofanupperlimitvalue,medianvalue,andlower limitvalue,whichmeansthattheindicatorweightisnotanexactvaluebutinaninterval.
+Tofacilitatethecalculation,wehadtodefuzzifiedtheweights. TheGMIRapproachwas adoptedtotranslatethefuzzyweightsintoexactvalues. Therelativeimportanceofthesix indicatorsisshowninTable5.
+Table5.Therelativeimportancecoefficientoftheindication.
+Indicators FuzzyWeight ComprehensiveWeight
+Nodedegree (0.3046,0.3088,0.3489) 0.3148
+Nodestrength (0.1420,0.1420,0.1829) 0.1488
+Nodebetweenness (0.2382,0.2382,0.3152) 0.2510
+Closenesscentrality (0.0830,0.0834,0.0951) 0.0853
+Passengerflow (0.0919,0.1051,0.1130) 0.1042
+GDPdensity (0.0919,0.1051,0.1130) 0.1042
+RemoteSens.2022,14,3451 20of28
+3.3.2. NodeToughnessStrengthAnalysis
+By calculating the data in Section 3.2, this paper obtained the node degree, node strength,nodebetweenness,closenesscentrality,passengerflow,andGDPdensityofeach nodeinthemetronetwork,asshowninthefiguresbelow.
+Figure14a,bshowthatHongKongRoad(junctionofsubwayline3,line6,andline7) hasthegreatestnodedegreeandnodestrength,forithasthelargestnumberofconnected nodes. InFigure14c,mostmetronodesonLine2areatahighlevelofnodebetweenness, followedbyinterchangenodesconnecting multiple lines. Asshown inFigure 14d, the commondenominatorofnodeswithhighclosenesscentralityisthegeographiclocation asthecenterofthenetwork. Thereasonisthatthesenodeslocatedatthecentralpartof the network have a short average distance from other nodes. Similarly, in Figure 14e,f, passengertrafficandGDPdensityvarywithgeographiclocation. Then, thetoughness strengthofthenodescouldbeobtainedbymultiplyingthenodecharacteristicsofeach nodewiththecorrespondingweight.
+AscanbeseeninFigure15,theaveragenodetoughnessstrengthofthenetworkwas
+1.9033atthetimeof0min,afterremovingtheninenodesthathadflooded. At20min,the averagenodaltoughnessstrengthwas1.6035. Duringthese20min,thenodesthatflooded werethosearoundtheinitialfloodednode,andthecommoncharacteristicofthesenodes wasthattheyhadalowtoughnessstrength. Thisindicatesthatnodeswithlowtoughness strength fail before nodes with high toughness strength. The average node toughness strengthwas1.0933at40minand0.6632at60min. Duringthisperiod,theaveragenode toughnessstrengthdecreasedatanacceleratedrate. Thereasonwasthatthenodeswith
+Remote Sens. 2022, 14, x FOR PEER REhVigIEhWt oughnessstrengtharefailingwithtime. Thecorrespondencebetween21m ofe t2r9o station namesandnumbersisshowninAppendixA.
+Figure14.Cont.
+Figure 14. Node Characteristics. (a) Node degree. (b) Node strength. (c) Node betweenness. (d)
+Closeness centrality. (e) Passenger flow. (f) GDP density.
+Remote Sens. 2022, 14, x FOR PEER REVIEW 21 of 29
+RemoteSens.2022,14,3451 21of28
+FFiigguurree 1144. .NoNdoed CehCarhacatrearcistteicrsis. t(iac)s .No(ad)e Ndeogdreee.d (ebg)r Neeo.de( bs)treNnogdthe. (sct)r eNnogdteh .be(tcw)eNenondeses.b (edt)w eenness.
+Closeness centrality. (e) Passenger flow. (f) GDP density.
+(d)Closenesscentrality.(e)Passengerflow.(f)GDPdensity.
+Figure15.Nodaltoughnessstrengthvariationcurve.
+3.3.3. ToughnessStrengthAnalysisofNetwork
+Theaveragenodetoughnessstrengthreflectstherelationshipbetweenthenumberof nodesandthenodetoughnessstrength,buttheeffectofinundationtimeisnotconsidered.
+Forthewholemetronetwork,thelongerthenodeswereflooded,thelowerthetoughness strength of the network could be. Therefore, when calculating the network toughness strength,weconsideredtheinundationtimeasafactoraffectingthenetworktoughness strength. The two metrics of node inundation time and toughness strength for 20 and
+40minwerevisualizedbyGIS,asshowninFigure16. Itcanbeseenfromthefigurethat thenodeswithlowertoughnessstrengthwerefloodedforalongertime.
+RemoteSens.2022,14,3451 22of28
+Figure 16. Diagram of inundation time and toughness strength of nodes at T = 20 min (a) and
+T=40min(b).
+Figure 17 shows the variation of the network toughness strength curve. We fitted it using a linear function to better describe the downward trend of the network. The decreasingtrendofthenetworktoughnessstrengthwashigherthantheabsolutevalue oftheslopeofthefittedcurvewithin40min. Despitethelowtoughnessstrengthofthe nodesthatfloodedduringthistime,theproximitybetweenthenodesresultedinahigh numberoffloodednodes. Thedecreasingtrendofnetworktoughnessstrengthwasalso higherthantheabsolutevalueoftheslopeofthefittedcurveafterthemetrowasflooded for1hand50min. Thenumberoffloodednodesislowduringthistime,buttheflooded nodespossessahightoughnessstrength. Thisalsoaccountedforthehigherabsolutevalue oftheslope.
+Figure17.Networktoughnessstrengthcurve.
+3.3.4. OrganizationRecoveryCapacityEvaluation
+Thedecreasingtrendofnetworktoughnessstrengthwasgreaterin40minthanin theothertimes. Wecouldreasonablyassumethatarescuewithinfortyminuteshasthe highestefficiency. Accordingtotheoptimalrescuetime,emergencyresponsewithin40min afterthemetrofloodedisconsideredeffective. Weusedtheemergencyresponsecoverage of the police and fire departments as a criterion for the organizational resilience of the metronetwork. Thispapertook20minand40minasexamplestocarryoutGISbuffer
+RemoteSens.2022,14,3451 23of28 analysistodeterminethescopeofemergencyresponseservice. The20minand40min emergency coverage of police offices and fire stations were visualized through GIS, as showninFigures18and19.
+Figure18showstherescuerangeofpoliceofficesat20minand40min. WhenTis
+20min,thecoveragerateofthepolicestationtothebreakdownnodesreaches89.29%,and sixmetrostationswerenotcovered. However,onlythreeofthefloodednodeswerenot coveredbytheemergencyserviceswithin40min,andthecoverageratereached97.58%.
+Figure19showstherescuerangeofthefirestationsat20minand40min. WhenTis
+20min,thecoveragerateofthefirestationstothebreakdownnodesis89.29%. WhenTis
+40min,thecoveragerateofthefirestationreaches94.64%. Itcouldbeseenfromthefigure
+Remote Sens. 2022, 14, x FOR PEER REVIEW 24 of 29 thatwhenTis20min,threemetrostationsarenotcovered. WhenTis40min,thethree previouslyinundationnodesarestillnotcovered,butthecoverageratereaches94.64%.
+Figure 18. Emergency response zone at T = 20 min (a) and T = 40 min (b).
+Figure18.EmergencyresponsezoneatT=20min(a)andT=40min(b).
+Article
+Figure 19. Emergency response zone at T = 20 min (a) and T = 40 min (b).
+Figure19.EmergencyresponsezoneatT=20min(a)andT=40min(b).
+Figure 19. Emergency response zone at T = 20 min (a) and T = 40 min (b).
+It can be seen from Figures 18 and 19 that the organization recovery capacity of the metrIot cnaentwboerks eienncrferaosmes Fgirgaudureasll1y8 wainthd t1im9eth bayt tehvealouragtianngi zthatei orenscrueceo rvaenrgye coafp tahcei ttywoo fthe memeterrognenectwy dorekpairntcmreeanstse.s Hgorwadeuvaerll, ythwe inthettwimorek btoyuegvhanleusast isntrgenthgtehr eiss cdueecrreaansigneg oaft tthhee two esmamereg emnocmyednetp. aTrot mmeanxtims.iHzeo twhee vreers,iltihenecne eotwf tohrek etnotuirgeh mneestrsos tnreetnwgotrhki, sadne ecmreearsgienngcya tthe sraemspeonmseo mweitnhti.n T40o mmianx iism oifz teheth heigrheessilti esingcneifiocfanthcee. eTnhtei rreeamsoentr ios tnheattw ino rtkh,e aenveenmt oefr gae ncy rfelsopoodninsge awttiatchkin on40 thme imneistroof ntehtewhoirgkh, ethset seimgnerifigecnancyc er.esTphoenrseea wsoitnhiins t4h0a mtiinn tchane ecvoveenrt ofa flmooordei nthganat 9ta0c%k oofn thteh eflomodeterdo mneettrwoo srtakt,iothnes. emergencyresponsewithin40mincancover
+morethan90%ofthefloodedmetrostations.
+3.4. Resilience Enhancement Discussion of Metro Network
+1. Improve node toughness strength
+Low‐lying spots are prone to water accumulation, but conveniently neglected is that local low‐lying sites are more susceptible to the effects of flooding, even though they are located on relatively high terrain overall. The existence of elevation differences between nodes is also a fundamental reason for the susceptibility of nodes to flooding when performing subsurface flood simulations. The lowest points of the subway stations should be as consistent as possible. Excessive height differences may lead to the rapid spread of flooding.
+The six node characteristics are inversely proportional to the toughness strength of the nodes. The greater the number of nodes connected to the node, the more central the
+Remote Sens. 2022, 14, x. https://doi.org/10.3390/xxxxx www.mdpi.com/journal/remotesensing
+RemoteSens.2022,14,3451 24of28
+3.4. ResilienceEnhancementDiscussionofMetroNetwork
+1. Improvenodetoughnessstrength
+Low-lying spots are prone to water accumulation, but conveniently neglected is that local low-lying sites are more susceptible to the effects of flooding, even though theyarelocatedonrelativelyhighterrainoverall. Theexistenceofelevationdifferences between nodes is also a fundamental reason for the susceptibility of nodes to flooding whenperformingsubsurfacefloodsimulations. Thelowestpointsofthesubwaystations should be as consistent as possible. Excessive height differences may lead to the rapid spreadofflooding.
+Thesixnodecharacteristicsareinverselyproportionaltothetoughnessstrengthofthe nodes.Thegreaterthenumberofnodesconnectedtothenode,themorecentralthelocation, and the higher the GDP density and traffic flow, which will lead to a lower toughness strength and vulnerability of the node. These six characteristics should be balanced in ordertoreducethegapbetweenthetoughnessstrengthsofnodesthroughoutthenetwork.
+However,thisisdifficultinactualpractice. ThelocationofthenodedeterminestheGDP density and traffic flow and inevitably connects multiple nodes due to having a high locationadvantage.
+2. Determinethepriorityofrescueandevacuationnodes
+Beforethemetroisflooded,asintheZhengzhoumetroincident,rainfallmusthave exceeded the local flood warning line. After crossing the warning line, the emergency departmenthastoarrangethedeploymentofmaterials,equipmentandrescueteams,also called“preparationtime”. Ifthisperiodisnotconsidered,reliefeffortswillmissthegolden rescuetimeandfaceseverecasualtiesandeconomiclosses.However,eveniftheemergency departmenthaspreparationtime,rescuetimeisstillnotenoughsincemanymetronodes havebeenflooded,andtheremainingnodesarebeingflooded. Thus,areasonableand efficientrescuestrategyisstillaproblemthatweneedtofocusonduetolimitedresources andtime. Therescueoffloodednodeshasbeenconsideredinthispaper,buttheevacuation of non-flooded nodes has not been studied. Additionally, the evacuation of unflooded nodeshasanimprovementontheorganizationalrecoverycapacityofthemetronetwork.
+Meanwhile,theprioritizationofrescueandevacuationisalsoanimportanttooltoenhance theresilienceofthemetronetworkinthefaceoflimitedresources.
+The longer the flooding inundates the metro, the greater the threat to the lives of trappedpassengers. Inthecaseoflimitedrescueresources,therescueforceshouldprioritizethenodesthathavebeenfloodedforalongtime. Additionally,themetronode’s sixcharacteristicsreflectthecombinedsignificanceofnetworktopologycharacteristics, passengerflow,andeconomicdensity. Torescueefficiently,thecharacteristicsofthenodes shouldbeconsideredwhenimplementingtherescue. Thebreakdownofthemetronetwork at20minand40minisacriticaltimeforimplementingrescue.
+Thepassengerflowinmega-citymetrosreaches10,000peopleeveryday. Asfloodwatersspreadrapidlyandirreversiblywhentheyflowintothesubway,crowdevacuation needstobeimplementedurgentlyatthesubwaynodeswithoutflooding. Consideration shouldbepaidtothetoughnessstrengthofnodesandthecharacteristicsofneighboring nodeswhiledecidingonthepriorityevacuationnodes,asshowninFigure20. Nodeswith lowtoughnessstrengtharelessabletoresistflooding,sothecrowdatthesenodesshould beevacuatedfirst.
+Remote Sens. 2022, 14, x FOR PEER REVIEW 25 of 29 location, and the higher the GDP density and traffic flow, which will lead to a lower toughness strength and vulnerability of the node. These six characteristics should be balanced in order to reduce the gap between the toughness strengths of nodes throughout the network. However, this is difficult in actual practice. The location of the node determines the GDP density and traffic flow and inevitably connects multiple nodes due to having a high location advantage.
+2. Determine the priority of rescue and evacuation nodes
+Before the metro is flooded, as in the Zhengzhou metro incident, rainfall must have exceeded the local flood warning line. After crossing the warning line, the emergency department has to arrange the deployment of materials, equipment and rescue teams, also called “preparation time”. If this period is not considered, relief efforts will miss the golden rescue time and face severe casualties and economic losses. However, even if the emergency department has preparation time, rescue time is still not enough since many metro nodes have been flooded, and the remaining nodes are being flooded. Thus, a reasonable and efficient rescue strategy is still a problem that we need to focus on due to limited resources and time. The rescue of flooded nodes has been considered in this paper, but the evacuation of non‐flooded nodes has not been studied. Additionally, the evacuation of unflooded nodes has an improvement on the organizational recovery
+capacity of the metro network. Meanwhile, the prioritization of rescue and evacuation is also an important tool to enhance the resilience of the metro network in the face of limited resources.
+The longer the flooding inundates the metro, the greater the threat to the lives of trapped passengers. In the case of limited rescue resources, the rescue force should prioritize the nodes that have been flooded for a long time. Additionally, the metro node’s six characteristics reflect the combined significance of network topology characteristics, passenger flow, and economic density. To rescue efficiently, the characteristics of the nodes should be considered when implementing the rescue. The breakdown of the metro network at 20 min and 40 min is a critical time for implementing rescue.
+The passenger flow in mega‐city metros reaches 10,000 people every day. As floodwaters spread rapidly and irreversibly when they flow into the subway, crowd evacuation needs to be implemented urgently at the subway nodes without flooding.
+Consideration should be paid to the toughness strength of nodes and the characteristics of neighboring nodes while deciding on the priority evacuation nodes, as shown in Figure
+RemoteSens.2022,14,3451 25of28
+20. Nodes with low toughness strength are less able to resist flooding, so the crowd at these nodes should be evacuated first.
+Figure 20. Evacuation nodes at T = 20 min (a) and T = 40 min (b).
+Figure20.EvacuationnodesatT=20min(a)andT=40min(b).
+4. Co nclusions
+Inthecontextofglobalwarmingandacceleratedurbanization,pluvialfloodseriously threatens the safe operation of the urban metro. This paper proposed an urban metro nodeinundationriskevaluationapproachbasedonasimplifieddynamicmetrocomplex network,gridshallowwaterdynamicsmodel,andFBWMriskevaluationmethod. Wuhan
+Metrowasselectedasthestudysitetoestimatethefloodriskandemergencyresponse capability during the 100-year flood return period. The conclusions are summarized asfollows:
+1. The article establishes a simplified three-dimensional model of a complex metro network by topological methods while considering the slope directions between stations. Thesimplifieddynamicnetworkofmetronodescombinesthetopological characteristicsofthemetrosystemwiththefeaturesoffloodevolution. Thispaper presentsresearchonurbanmetrofloodriskfromregionalmetronetworkresilience.
+2. The grid hydrodynamic is modeled to fully utilize high-precision DEM data for inundation prediction without preprocessing and meshing, significantly reducing processing time. This alternative model provides comparable results to conventionalsoftwareforregionalmaximumfloodextent,depth,andinundationduration.
+Thegridhydrodynamicmodelperfectlyidentifiedthesurfaceflood-pronepointsin thispaper.
+3. The dynamic node breakdown algorithm was developed to obtain the subsurface flooding node sequence by inputting the node adjacency matrix and the distance betweennodes. Theprincipleofthealgorithmiseasytounderstand. Thecalculation resultsareaccurateandconformtothelawofflooddispersion. Thedynamicnode breakdownalgorithmfinallyobtainsthewholemetronetworkfloodedprocessand thechangeofnodetoughnessstrength.
+4. The node toughness strength was estimated by combining the natural and social attributesofthenodesthroughtheFBWMmethod. Asanewermulti-criteriadecisionmakingmethod,FBWMoptimizestheminimumerrorbynonlinearprogramming equationsandpreservesthefuzzyinformationusingfuzzytriangularnumbers.
+5. Based on the above conclusions, the resilience of the Wuhan metro network was assessed. Therateofdeclineinthetoughnessstrengthofthemetronetworkishigher than0.079andismaximumwithinthefirst40min. Organizationrecoverycapacity duringthisperiodcouldreach94.64%,achievingtherescueofmostfloodednodes. In responsetotheevaluatedresilienceresults,thispaperproposesaresilienceenhancementproposalbasedonimprovingthenodetoughnessstrengthanddeterminingthe priorityofrescueandevacuationnodes.
+RemoteSens.2022,14,3451 26of28
+There are still some inadequacies in this paper. Some indicators were calculated with approximate estimation methods, not relying on accurate and realistic data. For instance,thecalculationofroadaccessibility,consideringthelimitationofthispaper,has notconsideredroadconnectivityandinundationoffloodingaswellaspotentialcongestion causedbytraffic,whichneedstobeenhancedinfuturestudies.
+AuthorContributions:Conceptualization,H.S.andH.J.;methodology,H.S.andM.L.;software,H.S.,
+X.R.andM.L;validation,M.L.andX.R.;formalanalysis,H.S.andM.L.;investigation,H.S.,M.L.and
+W.S.;resources,M.L.,X.R.andW.S.;datacuration,H.S.andM.L.;writing—originaldraftpreparation,
+H.S.andM.L.;writing—reviewandediting,H.S.andM.L.;visualization,H.S.andM.L.;supervision,
+H.S.andM.L.;projectadministration,H.S.;fundingacquisition,H.S.andH.J.Allauthorshaveread andagreedtothepublishedversionofthemanuscript.
+Funding: ThisresearchwasfundedbytheNationalNaturalScienceFoundationofChina,grant numbers41906185,52071307,U1901602,andtheKeyR&DprojectsofShandongProvince,grant numbers2020CXGC010702.
+DataAvailabilityStatement:ThedatapresentedinthisstudywillbeavailableinApril2022here:
+Remote-sensingdata:http://eds.ceode.ac.cn/nuds/freedataquery(accessedon15December2021).
+DEM data: http://www.gscloud.cn (accessed on 20 November 2021). Metro passenger flow in
+Wuhan:https://iwuhan.org/webapps/WuhanMetroFlowDetail/(accessedonaccessedon12January2022).GDPdensity:http://tjj.hubei.gov.cn/tjsj/(accessedon15December2021).Thenumber ofmetrostations:https://www.wuhanrt.com/public_forward.aspx(accessedon20December2021).
+Distancebetweenmetrostations:https://www.wuhanrt.com/public_forward.aspx(accessedon7
+November2021).
+Acknowledgments:Wesincerelythankanonymousreviewersfortheircarefulworkandthoughtful suggestions,whichsignificantlyimprovethisarticle.Atthesametime,wealsothanktheeditorsfor alltheirkindworkandconsiderationonthepublicationofourpaper.
+ConflictsofInterest:Theauthorsdeclarenoconflictofinterest.
+AppendixA
+Correspondence between the serial numbers and names of subway stations. https:
+//pan.baidu.com/s/161Pk8INHBZRRIIuSmeU1JQ?pwd=em9d,accessedon10May2022.
+References
+1. Hapuarachchi, H.A.P.; Wang, Q.J.; Pagano, T.C. Areviewof advancesin flashfloodforecasting. Hydrol. Process. 2011, 25,
+2771–2784.[CrossRef]
+2. Petit-Boix,A.;Sevigné-Itoiz,E.;Rojas-Gutierrez,L.A.;Barbassa,A.P.;Josa,A.;Rieradevall,J.;Gabarrell,X.Floodsandconsequentiallifecycleassessment:IntegratingflooddamageintotheenvironmentalassessmentofstormwaterBestManagementPractices.
+J.Clean.Prod.2017,162,601–608.[CrossRef]
+3. GlobalAssessmentReport2019.Geneva,Switzerland.Availableonline:https://www.undrr.org/publication/global-assessmentreport-disaster-risk-reduction-2019(accessedon2October2021).
+4. Miller,J.D.;Hutchins,M.Theimpactsofurbanizationandclimatechangeonurbanfloodingandurbanwaterquality:Areview oftheevidenceconcerningtheUnitedKingdom.J.Hydrol.Reg.Stud.2017,12,345–362.[CrossRef]
+5. Chan,F.K.S.;Griffiths,J.A.;Higgitt,D.;Xu,S.;Zhu,F.;Tang,Y.;Xu,Y.;Thorne,C.R.“SpongeCity”inChina—Abreakthroughof planningandfloodriskmanagementintheurbancontext.LandUsePolicy2018,76,772–778.[CrossRef]
+6. Hallegatte,S.;Green,C.;Nicholls,R.J.;Corfee-Morlot,J.Futurefloodlossesinmajorcoastalcities. Nat. Clim. Chang. 2013,3,
+802–806.[CrossRef]
+7. Zhou,Q.;Mikkelsen,P.S.;Halsnæs,K.;Arnbjerg-Nielsen,K.Frameworkforeconomicpluvialfloodriskassessmentconsidering climatechangeeffectsandadaptationbenefits.J.Hydrol.2012,414,539–549.[CrossRef]
+8. U.N.WorldUrbanizationProspects: The2018Revision. 2018. Availableonline: https://www.un.org/development/desa/ publications/2018-revision-of-world-urbanization-prospects.html(accessedon10October2021).
+9. Pour,S.H.;AbdWahab,A.K.;Shahid,S.;Asaduzzaman,M.;Dewan,A.Lowimpactdevelopmenttechniquestomitigatethe impactsofclimate-change-inducedurbanfloods: Currenttrends,issuesandchallenges. Sustain. CitiesSoc. 2020,62,102373.
+[CrossRef]
+10. Li,L.Y.;Uyttenhove,P.;Vaneetvelde,V.Planninggreeninfrastructuretomitigateurbansurfacewaterfloodingrisk—AmethodologytoidentifypriorityareasappliedinthecityofGhent.Landsc.UrbanPlan.2020,194,103703.[CrossRef]
+RemoteSens.2022,14,3451 27of28
+11. Nguyen,T.T.;Ngo,H.H.;Guo,W.S.;Wang,X.C.C.;Ren,N.Q.;Li,G.B.;Ding,J.;Liang,H.Implementationofaspecificurban watermanagement—SpongeCity.Sci.TotalEnviron.2019,652,147–162.[CrossRef]
+12. UITP.WorldMetroFigures2018.2018.Availableonline:https://cms.uitp.org/wp/wp-content/uploads/2020/06/Statistics-
+Brief-World-metro-figures-2018V3_WEB.pdf(accessedon11October2021).
+13. Lyu,H.;Zhou,W.;Shen,S.;Zhou,A.InundationriskassessmentofmetrosystemusingAHPandTFN-AHPinShenzhen.Sustain.
+CitiesSoc.2020,56,102103.[CrossRef]
+14. Forero-Ortiz,E.;Martínez-Gomariz,E.;CañasPorcuna,M.Areviewoffloodimpactassessmentapproachesforunderground infrastructuresinurbanareas:Afocusontransportsystems.Hydrol.Sci.J.2020,65,1943–1955.[CrossRef]
+15. Alfieri,L.;Feyen,L.;Dottori,F.;Bianchi,A.EnsemblefloodriskassessmentinEuropeunderhighendclimatescenarios.Glob.
+Environ.Chang.2015,35,199–212.[CrossRef]
+16. Jongman,B.;Hochrainer-Stigler,S.;Feyen,L.;Aerts,J.C.;Mechler,R.;Botzen,W.J.;Bouwer,L.M.;Pflug,G.;Rojas,R.;Ward,P.J.
+Increasingstressondisaster-riskfinanceduetolargefloods.Nat.Clim.Chang.2014,4,264–268.[CrossRef]
+17. Aerts,J.C.;Botzen,W.J.;Clarke,K.C.;Cutter,S.L.;Hall,J.W.;Merz,B.;Michel-Kerjan,E.;Mysiak,J.;Surminski,S.;Kunreuther,H.
+Integratinghumanbehaviourdynamicsintoflooddisasterriskassessment.Nat.Clim.Chang.2018,8,193–199.[CrossRef]
+18. Lyu,H.M.;Shen,S.L.;Zhou,A.N.;Yang,J.Riskassessmentofmega-cityinfrastructuresrelatedtolandsubsidenceusingimproved trapezoidalFAHP.Sci.TotalEnviron.2020,717,135310.[CrossRef]
+19. Lyu,H.;Sun,W.;Shen,S.;Arulrajah,A.Floodriskassessmentinmetrosystemsofmega-citiesusingaGIS-basedmodeling approach.Sci.TotalEnviron.2018,626,1012–1025.[CrossRef]
+20. Wang,G.;Liu,Y.;Hu,Z.;Zhang,G.;Liu,J.;Lyu,Y.;Gu,Y.;Huang,X.;Zhang,Q.;Liu,L.FloodRiskAssessmentofSubway
+SystemsinMetropolitanAreasunderLandSubsidenceScenario:ACaseStudyofBeijing.RemoteSens.2021,13,637.[CrossRef]
+21. Yin,J.;Yu,D.P.;Yin,Z.;Liu,M.;He,Q.Evaluatingtheimpactandriskofpluvialflashfloodonintra-urbanroadnetwork:Acase studyinthecitycenterofShanghai,China.J.Hydrol.2016,537,138–145.[CrossRef]
+22. Suarez,P.; Anderson,W.; Mahal,V.; Lakshmanan,T.R.Impactsoffloodingandclimatechangeonurbantransportation: A systemwideperformanceassessmentoftheBostonMetroArea.Transp.Res.PartDTransp.Environ.2005,10,231–244.[CrossRef]
+23. VonFerber,C.;Holovatch,T.;Holovatch,Y.;Palchykov,V.Publictransportnetworks:Empiricalanalysisandmodeling.Eur.Phys.
+J.B2009,68,261–275.[CrossRef]
+24. Derrible,S.;Kennedy,C.Thecomplexityandrobustnessofmetronetworks.Phys.A2010,389,3678–3691.[CrossRef]
+25. Zhang,D.;Du,F.;Huang,H.;Zhang,F.;Ayyub,B.M.;Beer,M.Resiliencyassessmentofurbanrailtransitnetworks:Shanghai metroasanexample.Saf.Sci.2018,106,230–243.[CrossRef]
+26. Zhang,J.;Wang,Z.;Wang,S.;Shao,W.;Zhao,X.;Liu,W.Vulnerabilityassessmentsofweightedurbanrailtransitnetworkswith integratedcoupledmaplattices.Reliab.Eng.Syst.Saf.2021,214,107707.[CrossRef]
+27. Wu, X.T.; Dong, H.R.; Tse, C.K.; Ho, I.W.H.; Lau, F.C.M.Analysisofmetronetworkperformancefromacomplexnetwork perspective.Phys.A2018,492,553–563.[CrossRef]
+28. Gao,B.;Qin,Y.;Xiao,X.;Zhu,L.K-meansClusteringAnalysisofKeyNodesandEdgesinBeijingSubwayNetwork.J.Transp.
+Syst.Eng.Inf.Technol.2014,14,207–213.
+29. Yao,L.; Sun,L.; Wang,W.; Xia,X.ConnectionFacilityLayoutModelofSubwayStations. Adv. Mech. Eng. 2015,7,457508.
+30. Kurant,M.;Thiran,P.Extractionandanalysisoftrafficandtopologiesoftransportationnetworks.Phys.Rev.E2006,74,036114.
+31. Yinghua,S.;Yuzhi,L.;Feizhou,H.;Yiyun,M.VulnerabilityofTwo-layerTrafficNetworkofBusandSubwayunderWaterlogging
+ConditionBasedonComplexNetworkTheory.Saf.Environ.Eng.2021,28,114–120.
+32. Zou,Q.;Zhou,J.;Zhou,C.;Song,L.;Guo,J.Comprehensivefloodriskassessmentbasedonsetpairanalysis-variablefuzzysets modelandfuzzyAHP.Stoch.Environ.Res.RiskAssess.2013,27,525–546.[CrossRef]
+33. Gai,L.;Nunes,J.P.;Baartman,J.E.M.;Zhang,H.;Wang,F.;deRoo,A.;Ritsema,C.J.;Geissen,V.Assessingtheimpactofhuman interventionsonfloodsandlowflowsintheWeiRiverBasininChinausingtheLISFLOODmodel.Sci.TotalEnviron.2019,653,
+1077–1094.[CrossRef]
+34. Anderson,M.;Kavvas,M.;Mierzwa,M.Developingprobabilisticrepresentationsofclimaticinfluencesonhydrologicalresponse usingacoupledhydrological-atmosphericmodel.Hydrolog.Sci.J.2003,48,693–708.[CrossRef]
+35. Dottori,F.;Martina,M.L.V.;Figueiredo,R.Amethodologyforfloodsusceptibilityandvulnerabilityanalysisincomplexflood scenarios.J.FloodRiskManag.2018,11,S632–S645.[CrossRef]
+36. MIKE21-2DModellingofCoastandSea.Availableonline:https://www.mikepoweredbydhi.com/areas-of-application/coastand-sea(accessedon18October2021).
+37. EvaluationofInundationModels.Availableonline:https://xueshu.baidu.com/usercenter/paper/show?paperid=1b23e91716 eed7b35c353be76309e5ae&site=xueshu_se(accessedon21October2021).
+38. Benchmarkingof2DHydraulicModellingPackages.Availableonline:https://www.researchgate.net/publication/257343214_
+Benchmarking_of_2D_Hydraulic_Modelling_Packages(accessedon21October2021).
+39. Teng,J.;Jakeman,A.J.;Vaze,J.;Croke,B.F.W.;Dutta,D.;Kim,S.Floodinundationmodelling: Areviewofmethods,recent advancesanduncertaintyanalysis.Environ.Modell.Softw.2017,90,201–216.[CrossRef]
+RemoteSens.2022,14,3451 28of28
+40. Wilson,M.;Bates,P.;Alsdorf,D.;Forsberg,B.;Horritt,M.;Melack,J.;Frappart,F.;Famiglietti,J.Modelinglarge-scaleinundation ofAmazonianseasonallyfloodedwetlands.Geophys.Res.Lett.2007,34,L15404.
+41. Zheng,Y.Z.;Sun,H.AnIntegratedApproachfortheSimulationModelingandRiskAssessmentofCoastalFlooding.Water2020,
+12,2076.[CrossRef]
+42. Ishigaki,T.;Toda,K.;Inoue,K.Hydraulicmodeltestsofinundationinurbanareawithundergroundspace.InProceedingsofthe
+30thIAHRCongress,Thessaloniki,Greece,24–29August2003;pp.487–493.
+43. Toda,K.;Kawaike,K.;Yoneyama,N.;Fukakusa,S.;Yamamoto,D.UndergroundInundationAnalysisbyIntegratedUrbanFlood
+Model.InAdvancesinWaterResourcesandHydraulicEngineering;Zhang,C.K.,Tang,H.W.,Eds.;Springer:Nanjing,China,2009;
+Volume1–6,pp.166–171.
+44. Yoneyama,N.;Toda,K.;Aihata,S.;Yamamoto,D.NumericalAnalysisforEvacuationPossibilityfromSmallUndergroundSpace inUrbanFlood.InAdvancesinWaterResourcesandHydraulicEngineering;Zhang,C.K.,Tang,H.W.,Eds.;Springer:Nanjing,China,
+2009;Volume1–6,pp.107–112.
+45. Wu,J.S.;Li,N.;Liu,W.Y.;Zhou,S.L.Numericalmodelingoffloodingcurrentflowovertheundergroundcomplexstaircaseswith aGPU-basedSPHmethod.J.Saf.Environ.2019,19,774–779.
+46. Forero-Ortiz,E.;Martinez-Gomariz,E.;Porcuna,M.C.;Locatelli,L.;Russo,B.FloodRiskAssessmentinanUndergroundRailway
+SystemundertheImpactofClimateChange—ACaseStudyoftheBarcelonaMetro.Sustainability2020,12,5291.[CrossRef]
+47. Shao,W.Criticalrainfallintensityforsafeevacuationfromundergroundspaceswithfloodpreventionmeasures. J.Zhejiang
+Univ-Sci.A2010,11,668–676.[CrossRef]
+48. Wu,J.S.;Shengdi,X.;Hui,Z.Areviewofexperimentalandnumericalsimulationstudiesonfloodinginurbanunderground spaces.ChinaSaf.Sci.J.2016,26,1–6.
+49. Wu,J.;Fang,W.;Hu,Z.;Hong,B.ApplicationofBayesianApproachtoDynamicAssessmentofFloodinUrbanUnderground
+Spaces.Water2018,10,1112.[CrossRef]
+50. Son,A.;Kim,B.;Han,K.ASimpleandRobustMethodforSimultaneousConsiderationofOverlandandUndergroundSpacein
+UrbanFloodModeling.Water2016,8,494.[CrossRef]
+51. Han,Y.;Shin,E.T.;Eum,T.S.;Song,C.G.InundationRiskAssessmentofUndergroundSpaceUsingConsequence-Probability
+Matrix.Appl.Sci.2019,9,1196.[CrossRef]
+52. Kazakis,N.;Kougias,I.;Patsialis,T.Assessmentoffloodhazardareasataregionalscaleusinganindex-basedapproachand
+AnalyticalHierarchyProcess:ApplicationinRhodope-Evrosregion,Greece.Sci.TotalEnviron.2015,538,555–563.[CrossRef]
+53. Lyu,H.;Shen,S.;Zhou,A.;Zhou,W.Floodriskassessmentofmetrosystemsinasubsidingenvironmentusingtheinterval
+FAHP-FCAapproach.Sustain.CitiesSoc.2019,50,101682.[CrossRef]
+54. Xu,H.;Ma,C.;Lian,J.;Xu,K.;Chaima,E.Urbanfloodingriskassessmentbasedonanintegratedk-meansclusteralgorithmand improvedentropyweightmethodintheregionofHaikou,China.J.Hydrol.2018,563,975–986.[CrossRef]
+55. Yang,W.;Xu,K.;Lian,J.;Ma,C.;Bin,L.IntegratedfloodvulnerabilityassessmentapproachbasedonTOPSISandShannon entropymethods.Ecol.Indic.2018,89,269–280.[CrossRef]
+56. Zhao, Y.; Gong, Z.; Wang, W.; Luo, K.ThecomprehensiveriskevaluationonrainstormandflooddisasterlossesinChina mainlandfrom2004to2009:Basedonthetriangulargraycorrelationtheory.Nat.Hazards.2014,71,1001–1016.[CrossRef]
+57. Guo,S.;Zhao,H.Fuzzybest-worstmulti-criteriadecision-makingmethodanditsapplications. Knowl.-BasedSyst. 2017,121,
+23–31.[CrossRef]
+58. Rezaei,J.Best-worstmulti-criteriadecision-makingmethod.Omega2015,53,49–57.[CrossRef]
+59. Kourgialas,N.N.; Karatzas,G.P.Anationalscalefloodhazardmappingmethodology: ThecaseofGreece—Protectionand adaptationpolicyapproaches.Sci.TotalEnviron.2017,601,441–452.[CrossRef]
+60. Tehrany,M.S.;Pradhan,B.;Mansor,S.;Ahmad,N.FloodsusceptibilityassessmentusingGIS-basedsupportvectormachine modelwithdifferentkerneltypes.Catena2015,125,91–101.[CrossRef]
+61. Wang,Z.;Lai,C.;Chen,X.;Yang,B.;Zhao,S.;Bai,X.Floodhazardriskassessmentmodelbasedonrandomforest.J.Hydrol.2015,
+527,1130–1141.[CrossRef]
+62. Du,Z.;Tang,J.;Qi,Y.;Wang,Y.;Han,C.;Yang,Y.Identifyingcriticalnodesinmetronetworkconsideringtopologicalpotential:A casestudyinShenzhenCity-China.Phys.A2020,539,122926.[CrossRef]
+63. WuhanLocalStandardsDB4201/T6412020.Wuhan,China.Availableonline:https://max.book118.com/html/2021/0123/7116
+125135003045.shtm(accessedon6February2022).

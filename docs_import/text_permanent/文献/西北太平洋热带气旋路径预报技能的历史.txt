@@ -1,0 +1,117 @@
+JUNE2004 NOTES AND CORRESPONDENCE 633
+A History of Western North Pacific Tropical Cyclone Track Forecast Skill
+JAMES S. GOERSS AND CHARLES R. SAMPSON
+NavalResearchLaboratory,Monterey,California
+JAMES M. GROSS
+TropicalPredictionCenter,NationalHurricaneCenter,Miami,Florida
+12June2003and31October2003
+ABSTRACT
+Thetropicalcyclone(TC)trackforecastingskillofoperationalnumericalweatherprediction(NWP)models and their consensus is examined for the western North Pacific from 1992 to 2002. The TC track forecasting skilloftheoperationalNWPmodelsissteadilyimproving.ForthewesternNorthPacific,thetypical72-hmodel forecast error has decreased from roughly 600 km to roughly 400 km over the past ten years and is now comparabletothetypical48-hmodelforecasterrorof10yearsago.Inthisstudytheperformanceofconsensus aidsthatareformedwhenevertheTCtrackforecastsfromatleasttwomodelsfromaspecifiedpoolofoperational
+NWPmodels are available is examined. The 72-h consensus forecast error has decreased from about 550 km toroughly310kmoverthepasttenyearsandisnowbetterthanthe48-hconsensusforecasterrorof10years ago.For2002,the72-hforecasterrorsforaconsensuscomputedfromaspecifiedpooloftwo,five,seven,and eight models were 357, 342, 329, and 309 km, respectively. The consensus forecast availability is defined as the percent of the time that consensus forecasts were available to the forecaster when he/she was required to make a TC forecast. While the addition of models to the consensus has a modest impact on forecast skill, it has a more marked impact on consensus forecast availability. The forecast availabilities for 72-h consensus forecastscomputedfromapooloftwo,five,seven,andeightmodelswere84%,89%,92%,and97%,respectively.
+1. Introduction threemodelsaretheU.K.MeteorologicalOfficeglobal model (UKMO; Cullen 1993; Heming et al. 1995), the
+Overthepastdecadethenumberofnumericalweath-
+National Centers forEnvironmentalPrediction(NCEP) erprediction(NWP)modelscapableofproducinghigh-
+GlobalForecastSystem(GFS;Lord1993),andthefifthqualitytropicalcyclone(TC)trackforecastshasgrown.
+generation Pennsylvania State University–National
+Today, for the western North Pacific, forecasters atthe
+Center for Atmospheric Research Mesoscale Model
+Joint Typhoon Warning Center (JTWC) routinely use (MM5) run operationally by the Air Force Weather
+TCtrackforecastsfromeightoperationalNWPmodels.
+Agency (AFWA; Grell et al. 1995). A time line indi-
+ThreeofthesemodelsarerunoperationallyattheFleet cating when TC track forecasts from these eight NWP
+Numerical Meteorology and Oceanography Center models became available to the forecasters at JTWC is (FNMOC): the Navy Operational Global Atmospheric displayed in Fig. 1.
+Prediction System (NOGAPS; Hogan and Rosmond
+Thebenefitsofconsensusforecastinghavelongbeen
+1991; Goerssand Jeffries1994),theGeophysicalFluid recognized by the meteorological community (Sanders
+Dynamics Laboratory (GFDL) Hurricane Prediction
+1973;Thompson1977).LeslieandFraedrich(1990)and
+System(GFDN;Kuriharaetal.1993,1995,1998;Ren-
+Mundell and Rupp (1995) applied this approach to TC nick 1999), and the Coupled Ocean–Atmosphere Metrack prediction and illustrated the forecast improvesoscale Prediction System (COAMPS; Hodur 19971).
+ment that resulted from using linear combinations of
+Two models are run operationally at the Japan Meteoforecasts from various TC track prediction models.
+rologicalAgency(Kuma1996):theglobalspectralmod-
+Goerss(2000)firstillustratedthesuperiorTCtrackforeel (GSM) and typhoon model (TYM). The remaining castingperformanceofsimpleensembleaverageorconsensusforecastsformedusingoperationalNWPmodels.
+1COAMPSisatrademarkoftheNavalResearchLaboratory. For the western North Pacific in 1997 he demonstrated thattheTCtrackforecasterrorsforbothaglobal-model consensus (GSM, NOGAPS, and UKMO) and a re-
+Corresponding author address: James S. Goerss, NRL, 7 Grace gional-model consensus (GFDN and TYM) were sig-
+HopperAve.Stop2,Monterey,CA93943-5502.
+E-mail:goerss@nrlmry.navy.mil nificantly less than the errors for the best of the indi-
+Brought to you by Shanghai University of Engineering Science | Unauthenticated | Downloaded 11/04/25 10:43 AM UTC
+634 WEATHER AND FORECASTING VOLUME19 cludesalinearinterpolatortofillinmissing12-and36h forecasts, a forecast position check (the 6-h/12-h old
+NWP model 6-h/12-h interpolated forecast position mustbewithin333kmofthecurrentforecasteranalyzed position), and a forecast track speedcheck(60-ktmaximum)forallforecastperiodsbeyond12h.NWPmodel interpolated tracks that fail the 12-h forecast position check are eliminated from the interpolator, while those failing the 60-kt speed check are truncated before the
+60-kt speed is encountered.
+A consensus for a given forecast period is a simple average of the interpolated members that pass the interpolator quality control tests described above. An attempt is made to compute a consensus forecast at the
+12-, 24-, 36-, 48-, 72-, 96-, and 120-h forecastperiods.
+This consensus is computed if two or more members
+FIG. 1. Time line indicating when TC track forecasts from the exist for a given forecast period. If lessthan twomemoperational NWP models became available to the forecasters at
+JTWC. bers exist, the consensus is not computed.
+3. Results and conclusions vidual models. Versions of these global- and regionalmodel consensuses were installed on the Automated First, we examine the forecast performance of the
+TropicalCycloneForecastingSystem(ATCF;Sampson interpolatedversionsofthethreeNWPmodelsthathave and Schrader 2000) in 1998 and run operationally (al- beenavailabletotheJTWCforecasterssince1992:NOthough somewhatintermittently)duringthe1998–2000 GAPS, UKMO, and TYM. The12-h forecasterrorsfor seasons. Elsberry and Carr (2000) expanded upon this the three models from 1992 to 2002 are displayed in workandmadeafive-modelconsensus(usingthemod- Fig. 2a. We see that the forecast errors for the three els from the Goerss global-model consensus and re- models declined over the decade from about 120–165 gional-model consensus) an integral part of the expert km to just under 100 km. The 24-h forecast errors for system developed for use by the TC forecasters at the three models declined from about 220–275 km to
+JTWC, the Systematic Approach Forecasting Aid under 170 km (Fig. 2b). SimilarresultsareseeninFig.
+(SAFA; Peak et al. 2000; Carr et al. 2001). Currently, 2c for the 48-h forecast errors, which have improved consensus forecast aids are routinely used by the fore- fromabout430–520kmtoabout300kmbetween1992 castersatbothJTWCandtheNationalHurricaneCenter. and 2002. Finally, we see in Fig. 2d that the72-hfore-
+In the next section we describe how the TC forecast cast errors declined from roughly 600 km in 1992 to tracks from the individual NWP models are prepared justover400kmin2002.OverthedecadeNWPmodel for use and how a consensus forecast is determined.In forecastshaveimprovedsothat24-hforecaststodayare section 3, we examine the forecast performanceforthe onlyalittleworsethan12-hforecastsintheearly1990s, western North Pacific of individual NWP models and and 72-h forecasts today are better than 48-h forecasts various consensus forecasts since 1992 and conclude from the early 1990s.
+with a summary ofourresultsandadiscussionoftheir Forecast performance since 1992 of consensus foreimplications for the future. castscreatedfromtheinterpolatedversionsoftheeight
+NWPmodelsshowninFig.1wasexamined.Whilethe total number of models available to these consensus
+2. Methods
+forecasts varies, we only require that forecasts from at
+Forecast tracks discussed in this paper areprocessed least two of the models be available to create a conastheywouldbeinanoperationalsetting.Sinceforecast sensus forecast. Henceforth, we will identify the contrack output for the NWP models become available to sensus forecasts by the number of models in the spectheforecaster6or12hafterNWPmodelruntime,they ified poolof modelsfromwhichtheconsensusforecast arrive too late to be used directly. Instead, the NWP iscreated.Forexample,asillustratedinFig.1,thepool modeltracksareinterpolatedtointermediatetimes,and for the three-model consensus consists of NOGAPS, then interpolated positions are relocated to reflect the UKMO, and TYM, while the pool for the five-model forecaster-analyzed(besttrack)position.Theversionof consensus consists of those three models along with theinterpolatorusedinthisstudyincludesacubicspline GFDN and GSM. Thus, for the five-model consensus,
+(M.DeMaria2000,personalcommunication)anda10- consensusforecastscanbecreatedwhenforecastsfrom pass,3-pointfilter.Allinterpolatedtracksarecomputed two, three, four, or five models are available. For each from real-time tracks, not postseason analyzed tracks forecast length, the consensus forecast is merely the (best tracks). Quality control for the interpolator in- arithmetic mean of individual forecasts of available
+JUNE2004 NOTES AND CORRESPONDENCE 635
+FIG.2.Meanpositionerrors(km)forNOGAPS(triangles),UKMO(squares),andTYM(dashedline)(a)12-(b)24-(c)48-,and(d)72-h forecastsforthewesternNorthPacific(1992–2002).
+members.The12-hforecasterrorsforvariousconsensus 2), over the decade consensus forecasts haveimproved forecastsfrom1992–2002aredisplayedinFig.3a.The so that 24-h forecasts today are only alittleworsethan steady decline in the forecast error of the three-model 12-h forecasts from the early 1990s,and72-hforecasts consensus over the decadefrom about120kmtoabout today are better than 48-h forecasts from the early
+80kmisindicativeofimprovementsmadetoindividual 1990s.
+NWP models that make up the three-model consensus Wehaveseenthatadditionofmodelstotheconsensus (NOGAPS, UKMO, and TYM). Making more models results in small but consistent gains in skill. For exavailable to consensus has resulted in smallbutconsis- ample, in 2002, the errors for the two-, five-, seven-, tentgainsinskill.For2002,forecasterrorforthethree- and eight-model-consensus 72-h forecasts were 357, model consensus was about 80 km, while that for the 342, 329, and 309 km, respectively. However, this is eight-model consensus was just less than 75 km. We not the only benefit of making more models available see similar results for all forecast lengths. The 24-h to the consensus. By increasing the number of models forecast error of the three-model consensus declined inthespecifiedpoolavailabletotheconsensus,wemake from about 185 km to about 135 km over the decade it more likely that forecasts from at least two models
+(Fig. 3b), while for the eight-model consensus in 2002 will be available and that a consensus forecast can be itwasjustlessthan120km.InFig.3c,the48-hforecast formed. In Fig. 4, the availability percentages for the errorofthethree-modelconsensusdeclinedfromabout various consensus models in 2002 are displayed. We
+350 km in 1992 to about 250 km in 2002, while that definetheforecastavailabilitypercentagetobetheperfor the eight-model consensus in 2002 was about 210 centofthetimethatconsensusforecastswereavailable km. Finally, the 72-h forecast error of the two-model to the JTWC forecaster when he/she was required to consensus(NOGAPSandUKMO)declinedfromabout make a TC forecast. In 2002, the availability percent-
+550 km to about 360 km over the decade (Fig. 3d), ages for the two-, five-, seven-, and eight-model-conwhilefortheeight-modelconsensusin2002itwasabout sensus 72-h forecasts were 84%, 89%, 92%, and 97%,
+310 km. As we saw for individual NWP models (Fig. respectively.Byincreasingthenumberofmodelsinthe
+636 WEATHER AND FORECASTING VOLUME19
+FIG.3.AsinFig.2,butforthethree-model(solidline),five-model(dashedline),seven-model(triangles),andeight-model(squares) consensuses.Thenumberofcasesappearsbeloweachyearinparentheses.
+specified pool from two to eight, we have significantly increased the percent of the time that forecasts fromat leasttwoofthemodelsareavailablesothataconsensus forecast can be created. For all forecast lengths, the availability of the five-model consensus ranged from
+89% to 94%, while that for the eight-model consensus ranged from 97% to 98%. To an operationalforecaster, this increase in availability may be just as valuable as the increase in forecast skill.
+The forecast difficulty level (FDL) for a particular year is defined as the forecast error of a climatology and persistence (CLIPER) model run on best-trackinitial data (Neumann 1981). The FDLs for the western
+North Pacific for 1992–2002 were 169, 405, and 611 kmat24,48,and72h,respectively.Thesevaluescompare quite closely with the values reportedbyMcBride and Holland (1987) of 183, 417, and 632 km. The percentimprovement(positivevalues)ordegradation(neg-
+FIG.4.Forecastavailabilitypercentagefortheeight-model(solid ative values) with respect to best-track CLIPER of the black),seven-model(descendinghatch),five-model(solidgray),and various consensus forecasts is displayed in Fig. 5. For three-model (ascending hatch) consensuses for the western North
+Pacificin2002. the three-model consensus the 12-h forecast skill in-
+JUNE2004 NOTES AND CORRESPONDENCE 637
+FIG.5.AsinFig.3,butforpercentimprovement(indicatedbyapositivenumber)ordegradation(indicatedbyanegativenumber)with respecttobest-trackCLIPER.Thenumberofcasesappearsbeloweachyearinparentheses.
+creased from nearly 90% in 1992 to about 15% in similar improvement in consensus forecasts created
+2002 (Fig. 5a). Once again, we see that making more from these NWP models. We have also seen that the models available to the consensus has resultedinsmall additionofmodelstotheconsensusresultsinimprovebut consistent gains in skill. For 2002, 12-h forecast ments to both consensus track forecast skill and conskill increased from about 15% for the three-model sensus forecast availability. Finally, we have seen the consensustoabout5%fortheeight-modelconsensus. forecasters successfullyintegrateconsensusforecasting
+The 24-h forecast skill for the three-model consensus intotheiroperationalproceduresatJTWC.Whileaconincreased from about 20% in 1992 to nearly 20% in sensus demonstrates superior performancewithrespect
+2002 (Fig. 5b), while the forecast skill for the eight- totheindividualNWPmodelsinthelongrun,forecasts modelconsensusin2002wasgreaterthan25%.InFig. fromindividualmodelscancertainlyoutperformacon-
+5c, we see that the 48-h forecast skill for the three- sensus in the short run. The forecasters use consensus modelconsensusincreasedfromlessthan10%togreat- as a baseline or starting point, then modifytheforecast er than 30% over the decade, while that for the eight- astheyseefit.Inthefuture,astheTCtrackforecasting model consensus in 2002 increased further, to greater skill of NWP models continues to improve and more than 40%. Finally, the 72-h forecast skill for the two- high-quality NWP models become available, we can model consensus increased from less than 5% in 1992 lookforwardtofurtherimprovementinconsensustrack toabout40%in2002(Fig.5d),whilethatfortheeight- forecast skill and forecast availability.
+model consensus increased further, to nearly 50%.
+In conclusion, we have seen that the TC track fore- Acknowledgments. The authors would like to accasting skill of NWP models for the western NorthPa- knowledge Ann Schrader for her work with the ATCF cific has improved dramatically over the past decade read/write utilities, Mark DeMaria for development of
+(1992–2002). This improvement has contributed to a the spline interpolator, Mike Fiorino for his invaluable
+638 WEATHER AND FORECASTING VOLUME19 vortex trackers, and theentirestaffatJTWCforadvice schemeofhurricanemodelsbyvortexspecification.Mon.Wea.
+and the care and feeding required to make a consensus Rev.,121,2030–2045.
+——,——,R.E.Tuleya,andR.J.Ross,1995:Improvementsinthe workinanoperationalsetting.Thisworkwassupported
+GFDLhurricanepredictionsystem.Mon.Wea.Rev.,123,2791– bytheOceanographeroftheNavythroughtheprogram 2801.
+office at the Space and Naval Warfare Systems Com- ——, R. E. Tuleya, and M. A. Bender, 1998: The GFDLhurricane mand (PMW-150), Program Element 0603207N. prediction system and its performance in the 1995 hurricane season.Mon.Wea.Rev.,126,1306–1322.
+Leslie,L.M.,andK.Fraedrich,1990:Reductionoftropicalcyclone position errors using an optimal combination of independent
+REFERENCES forecasts.Wea.Forecasting,5,158–161.
+Lord, S. J., 1993: Recent developments in tropical cyclone track
+Carr, L. E., R. L. Elsberry, and J. E. Peak, 2001: Beta test of the forecastingwiththeNMCglobalanalysisandforecastsystem.
+systematic approach expert system prototype as a tropical cy- Preprints,20thConf.onHurricanesandTropicalMeteorology, clonetrackforecastingaid.Wea.Forecasting,16,355–368. SanAntonio,TX,Amer.Meteor.Soc.,290–291.
+Cullen,M.J.P.,1993:TheUnifiedForecast/ClimateModel.Meteor. McBride,J.,andG.Holland,1987:Tropical-cycloneforecasting:A
+Mag.,122,81–122. worldwide summary of techniques and verification statistics.
+Elsberry,R.L.,andL.E.Carr,2000:Consensusofdynamicaltropical Bull.Amer.Meteor.Soc.,68,1230–1238.
+cyclonetrackforecasts—Errorsversusspread.Mon.Wea.Rev., Mundell, D. B., and J. A. Rupp, 1995: Hybrid forecast aids at the
+128,4131–4138. Joint Typhoon Warning Center: Applications and results. Pre-
+Goerss,J.S.,2000:Tropicalcyclonetrackforecastsusinganensem- prints,21stConf.onHurricanesandTropicalMeteorology,Mibleofdynamicalmodels.Mon.Wea.Rev.,128,1187–1193. ami,FL,Amer.Meteor.Soc.,216–218.
+——, and R. A. Jeffries, 1994: Assimilation of synthetic tropical Neumann,C.,1981:TrendinforecastingthetracksofAtlantictropcyclone observations into the Navy Operational Global Atmo- icalcyclones.Bull.Amer.Meteor.Soc., 62,1473–1485.
+sphericPredictionSystem.Wea.Forecasting,9,557–576. Peak,J.E.,L.E.Carr,andR.L.Elsberry,2000:Developingasys-
+Grell, G. A., J. Dudhia, and D. R. Stauffer, 1995: A description of tematic approach to tropical cyclone track forecasting expert thefifth-generationPennState/NCARMesoscaleModel(MM5). system—1:Informationmanagement,visualization,andproac-
+NCARTech.NoteNCAR/TN-398STR,122pp.
+tivity considerations. Preprints, 24th Conf. on Hurricanes and
+Heming,J.T.,J.C.L.Chan,andA.M.Radford,1995:Anewscheme TropicalMeteorology,Ft.Lauderdale,FL,Amer.Meteor.Soc., for the initialization of tropical cyclones in the UK Meteoro- 502–503.
+logicalOfficeglobalmodel.Meteor.Appl.,2,171–184. Rennick, M. A., 1999: Performance of the Navy’s tropical cyclone
+Hodur, R. M., 1997: The Naval Research Laboratory’s Coupled predictionmodelinthewesternNorthPacificbasinduring1996.
+Ocean/Atmosphere Mesoscale Prediction System (COAMPS). Wea.Forecasting,14,3–14.
+Mon.Wea.Rev.,125,1414–1430. Sampson,C.R.,andA.J.Schrader,2000:TheAutomatedTropical
+Hogan,T.F.,andT.E.Rosmond,1991:ThedescriptionoftheNavy CycloneForecastingSystem(Version3.2).Bull.Amer.Meteor.
+Operational Global Atmospheric Prediction System’s spectral Soc.,81,1131–1240.
+forecastmodel.Mon.Wea.Rev.,119,1786–1815. Sanders,F.,1973:Skillinforecastingdailytemperatureandprecip-
+Kuma, K., 1996: NWP activities at Japan Meteorological Agency. itation:Someexperimentalresults.Bull.Amer.Meteor.Soc.,54,
+Preprints,11thConf.onNumericalWeatherPrediction,Norfolk, 1171–1179.
+VA,Amer.Meteor.Soc.,J15–J16. Thompson, P. D., 1977: How to improve accuracy by combining
+Kurihara, Y., M. A. Bender,andR. J.Ross,1993: Aninitialization independentforecasts.Mon.Wea.Rev.,105,228–229.

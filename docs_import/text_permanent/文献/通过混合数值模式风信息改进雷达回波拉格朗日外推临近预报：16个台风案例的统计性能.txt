@@ -1,0 +1,424 @@
+MARCH2020 CHUNG AND YAO 1099
+Improving Radar Echo Lagrangian Extrapolation Nowcasting by Blending Numerical
+Model Wind Information: Statistical Performance of 16 Typhoon Cases
+KAO-SHENCHUNGANDI-ANYAO
+DepartmentofAtmosphericSciences,NationalCentralUniversity,TaoyuanCity,Taiwan (Manuscriptreceived13June2019,infinalform4October2019)
+ABSTRACT
+Severeweathernowcastingisacrucialmissionofatmosphericscienceforthebettermentofsocietytosave life,limb,andproperty.Inthisstudy,compositeradardatafromtheCentralWeatherBureauof16typhoons arecollectedtoexaminethestatisticalperformanceoftheMcGillAlgorithmforPrecipitationnowcasting using Lagrangian Extrapolation (MAPLE) over Taiwan, an extrapolation algorithm that predicts future precipitationbasedoncurrentradarechoes.Inaddition,insteadofmixingtheprecipitationbetweenradar extrapolationandnumericalmodelforecastasinpreviousstudies,ablendingsystemisformedbysynthesizingthewindinformationfrommodelforecastwiththeechoextrapolationmotionfieldviaavariational algorithmtoimprovethenowcastingsystem.Thestatisticalresultsoftheradarechoextrapolationfor16 typhooncasesshowthatwhilethequantitativeprecipitationnowcastingskillcanpersistforupto2h,significantdistortionfortherotationalsystemisfoundafter2h.Ontheotherhand,theblendingsystemhelpsto
+captureandmaintaintherotationoftyphoonrainbandstructures.Theblendingsystemextendsthenowcastingskillby1htoatotalof3h.Furthermore,theblendingschemeperformsespeciallywellafterthe typhoonmakeslandfallinTaiwan.Fordisasterpreventionandmitigation,thisblendingnowcastingtechnique mayprovideeffectiveweatherinformationimmediately.
+1. Introduction amountoftime.However,modelforecastsfacespinup orspindownissues,wherebyacertainamountoftime
+Heavy rain from typhoons is one of the most severe (usually 1–3h) is required after warm-start initializaweathersystemsinTaiwan.Heavyrainsandstrongwind tiontoreachastablemodelstate(Shresthaetal.2013;
+accompanytyphoons,andthesephenomenamaylastfor
+Chung et al. 2013; Jacques et al. 2017). On the other severalhoursbeforeandafterlandinginTaiwan,leadhand, by assimilating radar observations in different ing to disasters such as flooding and landslides. To data assimilation systems, as previous studies have mitigate the disastrous impacts of heavy rain from shown,theimprovementofQPFsometimescouldlast typhoons, quantitative precipitation forecasts (QPF) upto6h(Kainetal.2010;Sunetal.2014),andsomein the time scale of the very short term, known as timestheimpactmayremainconfinedtoaround1–2h ‘‘nowcasting’’(lessthan6h),playanimportantrolein (Aksoy et al. 2010; Chang et al. 2016; Chang et al.
+disasterpreventioninTaiwan.
+2014; Chung et al. 2009). Therefore, to forecast pre-
+In recent years, numerical weather models have cipitation of severe weather in the very short-term shown significant improvements in forecast skill due effectively, radar echo extrapolation remains a powto the development and refinement of physical moderfulandhighlyrelevantmethod.
+eling and computational techniques. These models
+Because weather radar is capable of providing high provide increasingly fine spatial and temporal resotemporalandspatialresolutionoveracertainarea,itrelution forecast fields for users in an ever-decreasing mainsthemostusefulinstrumenttosurveysevereweather over land and near coasts where such radar systems are
+Denotescontentthatisimmediatelyavailableuponpublica- available.Radarextrapolationisawell-establishedtechtionasopenaccess. niquetoperformquantitativeprecipitationnowcasting (QPN). For instance, Thunderstorm Identification,
+Tracking,AnalysisandNowcasting(TITAN)tracked
+Correspondingauthor:Dr.Kao-ShenChung,kschung@atm.ncu.
+edu.tw and extrapolated storms linearly by identifying the
+DOI:10.1175/MWR-D-19-0193.1
+2020AmericanMeteorologicalSociety.Forinformationregardingreuseofthiscontentandgeneralcopyrightinformation,consulttheAMSCopyright
+Policy(www.ametsoc.org/PUBSReuseLicenses).
+Brought to you by Shanghai University of Engineering Science | Unauthenticated | Downloaded 11/04/25 10:43 AM UTC
+1100 MONTHLY WEATHER REVIEW VOLUME148 centroids of the weather system (Dixon and Wiener replacesthemotionfieldestimatedbyechomovement.
+1993).TheShort-rangeWarningsofIntenseRainstorms In a summer case study, their results showed that a inLocalizedSystem(SWIRLS)developedbytheHong compositeapproachcanperformeffectivenowcastsfor
+KongObservatoryusesthetechniquenamedTracking up to a 3-h lead time. Sokol et al. (2017) included the
+RadarEchoesbyCorrelations(TREC)(Rinehartand information of tracking errors in the motion field.
+Garvey1978;TuttleandFoote1990).TRECcalculates Whenfocusingonstrongconvectioninwarmseasons, thecorrelationcoefficientsbetweenconsecutiveradar their results demonstrated that the forecast skill is echo images and proceeds to compute an extrapola- useful up to 60min. Ryu et al. (2019) introduced an tion forecast. When the information of SWIRLS is advection-diffusion model to modify motion vectors, used to modify the hydrometeor variables of the nu- and concluded that when motion vectors are time demerical model, it can extend the forecast ability (Li pendentinthenowcastleadtime,betternowcastperand Lai 2004). Instead of finding the maximum cor- formancecanbeachieved.
+relation to get the motion vector, such as TREC, the Recently, probabilistic nowcasting systems have also
+McGill Algorithm for Precipitation nowcasting using been used to improve the capability of nowcasting.
+Lagrangian Extrapolation (MAPLE; Germann and BasedonthestochasticperturbationoftheLagrangian
+Zawadzki 2002, 2004) uses the variational method to extrapolation,AtenciaandZawadzki(2014)generated minimizeacostfunctiontodefinethemotionfieldthat anensembletoalleviatetheerrorsofgrowthanddecay.
+thenadvectstheradarechoimagesfornowcasting. Their results have shown that this approach can better
+The major drawback of the extrapolation-based reproducethespatialstructureoftheprecipitationsysnowcastingbasedonextrapolationisthatitisdifficult tem and extend the nowcast lead time beyond 2–3h tocapturethegrowthanddecayoftheweathersystem statistically. Sokol et al. (2017) used random perturbaandtheuncertaintyofthedisplacement.Toovercome tionsgeneratedbythehistoricradardatafromthewarm this issue, several studies have applied blending tech- season(MaytoSeptember)ofyears2009–12toconduct niques to improve nowcasting systems. For instance, an ensemble nowcast. Their results showed that the theShort-TermEnsemblePredictionSystem(STEPS; forecast skill in summertime (July 2012) can last ap-
+Seed2003),developedbytheMetOfficeandBureauof proximately30–40min.
+MeteorologyinAustralia,utilizedtheFourierfilterto Thepurposeofthisstudyistoexamineandimprovethe decompose precipitation information (radar echoes) performance of MAPLE for nowcasting heavy precipiinto different spectral scales, and then combined the tation in the Taiwan area. Taiwan, a subtropical island, extrapolation nowcast and downscaled NWP forecast regularly experiences heavy precipitation exceeding toproduceaprobabilisticprecipitationforecast.Based 15mmh
+21and50mmday 21(Chenetal.2007).Sincethe onthisalgorithm,theforecastingskillcanpersistforup averagemountainheightinTaiwanisaround2kmwith to6hinAustralia(Bowleretal.2006).TheRainstorm peaks upto 4km, itisa naturalenvironment for evalu-
+Analysis and Prediction Integrated Data-processing ating MAPLE’s performance over complex terrain. In
+System(Lietal.2005)mergestheprecipitationinfor- previous studies, MAPLE has shown its capability for mation from the Nonhydrostatic Model (NHM) with nowcastingupto2–6hdependingontheregionsbeing
+SWIRLS echo extrapolation. With a rainstorm case implemented (Germann and Zawadzki 2002, 2004;
+study, the results show an improvement of 3-h now- Turner et al. 2004; Bellon et al. 2010; Lee et al. 2010, casts.SimilartoSWIRL,theAdjustmentofRainfrom Mandapakaetal.2012).MAPLEwasfirstappliedand
+Models with Radar (ARMOR; Lee et al. 2009) com- configuredoverTaiwanin2018(Panetal.2018).Intheir bines the Weather Research and Forecasting (WRF) study, two typhoon cases and one frontal system case
+Model with MAPLE. By estimating the phase error were selected to examine the performance of MAPLE.
+of precipitation between WRF and observations, the The results showed that MAPLE outperformed persisblendingsystemmodifiestherainfallrateofthemodel. tenceanditproducedreasonableskillfornowcastingup
+It is able to improve the distribution of the precipita- to2h.Inthisstudy,16typhooncasesareselectedtoextion and reduce the false alarm area from NWP, but amine the performance of MAPLE statistically over echoextrapolationstilloutperformsthenowcastinthe Taiwan’s complex terrain. In addition, to alleviate the firstfewhours(DuFranetal.2009).Insteadofblending distortion of the rotational weather system during exinformation between radar observations and NWP trapolation,windinformationfromanumericalmodelis models,severalstudiesfocusonmixingmodelforecast included to improve the nowcasting system. Each tywinds with the nowcast system. By applying a fuzzy phoon is divided to three stages (before landing, after algorithm, Liang et al. (2010) proposed a composite landing,andleavingTaiwan)toinvestigatetheresultsof approach by which model-predicted wind gradually nowcastingineachstage.
+MARCH2020 CHUNG AND YAO 1101
+Theorganizationofthisstudyisasfollows:thesource ofdataandtheselectedcasesaredescribedinsection2;
+the methodology of MAPLE, the blending algorithm, and verification scores are illustrated in section 3; the resultsofechoextrapolationnowcastingwithandwithout blending as well as a statistical analysis of the performance of nowcast skill are illustrated and discussed in section4;section5presentstheconclusion.
+2. Dataandcasesoverview a. Radarnetwork
+Throughamultiagencyeffort,TaiwandevelopedaQPE system called Quantitative Precipitation Estimation and
+SegregationUsingMultipleSensors(QPESUMS;Gourley etal.2002;Zhangetal.2009).QPESUMSintegratesradar observations over Taiwan. The composite radar observationsarefromtheTaiwaneseCentralWeatherBureau radars RCWF, RCCG, RCKT, and RCHL as well as theTaiwanAirForceradarsRCCKandRCMK.RCCG,
+RCKT,andRCHLareS-bandDopplerweatherradars, andRCWFisanS-banddual-polarizationradar.RCCK and RCMK are C-band dual-polarization radars. The positionsofthesixradarsandthecoverageofQPESUMS areshowninFig.1a.
+The composite reflectivity of the integrated radar network is selected to evaluate the performance of
+MAPLE.Thehorizontalgridresolutionofthecomposite reflectivity is 0.01258 and the time interval is 10min.
+BecauseofTaiwan’scomplexterrain,qualitycontrolfor theradardataisconductedtoreducethecontamination fromgroundandseaclutter(Changetal.2009).
+b. Raingaugedata
+There are over 400 stations with rain gauges (Fig. 1b) over Taiwan Island, and the time resolution is once per hour.Inthisstudy,thenowcastperformanceisexamined bycomparingtosurfaceobservations.Astheradarsused byQPESUMSarenotalldual-polarizedradars,theZ–R relationship is applied to convert reflectivity (Z) to the rainfallrate(R).Inthisstudy,sinceTaiwanissubtropical, commonlyusedZ–RrelationshipssuchastheMarshall–
+PalmerformulaofZ5200R1.65orZ5300R1.4derivedin the midlatitudes may not be appropriate. Therefore, the following Z–R relationship developed using 7 years of precipitationdatainTaiwan(Chenetal.2017)isapplied:
+Z5223R1:51. (1)
+FIG.1.Thepositionsof(a)sixradarswithradarcoverageand (b)thesurfaceobservationstationinTaiwan.
+c. ECMWFERA-Interim
+The European Centre for Medium-Range Weather
+Forecasts(ECMWF)interimreanalysis(ERA-Interim)
+1102 MONTHLY WEATHER REVIEW VOLUME148
+TABLE1.Listof16realcases,includingthearrivalanddeparturetimeaccordingtotheCentralWeatherBureau(CWB).Thenumber withparenthesesindicatesthetotaltimesofthenowcast.
+Case Periodofthenowcast T1 T2
+2008_Fung-Wong 0600UTC27Jul–0300UTC29Jul(46) 2300UTC27Aug2008 0700UTC28Jul2008
+2009_Morakot 1300UTC6Aug–18009Aug(78) 1600UTC7Aug2009 0600UTC8Aug2009
+2010_Namtheun 150030Aug–090031Aug(19) — —
+2010_Fanapi 0600UTC18Sep–0700UTC20Sep(50) 0100UTC19Sep2010 1000UTC19Sep2010
+2013_Soulik 0700UTC12Jul–1500UTC13Jul(33) 1900UTC12Jul2013 0000UTC13Jul2013
+2014_Matmo 0400UTC22Jul–1500UTC23Jul(36) 1600UTC22Jul2014 2000UTC22Jul2014
+2014_Fung-Wong 0800UTC20Sep–2100UTC21Sep(38) — —
+2015_Soudelor 1300UTC7Aug–0100UTC9Aug(37) 2100UTC7Aug2015 0300UTC8Aug2015
+2015_Dujuan 1600UTC27Sep–2300UTC28Sep(32) 1000UTC28Sep2015 1700UTC28Sep2015
+2016_Nepartak 0200UTC7Jul–0600UTC9Jul(53) 2200UTC7Jul2016 0700UTC8Jul2016
+2016_Meranti 0700UTC13Sep–0300UTC15Sep(46) — —
+2016_Megi 1200UTC26Sep–0900UTC28Sep(46) 0600UTC27Sep2016 1300UTC27Sep2016
+2017_Nesat 2000UTC28Jul–0600UTC30Jul(35) 1100UTC29Jul2017 1500UTC29Jul2017
+2017_Haitang 1600UTC29Jul–0400UTC31Jul(37) 0100UTC30Jul2017 1700UTC30Jul2017
+2018_Maria 0800UTC10Jul–0400UTC11Jul(21) — —
+2018_Lowpressure 1800UTC22Aug–1300UTC24Aug(44) — — global reanalysis is used to examine the relationship 3. Methodology betweenrealwindandthemotionvectorthroughvaria. DescriptionofMAPLE ational Echo tracking. The ERA-Interim is produced by a four-dimensional variational analysis (4D-Var) Thenowcastingsystem,MAPLE,isdevelopedbythe data assimilation system with a 6-h analysis window J.S.MarshallRadarObservatoryofMcGillUniversity.
+anda0.1258resolution.Inthisstudy,onlythewindfields Byusingthevariationalalgorithm,theforecastingproontheverticallevelsof400,500,600,700,and850hPa cedure of MAPLE uses Variational Echo Tracking areused. (VET) to calculate the motion vector according to the previous observations and uses semi-Lagrangian add. Casesdescription vection to proceed with the extrapolation. These two
+A total of 16 events from 2008 to 2018, including 15 componentsareintroducedinthefollowingsection.
+typhoonsand1lowpressuresystem,areselectedforthis study(Table1).TheMAPLEsystemislaunchedhourly
+1) VARIATIONALECHOTRACKINGTECHNIQUE toproducenowcastsupto4-hleadtime,amountingtoa The original VET technique, developed by Laroche total of 650 times of nowcast. The best track of all ty- and Zawadzki (1995), used Doppler data in a small rephoon cases is shown in Fig. 2. To better evaluate the giontogenerateanowcast.Themaximumreflectivityof performanceofthetyphoonnowcasts,varioustracksthat thecompositeradarnetworkisusedtocalculatetheVET landed over all regions of Taiwan are included in these motionfield.ThecostfunctionJoftheVETtechniquecan
+16typhoon cases.Thereare11typhoons thatlandedin beexpressedintermsofthesetwocomponentsasfollows:
+Taiwan.FouroftheselandedinnorthernTaiwan,namely
+Marokot(2009),Soulik(2013),Dujuan(2015)andNesat J (V)5J 1J , (2)
+VET C V
+(2017); four typhoons landed in the middle of Taiwan, namely Typhoons Fung-Wong (2008), Matmo (2014), where V presents the two-dimensional motion vector
+Soudelor (2015) and Megi (2016); and three landed in thatisevaluatedbyiterativelyminimizingthecostfuncsouthTaiwan:TyphoonsFanapi(2010),Nepartak(2016) tion. The first term in Eq. (2) isthe conservation of reandHaitang(2017).Theotherfivetyphoonsthatdidnot flectivityconstraintJC.Itrepresentsthesumofsquaresof makelandfallarealsoexamined.Theyarethefollowing: theechoresidualsinthedomain.TheequationofJCis
+Namtheun (2010) and Maria (2018), which passed the northofTaiwan;Fung-Wong(2014),whichpassedbythe
+J 5 b(x)[C(t ,x)2VC(t 2Dt, x2uDt)]2dxdy, east coast of Taiwan; and Meranti (2016) and the low C 0 0 pressuresystem(2018),whichpassedtheBashiChannel (3) southwest of Taiwan. These typhoons or tropical depression(TD)systemsbroughtheavyraininashortpe- where b(x) denotes the weight of the reflectivity conriodoftimeoverTaiwan. straintthatisrelatedtodataquality.Tocomplywiththe
+MARCH2020 CHUNG AND YAO 1103 bilinearinterpolation.Therefore,theactualforecastscan begeneratedusingthesemi-LagrangianschemeasproposedbyGermannandZawadzki(2002).Theequationis t5NDt, (5)
+
+a a5Dtu t , x2 , (6)
+0 2
+where t is the entire time of the forecast, and a is thedisplacementvector.AccordingtoEqs.(5)and(6), theentiretimeisdividedintoNstepsoflengthDt.The advantage of this method is that it allows for different motion velocities during the forecasting process and givestheabilitytosimulatetherotationofthesystem.
+Thechoiceofadvectionschemeis‘‘backwardintime andupstreaminspace,’’whichcanalsobeinterpretedto meanthattheinformationatthecurrenttimeisdecided bytheupstreaminformation,asGermannandZawadzki
+FIG.2.Thebesttrackof15typhooncases. (2002) demonstrated. However, as Bellon et al. (2010) pointedout,asthecentergridpoint(i,j)isinadivergent region, the neighboring grid points may have the same conservationofthereflectivitymeanstheechodoesnot source as (i , j ). Therefore, the grid point (i , j ) may decayorgrowduringtheforecast,andthereforethein- 0 0 0 0 causestretchingoranincreaseintheareaoftheforecast tegrated domain must be smaller than the actual comprecipitation. Conversely, if the grid point (i, j) is in a posite map in order to ensure the offset displacement
+C(t 2 Dt, x 2 uDt) remains withininthe domain. The convergent region, the result may be compressing and
+0
+decreasingintheareaoftheforecastprecipitation.Due secondtermofEq.(2)isapenaltyfunctionthatsmooths tothesetwoeffects,theresultsmaygeneratedistortions themotionfieldofthereflectivitybythesecondderivaaccordingtothemagnitudeofdivergence/convergenceof tiveinspace.ThefunctionofJ canbeexpressedas
+V
+theVETmotionfield,whichwillbeshowninsection4.
+J 5g ›2u 2 1 ›2u 2 12 ›2u 2 1 ›2y 2 b. Modelsetup
+V ›x2 ›y2 ›x›y ›x2
+TheWRF(Powersetal.2017;Skamarocketal.2008) # modelversion3.7.1isusedinthisstudy.TheWRFdomain
+1 ›2y 2 12 ›2y 2 dxdy, (4) ofeachcaseisdisplayedinFig.3.Threenesteddomains ›y2 ›x›y with52verticallayersand27,9,and3kmhorizontalgrid spacingsareusedwith1813 181,3013 301,4513 451 whereg istheweightofthesmoothnessconstraint.To grid points, respectively. The physical parameterizations minimize the cost function efficiently, VET uses the used are the Rapid Radiative Transfer Model (RRTM) conjugate-gradient algorithm described by Navon and longwavescheme(Mlaweretal.1997),theDudhiashort-
+Legler (1987) to locate the minimum. To avoid the wavescheme(Dudhia1989),theYonseiUniversity(YSU) probabilityofconvergingtowardasecondaryminimum, planetaryboundaryscheme(Hongetal.2006),theGrell– the scaling guess developed by Laroche and Zawadzki Freitascumulusscheme(GrellandDévényi2002),andthe
+(1994)isusedtodeterminethebestmotionfield. GoddardCumulusEnsemble(GCE)forthemicrophysics
+Thereareseveraluser-selectableparametersthatcan scheme(Taoetal.2003).Notethatthecumulusschemeis affecttheperformanceofMAPLE.Themeaningofthe replacedbythemicrophysicalschemeindomain3.
+parametersandthemajorsettingsusedinthisstudyare In this study, the initial conditions are taken from showninTable2. ERA-Interim(0.75830.758),andthesimulationlength foreachcaseis30h.Thefirst6harenotusedtoavoid
+2) SEMI-LAGRANGIANADVECTION thespinupissue.
+After the retrieval of the VET technique is applied, c. CombinationofVETwithothersources the VET motion field is obtained in the (m 3 m) subdomain,where(m3 m)5 (483 48)or(1443 144)in Since VET is estimated by the advection of radar thisstudy,andistheninterpolatedtoeverygridpointby echoes,themotionfieldoutsideoftheechoareamaynot
+1104 MONTHLY WEATHER REVIEW VOLUME148
+TABLE2.ThesettingsofMAPLE.
+VETparameter Briefdescription Panetal.(2018) Inthisstudy
+No.ofmaps No.ofmapsusedbytheVETalgorithm 3
+Timedifferencebetweeneachmap Thetimeintervaloftheconsecutive 30 radarmap
+Amountofsmoothing Itisusedtoremoverandomnoise 333
+Reflectivitythreshold Thethresholdoftracking 5
+Numberofscalingguesses Itisusedforthenonechoareatoretrieve 4 5 themotionfield
+Vectordensity Theresolutionofthemotionfield 48348 1443144
+Relativeweightingsforbandg Theuser-selectableweightingsin 0.5and1000
+Eqs.(3)and(4)
+bereliable.Oncethedistortionofthenowcastbecomes (F2F)(O2O)
+SCC5qffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffi, (8) significant, the performance will degrade. To improve (F2F) 2 (O2O) 2 theperformanceoftheVETmotionfield,weattemptto include the steering flow information using a blending whereFandOaretheaccumulatedrainfallofthepredictechnique. The formula of the blending system can be tionandtheobservation,andFandO denoteanareaavexpressedas erageoveratwo-dimensionalplaneofthefield.TheRMSE evaluatestherainfalldifferencebetweentheforecastandthe
+J 5 [w (u2u )21w (y2y )2 com 1 VET 1 VET observationquantitatively.TheequationoftheRMSEis vffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffi
+1w (u2u )21w (y2y )2]dxdy, (7) u
+2 ref 2 ref uN t u (F2O)2 where‘‘ref’’meanstheinformationfromasourceother RMSE5 i51 , (9) thantheVET,suchasananalysisornumericalmodel, N and w and w are the weighting coefficients for the whereFandOarethesamedefinitionasinEq.(8),andN
+VETand‘‘ref’’,respectively.Inthisstudy,inorderto standsforthetotalnumberofgridpointsusedforthecalculation.
+find the best set of weightings, a sensitivity test is conductedinsection4. 2) CATEGORICALVERIFICATION d. Verificationscores The categorical verification scores are formulated as followed:
+To examine the accuracy of the quantitative precipitation nowcasting (QPN) by MAPLE, the 0–4h nowcastsofreflectivityareverifiedeveryhour.Inthis study, we evaluate the performance by continuous verification scores, namely the spatial correlation coefficient (SCC) and the root-mean-square error (RMSE), as well as categorical scores, namely the probability of detection (POD), the false-alarm rate (FAR),thebias,thecriticalsuccessindex(CSI),and the equitable threat score (ETS). When comparing theresultswithraingauges,onlythegridpointsatthe positions of the rain gauge stations are verified with the ETS score. In addition, to alleviate the issue of double-penalty when examining the QPN at high resolution, the neighborhood method is also used to assesstheperformanceofMAPLE.
+1) CONTINUOUSVERIFICATION
+The SCC can evaluate the extent of the similarity between the echo distribution of the forecast and the observation.TheSCCisdefinedas FIG.3.TheexperimentaldomainsettingofWRF.
+MARCH2020 CHUNG AND YAO 1105
+POD5 a , (10) exceeding the given threshold in the various search a1b distances.TheFSSisdefinedas c
+FAR5 a1c, (11) 1 [O (i,j)2F (i,j)]2
+N (L) (L) a FSS 512 i j , (16)
+CSI5 a1b1c , (12) (L) 1 O (i,j)21 1 F (i,j)2
+N (L) N (L) i j i j a1c
+Bias5 , (13)
+a1b where N is the total number of grid points over the verifieddomain,andthedoublesumindicatesthetotal wherea,b,c,anddrepresentthehit,miss,falsealarm, number of the grid points in the verified domain.
+and correct negative, respectively, defined by the O (i, j) and F (i, j) are the observation and the (L) (L) occurrence when the events are predicted and veri- forecast fractions at the grid point (i, j), where the fied by the observation, the occurrence when the fractions are the ratio of the number of grid points events are forecast but not verified by the observa- exceeding the given threshold within the radius of tion, the occurrence when events are not predicted search L. Thus, we can understand the spatial distribut verified by the observations, and the occurrence butionofthemodelskillbytheFSSundervariousradii whentheeventsarenotpredictedandverifiedbythe andthresholds.ThevalueoftheFSSrangesfrom0to1, observation. where FSS equal to 1 represents a perfect forecast.
+The scores of these parameters are between 0 and 1 RobertsandLean(2008)providedthereferencevalue except BIAS. A POD or CSI equal to 1 represents a of the FSS, which is named FSS in this study. It deref perfectforecast,andifPODorCSIequals0themodel finedasFSS 50.51f /2,wheref isthefractionof ref o o doesnothavetheabilitytoforecast.CSIrepresentsthe the number of grid points exceeding the threshold in probability of the successful forecast but does not ac- the verified domain. Thus, when the FSS less than countforcorrectnegatives.FARisthenumberoffalse FSS , the model does not have the skill to provide a ref hits per the total number of forecast points above a usefulforecast.Toexaminethesensitivityofthesearch threshold,andaFARof1meansaperfectforecast.The radius(L)totheFSS,L51,3,5,7,10,17,and21grid bias is the ratio of the precipitation forecast to its ob- points,accordingtothedistancesof1,4,7,10,14,23,
+servation. If the bias is greater than 1, it means the and29km,respectively,areusedandthethresholdof forecast overestimated the precipitation events and thereflectivityis15,35,and45dBZ.
+viceversa.
+TheETSissimilartotheCSI,butalsoconsidersthe numberofhitsbychance.Thisindexisdefinedas 4. Resultsanddiscussion
+In this section, we first examined the correlation bea2R
+ETS5 , (14) tween the motion field of the VET and the reanalysis a1b1c2R wind field of ECMWF in section 4a. We then dem- (a1b) 3 (a1c) onstratewithonetyphooncasethatblendingtheVET
+R5 , (15)
+(a1b1c1d) wind with reanalysis wind has the potential to mitigate the distortion problem in MAPLE nowcasts. In whereRmeansarandomforecast.TheETScaneval- section 4b, we further show the feasibility of blenduate the capability of the model forecast beyond a ing the VET wind with wind derived from a WRF random guess. If a is equal to R, the ETS shows a forecast. In addition, a series of sensitivity tests are forecast skill score of zero; whereas ETS equal to 1 done to obtain the optimal settings of the blending impliesaperfectforecast.WhentheETSisnegative,it system. The results of nowcasts for Typhoon Fanapi means the performance of the forecast is worse than (2010) and all cases are shown in sections 4c and 4d, the reference measure. In this study, following Kato respectively.
+etal.(2017),thepredictabilitylimitforETSisdefined a. ComparingVETwiththereanalysiswindfield astheforecasttimewhentheETSdropstothevalueof ofECMWF
+0.3orlower.
+Chan and Gray (1982) showed that the relationship
+3) NEIGHBORHOODMETHOD betweenthesteeringflowwindfieldandthetrackofthe
+The fractions skill score (FSS) is used to verify the typhoon is, to a first order, quite instructive. When the adjacent grid points between the ratio of the echo skillofnowcastingbyechoextrapolationcouldlastfora couple of hours, the question naturally arises whether thereisanycorrelationbetweenthemotionfieldofVET andsteeringflow.Webeginbyexaminingthewindfield from ECMWF reanalysis in comparison to the VET wind.Thelatitudeandlongitudeofthedomainarefrom
+208N, 1188E to 278N, 123.58E. Table 3 shows the correlation of the u and y components for 16 typhoon cases.
+Resultsshow thatfortheselectedpressurelevels,moderatetohighcorrelationcoefficientsarefoundbetween theVETwindandthereanalysiswind.Itcanbeinferred thatsincethetyphoonisanequivalentbarotropicsystem, thereexistfairlygoodcorrelationsaslongastherotation circulationcontinues.
+Figures 4a–f compare the radar echoes between observation(Figs.4a,d)andnowcastatdifferentleadtimes forTyphoonFanapi.Itisfoundthattheradarextrapolation of MAPLE begins to exhibit shape distortions fromthe2ndhournowcast(Fig.4b),andthedistortion becomessignificantatthe4hleadtime(Fig.4e).Thisis because the motion field from VET can represent the circulation of typhoon well in the echo region, but it cannot capture the rotation structure outside of the rainband area (Fig. 4g versus Fig. 4h). Therefore, the advection by VET cannot accurately maintain the rotationstructureandcausesshapedistortion.However, as the wind field of ECMWF is based on a full dynamical model along with a reanalysis of all available observations,thewindfieldofECMWFcanaccurately reflectthisphenomenon(Fig.4g).Moreover,sincethere are high correlations between the VET wind and the analysiswind,weinvestigateifcombiningthereanalysis windfieldwiththeVETcouldimprovethenowcasting
+system. This may be useful, for example, if a forecast system is reliable after a given amount of spinup or spindown time in order to merge in the nowcast.
+Furthermore,duringspinup,thewindfieldofaforecast modelmaybereliableeveniftheprecipitationisnot.
+Therefore,thistypeofinvestigationallowsthe‘‘bestof both worlds’’ by combining the strengths of MAPLE andafullnumericalweatherpredictionmodel.Byincorporating the reanalysis wind field of ECMWF (Fig. 4g), with equal weighting coefficients for VET andreanalysis,theblendedmotionfieldindeedhasless distortion and more accurately reproduces the circulationinthenonechoregion(Figs.4c,f,i).Whenfurther examiningthe4-haccumulatedrainfallonthesurface in Fig. 5, results show that, compared to the observations in Fig. 5a, nowcasts from the blending motion field (Fig. 5c) can capture the heavy rainfall pattern betterthanthenowcastfromechoextrapolationalone (Fig. 5b). This indicates that the modification of the motion field outside of the rainband region can potentiallyimprovethecapabilityofQPN.
+.sesacnoohpyt61rofdlefiTEVehtdnaFWMCEfo)aPh058dna,007,006,005,004ta(dniwsisylanaerehthtiwtnenopmocydnaufonoitalerrocehT.3ELBAT erusserpwoL airaM gnatiaH taseN igeM itnareM katrapeN naujuD roleduoS gnoW-gnuF omtaM kiluoS ipanaF nuehtmaN tokaroM gnoW-gnuF)8102()8102()7102()7102()6102()5102()5102()4102()4102()3102()0102()0102()9002()8002(
+27.0
+86.0
+06.0
+87.0
+17.0
+85.0
+66.0
+75.0
+77.0
+26.0
+38.0
+56.0
+37.0
+09.0 u aPh004
+18.0
+98.0
+68.0
+97.0
+74.0
+67.0
+98.0 y
+28.0
+96.0
+16.0
+08.0
+46.0
+25.0
+76.0 aPh005
+88.0
+47.0
+48.0
+57.0
+19.0 aPh006
+07.0
+78.0
+58.0
+36.0 aPh007
+29.0
+16.0
+84.0 aPh058
+1106 MONTHLY WEATHER REVIEW VOLUME148
+MARCH2020 CHUNG AND YAO 1107
+FIG.4.Theimageofradarecho:(a),(d)observationat0800and1000UTC19Sep2010.(b),(e)MAPLEforecastafter2and4hfrom
+0600UTC.(c),(f)MAPLEandECforecastafter2and4hfrom0600UTC.Motionfieldsat0600UTC:(g)theVET,(h)theECMWF reanalysiswindfieldat400hPa,(i)theblendingVETobtainedfrom(g)and(h).
+The results of the blending system demonstrate the trackpredictionbynumericalmodelshasrecentlyshown improvement of the nowcast. However, of course, the significantimprovement(Halperinetal.2016;Wuetal.
+utilityofblendingtheVETwindwiththereanalysiswind 2007).Therefore,weinvestigateblendingtheVETwith islimitedfornowcastingduetothelackofreanalysisdata thewindfromaforecastWRFmodelinthisstudy.The atoperationaltimes.Ontheotherhand,tropicalcyclone followingsectionwillevaluateifcombiningVETwiththe
+1108 MONTHLY WEATHER REVIEW VOLUME148
+FIG.5.Therainmapof(a)theobservation,(b)MAPLE,and(c)MAPLE_ECafter4haccumulatedrainfall.
+windfieldofWRFoutputhasthesamebeneficialeffect highresolutionVET(1443144),lowresolutionblending ascombiningVETwiththewindfieldofECMWF. between VET and WRF (48d02), and high-resolution blending (144d03). The weightings of VET and WRF b. SensitivitytestofthecombinationofVETand outputsareequalandsetto0.5.Resultsshowthat:1)the
+WRFwindfields
+SCCscoreisalmostoverlappingindifferentresolutions
+To obtain higher temporal resolution of the steering ofVET.AsLeeetal.2010andPanetal.2018pointout, flow around the typhoon system, a forecast wind field improvement from increasing the resolution of VET is is used. The variational method in Eq. (7) is applied insignificant;and2)theblendingmotionfieldhasacerto combine the VET with the wind field of WRF. tain improvement after a 2-h nowcast lead time. The
+AccordingtothestudiesbyBellonetal.(2010)andPan reasonisasshowninFig.4ithattheblendingmotionfield etal.(2018),thereislittleimprovementtobefoundin cancapturetherotationofthetyphoonstructurebetter modifying the resolution of VET. However, different thanthemotionfieldfromechotrackingalone,especially resolutions of the VET and numerical model outputs in the nonecho area. Therefore, the SCC reveals some are investigated here to find the optimal blending ra- improvement after approximately a 2-h nowcast lead tios. For the resolution of VET, vector densities of time.Overall,thecombinationofbothhighresolutionof
+1443144(approximately7-kmresolution)and48348 VET and WRF output (144d03) demonstrates the best (approximately20-kmresolution)areselected.Forthe performancefornowcasting.
+WRFmodel,resolutionsof9-and3-kmarechosen.In Second, different vertical levels (850, 700, 600, 500, addition, to determine the weighting of w and w in and 400hPa) of WRF horizontal wind are examined
+Eq. (7), and to decide which vertical level is used for (Fig. 6b), and the weightings of VET (echo tracking blending,aseriesofsensitivitytestsareconducted.In only)andWRFoutputsarestillsettohaveequalweight.
+addition, four typhoon cases are selected to evaluate In general, there is no significant difference between the tests, and they are as follows: Fung-Wong (2008), extractingwindfromdifferentlevels.
+Soulik (2013), Nepartak (2016), and Meranti (2016). Third,echotrackingonly(w 51)andWRFoutput
+The four typhoon cases passed the Taiwan area via only (w 5 1) are tested. In addition, since the result
+2
+Bashi Channel, the south of Taiwan, the middle of in Fig. 4h indicates that echo and nonecho regions
+Taiwan and the north of Taiwan, respectively. The may have different accuracy and performance, the averagedSCCscoreof4typhooncasesisusedtoverify weighting is further differentiated in these two regions theresults. (i.e., the echo area and nonecho area). Therefore, the
+Different resolutions of VET and WRF outputs are echo area and the nonecho area are separated by the first examined. Figure 6a shows the tests of different threshold of 15dBZ. Table 4 displays the experimental resolutions of VET and blending with WRF outputs. designofdifferentweightingsinEq.(7).ResultsofFig.6c
+Theexperimentsinclude:lowresolutionVET(48348), showthatinthefirst1–2h,thepurelyMAPLEweighting
+MARCH2020 CHUNG AND YAO 1109 ofExp1hasthebestSCCscorecomparedtoExp2and
+Exp3. When differentiating the weightings between theechoandnonechoarea,Exp4illustratesabetter performancethanExp5oftheblendingsystem after the2-hnowcastleadtime.Fromtheresultsabove,it is confirmed that the motion field estimatedby echo tracking is superior in the echo regions, but it is beneficial to combine the model forecasting wind field to modify the motion field in the nonecho regions.
+Accordingtoaseriesofsensitivitytestsillustratedin thissection,theoptimalsettingoftheblendingmodelis established, which iscalled MAPLE_WRF. Beforeexamining the statistical result of 16 typhoon cases, one typhoon case is first examined to demonstrate the improvementundertheoptimalsettings.
+c. Anexampleofthetyphooncases
+Before examining the results statistically, Typhoon
+Fanapiisselectedtodemonstratetheperformanceof
+MAPLE and MAPLE_WRF. Fanapi had an extremely heavy rainfall event occur at 0600 UTC
+19 September 2010 in southwest Taiwan. Strong reflectivitywasobservedinsouthernTaiwan,andthe rainband was almost stationary (Fig. 7). The maximum value of the 4-h accumulated precipitation was over100mmh
+21(Fig.7a),whichcausedheavyflooding andnumerousdownedtreesinTainan,Kaohsiung,and
+PingtunginsouthernTaiwan.
+FromtheresultsofthenowcastsinFigs.7band7c, both MAPLE and MAPLE_WRF are able to reproduce the strong reflectivity in southern Taiwan.
+However,asmentionedinsection3a(2),severeshape distortionofreflectivityoccurredontheMAPLE system after 2h of nowcast. When blending WRF horizontal wind with the nowcasting system, the shape distortionisalleviatedandtherotationstructureofthe typhooniswellmaintained(Fig.7c).Thisresultshows thatthemotionfieldofMAPLE_WRFcanimprovethe circulation of the typhoon. Furthermore, comparing total accumulated rainfall estimated by radar echo with surface observations in Fig. 7a, the nowcasting resultsofMAPLEandMAPLE_WRFhaveasimilar precipitation pattern as the observations in south
+Taiwan, but the total rainfall from both results are underestimated in the nowcast lead time in general.
+However, MAPLE_WRF (Fig. 7c) represents better accumulated rainfall pattern after a 2-h nowcast lead time compared to MAPLE (Fig. 7b). Overall, blend-
+FIG.6.TheaverageSCCscoreof4typhooncaseson(a)thetests ing WRF horizontal winds produces similar effects ofdifferentresolutions.48348and1443144meantheresolution and features as seen when combining the wind of oftheVET.144d03and48d02meanthecombinationoftheVET
+(1443144,7km,and48348,20km)andtheWRFwindinoutputs the reanalysis ECMWF with the echo extrapolation
+(3and9km);(b)thetestsofdifferentpressurelevels;(c)thedif- system.
+ferentexperimentaltests(Table4).
+1110 MONTHLY WEATHER REVIEW VOLUME148
+TABLE4.TheexperimentaltestsofdifferentweightingsonEq.(7). of MAPLE_WRF is generally higher than the ETS ofMAPLEinalldifferentcategoriesofprecipitation.
+Experiment Echoarea Nonechoarea
+Moreover, the ETS of MAPLE_WRF is around 0.5
+Exp1 w 1 51.0,w 2 50.0 after a 4-h nowcast lead time for the threshold
+Exp2 w 50.5,w 50.5
+1 2 above40mm.
+Exp3 w 50.0,w 51.0
+Exp4 w 50.7 w 50.3 TheentireperiodofTyphoonFanapiovertheTaiwan
+1 1
+w 50.3 w 50.7 area (;50h) is validated by categorical verification and
+1 1
+Exp5 w 1 50.3 w 1 50.7 theneighborhoodmethod.Figure9displaystheETSscore w
+50.7 w
+50.3
+ofaccumulatedrainfallforTyphoonFanapi.Resultsshow nosignificantdifference ofchanging the density ofVET
+(48348versus1443144).Inaddition,theresultsofecho
+Figure 8 shows the ETS score of MAPLE and extrapolation from MAPLE (48 3 48, 144 3 144) and
+MAPLE_WRFat0600UTC19September2010.An blending with MAPLE_WRF are in general better than
+ETSscoreabove0.3ismarkedinredandconsideredas the result for WRF, and the ETS scores for different good performance. Results of accumulated rainfall in thresholds of rainfall accumulation are all above or
+Fig. 8a show that MAPLE performs relatively well near 0.3 for 4-h nowcast lead time. MAPLE_WRF at nowcasting, especially at capturing the heavy rain- performs especially well during the heavy rainfall fall (a precipitation threshold above 30mmh
+21).
+On accumulation up to the second hour. These results theotherhand, Fig.8b illustratesthat MAPLE_WRF indicate that blending system (MAPLE_WRF) is an hasfurtherimprovedthenowcastingsystem.TheETS improvementforTyphoonFanapi.
+FIG.7.Theradarechoandtherainmapat0600UTC19Sep2010ofthesecondandfourthhouraccumulatedprecipitationof(a)the observation,(b)MAPLE,and(c)MAPLE_WRF.
+MARCH2020 CHUNG AND YAO 1111 and MAPLE_WRF performs better in the 2–4h nowcast.Figure11demonstratesmultipleverificationmeasuresofforecastaccuracyontheperformancediagram (Roebber2009).ThebestforecastqualitymeansPOD, the successive ratio (1-FAR), BIAS, and CSI all approach 1, and lie in the upper-right corner of the diagram. The warm color area represents CSI . 0.6. The dashedline represents BIAS,and theresults alongthe diagonal are equals to 1, meaning the forecast is unbiased. Figures 11a and 11b display thresholds of 15 and
+35dBZ, respectively. Again, MAPLE with different densitiesofVET(blueandgreendots)showsnosignificantdifferenceinskill,whileincontrastMAPLE_WRF (reddots)movesthescorestowardtheupper-rightcorner consistently for all the cases, indicating improvements overthe two MAPLErunswithoutblending.Thisindicates some improvement by using multipleverifications intheperformancediagram.
+Figure 12 compares the ETS scores of WRF,
+MAPLE48, MAPLE144, and MAPLE_WRF verified againstsurfaceraingauges.Whenexaminingatotalof
+16 typhoon cases in Fig. 12a, results show that the nowcasting systems outperform complex model forecasts in the 0–4h nowcast in general. In addition,
+MAPLE_WRF has very good performance (ETS .
+0.3) for the heavy rainfall condition (a threshold of
+100mm accumulation) in the 2-h nowcast lead time (Fig.12a).Whendifferentiatingthetypesoftyphoons by landfall (Fig. 12b) and without landfall (Fig. 12c) overTaiwan,nowcastsbyMAPLEandMAPLE_WRF
+FIG.8.TheETSscoreat0600UTC19Sep2010.(a)MAPLE;
+are better than WRF in general given this particular (b)MAPLE_WRF.TheredrepresentstheETSscoreabove0.3.
+experimentalsetup.Inaddition,Fig.12billustratesthat when typhoons land over Taiwan and bring large d. Statisticalperformance amount of accumulated rainfall (threshold . 90mm),
+AstheresultsofTyphoonFanapiinsection4cshow, MAPLE_WRFcanperformbetterthanWRFwithour the blending system (MAPLE_WRF) quantitatively experimentalsetup.
+improves and extends nowcasting skill after 2h. In ad- On the other hand, according to the arrival and dedition, significant improvement is demonstrated when parture time of typhoon issued by Central Weather
+TyphoonFanapiisinlandoverTaiwan.Inthissection, Bureau(CWB),16typhooncasesarefurtherdividedinto
+16realtyphooncasesareexaminedinordertoevaluate threestages:T1isthestagewhenatyphoonapproached theperformanceofthenowcastingsystemstatistically. butitscenterdidnotlandonTaiwan;T2isthestageafter
+First,verificationoftheechoisperformed.Figure10 the typhoon center landed and before it left the island;
+presents the SCC and RMSE of MAPLE48 3 48, andT3isthestageafterthetyphoonleftTaiwan.When
+MAPLE144 3 144 and MAPLE_WRF (the blending evaluating the nowcasting system in different stages in system). The SCC score demonstrates that MAPLE Fig.13,theETSscoreatstageT1illustratesthatnowcasts has the best performance in the 0–2h nowcast, and from the WRF model perform better than the others.
+MAPLE_WRFoutperformstheechoextrapolationin However, MAPLE and MAPLE_WRF perform better the2–4hnowcast.Asmentionedabove,thisisbecause thanWRFatstagesT2andT3.TheETSscoresofboth the nowcast of the MAPLE system presents severe MAPLEandMAPLE_WRFatstageT2arenear0.3in shape distortion after 2h of nowcast lead time. By the0–2hnowcastleadtime(Fig.13b),muchhigherthan blending the information from the WRF model, this thoseofWRF.Forthethreshold.90mmwhentyphoons issuecanbealleviated.TheresultsofRMSEalsoshow areawayfromTaiwan,MAPLE_WRFinFig.13cshows that MAPLE has smaller errors in the 0–2h nowcast, that the blending system can still capture the heavy
+1112 MONTHLY WEATHER REVIEW VOLUME148
+FIG.9.TheETSscoreoftheaccumulatedrainfallofTyphoonFanapiduringentireperiod.
+rainfallsituationthattheothersystemscouldnotachieve good for all the systems. Considering the moderate (withnodataforcomputingETS). rainfall (35dBZ) with search distance L 5 14km
+Figure 14 presents the FSS score for 16 typhoons in (purpleline),whiletheperformanceofMAPLE48and the entire period over Taiwan area. MAPLE and MAPLE144canlastbetween2and3hofnowcastlead
+MAPLE_WRF perform well for light rain (Figs. 14a– time, MAPLE_WRF shows some improvement and c). For the moderate rainfall (35dBZ) with search extendsthecapabilityofnowcastingformorethan3h distanceL514km(purpleline),thenowcastabilityof statistically at stages T1 and T2. For heavy rainfall
+MAPLEislessthan3h,whileMAPLE_WRFcanimprove and extend the nowcast capability beyond 3h statistically (Figs. 14d–f). For heavy rainfall events
+(45dBZ) with L 5 29km (Figs. 14g–i), there is no significant difference among the three nowcasting systems. MAPLE_WRF only demonstrates improvement when a very large distance is examined (L 5 41, not shown). The FSS score is further computed in two groups: one group in which all typhoons landed over
+Taiwan, and another in which typhoons passed by but did not land in Taiwan. Results of FSS are similar to Fig. 14 (not shown), and they indicate that the capabilityof nowcastingisnot affectedby whether or not the typhoon has landed in Taiwan.
+The FSS score for typhoons landed in Taiwan is computedatstagesT1(Fig.15a),T2(Fig.15b),andT3
+FIG.10.TheaverageSCC(solid)andRMSE(dashed)ofall (Fig.15c).Thethresholdoflightrain(15dBZ)isquite realcases.
+MARCH2020 CHUNG AND YAO 1113
+FIG.11.Theperformancediagramof16typhooncasesforthereflectivitythresholdof(a)15 and(b)35dBZ.Thecolorsrepresenttheforecastresultsofthedifferentmodelinthelegend, andthecirclesalongalinearethescoresoftheechoforecastper30min.
+events (45dBZ), MAPLE_WRF only demonstrates than the other stages statistically. This demonstrates slight improvement when very large distances are ex- thatMAPLE_WRFcanprovidebeneficialinformation amined (L 5 41, not shown). Overall, the results of tomitigatethedisastrouseventsafteratyphoonmakes
+MAPLE and MAPLE_WRF at stage T2 are better landfallinTaiwan.
+1114 MONTHLY WEATHER REVIEW VOLUME148
+FIG. 12. The average ETS in 4-h accumulated rainfall. In total, there were (a)16casesand(b)11casesthatlandedinTaiwan.(c)Therewerefivecasesthat didnotlandinTaiwan.
+MARCH2020 CHUNG AND YAO 1115
+FIG.13.TheaverageETSof11caseslandedTaiwanasinFig.12.(a)StageT1,(b)stage
+T2,and(c)stageT3.
+1116 MONTHLY WEATHER REVIEW VOLUME148
+FIG. 14. The average FSS score of 16 typhoon cases during entire period. (a)–(c) 15dBZ (;0.27mmh21), (d)–(f) 35dBZ (;5.8mmh21),and(g)–(i)45dBZ(;27mmh21)duringentireperiodofMAPLE(48348),MAPLE(1443144),andMAPLE_WRF, respectively.TheZ–RrelationshipinEq.(1)isusedtoestimatethehourlyrainfallrate.
+Insummary,theblendingofWRFwindinformation extremely heavy rainfall. In addition, when differenwith echo tracking motion field is found to be a fea- tiatingtyphoonsinthreestages,theforecastofWRF siblemethodforprecipitationnowcasting.Examining performs better before typhoons land over Taiwan.
+the performance of nowcasting for typhoon cases BothMAPLE andMAPLE_WRF havegoodperforover Taiwan, we demonstrated that MAPLE is able mance when typhoons stay inland of Taiwan. The reto improve nowcast skill over WRF for at least 2h. sultsindicatethatthenowcastingsystembasedonthe
+After solving the issue of severe shape distortion by extrapolation method can nowcast (0–3h) relatively blending wind information from WRF, significant well even when typhoons have made landfall and are improvement is seen in the 2–4h nowcast, even for affectedbycomplexterrain.
+.3Tegats)c(dna,2Tegats)b(,1TegatS)a(.41.giFnisanawiaTnidednalsesac11foSSFegarevaehT.51.GIF
+MARCH2020 CHUNG AND YAO 1117
+1118 MONTHLY WEATHER REVIEW VOLUME148
+5. Conclusions improvementisfoundafterthe2-hnowcastinglead time,especiallyformoderateandheavyrainevents
+In this study, we investigate the capability of echo (withthresholdof35and45dBZ,respectively).The extrapolation over the Taiwan for severe precipitation performance of MAPLE_WRF illustrates that it nowcasting area with 16 typhoon cases. By providing improves the nowcasting system for another hour, additionalinformationfromreanalysisoraNWPforewhichextendsthenowcastskillupto3h.
+cast, the blending system (MAPLE_WRF) is formed (v) BeforelandinginTaiwan,theradarnetworkcould anditsperformanceisassessed.Throughthestatistical not effectively capture the entire typhoon structure results of 16 typhoon cases, feasibility assessments of andthecorrespondingrapidgrowthand/ordecayof
+MAPLEandMAPLE_WRFarepresented.Theverificarainbands when propagating from ocean to land.
+tionisexaminedbyusingcontinuousverificationwithSCC
+Therefore,theperformanceofnowcastingneedsimandRMSE,categoricalverificationwithPOD,FAR,CSI, provementduringstageT1.Whentheentiretyphoon
+BIAS,andETSandtheneighborhoodmethodwithFSS.
+structureiscoveredbytheradarnetwork,theperfor-
+Theresultsofthisstudyaresummarizedasfollows:
+manceofnowcastingcouldbeadequateforatleast (i) Whenexaminingtherelationshipofthemotionfield 3h at the stage of T2 and T3, even though the (VET)andhorizontalwind,itisfoundthatVETand structure of typhoon is affected by the complex thereanalysiswindfieldofECMWFarehighlycor- terrainoverTaiwan.
+related,andthehighcorrelationcoefficientbetween
+Overall,theaboveresultsshowthenowcastingsystem
+VETandthereanalysiswindfieldcanbeextended byusingechoextrapolationcanprovideusefulnowcasting fromthelowlevelstohighlevelsasmaturetyphoons information in the very short-term forecast in typhoon are, to a first order, essentially barotropic systems.
+cases.BycombiningtheVETmotionwiththewindfield
+Furthermore, the ‘‘best-case’’ results of combining fromothersources,suchasdatafromanumericalweather the reanalysis wind field (which is not generally model, the nowcast can better capture the rotational available at runtime) and the VET illustrate the structureofthetyphoon,especiallyinthenonechoareas.
+potentialimprovementofthenowcastingformain-
+This blending scheme is feasible for application to other tainingtherotationstructureandpresentingabetter radar-basednowcastingsystemsingeneral.Althoughthe precipitationpatternoftheaccumulatedrainfall.
+growth and decay of the weather system is still an un- (ii) Theseveredistortionofthetyphooncirculationis resolved issue in the current system, the blending nowillustrated after 2h of the nowcasting during the casting system extends the ability of very short-term processoftheechoextrapolation.Toimprovethe forecasts,anditcanbeusedtohelpreducethedevastation nowcasting system, a series of sensitivity tests are causedbysevereweathersystems.
+conducted to test how to properly combine the
+NWP model and MAPLE. The result shows that blendingtheresolutionofVET;10kmwithWRF Acknowledgments. This work was supported by
+Ministry of Science and Technology of Taiwan under horizontal wind at 3-km resolution provides the
+Research Grant 107-2625-M-008-003. Discussions with bestperformance.FortheweightingsbetweenVET
+Dr.IsztarZawadzkiontheMAPLEsystemhavebeenof andthewindofthenumericalmodel, resultsshow greatinspiration.TheauthorsthanktheCentralWeather that VET is quite reliable and it should be given
+BureauforprovidingQPESUMSdata.Theauthorsare moreweightintheechoregion.Ontheotherhand, gratefultoDr.JeffreyLawrenceSteward,whoprovided adopting the wind of the numerical model in the reviewandproofreadingofthemanuscript.
+areas without radar echo improves the nowcasting fromthesecondhourofnowcastonward.
+(iii) Through the statistical performance of 16 real
+REFERENCES
+cases, the capability of MAPLE nowcasting is showntolastaround2h.Fortheheavyrainevent Aksoy,A.,D.C.Dowell,andC.Snyder,2010:AmulticasecomparativeassessmentoftheensembleKalmanfilterforassimof 45dBZ, the system can last for approximately ilation of radar observations. Part II: Short-range ensemble
+1h. Overall, in typhoon cases, echo extrapolation forecasts. Mon. Wea. Rev., 138, 1273–1292, https://doi.org/ canprovidebeneficialinformationforupto2hin 10.1175/2009MWR3086.1.
+bothcategoricalandneighborhoodverifications. Atencia, A., and I. Zawadzki, 2014: A comparison of two tech- (iv) The results of MAPLE_WRF show the blending niquesforgeneratingnowcastingensembles.PartI:Lagrangian ensembletechnique.Mon.Wea.Rev.,142,4036–4052,https:// systemhelpstocaptureandmaintaintherotationofthe doi.org/10.1175/MWR-D-13-00117.1.
+typhoon rainband structures. Compared to MAPLE,
+Bellon,A.,I.Zawadzki,A.Kilambi,H.C.Lee,Y.H.Lee,and
+ETSandFSSscoresbothshowthatthesignificant G.Lee,2010:McGillalgorithmforprecipitationnowcasting
+MARCH2020 CHUNG AND YAO 1119 byLagrangianextrapolation(MAPLE)appliedtotheSouth ——, and ——, 2004: Scale dependence of the predictability of
+Korean radar network. Part I: Sensitivity studies of the precipitationfromcontinentalradarimages.PartII:Probability
+Variational Echo Tracking (VET) technique. Asia-Pac. forecasts. J. Appl. Meteor., 43, 74–89, https://doi.org/10.1175/
+J.Atmos.Sci.,46,369–381,https://doi.org/10.1007/s13143- 1520-0450(2004)043,0074:SDOTPO.2.0.CO;2.
+010-1008-x. Gourley,J.J.,R.A.Maddox,K.W.Howard,andD.W.Burgess,2002:
+Bowler, N. E., C. E. Pierce, and A. W. Seed, 2006: STEPS: A Anexploratorymultisensortechniqueforquantitativeestimation probabilistic precipitation forecasting scheme which merges ofstratiformrainfall.J.Hydrometeor.,3,166–180,https://doi.org/ an extrapolation nowcast with downscaled NWP. Quart. 10.1175/1525-7541(2002)003,0166:AEMTFQ.2.0.CO;2.
+J.Roy.Meteor.Soc.,132,2127–2155,https://doi.org/10.1256/ Grell, G. A., and D. Dévényi, 2002: A generalized approach to qj.04.100. parameterizingconvectioncombiningensembleanddataas-
+Chan,J.C.L.,andW.M.Gray,1982:Tropicalcyclonemovement similation techniques. Geophys. Res. Lett., 29, 1693, https:// and surrounding flow relationships. Mon. Wea. Rev., 110, doi.org/10.1029/2002GL015311.
+1354–1374,https://doi.org/10.1175/1520-0493(1982)110,1354: Halperin,D.J.,H.E.Fuelberg,R.E.Hart,andJ.H.Cossuth,2016:
+TCMASF.2.0.CO;2. Verificationoftropicalcyclonegenesisforecastsfromglobal
+Chang,P.-L.,P.-F.Lin,B.Jong-DaoJou,andJ.Zhang,2009:An numericalmodels:ComparisonsbetweentheNorthAtlantic applicationofreflectivityclimatologyinconstructingradarhy- andeasternNorthPacificbasins.Wea.Forecasting,31,947– bridscansovercomplexterrain.J.Atmos.OceanicTechnol.,26, 955,https://doi.org/10.1175/WAF-D-15-0157.1.
+1315–1327,https://doi.org/10.1175/2009JTECHA1162.1. Hong,S.-Y.,Y.Noh,andJ.Dudhia,2006:Anewverticaldiffusion
+Chang,W.,K.-S.Chung,L.Fillion,andS.-J.Baek,2014:Radar packagewithanexplicittreatmentofentrainmentprocesses.Mon.
+data assimilation in the Canadian high-resolution ensemble Wea.Rev.,134,2318–2341,https://doi.org/10.1175/MWR3199.1.
+Kalmanfiltersystem:Performanceandverificationwithreal Jacques,D.,W.Chang,S.-J.Baek,T.Milewski,L.Fillion,K.-S.
+summer cases. Mon. Wea. Rev., 142, 2118–2138, https:// Chung,andH.Ritchie,2017:Developingaconvective-scale doi.org/10.1175/MWR-D-13-00291.1. EnKFdataassimilationsystemfortheCanadianMEOPAR
+Chang, S.-F., Y.-C. Liou, J. Sun, and S.-L. Tai, 2016: The im- project. Mon. Wea. Rev., 145, 1473–1494, https://doi.org/ plementation of the ice-phase microphysical process into a 10.1175/MWR-D-16-0135.1.
+four-dimensionalVariationalDopplerRadarAnalysisSystem Kain,J.S.,andCoauthors,2010:Assessingadvancesintheassimilation (VDRAS)anditsimpactonparameterretrievalandquanti- ofradardataandothermesoscaleobservationswithinacollabtativeprecipitationnowcasting.J.Atmos.Sci.,73,1015–1038, orativeforecasting–researchenvironment.Wea.Forecasting,25, https://doi.org/10.1175/JAS-D-15-0184.1. 1510–1521,https://doi.org/10.1175/2010WAF2222405.1.
+Chen,C.-S.,Y.-L.Chen,C.-L.Liu,P.-L.Lin,andW.-C.Chen,2007: Kato,R.,S.Shimizu,K.-I.Shimose,T.Maesaka,K.Iwanami,and
+Statistics of heavy rainfall occurrences in Taiwan. Wea. H.Nakagaki,2017:Predictabilityofmeso-g-scale,localized,
+Forecasting,22,981–1002,https://doi.org/10.1175/WAF1033.1. extremeheavyrainfallduringthewarmseasoninJapanusing
+Chen,J.-Y.,W.-Y.Chang,andT.-C.ChenWang,2017:Comparison high-resolutionprecipitationnowcasts.Quart.J.Roy.Meteor.
+of quantitative precipitation estimation in Northern Taiwan Soc.,143,1406–1420,https://doi.org/10.1002/qj.3013.
+usingS-andC-banddual-polarimetricradars.Atmos.Sci.,110, Laroche,S.,andI.Zawadzki,1994:Avariationalanalysismethodfor
+1354–1374. retrievalofthree-dimensionalwindfieldfromsingle-Doppler
+Chung,K.-S.,I.Zawadzki,M.K.Yau,andL.Fillion,2009:Short- radardata.J.Atmos.Sci.,51,2664–2682,https://doi.org/10.1175/ termforecastingofamidlatitudeconvectivestormbytheas- 1520-0469(1994)051,2664:AVAMFR.2.0.CO;2.
+similation of single–Doppler radar observations. Mon. Wea. ——, and ——, 1995: Retrievals of horizontal winds from single-
+Rev.,137,4115–4135,https://doi.org/10.1175/2009MWR2731.1. Dopplerclear-airdatabymethodsofcrosscorrelationandvari- ——,W.Chang,L.Fillion,andM.Tanguay,2013:Examinationof ationalanalysis.J.Atmos.OceanicTechnol.,12,721–738,https:// situation-dependentbackgrounderrorcovariancesattheconvec- doi.org/10.1175/1520-0426(1995)012,0721:ROHWFS.2.0.CO;2.
+tivescaleinthecontextoftheensembleKalmanfilter.Mon.Wea. Lee,G.,I.Zawadzki,J.Wilson,M.Xu,A.Kilambi,andJ.Pinto,2009:
+Rev.,141,3369–3387,https://doi.org/10.1175/MWR-D-12-00353.1. Improvedprecipitationnowcasting:Modelerrorsandtheircor-
+Dixon,M.,andG.Wiener,1993:TITAN:ThunderstormIdentification, rectioninoperationalnumericalweatherpredictionsatdifferent
+Tracking,Analysis,andNowcasting—Aradar-basedmethodol- scales. 34th Conf. on Radar Meteorology, Williamsburg, VA, ogy. J. Atmos. Oceanic Technol., 10, 785–797, https://doi.org/ Amer.Meteor.Soc.
+10.1175/1520-0426(1993)010,0785:TTITAA.2.0.CO;2. Lee, H. C., Y. H. Lee, J.-C. Ha, D.-E. Chang, A. Bellon,
+Dudhia,J.,1989:Numericalstudyofconvectionobservedduring I.Zawadzki,andG.Lee,2010:McGillalgorithmforprecipithe Winter Monsoon Experiment using a mesoscale two- tation nowcasting by Lagrangian extrapolation (MAPLE) dimensionalmodel.J.Atmos.Sci.,46,3077–3107,https://doi.org/ appliedtotheSouthKoreanradarnetwork.PartII:Real-time
+10.1175/1520-0469(1989)046,3077:NSOCOD.2.0.CO;2. verificationforthesummerseason.Asia-Pac.J.Atmos.Sci.,
+DuFran,Z.M.,R.L.Carpenter,B.L.Shaw,G.Lee,A.Kilambi,and 46,383–391,https://doi.org/10.1007/s13143-010-1009-9.
+I.Zawadzki,2009:Improvedprecipitationnowcastingalgorithm Li,P.W.,andE.Lai,2004:Short-rangequantitativeprecipitation using a high-resolution NWP model and national radar mo- forecasting in Hong Kong. J. Hydrol., 288, 189–209, https:// saic. 34th Conf. on Radar Meteorology, Williamsburg, doi.org/10.1016/j.jhydrol.2003.11.034.
+VA, Amer. Meteor. Soc., 3B.6, https://ams.confex.com/ams/ ——,W.K.Wong,andS.T.Lai,2005:RAPIDS—Anewrainstorm
+34Radar/techprogram/paper_156040.htm. nowcasting system in Hong Kong. Proc. WWRP Symp. on
+Germann, U., and I. Zawadzki, 2002: Scale-dependence of the NowcastingandVeryShortRangeForecasting,HongKong, predictabilityofprecipitationfromcontinentalradarimages. WWRP, 7.17, http://www.meteo.fr/cic/wsn05/resumes_longs/
+PartI:Descriptionoftheethodmology.Mon.Wea.Rev.,130, 7.17-24.pdf.
+2859–2873,https://doi.org/10.1175/1520-0493(2002)130,2859: Liang,Q.,Y.Feng,W.Deng,S.Hu,Y.Huang,Q.Zeng,andZ.Chen,
+SDOTPO.2.0.CO;2. 2010:Acompositeapproachofradarechoextrapolationbased
+1120 MONTHLY WEATHER REVIEW VOLUME148 onTRECvectorsincombinationwithmodel-predictedwinds. Seed,A.W.,2003:Adynamicandspatialscalingapproachtoadvec-
+Adv. Atmos. Sci., 27, 1119–1130, https://doi.org/10.1007/s00376- tion forecasting. J. Appl. Meteor., 42, 381–388, https://doi.org/
+009-9093-4. 10.1175/1520-0450(2003)042,0381:ADASSA.2.0.CO;2.
+Mandapaka,P.V.,U.Germann,L.Panziera,andA.Hering,2012: Shrestha,D.L.,D.E.Robertson,Q.J.Wang,T.C.Pagano,and
+Can Lagrangian extrapolation of radar fields be used for H. A. P. Hapuarachchi, 2013: Evaluation of numerical precipitation nowcasting over complex alpine orography? weatherpredictionmodelprecipitationforecastsforshort-
+Wea.Forecasting,27,28–49,https://doi.org/10.1175/WAF-D- termstreamflowforecastingpurpose.Hydrol.EarthSyst.Sci.,
+11-00050.1. 17,1913–1931,https://doi.org/10.5194/hess-17-1913-2013.
+Mlawer,E.J.,S.J.Taubman,P.D.Brown,M.J.Iacono,andS.A. Skamarock,W.C.,andCoauthors,2008:AdescriptionoftheAdvanced
+Clough, 1997: Radiative transfer for inhomogeneous atmo- Research WRF version 3. NCAR Tech. Note NCAR/TNspheres: RRTM, a validated correlated-k model for the 4751STR,113pp.,https://doi.org/10.5065/D68S4MVH.
+longwave.J.Geophys.Res.,102,16663–16682,https://doi.org/ Sokol,Z.,J.Mejsnar,L.Pop,andV.Bliznák,2017:Probabilistic
+10.1029/97JD00237. precipitationnowcastingbasedonanextrapolationofradar
+Navon,I.M.,andD.M.Legler,1987:Conjugate-gradientmethods reflectivityandanensembleapproach.Atmos.Res.,194,245– forlarge-scaleminimizationinmeteorology.Mon.Wea.Rev., 257,https://doi.org/10.1016/j.atmosres.2017.05.003.
+115, 1479–1502, https://doi.org/10.1175/1520-0493(1987)115,1479: Sun,J.,andCoauthors,2014:UseofNWPfornowcastingconvective
+CGMFLS.2.0.CO;2. precipitation:Recentprogressesandchallenges.Bull.Amer.Meteor.
+Pan,J.-W.,K.-S.Chung,H.-H.Lin,W.T.-C.Chen,andI.-A.Yao, Soc.,95,409–426,https://doi.org/10.1175/BAMS-D-11-00263.1.
+2018:Feasibilityassessmentofapplyingvariationalradarecho Tao, W. K., and Coauthors, 2003: Microphysics, radiation and trackingmethodovercomplexterraininTaiwan.Atmos.Sci., surfaceprocessesintheGoddardCumulusEnsemble(GCE)
+46,1–34. model. Meteor. Atmos. Phys., 82, 97–137, https://doi.org/
+Powers,J.G.,andCoauthors,2017:TheWeatherResearchand 10.1007/s00703-001-0594-7.
+ForecastingModel:Overview,systemefforts,andfuturedi- Turner,B.J.,I.Zawadzki,andU.Germann,2004:Predictability rections. Bull. Amer. Meteor. Soc., 98, 1717–1737, https:// of precipitation from continental radar images. Part III:
+doi.org/10.1175/BAMS-D-15-00308.1. Operationalnowcastingimplementation(MAPLE).J.Appl.
+Rinehart,R.E.,andE.T.Garvey,1978:Three-dimensionalstorm Meteor.,43,231–248,https://doi.org/10.1175/1520-0450(2004) motiondetectionbyconventionalweatherradar.Nature,273, 043,0231:POPFCR.2.0.CO;2.
+287–289,https://doi.org/10.1038/273287a0. Tuttle,J.D.,andG.B.Foote,1990:Determinationoftheboundary
+Roberts,N.M.,andH.W.Lean,2008:Scale-selectiveverification layerairflowfromasingleDopplerradar.J.Atmos.Oceanic of rainfall accumulations from high-resolution forecasts of Technol.,7,218–232,https://doi.org/10.1175/1520-0426(1990) convectiveevents.Mon.Wea.Rev.,136,78–97,https://doi.org/ 007,0218:DOTBLA.2.0.CO;2.
+10.1175/2007MWR2123.1. Wu,C.-C.,K.-H.Chou,P.-H.Lin,S.D.Aberson,M.S.Peng,and
+Roebber, P. J., 2009: Visualizing multiple measures of forecast T. Nakazawa, 2007: The Impact of dropwindsonde data on quality.Wea.Forecasting,24,601–608,https://doi.org/10.1175/ typhoontrackforecastsinDOTSTAR.Wea.Forecasting,22,
+2008WAF2222159.1. 1157–1176,https://doi.org/10.1175/2007WAF2006062.1.
+Ryu, S., G. Lyu, Y. Do, andG. W. Lee, 2019: Improved rainfall Zhang,J.,andCoauthors,2009:High-resolutionQPEsystemforTaiwan.
+nowcastingusingBurgers’equation.J.Hydrol.,124140,https:// DataAssimilationforAtmospheric,OceanicandHydrologic doi.org/10.1016/j.jhydrol.2019.124140,inpress. applications,S.K.ParkandL.Xu,Eds.,Springer,147–162.

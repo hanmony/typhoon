@@ -1,0 +1,284 @@
+Yu et al. Chin. J. Mech. Eng. (2019) 32:40 Chinese Journal of Mechanical https://doi.org/10.1186/s10033-019-0353-7
+Engineering
+ORIGINAL ARTICLE Open Access
+Crosswind Stability Evaluation of High-Speed Train Using Different Wind
+Models
+Mengge Yu1* , Rongchao Jiang1, Qian Zhang1 and Jiye Zhang2
+Abstract
+Different wind models are being used for the operational safety evaluation of a high-speed train exposed to crosswinds. However, the methodology for simulating natural wind is of substantial importance in the wind–train system, and different simplified forms of natural wind result in different levels of accuracy. The purpose of the research in this paper is to investigate the effects of different wind models on the operational safety evaluation of high-speed trains. First, three wind models, namely, steady wind model, gust wind model, and turbulent wind model, are constructed. Following this, the algorithms for computing the aerodynamic loads using the wind models are described. A multi-body dynamic model of a vehicle is then set up using the commercial software “Simpack” for investigating the dynamic behavior of a railway vehicle exposed to wind loads. The rollover risks corresponding to each wind model are
+evaluated by applying the definition of characteristic wind curves (CWC). The results indicate that the CWC computed using the gust wind model is marginally higher than that computed using the turbulent wind model; the difference is less than 1%. With regard to the steady wind model, the assurance coefficient substantially affects the final CWC. A reasonable agreement of CWC between the steady wind model and turbulent wind model can be obtained by applying an “appropriate value” of the assurance coefficient. This study included a systematic analysis of the operational safety evaluation results using different wind models; the analysis can serve as a reference basis for different engineering accuracy requirements.
+Keywords: Crosswind, Railway vehicle, Wind model, Rollover risks, Characteristic wind curves
+1 Introduction The assessment of the crosswind stability of railway
+The aerodynamic loads of railway vehicles exposed to vehicles is divided into the determination of the aerostrong crosswinds can significant impact the operational dynamic coefficients and the vehicle dynamic characsafety of railway vehicles. This is because they can modify teristics. The most common methods for computing the the operational stability of vehicles by increasing the risk aerodynamic loads are wind tunnel tests on reduced scale of overturning, e.g., the recent accidents in China, Japan, models [2, 4–6] and CFD tools [7–9]. Whereas wind
+Belgium, and Switzerland. The crosswind effects become tunnel tests yield highly reliable values of the measured particularly critical at high operating speeds [1–3]. Over forces, CFD tools reduces the cost of detailed studies of the last 30 years, a large number of studies have been phenomena, such as the pressure field and velocity map conducted in the railway industry to develop methodolo- of flow. The wind data and aerodynamic coefficients are gies capable of evaluating the level of safety of a railway then input into a model of the wind–vehicle system. Genvehicle in terms of overturning risk. erally, a static approach, wherein aerodynamic forces at static equilibrium act on the vehicle, is used owing to its simplicity and the limited number of input data required *Correspondence: yumengge0627@163.com [10]. However, this method is considered less precise
+1 College of Mechanical and Electronic Engineering, Qingdao University, with respect to other available methods such as a multi-
+Qingdao 266071, China
+Full list of author information is available at the end of the article body dynamic approach in the time domain, which is © The Author(s) 2019. This article is distributed under the terms of the Creative Commons Attribution 4.0 International License (http://creat iveco mmons .org/licen ses/by/4.0/), which permits unrestricted use, distribution, and reproduction in any medium, provided you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons license, and indicate if changes were made.
+Yu et al. Chin. J. Mech. Eng. (2019) 32:40 Page 2 of 13 capable of accounting for the nonlinear effects of the wind–train interactions; it can reproduce the interaction vehicle dynamics and wind–train interaction [11]. The between the train dynamics and the aerodynamic loads final output of both the approaches is the characteristic based on statistical methodology [17–19]. However, to wind curves (CWC), which is the set of characteristic obtain the statistical characteristics of the CWC, a large wind speeds that the rolling stock can withstand before number of samples are required; this results in substancertain wheel unloading limit values are exceeded. These tial amount of calculation.
+curves can then be used to calculate the risk of a wind- Based on the discussion above, all the three wind modinduced accident on a particular route and to develop els have been used to evaluate the overturning risk of a suitable remedial measures. railway vehicle and many effective results have been
+A suitable construction of the wind model is widely obtained. Each approach has its advantages and disadconsidered critical for effectively assessing the overturn- vantages. It is considered that the turbulent wind model ing risk of a railway vehicle exposed to crosswinds. The enables an accurate reproduction of the real interaction construction of the wind model has a number of levels between the vehicle dynamics and natural wind. Meanof complexity, ranging from the simple assumption of a while, the stochastic approach is the most costly and steady wind to a more complex gust of a specific form time-consuming. The steady wind model is the simplest (such as the Chinese hat gust) and a complete stochastic and most affordable; however, this approach does not wind simulation that produces turbulent fluctuations of effectively reveal the fluctuation characteristics of natural the correct magnitude and scale. In most previous stud- wind. Different simplified forms of natural wind results
+ies, the crosswind stability analysis of railway vehicles in different levels of accuracy of the operational evaluawas based on the steady wind hypothesis, and a num- tion results; furthermore, certain simplified approaches ber of effective results have been obtained. Krajnović are likely to yield highly inaccurate results. Although et al. [12] used large eddy simulation to study the flow certain researchers have described the accuracy of the around a simplified train model exposed to crosswind; wind models, the analysis and conclusion are generally an overshoot of approximately 30% observed in the yaw- approximate and qualitative. The differences in the opering moment coefficients indicated the importance of ational safety evaluation results obtained using different performing dynamic tests for fulfilling safety standards. wind models need to be quantified to determine the best
+Giappino et al. [10] compared the crosswind behavior on trade-off between accuracy and amount of calculation.
+a high speed train and that on a low speed train through This requires a systematical analysis of the differences in two subsequent analyses: measurement of the aerody- the operational safety evaluation results of different wind namic coefficients through wind tunnel tests on scale models, including those with regard to the simplified models and evaluation of the rollover risks by applying form of natural wind, aerodynamic force, dynamic safety the definition of CWC based on static equilibrium. The index, and CWC.
+steady wind hypothesis is convenient for either of wind The purpose of the present study is to investigate the tunnel test or CFD simulation. Furthermore, natural influence of different wind models on the crosswind stawinds were represented as a gust of a specific form. Car- bility evaluation of high-speed train. In Section 2, the rarini [13], Wetzel and Proppe [14] set up an artificial construction of the steady wind model, gust wind model, gust model, considered the most influential but uncer- and turbulent wind model are described in detail; the tain parameters (gust factor, gust length, and aerody- parameters in the wind model are also specified. In Secnamic coefficients) as stochastic variables, and proposed tion 3, the computational algorithms of the aerodynamic a reliability analysis method for the crosswind stability force and moment using different wind models are devel-
+of railway vehicles. In EN 14067-6 [15], the construction oped. In Section 4, a multi-body dynamic vehicle model of a Chinese hat gust wind model and the corresponding with measured track irregularities is developed to comassessment methods for the railway vehicle are described. pute the safety index of a high-speed train exposed to
+However, simulations of a steady wind and an ideal gust aerodynamic loads; the methodology of crosswind stabilare generally substantially simpler than real-world cases. ity assessment is also presented in this section. The simu-
+When a moving vehicle is subjected to crosswind, the lation results are discussed in Section 5.
+aerodynamic loads acting on the vehicle depend on the
+2 Wind Model
+mean value of the relative wind–vehicle velocity as well as on the statistical properties of the wind [16]. There- In this section, we introduce the theory and specific fore, certain researchers proposed an alternative proce- parameters used to construct wind models. Both the dure, i.e., the turbulent wind model; it has spectral and velocity magnitude and wind direction of natural wind correlation statistics similar to those of natural wind. vary continuously. However, previous studies have drawn
+The stochastic approach is used for studying realistic a conclusion that the operational safety of a high-speed
+Yu et al. Chin. J. Mech. Eng. (2019) 32:40 Page 3 of 13 train is the lowest when the wind flows approximately and is obtained by analyzing real wind data. In EN 14067-6 in the normal direction [20, 21]. Therefore, in this study, [15], a Chinese hat gust wind model, which is more or less variations in the wind direction are not considered, and an example of the exponential shape, is depicted specifionly the pure crosswind, i.e., wind perpendicular to the cally (Figure 1).
+track, is considered. According to the frozen turbulence hypothesis, a gust does not evolve and is transported with the mean wind speed w ;
+2.1 Steady Wind Model w is assumed to be constant. A complete Chinese hat gust wind can be described by a form of piecewise function; the
+In most of the early research on crosswind stability, natemphasis is on describing the fluctuating component of the ural wind is assumed to be steady wind. Moreover, the gust wind. The gust factor G and gust duration T are two wind speed in the steady wind model is assumed to be main characteristic parameters to describe the gust wind.
+the peak value of natural wind; this is expressed as
+The gust factor G is defined as the ratio between the peak w ˆ = w ¯ + kσ w , (1) value w ˆ and mean value w ¯ of the wind speed:
+where w is the peak wind speed, w is the mean wind ˆ ¯ G w/w 1 kI .
+speed, σ w is the standard deviation of natural wind speed, = ˆ ¯ = + z (4) and k is the assurance coefficient. The different values of According to EN 14067-6 [15], the gust factor G in the k correspond to the different assurance rates; an assur- present study is 1.6946; the corresponding assurance coefance rate is defined as the probability that the peak wind ficient k is 2.84.
+speed does not exceed w kσ w . For example, in the case The gust duration T describes the duration of the gust of a Gaussian distribution, k 2 implies that the prob- (see Figure 1). It can be calculated from the turbulence ability that the peak wind speed does not exceed w 2σ w power spectral density of the natural wind speed, which is is 97.72%; when k 2.84, the probability that the peak given by (EN 14067-6, 2010):
+w on i Th n t d h e s e p s t m e a e n e d d a n d ar o d w e s i d n n e d o v i t s a p e t x i e o c e n e d e o d a f n w ¯ w d + in tu d 2 r . b s 8 p u 4 e l σ e e w n d c i s e d 9 e i 9 p n . e t 7 e n 7 n d % s s i . t m y; a i i t n l i y s T = 2 1 n n 1 n 2 n 1 2 n S 2S w w (n (n )d )d n n − 0.5 , (5) calculated by the following equation:
+
+σ w = I z w ¯ , (2) w of h t e h r e e n fr e is q u th e e n c fr y e , q n u e i n s c t y h , e n 1 i n i t s e t g h r e a t i e n d t e u g p ra p t e e r d l l i o m w it e r o f li m th i e t
+2
+where I is the turbulence intensity and can be computed z frequency, and S (n) is the turbulence power specw by the following equation [14]:
+tral density of the natural wind speed. According to EN
+1 5 h 7 14067-6 [15], n 1 = 1/300, n 2 = 1. The von Karman spectral
+I z = ln(h/h 0 ) 1 − 105 log 0.05 + 2 , is used in this study; it is calculated from [22]
+(3) nS (n) 4 nLx/w
+g w r h o e u r n e d h r o i u s g t h h n e e s h s e l i e g n h g t th ab . o A v c e c o t r h d e i n g g r o to u n E d N a 1 n 4 d 0 6 h 7 0 - 6 is [ 1 t 5 h ] e , σ w w 2 = 1 70.�8 n u Lx ¯ /w� 2 5/6 , (6)  + u ¯  h = 4.0 m, h 0 = 0.07 m. � � � � 
+2.2 Gust Wind Model
+Gust scenarios are utilized to model certain extreme wind conditions without the need to wait for the normal turbulent wind process to occur [14]. The most realistic wind simulation is a spatial and time-dependent wind field through which the train would pass. It is assumed that the train speed is constant; thus, the temporal distribution can be evaluated from the spatial one by transformation.
+An ideal gust is a simplified form of real unsteady wind, which involves a variation in the wind velocity defined by a simple, generally analytical function of time. In practice, different gust shapes are used; the most common are exponential gust shape, “1-cos” gust shape, ramp gust shape, and step gust shape. The exponential shape is the most
+Figure 1 Ideal wind gust scenario advanced model available; this is because it is not empirical
+Yu et al. Chin. J. Mech. Eng. (2019) 32:40 Page 4 of 13 where
+Lx
+u is the longitudinal integral length scale and can aerodynamic effects of the turbulent wind, an unsteady be computed by the following equation [15]: crosswind field as experienced by the train needs to be generated. Two main approaches for turbulent
+Lx 50 h0.35
+. wind generation have been developed over the past u = h0.063 (7) few years. One of the methods commonly used is to numerically simulate the wind time-histories at a large
+The characteristic frequency of gust is denoted as f; its number of points, separated by short distances, along a computational formula is track [17, 19]. The time series at each point exhibits the correct spectral characteristics; moreover, the correlaf . tions between the time series at adjacent points exhibit
+(8) = 2 4.1825T
+× statistics that are consistent with those measured at full scale. Another method is to simulate a wind time-
+The wind speed normal to the vehicle along the track series of a moving reference point coincident with the can be calculated from vehicle at a particular instant; this method is applied w w 2.84σ w e − 16fx ˜ /w ¯, (9) in this study. It is carried out by decomposing the wind where x represents the distance along the track toward spectrum relative to the moving train into a series of the position of the maximum amplitude of the gust wind; sinusoidal velocity variations of random phase and then its computational formula is combining these time series into unsteady velocity time series at the train’s position [22, 23]. The Cooper theory v t t m |, t [t
+3,t 4],
+(10) defines the dimensionless power spectral density funcwhere t m represents the time corresponding to the maxi- tion for the wind speed at a moving point [22]:
+mum amplitude of the gust wind. As shown in Figure 1, after t , the increase follows the mirrored Chinese hat
+3 nS 4 nL /u
+until t . For practical implementation, the exponential w ′u ¯ m de a c x a i y m 4 i u s m a s d s e u v m ia e t d io n to o f a c 1 h % i e i v s e a t t t h a e in e lo d w b e e r t w li e m e i n t t w ¯ h o a s f e t e t r w o a σ w 2 =  1 + 70.�8 nL ′u /�u ¯ 2 5/6  values. w  2� �w
+2 �0 � .5  94.4 nL ′u /u
+2
+a Th mo e v i w ng in d sp a g t u i s a t l a ti v m er e a g h e i s b to a r s y e d i s o l n o w a - w pa in ss d o fi w lt e s r i e z d e e u q si u n a g l ·�� u ¯ � +� − � u ¯ � � 1 + 70.8 �nL ′u /u ¯ � 2 �
+(12)
+to the vehicle length and a step-size less than 0.5 m [15]. � �
+Owing to this filtering, the simulated peak wind speed of where the gust wind is less than the assumed peak value w.
+w 2 L y 2 w 2 0.5
+L Lx ¯ 4 u 1 ¯ ,
+2.3 Turbulent Wind Model ′u = u � u ¯ � + �Lx u� � − � u ¯ � �
+In a turbulent wind model, a spatial-time distribution of  
+(13)
+the wind speed is constructed; this enables the reproduction of the physical stochastic characteristics of natural where nS w /σ w 2 is the dimensionless po y wer spectral density, S w is the power spectral density, L u is the lateral intewinds. A complete stochastic simulation of the winds can gral length scale, and u is the mean wind velocity relative be characterized in terms of a wind with the mean veloc- ¯ to the train ( u √v2 w2 ).
+ity and a fluctuating velocity. The instantaneous wind ¯ = + ¯ y
+The lateral integral length scale L u can be computed velocity can be expressed as follows:
+by the following equation [15]:
+w w w, = ¯ + ′ (11) L y 0.42Lx.
+where w ′ is the fluctuating wind speed. The fluctuat- u = u (14) ing wind speed is a stochastic process with a normal The wind velocity time series w ′ at the position of the distribution. train are reproduced using the method of harmonic
+We assumed that the train moves at a constant veloc- superposition [24]:
+ity v toward the terminal on the straight rail line and w 2S n �n 0.5 sin 2πnt 2πr , ′ w j j j j that the turbulent wind velocity is horizontal and per- = + (15) j pendicular to the track. Only the along-wind component, i.e., the longitudinal component, is considered where t is the time, n j is the frequency step, and r j is a in this study. This component represents the promi- random number between zero and one.
+nent part of wind fluctuations [15]. To account for the
+Yu et al. Chin. J. Mech. Eng. (2019) 32:40 Page 5 of 13
+3 Aerodynamic Forces and Moments approaching wind. Although the quasi-steady assump-
+Figure 2 shows a velocity diagram that relates the wind tion is effective in numerous circumstances, it does not speed w, vehicle speed v, and the wind direction relative to hold completely for the turbulent wind model. The force the moving train β . β is named as “yaw angle” in this study. fluctuations do not completely follow the velocity fluctu-
+The wind speed relative to the train u is expressed as ations because the small-scale turbulence in the oncoming wind is not completely correlated over the entire u2 v2 w2.
+(16)
+= + exposed area of a train vehicle. An alternative approach
+The yaw angle is expressed as is the corrected quasi-steady theory; herein, the quasiw steady theory is applied and corrected with the admittanβ .
+= v (17) tance function [16].
+According to the corrected quasi-steady theory, in a
+For the steady wind model, the wind speed w is assumed condition of turbulent wind, the aerodynamic force and to be an invariant value w ˆ ; it is computed by Eq. (1). It is aerodynamic moment are evaluated by Eqs. (22) and (23), demonstrated that u and are invariant if the vehicle speed respectively:
+stays constant. In that analysis, the steady aerodynamic forces and moments are commonly computed using aero- F(t) ρAC (β (t))u (t)2,
+F c c (22) = 2 dynamic coefficients as follows:
+F ρAC F (β)u2, (18) M(t) 1 ρAhC (β (t))u (t)2, = 2 M c c (23)
+1 where u is the corrected wind speed relative to the train
+M ρAhC (β)u2, c
+= 2 M (19) and β c is the corrected yaw angle; these can be computed by Eqs. (24) and (25), respectively where F is the aerodynamic force, M is the aerodynamic moment, C F is the aerodynamic force coefficient, C M is u2 c = v2 + w ¯ + w c′ 2 , (24) the aerodynamic moment coefficient, ρ is the density of
+
+air, A is the reference area, and h is the reference height.
+w w
+In the following, A = 10 m2 and h = 3 m is adopted [15]. β c = atan ¯ + v c′ , (25)
+For the Chinese hat gust wind model, both β and u are time-varying owing to the unsteady nature of the wind where w c′ is the corrected fluctuating wind speed.
+gusts. The wind speed w in Eqs. (16) and (17) is com- The corrected fluctuating wind speed w c′ is puted by Eq. (9). According to the quasi-steady theory,
+0.5 w 2S n �n sin 2πnt 2πr , in the condition of gust wind, the aerodynamic force and c′ = wc j j j + j (26) aerodynamic moment are evaluated by Eqs. (20) and (21), j respectively: where S wc is the power spectral density corresponding to
+F(t) 1 ρAC (β(t))u(t)2, the corrected wind speed w c′.
+= 2 F (20) S wc can be computed by the following equation:
+S χ2S , wc w (27)
+M(t) ρAhC
+M (β(t))u(t)2.
+(21) where χ2 is the aerodynamic admittance function.
+Baker [23] assembled a significant amount of experi-
+The quasi-steady assumption mentioned above mental data from a variety of full scale and wind tunnel assumes that the fluctuations in the force induced on tests on a variety of trains and provided a simple expresthe train occur directly because of the turbulence in the sion for the aerodynamic admittance function used on railway trains:
+χ2 , = 1 (n /n)2 2 (28) + s ′ w th h e e m re e n a s n i s y a t w he a d n i g m le e , n sio n 2 le .0 s s f o fr r e t q h u e e s n id cy e ; f n o ′ rc = e co s e in ffi β c ¯ , i e β ¯ n i t s ,
+Figure 2 Velocity vectors and = 2.5 for the lift f = orce coefficient.
+Yu et al. Chin. J. Mech. Eng. (2019) 32:40 Page 6 of 13
+[26]. The nonlinear dynamic characteristics of the suspension systems, such as the damping of the yaw damper, damping of the primary vertical damper and lateral bump stop force, are shown in Figure 4. The wheel–rail interaction and rail irregularities are significant components
+Figure 3 Aerodynamic coefficients
+The aerodynamic admittance function of the rolling moment is identical to that of the side force. For the yaw and pitch moments, the moment fluctuations are considered to be coincident with the velocity fluctuations [15].
+The aerodynamic coefficients, which depend on the yaw angle, can be determined experimentally or numerically. The side force coefficient C , lift force coefficient
+Fs
+C , rolling moment coefficient C , yaw moment coeffi-
+Fl Mr
+cient C , and pitch moment coefficient C on the vehi-
+My Mp
+cle of a Chinese high-speed train are depicted in Figure 3
+[25, 26].
+4 Vehicle Dynamic Model
+4.1 Multi‑Body Dynamic Model
+To evaluate the dynamic behavior of a vehicle subjected to crosswind action, complex dynamic methodologies are developed in the time domain. The aerodynamic loads are then input into the model of the wind–vehicle system to compute the vehicle dynamic characteristics. In
+EN14067-6 [15], a simple three-mass model with no representation of vehicle suspension, and a more complex five-mass model with suspension stiffness are modelled based on static equilibrium. In this study, a method of further complexity, i.e., the time-dependent multi-body simulation (MBS) of a vehicle, is used to determine the vehicle dynamics or wind–train interaction.
+A multi-body dynamic model of a Chinese high-speed driving trailer has been constructed using the highly sophisticated commercial software SIMPACK. It consists of 15 rigid bodies (car-body, bogies, wheelsets, tumblers etc.), an accurate description of the wheel/rail contacts, a nonlinear spring and damper forces, and bump stops. The
+15 rigid bodies are connected with springs and dashpots, forming a vehicle subsystem of 50 degrees-of-freedoms Figure 4 Non-linear characteristics of mechanism parameters
+Yu et al. Chin. J. Mech. Eng. (2019) 32:40 Page 7 of 13 of the vehicle dynamic model. The LMA wheel and T60 distribution, 2σ corresponds to 95.45%; i.e., the prob-
+CWC
+Rail [27] are adopted in the multi-body simulation. The ability that the CWC lies in the spread range S is 95.45%.
+measured track spectrum of the Beijing–Tianjin intercity high-speed railway in China is adopted as the rail irregu- 5 Numerical Simulation Analysis larity in the simulation. 5.1 Wind and Force Characteristics
+After the vehicle dynamic model is set up, the aerody-
+In the simulation, the train speeds are 200 km/h, namic loads (discussed in Section 3) are applied at the
+250 km/h, 300 km/h, and 350 km/h; furthermore, the aerodynamic reference point on the car-body to compute mean wind speeds are 10 m/s, 15 m/s, 20 m/s, 25 m/s, the safety index. Although this approach has not been
+30 m/s, and 35 m/s. For the simulation of gust wind, verified for the vehicles, it is a reasonable approximation the gust factor is 1.6946, the height above the ground is recommended by a number of previous investigations [2,
+4.0 m, and the ground roughness length is 0.07 m. For the
+13].
+simulation of turbulent wind, the simulated frequency range is [0.001 Hz, 10 Hz], the frequency step is 0.001 Hz, and the total superposition number is 10000. The wind
+4.2 Operational Safety Evaluation speeds are generated every 0.05 s, and 10 min realizations
+The final aim of the wind stability analysis is to evaluof the time series are processed. Given the wind time hisate the operational safety of the high-speed train. In this tories, the method presented in Section 3 is used to simuregard, the load reduction factor is considered to be an late the aerodynamic forces and moments of high-speed important safety index. This index is considered ineffitrains. The aerodynamic forces and moments are then cient and over-conservative. Nonetheless, it is still widely input into the multi-body dynamic model established in used owing to its simplicity and the fact that wheel forces
+Section 4, to simulate the dynamic behavior of the train.
+can be experimentally measured on real driving vehicles
+Finally, the outputs are processed to evaluate the safety
+[13, 15, 21, 26]. It is defined as index and then to assess the operational safety.
+�P/P <0.8, To verify the accuracy of the wind simulation, the cur- ¯ (29) where P is the wheel load reduction amount and P ¯ is rent spectrum obtained from the simulated wind time series are compared to the target spectrum. Figure 5 the average wheel load of the left wheel and right wheel.
+shows the comparison of the fluctuating wind spectrum
+The time history of this index is to be filtered through a for a vehicle speed of 350 km/h and a mean wind speed
+2 Hz low-pass filter.
+of 20 m/s. The results reasonably agree with the target
+The final output of the operational safety evaluation of spectrum across a significant portion of the frequency the high-speed train is the CWC, which is defined as the domain.
+wind-speed limit beyond which the vehicle’s safety lim-
+Figure 6 shows an example of simulated gust wind its (e.g., the load reduction factor) are exceeded. For the time-history for a vehicle speed of 350 km/h and a mean steady wind model and gust wind model, the CWC could wind speed of 20 m/s. For comparative analysis, the be uniquely determined according to the specified input steady winds with assurance coefficients of 2 and 2.84 for parameters. However, for the turbulent wind model, as the a mean wind speed of 20 m/s are also marked in Figure 6.
+wind is a random process, when the stochastic methodology is used for evaluation, different time histories of wind velocities satisfying identical statistical properties (such as the mean wind speed and turbulence intensity) are generated; this results in different time histories of the aerodynamic loads and load reduction factor for identical wind scenarios. As a result, a series of CWCs will be generated for identical wind scenarios. Therefore, it is necessary to understand the statistical properties of CWC. Through the statistical analysis, the mean value and standard deviation of the CWC can be obtained; then, the spread range S of the CWC is defined as [15]
+S µ 2σ , = CWC ± CWC (30) where CWC is the mean value of CWC and CWC is the standard deviation of CWC. For the Gaussian
+Figure 5 Comparison of simulated spectrum and target spectrum
+Yu et al. Chin. J. Mech. Eng. (2019) 32:40 Page 8 of 13
+Figure 6 Time history of gust wind Figure 8 Comparison of turbulent wind and gust wind
+Figure 9 Aerodynamic side force for gust wind
+Figure 7 Time history of turbulent wind
+From Eq. (1), the assurance coefficients of 2 and 2.84 cor- Section 2.1. Similarly, the probability that the maximum respond to peak wind speeds of 29.78 m/s and 33.89 m/s, wind speed does not exceed 33.89 m/s (corresponds to respectively. As is illustrated in Figure 6, because of the assurance coefficient of 2.84), calculated by statisthe low-pass filtering, a maximum gust wind speed of tics analysis, is 99.68%; this is approximately equal to the
+31.32 m/s is observed; this is smaller than the unfil- theoretical value (99.77%) mentioned in Section 2.1.
+tered peak value of 33.89 m/s computed by Eq. (4). From Figure 8 shows the comparison of the turbulent wind the perspective of maximum wind speeds, the assurance time-history and gust wind time-history. The result in coefficients of 2 and 2.84 in the steady wind model are Figure 8 indicates that the variation in the gust wind not consistent with those of the gust wind model. could effectively reflect the fluctuating characteristics of
+Figure 7 shows an example of a simulation of turbulent the turbulent wind. The gust wind model approximates a wind time-history, for a vehicle speed of 350 km/h and random process in the vicinity of the local maximum and a mean wind speed of 20 m/s. The two horizontal lines gust duration (the mode of the distribution).
+in Figure 7 convey a concept similar to that in Figure 6. Figure 9 shows a plot of the simulated aerodynamic
+During the 600 s, a few of the random values of the wind side force computed by the gust wind model for a vehispeed exceed 29.78 m/s (corresponds to the assurance cle speed of 350 km/h and a mean wind speed of 20 m/s.
+coefficient of 2); furthermore, the probability that the For comparative analysis, the aerodynamic side forces maximum wind speed does not exceed 29.78 m/s, calcu- computed by the steady wind model with assurance coeflated by statistics analysis, is 97.98%; this is approximately ficients of 2 and 2.84 for a mean wind speed of 20 m/s equal to the theoretical value (97.72%) mentioned in are also marked in Figure 9. As is illustrated in Figure 9,
+Yu et al. Chin. J. Mech. Eng. (2019) 32:40 Page 9 of 13
+Figure 10 Aerodynamic side force for turbulent wind Figure 11 Comparison of aerodynamic side force for turbulent wind and gust wind because of the low-pass filtering of gust wind, the maxi-
+5.2 CWC Evaluation
+mum aerodynamic side force is 118.83 kN; this is smaller
+For the steady wind model and gust wind model, the load than 132.06 kN (corresponding to the wind speed of reduction factor could be uniquely determined according
+33.89 m/s). With regard to the steady wind model, the to the input conditions. However, for the turbulent wind simulated aerodynamic side forces are 111.23 kN and
+132.06 kN corresponding to the assurance coefficients of
+2 and 2.84, respectively.
+Figure 10 shows, as an example, the time history of the aerodynamic side force computed by the turbulent wind model for a vehicle speed of 350 km/h and a mean wind speed of 20 m/s. The two horizontal lines in Figure 10 convey a concept identical to that in Figure 9. Figure 10 shows that the simulated unsteady side forces computed by the turbulent wind model are significantly smaller than 132.06 kN; furthermore, the probability of the unsteady side forces larger than 111.23 kN is also highly marginal. Owing to the influence of the aerodynamic admittance function, the force calculation effectively yields a weighted average of the force from the previous time. Thus, the simulated force damps out the high frequency fluctuations in the turbulent wind. Moreover, as the turbulent wind is a stochastic process with a normal distribution, the unsteady aerodynamic loads of the highspeed train are also approximately normally distributed
+[21, 25].
+Figure 11 shows the comparison of the aerodynamic side force computed by the turbulent wind model and gust wind model for a vehicle speed of 350 km/h and a mean wind speed of 20 m/s.
+Figure 11 shows that the maximum aerodynamic side force computed by the gust wind (118.83 kN) is approximately equal to that computed by the turbulent wind
+(119.65 kN).
+Figure 12 Load reduction factor
+Yu et al. Chin. J. Mech. Eng. (2019) 32:40 Page 10 of 13 model, as the wind is a random process, different time histories of the load reduction factor will be obtained for identical wind scenarios. Therefore, the statistical characteristics of the load reduction factor should be discussed.
+Figure 12 shows, as an example, a typical time history of the load reduction factor and its probability distribution computed by the turbulent wind model for a vehicle speed of 350 km/h and a mean wind speed of 20 m/s. As is presented in Figure 12, the load reduction factor computed by the turbulent wind model exhibits stochastic characteristics and can be effectively fitted with a normal distribution.
+Through the statistical analysis, the mean value and standard deviation of the load reduction factor can be obtained.
+The maximum value of the load reduction factor is used to evaluate the wind stability of the high-speed train. Thus, Figure 13 Maximum value of load reduction factor the extreme value distribution of the load reduction factor is discussed below. The permissible value of the load reduction factor specified in Chinese design guideline is 0.8, as mentioned in Eq. (29). As illustrated in Figure 12, the load reduction factor is approximately normally distributed. To facilitate explanation, the load reduction factor is represented as
+X(t)
+, which is normally distributed. Assume that the maximum value of X(t) is X max for the continuous time
+T; its mean value and standard deviation are expressed by
+Eqs. (31) and (32) respectively [28]:
+µ µ 2ln(νT) σ ,
+Xmax + + √2ln(νT)
+
+(31) π 1
+Xmax = √6√2ln(νT) X (32)
+Figure 14 Standard deviation of maximum value of load reduction where µ Xmax is the mean value of X max , σ Xmax is the factor (turbulent wind) standard deviation of X max , γ is the Euler constant ( γ 0.5772 ), µ X is the mean value of X(t) , and σ X is the standard deviation of
+X(t) can be computed by the folwind speed, using different wind models, for a vehicle lowing equations:
+speed of 350 km/h. The horizontal dotted line in Figure 13
+1 m 2 represents the limit value of the load reduction factor.
+= 2π m (33) The intersection of the dotted line with the curves represents the maximum mean wind speed the train could be exposed to without derailment. However, for the turbulent m ∞S Y(n)dn,
+(34) wind model, a series of curves of the load reduction fac- = 0 tor, all corresponding to the same wind scenario and same vehicle speed, are obtained owing to its stochastic nature.
+m 2 ∞n2S Y(n)dn, (35) Therefore, for the turbulent wind model, the data pro- = 0 vided in Figure 13 are the mean values of the maximum values of the load reduction factor; the standard deviation
+X(t) µ
+Y(t) − X , is shown in Figure 14. As shown in Figures 13 and 14, if the = σ (36)
+X assurance coefficient is 2, the load reduction factor computed by steady wind model is approximately equal to that where S is the power spectral density of Y(t).
+Y computed by gust wind model. However, if the assurance
+Figure 13 shows an example of a simulated maximum coefficient is 2.84, the load reduction factor is significantly value of the load reduction factor as a function of the mean larger than that computed by gust wind model. With
+Yu et al. Chin. J. Mech. Eng. (2019) 32:40 Page 11 of 13
+Figure 15 CWC for the three wind models Figure 16 CWC for steady wind model with different assurance coefficients
+Figure 16 shows the CWCs evaluated by the steady regard to the turbulent wind model, because of the effects wind model for a variety of assurance coefficients, of the stochastic characteristics, it is challenging to contogether with the result evaluated by the turbulent wind clude whether the results are larger or smaller than those model (lower bound of S) for comparison. Figure 16 computed by the other two models.
+shows that the CWC computed with steady wind and
+The final CWCs evaluated by means of the different assurance coefficient of 2.1 is approximately equal to that wind models are shown in Figure 15. For the turbulent computed by the turbulent wind model; the difference is wind model, the mean value, upper bound, and lower less than 2% for the train speeds of 200–350 km/h. These bound of the spread range S of the CWC are provided.
+results imply that a relatively accurate assessment result
+Figure 15 shows that for the turbulent wind model, the could be obtained if an appropriate value of the assurance upper bound of the spread range S of the CWC is apparcoefficient is specified. However, it should be noted that ently overestimated. The lower bound of the spread range the “appropriate value” of the assurance coefficient could
+S of the CWC (μ 2σ ) is considered to be more
+CWC − CWC be more or less different for multiple types of vehicles.
+appropriate for evaluating the operational safety of the high-speed train. Because the probability of the CWC
+6 Conclusions
+in the spread range S is 95.45% in the case of a Gaussian distribution, the probability of the CWC less than The topic of the wind stability of high-speed trains has the lower bound of the spread range S is 2.28%. Figure 15 gained substantial attention in the last few years, and also shows that the CWC computed by gust wind model the accurate simulation of natural winds is a key issue in is marginally higher than that computed by the turbulent the assessment of wind-induced safety. There are three wind model; furthermore, the difference is less than 1%. widely used wind models, ranging from the simplest sta-
+However, the gust wind model can provide only a simple tionary wind to a more complex gust wind and the most fixed CWC and cannot evaluate the risk of train derail- realistic turbulent wind. However, the different levels of ment. The turbulent wind model can provide a more complexity of the wind models are likely to result in difcomprehensive evaluation and can effectively evaluate ferent levels of accuracy of the evaluation results. The the risk of train derailment. In the case of a rapid prelimi- crosswind stability evaluation of a high-speed train by nary evaluation, the gust wind model can be used. How- using different wind models has been investigated in this ever, for a more comprehensive evaluation, the turbulent study. Wind velocity time histories, aerodynamic quanwind model is required. With regard to the steady wind tities (aerodynamic force time histories), and dynamic model, the CWC is underestimated for an assurance quantities (load reduction factor, CWC) for the same
+coefficient of 2.84 and overestimated for an assurance mean wind speed are simulated for comparing the three coefficient of 2, compared to that computed by the tur- wind models. The results demonstrate that although the bulent wind model. Therefore, the assurance coefficient simulated time histories of the aerodynamic force comis observed to significantly affect the final CWC for the puted by the gust wind model and turbulent wind model steady wind model. appear to vary significantly, the load reduction factor and the CWCs obtained from the gust wind model are
+Yu et al. Chin. J. Mech. Eng. (2019) 32:40 Page 12 of 13 consistent with those from the turbulent wind model experiments. Journal of Wind Engineering and Industrial Aerodynamics,
+2015, 138: 36–51.
+across a wide range of train speeds and mean wind
+[3] F Cheli, F Ripamonti, G Rocchi. Aerodynamic behaviour investigation of speeds. With respect to the steady wind model, which the new EMUV250 train to cross wind. Journal of Wind Engineering and is the simplest form of natural wind, the results depend Industrial Aerodynamics, 2010, 98: 189–201.
+[4] X H He, Y F Zou, H F Wang, et al. Aerodynamic characteristics of a trailing on the value of the assurance coefficient. According to rail vehicles on viaduct based on still wind tunnel experiments. Journal of the examples of this paper, different values of the assur- Wind Engineering and Industrial Aerodynamics, 2014, 135: 22–33.
+ance coefficients in the steady wind model result in either [5] F Cheli, S Giappino, L Rosa, et al. Experimental study on the aerodynamic forces on railway vehicles in presence of turbulence. Journal of Wind underestimated or overestimated results. Therefore, a
+Engineering and Industrial Aerodynamics, 2013, 123: 311–316.
+reasonable agreement of CWC between the steady wind [6] G Tomasini, S Giappino, R Corradi. Experimental investigation of the model and turbulent wind model can be obtained if an effects of embankment scenario on railway vehicle aerodynamic coefficients. Journal of Wind Engineering and Industrial Aerodynamics, 2014, 131:
+“appropriate value” of the assurance coefficient is used.
+59–71.
+For the vehicle studied in this paper, the appropriate [7] A Premoli, D Rocchi, P Schito, et al. Comparison between steady and value is 2.1. That is, a steady wind model can also pro- moving railway subjected to crosswind by CFD analysis. Journal of Wind
+Engineering and Industrial Aerodynamics, 2016, 156: 29–40.
+vide a relatively accurate assessment of the CWC if an
+[8] H Hemida, C J Baker. Large-eddy simulation of the flow around a appropriate value of the assurance coefficient is speci- freight wagon subjected to a crosswind. Computers & Fluids, 2010, 39:
+fied. However, it should be noted that the “appropriate 1944–1956.
+[9] X M Shao, J Wan, D W Chen. Aerodynamic modeling and stability analysis value” could be more or less different for various types of of a high-speed train under strong rain and crosswind conditions. Journal vehicles. of Zhejiang University - Science A: Applied Physics & Engineering, 2011, 12:
+964–970.
+Authors’ Contributions [10] S Giappino, D Rocchi, P Schito, et al. Cross wind and rollover risk on
+Mengge Yu was in charge of the whole trial. All authors read and approved lightweight railway vehicles. Journal of Wind Engineering and Industrial the final manuscript. Aerodynamics, 2016, 153: 106–112.
+[11] M G Yu, J Y Zhang, K Y Zhang, et al. Study on the operational safety of
+Author Details high-speed trains exposed to stochastic winds. Acta Mechanica Sinica,
+1 College of Mechanical and Electronic Engineering, Qingdao University, 2014, 30(3): 351–360.
+Qingdao 266071, China. 2 State Key Laboratory of Traction Power, Southwest [12] S Krajnović, P Ringqvist, K Nakade, et al. Large eddy simulation of the flow
+Jiaotong University, Chengdu 610031, China. around a simplified train moving through a crosswind flow. Journal of
+Wind Engineering and Industrial Aerodynamics, 2012, 110: 86–99.
+Authors’ Information [13] A Carrarini. Reliability based analysis of the crosswind stability of railway
+Mengge Yu, born in 1985, is currently an associate professor at College of vehicles. Journal of Wind Engineering and Industrial Aerodynamics, 2007,
+Mechanical and Electronic Engineering, Qingdao University, China. She received 95(7): 493–509.
+her PhD degree from Southwest Jiaotong University, China, in 2014. Her [14] C Wetzel, C Proppe. On reliability and sensitivity methods for vehicle research interests include train aerodynamic, vehicle system dynamics. systems under stochastic crosswind loads. Vehicle System Dynamics, 2010,
+Rongchao Jiang, born in 1985, is currently a lecturer at College of Mechani- 48(1): 79–95.
+cal and Electronic Engineering, Qingdao University, China. He received his PhD [15] EN14067-6. Railway applications - Aerodynamics - Part 6: Requirements degree from Jilin University, China, in 2016. and test procedures for cross wind assessment. CEN, Brussels, 2010.
+Qian Zhang, born in 1985, is currently a lecturer at College of Mechani- [16] G Tomasini, F Cheli. Admittance function to evaluate aerodynamic loads cal and Electronic Engineering, Qingdao University, China. He received his PhD on vehicles: experimental data and numerical model. Journal of Fluids and degree from China Academy of Railway Sciences, in 2014. Structures, 2013, 38: 92–106.
+Jiye Zhang, born in 1965, is currently a professor at State Key Laboratory of [17] F Cheli, R Corradi, G Tomasini. Crosswind action on rail vehicles: a meth-
+Traction Power, Southwest Jiaoton University, China. He received his PhD degree odology for the estimation of the characteristic wind curves. Journal of from Southwest Jiaotong University, China, in 1998. Wind Engineering and Industrial Aerodynamics, 2012, 104-106: 248–255.
+[18] C J Baker. A framework for the consideration of the effects of crosswinds on trains. Journal of Wind Engineering and Industrial Aerodynamics, 2013,
+Competing Interests 123: 130–142.
+The authors declare that they have no competing interests. [19] Y Ding, M Sterling, C J Baker. An alternative approach to modeling train stability in high crosswinds. Proceedings of Institution Mechanical Engineers
+Funding Part F - Journal of Rail and Rapid Transit, 2008, 222: 85–97.
+Supported by National Natural Science Foundation of China (Grant Nos. [20] C Baker, F Cheli, A Orellano, et al. Cross-wind effects on road and rail
+51705267, 51605397), China Postdoctoral Science Foundation Grant (Grant vehicles. Vehicle System Dynamics, 2009, 47(8): 983–1022.
+No. 2018M630750), Shandong Provincial Natural Science Foundation of China [21] M G Yu, J L Liu, D W Liu, et al. Investigation of aerodynamic effects on (Grant No. ZR2014EEP002). the high-speed train exposed to longitudinal and lateral wind velocities.
+Journal of Fluids and Structures, 2016, 61: 347–361.
+Received: 17 November 2017 Accepted: 4 April 2019 [22] R K Cooper. Atmospheric turbulence with respect to moving ground vehicles. Journal of Wind Engineering and Industrial Aerodynamics, 1985,
+17(2): 215–238.
+[23] C J Baker. The simulation of unsteady aerodynamic crosswind forces on trains. Journal of Wind Engineering and Industrial Aerodynamics, 2010, 98:
+References 88–99.
+[1] C Baker, H Hemida, S Iwnicki, et al. Integration of crosswind forces into [24] C Gan. A new procedure for exploring chaotic attractors in nonlinear train dynamic modelling. Proceedings of Institution Mechanical Engineers dynamical systems under random excitation. Acta Mechanica Sinica, 2011,
+Part F - Journal of Rail and Rapid Transit, 2011, 225: 154–164. 27(4): 593–601.
+[2] F Dorigatti, M Sterling, C J Baker, et al. Crosswind effects on the stabil- [25] M G Yu, J Y Zhang, W H Zhang. Unsteady aerodynamic loads of highity of a model passenger train- A comparison of static and moving speed trains under stochastic winds. Journal of Mechanical Engineering,
+2012, 48(20): 113–120. (in Chinese).
+Yu et al. Chin. J. Mech. Eng. (2019) 32:40 Page 13 of 13
+[26] M G Yu. Study on the wind-induced safety of the high-speed train based on [28] D E Cartwright, M S Longquet-Higgins. The statistical distributions of the the reliability. Chengdu: Southwest Jiaotong University, 2014. (in Chinese) maxima of a random function. Proceedings of the Royal Society Series A,
+[27] D B Cui, L Li, X S Jin, et al. Optimal design of wheel profiles based on 1956, 237: 213–232.
+weighted wheel/rail gap. Wear, 2011, 271: 218–226.

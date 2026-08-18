@@ -1,0 +1,248 @@
+EnvironDevSustain(2019)21:2083–2096 https://doi.org/10.1007/s10668-018-0086-2
+Assessing regional typhoon risk of disaster management by clustering typhoon paths
+Ji-Myong Kim1 • Kiyoung Son2 • Young-Jae Kim3
+Received:17August2017/Accepted:15January2018/Publishedonline:19January2018
+SpringerScience+BusinessMediaB.V.,partofSpringerNature2018
+Abstract Manycountriesareaffectedbytyphoonsandcyclones.Hugedamagesarecausedby thesenaturaldisasters.Therefore,losspredictionmodelsarerequiredtoensurethatsociety remains resilient to natural disasters, including typhoons. Although previous studies have focusedonidentifyingstrategiesformitigatingtyphoondamages,therelationshipsbetweenthe characteristics of the built environment and the extent of typhoon damages have not been sufficientlyexamined.Thepurposeofthisstudyistoidentifythefeaturesoftyphoondamages andtodevelopametricforestimatingtheimpactofbuiltenvironmentvulnerabilityonfinancial lossusingthedataoftypes1and2typhoons.Typhoondamagedata(lossratios)recordedatthe provinciallevelwereusedasthedependentvariable.Theindependentvariableswerecategorizedintotwotypes:typhooncharacteristicsandbuiltenvironmentindicators.Theresults obtained from the regression models showed that the loss ratios of type 1 typhoons were
+correlatedwithwindspeed,rainfall,andnumberofcuttingslopes,whiletheextentoffinancial losscausedbytype2typhoonswasmainlycorrelatedwiththemeteorologicalindicators.The results obtainedwith the loss prediction models developed inthis study would help public disastermanagersdevelopdifferentstrategiesfortyphoonriskmitigation.
+Keywords Extreme weather events Typhoon risk Risk assessment Building damage Disaster management & Young-JaeKim youngjae_kim@yu.ac.kr
+Ji-MyongKim jimy6180@gmail.com
+KiyoungSon sky9852111@ulsan.ac.kr
+1 DepartmentofConstructionScience,TexasA&MUniversity,CollegeStation,TX77843,USA
+2 SchoolofArchitecturalEngineering,UniversityofUlsan,Ulsan44610,RepublicofKorea
+3 DepartmentofForestResourcesandLandscapeArchitecture,YeungnamUniversity,280Daehak-
+Ro,Gyeongsan,Gyeongbuk38541,RepublicofKorea
+2084 J.-M.Kimetal.
+1 Introduction
+1.1 Background
+Theworldwidefrequencyofseveremeteorologicaldisastersandtheextentoflosscaused by these disasters have increased significantly (Swiss 2015). Hurricane Katrina (2005) strucktheGulfCoastoftheUSAwithstrongwindsandstormsurges.Thedamagecaused by it was estimated to be approximately 108 billion USD. Hurricane Ike (2008) and
+Hurricane Sandy (2012) hit the southern and eastern coasts of the USA and caused approximately 29.5 and 71.4 billion dollars in damages, respectively (Blake et al.
+2007, 2013).
+Therefore, the management and assessment of extreme meteorological disasters are essential to ensure the uninterrupted production of many industries and public works.
+Many insurance companies have modified their insurance coverage and rates against natural disasters, and some companies have even gone bankrupt due to the unpredicted extent of losses caused by natural disasters (Watson and Johnson 2004).Therefore, reinsurersandinsurersshouldpreparefortheunanticipatedexpenditurestheymightincurdue to natural disasters. Since natural disasters significantly affect people and society, the government is paying considerable attention to their impact on public works. People are concerned as to how the government can assist them before and after a disaster and the government’s preparedness for future disasters. Therefore, the government should define areas prone to natural disasters and focus on how to respond to and recover from such events within a given budget (Sylves 2014). Moreover, buildinga communityresilient to natural disasters is imperative for quick recovery. Increased social risk perception raises
+the probability of people taking preventive measures before a hurricane (Kim and Kang
+2010; Comfort et al. 2012). Additionally, building a sustainable community is important for establishing land-use plans. Disaster mitigation, sustainability of a community, and land-useplanningarehighlycorrelated.Theextentoflifeandpropertylossessufferedby communities due to natural disasters would reduce if the government prepares a land-use plan.Suchplansshouldbebasedonaccurateriskassessmentsfordevelopingmorerobust programstomitigatetheeffectsofnaturaldisasters(Burby1998;Burbyetal.2000).The constructionindustry’sbuildingdesignstandardsandcodesshouldberevisedorupdatedto develop a sustainable built environment that is resistant to the increasing frequency of extreme weather events. The maintenance of lifelines, transportation systems, and infrastructure at the time of hurricane landing is extremely vital to reduce the extent of human and property damages. Therefore, a sophisticated natural disaster risk assessment
+modelthat canbeappropriatelyadaptedtothechangingenvironmentisrequired (Bosher et al. 2007; Cruz and Okada 2008; Sussman and Freed 2008). Quantitative disaster managementandassessmentmethodsarenecessaryforsustainablesocialdevelopmentand protection of numerous industries against such major natural disasters.
+1.2 Natural catastrophe model
+Several private companies and international associations have been established, and initiatives have been undertaken to develop risk assessment models for mitigating natural disaster risks and improving natural disaster risk assessment. In the public sector, for example, the New Multi-Hazard and Multi-Risk Assessment Method for Europe (MATRIX), RiskScape of New Zealand, and Probabilistic Risk Assessment initiative, which was developed in Central America and is currently being implemented in South
+Assessingregionaltyphoonriskofdisastermanagementby… 2085
+America, are well-known natural catastrophe assessment models. The USA, particularly, has made tremendous efforts to cope with the serious losses due to natural disasters.
+Florida has developed the Florida Public Hurricane Loss Prediction Model (FPHLM) for hurricane damage assessments. This model is composed of three main modules: hazard module, vulnerability module, and finance module. The FPHLM assesses financial losses due to hurricanes for a given return period by utilizing numerous indicators such as occupancy, building inventory, and different typhoon features such as track, size, wind speed, and landfall. Additionally, the Federal Emergency Management Agency (FEMA) developed a multi-hazard risk assessment tool (HAZUS-MH) to assess the potential damagestobuildingsandinfrastructurefromhurricanes,floods,andearthquakes.HAZUS-
+MH uses geographic information systems (GIS) to estimate the direct losses, indirect losses, and societal impacts of natural disasters by employing various indicators, such as demographics, building inventory, occupancy, and geospatial information. In the private sector,RiskQuantificationandEngineering(RQE),AppliedInsuranceResearch,andRisk
+Management Solutions are well-known natural catastrophe model vendors. Reinsurance andprimaryinsurancecompaniesdeterminehowmuchrisktheycanwithstandortransfer intheeventofnaturaldisastersbyusingthecatastrophemodelsofthesevendors(Sanders et al. 2002).
+However, these loss estimation models have been rarely developed in emerging Asian countriessuchasSouthKorea,althoughtheyarefrequentlyaffectedbytropicalcyclones.
+Most studies conducted in South Korea have estimated typhoon damages and proposed countermeasurestomitigatethem.Forinstance,researchershaveanalyzedproblemswith
+Korea’s current disaster relief system and the challenges associated with it (Han 2006).
+Othershaveconductedcasestudiesonthetypesoftemporaryhousingfordisastervictims (Moonand Lee 2006).Studies havebeenconductedon mental health servicesoffered by social workers to provide relief during and after disasters (Shin 2000).
+1.3 Literature review
+Previousstudiesontyphoondamagesfocusedonlythefeaturesofthetyphoon,whileless attention was paid to other indicators related to the typhoon damages, such as actions of exposure, vulnerability indicators, and hazard indicators (Kim et al. 2016). Park et al.
+(2012)analyzedthetyphoondamagesanddamagetrendsbyutilizingatyphoonwindfield model. Park et al. (2011) predicted disaster areas and extent of damages using the strong windsaccompanyingtyphoonsasindicators.Kuetal.(2007)definedthecharacteristicsof typhoons in Korea and developed a statistical prediction model by utilizing rainfall data.
+Shinetal.(2013)estimatedtyphoonpathsanddamagesbasedonthedataofthespeedand direction of typhoon movement. These studies on typhoon damages in Korea focused mainly on the features of typhoons, e.g., rainfall, wind speed, direction, and path.
+Severalstudieshavehighlightedtheimportanceofunderstandingthebuiltenvironment vulnerability indicators that are associated with typhoon risks (Khanduri and Morrow
+2003; Kim et al. 2016; De Silva et al. 2008). Typhoons with severe windstorms can, for example, cause huge financial damages to high-rise buildings (Khanduri and Morrow
+2003).Furthermore, theextent oftyphoondamagescanvarydependingonwhether flood control structures are properly installed for the protection of communities against flood hazards (Brody et al. 2008). The cutting slopes of mountains or lands, formed due to construction activities or earthworks, may be associated with typhoon risks or damages since areas with steep slopes can be easily destroyed by typhoons (Dai et al. 2002; Zhai et al. 2007; Cui et al. 2009; Ayalew and Yamagishi 2005). Therefore, studies should
+2086 J.-M.Kimetal.
+consider the built environment vulnerability indicators for a more accurate estimation of typhoon damages and effective mitigation of typhoon risks.
+To address the limitations of previous studies, this study investigates the characteristics of typhoon damages at the provincial level by developing a loss prediction model that utilizes the data of the features of typhoons (wind speed, wind speed radius, forward movement speed, and rainfall) and built environment vulnerability (number of high-rise buildings, complement rate of river, and number of cutting slopes). The typhoon damages were assessed by clustering the paths of types 1 and 2 typhoons. Furthermore, the relationships between the extent of damages and the risk indicators were examined to identifythedifferencesbetweentheindicatorsandthecorrespondingweightsofdifferent typhoontypes.Amultipleregressionanalysismethodwasutilizedtogeneratethebest-fit regression models for the paths of types 1 and 2 typhoons. These were used to comprehensively evaluate the relationship between the extent of loss and dependent vari-
+ables. The framework and the findings of this study can be used as a reference for developing a typhoon damage prediction model for disaster management, public safety management, and managing extreme weather events in South Korea and other emerging
+Asian countries.
+2 Research methods
+2.1 Study setting and research process
+ThisstudyexaminesthecorrelatesoftyphoondamagesinSouthKorea,whichislocatedin thesouthernpartoftheKoreanPeninsula.SouthKorea’sterrainisgenerallymountainous andhasmanysubtropicalislands.SouthKoreatendstohaveahumidsubtropicalclimate and has four distinct seasons (spring to winter) with different temperatures and climates.
+The total population of South Korea was estimated to be 50.7 million in 2017 (World
+Population Review 2017).
+Theresearchprocessofthisstudyisdividedintofivesteps.First,thecharacteristicsof typhoon damages, which are affected by typhoon paths, and correlated indicators were defined. The typhoon damages were categorized according to region, which means that extentsoftyphoondamagesweremeasuredattheprovinciallevel.Second,theextentsof typhoondamageswerecategorizedbasedonthetwotypesoftyphoonpathsandwereused as the main dependent variable. Third, the typhoon characteristics and the built environment vulnerability indicators, measured at the provincial level with the same spatial resolution as that of the dependent variable, were used as the independent variables.Fourth, statistical multiple regression analyses were conducted to investigate the correlates of typhoondamages.Fifth,thecorrelatesoftyphoondamagesfortypes1and2typhoonpaths were compared.
+Thefollowingsubsectionsdescribethestudyvariablesandvariablemeasurement,data collection, and statistical analyses methods used in the current and previous studies.
+2.2 Dependent variable
+Thisstudyusedthe typhoondamagerecordsfor2003–2014acquiredfrom the yearbooks of the Korean Ministry of Public Safety and Security (MPSS) as the dependent variable.
+Thedependentvariablewasthebuildinglossratiomeasuredattheprovinciallevel.Itwas
+Assessingregionaltyphoonriskofdisastermanagementby… 2087 calculatedbydividingthetotalfinanciallossesinSouthKoreanWon(KRW,thecurrency of South Korea) incurred by buildings by the total number of buildings at the provincial level,asshowninEq. (1).Thesumofbuildingdamageswascalculatedforeachprovince, and the total number of buildings in each province was considered for an objective evaluation of the severity of damages.
+Equation (1) is given below:
+The sum of building damages
+Loss ratio¼ ð1Þ
+The total number of buildings
+2.2.1 Clustering of typhoon paths
+Parketal.(2006)classifiedtyphoonsintoseventypesanddescribedtheirfeaturesbasedon the path followed. The characteristics of typhoons that caused damages in South Korea from2003to2014andthetotalamountoflossesincurredarelistedinTable 1.Asshown in Fig. 1, this study examines the damages caused by types 1 and 2 typhoons under the worst-casescenariossincethesetyphoonssignificantlyaffectedtheKoreanPeninsulaand caused more extensive damage than other types of typhoons.
+2.3 Independent variables
+2.3.1 Typhoon characteristics
+The severity of tropical cyclones can be described by various indicators, including the maximum wind speed radius, forward motion speed, and the maximum wind speed (Dunion et al. 2003; Vickery et al. 2006; Burton 2010). Many studies have considered the maximumwindspeedradiusandmaximumwindspeedasthekeyindicatorsforestimating typhoondamages(WatsonJr.andJohnson2004;Vickeryetal.2006;Burton2010).These
+Table1 Classificationoftyphoonsintodifferenttypes
+Type Characteristicsoftyphoons Typhoons(year) Totallosses (Mil.KRW)
+1 TyphoonsmovingnorthwardalongtheYellow Kompas(2010),Muifa(2011), 48,498
+SeaandthenlandingonthewestcoastofKorea Khanun(2012),Bolaven
+(2012)
+2 TyphoonslandingonthesoutherncoastofKorea Maemi(2003),Nari(2007), 98,451
+Tembin(2012),Sanba(2012)
+3 TyphoonsmovingnorthwardalongtheYellow Meari(2011) 686
+SeaandthenlandingonChinaorthegulfof
+Pohai
+4 TyphoonspassingtheStraitofKoreaandthen Malou(2010) 90 movingnorthwardalongtheEastsea
+5 TyphoonspassingthemainlandofJapanandthen – – movingnorthwardalongtheEastsea
+6 TyphoonspassingthemainlandofChinaandthen Kalmaegi(2008) 285 landingontheKoreanPeninsula
+7 TyphoonspassingthemainlandofJapanandthen Nabi(2005),Shanshan(2006), 3779 landingontheKoreanPeninsula Usagi(2007)
+2088 J.-M.Kimetal.
+Fig.1 TyphoontypesinSouthKorea:atype1typhoonsandbtype2typhoons studies indicated that the extent of damage to buildings can be explained by the characteristics of typhoons. Researchers have shown that the forward motion speed of tropical cyclones isanimportantindicator since itisassociated withthe floodedvolume(Watson and Johnson 2004; Rego and Li 2009). Rego and Li (2009) reported that slow moving hurricanescausehigherfloodingthanfastmovinghurricanes.Additionally,theamountof rainfall is one of the key indicators of the extent of typhoon damages. Choi and Fisher
+(2003) and Brody et al. (2008) showed that rainfall was the dominant and a statistically important variable for determining the extent of storm-related damage (Choi and Fisher
+2003; Brody et al. 2008). Choi and Fisher (2003) stated that the amount of rainfall was positively correlated with the extent of typhoon damages.
+2.3.2 Built environment vulnerability indicators
+Built environment vulnerability indicators are regarded as important variables for windstormdamageassessment(KhanduriandMorrow2003;Kimetal.2016).Theheightofa building can, for instance, be used to quantify the vulnerability of the building to storm damage.DeSilvaetal.(2008)andKhanduriandMorrow(2003)determinedtheextentof windstorm damages by using a damage assessment model. These studies suggested that buildinginventorysuchasbuildingarea,numberoffloors,andbuildingpricearerelatedto the extent of damage to buildings. The height of a building, especially, was statistically correlatedwiththeextentoffinanciallosses,andtherefore,itcanbeusedasavulnerability indicatortoquantifythestructuralvulnerabilityofabuilding(KhanduriandMorrow2003;
+DeSilvaetal.2008).DeSilvaetal.(2008)provedthatthebuildingheightwasnegatively correlated with the extent of typhoon damages. Therefore, the total number of high-rise buildings is one of the built environment vulnerability indicators used as an independent variable in this study.
+Additionally,cutslopesresultingfromconstructionactivitiescaninfluencetheextentof typhoon damages. Construction activities involve earthworks such as excavation and deforestation of mountainous areas, which decreases the solidity of landforms and increases the chances of slope failure (Dai et al. 2002; Zhai et al. 2007; Cui et al. 2009).
+Ayalew and Yamagishi (2005) investigated the relationship between avalanches and vulnerability indicators and found that construction activities and incidences of slope failure were significantly correlated. Furthermore, flood control structures are important for managingtheriskoffloodingfromwater-relatednaturalhazards(Brodyetal.2008).Since riverimprovementactivitieswereassociatedwithtyphoondamages(Cuietal.2009;Zhai
+Assessingregionaltyphoonriskofdisastermanagementby… 2089 etal.2007),theuseoftheimprovementrateofriversasanindicatorofbuiltenvironment vulnerability in this study is appropriate.
+These three built environment vulnerability indicators, total number of high-rise buildings,improvementrateofriver,andtotalnumberofcuttingslopes,weremeasuredat theprovinciallevelwiththesamespatial resolutionasthatofthedependentvariableand loss ratio.
+2.4 Data collection and statistical analysis
+Theregionaltyphoondamagedata,usedasthedependentvariable,wereacquiredfromthe
+Korean MPSS. Furthermore, the spatial and arithmetical data of typhoon characteristics and built environment vulnerability used in this study were acquired from the Japan
+Meteorological Agency, Korea Methodological Administration, and Korean Statistical
+Information Service (Table 2). This study adopted the best-track data acquired from the
+Japan Meteorological Agency (JMA) for typhoon track and intensity. JMA is a Regional
+Specialized Meteorological Center (RSMC) and oversees the monitoring of tropical cyclonesanddisseminationofrelatedinformation,e.g.,location,intensity,andmovement, in the Western North Pacific basin. The typhoon best-track data are summarized and archived by the JMA annually. This study used the wind speed, wind speed radius, and forward motion speed values from the typhoon best-track data of the JMA. The Korea
+Methodological Administration (KMA) is a South Korean government agency for providing meteorological services and was established in 1949. The KMA is responsible for monitoringweathersystemsanddisseminatingandarchivingrelatedinformation.Thedata oftotalamountofrainfallcausedbytyphoonswereacquiredfromtheKMA.TheKorean
+Statistical Information Service (KOSIS) is a South Korean government agency that provides statistical data. The KOSIS provides official statistics of built environment, population,socioeconomicconditions,constructionactivities,infrastructure,transportation,etc.
+Thedataofthetotalnumberofhigh-risebuildings,riverimprovementrate,totalnumberof cutting slopes were acquired from the KOSIS.
+Table2 Datacollected
+Classification Indicators Explanation Measure Datasource
+Typhoon Maximumwind Sustainedmaximumwind m/s JapanMeteorological information speed speedover10min Agency
+Maximumwind Radiusofmaximumwind km speedradius speed(above15m/s)
+Forwardmotion Forwardmotionspeedof km/h speed typhoon
+Rainfall Totalamountofrainfall mm/day KoreaMethodological
+Administration
+Built High-rise Totalnumberofhigh-rise Number KoreanStatistical environment buildings buildings(above20m) InformationService
+Improvement Percentageofriver % rateofriver improvementrate
+Cuttingslope Totalnumberofcuttingslope Numberper
+1000m2
+2090 J.-M.Kimetal.
+The ordinary least square regression method was utilized to examine the correlates of thelossratiosoftypes1and2typhoons.Thelossratios,whichareusedasthedependent variable,were(natural)log-transformed.Furthermore,thepresentstudyusedtheStata14 software to develop the regression models for types 1 and 2 typhoons.
+3 Results
+3.1 Descriptive statistics
+Table 3 shows the descriptive statistics of the dependent and independent variables for each type of typhoon. The mean values indicate the central tendency of the values. The standarddeviations(S.D.)representthedispersionofdatafromthemeanvalue,and‘‘n’’in the table represents the number of observations for types 1 and 2 typhoons.
+3.2 Multiple regression analysis
+Table 4 presents the typhoon characteristics and the built environment vulnerability indicators associated with the loss ratios for types 1 and 2 typhoons estimated using the types 1 and 2 regression models, respectively.
+3.2.1 Type 1 typhoons
+The R2 value for the regression model of type 1 typhoons was 0.486, which implies that
+48.6% of the variation in the dependent variables can be explained by the regression model. Three significant variables, the maximum wind speed, rainfall, and number of cuttingslopes,wereidentifiedasindicatorsoftheextentoftyphoondamage.However,the other indicators were not correlated with the dependent variable of type 1 typhoons. The varianceinflationfactor(VIF)valuesrangedfrom1.087to1.405.Thesevaluesverifythat
+Table3 Descriptivestatisticsofthestudyvariables
+Category Type1typhoon(n=54) Type2typhoon(n=54) n Mean SD n Mean SD
+Dependentvariable
+Lossratio 54 2357.67 6229.89 54 5672.04 13,503.60
+Independentvariables
+Maximumwindspeed(m/s) 54 30.69 6.21 54 35.72 7.48
+Windspeedradius(km) 54 299.17 109.19 54 311.11 123.47
+Forwardmovementspeed(km/h) 54 45.31 7.90 54 39.17 11.14
+Rainfall(mm/day) 54 77.46 50.15 54 102.97 76.76
+High-risebuilding(number) 54 10,515.67 12,053.16 54 6002.11 7901.38
+Complementrateofriver(%) 54 59.87 14.80 54 60.34 13.64
+Cuttingslope(numberper1000m2) 54 26.78 27.33 54 28.08 26.64 ‘‘’’denotesthevaluesoflossratio,whichindicatestheratioofthesumofbuildingdamagecostsatthe provinceleveltothetotalnumberofbuildings
+Assessingregionaltyphoonriskofdisastermanagementby… 2091
+Table4 Resultsobtainedwiththeregressionmodelsoftypes1and2typhoons
+Variables Type1typhoon Type2typhoon
+Coef. Beta p[|z| VIF Coif. Beta p[|z| VIF coef. coef.
+Typhooninformation
+Maximumwindspeed 0.003 0.442 0.004 1.405 0.004 0.004 0.003 5.558 (m/s)
+Windspeedradius(km) 0.005 2.257 0.134 1.537 0.005 0.005 0.053 1.260
+Forwardmovement 0.027 1.534 0.165 1.672 0.180 0.180 0.007 5.654 speed(km/h)
+Rainfall(mm/day) 0.016 0.352 0.016 1.318 0.013 0.013 0.004 1.190
+Builtenvironment
+High-risebuilding -6.585 -2.578 0.111 2.754 -0.000 -0.613 0.113 3.109 (number)
+Complementrateof -0.025 0.166 0.301 1.770 -0.015 -0.074 0.575 1.646 river(%)
+Cuttingslope(number 0.031 -0.383 0.005 1.087 0.013 -0.132 0.439 2.726 per1000m2)
+Numberofobservations 54 54
+F 12.025 10.687
+AdjR2 0.486 0.525
+‘‘Coef.’’indicatesthenon-standardizedcoefficientsthatconsidertheindependentvariable’sscaleofunits.
+They do not allow a comparisonof the effect of each individual independent variable on the dependent variable ‘‘Betacoef.’’indicatesstandardizedcoefficientsthatignoretheindependentvariable’sscaleofunits,which facilitatescomparisonsamongtheindependentvariables.Thehighertheabsolutevalueofthebetacoef.,the strongertheeffect there was no significant multicollinearity between the variables. The indicators were ranked in decreasing order of the corresponding beta coefficients. According to the magnitudes of the coefficients, the indicators were ranked in the following order: (1) maximum wind speed (beta coef. = 0.442), (2) number of cutting slopes (beta coef. = - 0.383), and (3) rainfall amount (beta coef. = 0.352).
+3.2.2 Type 2 typhoons
+TheR2valuefortheregressionmodeloftype2typhoonswas0.525.Thisindicates52.5% ofthevariationinthedependentvariablecanbeexplainedbytheregressionmodel.Four significant variables, the maximum wind speed, rainfall, wind speed radius, and forward movementspeed,wereidentifiedasindicatorsoftheextentoftyphoondamage.However, the other indicators were not correlated with the dependent variable of type 2 typhoons.
+The VIF values ranged from 1.190 to 5.654. These values confirm that there was no significant multicollinearity between the variables. The beta coefficients represent the indicatorranks.Basedonthemagnitudesofthecoefficients,theindicatorswererankedin the following order: (1) forward movement speed (beta coef. = 0.180), (2) rainfall (beta coef. = 0.013),(3)windspeedradius(betacoef. = 0.005),and(4)maximumwindspeed (beta coef. = 0.004).
+2092 J.-M.Kimetal.
+4 Discussion
+The damages to buildings caused by typhoons were statistically analyzed in this study to identify the characteristics of typhoon damage based on typhoon paths for disaster management.Types1and2typhoonswereselectedfromamongtheseventyphoontypessince they are the most frequently occurring and critical typhoon types in South Korea. These typhoonswereexaminedundertheworst-casescenario.Type1typhoonssuchasTyphoon
+Kompasu(2010),TyphoonMuifa(2011),TyphoonKhanun(2012),andTyphoonBolaven
+(2012)movednorthwardalongtheYellowSeaandlandedonthewestcoastofKorea.The total financial loss due to these typhoons was 48 billion KRW. Type 2 typhoons such as
+Typhoon Maemi (2003), Typhoon Nari (2007), Typhoon Tembin (2012), and Typhoon
+Sanba (2012) landed on the southern coast of Korea. The total financial loss due to these typhoons was 98 billion KRW.
+ThetwomodelswerestatisticallysignificantbecausetheirPvalue(0.000)waslessthan
+0.05.Thisimpliesthatthedependentvariableandindependentvariablesweresignificantly related. The adjusted R2 values of the regression models of the types 1 and 2 typhoons
+(0.486and0.525,respectively)weresimilar.However,thesignificantindicatorsofthetwo models were different. The adjusted R2 value of the type 1 model was 0.486, which suggeststhatthe48.6%ofthevariationinthedependentvariablecanbeexplainedbythe threesignificantindicators(windspeed,rainfall,andnumberofcuttingslopes).However, theremaining51.4%of variability,whichcould beduetoseveralunidentifiedindicators, was not considered in this study. The adjusted R2 value of the type 2 model was 0.525, whichindicatesthat52.5%ofvariationinthedependentvariablecanbeexplainedbythe four significant indicators (forward movement speed, rainfall, wind speed radius, and maximumwindspeed).However,theremaining47.5%ofvariability,whichcouldbedue to unidentified indicators, was not considered in this study. The indicators of type 2 typhooncharacteristicsaresignificantlycorrelatedwiththeextentofdamagescaused.The significant indicators are different for types 1 and 2 typhoons. This may be one of the
+reasons why type 1 typhoons could not maintain their intensity after landfall in South
+Korea.Type1typhoonsmovednorthwardalongtheYellowSea,landedonthewestcoast ofKorea,movednorthwardalongthewestcoastwithweakeningintensity,anddissipated inChinaandNorthKorea.Therefore,thedamagecausedbythetyphoononthewestcoast ofKoreaismainlyduetotheindirectinfluencesoftyphooncharacteristicssuchasstrong windandrainfallwhentheKoreanPeninsulaislocatedwithinthedangeroussemicircleof thetyphoon.However,type2typhoonslandedintheinlandregionofthesoutherncoastof
+Korea and caused direct damages since the typhoon characteristics used as variables are more significant.
+The wind speed and rainfall were the common significant indicators between the two models. With the exception of the number of cutting slopes in the building environment vulnerability indicator category, the meteorological indicators were the dominant variables. Indicators of other categories were statistically insignificant. The wind speed and rainfall are the most important and common variables used for explaining building loss ratio.Thisisbecausewind-drivenrain,heavyrain,andhighwindsarethemajorcausesof damagetobuildings(FederalEmergencyManagementAgency2007).Thecomponentsof buildingenvelopesuchasroofs,doors,andwindows,forinstance,arecommonlydamaged by wind-borne debris or blown off by high winds. A considerable volume of rain can penetrate buildings through the damaged part of the building components. Rainwater
+Assessingregionaltyphoonriskofdisastermanagementby… 2093 intrusioncausesseveredamagetofloodcontrolstructuresandpartitionwallsorceilingsof buildings.Furthermore,heavyraincancauseflooddamagetothebasementsofbuildings.
+Among the significant indicators in the typhoon information category, the forward movementspeedofthetyphoonwaspositivelycorrelatedwiththeextentoflossduetothe typhoon.Thismeansthattheextentoflosswillincreaseiftheforwardmovementspeedof the typhoon increases. This finding agrees with the results of previous studies. Previous studies reported that the forward movement speed of typhoons influences the extent of lossesduetotyphoonsandisausefulparameterforlossassessment(WatsonandJohnson
+2004; Rego and Li 2009). The maximum wind speed and the extent of loss caused by typhoons were positively correlated. This indicates that the extent of loss will increase if the wind speed increases. This finding supports earlier studies that reported that the maximum wind speed is an important indicator for the prediction of losses caused by typhoons (Watson and Johnson 2004; Vickery et al. 2006; Burton 2010). The maximum wind speed radius and extent of loss were positively correlated, which means that the extentoflosswillincreaseifthemaximumwindspeedradiusincreases.Thisresultagrees with those of previous studies. Previous studies reported that the maximum wind speed radius is an important variable for estimating losses caused by typhoons (Watson and
+Johnson2004;Vickeryetal.2006;Burton2010).Therainfallandtheextentoflosswere positively correlated, which means that the extent of loss will increase if the rainfall increases. This finding confirms that the rainfall is an important indicator for quantifying naturalhazards.Thishasbeenreportedbypreviousstudies(ChoiandFisher2003;Brody et al. 2008). The number of cutting slopes was the only variable among the significant variables,excludingmeteorologicalindicators,consideredinthisstudywithastatistically significant relationship with the extent of loss caused by typhoons. This validates the resultsofanearlierstudy,whichshowedthatthecuttingslopeisanimportantindicatorfor estimating losses from natural hazards (Ayalew and Yamagishi 2005).
+Therefore,theresultsandmodelsreportedinthisstudycanbeutilizedasreferencesby administration workers and catastrophe management officers for various tasks. Administrationworkerscan,forinstance,mitigatethedamagescausedbytyphoonsbyestimating the financial loss with the models reported in this study and establishing strategies for mitigation against typhoon losses on the basis of the estimated loss. Since the models developed in this study used the data of damages from landslides and storm surges, the governmentcandevelopland-useplansbasedonthedamagesduetolandslidesandstorm surges to building and non-building areas along the typhoon path predicted with these models. These data were acquired form the yearbooks of the Korean Ministry of Public
+Safety and Security.
+Additionally,thefinancialdamagescouldbeestimatedbyusingthemetricdevelopedin thisstudy.Insuranceandreinsurancecompanies,forexample,canusethemetrictomodify their business model. They can estimate the probable maximum loss and event limit to define their premium, establish business strategies, and estimate the risk exposure accumulation from typhoons based on the results of the metric. The construction industry can design typhoon-resistant buildings and develop design guidelines by estimating the damagestobuildingonthebasisofbuildingheights,constructionmaterials,andotherfeatures ofthebuildingwiththemetric.Moreover,theindicatorsandframeworkusedinthisstudy could be utilized for similar studies in other emerging countries, where data of loss experiencedduetonaturaldisastersandfeaturesofbuildingsarenotabundant,topredict extreme weather events. These countries may be able to estimate the typhoon losses by employing the indicators and framework used this study. These indicators should be
+2094 J.-M.Kimetal.
+multipliedwiththerespectiveprovincialweights,andthecoefficientsshouldbecalibrated according to the regional building vulnerability for use in other regions.
+5 Conclusion
+Theoccurrenceofextremeweather-relatedcatastrophesandthecorrespondinglosseshave recently increased. Therefore, quantitative disaster management and assessment methods are essential for the development of a sustainable society that is resilient to such major natural disasters. Although the necessity of a loss assessment model for disaster management has increased, sufficient reliable data of damage caused by natural disasters and building inventory are not available for developing such models. Furthermore, synthetic studies on the characteristics of damage caused by typhoons along typhoon paths in emerging countries of Asia are limited.
+Since the spatial resolution of the indicators used in this study was determined at the provincial level, it might not be easy to apply the findings and results of this study for estimatinglossestoindividualbuildingsfromtyphoons.Therefore,futureresearchshould focusonassessingtherelationshipbetweenlossestoindividualbuildingsandvariousbuilt environment vulnerability indicators to support the findings and results of this study.
+Furthermore,future studies onother types oftyphoons besides thetype 1and2typhoons could provide useful information.
+Funding This work was partly supported by the 2017 Yeungnam University Research Grant [#217A580058].
+Compliancewithethicalstandards
+Conflictofinterest Theauthorsdeclarenoconflictofinterest.
+References
+Ayalew,L.,&Yamagishi,H.(2005).TheapplicationofGIS-basedlogisticregressionforlandslidesusceptibilitymappingintheKakuda-YahikoMountains,CentralJapan.Geomorphology,65(1),15–31.
+Blake,E.S.,Kimberlain,T.B.,Berg,R.J.,Cangialosi,J.P.,&Beven,J.L.,II.(2013).Tropicalcyclone report:Hurricanesandy.NationalHurricaneCenter,12,1–10.
+Blake,E.S.,Rappaport,E.N.,&Landsea,C.W.(2007).Thedeadliest,costliest,andmostintenseUnited
+Statestropicalcyclonesfrom1851to2006(andotherfrequentlyrequestedhurricanefacts):NOAA/
+National Weather Service. Miami, FL: National Centers for Environmental Prediction, National
+HurricaneCenter.
+Bosher,L.,Carrillo,P.,Dainty,A.,Glass,J.,&Price,A.(2007).Realisingaresilientandsustainablebuilt environment:TowardsastrategicagendafortheUnitedKingdom.Disasters,31(3),236–255.
+Brody,S.D.,Zahran,S.,Highfield,W.E.,Grover,H.,&Vedlitz,A.(2008).Identifyingtheimpactofthe builtenvironmentonflooddamageinTexas.Disasters,32(1),1–18.
+Burby, R. J. (1998). Cooperating with nature: Confronting natural hazards with land-use planning for sustainablecommunities.Washington:JosephHenryPress.
+Burby,R.J.,Deyle,R.E.,Godschalk,D.R.,&Olshansky,R.B.(2000).Creatinghazardresilientcommunitiesthroughland-useplanning.NaturalHazardsReview,1(2),99–106.
+Burton,C.G.(2010).Socialvulnerabilityandhurricaneimpactmodeling.NaturalHazardsReview,11(2),
+58–68.
+Choi,O.,&Fisher,A.(2003).Theimpactsofsocioeconomicdevelopmentandclimatechangeonsevere weather catastrophe losses: Mid-Atlantic Region (MAR) and the US. Climatic Change, 58(1),
+149–170.
+Assessingregionaltyphoonriskofdisastermanagementby… 2095
+Comfort,L.K.,Waugh,W.L.,&Cigler,B.A.(2012).Emergencymanagementresearchandpracticein publicadministration:Emergence,evolution,expansion,andfuturedirections.PublicAdministration
+Review,72(4),539–547.
+Cruz,A.M.,&Okada,N.(2008).Considerationofnaturalhazardsinthedesignandriskmanagementof industrialfacilities.NaturalHazards,44(2),213–227.
+Cui,B.,Wang,C.,Tao,W.,&You,Z.(2009).Riverchannelnetworkdesignfordroughtandfloodcontrol:
+AcasestudyofXiaoqingheRiverbasin,JinanCity.China.Journalofenvironmentalmanagement,
+90(11),3675–3686.
+Dai,F.,Lee,C.,&Ngai,Y.Y.(2002).Landslideriskassessmentandmanagement:Anoverview.EngineeringGeology,64(1),65–87.
+DeSilva,D.G.,Kruse,J.B.,&Wang,Y.(2008).Spatialdependenciesinwind-relatedhousingdamage.
+NaturalHazards,47(3),317–330.
+Dunion,J.P.,Landsea,C.W.,Houston,S.H.,&Powell,M.D.(2003).Areanalysisofthesurfacewindsfor
+HurricaneDonnaof1960.MonthlyWeatherReview,131(9),1992–2011.
+FederalEmergencyManagementAgency.(2007).Designguideforimprovingcriticalfacilitysafetyfrom floodingandhighwinds:Providingprotectiontopeopleandbuildings.Washington,DC:FEMA.
+Han, D. (2006). Disaster Relief System in Korea: Problems and Tasks. Journal of Safety and Crisis
+Management,2(2),36–51.
+Khanduri,A.,&Morrow,G.(2003).Vulnerabilityofbuildingstowindstormsandinsurancelossestimation.
+JournalofWindEngineeringandIndustrialAerodynamics,91(4),455–467.
+Kim,J.-M.,Woods,P.K.,Park,Y.J.,Kim,T.,&Son,K.(2016a).Predictinghurricanewinddamageby claim payout based on Hurricane Ike in Texas. Geomatics, Natural Hazards and Risk, 7(5),
+1513–1525.
+Kim, J.-M., Woods, P. K., Park, Y. J., & Son, K. (2016b). Estimating the Texas Windstorm Insurance
+Association claim payout of commercial buildings from Hurricane Ike. Natural Hazards, 84(1),
+405–424.
+Kim,Y.C.,&Kang,J.(2010).Communication,neighbourhoodbelongingandhouseholdhurricanepreparedness.Disasters,34(2),470–488.
+Ku,H.,Lee,S.,Lee,Y.,&Kim,H.(2007).Statisticalmodelandcharacteristicsoftyphoon-inducedrainfall aroundKoreanpeninsula.JournalofIndustrialScienceTechnologyandInstitute,21(2),85–95.
+Moon, J., & Lee, S. (2006). A case study on the typology of temporary housing according to disasters.
+JournaloftheArchitecturalInstituteofKoreaPlanningandDesign,22(9),141–148.
+Park,J.G.,Jeong,W.S.,Kim,E.B.,&Kim,J.S.(2011).Astudyonpossibleregionaldisasterprediction fortheaccompanyinghighwindsinthestorm.Asia-PacificJournalofAtmosphericScience,10(1),
+306–307.
+Park,J.G.,Jeong,W.S.,Kim,J.S.,&Kim,E.B.(2012).Scaletyphoondamageanalysisandtrendanalysis of typhoon forecasting models. In Proceedings of the Korean environmental sciences society conference.
+Park,J.-K.,Kim,B.-S.,Jung,W.-S.,Kim,E.-B.,&Lee,D.-G.(2006).Changeinstatisticalcharacteristicsof typhoonaffectingtheKoreanPeninsula.Atmosphere,16(1),1–17.
+Rego, J. L., & Li, C. (2009). On the importance of the forward speed of hurricanes in storm surge forecasting: A numerical study. Geophysical Research Letters, 36(7). https://doi.org/10.1029/
+2008GL036953.
+Sanders,D.,Brix,A.,Duffy,P.,Forster,W.,Hartington,T.,&Jones,G.,etal.(2012).Themanagementof lossesarisingfromextremeevents.InConventiongeneralinsurancestudygroupGIRO,London.
+Shin, H., Byun, G., Kim, J., Jang, K., & Lee, J. (2013). Hurricane path prediction models predict the performanceevaluationconsideringthetravelingspeedanddirection.Asia-PacificJournalofAtmosphericScience,2013(10),372–373.
+Shin,S.-I.(2000).AstudyondisastermentalhealthsocialworkinKorea.KoreanJournalofMentalHealth andSocialWork,10,61–83.
+Sussman,F.G.,&Freed,J.R.(2008).Adaptingtoclimatechange:Abusinessapproach.Arlington,VA:
+PewCenteronGlobalClimateChange.
+Swiss, R. (2015). Natural catastrophes and man-made disasters in 2014: Convective and winter storms generatemostlosses.Sigma,2.
+Sylves, R. (2014). Disaster policy and politics: Emergency management and homeland security. Washington,DC:CQPress.
+Vickery,P.J.,Skerlj,P.F.,Lin,J.,Twisdale,L.A.,Jr.,Young,M.A.,&Lavelle,F.M.(2006).HAZUS-
+MH hurricane model methodology. II: Damage and loss estimation. NaturalHazards Review,7(2),
+94–103.
+2096 J.-M.Kimetal.
+Watson,C.C.,Jr.,&Johnson,M.E.(2004).Hurricanelossestimationmodels:Opportunitiesforimproving thestateoftheart.BulletinoftheAmericanMeteorologicalSociety,85(11),1713–1726.
+World Population Review (2017). South Korea Population 2017. http://worldpopulationreview.com/ countries/south-korea-population/.AccessedApril62017.
+Zhai,G.,Fukuzono,T.,& Ikeda,S. (2007).Multi-attributeevaluationoffloodmanagementin Japan:A choiceexperimentapproach.WaterandEnvironmentJournal,21(4),265–274.

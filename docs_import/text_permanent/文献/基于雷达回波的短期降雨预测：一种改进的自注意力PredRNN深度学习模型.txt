@@ -1,0 +1,412 @@
+atmosphere
+Article
+Short-Term Rainfall Prediction Based on Radar Echo Using an
+Improved Self-Attention PredRNN Deep Learning Model
+DaliWu1 ,LiWu1,*,TaoZhang2,WenxuanZhang1 ,JianqiangHuang1andXiaoyingWang1
+1 StateKeyLaboratoryofPlateauEcologyandAgriculture,DepartmentofComputerTechnologyand
+Applications,QinghaiUniversity,Xining810016,China
+2 BrookhavenNationalLaboratory,Upton,NY11973,USA * Correspondence:wuli777@qhu.edu.cn;Tel.:+86-18811129078
+Abstract:Accurateshort-termprecipitationforecastisextremelyimportantforurbanfloodwarning andnaturaldisasterprevention.Inthispaper,wepresentaninnovativedeeplearningmodelnamed
+ISA-PredRNN (improved self-attention PredRNN) for precipitation nowcasting based on radar echoesonthebasisoftheadvancedPredRNN-V2.Weintroducetheself-attentionmechanismand thelong-termmemorystateintothemodelanddesignanewsetofgatingmechanisms. Tobetter capturedifferentintensitiesofprecipitation,thelossfunctionwithweightswasdesigned.Wefurther trainthemodelusingacombinationofreversescheduledsamplingandscheduledsamplingtolearn thelong-termdynamicsfromtheradarechosequences. Experimentalresultsshowthatthenew model(ISA-PredRNN)caneffectivelyextractthespatiotemporalfeaturesofradarechomapsand obtainradarechopredictionresultswithasmallgapfromthegroundtruths.Fromthecomparison withtheothersixmodels,thenewISA-PredRNNmodelhasthemostaccuratepredictionresults withacriticalsuccessindex(CSI)of0.7001,0.5812and0.3052undertheradarechothresholdsof
+10dBZ,20dBZand30dBZ,respectively.
+Citation:Wu,D.;Wu,L.;Zhang,T.;
+Zhang,W.;Huang,J.;Wang,X.
+Keywords:deeplearning;spatiotemporalprediction;short-termprecipitation
+Short-TermRainfallPredictionBased onRadarEchoUsinganImproved
+Self-AttentionPredRNNDeep
+LearningModel.Atmosphere2022,13,
+1. Introduction
+1963. https://doi.org/10.3390/
+Precipitationpredictionisoneofthemostimportantmeteorologicalservices. Inparticatmos13121963 ular,short-termprecipitationforecastingismorecloselyrelatedtomanyaspectsofpeople’s
+AcademicEditors:JinboXie, lives. Short-termprecipitationforecastgenerallyreferstopredictingtheprecipitationinten-
+ShuaiqiTang,YujinZengandYiQin sityinthenext0–2h. Itishighlytime-sensitive. Preciseshort-termprecipitationforecasting
+Received:1September2022 isofgreatpracticalsignificance,makingtraveleasier,guidingagriculturalproductionand
+Accepted:22November2022 preventingandmitigatingdisaster.
+Published:24November2022 Atpresent,numericalweatherprediction(NWP)andradarechoextrapolationsare thetwomainstreammethodsofprecipitationforecasting. Numericalweatherprediction-
+Publisher’sNote:MDPIstaysneutral based methods perform future precipitation forecasting by solving complex physically withregardtojurisdictionalclaimsin basedprognosticweatherequations. However,numericalweatherpredictionhasthedrawpublishedmapsandinstitutionalaffilbacksofuncertaintyandparametricerrors,andgenerateslargecomputationaloverhead iations.
+in solving mathematical equations, which is more suitable for medium and long-term precipitationprediction. Theradarechoextrapolation-basedmethodusespreviousradar echosequencestoextrapolatefutureradarechosequencesandthusmakeprecipitation
+Copyright: © 2022 by the authors. forecastsforfutureperiods. Currently,monomericcenter-of-mass-basedmethods,mutual
+Licensee MDPI, Basel, Switzerland. correlation-basedmethods,andopticalflow-basedmethodsarewidelyusedinradarecho
+This article is an open access article weatherforecasting.Thesingle-bodycenter-of-mass-basedapproachissuitablefortracking distributed under the terms and isolated,large,strongechoesofsinglebodiesorgroupsofsinglebodies. Dixonetal.[1] conditionsoftheCreativeCommons usedthemethodforidentification,tracking,analysisandproximityforecastingofthun-
+Attribution(CCBY)license(https:// derstormsonradarechomaps. Theintercorrelation-basedapproachusesthebestspatial creativecommons.org/licenses/by/ correlationofdifferentregionsofadjacenttimeradarechoestoinferthelocationoffuture
+4.0/).
+Atmosphere2022,13,1963.https://doi.org/10.3390/atmos13121963 https://www.mdpi.com/journal/atmosphere
+Atmosphere2022,13,1963 2of17 radarechoes,suchasLiangetal.[2]combiningtheintercorrelation-basedapproachwith modelpredictedwindsforradarechoextrapolation. Theopticalflowapproachisamethod inthefieldofcomputervisionthatisalsoappliedtoweatherforecastingduetoitsgood motiontrackingcapability. Zhuetal.[3]usedthismethodfortropicalcycloneprecipitation forecasting. However,radarechohasnoobviousperiodicity,anditdoesnotmoveata fixedrateorhaveafixedpatternofshapechange. Radarechoesindifferentweatherscatter, merge and split over time, and also has the evolution of generation and elimination to someextent. Thisposeschallengestoaccurateradarechoprecipitationforecastingusing thetraditionalmethodsdescribedabove.
+Inrecentyears,withthedevelopmentofartificialintelligence,machinelearningmethodsarebeingusedmoreandmorewidely. Manymachinelearning-basedmodelshave showngreatadvantagesforapplicationsinthefieldofmeteorology. Yangetal.[4]proposedtheterrain-basedweightedrandomforests(TWRF)method,whichimprovedthe accuracyofradarquantitativeprecipitationestimation. Bhuiyanetal.[5]proposedthe nonparametricstatisticalmodelbasedonquantileregressionforests(QRF)formodeling rainfallretrievalerror. Zhangetal.[6]proposedanoveldoublemachinelearning(DML) approachtomergemultiplesatellite-basedprecipitationproducts(SPPs)andgaugeobservations. Banadkookietal.[7]obtainedprecipitationmapshighlyconsistentwiththe observed values using support vector machine optimization based on the flow regime algorithmforprecipitationforecasting. Chiangetal.[8]proposedaBayesianmergingwith gammadistribution(BMG)tosolvediscontinuousproblemsinrainfallassimilationunder
+more practical rainfall distribution. Kolluru et al. [9] used machine learning (SPEM2L) algorithmsformergingmultipleglobalprecipitationdatasetstoimprovespatiotemporal rainfall characterization. Compared with traditional machine learning methods, deep learning models use deeper network structures that are suitable for modeling complex dependencies. Theapplicationofdeeplearningmethodsinthefieldofmeteorologyhas notonlyledtomoreaccurateweatherforecastingresults,butalsosignificantlyreducedthe computationalcostandprocessingtimebeforeforecasting. Thefeatureexactlymeetsthe requirementsofreal-timeandaccuracyofshort-termforecasting.
+Weatherforecastingcanbeseenasasequentialproblemfromthetemporalperspective, i.e.,usingtheweatherconditionsofapastperiodtopredicttheweatherconditionsofa futureperiod. Thecircularstructureofrecurrentneuralnetworks(RNNs)iswellsuitedto dealingwithsequentialproblems[10–15].Convolutionalneuralnetworks(CNNs)aremore suitableforcapturingspatiallocationinformation,whichisoftenusedtoprocessvarious piecesofimageinformation[16–21]. Sincemanyweatherconditionsinvolvebothtemporal andspatialfactors,thecombinationofRNNsandCNNsisoftenusedforweatherprediction inordertobettercapturespatiotemporalcorrelations. Shietal.[22]firstcombinedCNN with RNN to design the convolutional long short-term memory (ConvLSTM) network forshort-termprecipitationforecastinginHongKongusingaradarechodataset,which isgraduallyusedinvariousscenariosofweatherforecastingforthebettercombination capabilityoflocationandsequenceinformation[23–25]. Trajectorygatedrecurrentunit
+(TrajGRU)[26]isanothernetworkforspatiotemporalpredictiondevelopedonthebasis ofConvLSTM,whichhasbettermotionfeatureextractionabilityandmoreaccurateradar echopredictionresults. Wangetal.[27]proposedthepredictiverecurrentneuralnetwork (PredRNN)basedonthespatiotemporalmemoryunitSpatiotemporalLSTM(ST-LSTM), whichcanbeseenasacombinationoftwoConvLSTMbasicunitsstackedupanddown, withtheupperpartcalledthestandardtemporalmemorystructureandthelowerpart calledthespatiotemporalmemorystructure. ThestructureoftheST-LSTMcellenablesit toprocessspatiotemporalinformationbetter. Inaddition,theoverallnetworkarchitecture ofPredRNNenhancestheutilizationofvisualfeaturesbyaddinghiddenstatesofzigzag transmission, which is a spatiotemporal state flowing through each node of the entire network. Asaresult,comparedwithpreviouswork,PredRNNisabletoobtainhigher qualityextrapolationimagesinprediction.PredRNN-V2[28]addsanewdecouplinglossto
+Atmosphere2022,13,1963 3of17 thebasicstructuralunitoftheoriginalPredRNN,whichallowstheupperandlowerparts oftheST-LSTMstructuretofocusondifferentaspectsofspatiotemporalvariationbetter.
+However,theradarechomapsobtainedfromthepredictionsofmanycurrentdeep learningmodelsareratherblurred.Inordertoobtainclearerradarechomaps,manystudies have incorporated generative adversarial networks (GANs) into various deep learning modelsforweatherforecasting. TheGANconsistsoftwomodules,thegenerativemodel andthediscriminativemodel. Itgeneratesdetail-richimageresultsthroughadversarial learning. Xu et al. [29] used the GAN-LSTM model for satellite image prediction and obtainedbetterresultsthanthetraditionalautoencoder-LSTMnetwork. Singhetal.[30] proposed a GAN-based discriminator loss based on the ConvLSTM network structure, whichpredictsradarechomapswithhighaccuracy. AlthoughtheapplicationofGANcan makethepredictedradarechomapsmoreclear,ittendstoleadtothegeneratedresults containingsomefalsedetailedinformation. Thisaffectstheaccuracyoftheforecastresults.
+Thedevelopmentofanattentionmechanismhasinjectednewvitalityintoartificial intelligence. It has achieved excellent results in applications such as image recognition[31–35],targetdetection[36–39],andnaturallanguageprocessing[40,41]. Asthe attentionmechanismflourishesinvariousfields,itisgraduallybeingintroducedintothe meteorologicalfieldtoreduceforecasterrors. Linetal.[42]introducedachannel-wise attentionmechanismthatadaptivelyscaleseachsimulationparametertomaximizeusefulinformationwhenusingdual-sourcespatiotemporalneuralnetworksforlightning forecasting. Yan et al. [43] incorporated the multi-head attention into a dual-channel neural network to enhance the model’s focus on precipitation forecasting in critical regions. Sønderbyetal.[44]introducedanaxialself-attentiontothemeteorologicalneuralnetwork(MetNet)architectureandachievedbetterresultsthannumericalweather predictionforprecipitationforecastingonthescaleofthecontinentalUnitedStates.
+Inordertocapturethelong-termandshort-termspatiotemporalcorrelationsbetter, enhancetheaccuracyofthemodelforextremeprecipitationforecasting,andnarrowthe gapbetweentrainingandinferenceprocesses,weproposetoimprovethePredRNNby using improved self-attention in this paper. In this model, the attention mechanism is incorporatedinsidetheST-LSTMtogenerateanewISA-LSTMspatiotemporalmemory unit,whichprovidesbetteraccesstoglobalfeatureinformationandlong-termmemory informationandismoreeffectiveinfocusingondifferentaspectsofspatiotemporalchanges.
+Alossfunctionwithdifferentweightsfordifferentprecipitationintensitywasdesigned, sothatthemodelcouldcaptureextremeprecipitationbetter. Weusedthecombination ofreversescheduledSamplingandScheduledSamplingasthetrainingstrategyforthe model. Itpromotesthelearningofthelong-termdynamicsinthesequenceandnarrows thegapbetweentrainingandinferenceprocesses. Thenewmodelorganicallycombines theabovemethodsthatcontributetotheaccuracyofthepredictionresultsandavoidsthe drawbacksofGANwhileobtainingmoreclearradarechoimages.
+Satellitedatasetsandradarechodatasetsarecommonlyusedforprecipitationforecasting. Meteorological satellites are developing rapidly and can monitor the Earth in alldirections. Althoughthesatelliteprovidesawiderangeofopticalobservationcapabilities, it has a low resolution of cloud maps. The satellite dataset is suitable for large scale, lessresolution-demandingpredictiontasks[45,46]. Radarhasalimitedcoverage areaandcanbeusedforreal-timedetectionofsmall-scaleweatherprocessesinlocalareas.
+The radar echo dataset is suitable for prediction tasks with smaller ranges and higher resolutions[47,48]. Sincethestudyinthispaperfocusesonshort-termprecipitationforecasting over the small region, we used the radar echo dataset for the experiment. Our
+ISA-PredRNNmodelworksbestwhenevaluatedontheradarechodataset. Therefore, the application of the new model is effective in improving the accuracy of short-term rainfallprediction.
+Theremainderofthispaperisorganizedasfollows: InSection2,themethodofdata denoisingisdescribed,andtheprocessofpreparingthedatasetispresented. InSection3, theproblemofshort-termprecipitationforecastingisdescribed,andthemethodusedin
+Atmosphere 2022, 13, x FOR PEER REVIEW 4 of 18
+Atmosphere2022,13,1963 4of17 this paper is presented in detail. The experimental results of the new method and several other mainstream models are compared and analyzed in Section 4. Finally, a summary of the paper is presented in Section 5.
+thispaperispresentedindetail. Theexperimentalresultsofthenewmethodandseveral othermainstreammodelsarecomparedandanalyzedinSection4. Finally,asummaryof
+2. Data and Data Processing thepaperispresentedinSection5.
+2.1. Study Area
+2. DataandDataProcessing
+Yinchuan City in the Ningxia Hui autonomous region was selected as the study re-
+2.1. StudyArea
+gion for this research. Ningxia is located in the northwestern part of the Loess Plateau in
+YinchuanCityintheNingxiaHuiautonomousregionwasselectedasthestudyregion the middle and upper reaches of the Yellow River, and the climate type of the region is a forthisresearch. NingxiaislocatedinthenorthwesternpartoftheLoessPlateauinthe continental semi-humid and semi-arid climate. The region is not only arid with little rainmiddle and upper reaches of the Yellow River, and the climate type of the region is a fall, but also has uneven spatiotemporal distribution of precipitation. Yinchuan is the pocontinental semi-humid and semi-arid climate. The region is not only arid with little litical, economic and cultural center of Ningxia and straddles two climate zones, the warm rainfall,butalsohasunevenspatiotemporaldistributionofprecipitation. Yinchuanisthe psoulimticmale,re cMoneodmiteicrraanndeacunl tculirmalacteen (teCrSoBf)N ainndg xtihaea cnodosl tsraedmdil-easritdw oclcimlimataet e(BzoSnKe)s. ,Tthhee location
+woafr tmhes uNminmgexriaM Heduiit earurtaonneoanmcoluims arteeg(iConSB a)nadn dthteh Keöcopoplesne mclii-maraidtec clilmasastiefi(cBaStiKo)n. Tohf eYinchuan loacraet isohnoowfnth ienN Fiingguxriea H1.u Tihaeu tmonaoinm ocluismraetgiico nchaanrdacthteerKisötipcps eonf ctlhime arteegciloanss aifireca stcioanrcoef rain and
+Ysinncohwu aannadr estsrhoonwgn eivnaFpioguraretio1.nT ohfe wmaatienrc. limaticcharacteristicsoftheregionarescarce rainandsnowandstrongevaporationofwater.
+FFigiguurere1 .1. LLooccaatitoionno offN NininggxxiaiaH Huuiia auutotonnomomouosusre rgeigoinonan adndK Köpöppepnecnl acslasisfisciafitcioantioonf oYfi nYcihnucahnu.an. Ning-
+Nxiinag HxiauHi auuiatountoonmomouous srreeggiioonn,, hhiigghhlilgighhtetdedin ignr egerne,eisnl,o icsa tleodcaintetdh einno trhthew neosrttohfwCehsint ao.fY Cinhchinuaa.n Y, inchuan, aasst htehec acpaiptailtaolf oNfi nNgixniag,xsitar,a dstdrlaedsdtwleos ctlwimoa ctelimzoantees :ztohneews:a trhme swumarmme rsuMmedmiteerr rManeedanitecrlirmanaetean climate (C(CSBS)Ba) nadntdh ethceo oclosoelm sie-mariid-acrliidm caltiem(BaSteK ().BSK).
+2.2. DataCleaning
+2.2. Data Cleaning
+Radar beam propagation is easily interfered with by the surrounding mountains,
+Radar beam propagation is easily interfered with by the surrounding mountains, buildings and dust, etc. This makes noise appear on the radar echo map. Insufficient cbaluibilrdatiniognsa annddd damusatg, eettoc. tThehims emasaukreesm neonitsien satprupmeaern tocna nthcea urasedanro iescehino tmheapra. dIanrsuecfhfiocient calimbarpat.iDonev aiantdio ndsaimnathgeep tloa ctehmee mnteaansgulereomftehnetm inesatsruurmingenint sctraunm ceanutscea nnaolissoe cionn ttrhibeu rtaedar echo tomtahpe. nDoeisvei.atIifotnrsa iinni ntgheis pcloancedmucetnedt adnirgelcet loyf utshien gmtehaesourriignign ailnrsatdruamr menatp sc,aint amlsaok ecsontribute thtoe tmhoed neolidsieffi. Icfu tltratoincionngv iesr gceonwdituhcatendd dleiardescttloy luarsginegfo trheeca ostriegrirnoarsl .rIandtahri smpaappse,r ,iwt me akes the followShietal.[20]andcategorizelocationsthathavetheMahalanobisdistanceshigher model difficult to converge with and leads to large forecast errors. In this paper, we follow
+thanthemeandistanceplusthreetimesthestandarddeviationasoutliers. Theseoutliers
+Shi et al. [20] and categorize locations that have the Mahalanobis distances higher than were removed using the Mahalanobis denoising method. The original and denoised the mean distance plus three times the standard deviation as outliers. These→ outliers were radarechomapsareshowninFigure2. Theprocessisasfollows: First,themean µ and removed using the Mahalanobis de→no→ising m→ethod. The original and denoised radar echo covariancematrixSofallpixelpoints x , x ,..., x oneachimagearecalculated. Then,
+1 2 n
+maps are shown in Figure 2. The process is as follows: First, the mean  and covariance matrix S of all pixel points x,x ,,x on each image are calculated. Then, the
+1 2 n
+Atmosphere 2022, 13, x FOR PEER REVIEW 5 of 18
+Mahalanobis distance D (x) of all pixel points is calculated. Finally, the points whose
+Atmosphere2022,13,1963 M 5of17 pixels are outliers are removed. This method can remove some discrete points caused by noise. The equations for calculating the Mahalanobis distance are shown as follows:
+theMahalanobisdistanceD (x)ofallpixelpointsiscalculated. Finally,thepointswhose M pixelsareoutliersareremoved. Thismethodcanremovesomediscretepointscausedby noise. TheequationsforcalculatingtheMahalanobisdistanceareshownasfollows:
+n → → ∑ xi µ = i=1 n ∑ xi −µ xi −µ (1)
+S = i=1 n−1 → → → T → →
+D (x) = (x − µ) S−1(x − µ)
+M
+S
+D i 1n i 1 x )
+T ) S
+T )
+1 ( x )
+(1)
+Figure 2. Sample comparison before and after denoising. (a) Original radar echo image. There is some noise caused by various factors in the original image. (b) Denoised image. The denoised image does not contain outliers and can be used directly by the model.
+2.3. Preparation of Dataset
+In order to verify the effectiveness of ISA-PredRNN in short-term precipitation forecasting from radar echo images, the two-year radar echo dataset from 2018 to 2019, obtained by gathering data every six minutes in Yinchuan, Ningxia was used for training and testing in this paper. The dataset was processed with data cleaning. Due to the small proportion of precipitation days among all days in the dataset, 84 days of precipitation data were selected to constitute the final dataset in this paper in order to prevent the network from treating precipitation conditions as noise and to enable the network to learn better. The original image contains 4 6 1  4 6 1
+Figure2. Samplecomparisonbeforeandafterdenoising. (a)Originalradarechoimage. Thereis somenoisecausedbyvariousfactorsintheoriginalimage.(b)Denoisedimage.Thedenoisedimage doesnotcontainoutliersandcanbeuseddirectlybythemodel.
+2.3. PreparationofDataset
+InordertoverifytheeffectivenessofISA-PredRNNinshort-termprecipitationforecastingfromradarechoimages,thetwo-yearradarechodatasetfrom2018to2019,obtained bygatheringdataeverysixminutesinYinchuan,Ningxiawasusedfortrainingandtesting inthispaper. Thedatasetwasprocessedwithdatacleaning. Duetothesmallproportionof precipitationdaysamongalldaysinthedataset,84daysofprecipitationdatawereselected toconstitutethefinaldatasetinthispaperinordertopreventthenetworkfromtreating precipitationconditionsasnoiseandtoenablethenetworktolearnbetter. Theoriginal imagecontains461×461pixels,inordertofacilitatethelearningofthemodelandnotto pixels, in order to facilitate the learning of losedetails,theimagewascroppedtoasizeof200×200containingtheYinchuanareaof the model and not to lose details, the image was cropped to a size of 200200 containing
+Ningxiainthispaper. Sincetheextremevaluesofradarechoesinthedatasetdonotexceed th7e0 YdiBnZc,htuhaend aartaeaw oefr eNninorgmxiaal iizne dthbisy pthaepecar.l cSuilnacteio tnhoe fezx/tr7e0m. Fei nvaallluy,eisn oof rrdaedratro eocbhtoaiens in theen oduagtahsseetq duoe nncoets etoxcaelleodw 7a0d deqBuZa, ttehter adinaitnag woefrteh enmoromdeall,izaesdli dbiyn gthwe icnadlocwulawtiaosnu osef dzin70.
+Fitnhiasllpya, pienr oornddear iltyo roabdtaarinec ehnooduagtah. Sseinqcueetnhceersa dtoa raellcohwo madapeqisugaeten etrraatiendinegv eorfy t6hme imnoadndel, a sltihdeinpgr owpionsdedowm wodaesl ucasendp irne dthicits tphaepperre ocinp idtaatiiloyn raindathr eecnheoxt d1ahta,.t hSeinlceen gththe roafdthaer eslcihdoin mgap windowwassetto20,withthefirst10framesusedforlearningandthelast10framesused is generated every 6 min and the proposed model can predict the precipitation in the next forprediction. Inthispaper,thetrainingandtestsetsweredividedevenlytoaratioof4:1.
+1 h, the length of the sliding window was set to 20, with the first 10 frames used for learning and the last 10 frames used for prediction. In this paper, the training and test sets were
+3. Methodology divided evenly to a ratio of 4:1.
+3.1. ProblemDefinition
+Onemethodofshort-termprecipitationforecastingistouseradarechomapsfrompast
+3. Methodology
+periodstopredictradarechomapsforfutureperiods. Sincetheforecastisforprecipitation
+3.o1v. ePrraobpleemri oDdeofifntiitmione inaregion,theprobleminvolvesbothtemporalandspatialfactors.
+Specifically,asquareimagecanbeobtainedbydividingthelatitudeandlongituderangeof
+Atmosphere2022,13,1963 6of17 anareawithacertainspatialresolution. Thepixelvalueofeachgridpointonthepictureis theradarechovalueoftheplace. Thelocalprecipitationcanbecalculatedfromtheradar echovalues. Inthispaper,weneedtousemultipleconsecutiveradarechopicturesinthe pasttoinfermultipleconsecutiveradarechopicturesinthefuture. Thisproblemcanbe definedstrictlyinthefollowingway: assumingthecurrenttimeist,weneedtopredictthe radarechosequenceR t+1 ,R t+2 ,...,R t+q oftimelengthqinthefuturebasedontheradar echosequence R t−p+1 ,R t−p+2 ,...,R t oftimelength pinthepast. Theroleofthemodel istominimizethegapbetweentheseries R t+1 ,R t+2 ,...,R t+q andtherealfutureseries
+Rt+1 ,Rt+2 ,...,Rt+q . Thiscanbeexpressedas:
+
+R t+1 ,R t+2 ,...,R t+q = f θ R t−p+1 ,R t−p+2 ,...,R t (2) where f denotestheprecipitationforecastmodelandθdenotesthemodelparametersto beoptimized.
+3.2. BaseModel
+Short-termprecipitationpredictionmeanspredictingthefutureprecipitationofanarea forarelativelyshortperiodoftimeinthefuture(e.g.,0–2h). ConvLSTMcaneffectively combine temporal and spatial information and is more suitable for dealing with such problems. ConvLSTMisamodelderivedfromLSTM.Itusesthewayofgatetocontrol theretention,abandonmentandrefreshofinformation. ConvLSTMincludesthreegates:
+inputgate,forgettinggateandoutputgate. Theinputgatecontrolsthedegreetowhich thecurrentmoment’sinputX issavedtothecellstateC . Theforgettinggatecontrolsthe t t extenttowhichthecellstateC t−1 atthepreviousmomentissavedtothecurrentmoment
+C . TheoutputgatedetermineshowmuchthecellstateC contributestothecurrentoutput value H . The organic combination of the three gates allows the model to selectively t remembertheeffectiveinformationandforgetthedisturbinginformation,avoidingthe gradientdisappearanceandgradientexplosion. ThespecificformulasofConvLSTMare shownasfollows:
+i t = σ(W xi ∗X t +W hi ∗H t−1 +W ci ◦C t−1 +b i )
+
+f t = σ W xf ∗X t +W hf ∗H t−1 +W cf ◦C t−1 +b f
+C t = f t ◦C t−1 +i t ◦tanh(W xc ∗X t +W hc ∗H t−1 +b c ) (3) o t = σ(W xo ∗X t +W ho ∗H t−1 +W co ◦C t +b o )
+H = o ◦tanh(C ) t t t where i and f denote the input gate and forget gate, respectively. o denotes output gate. ∗ denotes the convolution operation. ◦ denotes Hadamard product. σ denotes sigmoidfunction. W before∗denotekernelsforrespectivegates. W before◦denotethe correspondingweightmatrices. bdenotesthebiasvalue.
+ThebasicconstituentunitST-LSTMofPredRNNcanberegardedasamergeroftwo basicconstituentunitsofConvLSTM.Theinternalstructureofthespatiotemporalmemory unitST-LSTMisshowninFigure3a. TherearetwomemorystatesinsidetheST-LSTMcell.
+ThefirstmemorystateC iscalledstandardtimememory,whichistransmittedinsideST-
+LSTMcellsofadjacenttimestepsonthesamelayer. ThesecondmemorystateM iscalled spatiotemporalmemory,whichfirstpropagatesverticallyupwardbetweendifferentlayers ofthesametimestepandthenpassesfromthetoplayerofthepreviousmomenttothefirst layerofthenextmoment. Itreservestheabstractinformationextractedfromeachinput throughthemulti-layernetworkstructureforthenextfirstlayer,enhancingthenetwork’s useofspatiotemporalinformation. ThepropagationofthespatiotemporalmemoryM isshowninFigure3b. Thestandardtemporalmemorystate C andthespatiotemporal memorystateM canfacilitatelong-termandshort-termdependentlearningprocesses,
+Atmosphere 2022, 13, x FOR PEER REVIEW 7 of 18 previous moment to the first layer of the next moment. It reserves the abstract information extracted from each input through the multi-layer network structure for the next first layer, enhancing the network’s use of spatiotemporal information. The propagation of the spatiotemporal memory
+Atmosphere2022,13,1963 7of17 respectively,sothatthenetworkcanmakemoreeffectiveuseofspatiotemporalinformation.
+ThespecificformulasfortheST-LSTMcellareshownasfollows:
+
+g =tanh W ∗X +W ∗Hl +b t xg t hg t−1 g
+
+i = σ W ∗X +W ∗Hl +b t xi t hi t−1 i
+
+f = σ W ∗X +W ∗Hl +b t xf t hf t−1 f
+Cl = f ◦Cl +i ◦g t t t−1 t t t xg t mg t g (4) t xi t mi t i
+
+t t t t t o = σ W ∗X +W ∗Hl +W ∗Cl+W ∗Ml +b t xo t ho t−1 co t mo t o
+
+H t l = o t ◦tanh W 1×1 ∗ C t l,Ml t is shown in Figure 3b. The standard temporal memory state and the spatiotemporal memory state can facilitate long-term and short-term dependent learning processes, respectively, so that the network can make more effective use of spatiotemporal information. The specific formulas for the ST-LSTM cell are shown as follows:
+g it f lt o ta n ta n h xf lt(xf xo xg xg h f m f b) b l 1) b l = ( ta n h
+11 l + t− 1 co) l  ,  t lt + m o  lt + b
+(4)
+The ST-LSTM cell introduces another set of gate structures for the spatiotemporal memory state t while preserving part of the gate structures in ConvLSTM. t propagates in a zigzag pattern throughout the network. l indicates at which layer of the network the corresponding state is located. The input gate i , forget gate and inputmodulation gate g are the original gates in ConvLSTM. They control the information flow across the memory state. The functions of  it , f and g t are the same as above, but they control the information flow across the memory state . The output gate o is an improvement on the original output gate, which is shared by two memory states mentioned above. Finally, the final hidden state of this node originates from t the fused spatiotemporal memory. The design of the ST-LSTM cell allows the model to effectively simulate shape changes and motion trajectories in spatiotemporal sequences.
+  tanh lt−1 tan h t−1 l−1 t ft  f it g
+Concatenate Copy
+3t
+2t
+4 4 t−1 t−1 t t t+1 t+1 t+2 -L (a) Internal structure of the ST-LSTM (b) The propagation of the spatiotemporal memory
+Figure3. (a)TheinternalstructureoftheST-LSTM.ST-LSTMoriginatesfromthebasicstructural unitofConvLSTM,withtheadditionofthespatiotemporalmemorystateM tasitsfeature.(b)The propagationofthespatiotemporalmemory.Thebluearrowsindicatethatthespatiotemporalstate
+M tispropagatedinazigzagpatternthroughoutthenetwork.
+The ST-LSTM cell introduces another set of gate structures for the spatiotemporal memorystateM whilepreservingpartofthegatestructuresinConvLSTM.M propagatesinazigzagpatternthroughoutthenetwork. lindicatesatwhichlayerofthenetwork thecorrespondingstateislocated. Theinputgatei ,forgetgate f andinput-modulation gateg aretheoriginalgatesinConvLSTM.Theycontroltheinformationflowacrossthe memorystateC . Thefunctionsofi, f andg arethesameasabove,buttheycontrolthe t t t t informationflowacrossthememorystateM . Theoutputgateo isanimprovementon theoriginaloutputgate,whichissharedbytwomemorystatesmentionedabove. Finally, thefinalhiddenstateH ofthisnodeoriginatesfromthefusedspatiotemporalmemory.
+ThedesignoftheST-LSTMcellallowsthemodeltoeffectivelysimulateshapechangesand motiontrajectoriesinspatiotemporalsequences.
+DuringtheoperationofthePredRNNmodel,thememorystatesC andM areoften intertwined,leadingtoinefficientutilizationofthenetworkparameters. Anewdecoupling lossfunctionbasedonPredRNNisdesignedinPredRNN-V2,whichincreasesthedistance
+Atmosphere2022,13,1963 8of17 between C and M so that they focus on different aspects of spatiotemporal variation, respectively. Thespecificformulasforthedecouplinglossfunctionareshownasfollows:
+∆Cl =W ∗(i ◦g ) t decouple t t ∆Ml =W ∗(i◦g) t decouple t t (5)
+L = ∑∑∑ |∆C l,∆Ml
+
+c t l c t c t c
+where W denotes 1×1 convolutions shared by all ST-LSTM cells. i , g , i and decouple t t t g canbecalculatedfromEquation(4). ∆Cl and ∆Ml denotetheincrementsofthetwo memorystates,respectively.BydefiningthedecouplinglossL intermsofthecosine decouple
+
+similarity ∆Cl,∆Ml /∆Cl ·∆Ml ,thePredRNN-V2caneffectivelyseparatethe c c c twomemorystates.
+3.3. ImprovedSelf-AttentionPredRNN
+ConvLSTManditsvariantsenablethemodeltofocusonspatialinformationwhile processing temporal information by adding convolutional operations to the recurrent network. ThePredRNNfamilyisevolvedfromConvLSTM,anditsbasicstructuralunit
+ST-LSTM can better handle the spatiotemporal correlation. However, the convolution operationsinthesemodelsaresuitableforhandlinglocalspatialinformation. Inthispaper, theself-attentionmechanismwasincorporatedinsidetheST-LSTMcelltoenablethemodel tocaptureglobalspatialinformationbetter. Theoperationprincipleoftheself-attention mechanismisshowninFigure4a. ThePredRNNfamilyofnetworksenhancestheability ofthemodeltolearnshort-termdependentinformationbyintroducingaspatiotemporal memorystateM insidethememoryunit. Inthispaper,thelong-termmemorystateN wasintroducedintothememoryunit,andaGRU-likeupdategatewasdesigned. Thenew setofgatestructurescontroltheextenttowhichthepreviousmoment’smemorystateN iscarriedovertothecurrentmoment’sstateN ,allowingthemodeltopaymoreattention tothelong-termdependence. Theinternalstructureofthenewspatiotemporalmemory unit ISA-LSTM is shown in Figure 5. The information processing flow of ISA-LSTM is asfollows: First,thehiddenstateH ofthecurrentmomentandthelong-termmemory
+stateN t−1 ofthepreviousmomentarepassedthroughtheself-attentionmoduletoextract thegloballyimportantinformationofthesetwostates. Then,thehiddenstate,long-term memorystateandtheoriginalhiddenstateobtainedintheprevioussteparestitchedinthe channeldimension,andthestitchedresultispassedthroughaGRU-likeupdategateto obtainthelong-termmemorystateN atthecurrentmoment. Finally,thecurrentlong-term memorystateN andthegeneratedsplicingresultareusedtocalculatetheoutputhidden stateHˆ . TheinformationprocessingflowoftheISA-LSTMisshowninFigure4b,andthe specificformulasoftheISA-LSTMcellareshownasfollows:
+Z = W ∗Hl Softmax W ∗Hl W ∗Hl h hv t hq t hk t
+Z = W ∗Nl Softmax W ∗Hl W ∗Nl n nv t−1 hq t nk t−1
+Z = W ∗[Z ,Z ] z h n
+
+t zg hg t g t zo ho t o
+Hˆl = o ◦Nl
+wheretheintermediatefeaturesZ andZ areobtainedbyapplyingself-attentiononthe h n hiddenstateHl andthepreviousmomentmemorystateNl ,respectively;thepolymert t−1
+Atmosphere 2022, 13, x FOR PEER REVIEW 9 of 18
+Z = l)
+Softmax l)T (l) ) h hv t hq t hk t
+Z = (  l ) Softmax ( (  l)T (  l ) ) n nv t−1 hq t nk t−1
+Z = Z ,Z  z h n i= ( Z+  l +b) t zi hi t i (6) g=tanh ( Z+  l +b) t zg hg t g l =(1−i) l +i g o= ( Z+  l +b) t zo ho t o ˆl =o l
+Where the intermediate features
+Atmosphere2022,13,1963 9of17 izationfeature Z isobtainedbyaggregatingtheintermediatefeatures Z and Z . i , g h n t t ando aretheinputgate,input-modulationgateandoutputgateofthenewsetofgating mechanisms. Nl andHˆl arethefinallong-termmemorystatesandhiddenstates.
+Z and Z
+are obtained by applying self-attention on the hidden state lt and the previous moment memory state l , respectively; the polymerization feature Z is obtained by aggregating the intermediate features Z and
+Z .
+ it , g and
+o t are the input gate, input-modulation gate and output gate of the new set of gating mechanisms. lt and ˆ lt are the final long-term memory states and hidden states.
+Figure 4. (a) The operation principle of the self-attention mechanism. The three matrices K ,
+Q and V
+are originated from the input X . We can extract the global key information of the input by performing the corresponding operations on K, Q and V. (b) The information processing flow of ISA-LSTM. The final hidden state ˆ lt l and the current moment memory state are obtained from the previous moment’s memory state lt− and the intermediate hidden state after being processed by the self-attention module and the corresponding gating mechanism.
+( a ) T
+K xk
+Q xq
+V xv h e s e l f
+T r a n - a s p tt e o s e ti o n m e c a ft is ( b ) T h e i n f o r m a t i o n p r o c e s s in g f l o w o f I S A - L S T M lt−1
+1 −  o t  it ˆ lt
+Figure4. (a)Theoperationprincipleoftheself-attentionmechanism. ThethreematricesKx, Qx andVxareoriginatedfromtheinputX.WecanextracttheglobalkeyinformationoftheinputXby
+X performingthecorrespondingoperationsonKx,QxandVx.(b)Theinformationprocessingflowof
+Atmosphere 2022, 13, x FOR PEER REVISIAEW-LS TM.ThefinalhiddenstateHˆlandthecurrentmomentmemorystateNlareobtainedfromthe 10 of 18 previousmoment’smemorystateNl andtheintermediatehiddenstateHl afterbeingprocessed t−1 t bytheself-attentionmoduleandthecorrespondinggatingmechanism.
+Figure 5. Internal structure of the new spatiotemporal memory unit ISA-LSTM. The ISA module consists of two parts: the self-attention mechanism and the GRU-like update gate. Except for the ISA module, the rest of the ISA-LSTM is the same as the basic structural unit of the PredRNN-V2.
+The overall network architecture of the new model ISA-PredRNN proposed in this paper is shown in Figure 6b, and the network architecture of the original PredRNN-v2 is shown in Figure 6a. We borrowed the network architecture approach from PredRNN-v2, which uses a four-layer network structure. The difference is that we replaced all the basic structural units in the network with the ISA-LSTM. Among them, the newly introduced long-term memory state is one of the highlights of this network architecture.
+Figure 6. (a) The overall network architecture of the original PredRNN-v2. The spatiotemporal memory spreads in a zigzag pattern throughout the network, which enhances the network’s use of spatiotemporal information. (b) The overall network architecture of ISA-PredRNN. The newly introduced long-term memory state is one of the highlights of this network architecture, which allows the model to pay more attention to the long-term dependence than the original
+PredRNN-v2.
+3.4. Sampling Strategy
+When using a sequential model for spatiotemporal prediction, the traditional approach works as follows. First, the true value is used as an input in the encoding phase and the generated value is obtained in the prediction phase. Then, based on the gap between the generated value and the true value at the same moment, the parameters of the model are updated by backpropagation of the gradient. Finally, it iterates in this way until l− it g
+S T M ( a )
+3t−
+1t− r i g i n
+S T
+4t− a l a r c -L S T M h i t e c t
+4t u t r e  i a t e n
+S T -L a t g t
+C o p y
+IS A) I m p r o ˆ 3 3 t− 1 t− 1 ˆ 1 1
+4t− v e d a r c
+A -L S T M h i t e c t u ˆ 4t ˆ 2t -L S T
+Figure5. InternalstructureofthenewspatiotemporalmemoryunitISA-LSTM.TheISAmodule consistsoftwoparts:theself-attentionmechanismandtheGRU-likeupdategate.ExceptfortheISA module,therestoftheISA-LSTMisthesameasthebasicstructuralunitofthePredRNN-V2.
+TheoverallnetworkarchitectureofthenewmodelISA-PredRNNproposedinthis paperisshowninFigure6b,andthenetworkarchitectureoftheoriginalPredRNN-v2is showninFigure6a. WeborrowedthenetworkarchitectureapproachfromPredRNN-v2, whichusesafour-layernetworkstructure. Thedifferenceisthatwereplacedallthebasic structuralunitsinthenetworkwiththeISA-LSTM.Amongthem,thenewlyintroduced long-termmemorystateN isoneofthehighlightsofthisnetworkarchitecture.
+Atmosphere 2022, 13, x FOR PEER REVIEW 10 of 18
+Figure 5. Internal structure of the new spatiotemporal memory unit ISA-LSTM. The ISA module consists of two parts: the self-attention mechanism and the GRU-like update gate. Except for the ISA module, the rest of the ISA-LSTM is the same as the basic structural unit of the PredRNN-V2.
+The overall network architecture of the new model ISA-PredRNN proposed in this paper is shown in Figure 6b, and the network architecture of the original PredRNN-v2 is shown in Figure 6a. We borrowed the network architecture approach from PredRNN-v2, which uses a four-layer network structure. The difference is that we replaced all the basic
+Atmosphere2022,13,1963 structural units in the network with the ISA-LSTM. Among them, the newly intro1d0uocfe1d7 long-term memory state is one of the highlights of this network architecture.
+Figure 6. (a) The overall network architecture of the original PredRNN-v2. The spatiotemporal memory spreads in a zigzag pattern throughout the network, which enhances the network’s t use of spatiotemporal information. (b) The overall network architecture of ISA-PredRNN. The newly introduced long-term memory state is one of the highlights of this network architecture, t which allows the model to pay more attention to the long-term dependence than the original
+PredRNN-v2.
+3.4. Sampling Strategy
+When using a sequential model for spatiotemporal prediction, the traditional approach works as follows. First, the true value is used as an input in the encoding phase and the generated value is obtained in the prediction phase. Then, based on the gap between the generated value and the true value at the same moment, the parameters of the model are updated by backpropagation of the gradient. Finally, it iterates in this way until l− it g ( a ) O
+3t−1
+1t−1 r ig in a l a r c
+S T -L S T M
+3 3 3 t t t−1
+1 1 1 t−1 t t t t−1 ite o n c tu   i c a t e n a t t+1 t g t
+C o p y
+IS A) I m p r o ˆ 3 3
+3t−1 ˆ 1 1
+1t−1
+4t−1 v e d a r c h ite c tu r ˆ 4t ˆ 2t
+Figure6. (a)TheoverallnetworkarchitectureoftheoriginalPredRNN-v2. Thespatiotemporal memoryM tspreadsinazigzagpatternthroughoutthenetwork,whichenhancesthenetwork’suse ofspatiotemporalinformation. (b)TheoverallnetworkarchitectureofISA-PredRNN.Thenewly introducedlong-termmemorystateN tisoneofthehighlightsofthisnetworkarchitecture,which allowsthemodeltopaymoreattentiontothelong-termdependencethantheoriginalPredRNN-v2.
+3.4. SamplingStrategy
+Whenusingasequentialmodelforspatiotemporalprediction,thetraditionalapproach worksasfollows. First,thetruevalueisusedasaninputintheencodingphaseandthe generatedvalueisobtainedinthepredictionphase. Then,basedonthegapbetweenthe generated value and the true value at the same moment, the parameters of the model areupdatedbybackpropagationofthegradient. Finally,ititeratesinthiswayuntilthe model is trained to a suitable state. However, only the real value is used in the coding process,whichleadstothemodelnotbeingabletoexploitthenon-Markoviannatureof thehistoricalobservationsbetter,andonlythegeneratedvaluesareusedintheprediction process, which leads to gaps in the training and inference process. In this paper, the modelwastrainedusingbothreversescheduledsamplingandscheduledsampling. The datainputtoourmodelcontainsbothgroundtruthsandpredictionvaluesthroughout the process. Specifically, the ground truths are input with increasing probability in the
+encodingphaseandwithdecreasingprobabilityinthepredictionphase. Thetreatmentin thispaperallowsthemodeltodigdeeperintothenon-Markovianpropertiesofhistorical observations,capturethelong-termdynamicsinthesequencebetter,andalsobridgethe gapbetweenthemodeltrainingandinferenceprocess.
+3.5. ImprovedLossFunction
+Whendeeplearningmodelsareusedforweatherforecasting,theprecipitationforecastingproblemisoftentreatedasanordinaryspatiotemporalforecastingproblem. This treatmentignoresthedifferenceintheprobabilityofoccurrenceofdifferentintensitiesof precipitationinforecasting,whichmakestheforecastresultslessaccurate. Inordertofully considerthespecificcharacteristicsoftheproblem,wedesignedanimprovedlossfunction.
+Accordingtothestatistics,about90%ofprecipitationisnolargerthan0.5mm/h,andno morethan1%ofcasesexceed30mm/hinourdataset. Tocapturetheextremeprecipitation betterandmaketheforecastresultsmoreaccurate,theweightlossfunctionwasdesigned inthispaper. Specifically,sincetheprecipitationintensityandtheradarechointensityare positivelycorrelatedandcanbetransformedbytheZ-Rrelationship,weassigneddifferent weightstothedifferentradarechointensitiesseparately. Largeweightswereassignedto largeechointensitiesandsmallweightstosmallechointensities. Thespecificweightswere assignedasfollows:
+1 z <20 w(z) = 2 20≤ z <30 (dBZ) (7)  3 30≤ z
+Atmosphere2022,13,1963 11of17 where w(z) is the weight value corresponding to the radar echo intensity z at different thresholds. Thefinallossfunctioncanbeexpressedasfollows:
+L = λ L +λ L +λ L (8) final 1 MSE 2 MAE 3 decouple where λ , λ and λ control the relative importance. L and L are the MSE and
+1 2 3 MSE MAE
+MAElossfunctions,respectively.
+4. Results
+4.1. ImplementationDetails
+The implementation of the experiment is based on the PyTorch machine learning frameworkonNVIDIAGeForceGTX1080TiGPUs. TheCUDAversionis11.5andthe
+PyTorchversionis1.7. WecomparedthenewISA-PredRNNalgorithmwithsixmodels, namely FC-LSTM, ConvLSTM, ConvGRU, TrajGRU, PredRNN-V2 and ISA-PredRNN (withoutweightloss)toverifyitsadvancement. Duringthetrainingprocess,thenumber ofnetworklayersofalltheabovesevenmodelswassettofour. Theimprovedmodelhas
+128convolutionalkernelsperlayerofthenetwork,abatchsizeofeight,alearningrateof
+0.0001,anoptimizerofAdam,and80,000iterations.
+4.2. EvaluatedAlgorithm
+Toevaluatetheperformanceoftheimprovedalgorithm,fivemetrics,probabilityof detection(POD),falsealarmrate(FAR),criticalsuccessindex(CSI),Heidkeskillscore(HSS), andmeansquareerror(MSE),wereusedastheevaluationcriteriaformodeleffectiveness inthispaper. Inthefieldofprecipitationprediction,sincedifferentdegreesofprecipitation conditionsaregivendifferentlevelsofattention,theprecipitationthresholdsweredivided intothreelevelsof10dBZ,20dBZand30dBZaccordingtotheintensityofradarechoes inthispaper,andthePOD,FAR,CSIandHSSwerecalculatedundereachlevel. Thefour indicatorsofPOD,FAR,CSIandHSSareformulatedasfollows:
+POD= TP
+TP+FP
+FAR= FN
+TP+FN
+(9)
+CSI= TP
+TP+FN+FP
+HSS= TP×TN−FN×FP (TP+FN)(FN+TN)+(TP+FN)(FP+TN) whereTPindicates(prediction=1, truth=1),FPindicates(prediction=1, truth=0),
+TN indicates (prediction=0, truth=0) and FN indicates (prediction=0, truth=1).
+ThelowertheFAR,thehigherthePOD,CSIandHSS,thebetterthemodelprediction.
+4.3. AnalysisandEvaluationofExperimentalResults
+To further illustrate the effectiveness of the algorithm proposed in this paper in precipitationforecasting,weanalyzedandevaluatedtheexperimentalresultsofthenew
+ISA-PredRNNalgorithmwithsixotheralgorithms. ThefourindexvaluesofPOD,FAR,
+CSIandHSSforeachalgorithmicatthreelevelsof10dBZ,20dBZand30dBZareshown inTables1–3,andthebestmeansquareerrorMSEinthetestsetobtainedbyeachmodelis showninTable4.
+FromTables1–3,itcanbeseenthatthenewalgorithmISA-PredRNNproposedinthis paperhasthebestperformanceonthethreeindicatorsofPOD,CSIandHSSunderdifferent thresholds,whichindicatesthatthenewmodelcanforecastshort-termprecipitationmore accuratelyandismorerobust. ThenewalgorithmalsoperformswellontheFAR.Although itwashigherthantheISA-PredRNN(withoutweightloss)andPredRNN-V2,itwaslower thantheotherfourmodels. ThemainreasonisthattheISA-PredRNN(withoutweight loss)andPredRNN-V2werenotabletocapturetheextremesofprecipitationandlearn thedifferencesbetweendifferentlevelsofprecipitationbetter. TheyhavelowPODand
+FARbecauseofthese. ThelowFARistheresultofinadequatelearningofthedistribution
+Atmosphere2022,13,1963 12of17 of the data. All metrics of all algorithms become progressively worse as the threshold increases,becausetheprobabilityandareaofstormoccurrencearesmallandthenetwork failstolearntheradarechoinformationcorrespondingtothestormfromthehistorical dataadequately.
+Table1.Comparisonoftheexperimentalresultsatthelevelof10dBZ.
+Model CSI↑ HSS↑ POD↑ FAR↓
+FC-LSTM 0.4771 0.6060 0.5654 0.2476
+TrajGRU 0.6367 0.7489 0.7382 0.1805
+ConvGRU 0.6626 0.7707 0.7598 0.1637
+ConvLSTM 0.6625 0.7710 0.7057 0.1524
+PredRNN-V2 0.6879 0.7910 0.7734 0.1404
+ISA-PredRNN(w/oweight) 0.6928 0.7951 0.7790 0.1391
+ISA-PredRNN 0.7001 0.8006 0.7921 0.1435
+Note.POD,FAR,CSIandHSSforsevenmodelsinthethresholdrangeofradarechointensitygreaterthan10dBZ.
+‘↑’meansthatthescoreishigherthebetterwhile‘↓’meansthatthescoreislowerthebetter.
+Table2.Comparisonoftheexperimentalresultsatthelevelof20dBZ.
+Model CSI↑ HSS↑ POD↑ FAR↓
+FC-LSTM 0.2711 0.4075 0.3013 0.2716
+TrajGRU 0.4972 0.6459 0.5685 0.2057
+ConvGRU 0.5243 0.6711 0.5920 0.1807
+ConvLSTM 0.5280 0.6748 0.5913 0.1705
+PredRNN-V2 0.5475 0.6916 0.6089 0.1588
+ISA-PredRNN(w/oweight) 0.5659 0.7079 0.6303 0.1546
+ISA-PredRNN 0.5812 0.7208 0.6542 0.1630
+Note.POD,FAR,CSIandHSSforsevenmodelsinthethresholdrangeofradarechointensitygreaterthan20dBZ.
+Table3.Comparisonoftheexperimentalresultsatthelevelof30dBZ.
+Model CSI↑ HSS↑ POD↑ FAR↓
+FC-LSTM 0.0488 0.0913 0.0506 0.4117
+TrajGRU 0.2018 0.3273 0.2195 0.2922
+ConvGRU 0.2343 0.3707 0.2578 0.2758
+ConvLSTM 0.2290 0.3647 0.2467 0.2379
+PredRNN-V2 0.2226 0.3531 0.2368 0.2075
+ISA-PredRNN(w/oweight) 0.2738 0.4217 0.2950 0.2055
+ISA-PredRNN 0.3052 0.4606 0.3347 0.2252
+Note.POD,FAR,CSIandHSSforsevenmodelsinthethresholdrangeofradarechointensitygreaterthan30dBZ.
+Table4.Bestmeansquareerror(MSE)ofsevenmodelsinthetestset.
+Number Number
+Model KernelSize MSE ofLayer ofKernel
+FC-LSTM 4 128-128-128-128 5×5 178.64
+TrajGRU 4 128-128-128-128 5×5 106.22
+ConvGRU 4 128-128-128-128 5×5 93.74
+ConvLSTM 4 128-128-128-128 5×5 91.95
+PredRNN-V2 4 128-128-128-128 5×5 83.53
+ISA-PredRNN(w/oweight) 4 128-128-128-128 5×5 79.93
+ISA-PredRNN 4 128-128-128-128 5×5 78.27
+Note.Toobtainfaircomparisonresults,thesamenetworkarchitecturewasadopted,andallmodelshadthesame numberoflayers,kernelsandkernelsize.
+Table4showsthattheISA-PredRNNachievestheminimumvalueofMSE,indicating thattheerrorbetweenthepredictionsandgroundtruthsofprecipitationissmaller. This canillustratethattheISA-PredRNNhasstrongerspatiotemporalpredictionabilityandcan obtainmoreaccurateradarechoextrapolationresults.
+Atmosphere2022,13,1963 13of17
+Inthispaper,tenconsecutiveradarechomapsfromthepastwereusedtopredictten consecutiveradarechomapsofthefuture. Inordertounderstandtheperformanceofthe modelvisually,twocasesrepresentingtwoscenariosthatoftenoccurwithradarechoesin thefieldofprecipitationpredictionwereselectedfromthetestsetforanalysis. Theradar echointhefirstcasewasstrong,concentrated,andsubtlyvariable,whilethesecondcase containedtheprocessofradarechogeneration,developmentanddissipation.
+Figure7showstheresultsofthefirstcase. Inthiscase,theradarechowasstrong,but itchangedlittle. Atthe6thminute,thepredictionresultofISA-PredRNNwastheclosestto
+Atmosphere 2022, 13, x FOR PEER REVIEW 14 of 18 thegroundtruth,theFC-LSTMhadtheworstpredictionandcouldonlypredicttheoutline oftheradarecho,andothermodelscouldpredicttheoverallaspectofradarechomore accurately. Bythe18thminute,theISA-PredRNNpreservedthemostdetailsinaddition ecthooceasp atunrdin tgheth leoccaotniotonusr osfo tfhteh estrraodnagr eecchhooe rseagniodntsh, ealnodca tthioen osthoferth meostdreolnsg percehsoerrveegdio mnso,re dewtahiillse atbhoeuFtC t-hLeS dTiMffemreondceelsc ionu tlhdeo rnaldyarro eucghholyesp. rAedftiecrt tthhaetc, othneto purresdoicfttihoen rraedsaurltesc ohfo eeasch andthelocationsofthestrongechoregions,andtheothermodelspreservedmoredetails model gradually became worse, but the ISA-PredRNN could predict the location of the aboutthedifferencesintheradarechoes. Afterthat,thepredictionresultsofeachmodel strong echo region better than other models, and the prediction results of FC-LSTM were
+graduallybecameworse,buttheISA-PredRNNcouldpredictthelocationofthestrong more different from the ground truth. Overall, the ISA-PredRNN achieved the best preechoregionbetterthanothermodels,andthepredictionresultsofFC-LSTMweremore diction results because the attention mechanism and the weight loss function allowed it differentfromthegroundtruth. Overall,theISA-PredRNNachievedthebestprediction to capture the differences in precipitation and the extremes of precipitation in different resultsbecausetheattentionmechanismandtheweightlossfunctionallowedittocapture regions better.
+thedifferencesinprecipitationandtheextremesofprecipitationindifferentregionsbetter.
+Figure 7. Prediction examples on the radar echo test set, in which the radar echo was strong but
+Figure7. Predictionexamplesontheradarechotestset,inwhichtheradarechowasstrongbut changed little. The ten images in the first row represent the radar echo information of the past hour, changedlittle.Thetenimagesinthefirstrowrepresenttheradarechoinformationofthepasthour, and the images in the subsequent rows represent the radar echo information of the future hour and the images in the subsequent rows represent the radar echo information of the future hour obtained by different model predictions. The time interval between adjacent images is 6 min.
+obtainedbydifferentmodelpredictions.Thetimeintervalbetweenadjacentimagesis6min.
+FiFgiugurer e8 8shshoowws sththee reressuultlsts oof fththee sseeccoonndd ccaassee.. InIn ththisis ccaassee, ,tthhee rraaddaarr eecchhoo wwaass nnoott as starosnsgtr oansg thasatt hiant tihnet hfeirfistr sotnoen ebubut tcchhaannggeedd ggrreeaattllyy.. TThhee FFCC-L-LSSTTMMh ahdadp opooroprr epdreicdtiioctnion thtrhoruoguhgohuout,t b,buut tththee rreesstt ooff tthhee mmooddeellss ccoouulldd pprreeddicicttt htheer ardadarare cehcohore rseuslutsltasc acuccruatrealtyelayt at thteh e6t6ht hmmininuutete, ,aammoonngg wwhhiicchh tthhee IISSAA--PPrreeddRRNNNNh haaddt htheer ircihchesetsdt edteatialsi,lsa,n adndits itpsr pedreicdtiioctnion rerseuslutlst swweerree vveerryy cclloosseet otot htehree arelasilt usiattuioanti.oBny. tBhye 1th8teh 1m8itnhu mte,inaluthteo,u aglhthsooumgehd seotamilse wdeerteails wleorset lionstth ienp trheed picrteiodnicrteisounl trseosufeltasc ohfm eaocdhe lm,tohdeeolv, ethrael locvoenrtaolul rcoanndtocuhra anngde tcrheanndgoef trraednadr of
+echoescouldbeapproximatelypredicted,andthelocationofthestrongechoregionandthe radar echoes could be approximately predicted, and the location of the strong echo region differenceinradarechointensityindifferentregionscouldbepredictedalmostaccurately, and the difference in radar echo intensity in different regions could be predicted almost accurately, among which the prediction effect of ISA-PredRNN was still the best. Further on, more details were lost, and the differences of some radar echoes were difficult to distinguish. The echo contours predicted by TrajGRU, ConvGRU and ConvLSTM were somewhat different from the ground truths. However, the PredRNN-V2, ISA-PredRNN (without weight loss) and ISA-PredRNN could predict the general contours of the echoes and the locations of the strong echo regions, and the ISA-PredRNN still retained more details in its prediction results. Overall, the ISA-PredRNN captured the radar echo varia-
+tion most accurately, and the prediction of the FC-LSTM was the most different from the ground truth. This is because the long-term memory state in the ISA-PredRNN allowed it to remember the changing trend of the radar echoes, while the FC-LSTM did not contain convolutional structures, which prevented it from handling the changing position information well.
+Atmosphere2022,13,1963 14of17 amongwhichthepredictioneffectofISA-PredRNNwasstillthebest. Furtheron,more detailswerelost,andthedifferencesofsomeradarechoesweredifficulttodistinguish. The echocontourspredictedbyTrajGRU,ConvGRUandConvLSTMweresomewhatdifferent fromthegroundtruths. However,thePredRNN-V2,ISA-PredRNN(withoutweightloss) andISA-PredRNNcouldpredictthegeneralcontoursoftheechoesandthelocationsof thestrongechoregions,andtheISA-PredRNNstillretainedmoredetailsinitsprediction results. Overall, the ISA-PredRNN captured the radar echo variation most accurately, andthepredictionoftheFC-LSTMwasthemostdifferentfromthegroundtruth. This isbecausethelong-termmemorystateN intheISA-PredRNNallowedittoremember
+Atmosphere 2022, 13, x FOR PEER REVIEW t 15 of 18 thechangingtrendoftheradarechoes,whiletheFC-LSTMdidnotcontainconvolutional structures,whichpreventeditfromhandlingthechangingpositioninformationwell.
+Figure 8. Prediction examples on the radar echo test set, in which the radar echo was not as strong
+Figure8.Predictionexamplesontheradarechotestset,inwhichtheradarechowasnotasstrongas as that in the first one but changed greatly.
+thatinthefirstonebutchangedgreatly.
+5. 5C.oCnocnlculsuisoinons sanandd DDisisccuussssiioonnss
+InI nthtihsi spappapere,r ,wwee pprrooppoossee tthhee IISSAA--PPrreeddRRNNNN mmooddeellf foorrs shhoortr-tt-etremrmp prerceicpiiptaittaiotinonfo froe-recasting, which is an improved structure based on the PredRNN-V2. The self-attention casting, which is an improved structure based on the PredRNN-V2. The self-attention mechanisminthemodelmakesitpossibletobetterextracttheglobalinformationfromthe mechanism in the model makes it possible to better extract the global information from radarechomap. Weintroducedthelong-termmemorystateintothenetworkarchitecture the radar echo map. We introduced the long-term memory state into the network archianddesignedanewsetofgatingmechanisms. Theseimprovementsallowthemodelto tecture and designed a new set of gating mechanisms. These improvements allow the bettercapturelong-termmemoryinformationandpredictmoreaccuratelywhenradar model to better capture long-term memory information and predict more accurately when
+echoimagesarehighlyvariable.Thelossfunctionwithweightsallowsthemodeltocapture radar echo images are highly variable. The loss function with weights allows the model theprecipitationextremesbetter. Themodelwastrainedusingacombinationofreverse to capture the precipitation extremes better. The model was trained using a combination scheduledsamplingandscheduledsampling,whichreducesthegapbetweenthetraining ofa rnedveinrsfee rsecnhceedpurloecde sssaems.pElixnpge arnimde sncthaeldreusluedlts saomnpaltiwngo,- ywehairchra rdeadrueccehso thdea tgaasept binettwheeen thYei ntrcahiunainnga raenado finNfeinregnxicae sphroowcetshsaetst.h EexIpSAer-iPmreednRtaNl Nrepsuroltpso osend ai ntwthois-ypeaapre rracdaanra ecchhieov edatabseett tienr tpheer fYoirnmchanucaent haraenat ohfe Notihnegrxsiiax smhoowde tlshaint tthhee ImSAos-tPirmedpoRrNtaNnt pmroetproicsse,dw ihne tthhiesr pthaeper
+carna daacrheiecvheo ebseattreeri npearsfcoernmeatnhcaet itshsatnro tnhge boutthdero essixn omtocdhaenlsg iens itghnei fimcoanstt liymwpiothrttainmte m,oertrisics, wihneathdeyr ntahme ircapdraorc eescshoofegs eanreer ainti oan sacnedned itshsaipt aisti osntr.ong but does not change significantly with tiAmleth, oour gish insa ati sdfyacntaomryice xpproerciemsse notfa glerenseurlattsiohna vaenbde denissoibptaatiinoend. ,therearestillsome areaAslftohroiumgphr osvaetimsfeanctt.oDryu eetxoptehreimunecnetratla irnetsyuoltfst hheatvaes kbaenedn tohbetsaminaellda, rtehaearned aprero sbtailbl ilsiotyme ofthestormoccurring,ISA-PredRNNcapturestheextremeprecipitationwhileincreasing areas for improvement. Due to the uncertainty of the task and the small area and probatheFAR.Sincetheatmosphereisacomplexdynamicalsystemandtherearemanyfactors bility of the storm occurring, ISA-PredRNN captures the extreme precipitation while in-
+creasing the FAR. Since the atmosphere is a complex dynamical system and there are many factors affecting precipitation, we will subsequently add a variety of factors such as temperature, wind field and barometric pressure as inputs to the network. We will also combine the deep learning model with the numerical weather prediction to further reduce the FAR and improve the accuracy of short-term precipitation forecasts. In recent years, more satellite products have been used for precipitation forecasting with promising results. In future research, we will combine the respective advantages of radar and satellite for precipitation forecasting using multi-source datasets. The main contribution of this paper is to propose a new model and achieve the accurate prediction of future radar echo maps. However, the accurate translation of radar maps into actual precipitation values is challenging as well. In future work, we will focus more on this aspect.
+Atmosphere2022,13,1963 15of17 affectingprecipitation,wewillsubsequentlyaddavarietyoffactorssuchastemperature, windfieldandbarometricpressureasinputstothenetwork. Wewillalsocombinethe deeplearningmodelwiththenumericalweatherpredictiontofurtherreducetheFARand improvetheaccuracyofshort-termprecipitationforecasts. Inrecentyears,moresatellite productshavebeenusedforprecipitationforecastingwithpromisingresults. Infuture research,wewillcombinetherespectiveadvantagesofradarandsatelliteforprecipitation forecastingusingmulti-sourcedatasets. Themaincontributionofthispaperistoproposea newmodelandachievetheaccuratepredictionoffutureradarechomaps. However,the accuratetranslationofradarmapsintoactualprecipitationvaluesischallengingaswell. In futurework,wewillfocusmoreonthisaspect.
+AuthorContributions:Conceptualization,D.W.andL.W.;methodology,D.W.;software,D.W.and
+W.Z.; validation, D.W. and L.W.; formal analysis, W.Z. and J.H.; investigation, W.Z.; resources,
+L.W.andX.W.;datacuration,W.Z.;writing—originaldraftpreparation,D.W.;writing—reviewand editing,L.W.,T.Z.,J.H.andX.W.;visualization,D.W.;supervision,L.W.,T.Z.,J.H.andX.W.;project administration,L.W.,T.Z.andJ.H.;fundingacquisition,T.Z.andX.W.Allauthorshavereadand agreedtothepublishedversionofthemanuscript.
+Funding: This research was funded by the National Natural Science Foundation of China (No.
+62162053,No. 62062059,No. 62166032)andNaturalScienceFoundationofQinghaiProvince(No.
+2022-ZJ-701), thegrant(No. SKL-IOW-2020TC2004-01)fromTsinghuaUniversity, KeyResearch andDevelopmentProgramProjectofNingxiaHuiAutonomousRegion(2020BCF01002-02), the
+OpenProjectofStateKeyLaboratoryofPlateauEcologyandAgriculture,QinghaiUniversity(No.
+2020-ZZ-03).TaoZhangissupportedbytheClimateModelDevelopmentandValidation(CMDV)
+ProjecttoBrookhavenNationalLaboratoryunderContractDE-SC0012704andBrookhavenNational
+Laboratory’sLaboratoryDirectedResearchandDevelopment(LDRD)Project22065.
+InstitutionalReviewBoardStatement:Notapplicable.
+InformedConsentStatement:Notapplicable.
+DataAvailabilityStatement:TheradarechodatasetusedinthisstudyisopenlyavailableinZenodo athttps://doi.org/10.5281/zenodo.6559265.
+Acknowledgments:WethanktheInstituteofHighPerformanceofQinghaiUniversityforproviding thecomputingresources.
+ConflictsofInterest:Theauthorsdeclarenoconflictofinterest.
+References
+1. Dixon,M.;Wiener,G.TITAN:Thunderstormidentification,tracking,analysis,andnowcasting—Aradar-basedmethodology.J.
+Atmos.Ocean.Technol.1993,10,785–797.[CrossRef]
+2. Liang,Q.;Feng,Y.;Deng,W.;Hu,S.;Huang,Y.;Zeng,Q.;Chen,Z.Acompositeapproachofradarechoextrapolationbasedon
+TRECvectorsincombinationwithmodel-predictedwinds.Adv.Atmos.Sci.2010,27,1119–1130.[CrossRef]
+3. Zhu,J.;Dai,J.Arain-typeadaptiveopticalflowmethodanditsapplicationintropicalcyclonerainfallnowcasting.Front.Earth
+Sci.2021,16,248–264.[CrossRef]
+4. Yang,X.;Kuang,Q.;Zhang,W.;Zhang,G.Aterrain-basedweightedrandomforestsmethodforradarquantitativeprecipitation estimation.Meteorol.Appl.2017,24,404–414.[CrossRef]
+5. Bhuiyan,M.A.E.;Anagnostou,E.N.;Kirstetter,P.-E.AnonparametricstatisticaltechniqueformodelingoverlandTMI(2A12) rainfallretrievalerror.IEEEGeosci.RemoteSens.Lett.2017,14,1898–1902.[CrossRef]
+6. Zhang,L.;Li,X.;Zheng,D.;Zhang,K.;Ma,Q.;Zhao,Y.;Ge,Y.Mergingmultiplesatellite-basedprecipitationproductsandgauge observationsusinganoveldoublemachinelearningapproach.J.Hydrol.2021,594,125969.[CrossRef]
+7. Banadkooki,F.B.;Ehteram,M.;Ahmed,A.N.;Fai,C.M.;Afan,H.A.;Ridwam,W.M.;Sefelnasr,A.;El-Shafie,A.Precipitation forecastingusingmultilayerneuralnetworkandsupportvectormachineoptimizationbasedonflowregimealgorithmtaking intoaccountuncertaintiesofsoftcomputingmodels.Sustainability2019,11,6681.[CrossRef]
+8. Chiang,Y.-M.;Hao,R.;Quan,S.;Xu,Y.;Gu,Z.PrecipitationassimilationfromgaugeandsatelliteproductsbyaBayesianmethod withGammadistribution.Int.J.RemoteSens.2021,42,1017–1034.[CrossRef]
+9. Kolluru,V.;Kolluru,S.;Wagle,N.;Acharya,T.D.Secondaryprecipitationestimatemergingusingmachinelearning:Development andevaluationoverKrishnariverbasin,India.RemoteSens.2020,12,3013.[CrossRef]
+10. Chandriah,K.K.;Naraganahalli,R.V.RNN/LSTMwithmodifiedAdamoptimizerindeeplearningapproachforautomobile sparepartsdemandforecasting.Multimed.ToolsAppl.2021,80,26145–26159.[CrossRef]
+Atmosphere2022,13,1963 16of17
+11. Nazarova,A.L.;Yang,L.;Liu,K.;Mishra,A.;Kalia,R.K.;Nomura,K.-i.;Nakano,A.;Vashishta,P.;Rajak,P.Dielectricpolymer propertypredictionusingrecurrentneuralnetworkswithoptimizations.J.Chem.Inf.Model.2021,61,2175–2186.[CrossRef]
+12. Jaihuni,M.;Basak,J.K.;Khan,F.;Okyere,F.G.;Sihalath,T.;Bhujel,A.;Park,J.;Lee,D.H.;Kim,H.T.Anovelrecurrentneural networkapproachinforecastingshorttermsolarirradiance.ISATrans.2022,121,63–74.[CrossRef][PubMed]
+13. Park,M.K.;Lee,J.M.;Kang,W.H.;Choi,J.M.;Lee,K.H.PredictivemodelforPVpowergenerationusingRNN(LSTM).J.Mech.
+Sci.Technol.2021,35,795–803.[CrossRef]
+14. Cho,K.;VanMerriënboer,B.;Gulcehre,C.;Bahdanau,D.;Bougares,F.;Schwenk,H.;Bengio,Y.Learningphraserepresentations usingRNNencoder-decoderforstatisticalmachinetranslation.arXivPrepr.2014,arXiv:1406.1078.
+15. Hochreiter,S.;Schmidhuber,J.Longshort-termmemory.NeuralComput.1997,9,1735–1780.[CrossRef]
+16. Alhudhaif,A.;Polat,K.;Karaman,O.DeterminationofCOVID-19pneumoniabasedongeneralizedconvolutionalneuralnetwork modelfromchestX-rayimages.ExpertSyst.Appl.2021,180,115141.[CrossRef]
+17. Xie,J.;Chen,S.;Zhang,Y.;Gao,D.;Liu,T.Combininggenerativeadversarialnetworksandmulti-outputCNNformotorimagery classification.J.NeuralEng.2021,18,46026.[CrossRef][PubMed]
+18. Marques, S.; Schiavo, F.; Ferreira, C.A.; Pedrosa, J.; Cunha, A.; Campilho, A.Amulti-taskCNNapproachforlungnodule malignancyclassificationandcharacterization.ExpertSyst.Appl.2021,184,115469.[CrossRef]
+19. Kolisnik,B.;Hogan,I.;Zulkernine,F.Condition-CNN:Ahierarchicalmulti-labelfashionimageclassificationmodel.ExpertSyst.
+Appl.2021,182,115195.[CrossRef]
+20. LeCun,Y.;Bottou,L.;Bengio,Y.;Haffner,P.Gradient-basedlearningappliedtodocumentrecognition. Proc. IEEE1998,86,
+2278–2324.[CrossRef]
+21. Krizhevsky,A.;Sutskever,I.;Hinton,G.E.Imagenetclassificationwithdeepconvolutionalneuralnetworks. Adv. NeuralInf.
+Process.Syst.2012,25,1097–1105.[CrossRef]
+22. Shi,X.;Chen,Z.;Wang,H.;Yeung,D.-Y.;Wong,W.-K.;Woo,W.-c.ConvolutionalLSTMnetwork:Amachinelearningapproach forprecipitationnowcasting.Adv.NeuralInf.Process.Syst.2015,28,802–810.
+23. Wang,W.;Mao,W.;Tong,X.;Xu,G.ANovelRecursiveModelBasedonaConvolutionalLongShort-TermMemoryNeural
+NetworkforAirPollutionPrediction.RemoteSens.2021,13,1284.[CrossRef]
+24. Liu,Q.;Zhang,R.;Wang,Y.;Yan,H.;Hong,M.Dailypredictionofthearcticseaiceconcentrationusingreanalysisdatabasedon aconvolutionallstmnetwork.J.Mar.Sci.Eng.2021,9,330.[CrossRef]
+25. Kreuzer,D.;Munz,M.;Schlüter,S.Short-termtemperatureforecastsusingaconvolutionalneuralnetwork—Anapplicationto differentweatherstationsinGermany.Mach.Learn.Appl.2020,2,100007.[CrossRef]
+26. Shi,X.;Gao,Z.;Lausen,L.;Wang,H.;Yeung,D.-Y.;Wong,W.-k.;Woo,W.-c. Deeplearningforprecipitationnowcasting: A benchmarkandanewmodel.Adv.NeuralInf.Process.Syst.2017,30,5617–5627.
+27. Wang,Y.;Long,M.;Wang,J.;Gao,Z.;Yu,P.S.Predrnn:Recurrentneuralnetworksforpredictivelearningusingspatiotemporal lstms.Adv.NeuralInf.Process.Syst.2017,30,879–888.
+28. Wang,Y.;Wu,H.;Zhang,J.;Gao,Z.;Wang,J.;Yu,P.S.;Long,M.PredRNN:Arecurrentneuralnetworkforspatiotemporal predictivelearning.arXivPrepr.2021,arXiv:2103.09504.[CrossRef][PubMed]
+29. Xu,Z.;Du,J.;Wang,J.;Jiang,C.;Ren,Y.Satelliteimagepredictionrelyingonganandlstmneuralnetworks.InProceedingsofthe
+ICC2019-2019IEEEInternationalConferenceonCommunications(ICC),Shanghai,China,20–24May2019;pp.1–6.
+30. Singh,S.;Sarkar,S.;Mitra,P.AdeeplearningbasedapproachwithadversarialregularizationforDopplerweatherradarECHO prediction.InProceedingsofthe2017IEEEInternationalGeoscienceandRemoteSensingSymposium(IGARSS),FortWorth,TX,
+USA,23–28July2017;pp.5205–5208.
+31. Khan,Z.N.;Ahmad,J.Attentioninducedmulti-headconvolutionalneuralnetworkforhumanactivityrecognition.Appl.Soft
+Comput.2021,110,107671.[CrossRef]
+32. Wang,L.;He,Z.;Meng,B.;Liu,K.;Dou,Q.;Yang,X.Two-pathwayattentionnetworkforreal-timefacialexpressionrecognition.
+J.Real-TimeImageProcess.2021,18,1173–1182.[CrossRef]
+33. Li,C.;Zhang,J.;Yao,J.Streameractionrecognitioninlivevideowithspatial-temporalattentionanddeepdictionarylearning.
+Neurocomputing2021,453,383–392.[CrossRef]
+34. Kim,J.;Li,G.;Yun,I.;Jung,C.;Kim,J.Weakly-supervisedtemporalattention3Dnetworkforhumanactionrecognition.Pattern
+Recognit.2021,119,108068.[CrossRef]
+35. Zhao,Z.;Liu,Q.;Wang,S.Learningdeepglobalmulti-scaleandlocalattentionfeaturesforfacialexpressionrecognitioninthe wild.IEEETrans.ImageProcess.2021,30,6544–6556.[CrossRef][PubMed]
+36. Tang,M.;Li,Y.;Yao,W.;Hou,L.;Sun,Q.;Chen,J.Astripsteelsurfacedefectdetectionmethodbasedonattentionmechanism andmulti-scalemaxpooling.Meas.Sci.Technol.2021,32,115401.[CrossRef]
+37. Cui,X.;Wang,Q.;Dai,J.;Xue,Y.;Duan,Y.Intelligentcrackdetectionbasedonattentionmechanisminconvolutionneural network.Adv.Struct.Eng.2021,24,1859–1868.[CrossRef]
+38. Zhao,H.;Yang,D.;Yu,J.3DtargetdetectionusingdualdomainattentionandSIFToperatorinindoorscenes.Vis.Comput.2021,
+38,3765–3774.[CrossRef]
+39. Cao,Z.;Yang,H.;Zhao,J.;Guo,S.;Li,L.Attentionfusionforone-stagemultispectralpedestriandetection.Sensors2021,21,4184.
+[CrossRef][PubMed]
+Atmosphere2022,13,1963 17of17
+40. Yang,B.;Wang,L.;Wong,D.F.;Shi,S.;Tu,Z.Context-awareself-attentionnetworksfornaturallanguageprocessing.Neurocomputing2021,458,157–169.[CrossRef]
+41. Zhang,Y.;Wang,J.;Zhang,X.Learningsentimentsentencerepresentationwithmultiviewattentionmodel.Inf.Sci.2021,571,
+459–474.[CrossRef]
+42. Lin,T.;Li,Q.;Geng,Y.-A.;Jiang,L.;Xu,L.;Zheng,D.;Yao,W.;Lyu,W.;Zhang,Y.Attention-baseddual-sourcespatiotemporal neuralnetworkforlightningforecast.IEEEAccess2019,7,158296–158307.[CrossRef]
+43. Yan,Q.; Ji,F.; Miao,K.; Wu,Q.; Xia,Y.; Li,T.Convolutionalresidual-attention: Adeeplearningapproachforprecipitation nowcasting.Adv.Meteorol.2020,2020,4812.[CrossRef]
+44. Sønderby,C.K.;Espeholt,L.;Heek,J.;Dehghani,M.;Oliver,A.;Salimans,T.;Agrawal,S.;Hickey,J.;Kalchbrenner,N.Metnet:A neuralweathermodelforprecipitationforecasting.arXivPrepr.2020,arXiv:2003.12140.
+45. Emerton,R.E.;Stephens,E.M.;Pappenberger,F.;Pagano,T.C.;Weerts,A.H.;Wood,A.W.;Salamon,P.;Brown,J.D.;Hjerdt,N.;
+Donnelly,C.Continentalandglobalscalefloodforecastingsystems.WileyInterdiscip.Rev.Water2016,3,391–418.[CrossRef]
+46. Voyant,C.;Haurant,P.;Muselli,M.;Paoli,C.;Nivet,M.-L.Timeseriesmodelingandlargescaleglobalsolarradiationforecasting fromgeostationarysatellitesdata.Sol.Energy2014,102,131–142.[CrossRef]
+47. Schuurmans,J.;Bierkens,M.;Pebesma,E.;Uijlenhoet,R.Automaticpredictionofhigh-resolutiondailyrainfallfieldsformultiple extents:Thepotentialofoperationalradar.J.Hydrometeorol.2007,8,1204–1224.[CrossRef]
+48. Hänsel,P.; Langel,S.; Schindewolf,M.; Kaiser,A.; Buchholz,A.; Böttcher,F.; Schmidt,J.Predictionofmuddyfloodsusing high-resolutionradarprecipitationforecastsandphysically-basederosionmodelinginagriculturallandscapes.Geosciences2019,
+9,401.[CrossRef]

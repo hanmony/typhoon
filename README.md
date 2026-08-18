@@ -59,7 +59,7 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
 | 步骤 D3 | 文本提取：PDF / docx → 纯文本 | ✅ 完成（2026-08-18） |
 | 步骤 D4 | 文本清洗：页眉页脚 / 断行 / 乱码 | ✅ 完成（2026-08-18） |
 | 步骤 D5 | 切片（chunking）：按平台 4 类预设切块 | ✅ 完成（2026-08-18） |
-| 步骤 D6 | 向量化 + 写入 Qdrant + MongoDB 知识库表 | ⬜ 待做 |
+| 步骤 D6 | 向量化 + 写入 Qdrant + MongoDB 知识库表 | ✅ 完成（2026-08-18，data-database-audit 分支） |
 | 步骤 D7 | 检索验证：抽样提问核对命中结果 | ⬜ 待做 |
 | 步骤 D8 | 收尾：清理临时文件 + 提交推送 | ⬜ 待做 |
 
@@ -180,8 +180,8 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
 - **预估工作量**：0.5 天。
 
 #### 步骤 D6：向量化 + 写入 Qdrant + MongoDB 知识库表
-- **做法**：新建根目录 `index_docs.py`，分三步：
-  1. **向量化**：逐片调用 `.env` 里的 `EMBEDDING_BASE_URL`（OpenAI 兼容接口，请求体同 `embedding.service.ts`），批量 16 片/次，失败重试 3 次；
+- **做法**：新建 `docs_import/index_docs.py`，分三步：
+  1. **向量化**：逐片调用 `.env` 里的 `EMBEDDING_BASE_URL`（OpenAI 兼容接口，请求体同 `embedding.service.ts`），批量 25 片/次，失败重试 2 次（指数退避）；
   2. **写 Qdrant**：写入 `knowledge_base` 集合。每点 = `{id: 切片唯一ID, vector: 1024 维, payload: {content, documentId, documentName, chunkIndex, category}}`——payload 字段**严格对齐** `qdrant.service.ts` 的 `search()` 返回字段，平台检索才拿得到内容；
   3. **写 MongoDB**：`kb-documents` 插入 1 条文档记录（name/fileType/filePath/fileSize/status=3(chunked+indexed)/chunkCount/category/chunkConfig），`kb-chunks` 插入每片 1 条（documentId/chunkIndex/content/qdrantPointId 指向 Qdrant 点 ID）——两个集合的结构照抄 `kb-document.schema.ts`、`kb-chunk.schema.ts`。
   - **幂等**：导入前按 `sourceRelpath`（写入 `kb-documents.filePath`）匹配是否已存在 → 存在则先删 Qdrant 中该 documentId 的点 + Mongo 旧记录再写。
@@ -192,8 +192,8 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
   4. `kb-documents.filePath` **不能指向 D8 会删除的临时目录**——D6 应先把可重处理文件（清洗后 txt）放入永久目录（或明确长期保留 `text_clean/`），filePath 指向该处；
   5. **删除旧数据前先完成 Embedding 连通性与 1024 维校验**，避免校验失败后旧知识也被删光。
 - **教学**：这一步你第一次完整看到"一条数据的两条命"——文字存 MongoDB（给人看/管理用），向量存 Qdrant（给机器算相似度用），靠 `qdrantPointId` 互相关联。`status=3` 表示"已入库"，管理后台知识库列表就是读这个字段显示的。
-- **改动文件**：新增 `index_docs.py`（业务代码零改动）。
-- **验收**：Qdrant `knowledge_base` 点数 = chunks.jsonl 行数（3002）；`kb-documents` 72 条（72 个文件名与临时文档键均已验证唯一）；管理后台「知识库」页面能看到新文档、状态为已入库。
+- **改动文件**：新增 `docs_import/index_docs.py` + `docs_import/text_permanent/`（72 份清洗文本固化进 git，filePath 指向此处）（业务代码零改动）。
+- **验收（2026-08-18 已执行）**：`--dry-run` 预检全绿后全量导入——**72 份文档 / 3002 片全部入库**，kb-documents 72 条、kb-chunks 3002 条、Qdrant `knowledge_base` 3002 点三处计数一致（脚本自动核对）；Embedding 实测 `Qwen/Qwen3-Embedding-8B`（OpenAI 兼容接口，1024 维），中途 3 次网络抖动（1 超时 + 2 SSL 断连）均被重试机制自动恢复、无文档失败；抽查 13 个 Qdrant 点：payload.documentId 全部为 Mongo `_id` 字符串、chunkIndex 与 kb-chunks 一致、向量 1024 维。报告见 `docs_import/index_report.md`（json 版 gitignored）。管理后台「知识库」页面显示留待平台运行环境（部署机）验证。
 - **预估工作量**：1 天（含接口调试）。
 
 #### 步骤 D7：检索验证

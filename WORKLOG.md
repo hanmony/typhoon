@@ -261,9 +261,25 @@
 - **改动文件**：`docs_import/chunk_docs.py`、`docs_import/test_d5_boundaries.py`（新增）、`docs_import/chunk_report.md`、`README.md`（D5/D6 节同步）
 - **提交**：b8b1880（codex）+ 本条目对应文档同步提交（见 git 历史）
 
+### 步骤 D6：向量化 + 写入 Qdrant + MongoDB 知识库表（README 步骤 D6）
+- **环境**：用户提供 Embedding 三件套（`Qwen/Qwen3-Embedding-8B`，OpenAI 兼容 API）写入 `server/.env`（gitignored）；Mongo `mongo-typhoon-test`（27017）与 Qdrant `qdrant-typhoon`（6333）容器在线
+- **执行**：先 `--dry-run` 预检全绿（Embedding 连通 + 1024 维 + Mongo/Qdrant 就绪 + 敏感路径拦截），再全量导入
+- **过程中修复 2 个脚本 bug**（首次真实执行暴露）：
+  1. `.env` 读取漏了 `EMBEDDING_BASE_URL`/`EMBEDDING_API_KEY` 两个无默认值键（`resolve_config` 只遍历 DEFAULTS）——已补入键列表
+  2. `sourceRelpath` 保留原后缀（.docx/.pdf/.doc/.xls）而永久目录是 .txt——新增 `permanent_path()` 按「同 relpath 换 .txt」定位（72 份全部命中）
+- **执行结果**：72 份 → **3002 片全量入库**：kb-documents 72 条（status=3）、kb-chunks 3002 条、Qdrant `knowledge_base` 3002 点，三处计数脚本自动核对一致；Embedding 中途 3 次网络抖动（1 超时 + 2 SSL 断连）重试自动恢复，无文档失败
+- **验收抽查**：13 个 Qdrant 点——payload.documentId 全部为 Mongo `_id` 字符串（契约 1）、chunkIndex 与 kb-chunks 一致、向量 1024 维；kb-chunks 仅四字段 + timestamps（契约 3）；filePath 全部指向 text_permanent（契约 4）
+- **产出**：`docs_import/text_permanent/`（72 份清洗文本固化进 git）+ `index_report.md`（入库）/`index_report.json`（gitignored）
+- **改动文件**：`docs_import/index_docs.py`（修复 2 bug）、`README.md`（D6 状态 ✅ + 批量参数更正 16 片/重试 3 次 → 25 片/重试 2 次 + 验收记录）
+- **codex 审查建议**：D6 脚本 2 处修复 + 入库数据契约值得送 codex 复核
+- **提交**：见 git 历史
+
 ---
 
 ## 待办（下一步）
+
+- [ ] D7：检索验证——10 个领域问题走 `kb-query`/管理后台知识库问答，核对命中片段（D6 已入库 72 份/3002 片）
+- [ ] D8：临时目录清理——清理 `text_clean`/`text/` 等临时产物，保留 `text_permanent/`（filePath 指向它）
 
 - [x] M1：补全 5 个指挥工具——✅ 全部完成（历史台风/值班/消息/预警历史/巡道）；步骤 6 集成收尾 ✅（prompt 检查/前端映射/前后端构建通过）；20 条回归测试集已交付 `server/docs/AGENT_EVAL_SET.md`，实机执行待部署环境（本机 MongoDB 已就绪（Docker 容器）、Qdrant 待启动）
 - [ ] M2：服务端会话持久化（`ChatSessionEntity` + 会话 CRUD + `sessionId` 可选兼容）

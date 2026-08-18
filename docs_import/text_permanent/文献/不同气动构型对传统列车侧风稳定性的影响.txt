@@ -1,0 +1,261 @@
+JournalofWindEngineering&IndustrialAerodynamics242(2023)105588
+Contents lists available at ScienceDirect
+Journal of Wind Engineering Industrial Aerodynamics journal homepage: www.elsevier.com/locate/jweia
+Effects of different aerodynamic configurations on crosswind stability of a conventional train
+Carlos Esteban Araya Reyesa,*, Daniele Rocchia, Gisella Tomasinia, Mikel Iraeta Sa ´ nchezb,
+Maialen Artanob aPolitecnico di Milano, Milan, Italy bConstrucciones y Auxiliar de Ferrocarriles, Beasain, Spain
+A R T I C L E I N F O A B S T R A C T
+Keywords: Crosswind stability studies have been multiplied since the 90s due to the increase in speed and the continuous
+Conventional train aerodynamics weight reduction of the railway vehicles. At beginning, most of the attention was devoted to high-speed trains
+Crosswind but recent studies have shown also conventional trains that runs at considerably lower speeds may also have a
+CWC
+high risk of overturning due to crosswind. In this study, a conventional train designed by CAF has been analysed
+Wind tunnel
+to evaluate the impact that different roof and underbodies have on the aerodynamic performance of the train. In
+Roof and underbody aerodynamics the Wind Tunnel of Politecnico di Milano, a modular scaled model was tested to determine the aerodynamic coefficients of the different train configurations. Moreover, the procedure described in the European Standard
+EN14067-6 to assess train stability under crosswind was applied to evaluate the Characteristic Wind Curve (CWC) using time-dependent multibody simulations and the ‘Chinese hat’ wind time history for each train composition. Results have shown a significant improvement is obtained for some configurations, especially when the roof is closed covering the roof equipment with an increment of around 4 m/s on characteristic wind speed.
+1. Introduction are not turn out to be significantly higher (and therefore less critical) than those found for high-speed trains (Araya Reyes et al., 2022, 2023b;
+Since the 1980s and 1990s, given the increase in high-speed trains, Giappino et al., 2016; Paradot et al., 2015). And it has been highlighted ever faster and lighter, studies for the evaluation of the risk of over- the necessity of more research on this topic (Diedrichs, 2010; Villalturning due to crosswind have multiplied (Araya Reyes et al., 2023a; manzo Resusta et al., 2018).
+Baker, 1991a, 1991b, 1991c; Bocciolone et al., 2008; Hemida and Considering that, at national level, only UK, Germany and France
+Krajnovi´c, 2009; Liu et al., 2020; Tomasini and Cheli, 2013) and have have National Standards on this item also for trains having a top speed led to the definition of complete regulations (EN14067-6, 2018; TSI, lower than 250 km/h, new International Projects, as AeroTRAIN (RSSB,
+2014), for the characterisation and homologation of new high-speed 2013) and SAFIRST (UIC, 2021a, 2021b; 2021c), launched in 2019 b y trains, it means, trains with top speeds exceeding 250 km/h. UIC and still ongoing, have been funded by European Union with the
+As part of the aerodynamic characterisation of the vehicle against goal of reaching common rules also for these trains.
+crosswinds, Characteristic Wind Curves (CWC) must be determined. The Some studies have been made on the influence that different parts of
+CWCs represent the wind speed a vehicle is able to withstand as a the vehicle have on the general performance of a train under crosswind, function of train speed and wind angle in some reference conditions. for example nose shape, roof curvature, bogie geometry or inter-car gap
+Thus, they do not represent the limits for the overturning of the vehicle dimensions (Chen et al., 2018; Guo et al., 2020; Hemida and Krajnovi´c, in operational conditions but give a common reference frame to 2010; Liu et al., 2022; Mun˜oz-Paniagua and García, 2019; Sicot et al., compare different vehicles. 2018; Xia et al., 2021; Zhang et al., 2018). Others are focused on opti-
+More recently, however, new studies on conventional trains (having mising the shape of high-speed trains to improve the behaviour under maximum speeds ranged between 160 km/h and 250 km/h) have crosswind with special attention in nose shape (Cheli et al., 2010;
+highlighted that the characteristic wind speeds found for those vehicles Shuanbao et al., 2014; Wang et al., 2021). But, while high-speed trains * Corresponding author.
+E-mail address: carlosesteban.araya@polimi.it (C.E. Araya Reyes).
+https://doi.org/10.1016/j.jweia.2023.105588
+Received 22 May 2023; Received in revised form 18 October 2023; Accepted 18 October 2023
+0167-6105/©2023TheAuthors.PublishedbyElsevierLtd.ThisisanopenaccessarticleundertheCCBY-NC-NDlicense(http://creativecommons.org/licenses/bync-nd/4.0/).
+C.E. Araya Reyes et al. J o u r n a l o f W i n d E n g i n e e r i n g & I n d u s t r i a l A e r o d y n a m i c s 242(2023)105588 are characterised by different noses but similar car-body shapes, con- Table 1 ventional trains present a larger variety of aerodynamic characteristics Train main dimensions.
+and lend themselves better to an aerodynamic optimisation aimed at First Car Intermediate Car minimising the risk of overturning associated to crosswind. Moreover,
+Body length 22.45 m 17.00 m the effect of other sections of the carbody, for example, the effects of
+Body height 4.23 m 4.06 m having a fully covered roof or one with exposed equipment, or different underbody geometries, have not been widely studied, especially for conventional trains. Configuration K has a slightly different roof configuration compared
+For all these reasons, the present study has the objective to evaluate with A, and an underbody design without fenders.
+how different configurations of roofs and underbodies of first and second The analysed train configurations are depicted in Fig. 2, and sumvehicle of a conventional train have an impact on the safety to marised in Table 2.
+crosswind.
+A train designed by the company CAF (Construcciones y Auxiliar de
+2.1. Methodology
+Ferrocarriles S.A.) characterised by a top speed of 200 km/h has been considered for this study; as prescribed by the homologation procedure
+To evaluate the effects that the different configurations have on the for high-speed trains contained in (TSI, 2014) and the (EN14067-6, stability of the studied train, the procedure described in the European
+2018), the aerodynamic coefficients of the first two cars, in different
+Standard is followed.
+configurations, have been experimentally measured by wind tunnel tests
+The reference standard for assessing railway stability under crosson scale models.
+winds corresponds to EN14067-6 - Requirements and test procedures for
+Finally, the corresponding CWCs have been numerically evaluated cross wind assessment (EN14067-6, 2018). The standard is applicable to by multi-body simulations using, as wind model, the ideal deterministic all passenger vehicles, locomotives, and power cars with a maximum wind speed time history named ‘Chinese Hat’.
+train speed above 140 km/h up to 360 km/h. But only for vehicles with a
+In the next section an overview of the studied train and configuramaximum train speed between 250 km/h and 360 km/h, a requirement tions analysed as well as the methodology adopted are presented; secto demonstrate the crosswind stability is imposed by the reference tion 3 describes the wind tunnel tests in terms of experimental setup and
+CWCs.
+measured force aerodynamic coefficients while section 4 is about the
+Two methodologies are applicable for vehicles on this speed range: a numerical evaluation of the corresponding CWCs.
+simplified proof which is more conservative (commonly used for preliminary design stage calculations) but not applicable for articulated
+2. Description of the studied train and methodology trains and a full proof of crosswind stability (commonly used for full homologation purposes).
+The model of the studied train was designed by the company CAF
+In this work, the full proof of stability using time-dependent multiand based on a conventional train (see Fig. 1) with a maximum speed of body simulations is applied: according to this procedure, the wheel loads
+200 km/h. The train composition is formed by 10 cars with shared are obtained as a response of the dynamic vehicle model to the ‘Chinese (Jacob) bogies and standard gauge. For the wind tunnel test a reduced 3 hat’ wind scenario.
+car composition has been studied. The main dimensions of the train are
+For the full proof of crosswind stability, the aerodynamic characsummarised in Table 1.
+terisation of the studied geometry is performed by means of the aero-
+For the scope of the study, 11 configurations, characterised by dynamic coefficients that shall be obtained by wind tunnel tests on different roofs and underbodies, are considered. The baseline configuscaled models.
+ration corresponds to configuration A. In configurations B, C, D, E and F only the first car of the train is changed while the second remains un-
+3. Wind tunnel tests
+changed: configurations A, B and C differ only in the roof of the first vehicle. Configuration D differs from the baseline configuration in the
+The first part of the analysis consists in the evaluation of the aerounderbody of the first car. Configurations C, E and F have the same dynamic coefficients of all the analysed configurations. The expericovered roof but different underbody configurations.
+mental campaign is performed at the Wind Tunnel of Politecnico di
+In configurations G, H, I, J and K the first coach is set in baseline
+Milano. This facility is composed by a closed-circuit wind tunnel with configuration, while only the second car is modified: configuration G, two test sections disposed in vertical configuration (Fig. 3). In the upper and H differs from A only on the roof of the second car, G has the HVAC level is placed the low-speed boundary layer test section with a cross covers while in H the roof is completely covered. Configuration I and J section of 13.84 m ×3.84 m. While the high-speed low turbulence test are analogous to configurations A and H but with the empty underbody. section of 4 m ×3.84 m is placed in the lower part of the circuit. The
+Fig. 1. Conventional train designed by CAF.
+Fig. 2. Train configurations. Upper and bottom view of the 11 configurations analysed.
+3.1. Experimental setup
+Table 2
+Summary of train configurations analysed.
+The experimental setup used during the test consists in a three-car
+Configuration First Car Second Car Third convoy set on a Single-Track Ballast and Rails (STBR), in compliance
+Car
+Roof Underbody Roof Underbody with the European Standard (EN14067-6, 2018) mounted over a splitter plate to guarantee the correct wind profile.
+A Baseline Baseline Baseline Baseline Dummy
+B Half Baseline Baseline Baseline Dummy The train model is scaled by the ratio 1:20.6 to fulfil the standard covered requirement on the ratio convoy length over wind tunnel width (that
+C Covered Baseline Baseline Baseline Dummy shall be lower than 0.75) with a model composed by three full cars. The
+D Baseline Smooth Baseline Baseline Dummy tested train set is represented in Fig. 4 and is composed by.
+E Covered Smooth Baseline Baseline Dummy
+F Covered Covered Baseline Baseline Dummy
+G Baseline Baseline HVAC Baseline Dummy • the first car, instrumented;
+fenders • the second car, instrumented;
+H Baseline Baseline Covered Baseline Dummy • the down-stream dummy vehicle (whose geometry coincides with
+I Baseline Baseline Baseline Smooth Dummy the first/last car), fixed to the ground and placed next to the second
+J Baseline Baseline Covered Smooth Dummy
+K Baseline Baseline Open 45◦Fender Dummy vehicle as boundary condition (full vehicle).
+The correct separation between adjacent vehicles is replicated. Meoverall characteristics of the wind tunnel are summarised in Table 3.
+chanical contact between vehicles is always avoided by leaving the
+The series of tests to study the performance of the train in its different corresponding inter-car gap. The simplified geometries of the vehicles, configurations are carried out at the high-speed low turbulence section, including bogies, are built exactly as designed in the reference CAD characterised by a maximum speed of 55 m/s and a turbulence intensity model proportioned by CAF. The shared bogie is divided into two pieces, lower than 0.15%.
+Fig. 3. Wind Tunnel longitudinal cross section.
+In order to measure the aerodynamic loads, each one of the first two
+Table 3
+cars are instrumented with a 6-components dynamometric balance. The
+Overall Politecnico di Milano Wind Tunnel characteristics.
+balance used for the test corresponds to the RUAG Aerospace model 192
+Tunnel Overall Dimensions 50 ×15 ×15 (m) strain-gauge based balance, that is mounted inside the model as shown
+Maximum Power (Fans only) 1.5 (MW) in Fig. 8.
+Test Section Size [m × Max Speed [m/ ΔU/U Turb. The wind tunnel tests are performed at the nominal wind speed of V m] s] [-] Int. =50 m/s. The duration of every test is 20 s.
+Iu%
+The corresponding Reynolds number obtained from equation (1):
+Boundary 13.84 × 16 <±3 <1.5
+V∗D
+Layer 3.84 Re= (1)
+Low 4 ×3.84 55 <±0.2 <0.15 ν
+Turbulence
+where the characteristic dimension D is the reference length (D =3 m at real scale) while ν is the air kinematic viscosity (ν =1.5 ×10 5 [m2/s]).
+each one connected to one of the wagons as can be seen in Figs. 5 and 6. With the nominal wind speed, the Reynolds number is equal to Remax =
+The scaled model is built in a modular way to avoid manufacturing a 4.9 ×105, that satisfies the European Standard requirement (Re >2.5 × separate model to represent each tested configuration and reduce the 105, see section 5.3.4.5 of (EN14067-6, 2018)).
+time spent changing configurations. As it can be seen from Fig. 7, first and second vehicles are composed by three parts.
+3.2. Analysis of results • the main body, rigidly attached to the dynamometric balance;
+• interchangeable underbody, bolted to the main body; The results obtained from the wind tunnel tests made for the first two • interchangeable roof, bolted to the main body. cars of the train in different aerodynamic configurations are represented in terms of force and moment coefficients defined with equations (2) and
+Fig. 4. Setup of the analysed train for wind tunnel tests.
+Fig. 5. CAD model of the bogie. Left: Complete bogie. Right: Half model.
+Fig. 6. Picture of half bogie model.
+Fig. 7. Disassembled wind tunnel model. The balance is mounted on the rigid support fixed to the splitter plate, and the car body is composed by the interchangeable roof and underbody mounted on the main body.
+(3) as defined in (EN14067-6, 2018).
+2M
+C Fi = ρ 2 v2 F A i ,i=x,y,z (2) C Mi = ρv2A 0 i d 0 ,i=x,y,z (3)
+0
+Where A0 =10 m2 and d0 =3 m are the reference normalisation area
+Fig. 8. Internal structure that supports the balance for the wind tunnel tests.
+and length respectively. the roof covered, and the lowest values are found for configuration A.
+The normalisation is obtained by dividing each coefficient by the The attached and accelerated flow over the roof produces more lift.
+CMx,lee value at 90◦ of the base configuration (configuration A in Therefore, the bigger the section covered, the bigger is the lift generated.
+Table 1), according to the following equation (4): In the configurations C, E and F the completely covered roof is kept fixed, while the underbody is changed. The results are reported in
+C
+C i,n = C Mx,lee i ;@90◦ ,i=F x ,F y ,F z ,M x ,M x,lee (4) Fig. 10. It can be seen that the underbody has a very small effect on coefficients. Configurations C and E have almost equal results even if the
+The results for the first three configurations, in which only the roof of underbody in C configuration is characterised by the presence of a lot of the first vehicle is changed are presented in Fig. 9. It can be observed equipment: this behaviour may be explained considering that the flow that up to 30◦yaw angle, the values of all coefficients are very similar. separation is induced at the edge of the lateral fender, and the equip-
+This behaviour can be attributed to the fact that development of the flow ment is efficiently covered. In the case of configuration F, the flow seems at lower angles is dictated mostly by the shape of the nose. At greater to remain attached to the underbody, reducing the lift generated by the angles the effect of the roof becomes more important. vehicle. From the results it can be observed that an underbody with a
+In the case of CFy and CMx the main differences can be observed in the well-designed lateral fender and an underbody completely covered may range from 30◦ to 70◦. It is possible to observe that the configuration have a similar performance.
+with the partially or fully closed roof, B and C respectively, show lower Similar considerations can be obtained when comparing configuraaerodynamic coefficients. Previous CFD experience on conventional tion A and configuration D (Fig. 11). In this case, the open roof is the train geometries suggests the reduction in lateral force may be explained same in both configurations while the underbody is changed: in by the differences in the airflow generated at the leeward side of the car configuration A the underbody presents a lot of equipment while in D it body. When the flow remains attached to the roof the vortex structures is smooth but with the same lateral fenders. The results show that the generated are probably smaller and less strong. At yaw angles above 70◦, effect of the underbody equipment is almost negligible, obtaining a very the behaviour corresponds to that of a bluff body, the vortex travelling small variation in the results for the two configurations. It can be noted a
+parallel to the train is not present anymore, explaining why all the three little increment in coefficients in the range from 30◦ to 70◦ when the roof configurations give equivalent results. empty underbody is used, which is consistent with the results obtained
+The differences appreciated for the vertical force coefficient show the for configuration C and E.
+expected trend. Configuration C, with the roof fully covered, is the one Fig. 12 presents the results of all the six configurations of the first with higher values of lift, followed by the configuration B, with half of vehicle: it is possible to conclude that the most favourable
+Fig. 9. Wind tunnel tests, first car, Uw =50 m/s: comparison between normalised aerodynamic coefficients measured on configurations A, B and C.
+Fig. 10. Wind tunnel tests, first car, Uw =50 m/s: comparison between normalised aerodynamic coefficients measured on configurations C, E and F.
+Fig. 11. Wind tunnel tests, first car, Uw =50 m/s: comparison between normalised aerodynamic coefficients measured on configurations A and D.
+configurations are the ones with open underbody and closed roof. force coefficient from 30◦onwards. Despite the lift increment, the closed
+For the second car of the train, the results for configurations A, G and roof leads to a big improvement when compared to the base design: this
+H, in which the underbody is kept unchanged while the roof varies are can be observed from the resultant roll moment with respect to the lee reported in Fig. 13. The effect of HVAC fenders (configuration G) is rail (CMx,lee) where a clear reduction is observed at almost all yaw angles almost negligible because the system is already covered by the lateral except 90◦.
+fenders of the roof. Anyway, some beneficial effects can be observed in In Fig. 14, the coefficients for configurations A, H I and J are shown, the range of wind yaw angle from 30◦ to 50◦ for lateral force and roll and the effect of the roof can be confirmed. From the results plotted, two moment coefficients, while for the lift coefficient a detrimental effect is branches of curves can be clearly appreciated from 30◦: the two conobserved. The combination of these two effects gives an almost un- figurations with closed roof (H, J) show lateral force and both moment changed trend of the lee-rail rolling moment with respect to configu- coefficients significantly lower, when compared to the ones with open ration without HVAC fenders. roof. On the other hand, the effect of the underbody is lower but
+On the other hand, when the second car with the roof completely consistent: in both cases, the smooth underbody leads to a further covered (configuration H) is compared with the baseline configuration, reduction in the lee-rail rolling coefficient Mx,lee from 30◦onwards.
+a huge difference can be observed. There is a big reduction in lateral Results for all the six configurations regarding the second car are force and roll moment, but there is also an important increment in lift plotted in Fig. 15. Configuration K, with open roof but with less
+Fig. 12. Wind tunnel tests, first car, Uw =50 m/s: comparison between normalised aerodynamic coefficients measured on configurations A to F.
+Fig. 13. Wind tunnel tests, second car, Uw =50 m/s: comparison between normalised aerodynamic coefficients measured on configurations A, G and H.
+equipment over it than configuration A, and with a different design of parameter (in this work for varying train speed) is called Characteristic the underbody, shows a behaviour in line with the other open roof de- Wind Curve (CWC).
+signs. Compared with baseline, the design of the underbody in K configuration has a detrimental effect, as expected, due to the fender- 4.1. CWC procedure description less design leaving the equipment more exposed.
+For the full proof of crosswind stability, the standard proposes two
+4. Effects on vehicle stability methods to assess the vehicle response to the wind action and determine the wheel unloading. One method involves the application of an
+To evaluate the final effect on cross wind stability of the different advanced quasi-static approach, simpler and more conservative;
+configurations analysed in the previous section, a crosswind stability whereas the other option requires time-dependent multi-body simulaassessment is performed according to the methodology described in tions where wheel loads are obtained from the response of the vehicle (EN14067-6, 2018). To assess the stability of the train, the methodology model to the ‘Chinese hat’ wind scenario applied. In this study the requires the determination of the ‘characteristic wind speed’, defined as second approach is used.
+the maximum wind speed with a given yaw angle that a train running at From the ‘Chinese hat’ wind scenario, wind forces are computed certain speed can withstand before the wheel unloading threshold is according to section 5.4.4.2 of (EN14067-6, 2018). The resultant aeroexceeded. The collection of characteristic wind speeds for a varying dynamic loads to be applied as an input to the vehicle model Fwind(t) =
+Fig. 14. Wind tunnel tests, second car, Uw =50 m/s: comparison between normalised aerodynamic coefficients measured on configurations A, H, I and J.
+Fig. 15. Wind tunnel tests, second car, Uw =50 m/s: comparison between normalised aerodynamic coefficients measured on configurations A and G to K.
+{Fi, Mi} depend on the aerodynamic coefficients, train speed, wind 1. Determination of the wind time history based on the ‘Chinese hat’ speed and yaw angle. Thus, an iterative process is carried out where the model.
+vehicle response (and thus, wheel unloading) is calculated for different 2. Determination of the relative wind speed and yaw angle.
+combinations of train speed and wind speed. 3. Calculation of aerodynamic loads to be applied to the multi-body
+From the results of the multibody simulations, the wheel unloading model considering the relative wind speed and yaw angle.
+criterion is evaluated to determine the CWC. According to (EN14067-6, 4. Computation of the dynamic response of the vehicle subjected to the
+2018) a wheel unloading of 90% will define the CWCs. The wheel wind loads using multi-body simulations.
+unloading is defined by equation (5), where ΔQ is the average vertical 5. Evaluation of the wheel unloading criteria to obtain the Characterforce variation of the most critical bogie and Q 0 is the average static istic Wind Speed.
+vertical wheel load on the most critical bogie. 6. Repeat for different train speeds.
+ΔQ
+<0.9 (5) The set of Characteristic Wind Speeds computed for different winds
+Q
+0 speed corresponds to the CWC.
+The full proof of stability using time-dependent multi-body simulations can be summarised as follows.
+4.2. Multi-body model description completed the plugin will use all the obtained results to determine the
+CWCs defined by the 90% wheel unloading of the most critical bogie
+Multibody simulations are performed by SIDIVE code, a multibody (the process is summarised in the flow chart displayed in Fig. 16).
+dynamics simulation tool developed in-house by CAF.
+Bodies are modelled through their inertial (and possibly elastic) 4.3. Analysis of results properties, while linkages are described by geometric constraints. The behaviour of the complete multibody system is governed by the set of In Fig. 17, the CWCs computed at 90◦ for the six configurations equations of motion. Given the initial conditions and applied loads, the considered for the first car of the train are reported. As expected from the solution of those equations provides the temporal evolution of the de- behaviour of the aerodynamic coefficients, two branches can be clearly grees of freedom of the system and thus the motion of each body. observed. Configurations C, E and F, corresponding to the closed roof
+The different parts of the train model in SIDIVE include: wheelsets, designs, present the best results, with higher values of characteristic bogies and car bodies. Due to their high stiffness and thus high natural wind curves. An interesting consideration is that the result for the halffrequencies (well beyond the running dynamics range of interest), covered roof (configuration B) is much closer to the case with open roof wheelsets are usually considered as rigid bodies with 6 degrees of at lower speeds (under 160 km/h). As the train speed increases, due to freedom, i.e. longitudinal, lateral and vertical displacement, as well as the reduction in resultant wind yaw angle, the performance of the halfthe rotation around each of these axes. On the contrary, the flexibility of covered roof gets closer to the fully covered roof configurations.
+bogies and car body is accounted by means of their dominant vibration The major differences can be noticed in the range from 90 to 170 km/ eigenmodes, obtained from finite element analysis, since they are crit- h which corresponds to common range of operation of conventional ical for an accurate assessment of safety and comfort. trains: in this range an improvement of around 10% is observed. In fact,
+Suspension elements are modelled by means of springs, dampers, at 100 km/h a difference of more than 13%, which is equivalent to an friction and bump stops, as well as applicable kinematic constraints. increment of more than 4 m/s in characteristic wind speed, is found
+When pertinent, the nonlinear characteristics of such elements are between the baseline configuration and configuration E with closed modelled; that is, the real force/displacement and force/speed curves roof.
+are considered. Considering that at the moment there is no reference CWC in the
+Wheel-rail interaction in SIDIVE is based on elastic contact, that is, European Standards for conventional trains, in order to put into the material flexibility is taken into account: both the wheel and the rail perspective the significance of these results, it is possible to consider the deform locally according to the forces they are subjected to (and the extended reference CWC for high-speed trains (EN14067-6, 2018). The corresponding constitutive laws). By default, standard railway steel reference characteristic wind speed for a high-speed train at 100 km/h, properties are assumed. with the wind blowing at 90◦is 33.8 m/s, the same value obtained for
+An in-house plugin for SIDIVE is used for the determination and the base configuration (configuration A). Therefore, the increment of 4 application of the aerodynamic loads as a consequence of the wind ac- m/s obtained with the closed roof and smooth underbody (configuration tion on the vehicle model. The plugin drives a series of multibody sim- E) brings the train to a much favourable situation in terms of crosswind ulations that yield the CWCs for the defined train speed, wind speed, stability. For the studied train, the practical implications of the wind angle, and non-compensated lateral acceleration value. improved design with the correspondent increment of 4 m/s of char-
+The following input data shall be provided to the plugin for the acteristic wind speed are multiple. From the point of view of vehicle simulation process. design, more freedom is given to the manufacturer, allowing for example a further weight reduction with the consequent benefits in ⁃ Case file: A reference file where the considered simulation cases are terms of efficiency; but also, it may allow the operation of this train at defined. much severe wind conditions.
+o As previously stated, simulations will be carried out for a different The justification to why a train speed increase leads to a reduction on combination of train speed/wind speed. the impact of the considered geometry modifications, can be easily o Additionally, this process may be repeated for different non- explained by how the considered yaw angle is computed. The yaw angle compensated acceleration values. is computed as a vectorial summation of the train speed and the wind ⁃ Aerodynamic coefficients for each car of the vehicle model. speed (see Fig. 18). As it can be gathered from Fig. 18, this means that ⁃ Ground configuration: in this case, STBR ground configuration has increasing the train speed for a given wind speed/angle will involve a been used according to (EN14067-6, 2018). reduction of the relative yaw angle. As it can be observed in Fig. 12, the ⁃ The vehicle dynamic model defined using SIDIVE. major differences in terms of aerodynamic loads occur for yaw angles
+above 30◦. As previously described, increasing the speed of the train
+The output of each simulation case will be the wheel unloading ΔQ involves decreasing the relative yaw angle and thus, going under the for each bogie of the vehicle model. Once the simulation process is aforementioned 30◦, where the influence of the vehicle modifications is
+Fig. 16. Flow chart of CWC evaluation.
+Fig. 17. Characteristic wind curve of the first vehicle, tangent track, wind angle β w =90◦. Configurations A to F.
+can be noticed that the closed roof leads to an almost constant increment along the whole range of speeds. The value of this increment is near 2 m/ s for configuration J, with empty underbody, and it is close to 1.5 m/s when the underbody has some equipment.
+It is interesting to note from the results of the multibody simulations that the critical bogie corresponds to the shared bogie between first and second car.
+Fig. 18. Speed vector diagram. 5. Conclusions lower. To illustrate the previous statement, a train running at 200 km/h An experimental campaign has been performed to study the crosswith wind blowing at 30 m/s perpendicular to the track results in a yaw wind stability of a conventional train. Aerodynamic coefficients have angle of 28◦. been measured by means of wind tunnel test on scaled models for
+The results for configuration G, H, I, J and K, plus the baseline different roof and underbody configurations of the first and second veconfiguration A in terms of CWC are reported in Fig. 19. When the ef- hicles of the trainset.
+fects of the configurations affecting only the second car are analysed, it Then, the correspondent CWC has been calculated for each train
+Fig. 19. Characteristic wind curve of the second vehicle, tangent track, wind angle β w =90◦. Configurations A and G to K.
+configuration using the procedure defined in the European Standard. Baker, C.J., 1991a. Ground vehicles in high cross winds part I: steady aerodynamic
+The principal findings are. forces. J. Fluid Struct. 5, 69–90. https://doi.org/10.1016/0889-9746(91)80012-3.
+Baker, C.J., 1991b. Ground vehicles in high cross winds part II: unsteady aerodynamic forces. J. Fluid Struct. 5, 91–111. https://doi.org/10.1016/0889-9746(91)80013-4.
+• Roof: Modifications on roof geometry have a significant effect on the Baker, C.J., 1991c. Ground vehicles in high cross winds part III: the interaction of crosswind sensitivity of the first and the second car. The effect of roof aerodynamic forces and the vehicle system. J. Fluid Struct. 5, 221–241. https://doi.
+org/10.1016/0889-9746(91)90478-8.
+modifications has been observed to be dominant over the applied
+Bocciolone, M., Cheli, F., Corradi, R., Muggiasca, S., Tomasini, G., 2008. Crosswind underbody modifications on the studied geometry. Having a action on rail vehicles: wind tunnel experimental analyses. J. Wind Eng. Ind. Aerod.
+completely covered roof usually leads to a significative reduction of 96, 584–610. https://doi.org/10.1016/j.jweia.2008.02.030.
+aerodynamic coefficients, except lift, from 20◦ onwards. However, Cheli, F., Ripamonti, F., Rocchi, D., Tomasini, G., 2010. Aerodynamic behaviour investigation of the new EMUV250 train to cross wind. J. Wind Eng. Ind. Aerod. 98, the lift increase is not able to compensate for the decrease on the 189–201. https://doi.org/10.1016/j.jweia.2009.10.015.
+lateral force and roll moment coefficients, resulting in an overall Chen, Z., Liu, T., Jiang, Z., Guo, Z., Zhang, J., 2018. Comparative analysis of the effect of different nose lengths on train aerodynamic performance under crosswind. J. Fluid reduction of CMx,lee.
+Struct. 78, 69–85. https://doi.org/10.1016/j.jfluidstructs.2017.12.016.
+• Underbody: the analysed underbody designs do not have a signifi- Diedrichs, B., 2010. Aerodynamic crosswind stability of a regional train model. Proc.
+cant influence due to the presence of lateral fenders that define the Inst. Mech. Eng. F J. Rail Rapid Transit 224, 580–591. https://doi.org/10.1243/
+09544097JRRT346.
+flow detachment point. For the first car, a smooth underbody seems
+EN14067-6, 2018. Railway Applications - Aerodynamics, Part 6: Requirements and Test to have a slight detrimental effect whereas for the second car, the Procedures for Cross Wind Assessment, EN14067-6.
+clear underbody shows a slight improvement. Giappino, S., Rocchi, D., Schito, P., Tomasini, G., 2016. Cross wind and rollover risk on • The obtained CWCs are consistent with the results of the aero- lightweight railway vehicles. J. Wind Eng. Ind. Aerod. 153, 106–112. https://doi.
+org/10.1016/j.jweia.2016.03.013.
+dynamic coefficients. The main influence of the applied geometry Guo, Z., Liu, T., Chen, Z., Xia, Y., Li, W., Li, L., 2020. Aerodynamic influences of bogie’s modifications tends to be concentrated between 40◦and 60◦angles geometric complexity on high-speed trains under crosswind. J. Wind Eng. Ind.
+according to Figs. 9 to 15. Thus, their influence would be dominant Aerod. 196, 104053 https://doi.org/10.1016/j.jweia.2019.104053.
+Hemida, H., Krajnovi´c, S., 2009. Exploring flow structures around a simplified ICE2 train on trains speeds where these yaw angles are important (usually to- subjected to A 30◦side wind using LES. Eng. Appl. Comput. Fluid Mech. 3, 28–41.
+wards the lower range). For the first car an improvement of up to 4 https://doi.org/10.1080/19942060.2009.11015252.
+m/s has been achieved with a completely covered roof (configura- Hemida, H., Krajnovi´c, S., 2010. LES study of the influence of the nose shape and yaw angles on flow structures around trains. J. Wind Eng. Ind. Aerod. 98, 34–46. https:// tion E). Similarly, an improvement of up to 2 m/s has been observed doi.org/10.1016/j.jweia.2009.08.012.
+for the second car when the roof is completely covered (configura- Liu, D., Wang, T., Liang, X., Meng, S., Zhong, M., Lu, Z., 2020. High-speed train tion J). As train speed increases, the yaw angles to be considered are overturning safety under varying wind speed conditions. J. Wind Eng. Ind. Aerod.
+198, 104111 https://doi.org/10.1016/j.jweia.2020.104111.
+lower and therefore, the impact of geometry modifications is lower.
+Liu, D., Liang, X., Zhou, W., Zhang, L., Lu, Z., Zhong, M., 2022. Contributions of bogie
+This can be observed on the CWCs of Figs. 17 and 19. aerodynamic loads to the crosswind safety of a high-speed train. J. Wind Eng. Ind.
+Aerod. 228, 105082 https://doi.org/10.1016/j.jweia.2022.105082.
+Mun˜oz-Paniagua, J., García, J., 2019. Aerodynamic surrogate-based optimization of the
+CRediT authorship contribution statement nose shape of a high-speed train for crosswind and passing-by scenarios. J. Wind
+Eng. Ind. Aerod. 184, 139–152. https://doi.org/10.1016/j.jweia.2018.11.014.
+Carlos Esteban Araya Reyes: Conceptualization, Methodology, Paradot, N., Gr´egoire, R., Stiepel, M., Blanco, A., Sima, M., Deeg, P., Schroeder-
+Formal analysis, Investigation, Writing – original draft. Daniele Rocchi: Bodenstein, K., Johnson, T., Zanetti, G., 2015. Crosswind sensitivity assessment of a representative Europe-wide range of conventional vehicles. Proc. Inst. Mech. Eng. F
+Resources, Supervision. Gisella Tomasini: Writing – review & editing, J. Rail Rapid Transit 229, 594–624. https://doi.org/10.1177/0954409715585368.
+Supervision. Mikel Iraeta Sa´nchez: Writing - Review, Supervision. Resusta, Villalmanzo, Johnson, T., Paradot, N., 2018. Train Track Interaction Sector -
+Aerodynamics. UIC-ETF [white paper].
+Maialen Artano: Software, Writing - Review.
+RSSB, 2013. The AeroTRAIN EU Project Summary Report.
+Shuanbao, Y., Dilong, G., Zhenxu, S., Guowei, Y., Dawei, C., 2014. Optimization design for aerodynamic elements of high speed trains. Comput. Fluids 95, 56–73. https://
+Declaration of competing interest doi.org/10.1016/j.compfluid.2014.02.018.
+Sicot, C., Deliancourt, F., Boree, J., Aguinaga, S., Bouchet, J.P., 2018. Representativeness
+The authors declare that they have no known competing financial of geometrical details during wind tunnel tests. Application to train aerodynamics in crosswind conditions. J. Wind Eng. Ind. Aerod. 177, 186–196. https://doi.org/ interests or personal relationships that could have appeared to influence 10.1016/j.jweia.2018.01.040.
+the work reported in this paper. Tomasini, G., Cheli, F., 2013. Admittance function to evaluate aerodynamic loads on vehicles: experimental data and numerical model. J. Fluid Struct. 38, 92–106.
+https://doi.org/10.1016/j.jfluidstructs.2012.12.009.
+Data availability
+TSI, 2014. Technical specification for interoperability relating to the ‘rolling stock–locomotives and passenger rolling stock’ subsystem of the rail system in the
+The authors do not have permission to share data. entire European Union. Off. J. Eur. Union L 356, 228–393.
+UIC, 2021a. SAFIRST - Assessment of Wind Exposure of the Line - Technical Report.
+UIC, 2021b. SAFIRST - Application of Reference Characteristic Wind Curves - Technical
+References Report.
+UIC, 2021c. SAFIRST - Vehicle Assessment - Technical Report.
+Araya Reyes, C.E., Baratelli, E., Rocchi, D., Tomasini, G., Iraeta Sa´nchez, M., Artano, M., Wang, S., Wang, R., Xia, Y., Sun, Z., You, L., Zhang, J., 2021. Multi-objective aerodynamic optimization of high-speed train heads based on the PDE parametric
+2022. Aerodynamic effects of different car body configurations in a conventional modeling. Struct. Multidiscip. Optim. 64, 1285–1304. https://doi.org/10.1007/ train under crosswinds. In: The Fifth International Conference on Railway s00158-021-02916-0.
+Technology: Research, Development and Maintenance (Railways 2022). Montpellier.
+Xia, Y., Liu, T., Li, W., Dong, X., Chen, Z., Guo, Z., 2021. Numerical comparisons of the https://doi.org/10.4203/ccc.1.18.2.
+aerodynamic performances of wind-tunnel train models with different inter-carriage
+Araya Reyes, C.E., Brambilla, E., Tomasini, G., 2023a. Evaluation of the aerodynamic gap spacings under crosswind. J. Wind Eng. Ind. Aerod. 214, 104680 https://doi.
+effect of a smooth rounded roof on crosswind stability of a train by wind tunnel tests.
+org/10.1016/j.jweia.2021.104680.
+Appl. Sci. 13, 232. https://doi.org/10.3390/app13010232.
+Zhang, L., Zhang, J., Li, T., Zhang, Y., 2018. A multiobjective aerodynamic optimization
+Araya Reyes, C.E., Tomasini, G., Rocchi, D., 2023b. Crosswind assessment of design of a high-speed train head under crosswinds. Proc. Inst. Mech. Eng. F J. Rail conventional trains. In: 16th ICWE International Conference on Wind Engineering
+Rapid Transit 232, 895–912. https://doi.org/10.1177/0954409717701784.
+(ICWE 2023). Florence.
+12
