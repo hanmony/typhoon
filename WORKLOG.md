@@ -174,6 +174,22 @@
 - **改动文件**：`docs_import/scan_docs.py`（新增）、`docs_import/filter_manifest.json`、`docs_import/盘点清单.md`、`README.md`（D2 状态 ✅ + 执行结果）
 - **提交**：见 git 历史
 
+### 步骤 D3：文本提取（PDF / docx / .doc / .xls → 纯文本）
+- **目的**：按 D2 过滤清单把保留文档逐份提取为纯文本，供 D4 清洗、D5 切片；不修改核心业务代码
+- **产出**：`docs_import/extract_docs.py`（只读清单、绝不自行遍历源目录——敏感文件碰不到）+ `docs_import/text/`（77 份 txt，已 gitignore）+ `docs_import/extract_metadata.json`（已 gitignore）
+- **提取方案**：
+  - PDF：pdfplumber 主提取 → PyPDF2 降级；docx：python-docx（段落+表格按文档顺序）
+  - `.doc` 老格式：MS Word COM（本机 Word 16，中文保真度完美，冒烟测试验证）→ antiword（Git mingw64 自带）降级
+  - `.xls` 老格式：pandas + xlrd
+- **执行结果**：
+  - keep 批次 60 份：ok 57、suspect_scan 3（两份沪汛办红头通知为扫描图片版仅 2–3 字；一篇 14 页英文论文剔除重复水印后正文为空——判定逻辑含"剔除出现 ≥3 次的重复行后仍不足 200 字符"的水印启发式）
+  - 学术论文 26 篇字数/页数全部合理（例如 37 页论文 97236 字；2 页会议论文 5557 字）
+  - 待定批次 17 份：**全部提取成功**（12 份 .doc 经 Word COM、1 份 .xls 经 pandas、4 份 docx）——`梅花.docx` 确认为「上海轨道交通防汛防台信息快报」（22129 字），建议归 `regulation` 入库，待用户确认
+  - 失败 0、跳过 0；keep 任何一份失败脚本退出码 1（兜底验收）
+- **环境备注**：pdfminer 对个别 PDF 刷配色警告，已静音（不影响提取）；提取依赖 pdfplumber/PyPDF2/python-docx/xlrd（清华镜像安装）
+- **改动文件**：`docs_import/extract_docs.py`（新增）、`.gitignore`（text/ 与 metadata 为构建产物）、`README.md`（D3 状态 ✅ + 执行结果）
+- **提交**：见 git 历史
+
 ---
 
 ## 待办（下一步）
