@@ -214,3 +214,9 @@
 - [ ] M4：线路空间研判——迁移 `metro.2026.data` 到后端 + turf 风圈×线路相交计算
 - [ ] M5：前端入口（COCC 一键研判按钮 + 研判卡片）+ 评估测试
 - [ ] M6：打包部署（按 `DEPLOY.md` 流程）
+### Codex review: M3 step 11 (86dca1f)
+- The original lifecycle window `0.2` and distance scales `500/300 km` are acceptable MVP defaults, but empirical. They are now centralized as optional matcher overrides (`lifecycleWindow`, `pathScaleKm`, `intensityAnchorScaleKm`, `pathWeight`, `maxSamplePoints`).
+- The 300 km term is an intensity-anchor proxy (location at strongest wind time), not a verified landing-point distance. The existing `landfallKm` field is retained for compatibility; downstream documentation must not interpret it as actual landfall.
+- Fixed input-contract gap: live points commonly provide `wind_speed`/`speed` (m/s) while `power` may contain only a wind-force grade. Explicit m/s is accepted and preferred. When neither side has a parseable intensity anchor, `landfallKm = Infinity`, path similarity alone determines the score, and `reason` explains the fallback.
+- Added strict coordinate validation, non-negative integer `topN` normalization, deterministic action ordering, historical-path sampling, and tests for speed fallback, no-anchor scoring, tie-breaking, and configurable lifecycle window.
+- Verification: targeted Jest **10/10 passed**. Full `npm run build` was blocked because an existing local Node process holds `server/dist` files open; `tsc --noEmit --incremental false` showed only pre-existing `x5` spec errors and no case-matcher errors. No server/client core files were changed.

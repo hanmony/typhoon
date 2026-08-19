@@ -24,7 +24,25 @@ export interface CaseTrackPoint {
     time?: Date | string;
     /** 风力文本（如"18米/秒,8级"），用于最强时刻定位；可缺省 */
     power?: string;
+    /** Explicit maximum wind speed in m/s; preferred over a grade-only power value. */
+    windSpeedMps?: number;
 }
+
+export interface CaseMatcherOptions {
+    lifecycleWindow?: number;
+    pathScaleKm?: number;
+    intensityAnchorScaleKm?: number;
+    pathWeight?: number;
+    maxSamplePoints?: number;
+}
+
+export const DEFAULT_CASE_MATCHER_OPTIONS = Object.freeze({
+    lifecycleWindow: 0.2,
+    pathScaleKm: 500,
+    intensityAnchorScaleKm: 300,
+    pathWeight: 0.7,
+    maxSamplePoints: 60,
+});
 
 export interface CaseMatchResult {
     /** 案例 Mongo _id 字符串（用于查 actions） */
@@ -36,6 +54,7 @@ export interface CaseMatchResult {
     /** 路径平均最近距离（km） */
     meanNearestKm: number;
     /** 最强时刻位置距离（km） */
+    /** Distance between strongest-wind location proxies; not a verified landing-point distance. */
     landfallKm: number;
     /** 历史路径点数 */
     pathPointCount: number;
@@ -48,13 +67,10 @@ export interface CaseMatchResult {
 }
 
 /** 生命周期间隔窗口：当前点 i 只与历史点 j 中 |j/M - i/N| ≤ WINDOW 的点比较 */
-const LIFECYCLE_WINDOW = 0.2;
+// Defaults are centralized in DEFAULT_CASE_MATCHER_OPTIONS.
 /** 路径相似度距离尺度（km） */
-const PATH_SCALE_KM = 500;
 /** 登陆点相似度距离尺度（km） */
-const LANDFALL_SCALE_KM = 300;
 /** 参与相似度计算的当前路径点采样上限（均匀抽样） */
-const MAX_SAMPLE_POINTS = 60;
 /** 关键处置类别（summary 优先级） */
 const SUMMARY_CATEGORIES = [
     "预警发布及响应",
@@ -87,10 +103,23 @@ export function parseWindMps(power: string | undefined | null): number | null {
 export function normalizeTrackPoint(p: any): CaseTrackPoint | null {
     const lon = p?.longitude ?? p?.lng;
     const lat = p?.latitude ?? p?.lat;
-    const lonN = typeof lon === "string" ? parseFloat(lon) : lon;
-    const latN = typeof lat === "string" ? parseFloat(lat) : lat;
-    if (!Number.isFinite(lonN) || !Number.isFinite(latN)) return null;
-    return { longitude: lonN, latitude: latN, time: p?.time, power: p?.power };
+    const toNumber = (value: unknown): number | null => {
+        if (value === null || value === undefined) return null;
+        if (typeof value === "string" && !value.trim()) return null;
+        const n = typeof value === "number" ? value : Number(value);
+        return Number.isFinite(n) ? n : null;
+    };
+    const lonN = toNumber(lon);
+    const latN = toNumber(lat);
+    if (lonN === null || latN === null || lonN < -180 || lonN > 180 || latN < -90 || latN > 90) return null;
+    const speed = toNumber(p?.windSpeedMps ?? p?.wind_speed ?? p?.speed);
+    return {
+        longitude: lonN,
+        latitude: latN,
+        time: p?.time,
+        power: typeof p?.power === "string" ? p.power : undefined,
+        windSpeedMps: speed ?? undefined,
+    };
 }
 
 /** 均匀抽样，把点数压到 maxN 以内 */
@@ -106,7 +135,8 @@ function sampleEvenly<T>(arr: T[], maxN: number): T[] {
 
 /** 取"最强时刻"点：power 米/秒最大者（并列取时间更晚/索引更靠后，保证自匹配对称）；
  *  无解析值时取路径中段点 */
-function strongestPoint(points: CaseTrackPoint[]): CaseTrackPoint {
+// Returns null when no point has a parseable m/s value; callers must not score a fake midpoint as intensity.
+function strongestPoint(points: CaseTrackPoint[]): CaseTrackPoint | null {
     const toMs = (p: CaseTrackPoint): number | null => {
         const t = new Date(p.time as any);
         return Number.isNaN(t.getTime()) ? null : t.getTime();
@@ -114,7 +144,7 @@ function strongestPoint(points: CaseTrackPoint[]): CaseTrackPoint {
     let bestIdx = 0;
     let bestMps = -1;
     for (let i = 0; i < points.length; i++) {
-        const mps = parseWindMps(points[i].power) ?? -1;
+        const mps = points[i].windSpeedMps ?? parseWindMps(points[i].power) ?? -1;
         if (mps > bestMps) {
             bestMps = mps;
             bestIdx = i;
@@ -125,10 +155,7 @@ function strongestPoint(points: CaseTrackPoint[]): CaseTrackPoint {
             if (later) bestIdx = i;
         }
     }
-    if (bestMps < 0) {
-        return points[Math.floor(points.length / 2)];
-    }
-    return points[bestIdx];
+    return bestMps < 0 ? null : points[bestIdx];
 }
 
 export interface TrackSimilarity {
@@ -139,15 +166,24 @@ export interface TrackSimilarity {
 }
 
 /** 纯函数：两段路径的相似度计算（不依赖数据库，便于单测与复现） */
-export function computeTrackSimilarity(current: CaseTrackPoint[], historical: CaseTrackPoint[]): TrackSimilarity {
+export function computeTrackSimilarity(
+    current: CaseTrackPoint[],
+    historical: CaseTrackPoint[],
+    overrides: CaseMatcherOptions = {},
+): TrackSimilarity {
+    const lifecycleWindow = Math.max(0, Math.min(1, overrides.lifecycleWindow ?? DEFAULT_CASE_MATCHER_OPTIONS.lifecycleWindow));
+    const pathScaleKm = Math.max(1, overrides.pathScaleKm ?? DEFAULT_CASE_MATCHER_OPTIONS.pathScaleKm);
+    const intensityAnchorScaleKm = Math.max(1, overrides.intensityAnchorScaleKm ?? DEFAULT_CASE_MATCHER_OPTIONS.intensityAnchorScaleKm);
+    const pathWeight = Math.max(0, Math.min(1, overrides.pathWeight ?? DEFAULT_CASE_MATCHER_OPTIONS.pathWeight));
+    const maxSamplePoints = Math.max(2, Math.floor(overrides.maxSamplePoints ?? DEFAULT_CASE_MATCHER_OPTIONS.maxSamplePoints));
     if (!current.length || !historical.length) {
         return { meanNearestKm: Infinity, landfallKm: Infinity, score: 0, reason: "路径点为空，无法匹配" };
     }
     // 最强时刻点必须在抽样前基于全量路径计算（抽样可能丢掉最大风力点）
     const curStrong = strongestPoint(current);
     const hisStrong = strongestPoint(historical);
-    const cur = sampleEvenly(current, MAX_SAMPLE_POINTS);
-    const his = historical;
+    const cur = sampleEvenly(current, maxSamplePoints);
+    const his = sampleEvenly(historical, maxSamplePoints);
     const M = his.length;
 
     // 1) 路径平均最近距离（生命周期窗口对齐）
@@ -157,7 +193,7 @@ export function computeTrackSimilarity(current: CaseTrackPoint[], historical: Ca
         let best = Infinity;
         for (let j = 0; j < M; j++) {
             const jFrac = M > 1 ? j / (M - 1) : 0.5;
-            if (Math.abs(jFrac - frac) > LIFECYCLE_WINDOW) continue;
+            if (Math.abs(jFrac - frac) > lifecycleWindow) continue;
             const d = haversineKm(cur[i].longitude, cur[i].latitude, his[j].longitude, his[j].latitude);
             if (d < best) best = d;
         }
@@ -172,20 +208,26 @@ export function computeTrackSimilarity(current: CaseTrackPoint[], historical: Ca
     const meanNearestKm = sumKm / cur.length;
 
     // 2) 最强时刻位置距离
-    const landfallKm = haversineKm(
-        curStrong.longitude,
-        curStrong.latitude,
-        hisStrong.longitude,
-        hisStrong.latitude,
-    );
+    const landfallKm = curStrong && hisStrong
+        ? haversineKm(curStrong.longitude, curStrong.latitude, hisStrong.longitude, hisStrong.latitude)
+        : Infinity;
 
     // 3) 综合分
-    const pathSim = Math.max(0, Math.min(1, 1 - meanNearestKm / PATH_SCALE_KM));
-    const landfallSim = Math.max(0, Math.min(1, 1 - landfallKm / LANDFALL_SCALE_KM));
-    const score = Math.round((0.7 * pathSim + 0.3 * landfallSim) * 10000) / 10000;
+    const pathSim = Math.max(0, Math.min(1, 1 - meanNearestKm / pathScaleKm));
+    const hasIntensityAnchor = Number.isFinite(landfallKm);
+    const intensitySim = hasIntensityAnchor
+        ? Math.max(0, Math.min(1, 1 - landfallKm / intensityAnchorScaleKm))
+        : 0;
+    const effectivePathWeight = hasIntensityAnchor ? pathWeight : 1;
+    const score = Math.round(
+        (effectivePathWeight * pathSim + (hasIntensityAnchor ? (1 - pathWeight) * intensitySim : 0)) * 10000,
+    ) / 10000;
 
     const reason = `路径平均最近距离 ${meanNearestKm.toFixed(1)}km，最强时刻相距 ${landfallKm.toFixed(1)}km`;
-    return { meanNearestKm, landfallKm, score, reason };
+    const reasonText = hasIntensityAnchor
+        ? reason
+        : `path mean nearest ${meanNearestKm.toFixed(1)}km; no parseable wind-speed anchor (path-only score)`;
+    return { meanNearestKm, landfallKm, score, reason: reasonText };
 }
 
 @Injectable()
@@ -197,7 +239,14 @@ export class CaseMatcherService {
      * @param currentTrack 当前台风路径点（{longitude, latitude, time?, power?}，兼容 lng/lat 字符串）
      * @param topN 返回数量，默认 3
      */
-    async match(currentTrack: any[], topN: number = 3): Promise<CaseMatchResult[]> {
+    // Accepts live-track aliases lng/lat plus windSpeedMps, wind_speed, or speed in m/s.
+    async match(
+        currentTrack: any[],
+        topN: number = 3,
+        options: CaseMatcherOptions = {},
+    ): Promise<CaseMatchResult[]> {
+        const limit = Number.isFinite(topN) ? Math.max(0, Math.floor(topN)) : 0;
+        if (limit === 0) return [];
         const cur: CaseTrackPoint[] = (currentTrack || [])
             .map(normalizeTrackPoint)
             .filter((p): p is CaseTrackPoint => p !== null);
@@ -215,19 +264,28 @@ export class CaseMatcherService {
         for (const p of pathGroups) {
             if (!caseByPathId.has(p.caseId)) continue;
             const pts = byCase.get(p.caseId) ?? [];
-            pts.push({ longitude: p.longitude, latitude: p.latitude, time: p.time, power: p.power });
+            const rawPathPoint = p as any;
+            const point = normalizeTrackPoint({
+                longitude: p.longitude,
+                latitude: p.latitude,
+                time: p.time,
+                power: p.power,
+                windSpeedMps: rawPathPoint.windSpeedMps ?? rawPathPoint.wind_speed ?? rawPathPoint.speed,
+            });
+            if (!point) continue;
+            pts.push(point);
             byCase.set(p.caseId, pts);
         }
 
         // 相似度计算 + 排序
         const scored: { sim: TrackSimilarity; pathId: string; points: CaseTrackPoint[] }[] = [];
         for (const [pathId, points] of byCase) {
-            const sim = computeTrackSimilarity(cur, points);
+            const sim = computeTrackSimilarity(cur, points, options);
             if (!Number.isFinite(sim.score)) continue;
             scored.push({ sim, pathId, points });
         }
         scored.sort((a, b) => b.sim.score - a.sim.score);
-        const top = scored.slice(0, topN);
+        const top = scored.slice(0, limit);
 
         // 取 Top-N 案例的事件时间线（显式转 ObjectId，避免 schema 宽松时不自动转换）
         const caseIds = top.map(t => caseByPathId.get(t.pathId)!.id);
@@ -256,8 +314,9 @@ export class CaseMatcherService {
 
     /** actions → 按 category 分组的 timeline（count + 抽样文本） */
     buildTimeline(actions: any[]): { category: string; count: number; samples: string[] }[] {
+        const ordered = [...actions].sort((a, b) => this.compareActions(a, b));
         const byCat = new Map<string, any[]>();
-        for (const a of actions) {
+        for (const a of ordered) {
             const cat = a.category || "未定义行为";
             const arr = byCat.get(cat) ?? [];
             arr.push(a);
@@ -274,10 +333,11 @@ export class CaseMatcherService {
 
     /** actions → 处置要点摘要（关键类别，最多 6 条） */
     buildSummary(actions: any[]): string[] {
+        const ordered = [...actions].sort((a, b) => this.compareActions(a, b));
         const lines: string[] = [];
         for (const cat of SUMMARY_CATEGORIES) {
             if (lines.length >= 6) break;
-            const list = actions.filter(a => a.category === cat).slice(0, 2);
+            const list = ordered.filter(a => a.category === cat).slice(0, 2);
             for (const a of list) {
                 const text = this.actionToText(a);
                 const when = a.fromDate ? this.formatTime(a.fromDate) : "";
@@ -285,6 +345,16 @@ export class CaseMatcherService {
             }
         }
         return lines.slice(0, 6);
+    }
+
+    private compareActions(a: any, b: any): number {
+        const ta = new Date(a?.fromDate).getTime();
+        const tb = new Date(b?.fromDate).getTime();
+        const aValid = Number.isFinite(ta);
+        const bValid = Number.isFinite(tb);
+        if (aValid && bValid && ta !== tb) return ta - tb;
+        if (aValid !== bValid) return aValid ? -1 : 1;
+        return String(a?._id ?? "").localeCompare(String(b?._id ?? ""));
     }
 
     /** action → 单行文本：取 items 中最有价值的值（跳过纯时间键） */

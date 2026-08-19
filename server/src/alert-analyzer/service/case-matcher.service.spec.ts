@@ -1,4 +1,4 @@
-import { CaseMatcherService, computeTrackSimilarity, haversineKm, parseWindMps } from "./case-matcher.service";
+import { CaseMatcherService, computeTrackSimilarity, haversineKm, normalizeTrackPoint, parseWindMps } from "./case-matcher.service";
 
 describe("case-matcher 纯函数", () => {
     it("haversineKm：同点距离 0，上海-东京约 1760km", () => {
@@ -45,6 +45,40 @@ describe("case-matcher 纯函数", () => {
     it("computeTrackSimilarity：空路径 → 分数 0", () => {
         const sim = computeTrackSimilarity([], [{ longitude: 130, latitude: 20 }]);
         expect(sim.score).toBe(0);
+    });
+
+    it("使用 wind_speed 作为强度锚点；power 只有等级时退化为路径分", () => {
+        const point = normalizeTrackPoint({ lng: "130", lat: "20", power: "11级", wind_speed: 30 });
+        expect(point?.windSpeedMps).toBe(30);
+        const current = [
+            { longitude: 130, latitude: 20, power: "11级", windSpeedMps: 30 },
+            { longitude: 128, latitude: 24, power: "8级", windSpeedMps: 20 },
+        ];
+        const historical = [
+            { longitude: 130, latitude: 20, power: "30米/秒,11级" },
+            { longitude: 128, latitude: 24, power: "20米/秒,8级" },
+        ];
+        expect(computeTrackSimilarity(current, historical).score).toBe(1);
+        const noAnchor = computeTrackSimilarity(
+            current.map(({ longitude, latitude, power }) => ({ longitude, latitude, power })),
+            historical,
+        );
+        expect(noAnchor.landfallKm).toBe(Infinity);
+        expect(noAnchor.score).toBe(1);
+        expect(noAnchor.reason).toContain("path-only");
+    });
+
+    it("并列最大风速按时间取较晚点；生命周期窗口可配置", () => {
+        const current = [
+            { longitude: 130, latitude: 20, time: "2020-01-01", power: "30米/秒" },
+            { longitude: 128, latitude: 24, time: "2020-01-02", power: "30米/秒" },
+        ];
+        const historical = [
+            { longitude: 130, latitude: 20, time: "2021-01-01", power: "30米/秒" },
+            { longitude: 130, latitude: 24, time: "2021-01-02", power: "30米/秒" },
+        ];
+        expect(computeTrackSimilarity(current, historical, { lifecycleWindow: 0 }).landfallKm).toBeGreaterThan(100);
+        expect(computeTrackSimilarity(current, historical, { lifecycleWindow: 0.2 }).score).toBeLessThan(1);
     });
 });
 
