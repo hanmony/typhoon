@@ -45,27 +45,61 @@ const buildService = (overrides: any = {}) => {
         chatStream: jest.fn().mockReturnValue(of({ type: "token", data: "研判报告内容" })),
         ...(overrides.llmService || {}),
     };
+    const lineImpact = {
+        analyzeStates: jest.fn().mockImplementation((_states, options) => {
+            // 16号线：7级和12级命中（→ 高风险）；1号线：仅7级命中（→ 可能受影响）
+            if (options?.radiusIndex === 1) return [];
+            if (options?.radiusIndex === 2) return [{ line: "16号线", affected: true, hitCount: 1, windLevel: 12 }];
+            return [
+                { line: "1号线", affected: true, hitCount: 2, windLevel: 7 },
+                { line: "16号线", affected: true, hitCount: 2, windLevel: 7 },
+            ];
+        }),
+        ...(overrides.lineImpact || {}),
+    };
+    const windCircle = {
+        transformActiveTyphoonToPoints: jest.fn().mockReturnValue([{ time: "x", lng: "121.5", lat: "31.2" }]),
+        transformPointsToStates: jest
+            .fn()
+            .mockReturnValue([{ time: new Date(), center: [31.2, 121.5], radius: [{ ne: 100, se: 100, sw: 100, nw: 100 }] }]),
+        getPredictPath: jest.fn().mockReturnValue([]),
+        ...(overrides.windCircle || {}),
+    };
     return {
-        service: new AnalyzerService(llmService as any, caseMatcher as any, typhoonService as any, repo as any),
-        mocks: { repo, typhoonService, caseMatcher, llmService },
+        service: new AnalyzerService(
+            llmService as any,
+            caseMatcher as any,
+            typhoonService as any,
+            repo as any,
+            lineImpact as any,
+            windCircle as any,
+        ),
+        mocks: { repo, typhoonService, caseMatcher, llmService, lineImpact, windCircle },
     };
 };
 
 const collectOrError = (obs: any) =>
     firstValueFrom(obs.pipe(toArray())).catch(err => [{ error: err.message }]);
 
-describe("AnalyzerService（M3 步骤 13 编排）", () => {
-    it("完整流水线：status → analysis（含相似案例）→ status → token 透传 → 完成", async () => {
-        const { service } = buildService();
+describe("AnalyzerService（M3 步骤 13 + M4 步骤 17 编排）", () => {
+    it("完整流水线：status×3 → analysis（相似案例 + affectedLines）→ status → token → 完成", async () => {
+        const { service, mocks } = buildService();
         const events = await firstValueFrom(service.streamAnalysis({ tfid: "202212" }).pipe(toArray()));
 
         const types = events.map(e => e.type);
-        expect(types).toEqual(["status", "status", "analysis", "status", "token"]);
+        expect(types).toEqual(["status", "status", "status", "analysis", "status", "token"]);
 
         const analysis = events.find(e => e.type === "analysis") as any;
         expect(analysis.data.similarCases).toHaveLength(1);
         expect(analysis.data.similarCases[0]).toMatchObject({ caseName: "2022梅花", score: 1 });
-        expect(analysis.data.affectedLines).toEqual([]);
+        // 线路影响：16号线 12级→高风险、1号线 仅7级→可能受影响（分级取最高等级）
+        expect(analysis.data.affectedLines).toEqual([
+            { line: "16号线", period: expect.any(String), riskLevel: "高风险（12级风圈）" },
+            { line: "1号线", period: expect.any(String), riskLevel: "可能受影响（7级风圈）" },
+        ]);
+        // 实时模式走 getPredictPath（预报状态）+ analyzeStates 分级
+        expect(mocks.windCircle.getPredictPath).toHaveBeenCalled();
+        expect(mocks.lineImpact.analyzeStates).toHaveBeenCalledTimes(3);
     });
 
     it("未找到当前台风 → error 事件（不静默完成）", async () => {
@@ -117,6 +151,7 @@ describe("buildAnalyzerMessages（防编造 prompt）", () => {
         const messages = buildAnalyzerMessages(
             { name: "梅花", tfid: "202212", tracks: [{ lat: "24", lon: "128", wind_speed: "30" }] },
             [makeCaseResult()],
+            [{ line: "16号线", period: "09-14 04:00 ~ 09-15 04:00", riskLevel: "高风险（12级风圈）" }],
             undefined,
         );
         expect(messages).toHaveLength(2);
@@ -124,13 +159,16 @@ describe("buildAnalyzerMessages（防编造 prompt）", () => {
         expect(messages[0].content).toContain("严禁编造");
         expect(messages[0].content).toContain("2022梅花");
         expect(messages[0].content).toContain("相似度 1");
+        expect(messages[0].content).toContain("16号线");
+        expect(messages[0].content).toContain("不得据此直接建议停运");
         expect(messages[1].role).toBe("user");
         expect(messages[1].content).toContain("研判");
     });
 
-    it("传入 question 时 user 用自定义问题；无相似案例时明确说明", () => {
-        const messages = buildAnalyzerMessages({ name: "未知台风", tfid: "x" }, [], "3号线会停运吗？");
+    it("传入 question 时 user 用自定义问题；无相似案例/无线路影响时明确说明", () => {
+        const messages = buildAnalyzerMessages({ name: "未知台风", tfid: "x" }, [], [], "3号线会停运吗？");
         expect(messages[0].content).toContain("没有可参考的历史案例");
+        expect(messages[0].content).toContain("不足以判定线路影响");
         expect(messages[1].content).toBe("3号线会停运吗？");
     });
 });

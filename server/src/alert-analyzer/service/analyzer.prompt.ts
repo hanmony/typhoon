@@ -1,11 +1,13 @@
 import { ChatMessage } from "src/llm";
+import { AnalysisLineImpact } from "../domain/alert-analyzer.types";
 import { CaseMatchResult } from "./case-matcher.service";
 
 /**
- * 研判报告 prompt 构造（M3 步骤 13）——含防编造规则
+ * 研判报告 prompt 构造（M3 步骤 13 + M4 步骤 17）——含防编造规则
  *
- * 原则：LLM 只能引用参考资料（相似案例事件时间线与处置要点），资料外信息必须标注
- * "未知/无记录"；相似度分数是参考不是确定性结论。
+ * 原则：LLM 只能引用参考资料（相似案例事件时间线与处置要点、线路空间计算），资料外信息必须标注
+ * "未知/无记录"；相似度分数是参考不是确定性结论；**进入 7 级风圈仅表示可能受影响，
+ * 不得据此直接建议停运**。
  */
 
 export interface AnalyzerTrackContext {
@@ -29,6 +31,7 @@ export interface AnalyzerTyphoonContext {
 export function buildAnalyzerMessages(
     typhoon: AnalyzerTyphoonContext,
     similarCases: CaseMatchResult[],
+    affectedLines: AnalysisLineImpact[] = [],
     question?: string,
 ): ChatMessage[] {
     const latest = typhoon.tracks?.reduce((best, point) => {
@@ -37,6 +40,11 @@ export function buildAnalyzerMessages(
         const pointTime = new Date(point.data_time || "").getTime();
         return Number.isFinite(pointTime) && (!Number.isFinite(bestTime) || pointTime > bestTime) ? point : best;
     }, undefined as AnalyzerTrackContext | undefined);
+
+    const lineBlock =
+        affectedLines.length > 0
+            ? affectedLines.map(l => `- ${l.line}${l.period ? `（${l.period}）` : ""}：${l.riskLevel}`).join("\n")
+            : "无（当前轨迹/风圈数据不足以判定线路影响）";
 
     const similarBlock =
         similarCases.length > 0
@@ -60,6 +68,9 @@ export function buildAnalyzerMessages(
             ? `最新状态：位置 ${latest.lat},${latest.lon}，风速 ${latest.wind_speed ?? "未知"} m/s，风级 ${latest.wind_class ?? "未知"}`
             : "最新状态：未知（轨迹为空）",
         "",
+        "受影响线路（风圈空间计算，仅供参考；**进入 7 级风圈仅表示可能受影响，不等于高风险或停运建议**）：",
+        lineBlock,
+        "",
         "相似历史案例（相似度分数仅为参考，不是确定性结论）：",
         similarBlock,
     ].join("\n");
@@ -69,7 +80,8 @@ export function buildAnalyzerMessages(
 1. 只依据参考资料回答；参考资料中没有的信息，必须明确写"未知/无记录"，严禁编造台风名、时间、事件、数据。
 2. 输出结构：形势研判 → 应急响应等级建议（参照防汛防台预案分级逻辑，说明理由）→ 应对建议（可引用相似案例编号如 [1][2]）。
 3. 相似案例的相似度分数只是参考，不得将其表述为确定性结论；历史案例处置措施仅供参考，需结合当前实际情况。
-4. 使用中文，简明专业，面向调度指挥人员。
+4. **进入 7 级风圈的线路仅表示"可能受影响"，不得据此直接建议停运或判定高风险**；风险等级与停运与否须由调度人员结合现场实际情况决定。
+5. 使用中文，简明专业，面向调度指挥人员。
 
 参考资料：
 ${context}

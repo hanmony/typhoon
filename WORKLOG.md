@@ -340,3 +340,15 @@
 - WGS84 路线 shapefile 容差交叉验证（仅 1–18 号线）：3386 个 2026 资产点到同号 shapefile 路线的中位距离 **15m**、P95 **76m**、**99.79% 在 500m 内**。少数异常集中在 17 号线版本/延伸段差异（最大约 6.15km）；shapefile 缺浦江线、磁浮线、机场联络线，故只作独立容差验证，不替代生产资产。
 - 回归：alert-analyzer 定向单测 **29/29**；`tsc --noEmit --incremental false` 通过；真实数据脚本通过（远海 0 线、近岸分级结果如上）。新增乱序时间、未来过滤、三级风圈、部分零象限、500m buffer、非法参数测试。
 - **步骤 17 明确要求**：模拟/历史轨迹用 queryTime 限定未来段；实时台风先通过 `WindCircleService.getPredictPath()` 取 forecasts，再调用 `analyzeStates()`。按每条线路命中的最高等级生成 `riskLevel`（12 > 10 > 7）；卡片文案区分“进入 7 级风圈”与“高风险/停运建议”，不得仅凭 7 级圈命中直接建议停运。
+
+### M4 步骤 17：研判编排集成线路影响 + 评估（2026-08-19，README 步骤 17）
+- **改动文件**：
+  - `analyzer.service.ts`——编排流水线新增"正在研判线路影响…"步骤：`computeLineImpact()` 按 **7/10/12 级风圈分别 `analyzeStates`**（实时模式先 `getPredictPath()` 取预报状态合并，不静默降级为仅历史），**按线路命中的最高等级生成 riskLevel**（12→高风险/10→中风险/仅7→可能受影响）；`analysis` 事件填充 `affectedLines`（line + period 时间窗口 + riskLevel）
+  - `analyzer.prompt.ts`——context 新增"受影响线路"块；system 规则第 4 条：**进入 7 级风圈仅表示可能受影响，不得据此直接建议停运或判定高风险**
+  - `analyzer.service.spec.ts`——mock 更新 + 断言 affectedLines 分级（16号线 12级→高风险、1号线 仅7级→可能受影响）+ getPredictPath/analyzeStates×3 调用验证
+- **端到端验证**：重种本地测试台风（9 点合成轨迹含 radius7/10/12）→ 完整研判流 → `analysis` 事件带 **21 条 affectedLines（分级风险+时间窗口）** + similarCases + `[DONE]` ✅
+- **口径说明**：测试数据的 10/12 级半径为合成值且台风中心压市区，故 E2E 全高风险；真实梅花数据（radius7 为主）下 12 级仅 1 线命中（见步骤 16 审查复验）。三档区分的正确性由单测保证（mock 分级断言）
+- **本地测试数据变更**：`typhoontwos` 梅花（tfid=202212）由 pathinfos 97 点版替换为 9 点合成版（含 radius7/10/12，供 M4 空间测试）；pathinfos/cases 案例数据未动
+- **改动文件**：`analyzer.service.ts`、`analyzer.prompt.ts`、`analyzer.service.spec.ts`、`README.md`（步骤 17 ✅）、`WORKLOG.md`（本条目）
+- **codex 审查状态**：待送审（建议复核：分级风险标签口径、getPredictPath 集成、7级≠停运建议的 prompt 约束）
+- **提交**：见 git 历史
