@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { RepoService } from "src/database/service/repo/repo.service";
 import { LlmService } from "src/llm";
 import { TyphoonService } from "src/typhoon/service/typhoon.service";
@@ -33,15 +33,19 @@ export class AnalyzerService {
     /** 研判 SSE 流 */
     streamAnalysis(dto: AlertAnalyzerDto): Observable<AnalyzerEvent> {
         return new Observable(subscriber => {
+            let cancelled = false;
+            let llmSubscription: Subscription | undefined;
             (async () => {
                 try {
                     // 1. 获取当前台风
                     subscriber.next({ type: "status", data: "正在获取当前台风信息…" });
                     const typhoon = await this.resolveTyphoon(dto);
+                    if (cancelled || subscriber.closed) return;
                     if (!typhoon) {
                         throw new Error("未找到当前台风：请传入 tfid 或先建立指挥后再研判");
                     }
                     const trackPoints = this.extractTrackPoints(typhoon);
+                    if (cancelled || subscriber.closed) return;
                     if (!trackPoints.length) {
                         throw new Error("当前台风轨迹为空，无法进行案例匹配研判");
                     }
@@ -49,13 +53,14 @@ export class AnalyzerService {
                     // 2. 相似案例匹配
                     subscriber.next({ type: "status", data: "正在匹配历史相似案例…" });
                     const similarCases = await this.caseMatcher.match(trackPoints, 3);
+                    if (cancelled || subscriber.closed) return;
 
                     // 3. 先发 analysis 结构化事件（研判卡片；affectedLines 由 M4 填充）
                     subscriber.next({
                         type: "analysis",
                         data: {
                             affectedLines: [],
-                            levelSuggestion: undefined,
+                            levelSuggestion: null,
                             similarCases: similarCases.map(c => ({
                                 caseId: c.caseId,
                                 caseName: c.caseName,
@@ -67,9 +72,13 @@ export class AnalyzerService {
 
                     // 4. 组装防编造 prompt 并流式生成
                     subscriber.next({ type: "status", data: "正在生成研判报告…" });
+                    if (dto.autoRun === false) {
+                        subscriber.complete();
+                        return;
+                    }
                     const messages = buildAnalyzerMessages(typhoon, similarCases, dto.question);
                     const stream$ = this.llmService.chatStream(messages);
-                    const sub = stream$.subscribe({
+                    llmSubscription = stream$.subscribe({
                         next: ev => {
                             // 研判不调用工具：丢弃 tool_call 事件，其余（thinking/token/usage）透传
                             if (ev.type === "tool_call") return;
@@ -78,21 +87,27 @@ export class AnalyzerService {
                         error: err => subscriber.error(err),
                         complete: () => subscriber.complete(),
                     });
-                    return () => sub.unsubscribe();
                 } catch (err) {
-                    subscriber.error(err);
+                    if (!cancelled && !subscriber.closed) subscriber.error(err);
                 }
             })();
+            return () => {
+                cancelled = true;
+                llmSubscription?.unsubscribe();
+            };
         });
     }
 
     /** 解析当前台风：优先 dto.tfid（typhoontwos 集合），否则当前指挥关联台风 */
     private async resolveTyphoon(dto: AlertAnalyzerDto): Promise<TyphoonTwoDto | null> {
-        if (dto.tfid) {
-            const doc = await this.repo.typhoonTwos.findOne({ tfid: dto.tfid }).exec();
+        const requestedTfid = dto.tfid?.trim();
+        if (requestedTfid) {
+            const doc = await this.repo.typhoonTwos.findOne({ tfid: requestedTfid }).exec();
             if (doc) {
                 return TyphoonTwoDto.fromDoc(doc);
             }
+            // An explicit tfid is authoritative; never silently analyze a different command typhoon.
+            return null;
         }
         const cmd = await this.typhoonService.getCommandTyphoon();
         if (cmd?.name) {
@@ -103,12 +118,18 @@ export class AnalyzerService {
 
     /** 实时轨迹 → case-matcher 输入（lon/lat 字符串、wind_speed m/s 直读） */
     private extractTrackPoints(typhoon: TyphoonTwoDto): CaseTrackPoint[] {
-        return (typhoon.tracks || [])
+        const toNumber = (value: unknown): number | null => {
+            if (value === null || value === undefined) return null;
+            if (typeof value === "string" && !value.trim()) return null;
+            const n = typeof value === "number" ? value : Number(value);
+            return Number.isFinite(n) ? n : null;
+        };
+        const points = (typhoon.tracks || [])
             .map(t => {
-                const lon = parseFloat(t.lon as any);
-                const lat = parseFloat(t.lat as any);
-                const speed = parseFloat(t.wind_speed as any);
-                if (!Number.isFinite(lon) || !Number.isFinite(lat)) return null;
+                const lon = toNumber(t.lon);
+                const lat = toNumber(t.lat);
+                const speed = toNumber(t.wind_speed);
+                if (lon === null || lat === null || lon < -180 || lon > 180 || lat < -90 || lat > 90) return null;
                 const point: CaseTrackPoint = {
                     longitude: lon,
                     latitude: lat,
@@ -118,5 +139,11 @@ export class AnalyzerService {
                 return point;
             })
             .filter((p): p is CaseTrackPoint => p !== null);
+        return points.sort((a, b) => {
+            const ta = new Date(a.time as any).getTime();
+            const tb = new Date(b.time as any).getTime();
+            if (Number.isFinite(ta) && Number.isFinite(tb)) return ta - tb;
+            return 0;
+        });
     }
 }

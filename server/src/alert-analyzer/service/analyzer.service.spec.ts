@@ -134,3 +134,21 @@ describe("buildAnalyzerMessages（防编造 prompt）", () => {
         expect(messages[1].content).toBe("3号线会停运吗？");
     });
 });
+describe("AnalyzerService review boundaries", () => {
+    it("autoRun=false skips LLM", async () => {
+        const { service, mocks } = buildService();
+        const events = await firstValueFrom(service.streamAnalysis({ tfid: "202212", autoRun: false }).pipe(toArray()));
+        expect(events.some(e => e.type === "analysis")).toBe(true);
+        expect(mocks.llmService.chatStream).not.toHaveBeenCalled();
+    });
+
+    it("explicit missing tfid does not fall back to command typhoon", async () => {
+        const { service, mocks } = buildService({
+            repo: { typhoonTwos: { findOne: jest.fn().mockReturnValue({ exec: jest.fn().mockResolvedValue(null) }) } },
+            typhoonService: { getCommandTyphoon: jest.fn().mockResolvedValue(makeTyphoonDoc()) },
+        });
+        const events = await collectOrError(service.streamAnalysis({ tfid: "missing" }));
+        expect(events[0]).toMatchObject({ error: expect.any(String) });
+        expect(mocks.typhoonService.getCommandTyphoon).not.toHaveBeenCalled();
+    });
+});

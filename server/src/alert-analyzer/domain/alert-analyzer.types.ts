@@ -40,7 +40,8 @@ export interface AnalysisPayload {
     /** 受影响线路 */
     affectedLines?: AnalysisLineImpact[];
     /** 应急响应等级建议（如"Ⅱ级响应"） */
-    levelSuggestion?: string;
+    /** null means M3 has not computed a structured level yet; the LLM prose follows. */
+    levelSuggestion?: string | null;
     /** 相似历史案例（Top-N） */
     similarCases?: AnalysisSimilarCase[];
 }
