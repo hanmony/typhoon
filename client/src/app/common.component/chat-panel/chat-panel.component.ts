@@ -236,6 +236,27 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
         });
         this.pendingScroll = 'stick';
       },
+      onThinking: thinking => {
+        if (streamSeq !== this.streamSeq) return;
+        this.statusText = '';
+        this.messages.update(msgs => {
+          const updated = [...msgs];
+          updated[assistantIndex] = {
+            ...updated[assistantIndex],
+            thinking: `${updated[assistantIndex].thinking || ''}${thinking}`,
+          };
+          return updated;
+        });
+        this.pendingScroll = 'stick';
+      },
+      onUsage: usage => {
+        if (streamSeq !== this.streamSeq) return;
+        this.messages.update(msgs => {
+          const updated = [...msgs];
+          updated[assistantIndex] = { ...updated[assistantIndex], usage };
+          return updated;
+        });
+      },
       onError: err => {
         if (streamSeq !== this.streamSeq) return;
         this.messages.update(msgs => {
@@ -281,6 +302,12 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
   isLowRisk(riskLevel?: string): boolean {
     return !!riskLevel && !riskLevel.includes('高') && !riskLevel.includes('中');
+  }
+
+  formatSimilarity(score: number): string {
+    if (!Number.isFinite(score)) return '未知';
+    const normalized = Math.min(1, Math.max(0, score));
+    return `${Math.round(normalized * 100)}%`;
   }
 
   /** 发起一轮问答：优先走服务端会话（sessionId），创建失败退回无状态（前端回传历史） */
@@ -618,12 +645,13 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
   /** localStorage 镜像保存：服务端模式与回退模式都写，保证任何时刻可降级 */
   private saveHistory() {
     const msgs = this.messages()
-      .filter(m => m.content)
-      .map(({ role, content, thinking, thinkingRounds, usage }) => {
+      .filter(m => m.content || m.analysis)
+      .map(({ role, content, thinking, thinkingRounds, usage, analysis }) => {
         const entry: any = { role, content };
         if (thinking) entry.thinking = thinking;
         if (thinkingRounds?.length) entry.thinkingRounds = thinkingRounds;
         if (usage) entry.usage = usage;
+        if (analysis) entry.analysis = analysis;
         return entry;
       });
     localStorage.setItem(this.historyKey(this.currentSessionType()), JSON.stringify(msgs));

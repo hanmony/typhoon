@@ -29,6 +29,7 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
   let chatApi: jasmine.SpyObj<ChatApi>;
   let msg: jasmine.SpyObj<NzMessageService>;
   let storage: { token: string | null };
+  let analyzeCancel: jasmine.Spy;
 
   const WELCOME = '你好！我是防汛智策助手，有什么可以帮助你的吗？';
   const HISTORY_KEY = 'cocc-chat-history-anonymous-chat'; // token 为空 → anonymous
@@ -40,6 +41,8 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
     onError: (err: Error) => void;
     onStatus?: (status: string) => void;
     onAnalysis?: (data: AnalysisPayload) => void;
+    onThinking?: (thinking: string) => void;
+    onUsage?: (data: { prompt_tokens: number; completion_tokens: number; total_tokens: number }) => void;
   }
   const streamCallbacks: {
     chat?: CapturedCallbacks;
@@ -68,6 +71,7 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
       'analyzeStream',
     ]);
     msg = jasmine.createSpyObj<NzMessageService>('NzMessageService', ['warning', 'error']);
+    analyzeCancel = jasmine.createSpy('analyzeCancel');
     storage = { token: null };
     // 默认：无服务端会话；发送即捕获回调并返回取消函数
     chatApi.listSessions.and.returnValue(Promise.resolve([]));
@@ -90,7 +94,7 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
     });
     chatApi.analyzeStream.and.callFake((_dto: unknown, cb: CapturedCallbacks) => {
       streamCallbacks.analyze = cb;
-      return () => {};
+      return analyzeCancel;
     });
 
     localStorage.clear();
@@ -463,5 +467,68 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
     flushMicrotasks();
     expect(component.loading).toBeFalse();
     expect(component.messages().some(m => m.content.includes('请求失败: 未找到当前台风'))).toBeTrue();
+  }));
+  it('renders conservative analysis details and persists the card', fakeAsync(() => {
+    flushMicrotasks();
+    component.onAnalyze();
+    streamCallbacks.analyze?.onAnalysis?.({
+      affectedLines: [
+        { line: '16号线', period: '09-14', riskLevel: '最高空间风险：高（12级风圈）' },
+        { line: '1号线', period: '09-15', riskLevel: '可能受影响（仅7级风圈）' },
+      ],
+      similarCases: [{ caseId: 'x', caseName: '梅花', score: 0.51, reason: '路径平均距离接近' }],
+      levelSuggestion: null,
+    });
+    streamCallbacks.analyze?.onThinking?.('模型思考');
+    streamCallbacks.analyze?.onUsage?.({ prompt_tokens: 10, completion_tokens: 5, total_tokens: 15 });
+    fixture.detectChanges();
+
+    const cardText = fixture.nativeElement.querySelector('.analysis-card')?.textContent || '';
+    expect(cardText).toContain('不代表运营风险或停运结论');
+    expect(cardText).toContain('51%');
+    expect(cardText).toContain('路径平均距离接近');
+    expect(cardText).toContain('待结合预案条款与现场数据确认');
+    expect(fixture.nativeElement.querySelector('.risk-high')).not.toBeNull();
+    expect(fixture.nativeElement.querySelector('.risk-low')).not.toBeNull();
+
+    streamCallbacks.analyze?.onComplete();
+    const done = component.messages().find(m => m.role === 'assistant' && m.analysis);
+    expect(done?.thinking).toContain('模型思考');
+    expect(done?.usage?.total_tokens).toBe(15);
+    const saved = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]') as Array<{ analysis?: AnalysisPayload }>;
+    expect(saved.some(message => message.analysis?.affectedLines?.[0].line === '16号线')).toBeTrue();
+  }));
+
+  it('does not present missing analysis data as confirmed no impact', fakeAsync(() => {
+    flushMicrotasks();
+    component.onAnalyze();
+    streamCallbacks.analyze?.onAnalysis?.({
+      affectedLines: [],
+      similarCases: [],
+      levelSuggestion: null,
+    });
+    fixture.detectChanges();
+
+    const cardText = fixture.nativeElement.querySelector('.analysis-card')?.textContent || '';
+    expect(cardText).toContain('不能据此断言线路不受影响');
+    expect(cardText).toContain('暂无可参考的相似案例');
+    expect(cardText).toContain('待结合预案条款与现场数据确认');
+  }));
+
+  it('cancels analysis and ignores callbacks from the stopped stream', fakeAsync(() => {
+    flushMicrotasks();
+    component.onAnalyze();
+    const stale = streamCallbacks.analyze!;
+
+    component.onStop();
+    expect(analyzeCancel).toHaveBeenCalledTimes(1);
+    stale.onAnalysis?.({ affectedLines: [{ line: '旧线路' }] });
+    stale.onToken('旧流文本');
+    stale.onError(new Error('旧流错误'));
+    stale.onComplete();
+
+    expect(component.messages().some(message => message.analysis?.affectedLines?.[0].line === '旧线路')).toBeFalse();
+    expect(component.messages().some(message => message.content.includes('旧流文本'))).toBeFalse();
+    expect(msg.error).not.toHaveBeenCalledWith('研判失败: 旧流错误');
   }));
 });

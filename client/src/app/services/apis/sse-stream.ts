@@ -66,7 +66,7 @@ export function fetchSSEStream(
   handlers: SSEStreamHandlers,
   options: SSEStreamOptions,
 ): () => void {
-  const { onToken, onError, onComplete, onStatus, onStage, onThinking, onSources, onTool, onUsage } = handlers;
+  const { onToken, onError, onComplete, onStatus, onStage, onThinking, onSources, onTool, onUsage, onAnalysis } = handlers;
   const { url, body, token, timeout = 60_000, format } = options;
 
   const controller = new AbortController();
@@ -145,7 +145,16 @@ export function fetchSSEStream(
             }
             try {
               const data = JSON.parse(dataStr);
-              dispatchSSEEvent(data, format, { onToken, onStatus, onStage, onThinking, onSources, onTool, onUsage });
+              dispatchSSEEvent(data, format, {
+                onToken,
+                onStatus,
+                onStage,
+                onThinking,
+                onSources,
+                onTool,
+                onUsage,
+                onAnalysis,
+              });
             } catch (e) {
               if (e instanceof SyntaxError) continue;
               throw e;

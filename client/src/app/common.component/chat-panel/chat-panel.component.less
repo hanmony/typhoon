@@ -1002,6 +1002,14 @@ app-chat-panel {
     border-bottom: 1px solid @border-subtle;
   }
 
+  .analysis-note {
+    padding: 6px 10px;
+    font-size: 11px;
+    color: #ffd666;
+    background: rgba(250, 173, 20, 0.06);
+    border-bottom: 1px solid @border-subtle;
+  }
+
   .affected-lines {
     max-height: 180px;
     overflow-y: auto;
@@ -1031,9 +1039,9 @@ app-chat-panel {
       .line-risk { color: #ffc53d; }
     }
     &.risk-low {
-      border-left-color: #faad14;
-      background: rgba(250, 173, 20, 0.05);
-      .line-risk { color: #d4b106; }
+      border-left-color: #1677ff;
+      background: rgba(22, 119, 255, 0.06);
+      .line-risk { color: #69b1ff; }
     }
 
     .line-name {
@@ -1081,6 +1089,21 @@ app-chat-panel {
       color: #69c0ff;
       background: rgba(74, 158, 255, 0.1);
       border: 1px solid rgba(74, 158, 255, 0.25);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      max-width: 100%;
+
+      .case-reason {
+        color: @text-muted;
+        white-space: normal;
+        overflow-wrap: anywhere;
+      }
+    }
+
+    .case-empty {
+      color: @text-muted;
+      font-size: 11px;
     }
   }
 
