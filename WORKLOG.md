@@ -383,3 +383,13 @@
 - **说明**：前端交互（点按钮看卡片）需浏览器人工验证，部署/实机联调时执行；数据流已由单测覆盖
 - **codex 审查状态**：待送审（建议复核：卡片字段渲染完整性、onAnalyze 与 sendStream 的重复逻辑是否可收敛、tfid/commandId 是否应暴露给前端）
 - **提交**：见 git 历史
+
+### M5 步骤 18 codex 审查（ec918ca，已合入）+ 步骤 19 综合评估（2026-08-19）
+- **ec918ca（codex）**：卡片布局/小屏显示加固（HTML/less）、组件与单测扩充、新增 `sse-stream.spec.ts`；推送后复验：client build ✅、chat-panel + sse-stream 单测 **22/22**
+- **步骤 19 评估**：
+  - 新增 `server/scripts/m5-eval.js`（可复跑）+ `server/docs/M5_EVAL_REPORT.md`
+  - **本机实测 8/8 通过**：回归 `/chat/stream` `/agent/stream` `/kb/query/stream`（201 + [DONE]）、性能（TTFT 7ms / 总时长 155ms，mock 口径）、**研判一致性（卡片 21 条 affectedLines 全部可在 7/10/12 级空间计算中溯源，无编造线路）**
+  - **过程修复（本地配置，gitignored）**：m2 分支 `server/.env` 的 Embedding 配置是 M2 联调占位（BASE_URL 指向 mock、KEY=`unused...`）→ kb 回归 404/401；已从 data 分支静默同步真实 BASE_URL/API_KEY（值未打印未进 git）
+  - **部署验收清单（M6）**：标准 1–3（工具正确性/数据真实性/指挥上下文）需真 LLM + 实时台风数据源（学校服务器台风接口当前返回结构错误，需修复）；4b 等级建议溯源预案条款需真 LLM RAG；**人工点击一次「一键研判」核对真实卡片布局/滚动/小屏显示**（用户明确要求）
+- **codex 审查状态**：步骤 19 待送审（建议复核：评估口径、部署验收清单完整性、kb 回归修复的配置变更）
+- **提交**：见 git 历史
