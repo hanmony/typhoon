@@ -403,3 +403,11 @@
 - M2/data worktree 的 Embedding Base URL/API key/model 当前相同，说明本次不是分支值漂移；但 gitignored `.env` 手工复制仍有长期漂移风险，部署应使用受控配置清单。
 - README 步骤 19 暂改为警告状态；修复 Embedding 服务并复跑 9/9 后才能恢复完成。
 - 部署清单补充真模型性能、学校台风数据源修复、前后端发布物/assets、配置与密钥检查、部署后 API/Edge 验证。
+
+### M5 步骤 19 严格复验 9/9（2026-08-19，deepseek harness 执行，用户红线）
+- **根因定位**：codex 严格评估连的是 **3000 端口上的旧后端进程**（2026-08-19 17:57 启动，加载的是 Embedding 配置同步**之前**的 `.env`——BASE_URL 指向 mock 8123）→ `/kb/query/stream` Embedding 请求 404 → sources=0。我先前在 3001 起的新配置后端 codex 脚本未连（脚本硬编码 3000）。
+- **Embedding 服务商核查（密钥全程未打印）**：Base URL `https://api.wukaijin.com/v1`、模型 `Qwen/Qwen3-Embedding-8B`、路径 `/embeddings`；**服务商默认输出 768 维，带 `dimensions:1024` 参数返回 1024 维**（`embedding.service.ts` 已带该参数，D6 时默认 1024 是服务商旧行为）。26 个可用模型确认存在该模型。
+- **修复动作**：用当前正确 `.env`（真实 wukaijin + 51 位真 key，均未打印）在 **3000** 重启后端（杀旧进程 22968 与临时 3001）。
+- **复跑结果：9/9 全部通过**——chat/agent 有效 token + [DONE]；**kb 非空 sources=3 + content + [DONE]**；研判流 analysis+token+[DONE]；性能（首 token 41ms/总 143ms，mock 口径）；tool loop ≤5 静态契约；研判卡片结构 affectedLines=21；**研判一致性 21/21 线路集合/最高等级/时间窗严格相等**（mode=simulated-command，states=2）。
+- **README 步骤 19 已恢复 ✅ 完成**；本条目对应提交见 git 历史。
+- **配置漂移提醒（codex 建议，沿用）**：gitignored `.env` 手工复制有长期漂移风险，部署应使用受控配置清单。
