@@ -295,14 +295,21 @@
 
 ### M4 步骤 15：迁移前端 metro.2026.data 线路坐标到后端 assets（2026-08-19，README 步骤 15）
 - **新增文件**：
-  - `server/assets/line/metro-2026.json`（**21 条线路 / 3539 点**，约 190KB，入库）——格式 `lines["1号线"] = [{lng, lat}, …]`（坐标 = {lng, lat}，lng 在前，与 wind-circle 经纬度口径一致；点按源文件序号有序，站点与线路点均包含）
+  - `server/assets/line/metro-2026.json`（**21 条线路 / 3539 点**，入库）——格式 `lines["1号线"] = [{lng, lat}, …]`；审查修订后已应用前端实际绘图使用的修正量（纬度 `+0.00185`、经度 `-0.0045`），再与 wind-circle/EPSG:4490 口径进行空间计算
   - `server/scripts/migrate-metro-lines.js`（入库，可复跑：解析前端 TS → 写资产 → 校验）
 - **迁移要点**：
   - 前端格式 `坐标: '纬度,经度'` 字符串 → 后端 `{lng, lat}` 数值
   - **键解析兼容三种写法**：带引号键（'1号线'）与不带引号键（机场联络线/浦江线/磁浮线）——初次迁移漏了 3 条非"X号线"命名线路（159 点），修正正则后 21 条 / 3539 点与源文件坐标总数**完全一致**
   - 坐标范围抽查：lng 120.96~121.93 / lat 30.91~31.41（上海市域内 ✅）
-- **台风资料目录 M4 素材（用户提示，2026-08-19 探明）**：`%APPDATA%\JetBrains\PyCharm2026.1\extensions\台风资料\…\上海市地铁线路和站点（最新）(1)\` 下有 **shapefile**（上海地铁路线.shp + 上海地铁站点.shp，**WGS84 经纬度**，.prj 已读确认）+ `地铁坐标数据配置表.xlsx` + `线路站名.xlsx` + `附件7 行车交路（2023年）.xlsx`。**本步不导入**（前端数据已偏移修正、与平台地图一致，按计划为主数据源）；shapefile 保留作步骤 16 线路几何**交叉验证**素材（投影一致可比）
+- **台风资料目录 M4 素材（用户提示，2026-08-19 探明）**：台风资料目录中有 **shapefile**（上海地铁路线.shp + 上海地铁站点.shp，WGS84 经纬度，`.prj` 已确认）。前端源数组本身尚未修正，真正修正在 `services/meta.ts` 运行时执行；迁移器现已复用相同修正。shapefile 仅作步骤 16 的独立交叉验证素材，不直接替换 2026 主资产。
 - **验证**：资产 JSON 可回读、21 线/3539 点与源一致、坐标范围合理
 - **改动文件**：`server/assets/line/metro-2026.json`（新增）、`server/scripts/migrate-metro-lines.js`（新增）、`README.md`（步骤 15 ✅）、`WORKLOG.md`（本条目）
 - **codex 审查状态**：待送审（建议复核：资产格式对步骤 16 turf 计算是否友好、坐标口径与 wind-circle 一致性、shapefile 是否值得交叉验证）
 - **提交**：见 git 历史
+### Codex review: M4 step 15 (3567ae4)
+- Source-to-asset completeness was confirmed before correction: 21 line keys / 3539 ordered points were exactly equal, including 浦江线 53、磁浮线 49、机场联络线 57. Corrected regeneration preserves those counts and ordering.
+- Critical coordinate fix: the source arrays are not already corrected. The frontend applies `lat +0.00185, lng -0.0045` in `case-detail/services/meta.ts` before drawing on EPSG:4490. The original backend asset omitted that step. Across 407 same-name stations, its median difference from the WGS84 station shapefile was about **480 m** (mean offset east 430 m / south 214 m). Applying the frontend correction reduced the median to about **30 m**, with mean residual east 0.8 m / south 8.7 m. Step 16 must use this corrected asset and must not apply the offset a second time.
+- Replaced regex source scraping with direct TypeScript module loading. The migrator now fails loudly for a changed line set, missing/malformed coordinates, fewer than 2 points per line, point-count drift, or coordinates outside broad Shanghai bounds; validation completes before the asset is overwritten.
+- Asset metadata now declares coordinate order/reference, applied offset, and Turf conversion. Turf cannot consume `{lng,lat}` objects directly; Step 16 must convert each geometry point to `[p.lng, p.lat]`.
+- Branch geometry fix: 5/10/11号线 each contain a trunk and two branches. Treating the flattened arrays as one LineString created false jumps of about 5.2/3.7/14.6 km. The asset now also provides `lineStrings` (27 geometries total, with the fork point prepended to each branch). Step 16 must construct one `multiLineString` per route from `lineStrings[name]`; `lines[name]` is retained only for source-order compatibility.
+- Shapefile comparison limitation: its route layer contains 25 records for numbered lines but does not cover the three special lines in this 2026 asset, and version/branch differences remain. Use it as a tolerance-based cross-check, not a byte-for-byte source of truth.
