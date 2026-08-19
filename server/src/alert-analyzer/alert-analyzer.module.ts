@@ -1,4 +1,5 @@
 import { Module } from "@nestjs/common";
+import { ThrottlerModule } from "@nestjs/throttler";
 import { DatabaseModule } from "src/database/database.module";
 import { AlertAnalyzerController } from "./controller/alert-analyzer.controller";
 import { AnalyzerService } from "./service/analyzer.service";
@@ -11,7 +12,7 @@ import { CaseMatcherService } from "./service/case-matcher.service";
  *  - 步骤 13 按需补 imports：LlmModule / KnowledgeBaseModule / AlertModule / TyphoonModule（ChatModule 同款写法）
  */
 @Module({
-    imports: [DatabaseModule],
+    imports: [DatabaseModule, ThrottlerModule.forRoot([{ name: "chat", ttl: 60000, limit: 15 }])],
     controllers: [AlertAnalyzerController],
     providers: [AnalyzerService, CaseMatcherService],
     exports: [AnalyzerService],

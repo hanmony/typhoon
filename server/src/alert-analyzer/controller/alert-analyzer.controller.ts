@@ -1,4 +1,5 @@
-import { Body, Controller, Post, Res } from "@nestjs/common";
+import { Body, Controller, Post, Res, UseGuards } from "@nestjs/common";
+import { Throttle, ThrottlerGuard } from "@nestjs/throttler";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { Subscription } from "rxjs";
@@ -9,11 +10,13 @@ import { AnalyzerService } from "../service/analyzer.service";
 @ApiBearerAuth()
 @ApiTags("AI 研判")
 @Controller("alert-analyzer")
+@UseGuards(ThrottlerGuard)
 export class AlertAnalyzerController {
     constructor(private readonly analyzerService: AnalyzerService) {}
 
     @ApiOperation({ summary: "台风影响研判（SSE 流式）" })
     @Post("stream")
+    @Throttle({ chat: { limit: 15, ttl: 60000 } })
     @ActionLog("AI研判", "研判流")
     async stream(@Body() dto: AlertAnalyzerDto, @Res() res: Response) {
         res.setHeader("Content-Type", "text/event-stream");

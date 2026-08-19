@@ -23,4 +23,10 @@ export class AlertAnalyzerDto {
     @IsOptional()
     @IsString()
     commandId?: string;
+
+    /** Current typhoon identifier (the platform's canonical field is tfid). */
+    @ApiProperty({ required: false, description: "当前台风编号（平台字段 tfid），用于读取实时轨迹" })
+    @IsOptional()
+    @IsString()
+    tfid?: string;
 }
