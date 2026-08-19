@@ -246,7 +246,7 @@
 - [x] M1：补全 5 个指挥工具——✅ 全部完成（历史台风/值班/消息/预警历史/巡道）；步骤 6 集成收尾 ✅（prompt 检查/前端映射/前后端构建通过）；20 条回归测试集已交付 `server/docs/AGENT_EVAL_SET.md`，实机执行待部署环境（本机无 MongoDB/Qdrant）
 - [x] M2：服务端会话持久化——✅ 步骤 7–9 后端完成并通过 Codex 审查（`ChatSessionEntity` + 会话 CRUD + `sessionId` 可选兼容），e2e 16/16、M1+M2 相关自动化测试 14/14 通过；步骤 10 前端迁移 ✅（双写回退保留 localStorage，模拟联调 e2e 17/17 + 前端单测 9/9）
 - [ ] M2 实机联调（待办）：步骤 8～10 在部署机真实 MongoDB 上整体验收——会话 CRUD、流式落库（20 条截断）、前端历史迁移；未完成前不宣称「迁移验收完成」
-- [ ] M3：研判最小链路——✅ 步骤 11–13 完成（case-matcher / 模块骨架+SSE 协议 / 研判编排+防编造 prompt，2026-08-19）；步骤 14 评估待做
+- [ ] M3：研判最小链路——✅ 步骤 11–14 全部完成（case-matcher / 模块骨架+SSE / 研判编排+防编造 prompt / 评估 11/11 通过，2026-08-19，报告 `server/docs/M3_EVAL_REPORT.md`）
 - [ ] M4：线路空间研判——迁移 `metro.2026.data` 到后端 + turf 风圈×线路相交计算
 - [ ] M5：前端入口（COCC 一键研判按钮 + 研判卡片）+ 评估测试
 - [ ] M6：打包部署（按 `DEPLOY.md` 流程）
@@ -270,3 +270,18 @@
 - Fixed Observable cancellation: the original async IIFE discarded its teardown function, so disconnecting an SSE client could leave the LLM subscription and upstream work running. The service now tracks cancellation, unsubscribes the LLM stream, and checks cancellation after awaits.
 - Track parsing now uses strict numeric/range validation instead of `parseFloat` prefix acceptance and sorts points by `data_time`; `wind_speed` remains the explicit m/s source. The known short-track lifecycle limitation is still documented and must be surfaced to the LLM as reference uncertainty.
 - Verification after patch: alert-analyzer + case-matcher tests **19/19 passed**. Full build could not clean locked `server/dist`; no alert-analyzer TypeScript errors were reported, only pre-existing `x5` spec errors. No client files changed.
+
+### M3 步骤 14：M3 评估（10 组场景，2026-08-19，README 步骤 14）
+- **新增文件**：`server/scripts/m3-eval.js`（入库，可复跑：10 组场景直接评估 + 防编造 prompt 断言）、`server/docs/M3_EVAL_REPORT.md`（评估报告）
+- **10 组场景结果 11/11 通过**：
+  - S1–S6 六场历史台风（梅花/烟花/贝碧嘉/普拉桑/轩岚诺/灿都）完整路径自匹配：**全部 Top-1=自身、score=1.0**
+  - S7 梅花早期短轨迹（前 1/3）：Top-1=梅花 score=0.3——已知限制场景，仅参考不断言
+  - S8 梅花东移 10° 陌生台风：Top-1=普拉桑 score=0.14 < 0.3（正确"不认亲"）
+  - S9 仅 power 文本（无 windSpeedMps）：仍 Top-1=梅花 score=1.0（输入兼容）
+  - S10 上海登陆型合成台风：Top-3=贝碧嘉/普拉桑/烟花——**匹配到 2024 年真实登陆上海的贝碧嘉，与现实一致**
+  - 防编造 prompt 断言：system 含"严禁编造/未知无记录"与案例编号引用
+- **全链路 HTTP 抽查**：A 梅花（tfid=202212）完整研判流 ✅（status×3 → analysis[梅花@1.0] → mock LLM 流式 → [DONE]）；B 不存在 tfid ✅ 按设计走 `event: error`（未找到当前台风）
+- **验收结论**：相似案例匹配有意义 ✅；报告防编造（prompt 规则 + 数据全真实）✅；真 LLM 回答质量/等级建议合理性、空间计算字段（M4）留待部署环境与 M4 验收
+- **改动文件**：`server/scripts/m3-eval.js`（新增）、`server/docs/M3_EVAL_REPORT.md`（新增）、`README.md`（步骤 14 ✅）、`WORKLOG.md`（本条目）
+- **codex 审查状态**：待送审（建议复核：10 组场景覆盖是否充分、评估口径与部署环境验收项的划分）
+- **提交**：见 git 历史
