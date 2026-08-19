@@ -292,3 +292,17 @@
 - The script now loads current TypeScript source through `ts-node`/`tsconfig-paths`, sorts path data deterministically, and preflights the six required path fixtures plus active cases/actions. This prevents stale `dist` or incomplete databases from producing misleading results.
 - Strengthened static prompt checks for the untrusted-reference boundary, short-track warning, and inclusion of timeline context. These remain static prompt tests; true LLM non-fabrication and response-level grounding require deployment evaluation.
 - Review rerun: **13/13 hard assertions passed + 1 diagnostic observation (S7)** using 722 path points / 6 active cases / 946 actions. HTTP smoke evidence remains a manual snapshot, not part of the script.
+
+### M4 步骤 15：迁移前端 metro.2026.data 线路坐标到后端 assets（2026-08-19，README 步骤 15）
+- **新增文件**：
+  - `server/assets/line/metro-2026.json`（**21 条线路 / 3539 点**，约 190KB，入库）——格式 `lines["1号线"] = [{lng, lat}, …]`（坐标 = {lng, lat}，lng 在前，与 wind-circle 经纬度口径一致；点按源文件序号有序，站点与线路点均包含）
+  - `server/scripts/migrate-metro-lines.js`（入库，可复跑：解析前端 TS → 写资产 → 校验）
+- **迁移要点**：
+  - 前端格式 `坐标: '纬度,经度'` 字符串 → 后端 `{lng, lat}` 数值
+  - **键解析兼容三种写法**：带引号键（'1号线'）与不带引号键（机场联络线/浦江线/磁浮线）——初次迁移漏了 3 条非"X号线"命名线路（159 点），修正正则后 21 条 / 3539 点与源文件坐标总数**完全一致**
+  - 坐标范围抽查：lng 120.96~121.93 / lat 30.91~31.41（上海市域内 ✅）
+- **台风资料目录 M4 素材（用户提示，2026-08-19 探明）**：`%APPDATA%\JetBrains\PyCharm2026.1\extensions\台风资料\…\上海市地铁线路和站点（最新）(1)\` 下有 **shapefile**（上海地铁路线.shp + 上海地铁站点.shp，**WGS84 经纬度**，.prj 已读确认）+ `地铁坐标数据配置表.xlsx` + `线路站名.xlsx` + `附件7 行车交路（2023年）.xlsx`。**本步不导入**（前端数据已偏移修正、与平台地图一致，按计划为主数据源）；shapefile 保留作步骤 16 线路几何**交叉验证**素材（投影一致可比）
+- **验证**：资产 JSON 可回读、21 线/3539 点与源一致、坐标范围合理
+- **改动文件**：`server/assets/line/metro-2026.json`（新增）、`server/scripts/migrate-metro-lines.js`（新增）、`README.md`（步骤 15 ✅）、`WORKLOG.md`（本条目）
+- **codex 审查状态**：待送审（建议复核：资产格式对步骤 16 turf 计算是否友好、坐标口径与 wind-circle 一致性、shapefile 是否值得交叉验证）
+- **提交**：见 git 历史
