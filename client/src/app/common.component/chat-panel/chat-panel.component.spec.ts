@@ -10,10 +10,11 @@ import {
   DownOutline,
   LoadingOutline,
   PauseCircleOutline,
+  RadarChartOutline,
   SendOutline,
   ThunderboltOutline,
 } from '@ant-design/icons-angular/icons';
-import { ChatApi, ChatSessionSummary, QueryStreamOptions } from '../../services/apis/chat';
+import { ChatApi, ChatSessionSummary, QueryStreamOptions, AnalysisPayload } from '../../services/apis/chat';
 import { StorageService } from '../../services/storage.service';
 import { ChatPanelComponent } from './chat-panel.component';
 
@@ -37,10 +38,13 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
     onToken: (token: string) => void;
     onComplete: () => void;
     onError: (err: Error) => void;
+    onStatus?: (status: string) => void;
+    onAnalysis?: (data: AnalysisPayload) => void;
   }
   const streamCallbacks: {
     chat?: CapturedCallbacks;
     agent?: CapturedCallbacks;
+    analyze?: CapturedCallbacks;
   } = {};
 
   const sessionSummary = (id: string, type: 'chat' | 'agent' = 'chat'): ChatSessionSummary => ({
@@ -61,6 +65,7 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
       'deleteSession',
       'queryStream',
       'queryAgentStream',
+      'analyzeStream',
     ]);
     msg = jasmine.createSpyObj<NzMessageService>('NzMessageService', ['warning', 'error']);
     storage = { token: null };
@@ -83,6 +88,10 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
       streamCallbacks.agent = cb;
       return () => {};
     });
+    chatApi.analyzeStream.and.callFake((_dto: unknown, cb: CapturedCallbacks) => {
+      streamCallbacks.analyze = cb;
+      return () => {};
+    });
 
     localStorage.clear();
 
@@ -103,6 +112,7 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
             DownOutline,
             LoadingOutline,
             PauseCircleOutline,
+            RadarChartOutline,
             SendOutline,
             ThunderboltOutline,
           ],
@@ -411,5 +421,47 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
 
     expect((component as any).chatSessionId).toBeNull();
     expect((component as any).agentSessionId).toBe('agent-session');
+  }));
+
+  it('一键研判：调 analyzeStream；analysis 事件渲染研判卡片，token 追加报告，完成收尾', fakeAsync(() => {
+    flushMicrotasks();
+    component.onAnalyze();
+    expect(chatApi.analyzeStream).toHaveBeenCalled();
+    expect(component.loading).toBeTrue();
+
+    // analysis 事件 → 卡片数据写入消息
+    const payload: AnalysisPayload = {
+      affectedLines: [
+        { line: '16号线', period: '09-14 04:00 ~ 09-15 04:00', riskLevel: '最高空间风险：高（12级风圈）' },
+        { line: '1号线', period: '09-14 06:00 ~ 09-15 05:00', riskLevel: '可能受影响（仅7级风圈）' },
+      ],
+      levelSuggestion: null,
+      similarCases: [{ caseId: 'x', caseName: '2022梅花', score: 1 }],
+    };
+    streamCallbacks.analyze?.onAnalysis?.(payload);
+    fixture.detectChanges();
+
+    const assistant = component.messages().find(m => m.role === 'assistant' && m.analysis);
+    const lines = assistant?.analysis?.affectedLines ?? [];
+    expect(lines.length).toBe(2);
+    expect(lines[0].riskLevel).toContain('高');
+
+    // token 流式追加 + 完成
+    streamCallbacks.analyze?.onToken('研判报告文字');
+    streamCallbacks.analyze?.onComplete();
+    flushMicrotasks();
+    expect(component.loading).toBeFalse();
+    const done = component.messages().find(m => m.role === 'assistant' && m.analysis);
+    expect(done?.content).toContain('研判报告文字');
+    expect(done?.streaming).toBeFalse();
+  }));
+
+  it('一键研判失败 → error 文案写入消息并复位 loading', fakeAsync(() => {
+    flushMicrotasks();
+    component.onAnalyze();
+    streamCallbacks.analyze?.onError(new Error('未找到当前台风'));
+    flushMicrotasks();
+    expect(component.loading).toBeFalse();
+    expect(component.messages().some(m => m.content.includes('请求失败: 未找到当前台风'))).toBeTrue();
   }));
 });

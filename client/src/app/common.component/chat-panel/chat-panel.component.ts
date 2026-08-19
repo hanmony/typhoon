@@ -14,7 +14,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { MarkdownComponent } from 'ngx-markdown';
 import { CommonNzModule } from '../../common.nz.module';
-import { ChatApi, ChatMessage, ChatSessionDetail, ThinkingRound, ToolEventData, UsageEventData } from '../../services/apis/chat';
+import { ChatApi, ChatMessage, ChatSessionDetail, QueryStreamCallbacks, ThinkingRound, ToolEventData, UsageEventData } from '../../services/apis/chat';
 import { buildChatHistory } from '../../services/apis/chat-history';
 import { StorageService } from '../../services/storage.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -188,6 +188,99 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
     }
 
     void this.sendStream(question);
+  }
+
+  /** 一键研判：调 /alert-analyzer/stream，analysis 事件渲染研判卡片 + 流式报告 */
+  onAnalyze() {
+    if (this.loading) return;
+    this.inputText = '';
+    this.messages.update(msgs => [...msgs, { role: 'user', content: '📡 一键研判：当前台风对线路的影响' }]);
+    this.messages.update(msgs => [...msgs, { role: 'assistant', content: '', streaming: true }]);
+    this.loading = true;
+    this.pendingScroll = 'jump';
+    this.statusText = '';
+    this.pendingThinking = '';
+    this.steps.set([{ label: '研判准备', done: false }]);
+
+    const streamSeq = ++this.streamSeq;
+    ++this.sessionLoadSeq;
+    const assistantIndex = this.messages().length - 1;
+
+    const callbacks: QueryStreamCallbacks = {
+      onStatus: status => {
+        if (streamSeq !== this.streamSeq) return;
+        this.statusText = status.replace(/\.\.\.+$/, '');
+      },
+      onAnalysis: data => {
+        if (streamSeq !== this.streamSeq) return;
+        // 完成前序步骤，标记"研判卡片"
+        this.steps.update(s => {
+          const copy = s.map(st => ({ ...st, done: true }));
+          copy.push({ label: '研判卡片', done: true });
+          return copy;
+        });
+        this.messages.update(msgs => {
+          const updated = [...msgs];
+          updated[assistantIndex] = { ...updated[assistantIndex], analysis: data };
+          return updated;
+        });
+        this.pendingScroll = 'stick';
+      },
+      onToken: token => {
+        if (streamSeq !== this.streamSeq) return;
+        this.statusText = '';
+        this.messages.update(msgs => {
+          const updated = [...msgs];
+          updated[assistantIndex] = { ...updated[assistantIndex], content: updated[assistantIndex].content + token };
+          return updated;
+        });
+        this.pendingScroll = 'stick';
+      },
+      onError: err => {
+        if (streamSeq !== this.streamSeq) return;
+        this.messages.update(msgs => {
+          const updated = [...msgs];
+          updated[assistantIndex] = {
+            ...updated[assistantIndex],
+            content: updated[assistantIndex].content || `请求失败: ${err.message}`,
+            streaming: false,
+          };
+          return updated;
+        });
+        this.loading = false;
+        this.cancelStream = null;
+        this.statusText = '';
+        this.steps.set([]);
+        this.msg.error(`研判失败: ${err.message}`);
+        this.saveHistory();
+      },
+      onComplete: () => {
+        if (streamSeq !== this.streamSeq) return;
+        this.messages.update(msgs => {
+          const updated = [...msgs];
+          updated[assistantIndex] = { ...updated[assistantIndex], streaming: false };
+          return updated;
+        });
+        this.loading = false;
+        this.cancelStream = null;
+        this.statusText = '';
+        this.steps.set([]);
+        this.saveHistory();
+      },
+    };
+
+    this.cancelStream = this.chatApi.analyzeStream({ autoRun: true }, callbacks);
+  }
+
+  /** 风险等级样式辅助（riskLevel 含"高"/"中"/低档） */
+  isHighRisk(riskLevel?: string): boolean {
+    return !!riskLevel?.includes('高');
+  }
+  isMidRisk(riskLevel?: string): boolean {
+    return !!riskLevel?.includes('中');
+  }
+  isLowRisk(riskLevel?: string): boolean {
+    return !!riskLevel && !riskLevel.includes('高') && !riskLevel.includes('中');
   }
 
   /** 发起一轮问答：优先走服务端会话（sessionId），创建失败退回无状态（前端回传历史） */

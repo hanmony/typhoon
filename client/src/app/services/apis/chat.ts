@@ -3,10 +3,13 @@ import { environment as env } from '../../../environments/environment';
 import { HttpService } from '../http.service';
 import { StorageService } from '../storage.service';
 import { _BaseApi } from './_base';
-import { fetchSSEStream, SSEStreamHandlers, ToolEventData, UsageEventData } from './sse-stream';
+import { fetchSSEStream, SSEStreamHandlers, ToolEventData, UsageEventData, AnalysisPayload, AnalysisLineImpact, AnalysisSimilarCase } from './sse-stream';
 
 export { ToolEventData };
 export { UsageEventData };
+export { AnalysisPayload };
+export { AnalysisLineImpact };
+export { AnalysisSimilarCase };
 
 export interface ThinkingRound {
   label: string;
@@ -23,6 +26,8 @@ export interface ChatMessage {
   streaming?: boolean;
   usage?: UsageEventData;
   toolEvents?: ToolEventData[];
+  /** AI 研判卡片（alert-analyzer analysis 事件） */
+  analysis?: AnalysisPayload;
 }
 
 export interface QueryStreamCallbacks {
@@ -34,6 +39,8 @@ export interface QueryStreamCallbacks {
   onStage?: (stage: string) => void;
   onTool?: (data: ToolEventData) => void;
   onUsage?: (data: UsageEventData) => void;
+  /** AI 研判：analysis 事件（结构化研判卡片） */
+  onAnalysis?: (data: AnalysisPayload) => void;
 }
 
 export interface QueryStreamOptions {
@@ -103,6 +110,24 @@ export class ChatApi extends _BaseApi {
         from,
         ...(modelId ? { modelId } : {}),
         ...(sessionId ? { sessionId } : {}),
+      },
+      token: this.storage.token,
+      format: 'typed',
+    });
+  }
+
+  /** AI 研判流式查询 — 请求 /alert-analyzer/stream（analysis 事件渲染研判卡片） */
+  analyzeStream(
+    dto: { question?: string; autoRun?: boolean; commandId?: string; tfid?: string },
+    callbacks: QueryStreamCallbacks,
+  ): () => void {
+    return fetchSSEStream(callbacks as SSEStreamHandlers, {
+      url: `${env.baseUrl}/alert-analyzer/stream`,
+      body: {
+        ...(dto.question ? { question: dto.question } : {}),
+        ...(dto.autoRun !== undefined ? { autoRun: dto.autoRun } : {}),
+        ...(dto.commandId ? { commandId: dto.commandId } : {}),
+        ...(dto.tfid ? { tfid: dto.tfid } : {}),
       },
       token: this.storage.token,
       format: 'typed',

@@ -14,6 +14,26 @@ export interface UsageEventData {
   total_tokens: number;
 }
 
+/** AI 研判（alert-analyzer）analysis 事件的结构化数据（研判卡片） */
+export interface AnalysisLineImpact {
+  line: string;
+  period?: string;
+  riskLevel?: string;
+}
+
+export interface AnalysisSimilarCase {
+  caseId: string;
+  caseName: string;
+  score: number;
+  reason?: string;
+}
+
+export interface AnalysisPayload {
+  affectedLines?: AnalysisLineImpact[];
+  levelSuggestion?: string | null;
+  similarCases?: AnalysisSimilarCase[];
+}
+
 export interface SSEStreamHandlers {
   onToken: (data: string) => void;
   onError: (err: Error) => void;
@@ -29,6 +49,8 @@ export interface SSEStreamHandlers {
   onTool?: (data: ToolEventData) => void;
   /** Chat / Agent 共用：usage 事件（token 用量统计） */
   onUsage?: (data: UsageEventData) => void;
+  /** AlertAnalyzerApi 专用：analysis 事件（研判卡片结构化数据） */
+  onAnalysis?: (data: AnalysisPayload) => void;
 }
 
 export interface SSEStreamOptions {
@@ -149,8 +171,8 @@ export function fetchSSEStream(
 
 /** ChatApi SSE 事件（data.type 分发） */
 interface TypedSSEEvent {
-  type: 'status' | 'thinking' | 'token' | 'tool' | 'usage';
-  data: string | ToolEventData | UsageEventData;
+  type: 'status' | 'thinking' | 'token' | 'tool' | 'usage' | 'analysis';
+  data: string | ToolEventData | UsageEventData | AnalysisPayload;
   stage?: string;
 }
 
@@ -166,13 +188,21 @@ interface FlatSSEEvent {
 type SSEEventData = TypedSSEEvent | FlatSSEEvent;
 
 function isTypedEvent(data: SSEEventData): data is TypedSSEEvent {
-  return 'type' in data && (data.type === 'status' || data.type === 'thinking' || data.type === 'token' || data.type === 'tool' || data.type === 'usage');
+  return (
+    'type' in data &&
+    (data.type === 'status' ||
+      data.type === 'thinking' ||
+      data.type === 'token' ||
+      data.type === 'tool' ||
+      data.type === 'usage' ||
+      data.type === 'analysis')
+  );
 }
 
 function dispatchSSEEvent(
   data: SSEEventData,
   format: 'typed' | 'flat',
-  handlers: Pick<SSEStreamHandlers, 'onToken' | 'onStatus' | 'onStage' | 'onThinking' | 'onSources' | 'onTool' | 'onUsage'>,
+  handlers: Pick<SSEStreamHandlers, 'onToken' | 'onStatus' | 'onStage' | 'onThinking' | 'onSources' | 'onTool' | 'onUsage' | 'onAnalysis'>,
 ): void {
   if (format === 'typed') {
     if (!isTypedEvent(data)) return;
@@ -187,6 +217,8 @@ function dispatchSSEEvent(
       handlers.onTool?.(data.data as ToolEventData);
     } else if (data.type === 'usage') {
       handlers.onUsage?.(data.data as UsageEventData);
+    } else if (data.type === 'analysis') {
+      handlers.onAnalysis?.(data.data as AnalysisPayload);
     }
   } else {
     if ('sources' in data && data.sources && handlers.onSources) {

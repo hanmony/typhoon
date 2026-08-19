@@ -132,6 +132,45 @@
                   }
                 </div>
               }
+              @if (msg.analysis) {
+                <div class="analysis-card">
+                  <div class="analysis-card-header">
+                    <span nz-icon nzType="radar-chart" nzTheme="outline"></span>
+                    <span>线路影响研判</span>
+                  </div>
+                  @if (msg.analysis.affectedLines?.length) {
+                    <div class="affected-lines">
+                      @for (line of msg.analysis.affectedLines; track $index) {
+                        <div
+                          class="line-item"
+                          [class.risk-high]="isHighRisk(line.riskLevel)"
+                          [class.risk-mid]="isMidRisk(line.riskLevel)"
+                          [class.risk-low]="isLowRisk(line.riskLevel)"
+                        >
+                          <span class="line-name">{{ line.line }}</span>
+                          <span class="line-period">{{ line.period }}</span>
+                          <span class="line-risk">{{ line.riskLevel }}</span>
+                        </div>
+                      }
+                    </div>
+                  } @else {
+                    <div class="analysis-empty">暂无线路影响数据</div>
+                  }
+                  @if (msg.analysis.similarCases?.length) {
+                    <div class="similar-cases">
+                      <div class="similar-title">相似历史案例</div>
+                      <div class="case-chips">
+                        @for (c of msg.analysis.similarCases; track $index) {
+                          <span class="case-chip">{{ c.caseName }}（{{ c.score }}）</span>
+                        }
+                      </div>
+                    </div>
+                  }
+                  @if (msg.analysis.levelSuggestion) {
+                    <div class="level-suggestion">等级建议：{{ msg.analysis.levelSuggestion }}</div>
+                  }
+                </div>
+              }
               @if (msg.content) {
                 <markdown [data]="msg.content"></markdown>
               } @else if (msg.streaming && !msg.thinkingRounds?.length && (!msg.thinking || !showThinking())) {
@@ -212,6 +251,22 @@
       <div class="input-border-animate"></div>
     </div>
     <div class="input-actions">
+      @if (!loading) {
+        <button
+          nz-button
+          nzSize="small"
+          class="cyber-btn analyze"
+          (click)="onAnalyze()"
+          title="一键研判当前台风影响"
+          aria-label="一键研判"
+        >
+          <span class="btn-content">
+            <span nz-icon nzType="radar-chart" nzTheme="outline"></span>
+            <span>研判</span>
+          </span>
+          <span class="btn-glow"></span>
+        </button>
+      }
       @if (loading) {
         <button nz-button nzDanger nzSize="small" class="cyber-btn danger" (click)="onStop()" aria-label="中断">
           <span class="btn-content">

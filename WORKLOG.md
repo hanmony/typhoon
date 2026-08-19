@@ -370,3 +370,16 @@
   - ✅ **影响窗口**：跨等级并集输出正常；`[DONE]` 正常
   - 说明：合成数据 10 级风圈已覆盖全部线路，故无"仅7级"档（该分支由单测覆盖）
 - **结论**：codex 审查（bb28226）在真实运行环境下通过；提交已推送
+
+### M5 步骤 18：COCC 面板「一键研判」按钮 + analysis 研判卡片（2026-08-19，README 步骤 18）
+- **改动文件（client）**：
+  - `services/apis/sse-stream.ts`——SSE 工具新增 **`AnalysisPayload`/`AnalysisLineImpact`/`AnalysisSimilarCase`** 类型、`SSEStreamHandlers.onAnalysis`、typed 事件分发支持 `analysis`（此前会被丢弃）
+  - `services/apis/chat.ts`——导出分析类型；`ChatMessage` 增 `analysis?`；`QueryStreamCallbacks` 增 `onAnalysis?`；新增 **`analyzeStream(dto, callbacks)`**（POST `/alert-analyzer/stream`，typed SSE）
+  - `common.component/chat-panel/chat-panel.component.ts`——新增 **`onAnalyze()`**（一键研判：追加用户消息 + 流式助手消息；onAnalysis 写入研判卡片；token/status/error/complete 处理；沿用 streamSeq 防竞态与 cancelStream 取消）；新增风险样式辅助 `isHighRisk/isMidRisk/isLowRisk`
+  - `chat-panel.component.html`——输入区新增「研判」按钮（radar-chart 图标，loading 时隐藏）；助手气泡内渲染**研判卡片**（受影响线路列表：线路/时间窗口/风险等级 + 高/中/低配色；相似历史案例 chips；等级建议）
+  - `chat-panel.component.less`——研判卡片样式（risk-high 红 / risk-mid 橙 / risk-low 黄）
+  - `chat-panel.component.spec.ts`——新增 2 条：① 一键研判全流程（analyzeStream 调用 → onAnalysis 渲染卡片 → token 追加 → 完成收尾）② 失败路径（error 文案 + loading 复位）
+- **验证**：client `npm run build` ✅（既有 budget warning 非本步引入）；chat-panel 单测 **18/18 通过**（原 16 + 新 2）
+- **说明**：前端交互（点按钮看卡片）需浏览器人工验证，部署/实机联调时执行；数据流已由单测覆盖
+- **codex 审查状态**：待送审（建议复核：卡片字段渲染完整性、onAnalyze 与 sendStream 的重复逻辑是否可收敛、tfid/commandId 是否应暴露给前端）
+- **提交**：见 git 历史
