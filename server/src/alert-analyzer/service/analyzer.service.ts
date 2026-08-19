@@ -1,8 +1,9 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { Observable, Subscription } from "rxjs";
 import { RepoService } from "src/database/service/repo/repo.service";
 import { LlmService } from "src/llm";
 import { TyphoonService } from "src/typhoon/service/typhoon.service";
+import { TyphoonCommandService } from "src/typhoon/service/typhoon.command.service";
 import { TyphoonTwoDto } from "src/typhoon/domain/typhoon.two.dto";
 import { WindCircleService } from "src/typhoon/alert/wind-circle.service";
 import { TyphoonStateDto } from "src/typhoon/alert/dto/alert.dto";
@@ -30,6 +31,8 @@ import { buildAnalyzerMessages } from "./analyzer.prompt";
  */
 @Injectable()
 export class AnalyzerService {
+    private readonly logger = new Logger(AnalyzerService.name);
+
     constructor(
         private readonly llmService: LlmService,
         private readonly caseMatcher: CaseMatcherService,
@@ -37,13 +40,14 @@ export class AnalyzerService {
         private readonly repo: RepoService,
         private readonly lineImpact: LineImpactService,
         private readonly windCircle: WindCircleService,
+        private readonly typhoonCommand: TyphoonCommandService,
     ) {}
 
-    /** 风圈等级与风险标签：12 级→高风险、10 级→中风险、仅 7 级→可能受影响（非停运建议） */
+    /** 风圈等级与空间覆盖标签；不是实际运营风险或停运结论。 */
     private static readonly RISK_BY_RADIUS_INDEX: Record<WindCircleRadiusIndex, string> = {
-        0: "可能受影响（7级风圈）",
-        1: "中风险（10级风圈）",
-        2: "高风险（12级风圈）",
+        0: "可能受影响（仅7级风圈）",
+        1: "最高空间风险：中（10级风圈）",
+        2: "最高空间风险：高（12级风圈）",
     };
     /** 分级顺序：从最高等级（12 级）向低找命中 */
     private static readonly RADIUS_LEVELS: { index: WindCircleRadiusIndex; level: 7 | 10 | 12 }[] = [
@@ -79,7 +83,7 @@ export class AnalyzerService {
 
                     // 3. 线路空间研判（7/10/12 级分级，按最高等级定风险）
                     subscriber.next({ type: "status", data: "正在研判线路影响…" });
-                    const affectedLines = this.computeLineImpact(typhoon);
+                    const affectedLines = await this.computeLineImpact(typhoon, dto);
                     if (cancelled || subscriber.closed) return;
 
                     // 4. 先发 analysis 结构化事件（研判卡片）
@@ -130,7 +134,7 @@ export class AnalyzerService {
      * 实时模式先经 getPredictPath() 取预报状态再合并分析（只对历史 tracks 加 fromTime 无意义）。
      * 无轨迹/无风圈数据时返回 []。
      */
-    private computeLineImpact(typhoon: TyphoonTwoDto): AnalysisLineImpact[] {
+    private async computeLineImpact(typhoon: TyphoonTwoDto, dto: AlertAnalyzerDto): Promise<AnalysisLineImpact[]> {
         // 统一转 points（新 schema tracks 或旧 schema points）
         let points: any[] = [];
         if (Array.isArray(typhoon.tracks)) {
@@ -140,16 +144,47 @@ export class AnalyzerService {
         }
         if (!points.length) return [];
 
-        // 历史状态 + 预报状态（getPredictPath 失败时仅用历史，不阻断研判）
-        const historical = this.windCircle.transformPointsToStates(points);
+        const historical = this.windCircle
+            .transformPointsToStates(points)
+            .filter(state => Number.isFinite(state.time?.getTime()))
+            .sort((a, b) => a.time.getTime() - b.time.getTime());
+        if (!historical.length) return [];
+
+        // 若研判对象就是当前指挥台风，则沿用指挥的模拟时间轴；即使请求显式传了 tfid 也不能丢失模拟上下文。
+        let isSimulated = false;
+        let queryTime = new Date();
+        try {
+            const command = await this.typhoonCommand.getCurrentCommand();
+            const commandIdMatches =
+                !dto.commandId?.trim() || (command?._id && String(command._id) === dto.commandId.trim());
+            if (
+                command &&
+                command.name === typhoon.name &&
+                commandIdMatches &&
+                command.isSimulated === 1 &&
+                command.simulateStartTime &&
+                command.startTime
+            ) {
+                isSimulated = true;
+                queryTime = this.windCircle.calcSimulateTime(command.simulateStartTime, command.startTime);
+            }
+        } catch (error) {
+            this.logger.warn(`读取指挥时间上下文失败，按实时模式研判：${this.errorMessage(error)}`);
+        }
+
+        // 实时：最新观测状态 + forecasts；模拟：queryTime 附近状态 + 后续轨迹。
+        const currentState = isSimulated
+            ? ([...historical].reverse().find(state => state.time <= queryTime) ?? historical[0])
+            : historical[historical.length - 1];
         let future: TyphoonStateDto[] = [];
         try {
-            const withPoints = { ...typhoon, points };
-            future = this.windCircle.getPredictPath(withPoints, false, new Date());
-        } catch {
+            future = this.windCircle.getPredictPath({ points }, isSimulated, queryTime);
+        } catch (error) {
+            // 空间计算仍可报告当前状态，但绝不能回退到整段历史并伪装成未来窗口。
+            this.logger.warn(`获取台风预报路径失败，仅研判当前状态：${this.errorMessage(error)}`);
             future = [];
         }
-        const states = [...historical, ...future];
+        const states = this.mergeStates(currentState ? [currentState, ...future] : future);
         if (!states.length) return [];
 
         // 7/10/12 级各跑一次
@@ -161,19 +196,49 @@ export class AnalyzerService {
 
         const affected: AnalysisLineImpact[] = [];
         for (const line of hitLines) {
-            // RADIUS_LEVELS 已按 12→7 排序，第一个命中即最高等级
-            for (let i = 0; i < perLevel.length; i++) {
-                const hit = perLevel[i].find(r => r.line === line);
-                if (!hit) continue;
-                affected.push({
-                    line,
-                    period: this.formatWindow(hit.windowStart, hit.windowEnd),
-                    riskLevel: AnalyzerService.RISK_BY_RADIUS_INDEX[AnalyzerService.RADIUS_LEVELS[i].index],
-                });
-                break;
-            }
+            const hits = perLevel
+                .map((results, index) => ({ hit: results.find(result => result.line === line), index }))
+                .filter((item): item is { hit: LineImpactResult; index: number } => item.hit !== undefined);
+            if (!hits.length) continue;
+
+            // 第一项是命中的最高风圈等级；影响窗口取所有等级的并集，避免只展示短暂的峰值时段。
+            const highest = hits[0];
+            const starts = hits
+                .map(item => item.hit.windowStart)
+                .filter((date): date is Date => date instanceof Date && Number.isFinite(date.getTime()));
+            const ends = hits
+                .map(item => item.hit.windowEnd)
+                .filter((date): date is Date => date instanceof Date && Number.isFinite(date.getTime()));
+            affected.push({
+                line,
+                period: this.formatWindow(this.minDate(starts), this.maxDate(ends)),
+                riskLevel: AnalyzerService.RISK_BY_RADIUS_INDEX[AnalyzerService.RADIUS_LEVELS[highest.index].index],
+            });
         }
         return affected;
+    }
+
+    private mergeStates(...states: TyphoonStateDto[][]): TyphoonStateDto[] {
+        const unique = new Map<string, TyphoonStateDto>();
+        for (const state of states.flat()) {
+            const time = state.time?.getTime();
+            if (!Number.isFinite(time)) continue;
+            const key = `${time}|${state.center?.[0]}|${state.center?.[1]}`;
+            unique.set(key, state);
+        }
+        return [...unique.values()].sort((a, b) => a.time.getTime() - b.time.getTime());
+    }
+
+    private minDate(dates: Date[]): Date | undefined {
+        return dates.length ? new Date(Math.min(...dates.map(date => date.getTime()))) : undefined;
+    }
+
+    private maxDate(dates: Date[]): Date | undefined {
+        return dates.length ? new Date(Math.max(...dates.map(date => date.getTime()))) : undefined;
+    }
+
+    private errorMessage(error: unknown): string {
+        return error instanceof Error ? error.message : String(error);
     }
 
     private formatWindow(start?: Date, end?: Date): string {

@@ -47,23 +47,73 @@ const buildService = (overrides: any = {}) => {
     };
     const lineImpact = {
         analyzeStates: jest.fn().mockImplementation((_states, options) => {
-            // 16号线：7级和12级命中（→ 高风险）；1号线：仅7级命中（→ 可能受影响）
-            if (options?.radiusIndex === 1) return [];
-            if (options?.radiusIndex === 2) return [{ line: "16号线", affected: true, hitCount: 1, windLevel: 12 }];
+            // 16号线最高12级、2号线最高10级、1号线仅7级；7级窗口是完整影响窗口。
+            if (options?.radiusIndex === 2)
+                return [
+                    {
+                        line: "16号线",
+                        affected: true,
+                        hitCount: 1,
+                        windLevel: 12,
+                        windowStart: new Date(2022, 8, 14, 16),
+                        windowEnd: new Date(2022, 8, 14, 16),
+                    },
+                ];
+            if (options?.radiusIndex === 1)
+                return [
+                    {
+                        line: "2号线",
+                        affected: true,
+                        hitCount: 2,
+                        windLevel: 10,
+                        windowStart: new Date(2022, 8, 14, 10),
+                        windowEnd: new Date(2022, 8, 14, 18),
+                    },
+                ];
             return [
-                { line: "1号线", affected: true, hitCount: 2, windLevel: 7 },
-                { line: "16号线", affected: true, hitCount: 2, windLevel: 7 },
+                {
+                    line: "1号线",
+                    affected: true,
+                    hitCount: 2,
+                    windLevel: 7,
+                    windowStart: new Date(2022, 8, 14, 4),
+                    windowEnd: new Date(2022, 8, 15, 4),
+                },
+                {
+                    line: "2号线",
+                    affected: true,
+                    hitCount: 2,
+                    windLevel: 7,
+                    windowStart: new Date(2022, 8, 14, 5),
+                    windowEnd: new Date(2022, 8, 15, 3),
+                },
+                {
+                    line: "16号线",
+                    affected: true,
+                    hitCount: 2,
+                    windLevel: 7,
+                    windowStart: new Date(2022, 8, 14, 4),
+                    windowEnd: new Date(2022, 8, 15, 4),
+                },
             ];
         }),
         ...(overrides.lineImpact || {}),
     };
+    const historicalStates = [
+        { time: new Date(2022, 8, 13, 8), center: [28, 125], radius: [] },
+        { time: new Date(2022, 8, 14, 8), center: [30, 122], radius: [] },
+    ];
+    const futureStates = [{ time: new Date(2022, 8, 14, 11), center: [31, 121.5], radius: [] }];
     const windCircle = {
         transformActiveTyphoonToPoints: jest.fn().mockReturnValue([{ time: "x", lng: "121.5", lat: "31.2" }]),
-        transformPointsToStates: jest
-            .fn()
-            .mockReturnValue([{ time: new Date(), center: [31.2, 121.5], radius: [{ ne: 100, se: 100, sw: 100, nw: 100 }] }]),
-        getPredictPath: jest.fn().mockReturnValue([]),
+        transformPointsToStates: jest.fn().mockReturnValue(historicalStates),
+        getPredictPath: jest.fn().mockReturnValue(futureStates),
+        calcSimulateTime: jest.fn().mockReturnValue(new Date(2022, 8, 14, 8)),
         ...(overrides.windCircle || {}),
+    };
+    const typhoonCommand = {
+        getCurrentCommand: jest.fn().mockResolvedValue(null),
+        ...(overrides.typhoonCommand || {}),
     };
     return {
         service: new AnalyzerService(
@@ -73,13 +123,13 @@ const buildService = (overrides: any = {}) => {
             repo as any,
             lineImpact as any,
             windCircle as any,
+            typhoonCommand as any,
         ),
-        mocks: { repo, typhoonService, caseMatcher, llmService, lineImpact, windCircle },
+        mocks: { repo, typhoonService, caseMatcher, llmService, lineImpact, windCircle, typhoonCommand },
     };
 };
 
-const collectOrError = (obs: any) =>
-    firstValueFrom(obs.pipe(toArray())).catch(err => [{ error: err.message }]);
+const collectOrError = (obs: any) => firstValueFrom(obs.pipe(toArray())).catch(err => [{ error: err.message }]);
 
 describe("AnalyzerService（M3 步骤 13 + M4 步骤 17 编排）", () => {
     it("完整流水线：status×3 → analysis（相似案例 + affectedLines）→ status → token → 完成", async () => {
@@ -92,14 +142,35 @@ describe("AnalyzerService（M3 步骤 13 + M4 步骤 17 编排）", () => {
         const analysis = events.find(e => e.type === "analysis") as any;
         expect(analysis.data.similarCases).toHaveLength(1);
         expect(analysis.data.similarCases[0]).toMatchObject({ caseName: "2022梅花", score: 1 });
-        // 线路影响：16号线 12级→高风险、1号线 仅7级→可能受影响（分级取最高等级）
+        // 线路影响：最高等级优先，并以7级窗口保留完整影响期。
         expect(analysis.data.affectedLines).toEqual([
-            { line: "16号线", period: expect.any(String), riskLevel: "高风险（12级风圈）" },
-            { line: "1号线", period: expect.any(String), riskLevel: "可能受影响（7级风圈）" },
+            {
+                line: "16号线",
+                period: "09-14 04:00 ~ 09-15 04:00",
+                riskLevel: "最高空间风险：高（12级风圈）",
+            },
+            {
+                line: "2号线",
+                period: "09-14 05:00 ~ 09-15 03:00",
+                riskLevel: "最高空间风险：中（10级风圈）",
+            },
+            {
+                line: "1号线",
+                period: "09-14 04:00 ~ 09-15 04:00",
+                riskLevel: "可能受影响（仅7级风圈）",
+            },
         ]);
-        // 实时模式走 getPredictPath（预报状态）+ analyzeStates 分级
-        expect(mocks.windCircle.getPredictPath).toHaveBeenCalled();
+        // 实时模式只分析“最新当前状态 + forecasts”，不得把整段历史并入预计窗口。
+        expect(mocks.windCircle.getPredictPath).toHaveBeenCalledWith(
+            { points: expect.any(Array) },
+            false,
+            expect.any(Date),
+        );
         expect(mocks.lineImpact.analyzeStates).toHaveBeenCalledTimes(3);
+        const historical = mocks.windCircle.transformPointsToStates.mock.results[0].value;
+        const future = mocks.windCircle.getPredictPath.mock.results[0].value;
+        expect(mocks.lineImpact.analyzeStates.mock.calls[0][0]).toEqual([historical[1], future[0]]);
+        expect(mocks.lineImpact.analyzeStates.mock.calls.map(call => call[1].radiusIndex)).toEqual([2, 1, 0]);
     });
 
     it("未找到当前台风 → error 事件（不静默完成）", async () => {
@@ -111,11 +182,61 @@ describe("AnalyzerService（M3 步骤 13 + M4 步骤 17 编排）", () => {
         expect(events[0]).toMatchObject({ error: expect.stringContaining("未找到当前台风") });
     });
 
+    it("模拟指挥使用模拟 queryTime 和后续轨迹，不按真实当前时间计算", async () => {
+        const simulatedQueryTime = new Date(2022, 8, 14, 8);
+        const simulatedStates = [
+            { time: simulatedQueryTime, center: [30, 122], radius: [] },
+            { time: new Date(2022, 8, 14, 11), center: [31, 121.5], radius: [] },
+        ];
+        const { service, mocks } = buildService({
+            typhoonService: { getCommandTyphoon: jest.fn().mockResolvedValue(makeTyphoonDoc()) },
+            typhoonCommand: {
+                getCurrentCommand: jest.fn().mockResolvedValue({
+                    name: "梅花",
+                    isSimulated: 1,
+                    simulateStartTime: new Date(2022, 8, 8, 8),
+                    startTime: new Date(2026, 7, 19, 8),
+                }),
+            },
+            windCircle: {
+                calcSimulateTime: jest.fn().mockReturnValue(simulatedQueryTime),
+                getPredictPath: jest.fn().mockReturnValue(simulatedStates),
+            },
+        });
+
+        await firstValueFrom(service.streamAnalysis({ tfid: "202212", autoRun: false }).pipe(toArray()));
+
+        expect(mocks.windCircle.getPredictPath).toHaveBeenCalledWith(
+            { points: expect.any(Array) },
+            true,
+            simulatedQueryTime,
+        );
+        expect(mocks.lineImpact.analyzeStates.mock.calls[0][0]).toEqual(simulatedStates);
+    });
+
+    it("预报路径异常时只降级到最新当前状态，不把整段历史伪装成未来窗口", async () => {
+        const { service, mocks } = buildService({
+            windCircle: {
+                getPredictPath: jest.fn().mockImplementation(() => {
+                    throw new Error("forecast failed");
+                }),
+            },
+        });
+
+        const events = await firstValueFrom(service.streamAnalysis({ tfid: "202212", autoRun: false }).pipe(toArray()));
+
+        expect(events.some(event => event.type === "analysis")).toBe(true);
+        const historical = mocks.windCircle.transformPointsToStates.mock.results[0].value;
+        expect(mocks.lineImpact.analyzeStates.mock.calls[0][0]).toEqual([historical[historical.length - 1]]);
+    });
+
     it("轨迹为空 → error 事件", async () => {
         const { service } = buildService({
             repo: {
                 typhoonTwos: {
-                    findOne: jest.fn().mockReturnValue({ exec: jest.fn().mockResolvedValue(makeTyphoonDoc({ tracks: [] })) }),
+                    findOne: jest
+                        .fn()
+                        .mockReturnValue({ exec: jest.fn().mockResolvedValue(makeTyphoonDoc({ tracks: [] })) }),
                 },
             },
         });
@@ -151,7 +272,13 @@ describe("buildAnalyzerMessages（防编造 prompt）", () => {
         const messages = buildAnalyzerMessages(
             { name: "梅花", tfid: "202212", tracks: [{ lat: "24", lon: "128", wind_speed: "30" }] },
             [makeCaseResult()],
-            [{ line: "16号线", period: "09-14 04:00 ~ 09-15 04:00", riskLevel: "高风险（12级风圈）" }],
+            [
+                {
+                    line: "16号线",
+                    period: "09-14 04:00 ~ 09-15 04:00",
+                    riskLevel: "最高空间风险：高（12级风圈）",
+                },
+            ],
             undefined,
         );
         expect(messages).toHaveLength(2);
@@ -160,7 +287,8 @@ describe("buildAnalyzerMessages（防编造 prompt）", () => {
         expect(messages[0].content).toContain("2022梅花");
         expect(messages[0].content).toContain("相似度 1");
         expect(messages[0].content).toContain("16号线");
-        expect(messages[0].content).toContain("不得据此直接建议停运");
+        expect(messages[0].content).toContain("任何风圈等级都不得直接推出停运结论");
+        expect(messages[0].content).toContain("未知/需现场核实");
         expect(messages[1].role).toBe("user");
         expect(messages[1].content).toContain("研判");
     });
@@ -168,7 +296,7 @@ describe("buildAnalyzerMessages（防编造 prompt）", () => {
     it("传入 question 时 user 用自定义问题；无相似案例/无线路影响时明确说明", () => {
         const messages = buildAnalyzerMessages({ name: "未知台风", tfid: "x" }, [], [], "3号线会停运吗？");
         expect(messages[0].content).toContain("没有可参考的历史案例");
-        expect(messages[0].content).toContain("不足以判定线路影响");
+        expect(messages[0].content).toContain("不得据此断言线路一定不受影响");
         expect(messages[1].content).toBe("3号线会停运吗？");
     });
 });
