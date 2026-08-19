@@ -12,10 +12,17 @@ import { RepoService } from "src/database/service/repo/repo.service";
  * 相似度口径（两步，纯结构化、不依赖 embedding）：
  *  1. 路径相似度：按"生命周期进度"对齐（当前点 i 只与历史点 j 中 |j/M - i/N| ≤ 0.2 的点比），
  *     逐点取最近大圆距离（haversine）后平均 → meanNearestKm；越小越像。
- *  2. 登陆点相似度：两场台风"风力最强时刻"位置的距离 → landfallKm（power 如"18米/秒,8级"，
- *     解析 m/s 取最大；无法解析时退化为路径中段点）。越小越像。
- *  3. 综合分 score = 0.7 * clamp(1 - meanNearestKm/500) + 0.3 * clamp(1 - landfallKm/300)。
- *     500km / 300km 为经验尺度（西太平洋台风尺度），可后续按评估调整。
+ *  2. 登陆点相似度：两场台风"风力最强时刻"位置的距离 → landfallKm（优先 windSpeedMps/wind_speed/speed
+ *     的 m/s 数值，其次解析 power 如"18米/秒,8级"；两侧都无 m/s 值时 landfallKm=Infinity，只按路径相似计分）。
+ *     该距离是"最强风力位置代理点"间距，**不是经核验的登陆点距离**。
+ *  3. 综合分 score = pathWeight * clamp(1 - meanNearestKm/pathScaleKm) + (1-pathWeight) * clamp(1 - landfallKm/intensityAnchorScaleKm)，
+ *     默认 pathWeight=0.7、pathScaleKm=500、intensityAnchorScaleKm=300（西太平洋台风经验尺度，可用 CaseMatcherOptions 覆盖）。
+ *
+ * 已知限制（步骤 13 接入必须遵守）：
+ *  - 实时台风轨迹请**优先传入包含 wind_speed 或 speed（m/s）的完整轨迹**；只传早期短轨迹时，
+ *    生命周期归一化（|j/M - i/N|）可能产生误排——本算法的结果是**相似度参考，不是确定性研判**，
+ *    研判编排不得把 Top-1 当作结论，应把 Top-N 与分数一并交给 LLM 解读。
+ *  - 历史路径点数过少（如 ≤2）时路径相似度退化，属于数据质量问题而非算法错误。
  */
 
 export interface CaseTrackPoint {

@@ -201,6 +201,14 @@
   3. `normalizeTrackPoint` 规范化输入时丢掉 `power` 字段 → 当前路径最强点退化为路径中点 → 补回 power
 - **验证**：前后端 `npm run build` ✅；单测 **8/8 通过**；真实数据脚本 3 组场景全部符合预期
 - **codex 审查状态**：待送审（建议复核算法口径：生命周期窗口 0.2、距离尺度 500/300km、最强点并列决胜）
+
+### M3 步骤 11 codex 审查：实时风速兼容 + 参数可配置（2026-08-19，codex 提交 371979e，已合入）
+- **实时风速兼容**：`normalizeTrackPoint` 现优先读 `windSpeedMps ?? wind_speed ?? speed`（m/s 数值，实时台风 API 的 `wind_speed` 字段），其次才解析 `power` 文本；`strongestPoint` 两侧都无 m/s 值时返回 null（不再假装路径中点），`landfallKm=Infinity`，只按路径相似计分
+- **参数可配置**：`CaseMatcherOptions`（lifecycleWindow/pathScaleKm/intensityAnchorScaleKm/pathWeight/maxSamplePoints）+ `DEFAULT_CASE_MATCHER_OPTIONS`，`computeTrackSimilarity` 与 `match` 支持覆盖；两侧路径都做均匀抽样（上限 60）
+- **口径修正**：`landfallKm` 语义改为"最强风力位置代理点间距"，明确**不是经核验的登陆点距离**
+- **验证（重新构建后重跑 case-matcher-check.js）**：三组场景排序与审查前一致（梅花自匹配 1.0 #1、烟花自匹配 1.0 #1、梅花→烟花#2/普拉桑#3、烟花→梅花#2/普拉桑#3、合成台风→普拉桑#1 其余 0）；分数微调（如 0.5063→0.5042）来自两侧统一抽样，属预期；单测 **10/10 通过**
+- **已知限制（步骤 13 接入必须遵守）**：① 实时轨迹应**优先传入包含 wind_speed/speed（m/s）的完整轨迹**；② 只传早期短轨迹时，生命周期归一化仍可能误排——**匹配结果是相似度参考，不是确定性研判**，研判编排须把 Top-N + 分数一并交 LLM 解读，不得把 Top-1 当结论
+- **提交**：371979e（codex）；本条目对应文档同步提交见 git 历史
 - **提交**：见 git 历史
 
 ---
