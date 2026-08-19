@@ -2,54 +2,65 @@ import { Injectable, Logger, OnModuleInit } from "@nestjs/common";
 import * as fs from "fs";
 import * as path from "path";
 import * as turf from "@turf/turf";
-import { Feature, Polygon } from "geojson";
+import { Feature, MultiPolygon, Polygon } from "geojson";
 import { WindCircleService } from "src/typhoon/alert/wind-circle.service";
 import { TyphoonStateDto } from "src/typhoon/alert/dto/alert.dto";
 
-/**
- * 线路空间研判（M4 步骤 16）：turf 风圈 × 线路相交
- *
- * 数据来源：`assets/line/metro-2026.json`（步骤 15 迁移，21 条线 / 27 段 / 3539 点，
- * 已套用前端显示偏移修正，与 wind-circle 同一坐标框架）。
- *
- * 关键口径（审查要求，勿回退）：
- *  - **读取 `lineStrings`**，把 `{lng, lat}` 对象**转换为 `[lng, lat]`**（Turf 坐标序）；
- *  - 每条线用 **`turf.multiLineString`** 构建（保留分支，如 2 号线东延伸等 6 条多段线）；
- *  - 风圈来自 wind-circle 的 `getTyphoonCircleFeature`（7 级风圈四象限扇形，输出为
- *    `[lat, lng]`），**使用前转换为 `[lng, lat]`** 再 `turf.polygon`；
- *  - 相交判定：`turf.booleanIntersects`（已覆盖重叠与穿越；**不用 booleanCrosses**——turf 的
- *    booleanCrosses 不支持 MultiLineString 会抛错，且 intersects 语义已足够）；
- *  - 影响时间窗口：沿台风整条轨迹，逐状态统计该线路与风圈相交的时刻区间 [start, end]。
- *
- * 已知限制：radius 全 0（无风圈数据）的状态跳过；本服务不做预测窗口外推（步骤 17 集成时
- * 可由编排层决定用当前时刻还是整条轨迹）。
- */
+/** 0=7 级、1=10 级、2=12 级。 */
+export type WindCircleRadiusIndex = 0 | 1 | 2;
+export type WindCircleLevel = 7 | 10 | 12;
 
-export interface LineImpactResult {
-    /** 线路名（如"1号线""机场联络线"） */
-    line: string;
-    /** 是否受影响 */
-    affected: boolean;
-    /** 影响时间窗口起始（首次相交时刻） */
-    windowStart?: Date;
-    /** 影响时间窗口结束（最后一次相交时刻） */
-    windowEnd?: Date;
-    /** 与风圈相交的轨迹点数（影响强度参考，越大越持久） */
-    hitCount: number;
+export interface LineImpactOptions {
+    /** 默认使用覆盖范围最广的 7 级风圈。 */
+    radiusIndex?: WindCircleRadiusIndex;
+    /** 仅统计该时刻（含）之后的状态；输入需包含未来轨迹/预报点。 */
+    fromTime?: Date;
+    /** 仅统计该时刻（含）之前的状态。 */
+    toTime?: Date;
 }
 
+export interface LineImpactResult {
+    /** 线路名称（如“1号线”“机场联络线”）。 */
+    line: string;
+    affected: boolean;
+    /** 首次、末次相交轨迹状态的时间。 */
+    windowStart?: Date;
+    windowEnd?: Date;
+    /** 相交轨迹状态数；是持续性参考，不是风险等级。 */
+    hitCount: number;
+    /** 本次判定使用的风圈等级。 */
+    windLevel: WindCircleLevel;
+}
+
+const WIND_LEVEL_BY_RADIUS_INDEX: Record<WindCircleRadiusIndex, WindCircleLevel> = {
+    0: 7,
+    1: 10,
+    2: 12,
+};
+
+/** 实施计划约定的线路走廊半宽近似值（Turf buffer 半径）。 */
+const LINE_BUFFER_KM = 0.5;
+
+/**
+ * M4 步骤 16：台风风圈与地铁线路空间相交研判。
+ *
+ * 线路资产已经应用前端坐标偏移，本服务只把 `{lng,lat}` 转为 Turf 的
+ * `[lng,lat]`，不得再做第二次偏移。每条线路保留支线并构造 MultiLineString，
+ * 再按计划外扩 500m 形成线路走廊。风圈服务返回 `[lat,lng]`，进入 Turf 前反转。
+ */
 @Injectable()
 export class LineImpactService implements OnModuleInit {
     private readonly logger = new Logger(LineImpactService.name);
-    /** lineName → 分支段数组，每段为 [lng, lat][]（Turf 坐标序） */
+    /** lineName → 多段/支线，每段为 Turf 标准 [lng,lat][]。 */
     private lineStrings: Record<string, number[][][]> = {};
+    private lineCorridors: Record<string, Feature<Polygon | MultiPolygon>> = {};
 
     constructor(private readonly windCircle: WindCircleService) {}
 
     async onModuleInit() {
         const assetPath = path.resolve(process.cwd(), "assets/line/metro-2026.json");
         if (!fs.existsSync(assetPath)) {
-            this.logger.warn("assets/line/metro-2026.json 不存在，线路空间研判不可用（部署需随 assets/ 交付）");
+            this.logger.warn("assets/line/metro-2026.json 不存在，线路空间研判不可用；请检查生产 assets 打包");
             return;
         }
         const asset = JSON.parse(fs.readFileSync(assetPath, "utf8"));
@@ -57,60 +68,109 @@ export class LineImpactService implements OnModuleInit {
         if (!rawLineStrings || typeof rawLineStrings !== "object") {
             throw new Error("metro-2026.json 缺少 lineStrings 字段");
         }
+
+        // 先完整校验到局部变量，避免初始化失败后留下半套资产。
+        const loadedLineStrings: Record<string, number[][][]> = {};
+        const loadedCorridors: Record<string, Feature<Polygon | MultiPolygon>> = {};
         for (const [name, segments] of Object.entries(rawLineStrings)) {
-            // {lng, lat} → [lng, lat]（Turf 坐标序）
-            this.lineStrings[name] = (segments as any[]).map(seg =>
-                (seg as any[]).map(p => [Number(p.lng), Number(p.lat)] as [number, number]),
-            );
+            if (!Array.isArray(segments) || !segments.length) {
+                throw new Error(`metro-2026.json 线路 ${name} 没有有效线段`);
+            }
+            const parsedSegments = segments.map((segment: any, segmentIndex: number) => {
+                if (!Array.isArray(segment) || segment.length < 2) {
+                    throw new Error(`metro-2026.json 线路 ${name} 第 ${segmentIndex + 1} 段少于 2 个点`);
+                }
+                return segment.map((point: any, pointIndex: number) => {
+                    const lng = Number(point?.lng);
+                    const lat = Number(point?.lat);
+                    if (!Number.isFinite(lng) || !Number.isFinite(lat)) {
+                        throw new Error(
+                            `metro-2026.json 线路 ${name} 第 ${segmentIndex + 1} 段第 ${pointIndex + 1} 点坐标无效`,
+                        );
+                    }
+                    return [lng, lat] as [number, number];
+                });
+            });
+            loadedLineStrings[name] = parsedSegments;
+            loadedCorridors[name] = this.buildCorridor(name, parsedSegments);
         }
-        const segCount = Object.values(this.lineStrings).reduce((sum, segs) => sum + segs.length, 0);
-        this.logger.log(`线路资产已加载：${Object.keys(this.lineStrings).length} 条线 / ${segCount} 段`);
+        this.lineStrings = loadedLineStrings;
+        this.lineCorridors = loadedCorridors;
+
+        const segmentCount = Object.values(this.lineStrings).reduce((sum, segments) => sum + segments.length, 0);
+        this.logger.log(`线路资产已加载：${Object.keys(this.lineStrings).length} 条线 / ${segmentCount} 段`);
     }
 
-    /** 已加载的线路名（空 = 资产缺失） */
     getLoadedLines(): string[] {
         return Object.keys(this.lineStrings);
     }
 
     /**
-     * 风圈 × 线路相交研判
-     * @param typhoonData 台风数据：新 schema（tracks）或旧 schema（points，dummy 源），含 radius7 风圈
-     * @returns 受影响线路列表（按命中点数降序）；无资产或无风圈时返回 []
+     * @returns 受影响线路，按命中状态数降序；默认按 7 级风圈统计全轨迹。
      */
-    analyze(typhoonData: any): LineImpactResult[] {
+    analyze(typhoonData: any, options: LineImpactOptions = {}): LineImpactResult[] {
+        return this.analyzeStates(this.toStates(typhoonData), options);
+    }
+
+    /**
+     * 直接分析已经转换好的状态。步骤 17 在实时模式下应把 getPredictPath() 的
+     * 预报状态传入这里；仅对历史 tracks 使用 fromTime 不会凭空产生未来轨迹。
+     */
+    analyzeStates(inputStates: TyphoonStateDto[], options: LineImpactOptions = {}): LineImpactResult[] {
         if (!Object.keys(this.lineStrings).length) return [];
-        const states = this.toStates(typhoonData);
+        const radiusIndex = options.radiusIndex ?? 0;
+        if (!(radiusIndex in WIND_LEVEL_BY_RADIUS_INDEX)) {
+            throw new RangeError(`radiusIndex 必须是 0、1 或 2，当前为 ${radiusIndex}`);
+        }
+        const fromMs = this.toBoundaryMs(options.fromTime, "fromTime");
+        const toMs = this.toBoundaryMs(options.toTime, "toTime");
+        if (fromMs !== undefined && toMs !== undefined && fromMs > toMs) {
+            throw new RangeError("fromTime 不能晚于 toTime");
+        }
+
+        // 输入不保证按时间排列；先过滤坏点、限定时段，再排序，时间窗口才可信。
+        const states = inputStates
+            .filter(state => {
+                const timeMs = state.time?.getTime();
+                return (
+                    Number.isFinite(timeMs) &&
+                    Number.isFinite(state.center?.[0]) &&
+                    Number.isFinite(state.center?.[1]) &&
+                    (fromMs === undefined || timeMs >= fromMs) &&
+                    (toMs === undefined || timeMs <= toMs)
+                );
+            })
+            .sort((a, b) => a.time.getTime() - b.time.getTime());
         if (!states.length) return [];
 
         const perLine = new Map<string, { hit: number; times: Date[] }>();
         for (const state of states) {
-            const polygons = this.windCircleToPolygons(state);
+            const polygons = this.windCircleToPolygons(state, radiusIndex);
             if (!polygons.length) continue;
             for (const [name, segments] of Object.entries(this.lineStrings)) {
-                // 每条线用 multiLineString 构建（保留分支）
-                const lineFeature = turf.multiLineString(segments);
-                const hit = polygons.some(poly => turf.booleanIntersects(poly, lineFeature));
-                if (hit) {
-                    const rec = perLine.get(name) ?? { hit: 0, times: [] };
-                    rec.hit += 1;
-                    rec.times.push(state.time);
-                    perLine.set(name, rec);
-                }
+                // 测试或热替换资产时允许惰性构造；正常启动已在 onModuleInit 预构造。
+                const corridor = this.lineCorridors[name] ?? this.buildCorridor(name, segments);
+                const hit = polygons.some(polygon => turf.booleanIntersects(polygon, corridor));
+                if (!hit) continue;
+                const record = perLine.get(name) ?? { hit: 0, times: [] };
+                record.hit += 1;
+                record.times.push(state.time);
+                perLine.set(name, record);
             }
         }
 
         return [...perLine.entries()]
-            .map(([line, rec]) => ({
+            .map(([line, record]) => ({
                 line,
                 affected: true,
-                windowStart: rec.times[0],
-                windowEnd: rec.times[rec.times.length - 1],
-                hitCount: rec.hit,
+                windowStart: record.times[0],
+                windowEnd: record.times[record.times.length - 1],
+                hitCount: record.hit,
+                windLevel: WIND_LEVEL_BY_RADIUS_INDEX[radiusIndex],
             }))
-            .sort((a, b) => b.hitCount - a.hitCount);
+            .sort((a, b) => b.hitCount - a.hitCount || a.line.localeCompare(b.line, "zh-CN"));
     }
 
-    /** 台风数据 → 状态数组（新 schema tracks 或旧 schema points 统一转 points → states） */
     private toStates(typhoonData: any): TyphoonStateDto[] {
         let points: any[] = [];
         if (Array.isArray(typhoonData?.tracks)) {
@@ -122,13 +182,29 @@ export class LineImpactService implements OnModuleInit {
         return this.windCircle.transformPointsToStates(points);
     }
 
-    /** 7 级风圈四象限扇形 → turf Polygon[]（wind-circle 输出 [lat, lng] → 转换 [lng, lat]） */
-    private windCircleToPolygons(state: TyphoonStateDto): Feature<Polygon>[] {
-        const r = state.radius?.[0];
-        if (!r || (r.ne === 0 && r.se === 0 && r.sw === 0 && r.nw === 0)) return [];
-        const sectors = this.windCircle.getTyphoonCircleFeature(state);
+    /** 只为半径大于 0 的象限建面，避免零半径退化多边形参与误判。 */
+    private windCircleToPolygons(state: TyphoonStateDto, radiusIndex: WindCircleRadiusIndex): Feature<Polygon>[] {
+        const radius = state.radius?.[radiusIndex];
+        if (!radius) return [];
+        const quadrantRadii = [radius.ne, radius.se, radius.sw, radius.nw];
+        const sectors = this.windCircle.getTyphoonCircleFeature(state, radiusIndex);
         return sectors
-            .filter(ring => ring.length >= 4)
-            .map(ring => turf.polygon([ring.map(p => [p[1], p[0]] as [number, number])]));
+            .filter(
+                (ring, index) => Number.isFinite(quadrantRadii[index]) && quadrantRadii[index] > 0 && ring.length >= 4,
+            )
+            .map(ring => turf.polygon([ring.map(point => [point[1], point[0]] as [number, number])]));
+    }
+
+    private buildCorridor(name: string, segments: number[][][]): Feature<Polygon | MultiPolygon> {
+        const corridor = turf.buffer(turf.multiLineString(segments), LINE_BUFFER_KM, { units: "kilometers" });
+        if (!corridor) throw new Error(`线路 ${name} 无法生成 ${LINE_BUFFER_KM}km 缓冲带`);
+        return corridor;
+    }
+
+    private toBoundaryMs(value: Date | undefined, name: string): number | undefined {
+        if (value === undefined) return undefined;
+        const ms = value.getTime();
+        if (!Number.isFinite(ms)) throw new RangeError(`${name} 必须是有效时间`);
+        return ms;
     }
 }

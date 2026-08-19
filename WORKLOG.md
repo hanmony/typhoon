@@ -329,3 +329,14 @@
 - **改动文件**：`line-impact.service.ts/.spec.ts`（新增）、`alert.module.ts`（导出 WindCircleService）、`alert-analyzer.module.ts`（接线）、`line-impact-check.js`（新增）、`README.md`（步骤 16 ✅）、`WORKLOG.md`（本条目）
 - **codex 审查状态**：待送审（建议复核：7 级风圈口径是否够用、时间窗口算法、多段线/分支处理、与 shapefile 交叉验证方案）
 - **提交**：见 git 历史
+
+### Codex review: M4 step 16 (97bc066)
+- **结论**：原实现的坐标反转、`MultiLineString` 分支保留和 `booleanIntersects` 选择正确；但提交前需要修正四项契约缺口：仅支持 7 级风圈、时间窗口依赖输入顺序、零半径象限会生成退化面、以及未实现计划明确要求的约 500m 线路 buffer。
+- `LineImpactService.analyze()` 现支持 `radiusIndex`（0/1/2 对应 7/10/12 级）并在结果中返回 `windLevel`；默认仍为 7 级，旧调用不受影响。`WindCircleService.getTyphoonCircleFeature()` 同步增加默认兼容的可选索引。
+- 新增 `fromTime`/`toTime`，先过滤无效坐标和时间再排序；另提供 `analyzeStates()` 接收预报状态。步骤 17 的模拟模式可用未来轨迹 + `fromTime=queryTime`；实时模式必须先用 `getPredictPath()` 取得 forecasts 再传给 `analyzeStates()`，因为只过滤历史 tracks 不会产生未来窗口。
+- 线路按计划以 `MultiLineString` 外扩 0.5km 后参与相交；资产加载增加线段、点数和有限坐标校验。只为半径大于 0 的象限建多边形，避免退化 Turf geometry。
+- 梅花真实数据分级复验：7 级 **21 线 / 499 线路-时刻**，10 级 **21 线 / 132 线路-时刻**，12 级 **1 线 / 1 线路-时刻（16号线）**。因此 7 级适合作“可能受影响范围”，步骤 17 的风险等级应取该线路命中的最高风圈等级，不能把 21 条线统一标成同一风险。
+- `booleanIntersects` 继续保留：它能覆盖穿越、完全包含和边界接触，符合“受影响”语义；`booleanCrosses` 不支持当前 MultiLineString 且会漏掉完全位于圈内的线路。
+- WGS84 路线 shapefile 容差交叉验证（仅 1–18 号线）：3386 个 2026 资产点到同号 shapefile 路线的中位距离 **15m**、P95 **76m**、**99.79% 在 500m 内**。少数异常集中在 17 号线版本/延伸段差异（最大约 6.15km）；shapefile 缺浦江线、磁浮线、机场联络线，故只作独立容差验证，不替代生产资产。
+- 回归：alert-analyzer 定向单测 **29/29**；`tsc --noEmit --incremental false` 通过；真实数据脚本通过（远海 0 线、近岸分级结果如上）。新增乱序时间、未来过滤、三级风圈、部分零象限、500m buffer、非法参数测试。
+- **步骤 17 明确要求**：模拟/历史轨迹用 queryTime 限定未来段；实时台风先通过 `WindCircleService.getPredictPath()` 取 forecasts，再调用 `analyzeStates()`。按每条线路命中的最高等级生成 `riskLevel`（12 > 10 > 7）；卡片文案区分“进入 7 级风圈”与“高风险/停运建议”，不得仅凭 7 级圈命中直接建议停运。

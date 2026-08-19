@@ -4,7 +4,7 @@
  * 前置：已 npm run build；cwd 为 server（资产路径相对 cwd 解析）。
  * 用法：cd server && node scripts/line-impact-check.js
  *
- * 数据：dummy 梅花源（2022 梅花真实路径 + 真实 radius7 风圈，旧 schema points）。
+ * 数据：dummy 梅花源（2022 梅花真实路径 + 真实 radius7/10/12 风圈，旧 schema points）。
  * 期望：梅花 2022-09-14/15 登陆上海奉贤沿海，南侧/沿海线路（5号线、16号线、
  *      浦江线、磁浮线、机场联络线等）应进入受影响列表。
  */
@@ -34,13 +34,20 @@ async function main() {
     console.log(`当前台风: ${typhoon.name}（${typhoon.points?.length ?? 0} 个轨迹点）`);
 
     const result = lineImpact.analyze(typhoon);
+    const resultsByLevel = [
+        { level: 7, result },
+        { level: 10, result: lineImpact.analyze(typhoon, { radiusIndex: 1 }) },
+        { level: 12, result: lineImpact.analyze(typhoon, { radiusIndex: 2 }) },
+    ];
     console.log(`\n===== 受影响线路（按命中点数排序）=====`);
     if (!result.length) {
         console.log("（无线路命中——请检查风圈半径数据与资产坐标）");
     }
     for (const r of result) {
-        const fmt = (d) => (d ? new Date(d).toISOString().slice(0, 16).replace("T", " ") : "-");
-        console.log(`  ${r.line.padEnd(6)} 命中 ${r.hitCount} 个轨迹时刻  窗口: ${fmt(r.windowStart)} ~ ${fmt(r.windowEnd)}`);
+        const fmt = d => (d ? new Date(d).toISOString().slice(0, 16).replace("T", " ") : "-");
+        console.log(
+            `  ${r.line.padEnd(6)} 命中 ${r.hitCount} 个轨迹时刻  窗口: ${fmt(r.windowStart)} ~ ${fmt(r.windowEnd)}`,
+        );
     }
 
     // 合理性断言：至少命中 1 条线；梅花登陆上海，预期覆盖奉贤/浦东方向的线路
@@ -48,6 +55,21 @@ async function main() {
     console.log(`\n${ok ? "✅ 验证通过" : "❌ 无线路命中"}（命中 ${result.length} 条）`);
 
     // 判别力验证：台风在远海（前 5 个轨迹点，约 132°E）时，命中线路应显著减少或为 0
+    console.log("\n===== 风圈等级判别力 =====");
+    for (const item of resultsByLevel) {
+        const totalHits = item.result.reduce((sum, line) => sum + line.hitCount, 0);
+        console.log(`${item.level} 级风圈：${item.result.length} 条线路 / ${totalHits} 个线路-时刻命中`);
+    }
+    const [level7, level10, level12] = resultsByLevel.map(item => item.result);
+    if (!(level7.length >= level10.length && level10.length >= level12.length)) {
+        console.error("❌ 风圈等级越高，命中线路数却增加；请检查 radiusIndex 映射");
+        process.exit(1);
+    }
+    if (level7.length === level12.length) {
+        console.error("❌ 7/12 级风圈没有形成判别力");
+        process.exit(1);
+    }
+
     const farSea = { ...typhoon, points: typhoon.points.slice(0, 5) };
     const farResult = lineImpact.analyze(farSea);
     console.log(

@@ -6,12 +6,20 @@ const buildWindCircleMock = (opts: { radiusKm?: number; centerLat?: number; cent
     const states: any[] = [
         {
             time: new Date("2022-09-14T12:00:00Z"),
-            radius: [{ ne: radiusKm, se: radiusKm, sw: radiusKm, nw: radiusKm }],
+            radius: [
+                { ne: radiusKm, se: radiusKm, sw: radiusKm, nw: radiusKm },
+                { ne: radiusKm, se: radiusKm, sw: radiusKm, nw: radiusKm },
+                { ne: radiusKm, se: radiusKm, sw: radiusKm, nw: radiusKm },
+            ],
             center: [centerLat, centerLng],
         },
         {
             time: new Date("2022-09-15T00:00:00Z"),
-            radius: [{ ne: radiusKm, se: radiusKm, sw: radiusKm, nw: radiusKm }],
+            radius: [
+                { ne: radiusKm, se: radiusKm, sw: radiusKm, nw: radiusKm },
+                { ne: radiusKm, se: radiusKm, sw: radiusKm, nw: radiusKm },
+                { ne: radiusKm, se: radiusKm, sw: radiusKm, nw: radiusKm },
+            ],
             center: [centerLat, centerLng],
         },
     ];
@@ -38,15 +46,26 @@ describe("LineImpactService（M4 步骤 16 风圈×线路）", () => {
             [121.7, 31.4],
         ],
     ];
-    const lineFarAway: number[][][] = [[[130.0, 35.0], [131.0, 36.0]]];
+    const lineFarAway: number[][][] = [
+        [
+            [130.0, 35.0],
+            [131.0, 36.0],
+        ],
+    ];
     const branchLine: number[][][] = [
-        [[121.3, 31.0], [121.5, 31.2]],
-        [[121.5, 31.2], [121.7, 31.4]],
+        [
+            [121.3, 31.0],
+            [121.5, 31.2],
+        ],
+        [
+            [121.5, 31.2],
+            [121.7, 31.4],
+        ],
     ];
 
     it("风圈内的线路 → 受影响（含时间窗口），风圈外的线路不受影响", () => {
         const service = new LineImpactService(buildWindCircleMock() as any);
-        (service as any).lineStrings = { "1号线": lineThroughCenter, "远线": lineFarAway };
+        (service as any).lineStrings = { "1号线": lineThroughCenter, 远线: lineFarAway };
 
         const result = service.analyze({ tracks: [] });
         expect(result.map(r => r.line)).toEqual(["1号线"]);
@@ -61,7 +80,7 @@ describe("LineImpactService（M4 步骤 16 风圈×线路）", () => {
 
     it("多段线路（分支）任一段相交即算受影响", () => {
         const service = new LineImpactService(buildWindCircleMock() as any);
-        (service as any).lineStrings = { "分支线": branchLine };
+        (service as any).lineStrings = { 分支线: branchLine };
         const result = service.analyze({ tracks: [{ lon: "121.5", lat: "31.2" }] });
         expect(result).toHaveLength(1);
         expect(result[0].line).toBe("分支线");
@@ -93,5 +112,92 @@ describe("LineImpactService（M4 步骤 16 风圈×线路）", () => {
         expect(Array.isArray(seg)).toBe(true);
         expect(seg[0]).toBeGreaterThan(120); // lng 在前
         expect(seg[1]).toBeGreaterThan(30); // lat 在后
+    });
+
+    it("supports 7/10/12-level circles without changing the default 7-level contract", () => {
+        const mock = buildWindCircleMock();
+        const service = new LineImpactService(mock as any);
+        (service as any).lineStrings = { metro: lineThroughCenter };
+
+        expect(service.analyze({ points: [{}] })[0].windLevel).toBe(7);
+        expect(service.analyze({ points: [{}] }, { radiusIndex: 1 })[0].windLevel).toBe(10);
+        expect(service.analyze({ points: [{}] }, { radiusIndex: 2 })[0].windLevel).toBe(12);
+        expect(mock.getTyphoonCircleFeature).toHaveBeenLastCalledWith(expect.anything(), 2);
+    });
+
+    it("sorts unordered states and applies an inclusive future-time boundary", () => {
+        const mock = buildWindCircleMock();
+        const [early, late] = mock.transformPointsToStates();
+        mock.transformPointsToStates.mockReturnValue([late, early]);
+        const service = new LineImpactService(mock as any);
+        (service as any).lineStrings = { metro: lineThroughCenter };
+
+        const all = service.analyze({ points: [{}] });
+        expect(all[0].windowStart!.toISOString()).toBe("2022-09-14T12:00:00.000Z");
+        expect(all[0].windowEnd!.toISOString()).toBe("2022-09-15T00:00:00.000Z");
+
+        const future = service.analyze({ points: [{}] }, { fromTime: new Date("2022-09-15T00:00:00Z") });
+        expect(future[0].hitCount).toBe(1);
+        expect(future[0].windowStart!.toISOString()).toBe("2022-09-15T00:00:00.000Z");
+    });
+
+    it("ignores zero-radius quadrants instead of constructing degenerate polygons", () => {
+        const mock = buildWindCircleMock();
+        mock.transformPointsToStates.mockReturnValue([
+            {
+                time: new Date("2022-09-14T12:00:00Z"),
+                center: [31.2, 121.5],
+                radius: [{ ne: 100, se: 0, sw: 0, nw: 0 }],
+            },
+        ]);
+        const service = new LineImpactService(mock as any);
+        (service as any).lineStrings = { metro: lineThroughCenter };
+
+        expect(service.analyze({ points: [{}] })).toHaveLength(1);
+    });
+
+    it("uses the planned 500m line buffer instead of requiring centerline contact", () => {
+        const mock = buildWindCircleMock();
+        const smallSector = [
+            [31.199, 121.499],
+            [31.201, 121.499],
+            [31.201, 121.501],
+            [31.199, 121.501],
+            [31.199, 121.499],
+        ];
+        mock.getTyphoonCircleFeature.mockReturnValue([smallSector, smallSector, smallSector, smallSector]);
+        const service = new LineImpactService(mock as any);
+        (service as any).lineStrings = {
+            withinBuffer: [
+                [
+                    [121.505, 31.19],
+                    [121.505, 31.21],
+                ],
+            ],
+            outsideBuffer: [
+                [
+                    [121.52, 31.19],
+                    [121.52, 31.21],
+                ],
+            ],
+        };
+
+        expect(service.analyze({ points: [{}] }).map(item => item.line)).toEqual(["withinBuffer"]);
+    });
+
+    it("rejects invalid radius and time ranges", () => {
+        const service = new LineImpactService(buildWindCircleMock() as any);
+        (service as any).lineStrings = { metro: lineThroughCenter };
+
+        expect(() => service.analyze({ points: [{}] }, { radiusIndex: 3 as any })).toThrow(RangeError);
+        expect(() =>
+            service.analyze(
+                { points: [{}] },
+                {
+                    fromTime: new Date("2022-09-16T00:00:00Z"),
+                    toTime: new Date("2022-09-15T00:00:00Z"),
+                },
+            ),
+        ).toThrow(RangeError);
     });
 });
