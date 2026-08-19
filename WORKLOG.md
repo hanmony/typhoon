@@ -224,6 +224,21 @@
 - **codex 审查状态**：待送审（建议复核：事件协议字段命名与前端 M5 渲染的衔接、DTO 字段是否够用）
 - **提交**：见 git 历史
 
+### M3 步骤 12 codex 审查：tfid 上下文 + SSE 限流（2026-08-19，codex 提交 9302a98，已合入）
+- `AlertAnalyzerDto` 新增 **`tfid`**（当前台风编号，用于读取实时轨迹）；controller 增加 `ThrottlerGuard` + `@Throttle`（60s/15 次，与 chat 一致）；module imports 补 ThrottlerModule
+
+### M3 步骤 13：研判编排 + 防编造 prompt（2026-08-19，README 步骤 13）
+- **新增/改动文件**：
+  - `server/src/alert-analyzer/service/analyzer.prompt.ts`（新增）——**防编造 prompt**：system 明确"只依据参考资料、资料外写未知/无记录、严禁编造"；相似度分数仅为参考；输出结构（形势研判 → 等级建议 → 应对建议，可引用案例编号）；context 含当前台风最新状态 + 相似案例时间线/处置要点
+  - `server/src/alert-analyzer/service/analyzer.service.ts`——骨架版 → **完整编排流水线**：① 解析当前台风（`dto.tfid` → `typhoontwos` 集合，否则 `getCommandTyphoon()`）② 轨迹转 case-matcher 输入（lon/lat 字符串 + **wind_speed m/s 直读**，适配步骤 11 实时风速兼容）③ `caseMatcher.match(track, 3)` ④ **先发 `analysis` 结构化事件**（similarCases；affectedLines 留 M4）⑤ 组装防编造 prompt ⑥ `LlmService.chatStream` 透传 thinking/token/usage（丢弃 tool_call）⑦ 错误路径走 SSE error 事件
+  - `server/src/alert-analyzer/alert-analyzer.module.ts`——imports 补 **LlmModule + TyphoonModule**（步骤 13 需要）
+  - `server/src/alert-analyzer/service/analyzer.service.spec.ts`——重写为 7 条（完整流水线事件序列/无台风 error/空轨迹 error/LLM 错误透传/analysis 协议形状/prompt 防编造断言）
+- **验证**：`npm run build` ✅；单测 **17/17**（case-matcher 10 + analyzer 7）；**端到端实测**（本地 Mongo + mock-llm）：登录 → `POST /alert-analyzer/stream {tfid:"202212"}` → status×3 → **analysis: [2022梅花 1.0, 2021烟花 0.5042, 普拉桑 0.184]**（用 97 点真实路径，梅花认出梅花）→ mock LLM 流式回答 → `[DONE]` ✅
+- **测试数据（本地开发库）**：`typhoontwos` upsert 了梅花（tfid=202212）测试记录（tracks 由 pathinfos 梅花 97 点构造，供步骤 14 评估复用；幂等）
+- **已知限制**：`affectedLines`/`levelSuggestion` 结构化字段 M3 阶段为空/未填充（空间计算 M4）；相似案例为参考非确定性结论（步骤 11 审查结论）
+- **codex 审查状态**：待送审（建议复核：prompt 防编造规则强度、analysis 事件时机与字段、台风解析优先级）
+- **提交**：见 git 历史
+
 ---
 
 ## 待办（下一步）
@@ -231,7 +246,7 @@
 - [x] M1：补全 5 个指挥工具——✅ 全部完成（历史台风/值班/消息/预警历史/巡道）；步骤 6 集成收尾 ✅（prompt 检查/前端映射/前后端构建通过）；20 条回归测试集已交付 `server/docs/AGENT_EVAL_SET.md`，实机执行待部署环境（本机无 MongoDB/Qdrant）
 - [x] M2：服务端会话持久化——✅ 步骤 7–9 后端完成并通过 Codex 审查（`ChatSessionEntity` + 会话 CRUD + `sessionId` 可选兼容），e2e 16/16、M1+M2 相关自动化测试 14/14 通过；步骤 10 前端迁移 ✅（双写回退保留 localStorage，模拟联调 e2e 17/17 + 前端单测 9/9）
 - [ ] M2 实机联调（待办）：步骤 8～10 在部署机真实 MongoDB 上整体验收——会话 CRUD、流式落库（20 条截断）、前端历史迁移；未完成前不宣称「迁移验收完成」
-- [ ] M3：研判最小链路——✅ 步骤 11 完成（case-matcher 相似案例匹配，2026-08-19）；步骤 12–14 待做（模块骨架/研判编排/评估）
+- [ ] M3：研判最小链路——✅ 步骤 11–13 完成（case-matcher / 模块骨架+SSE 协议 / 研判编排+防编造 prompt，2026-08-19）；步骤 14 评估待做
 - [ ] M4：线路空间研判——迁移 `metro.2026.data` 到后端 + turf 风圈×线路相交计算
 - [ ] M5：前端入口（COCC 一键研判按钮 + 研判卡片）+ 评估测试
 - [ ] M6：打包部署（按 `DEPLOY.md` 流程）
