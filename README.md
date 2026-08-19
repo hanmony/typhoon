@@ -128,12 +128,14 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
 
 | 步骤 | 任务 | 状态 |
 |---|---|---|
-| 步骤 11 | `case-matcher.service`：历史案例轨迹相似度匹配 | ⬜ 待做 |
+| 步骤 11 | `case-matcher.service`：历史案例轨迹相似度匹配 | ✅ 完成（2026-08-19，m2-session-persistence 分支） |
 | 步骤 12 | `alert-analyzer` 模块骨架 + SSE 事件协议（新增 `analysis` 结构化事件） | ⬜ 待做 |
 | 步骤 13 | 研判编排（解读 + 应急响应等级建议 + 相似案例）+ 防编造 prompt | ⬜ 待做 |
 | 步骤 14 | M3 评估（10 组场景） | ⬜ 待做 |
 
 **要点**：用 `path-infos`（案例路径点）与当前台风 `tracks` 做轨迹相似度（同时间段最近点距离/登陆点距离），Top-3 返回事件时间线与处置摘要；所有 LLM 调用走 `LlmService`（研判用大模型）。
+
+**执行结果（2026-08-19）**：新增 `server/src/alert-analyzer/service/case-matcher.service.ts`——输入当前台风路径点（兼容 lng/lat 字符串），输出 Top-N 相似案例（默认 3）：综合分 `0.7×路径相似 + 0.3×登陆相似`（路径相似=生命周期窗口对齐的平均最近距离，登陆相似=最强时刻位置距离，尺度 500km/300km）。真实数据验证（本地 Mongo 6 案例/7 路径）：梅花自匹配 1.0、烟花自匹配 1.0、梅花↔烟花 0.51、东移 10° 合成台风无强相似（普拉桑 0.15 最高）——排序符合直觉；返回事件时间线（10 类分组 + 抽样）与处置要点摘要（关键类别优先）。单测 8/8 通过。验证脚本：`server/scripts/case-matcher-check.js`（入库）。
 
 ---
 
