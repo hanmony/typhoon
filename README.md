@@ -144,7 +144,7 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
 | 步骤 | 任务 | 状态 |
 |---|---|---|
 | 步骤 15 | 迁移前端 `metro.2026.data` 线路坐标到后端 assets | ✅ 完成（2026-08-19，m2-session-persistence 分支） |
-| 步骤 16 | `line-impact.service`：turf 风圈 × 线路相交研判（受影响线路 + 影响时间窗口） | ⬜ 待做 |
+| 步骤 16 | `line-impact.service`：turf 风圈 × 线路相交研判（受影响线路 + 影响时间窗口） | ✅ 完成（2026-08-19，m2-session-persistence 分支） |
 | 步骤 17 | 研判编排集成线路影响结果 + 评估 | ⬜ 待做 |
 
 **要点**：放 `server/assets/line/metro-2026.json`，仿 `wind-circle.service.ts` 的 `onModuleInit` 启动加载模式；坐标系统与 wind-circle 一致；部署时 `assets/` 随发布包交付。

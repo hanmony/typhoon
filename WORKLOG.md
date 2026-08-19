@@ -313,3 +313,19 @@
 - Asset metadata now declares coordinate order/reference, applied offset, and Turf conversion. Turf cannot consume `{lng,lat}` objects directly; Step 16 must convert each geometry point to `[p.lng, p.lat]`.
 - Branch geometry fix: 5/10/11号线 each contain a trunk and two branches. Treating the flattened arrays as one LineString created false jumps of about 5.2/3.7/14.6 km. The asset now also provides `lineStrings` (27 geometries total, with the fork point prepended to each branch). Step 16 must construct one `multiLineString` per route from `lineStrings[name]`; `lines[name]` is retained only for source-order compatibility.
 - Shapefile comparison limitation: its route layer contains 25 records for numbered lines but does not cover the three special lines in this 2026 asset, and version/branch differences remain. Use it as a tolerance-based cross-check, not a byte-for-byte source of truth.
+
+### M4 步骤 16：line-impact 风圈×线路相交研判（2026-08-19，README 步骤 16）
+- **新增文件**：
+  - `server/src/alert-analyzer/service/line-impact.service.ts`——核心：`onModuleInit` 读取 `assets/line/metro-2026.json` 的 **`lineStrings`**，把 `{lng, lat}` **转换为 `[lng, lat]`**（Turf 坐标序）；每条线用 **`turf.multiLineString`** 构建（保留 27 段/分支）；风圈来自 wind-circle `getTyphoonCircleFeature`（7 级风圈四象限，输出 `[lat,lng]` → 转 `[lng,lat]` 后 `turf.polygon`）；`turf.booleanIntersects` 判定；输出受影响线路 + 影响时间窗口 [start,end] + 命中轨迹点数
+  - `server/src/alert-analyzer/service/line-impact.service.spec.ts`（5 条：圈内命中/圈外排除/分支任段命中/无半径跳过/资产加载 21 线）
+  - `server/scripts/line-impact-check.js`（真实数据验证：dummy 梅花源 164 点 + 真实 radius7）
+- **模块接线**：`alert.module.ts` 补导出 `WindCircleService`；`alert-analyzer.module.ts` imports 补 `AlertModule`、providers 补 `LineImpactService`
+- **验证**：
+  - 单测 **24/24**（case-matcher 10 + analyzer 7 + prompt 2 + line-impact 5）
+  - 真实数据（梅花 2022）：**21 条线全部命中**（7 级风圈半径最大 380km，覆盖全上海地铁网，符合物理事实）；**排序有区分度**：16号线/18号线（南侧/临港方向）命中最多，17号线（西侧）最少——与梅花登陆奉贤的方位一致；时间窗口约 9/14 04:00 ~ 9/15 05:00（与实际影响期吻合）
+  - **判别力检查**：台风在远海（前 5 点，约 132°E）时 **0 条命中**，近岸 21 条——相交判定真实有效
+- **关键坑（记录）**：`turf.booleanCrosses` **不支持 MultiLineString 会抛错**——只用 `booleanIntersects`（语义已覆盖重叠/穿越；wind-circle 自身重叠判断也未用 crosses）
+- **口径说明**：使用 7 级风圈（wind-circle 现有 radius[0] 口径）；dummy 数据 radius10/12 为空。若后续需要更细粒度"影响"口径（如 10/12 级风圈），可在 analyze 增加 radiusIndex 参数（待产品决策）
+- **改动文件**：`line-impact.service.ts/.spec.ts`（新增）、`alert.module.ts`（导出 WindCircleService）、`alert-analyzer.module.ts`（接线）、`line-impact-check.js`（新增）、`README.md`（步骤 16 ✅）、`WORKLOG.md`（本条目）
+- **codex 审查状态**：待送审（建议复核：7 级风圈口径是否够用、时间窗口算法、多段线/分支处理、与 shapefile 交叉验证方案）
+- **提交**：见 git 历史
