@@ -285,3 +285,10 @@
 - **改动文件**：`server/scripts/m3-eval.js`（新增）、`server/docs/M3_EVAL_REPORT.md`（新增）、`README.md`（步骤 14 ✅）、`WORKLOG.md`（本条目）
 - **codex 审查状态**：待送审（建议复核：10 组场景覆盖是否充分、评估口径与部署环境验收项的划分）
 - **提交**：见 git 历史
+### Codex review: M3 step 14 (de6b22d)
+- The original `11/11` headline mixed a diagnostic with assertions: S7 only required any result, so it could not detect wrong ranking. S7 is now explicitly informational and excluded from the pass count.
+- S10 originally accepted any one of three broadly labelled cases anywhere in Top-3 while the report claimed a stronger `贝碧嘉` Top-1 result. The executable criterion now requires `贝碧嘉` Top-1 on this fixed synthetic fixture and the report labels it a dataset regression signal, not proof of general real-world accuracy.
+- Added empty-track and single-point boundary contracts. Empty input must return no match; one-point input must remain stable with finite bounded scores, without claiming identity accuracy.
+- The script now loads current TypeScript source through `ts-node`/`tsconfig-paths`, sorts path data deterministically, and preflights the six required path fixtures plus active cases/actions. This prevents stale `dist` or incomplete databases from producing misleading results.
+- Strengthened static prompt checks for the untrusted-reference boundary, short-track warning, and inclusion of timeline context. These remain static prompt tests; true LLM non-fabrication and response-level grounding require deployment evaluation.
+- Review rerun: **13/13 hard assertions passed + 1 diagnostic observation (S7)** using 722 path points / 6 active cases / 946 actions. HTTP smoke evidence remains a manual snapshot, not part of the script.
