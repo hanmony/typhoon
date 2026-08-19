@@ -1,21 +1,21 @@
 # M5 综合评估报告（步骤 19，2026-08-19）
 
 > 覆盖 `AGENT_IMPLEMENTATION_PLAN.md` 验收标准 1–6。Codex 审查后，本机自动化严格复验为
-> **8/9 通过**；知识库回归因当前 Embedding API 返回 HTTP 404 未通过，步骤 19 暂不能标记全部完成。
+> **9/9 通过**（可复现）：知识库回归非空 sources=3，线路严格比对 21/21。
 >
 > 执行：`node scripts/m5-eval.js`。脚本默认读取 `.env` 的 `PORT`，也可用
 > `M5_BASE_URL=http://127.0.0.1:3001` 指定正在运行的后端。
 
-## 一、本机严格复验（8/9）
+## 一、本机严格复验（9/9）
 
 | 验收标准 | 检查项 | 结果 |
 |---|---|---|
 | 6 回归 | `/chat/stream`：SSE、非空 token、无 error、`[DONE]` | ✅ |
 | 6 回归 | `/agent/stream`：SSE、非空 token、无 error、`[DONE]` | ✅ |
-| 6 回归 | `/kb/query/stream`：非空 sources、非空 content、无 error、`[DONE]` | ❌ Embedding 请求 HTTP 404 |
+| 6 回归 | `/kb/query/stream`：非空 sources、非空 content、无 error、`[DONE]` | ✅ **sources=3** |
 | 4 研判一致性 | `/alert-analyzer/stream`：唯一 analysis、非空 token、无 error、`[DONE]` | ✅ |
-| 5 性能 | **常规问答首个 token** < 3s | ✅ 13ms（本地 mock 口径） |
-| 5 性能 | 研判流总时长 < 30s | ✅ 82ms（本地 mock 口径） |
+| 5 性能 | **常规问答首个 token** < 3s | ✅ 41ms（本地 mock 口径） |
+| 5 性能 | 研判流总时长 < 30s | ✅ 143ms（本地 mock 口径） |
 | 5 性能 | Agent tool loop 上限 ≤ 5 | ✅ 静态契约：`MAX_ROUNDS=5`，末轮禁用工具 |
 | 4 研判一致性 | 卡片 `affectedLines` 结构非空 | ✅ 21 条 |
 | 4 研判一致性 | 线路集合、最高风圈等级、时间窗与同一模拟上下文的直接空间计算严格相等 | ✅ 21/21，模拟模式，2 个当前/未来状态 |
@@ -27,13 +27,17 @@
 这里的线路核对证明的是“接口编排结果与当前生产 `LineImpactService` 输出一致”，不是一份独立 GIS
 正确性证明；坐标与线路几何精度仍以 M4 的 shapefile/500m 容差交叉验证为依据。
 
-## 二、Embedding 配置与复现风险
+## 二、Embedding 配置与复现说明
 
 - Qdrant `knowledge_base` 当前健康，向量维度 1024、点数 **3002**。
 - M2 与 data worktree 的 `EMBEDDING_BASE_URL`、`EMBEDDING_API_KEY`、`EMBEDDING_MODEL`
   当前值相同；密钥未打印、未进 Git。
-- 复验时 `/kb/query/stream` 返回协议级 error：Embedding 请求 **HTTP 404**。因此原“8/8”
-  是历史运行快照，当前不可复现，不能继续作为完成证据。
+- **修复过程（2026-08-19 复验）**：Codex 严格复验时 `/kb/query/stream` 返回 Embedding 请求
+  HTTP 404，源于 **3000 端口运行着一个在 `.env` 同步之前启动的旧后端**（加载了指向 mock 的
+  旧 Embedding 配置）。另核查服务商：Base URL `https://api.wukaijin.com/v1`、模型
+  `Qwen/Qwen3-Embedding-8B`、路径 `/embeddings`；**服务商默认输出 768 维，带
+  `dimensions:1024` 参数返回 1024 维**（`embedding.service.ts` 已带该参数，与已入库向量维度一致）。
+  修复：杀旧进程，用当前正确配置重启后端后复跑，**9/9 可复现**。
 - 每个 Git worktree 都有独立且 gitignored 的 `.env`。从其他分支手工复制只能临时解决，
   后续仍会漂移；部署时应以受控的部署环境配置清单为唯一来源，并在启动后跑本脚本验证。
 - data worktree 当前未显式设置 `EMBEDDING_DIMENSION`；M2 设置为 1024。部署配置必须显式固定
@@ -58,6 +62,7 @@
 
 ## 四、结论
 
-- Chat、Agent、研判接口以及严格线路卡片溯源通过。
-- 本机 mock 的 13ms/82ms 仅证明采集方式和预算门槛有效，**不能代表真模型性能**。
-- 知识库回归当前失败，因此 M5 步骤 19 状态为：**审查未完全通过，等待修复 Embedding 服务后复跑**。
+- Chat、Agent、研判接口以及严格线路卡片溯源全部通过（**9/9**）；知识库回归
+  **非空 sources=3**，为当前可复现结果。
+- 本机 mock 的 41ms/143ms 仅证明采集方式和预算门槛有效，**不能代表真模型性能**。
+- M5 步骤 19 状态：**✅ 完成**（严格复验 9/9，可复现）。
