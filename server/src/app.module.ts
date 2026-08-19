@@ -19,6 +19,7 @@ import { AccessoryModule } from "./accessory/accessory.module";
 import { KnowledgeBaseModule } from "./knowledge-base/knowledge-base.module";
 import { ChatModule } from "./chat/chat.module";
 import { AgentModule } from "./agent/agent.module";
+import { AlertAnalyzerModule } from "./alert-analyzer/alert-analyzer.module";
 
 @Module({
     imports: [
@@ -39,6 +40,7 @@ import { AgentModule } from "./agent/agent.module";
         KnowledgeBaseModule,
         ChatModule,
         AgentModule,
+        AlertAnalyzerModule,
     ],
     controllers: [AppController],
     providers: [

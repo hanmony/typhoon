@@ -211,6 +211,19 @@
 - **提交**：371979e（codex）；本条目对应文档同步提交见 git 历史
 - **提交**：见 git 历史
 
+### M3 步骤 12：alert-analyzer 模块骨架 + SSE 事件协议（2026-08-19，README 步骤 12）
+- **新增文件**：
+  - `server/src/alert-analyzer/alert-analyzer.module.ts`——注册 `AlertAnalyzerController` + `AnalyzerService` + `CaseMatcherService`（imports DatabaseModule；步骤 13 按需补 Llm/KnowledgeBase/Alert/Typhoon，ChatModule 同款写法）
+  - `server/src/alert-analyzer/controller/alert-analyzer.controller.ts`——`POST /alert-analyzer/stream`（SSE，照 chat.controller 模式：flushHeaders/close 退订/error 事件/[DONE]）
+  - `server/src/alert-analyzer/domain/alert-analyzer.dto.ts`——`question?/autoRun?/commandId?`
+  - `server/src/alert-analyzer/domain/alert-analyzer.types.ts`——**研判事件协议**：`AnalyzerEvent` = status（进度）/ **analysis（结构化研判卡片：affectedLines + levelSuggestion + similarCases）** / thinking / token / usage，与平台 LlmStreamEvent 命名对齐
+  - `server/src/alert-analyzer/service/analyzer.service.ts`——骨架版（先发 status 后完成；步骤 13 实现完整编排流水线）
+  - `server/src/alert-analyzer/service/analyzer.service.spec.ts`（2 条：骨架流事件 + analysis 事件协议形状）
+- **改动文件**：`server/src/app.module.ts`（注册 AlertAnalyzerModule）、`README.md`（步骤 12 ✅）
+- **验证**：`npm run build` ✅；单测 **12/12**（case-matcher 10 + analyzer 2）；**SSE 冒烟测试**（起 m2 后端 3000 → m2test 登录 → `POST /alert-analyzer/stream`）✅ 收到 `{"type":"status",...}` + `[DONE]`
+- **codex 审查状态**：待送审（建议复核：事件协议字段命名与前端 M5 渲染的衔接、DTO 字段是否够用）
+- **提交**：见 git 历史
+
 ---
 
 ## 待办（下一步）

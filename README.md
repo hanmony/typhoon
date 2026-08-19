@@ -129,7 +129,7 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
 | 步骤 | 任务 | 状态 |
 |---|---|---|
 | 步骤 11 | `case-matcher.service`：历史案例轨迹相似度匹配 | ✅ 完成（2026-08-19，m2-session-persistence 分支） |
-| 步骤 12 | `alert-analyzer` 模块骨架 + SSE 事件协议（新增 `analysis` 结构化事件） | ⬜ 待做 |
+| 步骤 12 | `alert-analyzer` 模块骨架 + SSE 事件协议（新增 `analysis` 结构化事件） | ✅ 完成（2026-08-19，m2-session-persistence 分支） |
 | 步骤 13 | 研判编排（解读 + 应急响应等级建议 + 相似案例）+ 防编造 prompt | ⬜ 待做 |
 | 步骤 14 | M3 评估（10 组场景） | ⬜ 待做 |
 
