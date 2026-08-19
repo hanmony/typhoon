@@ -411,3 +411,20 @@
 - **复跑结果：9/9 全部通过**——chat/agent 有效 token + [DONE]；**kb 非空 sources=3 + content + [DONE]**；研判流 analysis+token+[DONE]；性能（首 token 41ms/总 143ms，mock 口径）；tool loop ≤5 静态契约；研判卡片结构 affectedLines=21；**研判一致性 21/21 线路集合/最高等级/时间窗严格相等**（mode=simulated-command，states=2）。
 - **README 步骤 19 已恢复 ✅ 完成**；本条目对应提交见 git 历史。
 - **配置漂移提醒（codex 建议，沿用）**：gitignored `.env` 手工复制有长期漂移风险，部署应使用受控配置清单。
+
+### M6 步骤 20：本机部署（2026-08-19，deepseek harness 执行；学校迁移待办）
+- **目标**：按用户指示"部署到本机，测试稳定后再迁学校服务器"；真 LLM = `deepseek-v4-flash` @ `https://api.wukaijin.com/v1`（密钥只入本地库/环境，未打印未进 git）
+- **部署组成（镜像学校架构）**：
+  - **nginx**（新装 `C:\nginx\nginx-1.28.0`，1.28.0 与学校一致）：`conf/nginx.conf` = 12080 前端静态（`C:\data\sch-typhoon\client`）+ `/api/` 反代 3000（rewrite 去前缀 + **SSE 关缓冲**）+ `/socket.io` WebSocket + `/tiles` 地图瓦片
+  - **前端**：`npm run build` → `C:\data\sch-typhoon\client`（57 文件）
+  - **后端**：m2 分支 dist，3000 端口，`llmmodels` 集合注册真 LLM
+- **关键踩坑与修复**：
+  1. **`llmmodels` vs `llm_models` 双集合**：平台 LlmModelService 实际读取 `llmmodels`（无下划线，08-17 旧文档 mock-llm/deepseek-chat）；D7 时注册的 mock-chat 落在 `llm_models`（下划线，服务端不读）→ 真 LLM 一直没生效。已把 `deepseek-v4-flash`（wukaijin + 真 key）注册进 `llmmodels` 并设为 default-large，旧模型降级。
+  2. **nginx 启动**：需 `-p C:\nginx\nginx-1.28.0` 指定前缀（否则按 CWD 找 conf）；logs 目录需手动建。
+  3. **Embedding 维数**：沿用 9/9 复验结论（服务商默认 768 维，服务端带 `dimensions:1024` 参数）。
+- **真 LLM E2E（经 nginx 12080）**：登录 ✅；chat 真实回答 ✅；**研判报告真实输出**（引用风圈空间计算线路 + "未知/无记录"防编造生效）✅；kb 3 sources + 预案条款回答 ✅；agent 真实回答且**诚实报告历史台风数据服务不可用（QWEATHER 未配置）** ✅
+- **m5-eval 真 LLM 环境 7/9**：agent/kb/研判流/卡片/一致性 全过；**性能 2 项不达标**——常规问答首 token **3416ms**（门槛 3s）、研判总时长 **53493ms**（门槛 30s）。真模型延迟（wukaijin deepseek-v4-flash + 长报告生成）实测数据，**列入部署前优化决策**（候选：换更快的模型/关闭 reasoning/限制报告长度；性能验收需在学校服务器网络复核）
+- **已知问题（部署验收项）**：QWEATHER 数据接口未配置（`QWEATHER_KEY_ID` 缺失）→ 实时台风/历史台风数据源不可用（agent 已按防编造规则如实提示）；学校服务器同样存在（返回结构错误），迁移前需向学校获取凭据或修复数据源
+- **改动文件**：`README.md`（步骤 20 🔄 本机部署完成 + 性能待优化）、`WORKLOG.md`（本条目）；nginx 配置在 `C:\nginx\nginx-1.28.0\conf\nginx.conf`（本机，不入库）
+- **codex 审查状态**：待送审（建议复核：nginx 配置、真 LLM 注册方式、性能优化方向）
+- **提交**：见 git 历史
