@@ -393,3 +393,13 @@
   - **部署验收清单（M6）**：标准 1–3（工具正确性/数据真实性/指挥上下文）需真 LLM + 实时台风数据源（学校服务器台风接口当前返回结构错误，需修复）；4b 等级建议溯源预案条款需真 LLM RAG；**人工点击一次「一键研判」核对真实卡片布局/滚动/小屏显示**（用户明确要求）
 - **codex 审查状态**：步骤 19 待送审（建议复核：评估口径、部署验收清单完整性、kb 回归修复的配置变更）
 - **提交**：见 git 历史
+
+### Codex review: M5 step 19 (72d2417)
+- 原评估把研判接口首个 status 事件当作 TTFT，与计划要求的“常规问答首字 <3s”不一致；已改为按完整 SSE 事件边界测量 `/chat/stream` 的首个非空 token。
+- 三个回归接口不再只检查 HTTP 201/[DONE]：Chat/Agent 必须有 typed token；KB 必须有非空 flat `sources` + `content`；所有接口均校验 SSE Content-Type、协议 error 和超时。
+- 补齐计划遗漏的 Agent `tool loop ≤5` 静态契约检查。
+- 原线路核对可能漏过重复/遗漏、未知风险标签及最高等级错误，且复算使用全历史轨迹，与接口的模拟当前时刻上下文不同；现按相同 command/queryTime/current+future 状态严格比较线路集合、最高风圈等级和时间窗。
+- 严格复验结果：**8/9**。Chat、Agent、研判和 21/21 线路卡片通过；KB 因当前 Embedding 请求 HTTP 404 失败。Qdrant 健康（1024 维、3002 点）。
+- M2/data worktree 的 Embedding Base URL/API key/model 当前相同，说明本次不是分支值漂移；但 gitignored `.env` 手工复制仍有长期漂移风险，部署应使用受控配置清单。
+- README 步骤 19 暂改为警告状态；修复 Embedding 服务并复跑 9/9 后才能恢复完成。
+- 部署清单补充真模型性能、学校台风数据源修复、前后端发布物/assets、配置与密钥检查、部署后 API/Edge 验证。

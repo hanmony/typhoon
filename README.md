@@ -156,7 +156,7 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
 | 步骤 | 任务 | 状态 |
 |---|---|---|
 | 步骤 18 | COCC 悬浮面板「一键研判」按钮 + `analysis` 事件渲染研判卡片 | ✅ 完成（2026-08-19，m2-session-persistence 分支） |
-| 步骤 19 | 方向 A/B 综合评估测试（验收标准第 1–6 条） | ✅ 完成（2026-08-19，m2-session-persistence 分支） |
+| 步骤 19 | 方向 A/B 综合评估测试（验收标准第 1–6 条） | ⚠️ Codex 严格复验 8/9；Embedding API 404，修复后复跑 |
 
 ---
 
