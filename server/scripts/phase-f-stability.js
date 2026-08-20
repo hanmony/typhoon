@@ -12,8 +12,8 @@
  * 2) 并发档位默认 1/2/3/5（补测并发 2）；并发段前等待 65s 排空节流窗口，
  *    使各档成功率只反映该档本身，不叠加前面类别的余量。
  * 3) SSE 判定强化：成功必须满足 HTTP 201 + Content-Type text/event-stream +
- *    [DONE] + 无协议 error 事件 + 无 malformed 事件 + 期望内容出现
- *    （typed 类至少 1 个 token 事件；研判另需 analysis 卡片；kb 需 sources + content）。
+ *    [DONE] + 无协议 error 事件 + 无 malformed 事件 + 非空期望内容
+ *    （typed 类至少 1 个非空 token 事件；研判另需 analysis 卡片；kb 需非空 sources + content）。
  *    失败分类：timeout / stream_error / http_<状态码> / ct_not_sse /
  *    proto_error / malformed / no_done / empty。
  * 4) 重复 token 检测范围说明：主指标 adjDupPairs = 相邻且内容完全相同的
@@ -130,16 +130,16 @@ async function streamOnce(token, pathName, body, timeoutMs) {
                         raw.protoErr++;
                         continue;
                     }
-                    if (parsed && parsed.type === "token") {
+                    if (parsed && parsed.type === "token" && typeof parsed.data === "string" && parsed.data.trim().length > 0) {
                         if (raw.firstContentMs < 0) raw.firstContentMs = Date.now() - t0;
                         raw.contentPayloads.push(payload);
                     } else if (parsed && parsed.type === "tool" && parsed.data?.status === "executing") {
                         raw.toolCalls++;
                     } else if (parsed && parsed.type === "analysis") {
                         if (raw.analysisMs < 0) raw.analysisMs = Date.now() - t0;
-                    } else if (parsed && parsed.sources !== undefined) {
+                    } else if (parsed && Array.isArray(parsed.sources) && parsed.sources.length > 0) {
                         if (raw.sourcesMs < 0) raw.sourcesMs = Date.now() - t0;
-                    } else if (parsed && typeof parsed.content === "string") {
+                    } else if (parsed && typeof parsed.content === "string" && parsed.content.trim().length > 0) {
                         // kb flat 格式：回答内容事件
                         if (raw.firstContentMs < 0) raw.firstContentMs = Date.now() - t0;
                         raw.contentPayloads.push(payload);

@@ -93,9 +93,9 @@ async function main() {
     for (let i = 1; i < runsB.length; i++) checks.push({ id: `B内部 run1 vs run${i + 1}(缓存关)`, ...sameSources(runsB[0].sources, runsB[i].sources) });
     // A vs B：缓存开/关 跨实例一致（score 容差）
     for (let i = 0; i < RUNS; i++) checks.push({ id: `跨实例 A-run${i + 1} vs B-run${i + 1}`, ...sameSources(runsA[i].sources, runsB[i].sources) });
-    // 回答：全部非空且 HTTP 200/201
+    // 回答：全部非空且 HTTP 200/201；真实 LLM 回答文本可能随机变化，这里只验证非空
     const allOkAnswers = [...runsA, ...runsB].every(r => (r.status === 200 || r.status === 201) && r.answer.length > 0);
-    checks.push({ id: "回答非空且 HTTP 200/201", ok: allOkAnswers, why: allOkAnswers ? "全部非空" : "存在空回答或非200/201" });
+    checks.push({ id: "回答非空 + HTTP 200/201", ok: allOkAnswers, why: allOkAnswers ? "全部非空" : "存在空回答或非200/201" });
 
     let pass = 0;
     for (const c of checks) {
