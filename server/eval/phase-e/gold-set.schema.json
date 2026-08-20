@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "M6 阶段E 金标准数据集 v1（gold-set.v1.jsonl）",
-  "description": "210 道题金标准，来源：台风案例库_210道安全题库_去敏版.pdf（SHA-256 EFBEF73BD6108DE458AE596579BD2AE40A9F6559CF63F1DD5A6B7721DC7FF632，27 页）。每题含题目、标准答案与标注；派生字段严格来自 PDF 标注/答案，不新增事实。",
+  "title": "M6 阶段E 金标准数据集（gold-set.v1/v2.jsonl）",
+  "description": "210 道题金标准。v2（评估用冻结版）：基于本地数据库已有内容重拟，金标准全部可从 MongoDB（schooltyphoon）核验——工具路由 80（agent 8 工具×10）、知识库 50（本地 KB 真实文档+chunkIndex）、线路影响 20（actions 线路行车措施）、相似案例 30（cases.values 五案例）、防编造/敏感拒答 30（行为规范）。v1（PDF 解析版，审计用）已由 v2 取代。",
   "type": "object",
   "required": [
     "id", "category", "question", "answer", "expectedTool", "expectedArguments",
