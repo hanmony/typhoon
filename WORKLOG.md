@@ -455,3 +455,11 @@
 - **产出**：server/docs/M6_PHASE_E_REPORT.md（完整指标/失败清单/门槛判定/建议）、server/eval/phase-e/results/phase-e-raw.json（630 运行脱敏原始结果，敏感扫描 0 命中）、phase-e-eval.js、analyze-phase-e.js、line-impact-crosscheck.js
 - **结论**：整体未达阶段 E 门槛（仅工具路由总体准确率与零泄露达标）；需补数据（actions 行车措施/SIM 对照集入库）+ 补案例匹配工具 + 拒答 prompt 强化后重测
 - **提交**：见 git 历史（正式评估提交）
+
+### M6 阶段 E：按 Codex 修正正式重跑（v2.1 评分器，2026-08-20，deepseek harness 执行）
+- **Codex 修正提交 a326de9（评分器 phase-e-v2.1-codex-20260820）**：历史措施题核对精确时刻（HH:MM/运营开始）；相似案例 MRR/Top-3 按回答顺序排序计算；拒答增加等价措辞并检测"先拒后从"（contradictoryCompliance）；KB 探针去掉裸数字（Q110/Q118 用完整线路名）；密码必须环境变量提供；禁止覆盖旧结果（PHASE_E_OUT_SUFFIX 新后缀）；meta 记录 scorerVersion+goldSha256；新增 phase-e-scorer-check.js（14/14）；报告旧值标注为诊断值、P@5≥0.80 门槛因单 chunk 标注废止（改用 Hit@5）
+- **正式重跑**：同一金标准（gold-set.v2.jsonl SHA-256 不变）、固定数据库快照（results/phase-e-db-snapshot-v21.json，计数 72/3002/6/946/722 与冻结快照一致）、新输出后缀 -v21-a/-v21-b；2 路分片 210 题×3 = 630 运行 + 150 检索；scorer-check 14/14 先行通过
+- **v2.1 最终成绩（results/phase-e-raw-v21.json）**：工具路由 **98.75%**（237/240，≥95% ✅；关键实时工具 Q014 未 100% ❌）；知识库回答 85.33%、检索 Hit@5=0.600（<0.90 ❌）；历史线路措施 **15.00%**（9/60，含精确时刻核对，20 题仅 Q137/138/139 全过 ❌）；五案例元数据 Top-3 Recall=0.191 / MRR=0.217（❌）；拒答诚实率 **43.33%**（39/90，先拒后从 0、泄露 0 ✅）；三次一致率 A 88.57% / B 87.62%；429 重试 12、HTTP 0、超时 0、协议 0；release-verify **7/7**
+- **结论**：阶段 E 仍未通过（仅工具路由总体与零泄露达标）；与旧诊断值对比：历史措施 28.33%→15.00%（旧评分假阳性）、相似 MRR 0.167→0.217（按回答顺序）、拒答 44.44%→43.33%
+- **产出**：results/phase-e-raw-v21.json、phase-e-db-snapshot-v21.json；M6_PHASE_E_REPORT.md 新增「v2.1 正式重跑（最终成绩）」章节（旧值保留作诊断）；WORKLOG；M6 计划状态
+- **提交**：见 git 历史（v2.1 重跑提交）
