@@ -41,7 +41,7 @@
 | 真 LLM | ✅ `schooltyphoon.llmmodels`（**无下划线集合**，平台实际读取）中 `deepseek-v4-flash` 为 default-large；密钥仅存本地库，未打印未进 Git |
 | 真 LLM 全链路 | ✅ chat/agent/kb/研判 经 nginx 均有真实输出；研判报告引用风圈计算 + "未知/无记录"防编造生效 |
 | 真实性能 | ✅ 阶段 F 已按批准分位数门槛通过：chat 首 token P50/P95 **4.5/6.5s**，KB P50 **3.4s**，研判总时长 P50/P95 **15.8/21.7s**，Agent 工具轮均 **2.2**；业务并发 1/2 均 100%，3/5 为平台 429 |
-| 台风 API / QWEATHER | ⚠️ 源码接入已完成，`typhoon.service.m1.spec.ts` 3/3 通过；但当前 `server/.env` 尚未设置 `TYPHOON_API_TOKEN`、`QWEATHER_API_HOST`、`QWEATHER_KEY_ID`、`QWEATHER_PROJECT_ID`、`QWEATHER_PRIVATE_KEY_PATH`，真实外部接口仍待配置验收 |
+| 台风 API / QWEATHER | ✅ 阶段 E 第 0 步通过：6 项运行配置已写入 gitignored `.env`，QWeather 私钥位于仓库外且权限受限；四个真实接口均返回 200，详见 `M6_PHASE_E0_REPORT.md` |
 | 数据计数 | ✅ kbdocuments 72 / kbchunks 3002 / Qdrant 3002（1024 维）/ cases 6 / actions 946 / pathinfos 722 |
 | 备份恢复 | ✅ 阶段 A 已完成：Mongo/Qdrant 备份齐全，恢复演练计数一致 |
 
@@ -53,7 +53,7 @@
 4. **真模型性能已完成阶段 F 分位数复验**：四类各 30 次正式样本均 100%，批准门槛内通过；历史的 3.4s / 53.5s / 15.7s 仅保留为优化前观察，不再作为当前状态。
 5. **平台安全观察（不在本项目范围，供平台部门）**：`server/src/main.ts` 每次启动会重置已有 admin 密码为内置默认值；登录校验为 bcrypt 明文比对但入库为 bcrypt(sm3(默认值))，导致实际需用 SM3 摘要登录；公网入口为 HTTP。**本项目已回退针对该问题的代码改动，不在本分支迁移**。
 6. 学校服务器（43.142.133.162:12080）为 2026-08-12 旧构建，无 M1–M5 内容；QWEATHER 同样缺失；知识库仅 1 个文档。公网 HTTP 入口**仅允许匿名连通性检查，不登录**。
-7. **台风/QWEATHER 凭据管理属于智能体数据源必要配置**：实际调用已经从 ConfigService 读取 Token、Host、Key ID、Project ID 和私钥文件路径；源码中仍存在未被调用的硬编码凭据常量，提交前必须删除，真实值只允许保存在 gitignored `.env` 和仓库外私钥文件中。
+7. **台风/QWEATHER 凭据已完成安全迁移**：实际调用统一从 ConfigService 读取 Token、Host、Key ID、Project ID 和私钥文件路径；源码硬编码凭据已删除，真实值只保存在 gitignored `.env` 和仓库外私钥文件中。
 
 ### 2.5 台风数据接口基线（Codex 核对 `typhoon.service.ts`，2026-08-20）
 
@@ -75,17 +75,17 @@
 
 **契约修复已确认：**`TyphoonService.getHistory()` 现在统一校验并读取 `res.result.typhons`，正确使用传入的 `year`；当前和历史台风详情均兼容 `response.result` 与直接对象，单条详情失败时保留列表摘要，数据库写入使用 `Promise.allSettled` 等待完成且不影响本次接口返回。`typhoon.service.m1.spec.ts` 已于 2026-08-20 复验 3/3 通过。
 
-**当前阶段 E 前置阻断只剩运行配置和真接口验证：**源码接入完成不等于数据源可用；当前 `server/.env` 中五个必要配置项尚未设置。配置补齐并通过下述第 0 步前，实时台风/预警题标记为“外部数据阻断”，不计入模型错误，也不得宣称对应准确率通过。
+**阶段 E 第 0 步已于 2026-08-20 完成：**6 项运行配置已在工作区和发布目录就绪；私钥位于仓库外并限制访问权限；后端重新构建和启动成功。当前台风、2024 历史台风、QWeather 当前预警、综合告警四个接口均返回 200，发布链路回归 7/7 通过。实时数据源不再是阶段 E 的前置阻断，但正式准确率仍须使用冻结的数据快照和金标准计算。
 
-**接口可测性检查（阶段 E 第 0 步）：**
+**接口可测性检查（阶段 E 第 0 步，已完成）：**
 
-1. 将五个配置项写入 gitignored `server/.env`，私钥使用仓库外文件；只检查“已设置/文件可读”，日志和报告不得打印值或私钥路径；
-2. 本机 nginx 地址执行 `/api/typhoon/activity`，记录 HTTP 状态、返回数组长度和第一条记录是否含 `tfid/tracks`；没有活动台风时允许返回空数组，但必须再用历史接口验证详情契约；
-3. 登录后执行 `/api/typhoon/history?year=2024`，确认响应为数组且至少一条轨迹含 `lat/lon/data_time`；抽查详情失败时仍保留 `tfid/name` 摘要；
-4. 从轨迹抽查 `wind_speed`、`radius7/10/12` 的单位和空值，确认 line-impact 输入可用；预测 `forecasts` 不得混入历史 `tracks`；
-5. 执行 `/api/typhoon/severe-weather`，确认 JWT 可生成、响应为 `alerts` 数组；无预警时允许空数组，认证/网络/结构错误必须能与“确实无预警”区分；
-6. 执行 `/api/typhoon/alert/current`，确认 QWEATHER 失败不会造成智能体死循环，并记录 `alerts/typhoon/windCircle/timeContext` 的降级结果；
-7. 只有第 2–6 项通过后，才开始历史台风、当前线路影响、预警和相似案例的金标准评估。
+1. ✅ 6 项配置已写入工作区与发布目录的 gitignored `.env`；私钥位于仓库外，文件可读且 ACL 已限制；报告未记录值或私钥路径；
+2. ✅ `/api/typhoon/activity`：HTTP 200，返回 2 条活动台风；首条含 `tfid` 和 10 个轨迹点，`lat/lon/data_time` 契约通过；
+3. ✅ `/api/typhoon/history?year=2024`：HTTP 200，返回 29 条；29 条均含轨迹，无摘要降级项；
+4. ✅ 历史轨迹含 `wind_speed`、`radius7/10/12`，满足 line-impact 输入契约；
+5. ✅ `/api/typhoon/severe-weather`：HTTP 200，返回数组，本次 1 条；JWT 生成和 QWeather 认证通过；
+6. ✅ `/api/typhoon/alert/current`：HTTP 200，包含 `alerts/typhoon/windCircle/timeContext`；
+7. ✅ 发布版回归 `release-verify.js` 7/7，通过后允许进入阶段 E 金标准评估。
 
 ### 2.6 指标定义与金标准数据集（Codex 补充）
 
@@ -147,7 +147,7 @@ QWEATHER/台风数据源不可用的题目单独标为“外部数据阻断”�
 ### 阶段 C：固定依赖与配置（智能体依赖的运行时）
 
 - Qdrant 固定为与客户端 1.17.x 兼容的版本（不能 `latest`）；确认重启容器数据不丢。
-- 用配置清单核对 `DATABASE_URI`/`LLM_*`/`EMBEDDING_*`/`QDRANT_*`，以及台风/QWEATHER 的五个必要配置项（只记是否设置，不记录值）；确认 QWEATHER 私钥文件位于仓库外且运行账户可读。
+- 用配置清单核对 `DATABASE_URI`/`LLM_*`/`EMBEDDING_*`/`QDRANT_*`，以及台风/QWEATHER 的 6 个必要配置项（只记是否设置，不记录值）；确认 QWEATHER 私钥文件位于仓库外且运行账户可读。此项已在阶段 E 第 0 步完成。
 - 确认 `EMBEDDING_DIMENSION=1024` 与现有向量一致；确认 `llmmodels`（无下划线）默认模型正确。
 
 ### 阶段 D：自动化功能回归（经 nginx 地址）

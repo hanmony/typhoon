@@ -25,7 +25,9 @@ export class TyphoonService {
     ) {}
 
     protected get apiHost(): string {
-        return this.config.get<string>("TYPHOON_API_HOST") || "https://eolink.o.apispace.com";
+        const host = this.config.get<string>("TYPHOON_API_HOST");
+        Failed.check(host, "未配置 TYPHOON_API_HOST");
+        return host.replace(/\/$/, "");
     }
 
     protected historySaving = false;
