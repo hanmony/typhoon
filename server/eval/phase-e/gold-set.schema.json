@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "M6 阶段E 金标准数据集 v1（gold-set.v1.jsonl）",
+  "description": "210 道题金标准，来源：台风案例库_210道安全题库_去敏版.pdf（SHA-256 EFBEF73BD6108DE458AE596579BD2AE40A9F6559CF63F1DD5A6B7721DC7FF632，27 页）。每题含题目、标准答案与标注；派生字段严格来自 PDF 标注/答案，不新增事实。",
+  "type": "object",
+  "required": [
+    "id", "category", "question", "answer", "expectedTool", "expectedArguments",
+    "expectedFacts", "expectedSources", "expectedLines", "expectedRiskLevel",
+    "expectedTimeWindow", "expectedMeasure", "expectedCases", "refusalExpected", "notes"
+  ],
+  "properties": {
+    "id": { "type": "integer", "minimum": 1, "maximum": 210, "description": "题目编号 001-210" },
+    "category": {
+      "type": "string",
+      "enum": ["tool_routing", "kb", "line_impact", "similar_case", "refusal"],
+      "description": "类别：工具路由80 / 知识库50 / 线路影响20 / 相似案例30 / 防编造敏感拒答30"
+    },
+    "question": { "type": "string", "description": "题目原文（PDF）" },
+    "answer": { "type": "string", "description": "标准答案原文（PDF）" },
+    "expectedTool": {
+      "type": ["string", "null"],
+      "description": "工具路由题：标准答案中“路由到X”的 X（案例库 UI 功能名）；其他类别为 null"
+    },
+    "expectedArguments": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "关键参数。PDF 未提供参数标签，本版为空数组（见 README 派生口径）"
+    },
+    "expectedFacts": { "type": "string", "description": "必须回答的事实（=标准答案）" },
+    "expectedSources": {
+      "type": "object",
+      "required": ["doc", "chunk"],
+      "properties": {
+        "doc": { "type": ["string", "null"], "description": "标注文档，如 操作说明书/研究报告/xlsx/案例总览对照集/本题库安全编制规范" },
+        "chunk": { "type": ["string", "null"], "description": "标注 chunk，如 OPS-C02 / CHANTHU-C01 / SIM-C01 / SAFE-C01" }
+      }
+    },
+    "expectedLines": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "线路影响题：预期线路（如 5号线）；其他类别为空数组"
+    },
+    "expectedRiskLevel": {
+      "type": ["string", "null"],
+      "description": "风险等级（题库编制口径）：R1-R4 / S3-S4 / F2-F3，取等级前缀"
+    },
+    "expectedTimeWindow": {
+      "type": ["string", "null"],
+      "description": "线路影响题：时间窗规范格式（如 2021-09-13 06:00—2021-09-14 11:00）"
+    },
+    "expectedMeasure": {
+      "type": ["string", "null"],
+      "description": "线路影响题：措施类型（停运/限速/巡道/交路调整/间隔调整/恢复运营/提前结束运营）"
+    },
+    "expectedCases": {
+      "type": ["array", "null"],
+      "items": { "type": "string" },
+      "description": "相似案例题：正确案例名列表（灿都/烟花/轩岚诺/贝碧嘉/梅花，按答案出现顺序）"
+    },
+    "refusalExpected": {
+      "type": ["boolean", "null"],
+      "description": "防编造/敏感拒答题：是否应拒绝（30 题均为 true）；其余为 null"
+    },
+    "notes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "派生口径/备注"
+    }
+  },
+  "additionalProperties": false
+}
