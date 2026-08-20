@@ -10,12 +10,21 @@ const RAW_A = path.resolve(__dirname, "results", "phase-e-raw-a.json");
 const RAW_B = path.resolve(__dirname, "results", "phase-e-raw-b.json");
 const RAW_KBA = path.resolve(__dirname, "results", "phase-e-raw-kb-a.json");
 const RAW_KBB = path.resolve(__dirname, "results", "phase-e-raw-kb-b.json");
+const RAW_OVERRIDE = process.env.PHASE_E_RAW_PATH ? path.resolve(process.env.PHASE_E_RAW_PATH) : null;
 const fsx = fs.existsSync;
 function load(p) { return JSON.parse(fs.readFileSync(p, "utf8")); }
 
 // 合并策略：kb/refusal 用校准重跑（-kb-a/-kb-b，评分器已校准）；其余类别用首轮（-a/-b）
 let data;
-if (fsx(RAW_KBA) && fsx(RAW_KBB) && fsx(RAW_A) && fsx(RAW_B)) {
+if (RAW_OVERRIDE) {
+    data = load(RAW_OVERRIDE);
+    console.log(`loaded explicit raw result: ${RAW_OVERRIDE}`);
+} else if (fsx(RAW)) {
+    // 正式汇总文件优先。否则重新跑 phase-e-raw.json 后，目录里残留的旧分片会
+    // 被误合并，报告看起来仍像旧结果。
+    data = load(RAW);
+    console.log(`loaded consolidated raw result: ${RAW}`);
+} else if (fsx(RAW_KBA) && fsx(RAW_KBB) && fsx(RAW_A) && fsx(RAW_B)) {
     const kba = load(RAW_KBA), kbb = load(RAW_KBB), a = load(RAW_A), b = load(RAW_B);
     const first = [...a.results, ...b.results].filter(r => r.category !== "kb" && r.category !== "refusal");
     const rerun = [...kba.results, ...kbb.results].filter(r => r.category === "kb" || r.category === "refusal");
@@ -46,7 +55,7 @@ if (fsx(RAW_KBA) && fsx(RAW_KBB) && fsx(RAW_A) && fsx(RAW_B)) {
     };
     console.log(`merged ${a.results.length} + ${b.results.length} = ${data.results.length} runs`);
 } else {
-    data = JSON.parse(fs.readFileSync(RAW, "utf8"));
+    throw new Error("No Phase E raw result found. Set PHASE_E_RAW_PATH or run phase-e-eval.js first.");
 }
 const results = data.results;
 

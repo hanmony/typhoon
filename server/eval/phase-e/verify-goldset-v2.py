@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 """逐题核验 gold-set.v2.jsonl 与本地数据库的一致性（不修改任何数据）。"""
 import json
+import os
 import re
+import sys
 from pymongo import MongoClient
 
-client = MongoClient("mongodb://127.0.0.1:27017", serverSelectionTimeoutMS=5000)
+client = MongoClient(os.environ.get("PHASE_E_DATABASE_URI", "mongodb://127.0.0.1:27017"),
+                     serverSelectionTimeoutMS=5000)
 db = client["schooltyphoon"]
 
 recs = [json.loads(l) for l in open(r"server\eval\phase-e\gold-set.v2.jsonl", encoding="utf-8")]
@@ -12,6 +15,12 @@ print("total:", len(recs))
 
 issues = []
 ok = 0
+
+expected_counts = {"tool_routing": 80, "kb": 50, "line_impact": 20,
+                   "similar_case": 30, "refusal": 30}
+actual_counts = {k: sum(1 for r in recs if r.get("category") == k) for k in expected_counts}
+if len(recs) != 210 or actual_counts != expected_counts or len({r.get("id") for r in recs}) != len(recs):
+    issues.append((0, "schema", f"count/id mismatch: total={len(recs)} categories={actual_counts}"))
 
 # ---------- 1. 工具路由：工具名在 agent 工具清单中 ----------
 AGENT_TOOLS = {"get_current_status", "get_operations", "search_documents", "get_typhoon_history",
@@ -136,7 +145,9 @@ for r in recs:
         if measure and measure not in str(items.get("行车措施", "")):
             continue
         # 时间窗匹配：金标准时间窗与记录时间窗（统一去除非数字后比较关键片段）
-        if window and items.get("开始时间") and items.get("结束时间"):
+        if window:
+            if not items.get("开始时间") or not items.get("结束时间"):
+                continue
             gold_s = normalize_time(window.split("—")[0])
             gold_e = normalize_time(window.split("—")[1]) if "—" in window else ""
             rec_s = normalize_time(items.get("开始时间"))
@@ -222,3 +233,7 @@ print(f"\n=== 核验结果: {ok}/{len(recs)} 通过 ===")
 print(f"=== 问题数: {len(issues)} ===")
 for qid, kind, msg in issues:
     print(f"  Q{qid} [{kind}] {msg}")
+
+client.close()
+if issues:
+    sys.exit(1)
