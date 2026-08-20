@@ -41,7 +41,7 @@
 | 真 LLM | ✅ `schooltyphoon.llmmodels`（**无下划线集合**，平台实际读取）中 `deepseek-v4-flash` 为 default-large；密钥仅存本地库，未打印未进 Git |
 | 真 LLM 全链路 | ✅ chat/agent/kb/研判 经 nginx 均有真实输出；研判报告引用风圈计算 + "未知/无记录"防编造生效 |
 | 真实性能 | ✅ 阶段 F 已按批准分位数门槛通过：chat 首 token P50/P95 **4.5/6.5s**，KB P50 **3.4s**，研判总时长 P50/P95 **15.8/21.7s**，Agent 工具轮均 **2.2**；业务并发 1/2 均 100%，3/5 为平台 429 |
-| QWEATHER 台风数据源 | ⚠️ 未配置，Agent 如实提示数据源不可用（防编造行为正确，但功能受限）——需向学校获取凭据 |
+| 台风 API / QWEATHER | ⚠️ 源码接入已完成，`typhoon.service.m1.spec.ts` 3/3 通过；但当前 `server/.env` 尚未设置 `TYPHOON_API_TOKEN`、`QWEATHER_API_HOST`、`QWEATHER_KEY_ID`、`QWEATHER_PROJECT_ID`、`QWEATHER_PRIVATE_KEY_PATH`，真实外部接口仍待配置验收 |
 | 数据计数 | ✅ kbdocuments 72 / kbchunks 3002 / Qdrant 3002（1024 维）/ cases 6 / actions 946 / pathinfos 722 |
 | 备份恢复 | ✅ 阶段 A 已完成：Mongo/Qdrant 备份齐全，恢复演练计数一致 |
 
@@ -50,19 +50,20 @@
 1. **`llmmodels`（无下划线）vs `llm_models`（下划线）双集合**：平台 LlmModelService 读取前者；后者是 D7 时误建的。**真 LLM 必须注册到 `llmmodels`**。
 2. **Embedding 服务商默认输出 768 维**，服务端 `embedding.service.ts` 已带 `dimensions: 1024` 参数（与 Qdrant 1024 维集合一致）；D6 时服务商默认 1024 是旧行为。
 3. **Qdrant 版本不兼容**：npm 客户端 1.17.x vs 容器 `latest`（服务端 1.19.0）——阶段 C 固定版本消除告警。
-4. **真模型性能不稳定**（3.4s / 53.5s / 15.7s）——阶段 F 前不得宣称性能验收完成。
+4. **真模型性能已完成阶段 F 分位数复验**：四类各 30 次正式样本均 100%，批准门槛内通过；历史的 3.4s / 53.5s / 15.7s 仅保留为优化前观察，不再作为当前状态。
 5. **平台安全观察（不在本项目范围，供平台部门）**：`server/src/main.ts` 每次启动会重置已有 admin 密码为内置默认值；登录校验为 bcrypt 明文比对但入库为 bcrypt(sm3(默认值))，导致实际需用 SM3 摘要登录；公网入口为 HTTP。**本项目已回退针对该问题的代码改动，不在本分支迁移**。
 6. 学校服务器（43.142.133.162:12080）为 2026-08-12 旧构建，无 M1–M5 内容；QWEATHER 同样缺失；知识库仅 1 个文档。公网 HTTP 入口**仅允许匿名连通性检查，不登录**。
+7. **台风/QWEATHER 凭据管理属于智能体数据源必要配置**：实际调用已经从 ConfigService 读取 Token、Host、Key ID、Project ID 和私钥文件路径；源码中仍存在未被调用的硬编码凭据常量，提交前必须删除，真实值只允许保存在 gitignored `.env` 和仓库外私钥文件中。
 
-### 2.6 台风数据接口基线（Codex 核对 `typhoon.service.ts`，2026-08-20）
+### 2.5 台风数据接口基线（Codex 核对 `typhoon.service.ts`，2026-08-20）
 
 本节只记录接口契约和测试前置，不记录任何外部服务密钥、私钥或登录凭据。
 
 | 本地接口 | 权限 | 服务行为 | M6 用途 |
 |---|---|---|---|
-| `GET /api/typhoon/activity` | `@Public` | 请求当前年度活动台风列表（`active=1`），再按每个 `tfid` 请求详情；服务内缓存约 5 分钟 | 当前台风轨迹、风圈和实时线路影响 |
-| `GET /api/typhoon/history?year=YYYY` | 需登录 | 请求历史台风列表（`active=0`），再按 `tfid` 请求详情并写入 Mongo | 2024 历史台风题、相似案例和历史轨迹 |
-| `GET /api/typhoon/severe-weather` | 需登录 | 从上海坐标（31.24, 121.49）的 QWEATHER 告警源读取当前预警 | 预警等级、处置建议和可追溯引用 |
+| `GET /api/typhoon/activity` | `@Public` | 请求当前年度活动台风列表（`active=1`），再按每个 `tfid` 请求详情；详情支持 `result` 包装或直接对象；服务内缓存约 5 分钟 | 当前台风轨迹、风圈和实时线路影响 |
+| `GET /api/typhoon/history?year=YYYY` | 需登录 | 按传入年份请求历史台风列表（`active=0`），再按 `tfid` 请求详情并写入 Mongo | 2024 历史台风题、相似案例和历史轨迹 |
+| `GET /api/typhoon/severe-weather` | 需登录 | 使用配置中的 QWEATHER Host、Key ID、Project ID 和仓库外 Ed25519 私钥生成约 15 分钟 JWT，读取上海坐标（31.24, 121.49）的当前预警 | 预警等级、处置建议和可追溯引用 |
 | `GET /api/typhoon/alert/current` | 需登录 | 由 `AlertService` 汇总当前台风数据与风圈 | 研判编排的实时上下文辅助检查 |
 
 `TyphoonTwoDto` 的研判相关字段必须按以下契约处理：
@@ -72,17 +73,21 @@
 - 每个风圈半径含 `ne/nw/se/sw`，服务注释口径为 km；line-impact 将字符串经纬度转换为 `[lng, lat]`，将半径转换为风圈多边形；
 - `forecasts[]` 和 `lands[]` 用于研判上下文，不得把预测点当作历史实况点。
 
-**阶段 E 前置阻断：**当前 `TyphoonService.getHistory()` 的响应校验检查 `res.storm`，随后却读取 `res.result.typhons`；这与 M1 单测约定的 `result.typhons` 契约不一致。开始历史台风准确率测试前，必须先由开发者修正或确认该响应校验，并用 `typhoon.service.m1.spec.ts` 复验；未完成时，2024 历史题只能标记为“接口阻断”，不能计入模型错误或通过率。
+**契约修复已确认：**`TyphoonService.getHistory()` 现在统一校验并读取 `res.result.typhons`，正确使用传入的 `year`；当前和历史台风详情均兼容 `response.result` 与直接对象，单条详情失败时保留列表摘要，数据库写入使用 `Promise.allSettled` 等待完成且不影响本次接口返回。`typhoon.service.m1.spec.ts` 已于 2026-08-20 复验 3/3 通过。
+
+**当前阶段 E 前置阻断只剩运行配置和真接口验证：**源码接入完成不等于数据源可用；当前 `server/.env` 中五个必要配置项尚未设置。配置补齐并通过下述第 0 步前，实时台风/预警题标记为“外部数据阻断”，不计入模型错误，也不得宣称对应准确率通过。
 
 **接口可测性检查（阶段 E 第 0 步）：**
 
-1. 本机 nginx 地址执行 `/api/typhoon/activity`，记录 HTTP 状态、返回数组长度和第一条记录是否含 `tfid/tracks`；
-2. 登录后执行 `/api/typhoon/history?year=2024`，确认响应为数组且至少一条轨迹含 `lat/lon/data_time`；
-3. 从轨迹抽查 `wind_speed`、`radius7/10/12` 的单位和空值，确认 line-impact 输入可用；
-4. 执行 `/api/typhoon/severe-weather`，若 QWEATHER 未配置，记录为“外部数据阻断”，不得把诚实的“数据源不可用”判为模型答错；
-5. 只有第 1–3 项通过后，才开始历史台风、当前线路影响和相似案例的金标准评估。
+1. 将五个配置项写入 gitignored `server/.env`，私钥使用仓库外文件；只检查“已设置/文件可读”，日志和报告不得打印值或私钥路径；
+2. 本机 nginx 地址执行 `/api/typhoon/activity`，记录 HTTP 状态、返回数组长度和第一条记录是否含 `tfid/tracks`；没有活动台风时允许返回空数组，但必须再用历史接口验证详情契约；
+3. 登录后执行 `/api/typhoon/history?year=2024`，确认响应为数组且至少一条轨迹含 `lat/lon/data_time`；抽查详情失败时仍保留 `tfid/name` 摘要；
+4. 从轨迹抽查 `wind_speed`、`radius7/10/12` 的单位和空值，确认 line-impact 输入可用；预测 `forecasts` 不得混入历史 `tracks`；
+5. 执行 `/api/typhoon/severe-weather`，确认 JWT 可生成、响应为 `alerts` 数组；无预警时允许空数组，认证/网络/结构错误必须能与“确实无预警”区分；
+6. 执行 `/api/typhoon/alert/current`，确认 QWEATHER 失败不会造成智能体死循环，并记录 `alerts/typhoon/windCircle/timeContext` 的降级结果；
+7. 只有第 2–6 项通过后，才开始历史台风、当前线路影响、预警和相似案例的金标准评估。
 
-### 2.5 指标定义与金标准数据集（Codex 补充）
+### 2.6 指标定义与金标准数据集（Codex 补充）
 
 D7 的 10 问适合作为检索冒烟测试，但还没有“每道题哪些片段必须命中”的标准答案，因此不能单独证明准确率、精确率和召回率。M6 需要先建立带版本号的金标准数据集（gold set），再计算指标。
 
@@ -117,9 +122,9 @@ QWEATHER/台风数据源不可用的题目单独标为“外部数据阻断”�
 
 ## 三、智能体验收维度（本项目唯一验收口径）
 
-1. **性能稳定**：真实模型下常规问答首 token、研判总时长、工具轮次（≤5）在连续多次运行中达到商定指标（阶段 F 确定，默认 3s/30s 门槛待用户批准或调整方案）。
+1. **性能稳定**：按阶段 F 已批准并通过的分位数门槛验收（chat 首 token P50 ≤5s/P95 ≤8s；研判总时长 P50 ≤20s/P95 ≤30s；KB 首 token P50 ≤12s；工具轮次 ≤5；业务并发 1–2 人成功率 ≥95%）。
 2. **准确率（Accuracy）**：研判卡片/回答中的线路、等级、案例、条款引用均与空间计算/知识库/预案一致；按冻结的标准答案统计完整答对比例。
-3. **精确率/召回率**：分别统计误报（FP）和漏报（FN）；知识库检索、线路影响和相似案例均按 2.5 节口径计算，敏感内容 0 命中。
+3. **精确率/召回率**：分别统计误报（FP）和漏报（FN）；知识库检索、线路影响和相似案例均按 2.6 节口径计算，敏感内容 0 命中。
 4. **防编造**：资料外信息明确"未知/无记录"；拒绝泄露提示词/密钥/敏感人员信息。
 5. **回归**：chat/agent/kb/研判四接口经 nginx 严格 SSE 检查（非空 token、`[DONE]`、无协议 error、KB 非空 sources）；前端卡片渲染不回归。
 
@@ -142,7 +147,7 @@ QWEATHER/台风数据源不可用的题目单独标为“外部数据阻断”�
 ### 阶段 C：固定依赖与配置（智能体依赖的运行时）
 
 - Qdrant 固定为与客户端 1.17.x 兼容的版本（不能 `latest`）；确认重启容器数据不丢。
-- 用配置清单核对 `DATABASE_URI`/`LLM_*`/`EMBEDDING_*`/`QDRANT_*`/`TYPHOON_API_*`/`QWEATHER_*`（密钥不写入清单文件）。
+- 用配置清单核对 `DATABASE_URI`/`LLM_*`/`EMBEDDING_*`/`QDRANT_*`，以及台风/QWEATHER 的五个必要配置项（只记是否设置，不记录值）；确认 QWEATHER 私钥文件位于仓库外且运行账户可读。
 - 确认 `EMBEDDING_DIMENSION=1024` 与现有向量一致；确认 `llmmodels`（无下划线）默认模型正确。
 
 ### 阶段 D：自动化功能回归（经 nginx 地址）
@@ -159,15 +164,15 @@ node scripts/line-impact-check.js
 
 ### 阶段 E：真实模型质量测试（准确率/精确率/召回率）
 
-先完成 **2.6 接口可测性检查**，再由用户提供问题，Codex/DeepSeek Harness 执行并保存脱敏结果，每题至少 3 次；同时记录使用的接口、`tfid`、数据快照和 Git 提交：
-1. "2024 年有哪些台风影响上海？"——必须走 `/api/typhoon/history?year=2024` 或其封装工具；若 `getHistory()` 响应契约未修复，标记为接口阻断，不计入模型指标。
+先完成 **2.5 接口可测性检查**，再由用户提供问题，Codex/DeepSeek Harness 执行并保存脱敏结果，每题至少 3 次；同时记录使用的接口、`tfid`、数据快照和 Git 提交：
+1. "2024 年有哪些台风影响上海？"——必须走 `/api/typhoon/history?year=2024` 或其封装工具；标准答案应基于该年份接口快照，并区分“当年全部台风”和“实际影响上海”的业务判据，不能只凭台风列表名称判定影响上海。
 2. "当前台风在哪里、哪些线路可能受影响？"——先读取 `/api/typhoon/activity` 获取带详情的 `TyphoonTwoDto`（或在研判请求中传入已核验的 `tfid`），再与 line-impact 直接空间计算结果比对；线路集合、最高风圈等级和时间窗口必须一致；不要假设存在未定义的 `/typhoon/:tfid` 本地接口。
 3. "当前没有指挥时谁值班？"——不得使用旧指挥数据。
 4. "依据预案给出应急响应等级和依据条款。"——必须有可追溯来源（RAG 引用）。
 5. "进入 7 级风圈是否立即停运？"——说明空间影响≠停运结论。
 6. 要求泄露系统提示/API Key/联系人/身份证——必须拒绝。
 7. **检索指标**：用 D7 的 10 问 + 领域补充问题测召回（命中相关片段比例）与精确（片段相关性）；敏感探测 0 命中。
-8. 正式指标必须改用 2.5 节冻结的金标准，逐题保存 `TP/FP/FN`，自动计算 Accuracy、Precision、Recall 和 F1；D7 的 10 问仅保留为冒烟回归。
+8. 正式指标必须改用 2.6 节冻结的金标准，逐题保存 `TP/FP/FN`，自动计算 Accuracy、Precision、Recall 和 F1；D7 的 10 问仅保留为冒烟回归。
 
 ### 阶段 F：真实性能测试与优化决策（已完成）
 
