@@ -78,3 +78,36 @@ node dist\main            # 或运行 C:\data\sch-typhoon\start-typhoon.bat
 ## 七、交 Codex 审查
 
 请复核：发布目录清单完整性、敏感文件排除（无 .env/私钥/密钥入库）、构建与启动方式可复现性、独立性证据、冒烟测试口径（含 kb flat 格式）。
+
+---
+
+## 八、部署验证三项（2026-08-20 增补）
+
+> 应"部署验证"要求补充三项可复现验证。本阶段未改任何业务代码；LLM 模型选择（见第 2 项）属阶段 F 前的必要决策，仅改 `llmmodels` 集合默认配置，未动代码。
+
+### 1️⃣ Node 22 / npm 10 全新安装并验证发布
+
+| 项 | 结果 |
+|---|---|
+| 运行时 | 便携版 Node v22.23.2 + npm 10.x（`C:\tools\node22\...`，与 DEPLOY.md 生产目标一致；系统 Node 为 v24，不用于发布运行） |
+| 发布目录重装 | `C:\data\sch-typhoon\server` 以 Node 22 运行 `node dist\main` ✅（PID 可查、/doc 200） |
+| 全链路验证 | `deploy/release-verify.js` 7/7 PASS（登录 / chat 145 字 / 一键研判 177 字 + 研判卡片 + [DONE] / kb sources=3 回答 2371 字 / 影响线路 21/21 一致） |
+| 模型 | 默认大模型已切至 **MiniMax-M2.1**（`llmmodels` 集合 `default-large`；deepseek-v4-flash 推理过长、触发 LlmService 60s 空闲超时，已降级备用） |
+
+### 2️⃣ 发布版本智能体验证独立于工作区 src
+
+- `deploy/release-verify.js`：7 项检查全部通过 HTTP 调用 3000 端口（登录→chat→研判→kb→线路一致性），**不 import 任何工作区 src**；
+- 脚本首行 `process.chdir(RELEASE_DIR)` 后才触发 `LineImpactService.onModuleInit()`，确保线路/边界资产从**发布目录** `assets\` 解析（发布目录 vs 工作区 src 双路径同一套 21 线数据）；
+- 验证结论：发布版本与工作区最新代码行为一致（线路集合严格相等 21/21），独立于 src 可复现。
+
+### 3️⃣ 启停脚本：端口占用检查 + 启动就绪检查
+
+- `C:\data\sch-typhoon\start-typhoon.bat`：①发布产物检查（缺 `dist\main.js` 即中止）→ ②端口占用检查（`netstat` 查 `:3000 LISTENING`，被占用即中止、exit 1）→ ③启动就绪检查（轮询 `http://127.0.0.1:3000/doc`，最长 60s，返回 200 才算成功、exit 0）；
+- `C:\data\sch-typhoon\stop-typhoon.bat`：①结束占用 3000 的 LISTENING 进程（按 PID taskkill）→ ②确认端口已释放，仍占用则告警、exit 1；
+- **实机三连测全部通过**：后端运行中执行 start → 端口占用中止 exit 1；执行 stop → 结束进程并确认端口释放 exit 0；再执行 start → 就绪检查 ~2 秒返回 200 exit 0；
+- 模板已入仓库：`deploy/start-typhoon.bat.example` / `deploy/stop-typhoon.bat.example`（`{{SERVER_DIR}}/{{PORT}}/{{WAIT_SEC}}` 占位符，部署机替换即可）；
+- **编码约定（重要）**：批处理文件在系统代码页（中文 Windows 为 GBK/cp936）下解析，UTF-8 中文会破坏解析（实测报 "xx was unexpected at this time"）。因此脚本**强制 ASCII-only**，中文说明见 `deploy/README.md`。
+
+### 部署验证结论
+
+✅ 三项验证全部通过：Node22 全新运行发布版、验证脚本独立于工作区 src、启停脚本带端口与就绪双检查且实机通过。

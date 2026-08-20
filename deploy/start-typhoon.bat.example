@@ -1,0 +1,68 @@
+@echo off
+rem ============================================================
+rem  Typhoon Agent Backend START script (deploy template)
+rem  How to use:
+rem   1) Copy this file to the target machine as start-typhoon.bat
+rem   2) Replace {{SERVER_DIR}} with the absolute release dir path
+rem      (e.g. C:\data\sch-typhoon\server)
+rem   3) Replace {{PORT}} with the backend listen port (default 3000,
+rem      must match the reverse proxy in nginx.conf)
+rem  Features:
+rem   1) Port-occupancy check -- abort if {{PORT}} is already in use
+rem   2) Release-artifact check -- abort if dist\main.js is missing
+rem   3) Startup-readiness check -- poll http://127.0.0.1:{{PORT}}/doc
+rem      for up to {{WAIT_SEC}} seconds; exit 0 only on HTTP 200
+rem  NOTE: keep this file ASCII-only (batch files are parsed in the
+rem        system codepage; UTF-8 Chinese text would break it), and
+rem        SERVER_DIR must not contain spaces (batch quoting limits).
+rem ============================================================
+setlocal enabledelayedexpansion
+
+set SERVER_DIR={{SERVER_DIR}}
+set PORT={{PORT}}
+set READY_URL=http://127.0.0.1:%PORT%/doc
+set /a WAIT_SEC={{WAIT_SEC}}
+
+rem ---------- 0. release artifact check ----------
+if not exist "%SERVER_DIR%\dist\main.js" (
+  echo [typhoon] ERROR: release artifact not found: %SERVER_DIR%\dist\main.js
+  echo [typhoon] Please finish the build first (see M6 Phase-B report).
+  exit /b 1
+)
+
+rem ---------- 1. port-occupancy check ----------
+netstat -ano | findstr /c:":%PORT% " | findstr "LISTENING" >nul 2>&1
+if not errorlevel 1 (
+  echo [typhoon] ERROR: port %PORT% is already in use, cannot start backend.
+  echo [typhoon] Run stop-typhoon.bat first, or inspect with:
+  echo [typhoon]   netstat -ano ^| findstr /c:":%PORT% "
+  exit /b 1
+)
+echo [typhoon] Port %PORT% is free, starting backend...
+
+rem ---------- 2. start backend process (minimized, logs to files) ----------
+cd /d "%SERVER_DIR%"
+start "typhoon-server" /min /D "%SERVER_DIR%" cmd /c "node dist\main > logs\stdout.log 2> logs\stderr.log"
+echo [typhoon] Backend process launched, waiting for readiness (max %WAIT_SEC% sec)...
+
+rem ---------- 3. startup-readiness check (poll /doc up to WAIT_SEC sec) ----------
+set /a elapsed=0
+:ready_loop
+ping -n 2 127.0.0.1 >nul
+set /a elapsed+=1
+del "%SERVER_DIR%\logs\_ready_check.tmp" >nul 2>&1
+curl -s -o nul -w "%%{http_code}" "%READY_URL%" > "%SERVER_DIR%\logs\_ready_check.tmp" 2>nul
+set /p ready_code=<"%SERVER_DIR%\logs\_ready_check.tmp"
+if "!ready_code!"=="200" (
+  del "%SERVER_DIR%\logs\_ready_check.tmp" >nul 2>&1
+  echo [typhoon] Backend READY: %READY_URL% returned 200 after about !elapsed! sec.
+  exit /b 0
+)
+if !elapsed! geq %WAIT_SEC% (
+  del "%SERVER_DIR%\logs\_ready_check.tmp" >nul 2>&1
+  echo [typhoon] ERROR: backend not ready within %WAIT_SEC% sec, startup failed.
+  echo [typhoon] Check the log:
+  echo [typhoon]   %SERVER_DIR%\logs\stderr.log
+  exit /b 1
+)
+goto ready_loop
