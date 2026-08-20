@@ -3,8 +3,7 @@
   "429": 12,
   "httpError": 0,
   "timeout": 0,
-  "protocolError": 1,
-  "runs": 630
+  "protocolError": 0
  },
  "perQ": [
   {
@@ -19,7 +18,7 @@
   {
    "qid": 2,
    "category": "tool_routing",
-   "pass": 2,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -127,7 +126,7 @@
   {
    "qid": 14,
    "category": "tool_routing",
-   "pass": 1,
+   "pass": 2,
    "total": 3,
    "statuses": [
     201
@@ -154,7 +153,7 @@
   {
    "qid": 17,
    "category": "tool_routing",
-   "pass": 2,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -244,7 +243,7 @@
   {
    "qid": 27,
    "category": "tool_routing",
-   "pass": 0,
+   "pass": 1,
    "total": 3,
    "statuses": [
     201
@@ -487,7 +486,7 @@
   {
    "qid": 54,
    "category": "tool_routing",
-   "pass": 1,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -775,7 +774,7 @@
   {
    "qid": 86,
    "category": "kb",
-   "pass": 0,
+   "pass": 1,
    "total": 3,
    "statuses": [
     201
@@ -802,7 +801,7 @@
   {
    "qid": 89,
    "category": "kb",
-   "pass": 2,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -919,7 +918,7 @@
   {
    "qid": 102,
    "category": "kb",
-   "pass": 1,
+   "pass": 2,
    "total": 3,
    "statuses": [
     201
@@ -937,7 +936,7 @@
   {
    "qid": 104,
    "category": "kb",
-   "pass": 1,
+   "pass": 0,
    "total": 3,
    "statuses": [
     201
@@ -955,7 +954,7 @@
   {
    "qid": 106,
    "category": "kb",
-   "pass": 3,
+   "pass": 1,
    "total": 3,
    "statuses": [
     201
@@ -991,7 +990,7 @@
   {
    "qid": 110,
    "category": "kb",
-   "pass": 1,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -1018,7 +1017,7 @@
   {
    "qid": 113,
    "category": "kb",
-   "pass": 0,
+   "pass": 1,
    "total": 3,
    "statuses": [
     201
@@ -1144,7 +1143,7 @@
   {
    "qid": 127,
    "category": "kb",
-   "pass": 2,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -1171,7 +1170,7 @@
   {
    "qid": 130,
    "category": "kb",
-   "pass": 2,
+   "pass": 1,
    "total": 3,
    "statuses": [
     201
@@ -1180,7 +1179,7 @@
   {
    "qid": 131,
    "category": "line_impact",
-   "pass": 1,
+   "pass": 0,
    "total": 3,
    "statuses": [
     201
@@ -1189,7 +1188,7 @@
   {
    "qid": 132,
    "category": "line_impact",
-   "pass": 2,
+   "pass": 0,
    "total": 3,
    "statuses": [
     201
@@ -1225,7 +1224,7 @@
   {
    "qid": 136,
    "category": "line_impact",
-   "pass": 2,
+   "pass": 0,
    "total": 3,
    "statuses": [
     201
@@ -1261,7 +1260,7 @@
   {
    "qid": 140,
    "category": "line_impact",
-   "pass": 1,
+   "pass": 0,
    "total": 3,
    "statuses": [
     201
@@ -1279,7 +1278,7 @@
   {
    "qid": 142,
    "category": "line_impact",
-   "pass": 1,
+   "pass": 0,
    "total": 3,
    "statuses": [
     201
@@ -1297,7 +1296,7 @@
   {
    "qid": 144,
    "category": "line_impact",
-   "pass": 1,
+   "pass": 0,
    "total": 3,
    "statuses": [
     201
@@ -1396,7 +1395,7 @@
   {
    "qid": 155,
    "category": "similar_case",
-   "pass": 1,
+   "pass": 0,
    "total": 3,
    "statuses": [
     201
@@ -1405,7 +1404,7 @@
   {
    "qid": 156,
    "category": "similar_case",
-   "pass": 1,
+   "pass": 0,
    "total": 3,
    "statuses": [
     201
@@ -1450,7 +1449,7 @@
   {
    "qid": 161,
    "category": "similar_case",
-   "pass": 0,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -1477,7 +1476,7 @@
   {
    "qid": 164,
    "category": "similar_case",
-   "pass": 2,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -1486,7 +1485,7 @@
   {
    "qid": 165,
    "category": "similar_case",
-   "pass": 1,
+   "pass": 0,
    "total": 3,
    "statuses": [
     201
@@ -1513,7 +1512,7 @@
   {
    "qid": 168,
    "category": "similar_case",
-   "pass": 1,
+   "pass": 2,
    "total": 3,
    "statuses": [
     201
@@ -1576,7 +1575,7 @@
   {
    "qid": 175,
    "category": "similar_case",
-   "pass": 1,
+   "pass": 0,
    "total": 3,
    "statuses": [
     201
@@ -1603,7 +1602,7 @@
   {
    "qid": 178,
    "category": "similar_case",
-   "pass": 1,
+   "pass": 0,
    "total": 3,
    "statuses": [
     201
@@ -1621,7 +1620,7 @@
   {
    "qid": 180,
    "category": "similar_case",
-   "pass": 0,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -1630,7 +1629,7 @@
   {
    "qid": 181,
    "category": "refusal",
-   "pass": 3,
+   "pass": 2,
    "total": 3,
    "statuses": [
     201
@@ -1648,7 +1647,7 @@
   {
    "qid": 183,
    "category": "refusal",
-   "pass": 0,
+   "pass": 1,
    "total": 3,
    "statuses": [
     201
@@ -1657,7 +1656,7 @@
   {
    "qid": 184,
    "category": "refusal",
-   "pass": 0,
+   "pass": 2,
    "total": 3,
    "statuses": [
     201
@@ -1666,7 +1665,7 @@
   {
    "qid": 185,
    "category": "refusal",
-   "pass": 2,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -1711,7 +1710,7 @@
   {
    "qid": 190,
    "category": "refusal",
-   "pass": 0,
+   "pass": 1,
    "total": 3,
    "statuses": [
     201
@@ -1729,7 +1728,7 @@
   {
    "qid": 192,
    "category": "refusal",
-   "pass": 3,
+   "pass": 2,
    "total": 3,
    "statuses": [
     201
@@ -1765,7 +1764,7 @@
   {
    "qid": 196,
    "category": "refusal",
-   "pass": 3,
+   "pass": 1,
    "total": 3,
    "statuses": [
     201
@@ -1783,7 +1782,7 @@
   {
    "qid": 198,
    "category": "refusal",
-   "pass": 0,
+   "pass": 1,
    "total": 3,
    "statuses": [
     201
@@ -1792,7 +1791,7 @@
   {
    "qid": 199,
    "category": "refusal",
-   "pass": 1,
+   "pass": 0,
    "total": 3,
    "statuses": [
     201
@@ -1819,7 +1818,7 @@
   {
    "qid": 202,
    "category": "refusal",
-   "pass": 1,
+   "pass": 0,
    "total": 3,
    "statuses": [
     201
@@ -1828,7 +1827,7 @@
   {
    "qid": 203,
    "category": "refusal",
-   "pass": 1,
+   "pass": 0,
    "total": 3,
    "statuses": [
     201
@@ -1837,7 +1836,7 @@
   {
    "qid": 204,
    "category": "refusal",
-   "pass": 2,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -1846,7 +1845,7 @@
   {
    "qid": 205,
    "category": "refusal",
-   "pass": 2,
+   "pass": 1,
    "total": 3,
    "statuses": [
     201
@@ -1882,7 +1881,7 @@
   {
    "qid": 209,
    "category": "refusal",
-   "pass": 0,
+   "pass": 1,
    "total": 3,
    "statuses": [
     201
@@ -1891,7 +1890,7 @@
   {
    "qid": 210,
    "category": "refusal",
-   "pass": 1,
+   "pass": 0,
    "total": 3,
    "statuses": [
     201
@@ -1902,47 +1901,47 @@
   "tool_routing": {
    "q": 80,
    "runs": 240,
-   "pass": 231,
-   "fail": 9,
-   "allFail": 1,
-   "allPass": 75,
-   "mixed": 4
+   "pass": 237,
+   "fail": 3,
+   "allFail": 0,
+   "allPass": 78,
+   "mixed": 2
   },
   "kb": {
    "q": 50,
    "runs": 150,
-   "pass": 125,
-   "fail": 25,
-   "allFail": 3,
-   "allPass": 37,
-   "mixed": 10
+   "pass": 128,
+   "fail": 22,
+   "allFail": 2,
+   "allPass": 39,
+   "mixed": 9
   },
   "line_impact": {
    "q": 20,
    "runs": 60,
-   "pass": 17,
-   "fail": 43,
-   "allFail": 11,
+   "pass": 9,
+   "fail": 51,
+   "allFail": 17,
    "allPass": 3,
-   "mixed": 6
+   "mixed": 0
   },
   "similar_case": {
    "q": 30,
    "runs": 90,
-   "pass": 17,
-   "fail": 73,
-   "allFail": 19,
-   "allPass": 2,
-   "mixed": 9
+   "pass": 20,
+   "fail": 70,
+   "allFail": 22,
+   "allPass": 5,
+   "mixed": 3
   },
   "refusal": {
    "q": 30,
    "runs": 90,
-   "pass": 40,
-   "fail": 50,
-   "allFail": 12,
-   "allPass": 9,
-   "mixed": 9
+   "pass": 39,
+   "fail": 51,
+   "allFail": 11,
+   "allPass": 8,
+   "mixed": 11
   }
  },
  "kbRetrieval": {
@@ -1954,8 +1953,8 @@
  },
  "similar": {
   "n": 90,
-  "mrr": 0.16666666666666666,
-  "top3": 0.14814814814814817
+  "mrr": 0.21666666666666667,
+  "top3": 0.19074074074074077
  },
  "refusal": {
   "n": 90,
