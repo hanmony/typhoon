@@ -23,7 +23,9 @@ export class EmbeddingService {
         this.apiKey = config.get("EMBEDDING_API_KEY");
         this.model = config.get("EMBEDDING_MODEL", "text-embedding-v3");
         this.dimension = parseInt(config.get("EMBEDDING_DIMENSION", "1024"), 10);
-        this.cacheSize = parseInt(config.get("EMBEDDING_CACHE_SIZE", "256"), 10);
+        // 缓存容量：非正数/非法值一律按 0 处理（禁用缓存，行为与未加缓存完全一致）
+        const rawSize = parseInt(config.get("EMBEDDING_CACHE_SIZE", "256"), 10);
+        this.cacheSize = Number.isFinite(rawSize) && rawSize > 0 ? rawSize : 0;
     }
 
     async embedQuery(query: string): Promise<number[]> {
@@ -31,9 +33,19 @@ export class EmbeddingService {
         // 指挥室高频重复提问（如"台风期间线路停运的判定条件"）可跳过远程 embedding
         // （实测 Qwen3-Embedding-8B 远程调用 7~10s/次）。缓存键为规范化问题文本，
         // 命中时返回同一向量 → 检索语义与未缓存时完全一致，不影响精度/召回。
+        // LRU 语义：命中即刷新最近使用位置（删除后重插，保持插入序=最近使用序）。
         const key = query.trim();
+        if (this.cacheSize <= 0) {
+            const results = await this.embedTexts([key]);
+            return results[0];
+        }
+
         const hit = this.cache.get(key);
-        if (hit) return hit;
+        if (hit) {
+            this.cache.delete(key);
+            this.cache.set(key, hit);
+            return hit;
+        }
 
         const results = await this.embedTexts([key]);
         const vector = results[0];
