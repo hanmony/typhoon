@@ -7,6 +7,7 @@ import { KnowledgeBaseModule } from "src/knowledge-base";
 import { AlertModule } from "src/typhoon/alert/alert.module";
 import { TyphoonModule } from "src/typhoon/typhoon.module";
 import { ChatModule } from "src/chat/chat.module";
+import { DatabaseModule } from "src/database/database.module";
 import { AgentController } from "./agent.controller";
 import { AgentService } from "./agent.service";
 import { AgentDiagnosticsService } from "./agent.diagnostics.service";
@@ -19,6 +20,8 @@ import { GetDutyInfoTool } from "./tools/get-duty-info.tool";
 import { GetMessagesTool } from "./tools/get-messages.tool";
 import { GetSevereWeatherHistoryTool } from "./tools/get-severe-weather-history.tool";
 import { GetPatrollingToursTool } from "./tools/get-patrolling-tours.tool";
+import { GetCaseActionsTool } from "./tools/get-case-actions.tool";
+import { GetCaseMetadataTool } from "./tools/get-case-metadata.tool";
 
 const logger = new Logger("AgentModule");
 
@@ -35,6 +38,8 @@ const TOOL_REGISTRATION_PROVIDER = {
         messagesTool: GetMessagesTool,
         severeWeatherHistoryTool: GetSevereWeatherHistoryTool,
         patrollingToursTool: GetPatrollingToursTool,
+        caseActionsTool: GetCaseActionsTool,
+        caseMetadataTool: GetCaseMetadataTool,
     ) => {
         registry.register(GetCurrentStatusTool.definition, getStatusTool);
         registry.register(GetOperationsTool.definition, operationsTool);
@@ -44,7 +49,9 @@ const TOOL_REGISTRATION_PROVIDER = {
         registry.register(GetMessagesTool.definition, messagesTool);
         registry.register(GetSevereWeatherHistoryTool.definition, severeWeatherHistoryTool);
         registry.register(GetPatrollingToursTool.definition, patrollingToursTool);
-        logger.log("All 8 agent tools registered");
+        registry.register(GetCaseActionsTool.definition, caseActionsTool);
+        registry.register(GetCaseMetadataTool.definition, caseMetadataTool);
+        logger.log("All 10 agent tools registered");
         return registry;
     },
     inject: [
@@ -57,6 +64,8 @@ const TOOL_REGISTRATION_PROVIDER = {
         GetMessagesTool,
         GetSevereWeatherHistoryTool,
         GetPatrollingToursTool,
+        GetCaseActionsTool,
+        GetCaseMetadataTool,
     ],
 };
 
@@ -67,6 +76,7 @@ const TOOL_REGISTRATION_PROVIDER = {
         AlertModule,
         TyphoonModule,
         ChatModule,
+        DatabaseModule,
         HttpModule,
         ConfigModule,
         ThrottlerModule.forRoot([{ name: "chat", ttl: 60000, limit: 15 }]),
@@ -84,6 +94,8 @@ const TOOL_REGISTRATION_PROVIDER = {
         GetMessagesTool,
         GetSevereWeatherHistoryTool,
         GetPatrollingToursTool,
+        GetCaseActionsTool,
+        GetCaseMetadataTool,
         TOOL_REGISTRATION_PROVIDER,
     ],
 })

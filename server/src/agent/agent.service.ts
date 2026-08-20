@@ -349,6 +349,8 @@ export class AgentService {
             get_messages: "指挥消息",
             get_severe_weather_history: "预警历史",
             get_patrolling_tours: "巡道记录",
+            get_case_actions: "历史案例线路措施",
+            get_case_metadata: "历史案例元数据",
         };
         return names[name] || name;
     }
