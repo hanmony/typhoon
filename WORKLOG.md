@@ -428,3 +428,30 @@
 - **改动文件**：`README.md`（步骤 20 🔄 本机部署完成 + 性能待优化）、`WORKLOG.md`（本条目）；nginx 配置在 `C:\nginx\nginx-1.28.0\conf\nginx.conf`（本机，不入库）
 - **codex 审查状态**：待送审（建议复核：nginx 配置、真 LLM 注册方式、性能优化方向）
 - **提交**：见 git 历史
+
+### M6 阶段 E：210 道题金标准质量评估（2026-08-20，deepseek harness 执行）
+- **基线**：m2-session-persistence @ 6c29dc9（阶段 E0 通过后）；工作区 clean
+- **提交 677c461——题集预检 + 金标准 v1 冻结**：
+  - 审计《台风案例库_210道安全题库_去敏版.pdf》（SHA-256 EFBEF73BD6108DE458AE596579BD2AE40A9F6559CF63F1DD5A6B7721DC7FF632，27 页）：210 题、五类 80/50/20/30/30、编号连续、每题有标准答案+标注、敏感扫描 0 命中；与出题脚本 build_question_bank.py 交叉验证 210/210 一致（28 处仅为排版空白差异）
+  - 预检发现：题库引用的 8 类源文档（操作说明书/研究报告/台风信息表 xlsx/案例总览对照集/安全规范）**不在本地 KB**，约 158/210 题无法由 agent 依据本地数据作答；冒烟测试证实工具集不匹配（题库"工具路由"为案例库 UI 功能，agent 为 8 个实时指挥工具）与 KB/金标准来源冲突（Q120 烟花时长 3 天 vs 121 小时等）
+  - 产出：server/docs/M6_PHASE_E_PREP_REPORT.md、server/eval/phase-e/{gold-set.v1.jsonl, schema, README, audit-pdf-goldset.py, phase-e-precheck.json}
+- **用户指令（2026-08-20）**：基于数据库已有内容重拟 210 题（可在原 python 出题代码上修改），每题需标准答案，必要时标注正确的文档/chunk/线路/风险等级/时间窗口
+- **提交 5dd9939——金标准 v2（数据库口径）冻结**：
+  - 深度盘点本地数据：KB 72 文档/3002 chunks（预案/规定/汇总表/保障总结/历年事件/通知等）、cases 6、actions 946（**线路行车措施 260 条**，含精确时间窗）、typhoontwos 58、运营类集合（operations/patrols/duties/messages/digitalplans）为空
+  - v2 重拟 210 题：工具路由 80（agent 8 工具×10 场景）、知识库 50（本地 KB 真实 chunk，标注文档名+chunkIndex）、线路影响 20（actions 线路行车措施，时间窗与记录逐一核验）、相似案例 30（cases.values 五案例）、拒答 30（行为）
+  - verify-goldset-v2.py 逐题核验 **210/210 通过**；gold-set.v2.jsonl SHA-256 B5EDA9C459C54AC047FD549D47EA3A4A26A8BE397E7793EEE949ADDF22F88058
+  - 产出：server/eval/phase-e/{gold-set.v2.jsonl, build-question-bank-v2.py, verify-goldset-v2.py, README(v2 升版原因)}
+- **评估脚本 phase-e-eval.js**（server/eval/phase-e/）：经 nginx /api 串行 + 4.5s 间隔（规避 15/60s 限流）、429 排窗重试计数、每题 3 次记录 runId、知识库额外 /kb/query/stream topK=5 计算 P@5/R@5/F1、线路题按 线路/措施/时间窗 分项、相似题按案例名 Top-1/Top-3/MRR、拒答查拒绝+敏感泄露；答案仅存 300 字符脱敏摘录；干跑各分类评分器正常（发现并修复 tool 事件 payload.data 为对象而非字符串、剥离 minimax:tool_call XML）
+- **正式评估**：后台运行中（210×3=630 agent 次 + 150 kb 检索次，预计 4-5 小时），快照与原始结果写入 server/eval/phase-e/results/，完成后汇总指标并产出 M6_PHASE_E_REPORT.md
+- **说明**：原出题脚本（台风资料/台风题库py代码/build_question_bank.py）保持不动，v2 生成脚本 build-question-bank-v2.py 按用户许可在原结构上重写并收入仓库（可版本化、可复现）
+- **提交**：677c461（预检+v1）、5dd9939（v2 冻结）；正式评估提交待评估完成后
+
+### M6 阶段 E：正式评估完成（2026-08-20，deepseek harness 执行）
+- **执行**：210 题 × 3 次 = 630 次 agent 运行 + 150 次 kb 检索（topK=5），经本机 nginx /api（不绕过发布链路），模型 MiniMax-M2.1（default-large）；串行 + 4.5s 间隔 + 2 路分片，429 重试 12 次全部排窗成功，HTTP 错误 0、超时 0、协议错误 1（重试正常）
+- **评分器校准**（不降标准，仅等价表达识别）：KB 探针 OR 组 + 排版归一（markdown/号→日/点→时/不应↔不允许）；拒答补充等价措辞（不属于/不符合/无权/无法提供等）；kb/拒答用校准评分器重跑
+- **结果**：工具路由 96.25%（231/240，≥95% ✅；但关键实时工具未 100%）；知识库回答 83.33%、检索 P@5=0.120 / R@5=0.600 / F1=0.200（❌）；线路影响 28.33%（❌，根因 KB 无 actions 级行车措施+来源冲突）；相似案例 Top-3=0.148 / MRR=0.167（❌，无匹配工具+SIM 不在 KB）；拒答严格 44.44%、诚实率 50%（❌），**泄露 0**（✅）
+- **失败归因**：工具路由（沙德尔误判为历史/直接作答/工具描述重叠歧义 Q54）；知识库（来源冲突 Q113 梅花 14-15 vs 13-14、计数错误 Q123 4 vs 5 起、检索未命中）；线路（KB 9/14 口径 vs actions 9/13 口径冲突、空回答）；相似（无工具）；拒答（真实配合 Q194/200/207/208 明确同意照做、软拒绝、行为安全但无拒词）
+- **release-verify 7/7**（修复：模拟指挥 startTime 时间漂移导致研判 0 线路——测试夹具问题；刷新 startTime 后 21/21 线路一致）
+- **产出**：server/docs/M6_PHASE_E_REPORT.md（完整指标/失败清单/门槛判定/建议）、server/eval/phase-e/results/phase-e-raw.json（630 运行脱敏原始结果，敏感扫描 0 命中）、phase-e-eval.js、analyze-phase-e.js、line-impact-crosscheck.js
+- **结论**：整体未达阶段 E 门槛（仅工具路由总体准确率与零泄露达标）；需补数据（actions 行车措施/SIM 对照集入库）+ 补案例匹配工具 + 拒答 prompt 强化后重测
+- **提交**：见 git 历史（正式评估提交）
