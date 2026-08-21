@@ -60,6 +60,40 @@ const typedTokens = text => {
     return out;
 };
 
+const typedEvent = (text, type) => {
+    for (const rawLine of text.split(/\r?\n/)) {
+        const line = rawLine.trim();
+        if (!line.startsWith("data:")) continue;
+        const body = line.slice(5).trim();
+        if (!body || body === "[DONE]") continue;
+        try {
+            const event = JSON.parse(body);
+            if (event?.type === type) return event.data;
+        } catch {
+            // 其他 SSE 行不影响目标事件解析。
+        }
+    }
+    return undefined;
+};
+
+const mergeStates = states => {
+    const unique = new Map();
+    for (const state of states) {
+        const time = state.time?.getTime?.();
+        if (!Number.isFinite(time)) continue;
+        const key = `${time}|${state.center?.[0]}|${state.center?.[1]}`;
+        unique.set(key, state);
+    }
+    return [...unique.values()].sort((a, b) => a.time.getTime() - b.time.getTime());
+};
+
+const riskLevelIndex = riskLevel => {
+    if (riskLevel?.includes("12级")) return 2;
+    if (riskLevel?.includes("10级")) return 1;
+    if (riskLevel?.includes("7级")) return 0;
+    return -1;
+};
+
 async function main() {
     console.log(`发布验证目标: ${BASE}  发布目录: ${RELEASE_DIR}`);
     assertReleaseExists();
@@ -85,8 +119,8 @@ async function main() {
 
     const ana = await sse(token, "/alert-analyzer/stream", { tfid: "202212", autoRun: true });
     const anaT = typedTokens(ana.text);
-    const cardBlock = ana.text.match(/"analysis","data":\{[^}]*\}/g) ? ana.text : "";
-    const hasCard = ana.text.includes('"affectedLines"');
+    const analysis = typedEvent(ana.text, "analysis");
+    const hasCard = Array.isArray(analysis?.affectedLines);
     check("研判流 卡片 + 报告 + [DONE]", ana.status === 201 && hasCard && anaT.length > 0 && ana.text.includes("[DONE]"), `报告 ${anaT.length} 字`);
 
     // 2. 线路验证：analysis 事件 affectedLines ↔ 发布 dist 直接空间计算（不依赖工作区 src）
@@ -107,25 +141,49 @@ async function main() {
     process.chdir(previousCwd);
 
     const points = wc.transformActiveTyphoonToPoints(doc);
-    const states = wc.transformPointsToStates(points);
+    const historical = wc
+        .transformPointsToStates(points)
+        .filter(state => Number.isFinite(state.time?.getTime?.()))
+        .sort((a, b) => a.time.getTime() - b.time.getTime());
+    const queryTime = new Date(analysis?.basis?.queryTime);
+    const isSimulated = analysis?.basis?.mode === "simulated";
+    const currentState = isSimulated
+        ? historical.filter(state => state.time <= queryTime).at(-1)
+        : historical.at(-1);
+    let future = Number.isFinite(queryTime.getTime())
+        ? wc.getPredictPath({ points }, isSimulated, queryTime)
+        : [];
+    if (!isSimulated && currentState) {
+        future = future.filter(state => state.time > currentState.time);
+    }
+    const states = mergeStates(currentState ? [currentState, ...future] : future);
     const levels = [li.analyzeStates(states, { radiusIndex: 0 }), li.analyzeStates(states, { radiusIndex: 1 }), li.analyzeStates(states, { radiusIndex: 2 })];
 
-    const affectedLines = (() => {
-        const m = ana.text.match(/"affectedLines":\[((?:[^\[\]]|\[[^\]]*\])*)\]/);
-        if (!m) return [];
-        const re = /"line":"([^"]+)"[^}]*?"riskLevel":"([^"]+)"/g;
-        const out = [];
-        let mm;
-        while ((mm = re.exec(m[1])) !== null) out.push({ line: mm[1], riskLevel: mm[2] });
-        return out;
-    })();
-
+    const affectedLines = analysis?.affectedLines || [];
+    const expected = new Map();
+    levels.forEach((rows, index) => {
+        for (const row of rows) {
+            expected.set(row.line, Math.max(expected.get(row.line) ?? -1, index));
+        }
+    });
+    const actual = new Map(affectedLines.map(line => [line.line, riskLevelIndex(line.riskLevel)]));
     const bad = [];
-    for (const l of affectedLines) {
-        const idx = l.riskLevel.includes("12级") ? 2 : l.riskLevel.includes("10级") ? 1 : 0;
-        if (!levels[idx].some(r => r.line === l.line)) bad.push(`${l.line}→${l.riskLevel}`);
+    if (actual.size !== affectedLines.length) bad.push("卡片存在重复线路");
+    for (const [line, expectedIndex] of expected) {
+        if (!actual.has(line)) bad.push(`${line}→卡片缺失`);
+        else if (actual.get(line) !== expectedIndex) bad.push(`${line}→等级不一致`);
     }
-    check("线路一致性（发布 dist 计算 ↔ 卡片）", affectedLines.length > 0 && bad.length === 0, bad.length ? bad.join(",") : `${affectedLines.length} 条全部命中对应风圈等级`);
+    for (const line of actual.keys()) {
+        if (!expected.has(line)) bad.push(`${line}→直接计算未命中`);
+    }
+    const validBasis = Number.isFinite(queryTime.getTime()) && ["simulated", "realtime"].includes(analysis?.basis?.mode);
+    check(
+        "线路一致性（发布 dist 计算 ↔ 卡片）",
+        validBasis && bad.length === 0 && actual.size === expected.size,
+        bad.length
+            ? bad.join(",")
+            : `时点=${analysis?.basis?.queryTime || "缺失"} 卡片=${actual.size} 直接计算=${expected.size}`,
+    );
 
     await mongoose.disconnect();
 
