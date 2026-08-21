@@ -21,6 +21,23 @@ qdrant-storage/
 # 临时与备份
 *.log
 *.zip
+__pycache__/
+*.py[cod]
 
 # 数据清洗输出（构建产物）
 clean_output/
+
+# 文档提取输出（构建产物）
+docs_import/text/
+docs_import/extract_metadata.json
+
+# 文档清洗输出（构建产物）
+docs_import/text_clean/
+docs_import/clean_report.json
+
+# 文档切片输出（构建产物）
+docs_import/chunks.jsonl
+docs_import/chunk_report.json
+
+# 向量化入库报告（构建产物）
+docs_import/index_report.json

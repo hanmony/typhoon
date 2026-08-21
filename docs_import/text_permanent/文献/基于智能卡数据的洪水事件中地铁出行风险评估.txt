@@ -1,0 +1,393 @@
+Geomatics, Natural Hazards and Risk
+ISSN: 1947-5705 (Print) 1947-5713 (Online) Journal homepage: www.tandfonline.com/journals/tgnh20
+Subway travel risk evaluation during flood events based on smart card data
+Dianchen Sun, Huimin Wang, Upmanu Lall, Jing Huang & Gaofeng Liu
+To cite this article: Dianchen Sun, Huimin Wang, Upmanu Lall, Jing Huang & Gaofeng Liu
+(2022) Subway travel risk evaluation during flood events based on smart card data, Geomatics,
+Natural Hazards and Risk, 13:1, 2796-2818, DOI: 10.1080/19475705.2022.2134056
+To link to this article: https://doi.org/10.1080/19475705.2022.2134056 © 2022 The Author(s). Published by Informa
+UK Limited, trading as Taylor & Francis
+Group
+View supplementary material
+Published online: 19 Oct 2022.
+Submit your article to this journal
+Article views: 2309
+View related articles
+View Crossmark data
+Citing articles: 21 View citing articles
+Full Terms & Conditions of access and use can be found at https://www.tandfonline.com/action/journalInformation?journalCode=tgnh20
+GEOMATICS,NATURALHAZARDSANDRISK
+2022,VOL.13,NO.1,2796–2818 https://doi.org/10.1080/19475705.2022.2134056
+Subway travel risk evaluation during flood events based on smart card data
+Dianchen Suna,b , Huimin Wanga,b , Upmanu Lallc , Jing Huanga,b and
+Gaofeng Liua,b
+aStateKey LaboratoryofHydrology-Water Resourcesand HydraulicEngineering,Hohai University,
+Nanjing, China;bInstitute ofManagement Science,HohaiUniversity, Nanjing, China;cDepartmentof
+Earth &Environmental Engineering,Columbia University, New York,NY, USA
+ABSTRACT ARTICLEHISTORY
+The intensity and frequency of extreme weather is increasing in Received14August2022 major metropolitan areas around the world, which results in Accepted5October2022 unprecedented urban floods. However, subway systems lack con-
+KEYWORDS
+sideration of flood risk, and few studies have assessed risk during
+Subwaytravel;urbanflood flood events from the view of subway travel. In this study, subsimulation;population way travel risk was evaluated by flood hazard, subway travel exposure;riskmodelling exposure andpopulation vulnerabilityunder three groupsof rainfall scenarios. The degree of spatial exposure was calculated based on smart card data and a census, and the vulnerability of the population was assessed based on human stability in floodwaters. The results in the study area indicate that subway travel risk grows with an increase in the rainfall return period, and the highest subway travel risk occurs in the morning peak period.
+The return periods of rainfall, time-to-peak, and duration have an impact on the spatiotemporal trajectory of subway travel risk.
+Furthermore, the traditional census tends to underestimate subway transportation exposure due to subway travel. Subway travel risk increases significantly under the extreme rainfall scenario and requires further research. This study provides risk maps for making travel decisions before departures and support for subway operatorstodevelopriskwarnings.
+1. Introduction
+The intensity and frequency of extreme weather is increasing with climate change, and major metropolitan areas around the world are at increased flood risk (Hettiarachchi et al. 2018). Flash floods resulting from torrential downpours can quickly turn deadly in a densely packed modern city. In a densely populated modern city, pluvial flooding caused by torrential downpours can be fatal. However, many
+CONTACTJingHuang [已脱敏邮箱]
+Supplementaldataforthisarticlecanbeaccessedonlineathttps://doi.org/10.1080/19475705.2022.2134056
+2022TheAuthor(s).PublishedbyInformaUKLimited,tradingasTaylor&FrancisGroup
+This is an Open Access article distributed under the terms of the Creative Commons Attribution-NonCommercial License (http:// creativecommons.org/licenses/by-nc/4.0/), which permits unrestricted non-commercial use, distribution, and reproduction in any medium,providedtheoriginalworkisproperlycited.
+GEOMATICS,NATURALHAZARDSANDRISK 2797 cities may be unaware of the flood hazards that their subway systems face (Forero-
+Ortiz and Martinez-Gomariz 2020).
+In 2016, China suffered from extreme rainfall events that caused much flooding of underground infrastructures, and the Changpan Station of Metro Line 6 in
+Guangzhou was inundated on 10 May, resulting in eight deaths (Lyu et al. 2016). On
+20 July 2021, a flash flood in Zhengzhou, a ten-million-person city on the Yellow
+River in China, caused a kilometre-long part of the subway line tunnel to flood.
+Many tragedies occurred on subway line 5 during this record-breaking rainstorm, which trapped more than 900 passengers and killed 14 (Disaster Investigation Group
+2022). According to a survey produced by the Regional Plan Association, flooding of subway sites will become more frequent, with more than 20% of these sites being at risk from storms (NYC Subway Seen Likely to Flood as Storms Rise on Climate
+Change 2021). Eighty-five sites on the London underground are at high and rising risk of flooding, according to a report (Carrington 2016) that states it is ‘only a matter of time’ before serious flooding occurs.
+Subways, the most common type of urban railway system, are becoming increasingly essential in transportation networks (Nan et al. 2019). Because of the environmental friendliness, efficiency, and comfort of subways, they have become primary means of transportation in many metropolitan regions (Zhang et al. 2016). The overland flow induced by rainfall creates road and traffic congestion, although the travel demand of urban residents is largely unaffected by the weather. As a key piece of subsurface engineering, subways play vital roles in alleviating urban traffic congestion.
+Subways are the best means of travel for residents to avoid congestion in flooding events; however, residents face greater flood risk when using the subway. We found that authorities in charge of transportation systems and urban planners around the world lack consideration of flood risk in their subway travel systems.
+Recent studies have focussed on subway flood risk evaluation at the system and station scales. For example, flood risk reduction interventions for the New York City subway system were studied by Vermeij (2016). A study of flood risk in Guangzhou (a mega city in China) metro systems was presented using interval analytic hierarchy process (I-AHP) methods (Lyu et al. 2018). Wang et al. (2021) proposed a regional risk level method to depict the risk of flooding in the Beijing subway system. In addition, a waterlogging risk index (WRI) was established to study subway station exits to compare flood risks among different subway lines in the central urban area of
+Shanghai (Quan et al. 2011). A fuzzy synthetic evaluation model was developed by (Yu et al. 2019) for flood risks in the construction and operation periods of subway stations. A hydrodynamic modelling process was carried out on the Metro Line in
+Barcelona, and the results present a risk analysis focussed on the 26 stations of Metro
+Line 3 (Forero-Ortiz et al. 2020). In addition, questionnaire data were collected by
+Abad and Fillone (2019) among transit users who perceived risks to travellers using public metro services during a flood event. Most of the existing studies on subway flood risk have been carried out by constructing a comprehensive index system through a risk assessment approach from regional to local scales (Lyu et al. 2019), and these studies explore the flood risk of subway lines or individual stations.
+However, few studies have conducted risk evaluations during flood events from the
+2798 D.SUNETAL.
+Figure 1. Location of the study area.
+view of subway travel, and few have proposed corresponding risk reduction countermeasures.
+In this study, flood events under different rainfall scenarios were simulated by the
+SCS-CN model with a flat-water method. The potential range of subway travel exposure of the population was estimated using traditional census data combined with subway smart card data. The risk during each 30-minute interval was evaluated for the coupled rainfall scenario and subway travel. The main objective of the modelling framework is to investigate spatiotemporal changes in subway travel risk during flooding events. Subway travel risk assessment during flood events is very important for providing a warning to citizens and for subway system managers to take measures to mitigate flood risk.
+2. Materials and methods
+2.1. Materials
+2.1.1. Study area
+Shenzhen is located south of Guangdong Province and is on the east bank of the
+Pearl River estuary (Figure 1). The average daily passenger flow of the Shenzhen subway was 3,982,100 in 2020. Among the residents who travel in Shenzhen, as many as
+51.6% of them use the subway. The resident population density is 21,100 per square kilometer in the study area, ranking first among the ten districts in Shenzhen city and 3.14 times the average. The area has well-developed rail transportation, with 9 subway lines and 53 stations. It has the largest integrated subway hub in the city, and
+Futian Subway Station is the largest underground high-speed rail station in Asia and the fastest in the world. The city is always influenced by floods due to rainstorms and typhoons. In 2020, the strongest monsoon precipitation in the past decade was recorded. There were 28 local heavy rainfall events (44days), including 14days of local heavy rainfall and very heavy rainfall, resulting in serious flooding (Shenzhen
+GEOMATICS,NATURALHAZARDSANDRISK 2799
+Table 1. Details and source dataset.
+Dataset Description Source
+DEM 12.5m12.5m https://search.asf.alaska.edu/
+Landcovermap 10m10m http://data.ess.tsinghua.edu.cn
+Rainstormintensityequation Year2015 http://weather.sz.gov.cn
+Subwaysmartcard 1Sep2018 https://opendata.sz.gov.cn
+Populationstatistics Year2018 http://www.szft.gov.cn/bmxx/qtjj/
+Urbanlandusecategories Shapefile http://data.ess.tsinghua.edu.cn
+Remotesensingimage 10m https://earth.google.com/web/
+Climate Bulletin 2020). The study area experiences a higher risk during subway travel during flooding events than other cities due to the increased frequency of extreme rainfall.
+2.1.2. Data source
+The data used in the paper and their details are shown in Table 1. The resolution of the grid was set to 10m for the study. A digital elevation model (DEM) at a detailed
+
+scale of 12.5 12.5 m was used, and the DEM data were resampled to 10m using majority and nearest neighbour techniques (Tan et al. 2015). The 10-m resolution land cover data in 2017 were mapped and transferred from a 30-m resolution sample set collected in 2015 (Gong et al. 2019). Perception data of different return periods were provided by the Shenzhen Storm Design Manual (from the Meteorological
+Bureau of Shenzhen Municipality). Python 3.7 was used to obtain subway smart card data from the API platform at https://opendata.sz.gov.cn. Smart card dataset for subways, which includes 53 subway stations, was collected on 1 September 2018. This study used the subdistrict population statistics of 2018 in the study area, which were obtained from the statistical yearbook of the District Bureau of Statistics website (Shenzhen Futian Statistics Yearbook 2018). An urban land use category map was reported by Gong et al. (2020) for all of China using 10-m satellite images,
+OpenStreetMap, night-time lights, point of interests (POI) and Tencent social big data for 2018 as input features. The remote sensing image data used were provided by Google Earth, whose spatial resolution is 10m.
+2.2. Subway travel risk during flood events
+In the scientific community, it is widely agreed that risk is the product of a hazard and its consequences (Koks et al. 2015). In places where there are no people or values that can be affected by a natural phenomenon, there is no risk. Hence, three components determine the subway travel risk during flood events, which can be defined as
+
+hazard exposure vulnerability (Kron 2005). Hazard and flood events include their probability of occurrence. Exposures occur to subway-travelling persons in hazardprone areas. Population exposure is a key component in determining the risk due to subway travel (Cutter and Finch 2008). It is necessary to recognize the variation in the location and size of the exposed travel population during different return periods in flood events. Due to vulnerability and lack of resistance to damaging floods, people’s safety can be compromised when they are exposed to floodwaters that exceed their ability to remain standing (Chen et al. 2019). Therefore, considering the subway
+2800 D.SUNETAL.
+Table 2. Subway travel risk level during flooding events.
+RangeofSTRIquantiles Risklevel
+0–0.2 Verylow
+0.2–0.4 Low
+0.4–0.6 Medium
+0.6–0.8 High
+0.8–1 Veryhigh
+travel risk connotation, the Subway Travel Risk Index (STRI) could be defined as follows:
+STRI ¼FPSTEIPVI (1)
+where FP is the flood probability, STEI is the subway travel expose index, and PVI is the population vulnerability index. The estimated quantile of the risk index is used to characterize the level of risk (Wang et al. 2021), and the range is presented in
+Table 2.
+2.3. Flood simulation and modelling
+2.3.1. Scenario design
+The designed rainfall can easily show different rainfall characteristics, such as return period, storm duration and time-to-peak ratio, by changing parameters; therefore, the designed rainfall was used instead of the real rainfall events. The storm rainfall events were designed using the Chicago storm rainfall profile (Equation (2)), which is described by the rainfall intensity–duration–frequency equation of Shenzhen. The
+Chicago design storm was applicable to our study because it is recommended by the
+Shenzhen Storm Design Manual, which was formulated by the Meteorological Bureau of the Shenzhen Municipality.
+8:701ð1þ0:594lgPÞ i¼ (2) ð tþ11:13 Þ0:555
+R¼ idt (3)
+where i is the rainfall intensity (mm/min), P is the return period (y), t is the rainfall duration (min) and R is the total rainfall depth (mm). Detailed information on the storm scenario in different return periods is presented in Table 3.
+Since the subway smart card data is from 5:30 to 11:30, we coupled the subway travel scenario with the rainfall scenario to reflect the risk of subway travel under different scenarios. Figure 2a shows the population flow of subway travel, and the following three groups of scenarios were considered in the study (Figure 2).
+In Group (1), the storm events have different return periods (20, 50, 100, and
+500years), and the corresponding total rainfall amounts range from 208.58 to
+306.29mm. They all have the same rainfall duration (6h) and location of peak rainfall intensity (r¼0.5). In Group (2), the storm events have different time-to-peak ratios r
+GEOMATICS,NATURALHAZARDSANDRISK 2801
+Table 3. Details of the storm scenario in different return periods.
+Time(year) Maxrainfalldensity(mm/min) Totalrainfalldepth(mm) Floodprobability(FP)
+20 4.05 208.58 0.05
+50 4.59 236.40 0.02
+100 4.99 257.44 0.01
+500 5.95 306.29 0.002
+Figure 2. Design storms for scenario analysis.
+(0.1, 0.5, and 0.9), and they have the same r return periods (500years) and rainfall durations (6h). In Group (3), the storm events have different rainfall durations (3h,
+4h, and 6h). They have the same return periods (500years) and locations of peak intensity (r¼0.5). The goals of groups 1, 2, and 3 are to study how the subway travel risk changes during flooding occurrences by combining travel and storm scenarios.
+2.3.2. Rainfall-runoff simulation
+The USDA-developed Soil Conservation Service Curve Number (SCS-CN) technique is commonly used as an empirical hydrological model that is widely applied for predicting direct runoff or infiltration for a particular rainfall event (Soulis and
+Valiantzas 2012). This model has been widely employed in recent years for runoff estimation at various spatial scales (Du et al. 2015; Hu et al. 2020). A direct relationship was developed between hydrological model parameters and remote sensing data based on rainfall and runoff, considering underlying surface features, and the influence of land use was shown. Several studies also suggest that the model can be used to evaluate runoff risk in densely populated locations where actual hydrological data are difficult to collect (Li et al. 2018; Yao et al. 2018).
+We calculated runoff depth for various flood return durations, calculated inundation volume, and performed flood simulations in Python (Van Rossum 1995) using a
+2802 D.SUNETAL.
+DEM in conjunction with a rainfall intensity equation and the SCS-CN model.
+Finally, the flooding simulation results are visualized in a GIS.
+P ¼I þFþQ (4) a
+Q F ¼ (5)
+PI S
+8 < ðPI Þ2
+Q¼ :PI þ a S ,P >I a (6)
+0,P I
+I ¼kS (7)
+25400
+S¼ 254 (8)
+CN
+where P¼total rainfall depth (mm); I ¼ initial abstraction of the rainfall (mm);
+F¼cumulative infiltration excluding I (mm); Q¼runoff depth (mm); S¼potential maximum retention or infiltration (mm); k ¼ initial abstraction coefficient (k¼0.2, (
+Baltas et al., 2007 )); CN¼curve number, which ranges from 0 to 100. It is an important parameter that represents the potential runoff depth of land use and cover (Lian et al. 2020). Moreover, the USDA has established four hydrologic soil groups (A, B, C, and D) to represent varied soil infiltration capacities (Yao et al. 2015). The antecedent soil moisture condition (AMC II) was primarily used in this study to estimate runoff, and the CN value is presented in the Supplementary material.
+V ¼QSC (9)
+where V¼total flood inundation volume (m3), S¼land area (km2), and C is the urban drainage capacity. The capacity of the urban sewer system was assessed.
+Detailed information is provided in the Supplementary material.
+2.3.3. Urban flood simulation
+Flood simulations improve the understanding of urban flood change and enhances attempts to reduce flood risk (Da Silva et al. 2020). Although hydraulic models provide accurate flood inundation modelling, they require higher computation time and data requirements (Apel et al. 2009). Furthermore, some of these models have not had open-source availability, and they have relatively high costs (Nkwunonwo et al.
+2020). Therefore, based on the total flood inundation volume of the catchment area, the inundation area and depth are simulated by the flat-water model (Chen et al.
+2009). In this study, storm water flooding is seen as passive inundation; the specific process of confluence is ignored, and only the gravitational features of water flow are used to fill each depression from high to low based on the topographic characteristics of runoff. The fundamental principle is that the total flood inundation volume equals
+GEOMATICS,NATURALHAZARDSANDRISK 2803
+Figure 3. Process of urban flood simulation.
+the total water volume, and the calculation procedure is shown in Equation (9) (Diaz-Nieto et al. 2012).
+
+W ¼ E ðx,yÞE ðx,yÞ dd (10)
+W g
+where W is the total amount of water that inundates; A is the inundated area;
+E ðx,yÞ is the water surface elevation, E ðx,yÞ is the ground elevation; and dd is the
+W g
+inundated area unit. The water surface height was initially set to the catchment elevation average. Then, W is compared to V as calculated by the SCS-CN model. If the difference is large, the water surface height is reset using the dichotomous method until the difference is less than the allowable error. Finally, the inundation elevation is equal to the water surface height. The technical process of the flood simulation is given as follows in Figure 3.
+2.4. Subway travel exposure index
+2.4.1. Urban population distribution
+The general spatial distribution of the population is limited by the boundary (census regions), showing the same population density in an administrative area (Martin and
+Bracken 1993). However, the spatial distribution of flood hazards does not conform to administrative boundaries. To better evaluate subway travel risks during flooding disasters, administrative boundaries must be broken down, and the actual population distribution in urban areas must be simulated. The study area’s population statistics and land use classification data were used for multivariate population distribution statistical regression modelling to produce population estimates on land use classification scales. This study uses industrial land, public management and service land, transportation land, population scarce zones, commercial land, water surfaces, and residential land to spatialize the urban population. Because the water surface is vacant, the area of the remaining six land use types is employed as the independent variable, and the number of subdistrict populations is used as the dependent variable.
+2804 D.SUNETAL.
+Multiple regression xv, which is a frequent model for estimating static population density (Langford 2006), is used to match the relationship between the independent and dependent variables, and its general form is:
+Xn
+POP ¼ b x (11) i v iv v¼1 where POP is the demographic value of the ith street, b is the category v land use of the population coefficient, and x is the area of the vth category of land use within the ith street. Thus, with the exception of the water surface, all coefficients must be positive, and the approach is adjusted by removing twice the lowest negative value from each regression coefficient value (Yuan et al. 1997).
+b0 ¼b 2b (12) v v min b0 is the population density after eliminating negative values; b is the lowest negav min tive value in the regression coefficient. To match the actual population estimates, the coefficients b are again corrected after eliminating the negative values. p is the population estimate of the ith street.
+
+p b ¼ i b0 (13) iv POP v
+In this study, 10m was chosen as the grid resolution; after grid population estimation, the population number of each grid was obtained. It was marked as Grid :
+pop
+2.4.2. Subway travel population spatialization
+After eliminating the data rows with missing values, the subway smart card data for the morning of 1 September 2018 comprise 209,715 records and 53 stations. It has 13 fields, including time, type (inbound/outbound), station, etc. At 10-minute intervals, the population flow of each station is counted, and the spatial position is detected by the POI. The inverse distance weighted (IDW) approach (Prasetiyowati and Sibaroni
+2018) was used to spatialize subway population flow. When taking the subway, most people go to the nearest station. According to some studies of urban travel (Zhang and Yao 2015; Sun et al. 2016), the walking time before taking the subway is approximately 8–12minutes. As a result, the buffer zone of the subway station is the area that can be reached by walking for 10minutes (average walking speed 1.37m/s, interpolation radius 820m), and the spatial distribution of the population travelling by subway is simulated, where Grid ST is the estimated population of subway travellers for each grid.
+2.4.3. Subway travel exposure index
+The Subway Travel Exposure Index (STEI) is calculated by the ratio of subway travel population to static residential population on each grid. This index is used to present the exposure due to subway travel on each grid.
+GEOMATICS,NATURALHAZARDSANDRISK 2805
+Table 4. Flooded area in Futian district.
+Time(years) Depth(m) Area(km2) Total(km2) Ratio(%)
+20 <0.1 0.07 2.38 3.5
+0.1–0.2 0.21
+0.2–0.5 0.72
+0.5–1.0 0.50 >1.0 0.88
+50 <0.1 1.28 5.28 7.7
+0.1–0.2 1.42
+0.2–0.5 0.35
+0.5–1.0 0.95 >1.0 1.28
+100 <0.1 1.13 6.65 9.7
+0.1–0.2 1.23
+0.2–0.5 1.65
+0.5–1.0 0.66 >1.0 1.98
+500 <0.1 0.56 8.03 11.7
+0.1–0.2 1.12
+0.2–0.5 3.11
+0.5–1.0 0.53 >1.0 2.71
+Grid ST
+STEI ¼ pop (14)
+Grid
+2.5. Population vulnerability index
+Understanding population vulnerability to flooding is important for providing a scientific basis for risk assessment and mitigation. Because the population vulnerability to floods is more difficult to assess, past research has focussed more on indicator analyses (Sarmah et al. 2020). In this study, population vulnerability index (PVI) is quantified by combining the gait speed with human stability in floodwaters. A flat gait speed of 20–60year old adults could be obtained from previous research (Lee et al. 2019). Chen et al. (2019) improved human stability criterion curves in a study.
+The average adult gait speed was added to the human stability formula, and we calculated that when the pace is 1.37m/s and the water depth is 0.87m, the person will be unstable in floodwaters. Walking is slightly affected when the inundation depth is less than 0.2m, and there is also a risk of instability. We also set the vulnerability to 0.1 for a 0.2m inundation depth. Thus, we create a curve of population vulnerability vs.
+inundation depth, assuming that human vulnerability increases linearly as inundation depth increases (Kron 2002). Therefore, the segmentation function of the PVI is defined as Equation (15), and D is the inundation depth.
+8 <0:526D,D0:2
+PVI ¼ 1:471D0:279,0:2<D<0:87 (15)
+1,0:87D
+2806 D.SUNETAL.
+Figure 4. Flooded area map of Futian District.
+3. Results
+3.1. Flood simulation results
+The inundation status in the study area was represented by the inundated area and inundation ratio (percentage of inundated area to total area). Overall, with flood return times ranging from 20 to 500years, the inundation ratio (Table 4), inundated area (Figure 4), and flood depth gradually increased. The lowest inundated area was
+2.38km2, which accounted for 3.5 percent of the total regional area in the 20-year flood return period, while the largest covered 8.03km2 and accounted for 11.7 percent of the total area in the 500-year flood return period. Inundated areas exhibited a rising tendency in five levels of depth with flood return times ranging from 20 to
+500years. During urban flood events, Futian district suffered from an apparent change in inundated areas from 2.38, 5.28, and 6.65km2 to 8.03km2 and continuously increased in inundation ratio from 3.5, 7.7, and 9.7 percent to 11.7 percent.
+GEOMATICS,NATURALHAZARDSANDRISK 2807
+Figure 5. Estimated population traveling by subway who are exposed by time.
+The region of flood depths greater than 1 metre varied from 0.88 to 2.71km2, with flood return periods ranging from 20 to 500years.
+Inundated areas were spatially concentrated in the south-central areas and lowlying areas in Futian district. The northern part of the Futian District is mountainous, while the southern part is located along the river. The elevation dropped from north
+2808 D.SUNETAL.
+Figure 6. Subwaytravelrisk fordifferent return periods at 9:30 AM.
+to south, with the south occupying the dominant inundated area. The normal spatial and regional variances in inundated areas and ratios were evident in the whole district. Furthermore, the area of inundation at different flood depths was beneficial and useful in understanding the severely inundated area, and it reflected the contribution of elevation to inundation.
+3.2. Exposure of subway travel population
+Figure 5 depicts the subway-travelling population exposure from 6:00 to 11:30 AM based on the STEI. Even in this urbanized area, the STEI figure for 8:00 to 10:00 AM more properly depicts the higher core concentrations and lack of subway travel areas. There is considerable variation in the population, and the disparities in exposure during the half
+GEOMATICS,NATURALHAZARDSANDRISK 2809
+Figure 7. STRI of three time-to-peak ratios at 10:00 AM, scenario 2a: r¼0.1, base scenario: r¼0.5, and scenario 2b: r¼0.9.
+day are especially noticeable among travellers. During the half day, there are regional and temporal fluctuations in populations potentially exposed to flood hazards.
+The STEI is higher in the southern and northern residential areas of the case study area than in the central area between 6:00 and 8:30 a.m., which marks the beginning of the commute. The results suggest that the population was exposed to subways travelling throughout time, with the largest exposure at 8:30 AM. After 8:30, the STEI starts to decline in the whole area, and the exposure index in the central commercial region begins to be higher than that in the residential region. After 9:30 a.m., the exposure drops as the urban commuting activity comes to an end.
+3.3. Spatiotemporal variation in subway travel risk
+3.3.1. Subway travel risk of different return periods
+Subway travel risk with variable return periods results in a time variant grid file that records travel risk at a chosen time interval for each location in the case study area.
+2810 D.SUNETAL.
+Figure 8. STRI of three durations at 9:30 AM, scenario 3a¼3hours, scenario 3b¼4hours, and base scenario ¼ 6hours.
+Figure 6 shows the estimated subway travel risk during flooding events (represented by a red-colored ramp) created by the design rainfall event. The results of the minimum and maximum subway travel risk are determined by the year of the return period. The risk of subway travel for three flood return dates was compared because the STRI at 9:30 AM was the highest during the 6-hour designed storm. In the case of the STRI, the range of values is shown with a quantile reclassification that has five zones for better representation. Light red (range of 0 to 20 percent) represents the lowest travel risk. The parcels shown in red have a medium risk (40 to 60 percent) compared to previous ranges. The map is shown in deep red in a class representing the highest risk. The classification helps in comprehending the spatial variability in the STRI. During the 20-year return period, several of the southern roads are at high
+risk, affecting people traveling near the subway station. It displays the spatial distribution of medium risks obstructing travelled roads as well as a very high risk of residential parcels throughout the 50-year and 100-year return periods. More land parcels, including residential, commercial, and industrial parcels, are at risk in the
+500-year return period, and the travel risk area is larger than that in the 100-year return period.
+3.3.2. Subway travel risk of three designed rainfall time-to-peak ratios
+This section describes the results of the STRI based on r. r created a significant difference in the initial time of inundation, with scenario 2a starting at 7:00 a.m. and the base scenario at 8:29 a.m., while the beginning of flooding was delayed to 9:46 a.m.
+with r¼0.9. To compare the spatial differences, the STRI map at 10:00 AM was chosen. Figure 7 represents the results of r¼0.1, r¼0.5, and r¼0.9 (STRI-2a, STRIbase, and STRI-2b). At 10:00 a.m., the majority of the land parcels in the centre of the case study area show considerable risk at r¼0.1 and r¼0.5. Analysing the maps indicates that the STRI between the base scenario and 2b has changed since the peak of the design rainfall. The inundated region of 2b is smaller and the subway travel
+GEOMATICS,NATURALHAZARDSANDRISK 2811 risk is lower when r¼0.9. Normally, the population density of residential land parcels decreases, while other areas increase as a result of commuting. As a result, the highrisk regions for subway travel start moving from the south residential areas to the central commercial areas, and the map shows the risk in most central metropolitan areas. With the propagation of overland flow, more central areas become hazardous and restricted.
+3.3.3. Subway travel risk of different rainfall durations
+The spatial distribution of the STRI at 9:30 AM in Group III storm events with different rainfall durations is shown in Figure 8. The results indicate that some of the case study area experiences a travel risk during flood events. Residential parcels on the south side have a lower risk than those in the centre of the case study area during this period. As a consequence of obstruction on the road from the STRI, at 3b (during the 4-hour design storm), their risk of travel increased considerably, resulting in a high hazard. The situation on the south side and central part of the study area worsens even further during the 3-hour and 4-hour designed storms as the inundation flood volume increases. Most of the study area on the north and west sides is comparatively reliable, while some exceptions are found in these land parcels, namely, those that have experienced higher levels of exposure show significant subway travel risk.
+4. Discussion
+4.1. Analysis of subway travel risk
+Overall, our research establishes a subway travel risk calculation model during flooding events. The STEI and PVI are two major factors that determine the risk in this study. The STEI is calculated by the ratio of the estimated subway travel population to the static residents on each grid. Population exposure to urban floods was assessed in a previous study (Zhu et al. 2020) by the relationship between the population and the building. Mohanty and Simonovic (2021) understand the dynamics of population flood exposure with population datasets alongside census data. Previous studies have concentrated on population spatialization, whereas the STEI proposed in this study presents the flood exposure risk of subway travel to each location. The average STEI is considerably high at 8:30 compared to 06:00 and 11:30, which shows the concentration period of departure. When expected, as more individuals take the subway to
+depart from the residential area, travel exposure within this area typically increases.
+Because of subway travel, this spatiotemporal variance differs strongly from the static estimate of population exposure obtained by the traditional census, which tends to underestimate subway transportation exposure.
+The human vulnerability index (HVI) was proposed in a previous study and was constructed using population density, lack of knowledge and other indicators (Khan and Salman 2012). In addition, human vulnerability curves for flash floods were fitted through the statistical relationship between mortality and flash flood characteristics to rapidly estimate the loss of life (Liu et al. 2022). The limitations in subjectivity as well as statistical data in previous population vulnerability studies are compensated to
+2812 D.SUNETAL.
+Figure 9. STRI of the base scenario, ‘829 Shenzhen Rainstorm’ scenario and ‘720 Zhengzhou
+Heavy Rainstorm’ scenario.
+some extent by assessing the population vulnerability to floods through the human stability formula combined average gait speed.
+4.2. Analysis of subway travel risk under extreme rainfall scenarios
+From the results of the STRI, it is shown that the return periods of rainfall, time-topeak, and duration have an impact on the spatiotemporal trajectory of subway travel risk, and it will generate useful warning information that can help residents avoid risk. In several designed rainfall scenarios, our results indicate that the area of subway travel risk grows with the increase in the rainfall return period, and the highest value of subway travel risk occurs in the morning peak period. With the frequency of extreme rainfall due to climate change (Du et al. 2014; Zhang et al. 2020; Zhongming et al. 2021), we have to discuss the risk of subway travel under extreme rainfall scenarios. Two extreme rainfall scenarios are set, namely, ‘829 Shenzhen Rainstorm’ (29
+GEOMATICS,NATURALHAZARDSANDRISK 2813
+Figure 10. Flooded area of the STRI in three scenarios.
+August 2018, maximum 24-hour sliding rainfall of 414.1mm, breaking the extreme value record since 1952) and ‘720 Zhengzhou Heavy Rainstorm’ (20 July 2021, maximum 24-hour sliding rainfall of 552.5mm, breaking the extreme value record since
+1951). The extreme rainfall and subway travel scenarios are coupled, and the STRI maps are presented in Figure 9.
+Overall, compared with the base scenario, the total risk area of the 829 and 720 scenarios increased by 56.7% and 86.8%, respectively (shown in Figure 10). The very low-risk zones of 829 and 720 are reduced by 33.6% and 29.1%, respectively, demonstrating that the regional overall subway travel risk is rising due to the growth in the total area at risk. For the 829 Shenzhen scenario, the low- and medium-risk areas for subway travel increased by 3.135 and 1.424km2, respectively. The areas of high and very high risk for subway travel grew dramatically in the 720 Zhengzhou scenario, by 0.328 and 0.1km2, respectively. Subway travel risk increases significantly under the extreme rainfall scenario. Travel decisions by urban residents during flood events will be affected according to the results of risk assessments. The STRI maps can be used by citizens to choose the best travel methods before departures. Subway
+travel under extreme rainfall is worth more attention because risk is likely to spread through the subway line in the underground space, thereby causing greater losses of life.
+4.3. Limitations and future direction
+Although this study performed subway travel risk under the scenarios of different flood return periods, there are also limitations in the flood simulations based on the flat-water model (Chen et al. 2009). First, the flat-water model in flood simulation instead of hydrodynamic model: this means that this method may overestimate total volume of surface runoff as well as inundation conditions. Second, the unit rainfall was homogenous in the scenario design, and the spatial variation of rainfall was not considered in this study. Third, the drainage capacity was estimated by the situation of the sewer system. Here, the underground sewer system’s conveyance was assumed to be equal to its designed conveyance. However, the interaction between surface flow and the underground sewer system was not considered, which means that the extent of surface flooding might be overestimated in surcharge situations. In addition, flood
+2814 D.SUNETAL.
+water may enter the subway tunnels and impact the entire subway system under extreme scenarios, which was not considered in this paper, but it is an important consideration in our future work.
+On the other hand, a subway travel risk model was established in this study to capture risk variation considering the STEI and PVI. An important future direction is to assess the STEI during travel using widespread social sensing data. Moreover, the effect of flood flow velocity is simplified by the average gait speed of adults combined with human stability curves in this study. The PVI of children, elderly persons and other disadvantaged groups need to be further explored in the future.
+5. Conclusion
+In this study, urban flood modelling based on SCS-CN and the flat-water model by
+Python was performed to analyse subway travel risk during flooding events while taking travel exposure and population vulnerability into account. The risk was mapped based on the travel population estimation model in scenarios of different flood return periods.
+We discovered that flooded areas had a rising tendency at five depth levels, with flood return times ranging from 20 to 500years. The population was exposed to subways traveling throughout time, with the largest exposure occurring at 8:30 AM.
+Traditional censuses tend to underestimate subway travel exposure. Return periods of rainfall, time-to-peak, and duration all have an effect on the spatiotemporal trajectory of subway travel risk, which increases dramatically in extreme rainfall scenarios.
+To reduce subway travel risk during flooding events, we suggested that each commuter should check the risk maps before departure and subway operators improve the risk mitigation plans for the timely release of early warning information. The effect of climate change and multisource travel data should be considered for fine flood risk assessment in future work.
+Acknowledgments
+The authors are grateful to the China Scholarship Council, Shenzhen Water Planning and
+Design Institute Co., Ltd. for its support.
+Authors’ contributions
+Sun Dianchen contributed to conceptualization, methodology, software, formal analysis, investigation, data curation, writing-original draft preparation, visualization. Wang Huimin contributed to conceptualization, resources, writing-review and editing, supervision, project administration, funding acquisition. Lall Upmanu contributed to writing-review and editing, supervision. Huang Jing contributed to validation, investigation, writing-review and editing, funding acquisition. Liu Gaofeng contributed to funding acquisition.
+Disclosure statement
+No potential conflict of interest was reported by the authors.
+GEOMATICS,NATURALHAZARDSANDRISK 2815
+Funding
+The project was financially supported by the National Natural Science Foundation of China (Grant numbers 91846203, 42171081 and 72174054).
+ORCID
+Dianchen Sun http://orcid.org/0000-0002-0599-9330
+Huimin Wang http://orcid.org/0000-0001-6351-9705
+Upmanu Lall http://orcid.org/0000-0003-0529-8128
+Jing Huang http://orcid.org/0000-0002-6357-7443
+Gaofeng Liu http://orcid.org/0000-0002-0022-1300
+Data availability statement
+The data used to support this study are openly available and the sources are included within the paper.
+References
+Abad RPB, Fillone AM. 2019. Perceived risk of public transport travel during flooding events in Metro Manila, Philippines. Transp Res Interdiscip Perspect. 2:100051. https://doi.org/10.
+1016/j.trip.2019.100051.
+Apel H, Aronica GT, Kreibich H, Thieken AH. 2009. Flood risk analyses—how detailed do we need to be? Nat Hazards. 49(1):79–98. https://doi.org/10.1007/s11069-008-9277-8.
+Baltas EA, Dervos NA, Mimikou MA. 2007. Technical note: determination of the SCS initial abstraction ratio in an experimental watershed in Greece. Hydrol Earth Syst Sci. 11(6):
+1825–1829. doi:10.5194/hess-11-1825-2007.
+Carrington D. 2016. 57 tube stations at high risk of flooding, says London underground report.
+The Guardian. [accessed 2022 Mar 10]. https://www.theguardian.com/uk-news/2016/apr/10/
+57-tube-stations-high-risk-flooding-london-underground-report.
+Chen J, Hill AA, Urbano LD. 2009. A GIS-based model for urban flood inundation. J Hydrol.
+373(1–2):184–192. https://doi.org/10.1016/j.jhydrol.2009.04.021.
+Chen Q, Xia J, Falconer RA, Guo P. 2019. Further improvement in a criterion for human stability in floodwaters. J Flood Risk Management. 12(3):e12486. https://doi.org/10.1111/jfr3.
+12486.
+Cutter SL, Finch C. 2008. Temporal and spatial changes in social vulnerability to natural hazards. Proc Natl Acad Sci U S A. 105(7):2301–2306. https://doi.org/10.1073/pnas.0710375105.
+Da Silva LBL, Humberto JS, Alencar MH, Ferreira RJP, de Almeida AT. 2020. GIS-based multidimensional decision model for enhancing flood risk prioritization in urban areas. Int
+J Disaster Risk Reduct. 48:101582. https://doi.org/10/ggrn38.
+Diaz-Nieto J, Lerner DN, Saul AJ, Blanksby J. 2012. GIS water-balance approach to support surface water flood-risk management. J Hydrol Eng. 17(1):55–67. https://doi.org/10.1061/ (ASCE)HE.1943-5584.0000416.
+Disaster Investigation Group. 2022. Zhengzhou, Henan “720” extraordinarily heavy rainfall disaster investigation report. State Council of the PRC [accessed 2022 Apr 9]. https://www.
+mem.gov.cn/gk/sgcc/tbzdsgdcbg/202201/P020220121639049697767.pdf.
+Du H, Xia J, Zeng S, She D, Liu J. 2014. Variations and statistical probability characteristic analysis of extreme precipitation events under climate change in Haihe River Basin, China.
+Hydrol Process. 28(3):913–925. https://doi.org/10.1002/hyp.9606.
+2816 D.SUNETAL.
+Du S, Van Rompaey A, Shi P, Wang J. 2015. A dual effect of urban expansion on flood risk in the Pearl River Delta (China) revealed by land-use scenarios and direct runoff simulation.
+Nat Hazards. 77(1):111–128. https://doi.org/10.1007/s11069-014-1583-8.
+Forero-Ortiz E, Martinez-Gomariz E. 2020. Hazards threatening underground transport systems. Nat Hazards. 100(3):1243–1261. https://doi.org/10.1007/s11069-020-03860-w.
+Forero-Ortiz E, Martınez-Gomariz E, Can~as Porcuna M, Locatelli L, Russo B. 2020. Flood risk assessment in an underground railway system under the impact of climate change—a case study of the Barcelona metro. Sustainability. 12(13):5291. https://doi.org/10.3390/ su12135291.
+Gong P, Chen B, Li X, Liu H, Wang J, Bai Y, Chen J, Chen X, Fang L, Feng S, et al. 2020.
+Mapping essential urban land use categories in China (EULUC-China): preliminary results for 2018. Sci Bull. 65(3):182–187. https://doi.org/10/ggfwzq.
+Gong P, Liu H, Zhang M, Li C, Wang J, Huang H, Clinton N, Ji L, Li W, Bai Y, et al. 2019.
+Stable classification with limited sample: transferring a 30-m resolution sample set collected in 2015 to mapping 10-m resolution global land cover in 2017. Sci Bull. 64(6):370–373.
+https://doi.org/10.1016/j.scib.2019.03.002.
+Hettiarachchi S, Wasko C, Sharma A. 2018. Increase in flood risk resulting from climate change in a developed urban watershed–the role of storm temporal patterns. Hydrol Earth
+Syst Sci. 22(3):2041–2056. https://doi.org/10.5194/hess-22-2041-2018.
+Hu S, Fan Y, Zhang T. 2020. Assessing the effect of land use change on surface runoff in a rapidly urbanized city: a case study of the central area of Beijing. Land. 9(1):17. https://doi.
+org/10.3390/land9010017.
+Khan FA, Salman A. 2012. A simple human vulnerability index to climate change hazards for
+Pakistan. Int J Disaster Risk Sci. 3(3):163–176. https://doi.org/10.1007/s13753-012-0017-z.
+Koks EE, Jongman B, Husby TG, Botzen WJ. 2015. Combining hazard, exposure and social vulnerability to provide lessons for flood risk management. Environ Sci Policy. 47:42–52.
+https://doi.org/10.1016/j.envsci.2014.10.013.
+Kron W. 2002. Keynote lecture: flood risk¼hazardexposurevulnerability. In: Proceedings of the Flood Defence. Science Press, New York Ltd.
+Kron W. 2005. Flood risk¼hazard values vulnerability. Water Int. 30(1):58–68. https://doi.
+org/10.1080/02508060508691837.
+Langford M. 2006. Obtaining population estimates in non-census reporting zones: an evaluation of the 3-class dasymetric method. Comput Environ Urban Syst. 30(2):161–180. https:// doi.org/10.1016/j.compenvurbsys.2004.07.001.
+Lee H-K, Hong W-H, Lee Y-H. 2019. Experimental study on the influence of water depth on the evacuation speed of elderly people in flood conditions. Int J Disaster Risk Reduct. 39:
+101198. https://doi.org/10.1016/j.ijdrr.2019.101198.
+Li C, Liu M, Hu Y, Shi T, Zong M, Walter MT. 2018. Assessing the impact of urbanization on direct runoff using improved composite CN method in a large urban area. Int J Environ
+Res Public Health. 15(4):775. https://doi.org/10.3390/ijerph15040775.
+Lian H, Yen H, Huang J-C, Feng Q, Qin L, Bashir MA, Wu S, Zhu A-X, Luo J, Di H, et al.
+2020. CN-China: revised runoff curve number by using rainfall-runoff events data in China.
+Water Res. 177:115767. https://doi.org/10.1016/j.watres.2020.115767.
+Liu T, Wang Y, Yu H, Chen Y. 2022. Using statistical functions and hydro-hydraulic models to develop human vulnerability curves for flash floods: the flash flood of the Taitou catchment (China) in 2016. Int J Disaster Risk Reduct. 73:102876. https://doi.org/10.1016/j.ijdrr.
+2022.102876.
+Lyu H-M, Shen S-L, Zhou A, Yang J. 2019. Perspectives for flood risk assessment and management for mega-city metro system. Tunn Undergr Space Technol. 84:31–44. https://doi.org/
+10.1016/j.tust.2018.10.019.
+Lyu H-M, Sun W-J, Shen S-L, Arulrajah A. 2018. Flood risk assessment in metro systems of mega-cities using a GIS-based modeling approach. Sci Total Environ. 626:1012–1025.
+https://doi.org/10.1016/j.scitotenv.2018.01.138.
+GEOMATICS,NATURALHAZARDSANDRISK 2817
+Lyu H-M, Wang G-F, Shen JS, Lu L-H, Wang G-Q. 2016. Analysis and GIS mapping of flooding hazards on 10 May 2016, Guangzhou, China. Water. 8(10):447. https://doi.org/10.3390/ w8100447.
+Martin D, Bracken I. 1993. The integration of socioeconomic and physical resource data for applied land management information systems. Appl Geogr. 13(1):45–53. https://doi.org/10.
+1016/0143-6228(93)90079-G.
+Mohanty MP, Simonovic SP. 2021. Understanding dynamics of population flood exposure in
+Canada with multiple high-resolution population datasets. Sci Total Environ. 759:143559.
+https://doi.org/10.1016/j.scitotenv.2020.143559.
+Nan Q, Li S, Yao Y, Li Z, Wang H, Wang L, Sun L. 2019. A novel monitoring approach for train tracking and incursion detection in underground structures based on ultra-weak FBG sensing array. Sensors. 19(12):2666. https://doi.org/10.3390/s19122666.
+Nkwunonwo UC, Whitworth M, Baily B. 2020. A review of the current status of flood modelling for urban flood risk management in the developing countries. Sci Afr. 7:e00269. https:// doi.org/10.1016/j.sciaf.2020.e00269.
+NYC Subway Seen Likely to Flood as Storms Rise on Climate Change. 2021. Bloomberg.com.
+[accessed 2022 Mar 10]. https://www.bloomberg.com/news/articles/2021-07-15/nyc-subwayseen-likely-to-flood-as-storms-rise-on-climate-change.
+Prasetiyowati SS, Sibaroni Y. 2018. Prediction of DHF disease spreading patterns using inverse distances weighted (IDW), ordinary and universal kriging. J Phys: Conf Ser. 971:012010.
+https://doi.org/10.1088/1742-6596/971/1/012010.
+Quan R, Zhang L, Liu M, Lu M, Wang J, Niu H. 2011. Risk assessment of rainstorm waterlogging on subway in central urban area of Shanghai, China based on scenario simulation. In
+2011 19th International Conference on Geoinformatics. IEEE; p. 1–6. https://doi.org/10.
+1109/geoinformatics.2011.5981176
+Sarmah T, Das S, Narendr A, Aithal BH. 2020. Assessing human vulnerability to urban flood hazard using the analytic hierarchy process and geographic information system. Int J
+Disaster Risk Reduct. 50:101659. https://doi.org/10.1016/j.ijdrr.2020.101659.
+Shenzhen Climate Bulletin (2020). 2021. [accessed 2022 Jan 26]: Meteorological Bureau of
+Shenzhen Municipality. http://weather.sz.gov.cn/.
+Shenzhen Futian Statistics Yearbook. 2018. Futian, Shenzhen: Shenzhen Futian Statistics
+Bureau. http://www.szft.gov.cn/.
+Soulis KX, Valiantzas JD. 2012. SCS-CN parameter determination using rainfall-runoff data in heterogeneous watersheds–the two-CN system approach. Hydrol Earth Syst Sci. 16(3):
+1001–1015. https://doi.org/10.5194/hess-16-1001-2012.
+Sun G, Zacharias J, Ma B, Oreskovic NM. 2016. How do metro stations integrate with walking environments? Results from walking access within three types of built environment in
+Beijing. Cities. 56:91–98. https://doi.org/10.1016/j.cities.2016.03.001.
+Tan ML, Ficklin DL, Dixon B, Ibrahim AL, Yusop Z, Chaplot V. 2015. Impacts of DEM resolution, source, and resampling technique on SWAT-simulated streamflow. Appl Geogr. 63:
+357–368. https://doi.org/10.1016/j.apgeog.2015.07.014.
+Van Rossum G. 1995. Python tutorial. Amsterdam: Centrum voor Wiskunde en Informatica (CWI). Technical Report CS-R9526.
+Vermeij D. 2016. Flood risk reduction interventions for the New York City subway system: a research on the impact of storm surge and sea level rise on the safety against flooding in urban delta’s. Delft: University of Technology Delft. http://resolver.tudelft.nl/uuid:db184167b1b7-4dd1-b7f0-623df2352fe0
+Wang G, Liu Y, Hu Z, Zhang G, Liu J, Lyu Y, Gu Y, Huang X, Zhang Q, Liu L. 2021. Flood risk assessment of subway systems in metropolitan areas under land subsidence scenario: a case study of Beijing. Remote Sens. 13(4):637. https://doi.org/10.3390/rs13040637.
+Wang P, Li Y, Yu P, Zhang Y. 2021. The analysis of urban flood risk propagation based on the modified Susceptible Infected Recovered model. J Hydrol. 603:127121. https://doi.org/10.
+1016/j.jhydrol.2021.127121.
+2818 D.SUNETAL.
+Yao L, Wei W, Yu Y, Xiao J, Chen L. 2015. Research on potential runoff risk of urban functional zones in Beijing city based on GIS and RS. Acta Geogr Sin. 70:308–318.
+Yao L, Wei W, Yu Y, Xiao J, Chen L. 2018. Rainfall-runoff risk characteristics of urban function zones in Beijing using the SCS-CN model. J Geogr Sci. 28(5):656–668. https://doi.org/
+10.1007/s11442-018-1497-6.
+Yu H, Liang C, Li P, Niu K, Du F, Shao J, Liu Y. 2019. Evaluation of waterlogging risk in an urban subway station. Adv Civ Eng. 2019:1–12. https://doi.org/10.1155/2019/5393171.
+Yuan Y, Smith RM, Limp WF. 1997. Remodeling census population with spatial information from Landsat TM imagery. Comput Environ Urban Syst. 21(3–4):245–258. https://doi.org/
+10.1016/S0198-9715(97)01003-X.
+Zhang L, Chen X, Lai R. 2020. Urban signatures of sub-daily extreme precipitation events over a metropolitan region. Atmos Res. 246:105204. https://doi.org/10.1016/j.atmosres.2020.
+105204.
+Zhang L, Liu M, Wu X, AbouRizk SM. 2016. Simulation-based route planning for pedestrian evacuation in metro stations: a case study. Autom Constr. 71:430–442. https://doi.org/10.
+1016/j.autcon.2016.08.031.
+Zhang Y-S, Yao E-J. 2015. Splitting travel time based on afc data: estimating walking, waiting, transfer, and in-vehicle travel times in metro system. Discrete Dyn Nat Soc. 2015:1–11.
+https://doi.org/10.1155/2015/539756.
+Zhongming Z, Linong L, Xiaona Y, Wangqiang Z, Wei L. 2021. Zhengzhou subway flooding a warning for other major cities [Internet]. http://119.78.100.173/C666/handle/2XK7JSWQ/
+335072.
+Zhu S, Dai Q, Zhao B, Shao J. 2020. Assessment of population exposure to urban flood at the building scale. Water. 12(11):3253. https://doi.org/10.3390/w12113253.

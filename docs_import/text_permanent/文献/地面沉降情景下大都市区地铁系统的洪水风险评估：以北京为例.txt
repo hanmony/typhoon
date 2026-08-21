@@ -1,0 +1,557 @@
+remote sensing
+Article
+Flood Risk Assessment of Subway Systems in Metropolitan
+Areas under Land Subsidence Scenario: A Case Study of Beijing
+GuangpengWang1,2,3 ,YongLiu1,2,3,ZiyingHu1,2,3,GuomingZhang1,2,3,JifuLiu1,2,3,YanliLyu1,2,3,
+YuGu1,2,3,XichenHuang1,2,3,QingyanZhang1,2,3andLianyouLiu1,2,3,*
+1 KeyLaboratoryofEnvironmentalChangeandNaturalDisaster,MinistryofEducation,BeijingNormal
+University,Beijing100875,China;[已脱敏邮箱](G.W.);[已脱敏邮箱](Y.L.);
+[已脱敏邮箱](Z.H.);[已脱敏邮箱](G.Z.);[已脱敏邮箱](J.L.);
+[已脱敏邮箱](Y.L.);[已脱敏邮箱](Y.G.);[已脱敏邮箱](X.H.);
+[已脱敏邮箱](Q.Z.)
+2 EngineeringResearchCenterofDesertificationandBlown-sandControl,MinistryofEducation,
+BeijingNormalUniversity,Beijing100875,China
+3 FacultyofGeographicalScience,AcademyofDisasterReductionandEmergencyManagement,
+BeijingNormalUniversity,Beijing100875,China * Correspondence:[已脱敏邮箱];Tel.:[已脱敏电话]
+Abstract:Floodingisoneofthemostdestructivenaturaleventsthatseverelydamagetheground andinundateundergroundinfrastructure.Subwaysystemsinmetropolitanareasaresusceptibleto flooding,whichmaybeexacerbatedwhenlandsubsidenceoccurs.However,previousstudieshave focusedonfloodriskevaluationonregional/watershed-scalesandlandsubsidencemonitoringin plains,insteadofonsubwayfloodriskevaluationandhowlandsubsidenceaggravatestheflood
+
+riskinsubwaysystems. Usingtheproposedriskindicatorsandfieldsurveydata,wepresenta
+Citation: Wang,G.;Liu,Y.;Hu,Z.; methodassessingthefloodriskofmetropolitansubwaysystemsunderasubsidenceconditionbased
+Zhang,G.;Liu,J.;Lyu,Y.;Gu,Y.; onthefuzzyanalytichierarchyprocess(FAHP)combinedwithageographicinformationsystem
+Huang,X.;Zhang,Q.;Liu,L.Flood (GIS).Weusetheregionalrisklevelwithinthe500mbufferzoneofthesubwaylinetodepictthe
+RiskAssessmentofSubwaySystems floodriskofthesubwaysystem. Theproposedmethodwasusedtoevaluatethefloodriskofthe inMetropolitanAreasunderLand Beijingsubwaysystem.TheresultsshowthatthefloodrisksoftheBeijingsubwayshowaring-like
+SubsidenceScenario:ACaseStudyof distributionpattern—risklevelsdecreasingfromthecentralurbanareatothesuburbs.Veryhighand
+Beijing.RemoteSens.2021,13, 637.
+highrisksaremainlylocatedwithinthirdandfourthringroads,accountingfor63.58%(29.40km2) https://doi.org/10.3390/rs13040637 and63.83%(81.19km2)ofthetotalarea.LandsubsidenceexacerbatedtheBeijingsubwaysystem’s floodrisklevel—themoderatetoveryhighriskincreasedby46.88km2 (16.33%),indicatingthat
+AcademicEditor:SoheilSabri landsubsidenceisanessentialfactoraffectingthefloodrisklevelofsubwaysystems.Inadditionto
+Received:4January2021 enhancingfloodwarnings,futuresubwayfloodingcouldbereducedbyelevatingtheheightofthe
+Accepted:6February2021 stations’exit(entrance)andinstallingwaterstopplatesandwatertightdoors.Thisstudyisofgreat
+Published:10February2021 significanceforfloodwarningandpreventionintheBeijingsubwaysystem;itprovidesatheoretical basisforfloodriskevaluationinothermetropolitanareas.
+Publisher’sNote:MDPIstaysneutral withregardtojurisdictionalclaimsin Keywords:floodrisk;metropolitansubwaysystem;landsubsidence;FAHPmethod;floodprevention publishedmapsandinstitutionalaffil- measures iations.
+1. Introduction
+Copyright: © 2021 by the authors. Floodingisoneofthemostdevastatingnaturaldisastersthatcancausetremendous
+Licensee MDPI, Basel, Switzerland. lossoflifeandeconomicdamages[1–3]. Accordingtoapreliminaryinvestigation,floods
+This article is an open access article resultedinapproximately7milliondeathsandmorethanUSD700billionlossesworldwide distributed under the terms and from1900to2016[4]. Floodriskswillincreaseinthefutureduetoglobalandregional conditionsoftheCreativeCommons climate changes which cause extreme hydrological events, land subsidence, land-use
+Attribution(CCBY)license(https:// change,andincreasingsedimentsupplytowaterbodies[5–9]. Theseissuesposeserious creativecommons.org/licenses/by/ challengestothesustainabledevelopmentofhumansociety.
+4.0/).
+RemoteSens.2021,13,637.https://doi.org/10.3390/rs13040637 https://www.mdpi.com/journal/remotesensing
+RemoteSens.2021,13,637 2of33
+Recently, rapidurbandevelopmenthasledtotheextensiveconstructionofunderground infrastructure in large cities [10,11]. As a key piece of subsurface engineering, the subway system has become a significant underground lifeline, which plays a vital role in alleviating urban traffic congestion [12]. However, subway systems exacerbate urbanvulnerabilitytonaturalhazards(e.g.,typhoons,rainstorms,flooding,stormsurges, and earthquakes) in addition to providing convenience [13–16]. In China, many major cities have frequently suffered from urban flooding [17–20]. Besides triggering serious urbanwaterloggingonthesurface,rainstormsandfloodingeventsalsoseverelyinundate undergroundfacilities,especiallythesubwaysystemsoflargecities[12,21,22]. Thus,itis necessarytoincorporatethesubwaysystem’sfloodriskevaluationandpreventioninto thecurrenturbanmanagement.
+Thesubwaysystemcanbeconsidereda“high-riskobjective”formetropolitanareas duetotheirrelativelyclosedstructuresandhighridershipdensities[12]. Theflooding of subway systems in large cities has been a frequent occurrence worldwide in recent yearsandhascausedconsiderablelosses. Forexample,Fukuokaexperiencedarainfall eventof60mm/hinJune1999,whichinundatedmultiplesubwaylinesandledtoafatal accident[23]. Theassessmentreportin2009showedthat17lines,97stations,and147km oftunnelsintheTokyometropolitanareawerecompletelysubmergedunderwater[24].
+HurricaneSandy(29October2012)resultedinheavyrainstormsandstormsurgesthat submerged the metro near Manhattan, New York, causing USD 359 million in direct economicdamage[21]. On10May2016,theChangpanstationoftheGuangzhouMetro wasfloodedandcausedeightdeaths[25]. On23June2011,heavyrainstormsinBeijing causedroadflooding(maximumdepthof1.2m)(Figure1)andinundatedtheTaoranting andMilitaryMuseumsubwaystations[26]. On11April2019,theChegongmiaostationon
+Line1oftheShenzhenMetrowasinundated[27]. Therefore,aquantitativeevaluationofa subwaysystem’sfloodriskisessentialtodevelopemergencyplans,implementemergency response,andreduceflooddamage.
+Figure1.TheBeijingsubwaystationwasfloodedduringheavyrainfallon23June2011.(a)Floodwaterenteredintothesouthwestexit(ExitD)oftheTaorantingstationalongtheescalator.(b)Road waterloggingoutsidetheTaorantingsubwaystation(ExitD).
+However,veryfewstudiesconductedsystematicfloodriskevaluationandproposed correspondingfloodmanagementcountermeasuresforsubways. Currentstudiesfocus onfloodriskevaluationatregionalandwatershedscales. Forexample,MishraandSinha evaluatedthefloodriskintheKosiriverusingahydro-geomorphicapproachbasedon multi-criteria decision analysis [28]. Wang et al. employed a random forest algorithm to investigate the flood risk zoning in the Dongjiang River Basin, China, and analyzed each indicator’s contribution to the assessment results [29]. Alfieri et al. presented a comprehensiveassessmentoffuturefloodriskinEuropebasedonEURO-CORDEXRCP
+8.5(representativeconcentrationpathway)climatescenarios[30]. Wangetal. investigated
+RemoteSens.2021,13,637 3of33 thefloodrisklevelsintheBeijing-Tianjin-HebeiregionofChinausingafuzzysynthetic evaluationmethodwithcombinedweights[31]. Alltheabovestudieshaveprovideda scientificbasisforreducingflooddamagesatregionalandwatershedscales. Nevertheless, theycannotdepictthesubwaysystem’sfloodrisklevelbecausemanycomplexfactors impactthefloodrisksofsubwaysystems(e.g.,weather,rivers,topography,geology,and passengerflow). Ofcourse,floodriskestimationatregionalandwatershedscalesdoes notinvolvekeyindicatorsthataffectthefloodriskofsubways. Consequently,thereisan urgentneedtodevelopariskindicatorsystemandaccuratemodelsthatallowreliable floodriskevaluationofsubwaysystems.
+Furthermore,itisuncleartowhatextentthelandsubsidencefactorexacerbatesthe floodriskofsubwaysystems. Atleast200citiesworldwidehavebuiltsubways,including
+NewYork[21],London[32],Beijing[33],Shanghai[34],andSeoulmetropolitanarea[35], allofwhichhavesufferedseverelandsubsidence. Landsubsidenceisanenvironmental geologicalphenomenoninducedbyover-exploitingundergroundresourcesandbuilding pressure from above [36]. Uneven land subsidence not only results in the deformation ofsubwaysystems,butalsoincreasestheirfloodriskandthreatensthestableoperation of urban rail transit. Surface floodwaters can enter the subway system through lowlyingsubwaystations,groundfissures,andfaultsandcauseflooding. Previousstudies focusedonmonitoringthesubsidenceofsubwaylines,butneglecteditsimpactonflood risk. Forexample, Duanetal. monitoredtheBeijingsubwaynetwork’ssubsidencefor thepast15yearsusinganimprovedmulti-sensorMTI(multi-temporalinterferometric syntheticapertureradar)time-seriesfusionmethod[37]. Huetal. foundthatthespatial patternoflandsubsidencewascontrolledbygeologicalfaultsbasedonSentinel-1InSAR
+observations [38]. Moreover, a recent study reported that the most severe subsidence had been exhibited in eastern Beijing, with a maximum subsistence rate of more than
+10 cm/year [39]. Such widespread and rapid subsidence poses potential threats to the subwaysystem.
+Toaddresstheaforesaidissues,weinvestigatedandcomparedthefloodrisklevelsin twoscenarios,ignoringandconsideringlandsubsidence,respectively,usingtheBeijing subwayasanexample. Theobjectivesofthisstudyare(1)todevelopafloodriskindicator systemformetropolitansubwaysystems,(2)toproposeanaccuratemethodforassessing floodriskinmetropolitansubwaysystems,(3)toevaluatetheimpactoflandsubsidence onthefloodrisklevels,and(4)toanalyzethespatialpatternoffloodriskintheBeijing subwaysystemandprovideascientificbasisforfloodprevention. Thispaperisorganized asfollows. InSection2,thestudyareaisintroduced. Thedatasourcesandmethodology are presented in Section 3. Results and discussion are illustrated in Sections 4 and 5, respectively,andthemainfindingsaresummarizedinSection6. Wehopethatourresearch canraiseawarenessamongresearchersandthepublicconcerningfloodriskinthesubway systemandprovidemorescientificandcredibletheoreticalservicesforthedecision-making process.
+2. StudyArea
+BeijingisChina’spolitical,cultural,internationalexchange,andtechnologicalinnovationcenter,andoneoftheworld’smostfamousmetropolises. Beijingconsistsof16districts with an area of 1.64 × 104 km2 and a permanent population of 21.54 million in 2019 (Figure2). ThenorthernandwesternregionsaresurroundedbytheYanshanMountains andtheTaihangMountains,respectively,covering62%ofthetotalarea. Thesoutheast areaistheBeijingPlainandacomponentoftheNorthChinaPlain(NCP)[38]. Ithasa warmtemperatecontinentalmonsoonclimatecharacterizedbylargeseasonalvariations intemperatureandprecipitation[40]. Theaverageannualprecipitationisapproximately
+532 mm (1981–2010), of which approximately 80% occurs from June to September [40].
+Suchclimatecharacteristicsandgeomorphicpatternsarehighlysusceptibletoflooding.
+There are 23 subway lines in Beijing (Figure 2) with approximately 700 km and
+405stationsby1October2020. Fifteensubwaylinesareunderconstructionandfourlines
+RemoteSens.2021,13,637 4of33 areplanned.AccordingtotheofficialdataofBeijingSubway(https://www.bjsubway.com/ (accessedon29December2020)),theaveragedailypassengerflowwas10.57millioninthe firsthalfof2019. Themaximumdailypassengerflowwas13.75million(on12July2019), makingitoneoftheworld’sbusiestrailtransitsystems.Manystationshavesufferedsevere inundationduetoextremeprecipitation,landsubsidence,andthesubways’accelerated growthandcomplexity[12]. Forinstance, On4July2008, alargeamountofrainwater enteredChongwenmensubwaystationonLine5,resultinginathree-hourshutdownof
+14stationsinbothdirectionsfromHepingxiqiaostationtoSongjiazhuangstation(thegreen triangleinFigure2). Thesouthwestexit(ExitD)oftheTaorantingstationonLine4was inundated owing to urban flooding (Figure 1 and the blue triangle in Figure 2). These flooding events severely impacted the Beijing subway system’s safe operation and the sustainabledevelopmentoftheurbanarea. Thus,assessingthesubwaysystem’sfloodrisk inasubsidenceenvironmenthaspracticalsignificanceforurbanriskmanagement.
+Figure2.ThegeographicallocationofthestudyareaandtheBeijingsubwaysystem.
+3. Methodology
+Theassessmentprocessinthisstudyhasfourphases. First,twentyriskassessment indicatorswereselectedtoestablishariskindicatorsystembasedonfloodrisktheory[41], covering meteorological-hydrological, topographic-landform, land cover, geology, and socio-economicindicators. Allriskindicatorswereprocessedinageographicinformation systemplatform(GIS)toobtainrasterlayerswithaspatialresolutionof100m×100m.
+Second,wecalculatedtheindicatorweightsbasedontheanalytichierarchyprocess(AHP) and the fuzzy analytic hierarchy process (FAHP) methods, respectively. Subsequently, regionalfloodrisklevelsofBeijingweregeneratedbasedontherasterlayersandweighting resultsinGIS.Eventually,thefloodrisklevelsofsubwaylineswereextractedfromregional floodrisklevelsandvalidatedusinghistoricalfloodrecords. Itshouldbenotedthatwe usetheregionalfloodriskwithinthe500mbufferzoneofsubwaylinestodepicttheflood risk of the subway system. The Jenks method was used to classify the flood risk level.
+Figure3demonstratestheframeworkofthefloodriskassessmentforthemetropolitan subwaysystem.
+RemoteSens.2021,13,637 5of33
+Figure3. FlowchartofthefloodriskassessmentfortheBeijingsubwaysystem. (AHPisanalytic hierarchyprocess;FAHPisfuzzyanalytichierarchyprocess.)
+3.1. RiskAssessmentModel
+Inourstudy,thesubwaysystem’sfloodriskisconsideredtobeacombinationofflood hazard,exposure,andvulnerability[28]. Thefloodhazardmainlyincludesthreatening naturalevents,suchasthepossibilityandmagnitudeofprecipitation,whicharethedirect causeofsubwayflooding. Floodexposureinthisstudyemphasizestheexitnumbersof subwaystationsandtheimpactofdisaster-formativeenvironmentfactors(e.g.,topography, geologyconditions,andlandcover). Floodvulnerabilityreferstothehumanandsocioeconomic system’s endurance and response to the spatial variable forces produced by hazardousevents[41]. Here,theconceptualevaluationmodeloffloodriskinthesubway systemcanbeexpressedasEquation(1).
+Floodrisk=f (H,E,V)=Hazard×Exposure×Vulnerability (1)
+RemoteSens.2021,13,637 6of33
+Consideringthatthedifferentriskevaluationindicatorsplaydifferentimportance in flood risk results, we modified the conceptual model of flood risk assessment to
+Equation(2).
+
+∑n ∑n ∑n
+FR = α h H +α e E +α v V (2)
+H i=1 i i
+Hazard
+E j=1 j j
+Exposure
+V k=1 k k
+Vulnerability
+whereFRisthefloodriskofthesubwaysystemandα ,α ,andα representtheweights
+H E V
+of hazard, exposure, and vulnerability factors. H, E, and V are indicators of hazard, i j k exposure,andvulnerability. Additionally,h,e,andv indicateeachindicator’sweights i j k amongthethreefactorsofhazard,exposure,andvulnerability.Theweightofeachindicator wascalculatedbytheAHPmethodandthencalibratedusingtheFAHPmethodbasedon thefuzzysetandfuzzylogic. Thedetailedweightcalculationprocedureisdescribedin
+Section3.3.
+3.2. RiskIndicatorSystemandData
+3.2.1. HazardIndicator
+Sixhazardassessmentindicatorswereselected,includingrainstormintensity,road waterloggingspots,landsubsidence,averageannualprecipitation,andgroundwaterdepth.
+InChina,meteorologicaldepartmentsdefinearainstormasaprecipitationeventinwhich therainfallexceedsorequals50mmwithin24h. Toreflecttheeffectsofdifferentrainfall intensities,wecountedheavyrainstormdays(≥100mm,H ),rainstormdays(≥50mm,
+H ),andtheaverageannualprecipitation(H )ofBeijingmeteorologicalstationsaccording
+2 5
+to the daily precipitation data in 1981–2010 [42]. The precipitation data were derived fromtheNationalMeteorologicalScienceDataCenter(http://data.cma.cn/(accessedon
+29December2020)). Then,indicatorlayersofrainstormintensities(Figure4)andaverage annualprecipitationweregeneratedusingtheKriginginterpolationmethodinGIS[43].
+Land subsidence (H ) data in the Beijing Plain originated from Zhou et al. [44].
+Figure5a shows the spatial distribution of cumulative subsidence in the Beijing Plain from1955to2012. ThelandsubsidencedatainBeijingweregeneratedbasedonthelevel measuringdataoftheelevationreferencenetworkestablishedbysurveyingandmapping departmentsandthesyntheticapertureradar(SAR)remotesensingmonitoringdata. The landsubsidenceintheBeijingPlainexhibitsanunevenpattern. Themaximumcumulative subsidence area (≥1000 mm) is located in the central and southern parts of the Beijing
+Plain,whichisprimarilydistributedintheChaoyang,Tongzhou,Daxing,Shunyi,Haidian, andChangpingdistricts.
+ThedepthoftheBeijingsubwaylineismostly10–30munderground,sotheshallow groundwater is crucial to its safe operation. The groundwater depth (H ) was generated using a digital elevation model (DEM) and the groundwater level in GIS, which was provided by the Geocloud (http://geocloud.cgs.gov.cn (accessed on 29 December
+2020)). Figure 5b shows that the groundwater depth in the southern part of the Beijing Plain is less than 10 m. The groundwater depth in the central urban area (such as
+Dongcheng,Xichen,Haidian,andChaoyangdistricts)isgreaterthan20m,whichismainly causedbyexcessivegroundwaterextractionandineffectivesupplementation. Thedeeper groundwaterinthenorthernregionsisaffectedbythemountainoustopography. Road waterloggingspots(H )werederivedfromtheBeijingMunicipalAffairsDataResource
+Network (https://data.beijing.gov.cn/ (accessed on 29 December 2020)) and historical floodrecords(e.g.,the21July2012floodevent).
+RemoteSens.2021,13,637 7of33
+Figure4.Spatialdistributionofprecipitationintensity.(a)≥50mm;(b)≥100mm.
+RemoteSens.2021,13,637 8of33
+Figure5. Cumulativelandsubsidencein1955–2012(a)andgroundwaterdepth(b)intheBeijing
+Plain.
+3.2.2. ExposureIndicator
+Exposureindicatorsincludetopographicfeaturessuchaselevationandslope,exit numbers,densityandproximityoftherivernetwork,landcover,anddistancetofaults.
+The elevation (E ) and slope (E ) layers were generated from a digital elevation model
+2 3
+(DEM)usingthe3DspatialanalysistoolinGIS[45],andtheoriginaldatawereaccessed from the Geospatial Data Cloud (http://www.gscloud.cn/ (accessed on 29 December
+2020)). ThenumberofstationsandexitswasobtainedfromtheBeijingSubwaywebsite (https://www.bjsubway.com/(accessedon29December2020))(Figure6a). Thestation’s exit numbers (E ) are used to express the exposure level of the subway system during flooding. Therivernetwork’sdensityandproximitywereusedtoindicatethedegreeof floodingimpactonthesubwaysystem[46]. Inthispaper,riverdensity(E )isthelength ofriverchannelspersquarekilometerusingazonalstatisticaltool. Theriverproximity (E )wasgeneratedusingthemulti-ringbuffertoolinGIS,andthebufferdistanceswere
+RemoteSens.2021,13,637 9of33 setto200,400,600,800,and1000m,respectively[43]. Landcoverdata(E )witha30m resolutionwereaccessedfromTsinghuaUniversity(Figure7a). Susceptibilitytofloodswas obtainedbasedontherunoffcoefficientofdifferentlandcovers(Figure7b). Forexample, thegrowthofimpervioussurfacesacceleratestherateoftheconvergenceofurbansurface runoff,whereasdenselyvegetatedareassuchasforestsandgrasslandshavethereverse effect. Moreover,thefaultsinBeijingwerefromGeocloud(http://geocloud.cgs.gov.cn (accessedon29December2020)),andthedistancetofaults(E )wasemployedtoanalyze theadverseimpactonthesubwaysystem(Figure6b).
+Figure6.Exposureindicatorsofsubwaystationexitnumbers(a)anddistancetofaults(b).
+RemoteSens.2021,13,637 10of33
+Figure7.Landcover(a)inBeijinganditssusceptibilitytofloods(b).
+3.2.3. VulnerabilityIndicator
+Vulnerabilityreferstothepropensityorpredispositiontobeadverselyaffected,andit iscloselyrelatedtohumanandsocio-economicindicators[41]. Floodvulnerabilityinour studycoverssevenindicators: population(V )andGDP(grossdomesticproduct)density (V ), the daily passenger flow (V ), subway line density (V ) and proximity (V ), road
+2 3 4 5
+density(V )andproximity(V ). PopulationandGDPdensitydatawereobtainedfromthe
+6 7
+ResourceandEnvironmentDataCenter,ChineseAcademyofSciences(http://www.resdc.
+cn/lds.aspx(accessedon29December2020)). Thesubwaypassengerflowdataoriginated fromtheofficialBeijingSubwaywebsitestatistics(https://www.bjsubway.com/(accessed on 29 December 2020)) and were rasterized using GIS tools [31]. The data are used to indicatethepotentialcasualtylevelswhenthesubwaysystemisinundated(Figure8b).
+The subway density (Figure 8a) and proximity are utilized to reflect the sensitivity of thesubway systemtofloods. Weusedthe buffer toolinGIS togeneratethe proximity
+RemoteSens.2021,13,637 11of33 of the subway lines (buffers were set to 200, 400, 600, 800, and 1000 m). The subway system’sdensityrasterlayerwasproducedusingthelinedensitytoolwithasearchradius of2km[28]. Accordingtofieldinvestigations,subwayexitsarelocatedinthemiddleoron bothsidesoftheroad. Roadwaterloggingduringheavyrainfallincreasesthefloodingrisk ofthesubwaysystem. Therefore,roaddensityandproximityarealsosignificantindicators affectingsubwayflooding. Theproximityanddensityrasterlayersoftheroadnetwork were created in the same way as the subway lines. All data sources for the flood risk evaluationoftheBeijingsubwaysystemhavebeenlistedinAppendixA(Table2).
+Figure8.Thesubwaylinedensity(R=2km)(a)anddailypassengerflow(b)oftheBeijingsubway system.
+RemoteSens.2021,13,637 12of33
+3.3. WeightCalibration
+3.3.1. AHPWeight
+The analytic hierarchy process (AHP) is a structured decision-making technique widelyacceptedinvariousresearchfields[47,48]. Itdecomposesacomplexprobleminto multiplelevels,suchasgoals,criteria,andalternatives,andthenperformsaqualitative and quantitative assessment on this basis. The pairwise comparison was employed to construct the judgment matrix A (Equation (3)), reflecting the relative importance of u differentindicators.
+1 ... a
+1n
+A u = a ij
+
+n×n
+(3) a ··· 1 n1
+whereA representsthejudgmentmatrixofeachcriterion;a istherelativeimportance u ij of factor i to indicator j. In the pairwise comparison, numbers ranging from 1 (equal importance)to9(extremeimportance)wereusedtomeasuretherelativeimportanceof eachindicatoraccordingtoSaaty’soriginalproposal[49]. Sincetheindicatorprioritybased onexperts’experiencemaynotbeperfect,theAHPmethodrequiresaconsistencycheckof thepairwisecomparisonmatrixusingEquations(4)and(5).
+CI
+CR = (4)
+RI (λ −n)
+CI = max (5) n−1
+whereCRrepresentstheconsistencyratio. Thejudgmentmatrixisreasonablewhenthe
+CRislessthan0.1. Otherwise,thejudgmentmatrixmustbereconstructed. CIandRIare theconsistencyindexandaveragerandomconsistencyindex,respectively[49]. λ isthe max maximumeigenvalueofthejudgmentmatrix,whichisdescribedinEquation(6).
+n ∑n a w ∑ j=1 ij i λ = (6) max nw i=1 i wherew representstheweightofeachindicator.
+3.3.2. FuzzyAHPWeight
+FuzzyAHP(FAHP)isanimprovedAHPweightcalibrationmethodbasedonthe fuzzy set and fuzzy logic theory. A fuzzy set is defined according to the membership function,whichcanberegardedasageneralizationoftheclassicbinaryset[50]. Fuzzy logic is a powerful tool different from traditional Boolean logic that can express fuzzy information[50]. ToimplementtheFAHPapproach,eachelementofthejudgmentmatrix (Equation(3))intheAHPmethodisreplacedwithatriangularfuzzynumber(l,m,u),and thefuzzyjudgmentmatrixcanbeobtainedasshowninEquation(7)[51].
+ [1,1,1] [l ,m ,u ] ··· [l ,m ,u ] 
+12 12 12 1n 1n 1n
+
+Fn = F ij n×n = l ij ,m ij ,u ij n×n =      u 1 12 , m . . . 1 12 , l 1 12 [1,1 . . . ,1] · . · .. · [l 2n,m 2 . . . n,u 2n ]      (7)
+1 , 1 , 1 1 , 1 , 1 ··· [1,1,1] u1n m1n l1n u2n m2n l2n where F is the triangular fuzzy judgment matrix. F represents the triangular fuzzy n ij number of indicator i to indicator j. (l , m , u ) represents triangular fuzzy numbers, ij ij ij inwhichparameterslanduindicatetheminimumandmaximumvalues,andmisthe mostlikelyvalue. TableA1showsthequantitativescaleandtheessentialdescriptionof triangularfuzzynumbers.
+RemoteSens.2021,13,637 13of33
+BasedonthegeneratedfuzzyjudgmentmatrixF ,thefuzzysyntheticextent(P )is n k obtainedusingEquations(8)–(11)[51].
+−1 n n
+P = S ⊗ F (8) k i ij i=1j=1 where
+
+n n n
+S = l , m , u (9) i j j j j=1 j=1 j=1
+
+n n n n n n n n
+F = l , m , u (10) ij ij ij ij i=1j=1 i=1j=1 i=1j=1 i=1j=1 ∑ n ∑ n 1 1 1
+F = , , (11) ij ∑n ∑n u ∑n ∑n m ∑n ∑n l i=1j=1 i=1 j=1 ij i=1 j=1 ij i=1 j=1 ij whereS isthesumofthetriangularfuzzynumbers.
+Subsequently, we define the possible degree of M (l , m , u ) ≥ M (l , m , u ) by
+2 2 2 2 1 1 1 1 usingEquation(12).
+ 1 m 2 ≥ m 1
+V(M ≥ M ) =hgt(M ∩M ) = µ(d) = l2 −u1 otherwise (12)
+2 1 2 1 0 (m1 −u1 )−(m2 −l2 ) l ≥ u
+1 2
+whereV(M ≥M )isthepossibledegreeofM ≥M . AsshowninFigure9,drepresents
+2 1 2 1
+the ordinate of the intersection point D of the two triangular fuzzy numbers [51]. To compareM andM ,thevaluesofV(M ≥M )andV(M ≥M )needtobecalculated,
+1 2 2 1 1 2 respectively.
+Figure9.Possibledegreeoftwotriangularfuzzynumbersµ(M ≥M ).
+2 1
+Then,thepossibledegreeafuzzynumbergreaterthankfuzzynumbersM isdefined asEquation(13).
+V(M>M ,M ,...,M )=minV(M>M),i=1,2,3,...,k (13)
+1 2 k i
+RemoteSens.2021,13,637 14of33
+Weassumethatforallk=1,2,3,...,n,(k=i),then d(A´ ) =minV(P ≥ P) (14) i i i
+Ultimately, we normalize the weight vector W by using Equations (15)–(16) and obtaintheindicatorweightW.
+T
+W = d(A´ ),d(A´ ),d(A´ ), ..., d(A´ ) (15)
+1 2 3 n
+W = (d(A ),d(A ),d(A ), ..., d(A ))T (16)
+1 2 3 n
+whereWisanon-fuzzynumberandA representsnindicators.
+n
+3.3.3. ImplementationoftheFAHPWeightingMethod
+We use the criterion layer (including hazard, exposure, and vulnerability factors) to illustrate the process of weight calculation using the FAHP method. According to thepairwisecomparison,ajudgmentmatrixF wasfirstcreatedbasedontheAHP criterion method.
+H E V  H 1 2 3/2 
+F criterion =   E 1/2 1 2/3   (17)
+V 2/3 3/2 1
+whereH,E,andVrepresentthreefactors: hazard,exposure,andvulnerability. Then,we calculated the weight of the criterion layer W = (H, E, V) = (0.460, 0.221, 0.319)T. The consistencyratioofthejudgmentmatrixofthecriterionlayerCR=0.002(<0.1)indicates thatithaspassedtheconsistencycheck. TriangularfuzzynumbersgivenbyAppendix
+TableA1wereusedtoreplaceeachcomponentinthejudgmentmatrixF andobtain criterion thefuzzyjudgmentmatrix(Table1).
+Table1.Theconstructionoffuzzyjudgmentmatrixincriterionlayer.
+Criterion H E V S P i i
+H (1,1,1) (0.67,2,3.33) (0.75,1.5,3) (2.42,4.5,7.33) (0.15,0.46,1.2)
+E (0.3,0.5,1.5) (1,1,1) (0.33,0.67,1.33) (1.63,2.17,3.83) (0.1,0.22,0.63)
+V (0.33,0.67,1.33) (0.75,1.5,3) (1,1,1) (2.08,3.17,5.33) (0.13,0.32,0.87)
+Notes:H,V,andEarehazard,exposure,andvulnerability;S iandP irepresentthesumoftriangular fuzzynumbersandfuzzysyntheticextent.
+As demonstrated in Figure 9, we calculated the possible degree of the three risk assessmentfactorsM≥M inthecriterionlayer. Thepossibledegreebetweenhazard(H) andexposure(E)wascalculatedasfollows(Figure10a):
+µ(P ≥P )=1;µ(P ≥P )=0.6667
+H E E H
+The possible degree between hazard (H) and vulnerability (V) was calibrated as follows(Figure10b):
+µ(P ≥P )=1;µ(P ≥P )=0.8372
+H V V H
+Thepossibledegreebetweenexposure(E)andvulnerability(V)wascomputedas follows(Figure10c):
+µ(P ≥P )=1;µ(P ≥P )=0.8333
+V E E V
+BasedonEquation(14),theweightsofthethreefactorsinthecriterionlayerwereas follows:
+W =(1,0.6667,0.8372)T
+RemoteSens.2021,13,637 15of33
+Afternormalization,theweightsofthecriterionlayerweregenerated.
+W=(H,E,V)T=(0.399,0.266,0.334)T
+Figure10.Thepossibledegreeofthreeriskassessmentfactors(hazard,exposure,andvulnerability) inthecriterionlayer.(a)µ(P ≥P ),(b)µ(P ≥P ),(c)µ(P ≥P ).
+E H V H E V
+Similarly, the fuzzy judgment matrix, fuzzy synthetic extent (Tables 2–4), and the weight of each risk assessment indicator (Table 5) of hazard (H), exposure (E), and i j vulnerability(V )werecalculatedusingtheFAHPapproach.
+k
+RemoteSens.2021,13,637 16of33
+Table2.Fuzzyjudgmentmatrixandfuzzysyntheticextentofhazardindicators.
+H H H H H H H S P i 1 2 3 4 5 6 i i
+H (1,1,1) (1,1,3) (1,2,4) (1,2,4) (1,3,5) (2,4,6) (7,13,23) (0.09,0.28,0.89)
+H (0.33,1,1) (1,1,1) (1,1,3) (1,2,4) (1,2,4) (1,3,5) (5.3,10,18) (0.07,0.22,0.70)
+H (0.25,0.5,1) (0.33,1,1) (1,1,1) (1,1,3) (1,2,4) (1,3,5) (4.6,8.5,15) (0.06,0.19,0.58)
+H (0.25,0.5,1) (0.25,0.5,1) (0.33,1,1) (1,1,1) (1,1,3) (1,2,4) (3.8,6,11) (0.05,0.13,0.43)
+H (0.2,0.33,1) (0.25,0.5,1) (0.25,0.5,1) (0.33,1,1) (1,1,1) (1,2,4) (3,5.3,9) (0.04,0.12,0.35)
+H (0.17,0.25,0.5) (0.2,0.33,1) (0.2,0.33,1) (0.25,0.5,1) (0.25,0.5,1) (1,1,1) (2.1,2.9,5.5) (0.03,0.06,0.21)
+Note:S iandP irepresentthesumoftriangularfuzzynumbersandfuzzysyntheticextent,respectively.H1~H6arehazardindicatorsof rainstormintensity(≥100mm),rainstormintensity(≥50mm),roadwaterloggingspots,landsubsidence,averageannualprecipition,and groundwaterdepth.
+Table3.Fuzzyjudgmentmatrixandfuzzysyntheticextentofexposureindicators.
+E E E E E E E E S P j 1 2 3 4 5 6 7 i i
+E (1,1,1) (1,2,4) (1,2,4) (1,3,5) (1,3,5) (2,4,6) (2,4,6) (9,19,31) (0.08,0.27,0.83)
+E (0.25,0.5,1) (1,1,1) (1,1,1) (1,2,4) (1,2,4) (1,3,5) (2,4,6) (7.25,13.5,22) (0.06,0.19,0.59)
+E (0.25,0.5,1) (1,1,1) (1,1,1) (1,2,4) (1,2,4) (1,3,5) (1,3,5) (6,25,12.5,21) (0.05,0.18,0.57)
+E (0.2,0.33,1) (0.25,0.5,1) (0.25,0.5,1) (1,1,1) (1,1,1) (1,2,4) (1,3,5) (4.7,8.33,14) (0.04,0.12,0.38)
+E (0.2,0.33,1) (0.25,0.5,1) (0.25,0.5,1) (1,1,1) (1,1,1) (1,2,4) (1,3,5) (4.7,8.33,14) (0.04,0.12,0.38)
+E (0.17,0.25,0.5) (0.2,0.33,1) (0.2,0.33,1) (0.25,0.5,1) (0.25,0.5,1) (1,1,1) (1,2,4) (3.07,4.92,9.5) (0.03,0.07,0.26)
+E (0.17,0.25,0.5) (0.17,0.25,0.5) (0.2,0.33,1) (0.2,0.33,1) (0.2,0.33,1) (0.25,0.5,1) (1,1,1) (2.18,3,6) (0.02,0.04,0.16)
+Note:S iandP irepresentthesumoftriangularfuzzynumbersandfuzzysyntheticextent,respectively.E1~E7areexposureindicatorsof exitnumber,elevation,slope,riverdensity,riverproximity,landcover,anddistancetofaults.
+Table4.Fuzzyjudgmentmatrixandfuzzysyntheticextentofvulnerabilityindicators.
+V V V V V V V V S P k 1 2 3 4 5 6 7 i i
+V (1,1,1) (1,1,1) (1,3,5) (2,4,6) (2,4,6) (3,5,7) (3,5,7) (13,23,33) (0.1,0.27,0.69)
+V (1,1,1) (1,1,1) (1,3,5) (2,4,6) (2,4,6) (3,5,7) (3,5,7) (13,23,33) (0.1,0.27,0.69)
+V (0.2,0.33,1) (0.2,0.33,1) (1,1,1) (1,3,5) (1,3,5) (2,4,6) (2,4,6) (7.4,15.67,25) (0.06,0.18,0.52)
+V (0.17,0.25,0.5) (0.17,0.25,0.5) (0.2,0.33,1) (1,1,1) (1,1,1) (1,3,5) (1,3,5) (4.53,8.83,14) (0.04,0.1,0.29)
+V (0.17,0.25,0.5) (0.17,0.25,0.5) (0.2,0.33,1) (1,1,1) (1,1,1) (1,3,5) (1,3,5) (4.53,8.83,14) (0.04,0.1,0.29)
+V (0.14,0.2,0.33) (0.14,0.2,0.33) (0.17,0.25,0.5)(0.2,0.33,1) (0.2,0.33,1) (1,1,1) (1,1,1) (2.85,3.32,5.17) (0.02,0.04,0.11)
+V (0.14,0.2,0.33) (0.14,0.2,0.33) (0.17,0.25,0.5)(0.2,0.33,1) (0.2,0.33,1) (1,1,1) (1,1,1) (2.85,3.32,5.17) (0.02,0.04,0.11)
+Note:S iandP irepresentthesumoftriangularfuzzynumbersandfuzzysyntheticextent,respectively.V1~V7arevulnerabilityindicators ofpopulationdensity,GDPdensity,passengerflow,subwaylinedensity,subwaylineproximity,roaddensity,androadproximity.
+Table5.TheweightofeachriskindicatorwascalculatedbasedontheAHPandFAHPmethods.
+Criterion W AHP W FAHP Indicators W AHP W FAHP* W FAHP
+H 0.285 0.270 0.226
+H 0.226 0.238 0.206
+Hazard H 0.180 0.229 0.191
+0.460 0.399 (H) H 0.133 / 0.157 i 4
+H 0.111 0.168 0.140
+H 0.065 0.095 0.080
+E 0.299 0.209 0.209
+E 0.190 0.181 0.181
+E 0.182 0.177 0.177
+Exposure 3 (E) 0.221 0.266 E 4 0.109 0.140 0.140 j
+E 0.109 0.140 0.140
+E 0.065 0.099 0.099
+E 0.046 0.054 0.054
+RemoteSens.2021,13,637 17of33
+Table5.cont.
+Criterion W AHP W FAHP Indicators W AHP W FAHP* W FAHP
+V 0.295 0.212 0.212
+V 0.295 0.212 0.212
+V 0.159 0.175 0.175
+Vulnerability 3 (V ) 0.319 0.334 V 4 0.084 0.112 0.112 k V 0.084 0.112 0.112
+V 0.041 0.088 0.088
+V 0.041 0.088 0.088
+Note:WFAHP*istheweightofeachassessmentindicatorignoringthelandsubsidence.
+4. ResultsandValidation
+4.1. LevelMapsofHazard,Exposure,andVulnerability
+Basedontheselectedassessmentindicatorsandthecorrespondingweights,levelmaps ofhazard,exposure,andvulnerabilityweregeneratedusingoverlayanalysis. Figure11a shows the hazard levels ignoring land subsidence at the pixel level (100 × 100 m) and exhibitsasignificantspatialvariability. HighhazardisprimarilydistributedinShunyi,
+Haidian,Shijingshan,Fengtai,andChangpingdistricts,aswellastheplainareaofHuairou,
+Pinggu,andMiyundistricts. Figure11bdisplaysthespatialdistributionofhazardlevel whenconsideringthelandsubsidence;highhazardismainlylocatedinChaoyang,Changping,Daxing,Haidian,Tongzhou,andShunyidistricts,withthelargesthighlevelareain
+Chaoyangdistrict. AccordingtotheweightresultsofthefloodhazardindicatorsinTable
+5,thehazardevaluationresultforthesubwaysysteminFigure11areflectsthedominance ofprecipitation-relatedindicators. Incomparison,thehazardresultinFigure11bdisplays anintegratedeffectofprecipitationindicatorsandlandsubsidenceonthesubwaysystem.
+LowhazardlevelisdistributedinthewestandnorthofBeijing,regardlessofwhetherland subsidenceisconsidered. TheseregionsmainlycovermostofMentougouandYanqing, thewestofChangping,andthenorthofHuairoudistricts.
+Figure11cdepictsthespatialdistributionofexposurelevelsfortheBeijingsubway system. Overall,exposurelevelsarehigherintheplainsthaninmountainousareas. High exposure is mainly located in the vicinity of river channels since rivers serve as water catchments and drainage channels during flooding. As floods rage eastward from the westernmountains,thefloodvelocityslowsdownduetotheflatterrainandgentleslope oftheBeijingPlain,causinghighwaterlevelsandevenoverflowingtheriverchannelonto thefloodplain. Therefore,thesubwaylinesandstationsnearriverchannelshavehigher exposurelevels. Affectedbytopographyandslope,thelowexposurezonesaremainly distributedinthewesternandnorthernmountainousareasexcludingrivervalleys,such asFangshan,Mentougou,Yanqing,Huairou,Miyun,andPinggudistricts.
+Seventhematiclayerswereemployedtogeneratethefloodvulnerabilitylevelmap:
+populationandGDPdensity,dailypassengerflow,subwaylinedensityandproximity, androaddensityandproximity. AsshowninFigure11d,thevulnerabilitylevelsshow an uneven and concentrated distribution pattern. Highly vulnerable zones are located inthecentralurbanareaandadjacentdistricts,includingXicheng,Dongcheng,Haidian,
+Daxing,Fengtai,andChaoyang. Inadditiontopopulationandpropertydensity,thehigh vulnerabilityareasaresignificantlyaffectedbysubwaylinesandpassengerflow,displaying adistributioncharacteristicalongthesubwaylines. Forexample,suchdistributionpattern is mainly observed in Fangshan, Daxing, Changping, Tongzhou, and Shunyi districts.
+Otherdistrictswithrelativelyhighvulnerabilityaremainlycontrolledbytheroadnetwork density, which presents a typical net-like spatial distribution pattern, such as Yanqing,
+Huairou,Miyun,Pinggu,andMentougou.
+RemoteSens.2021,13,637 18of33
+Figure11.Cont.
+RemoteSens.2021,13,637 19of33
+Figure11.Levelmapsofhazard(a,b),exposure(c),andvulnerability(d)inBeijing.(a,b)denotethe hazardlevelsignoringandconsideringthelandsubsidence,respectively.
+4.2. SpatialDistributionofRegionalFloodRiskLevelsandValidation
+The regional flood risk level maps of Beijing were generated in the model builder according to Equation (2). Figure 12a,b exhibit the regional flood risk levels map in twoscenarios: ignoringandconsideringthelandsubsidenceindicator,respectively. By comparison,theoverallspatialdistributionpatternsofregionalfloodrisklevelsshown inFigure12a,baresimilar—thehighfloodriskareasintheBeijingPlainwerelargerthan thewesternandnorthernmountainousregions. Highriskwasmainlylocatedinthesix centralurbanareasofBeijing,includingDongcheng,Xicheng,Haidian,Fengtai,Chaoyang, andShijingshan. Thehighriskoftheothertendistricts(Daxing, Fangshan, Tongzhou,
+RemoteSens.2021,13,637 20of33
+Mentougou, Shunyi, Changping, Pinggu, Miyun, Huairou, and Yanqing districts) was mainlydistributedinazonalpattern. Yanqing,Huairou,andMentougouwerethethree districtswiththehighestshareoflowriskareasinBeijing. However,notabledistinctionsin theregionalfloodrisklevelsarepresentintwoscenarios. Thecolordifferencesrevealthat thelandsubsidenceexacerbatedthefloodriskincentralurbanareasandadjacentdistricts, especiallyinChaoyang,Daxing,Tongzhou,Changping,andShunyi(Figure12a,b).
+Thedeadpointdatawereusedtoverifytheaccuracyofregionalfloodriskassessment results.ThedeadpointdataoftheBeijing“7.21”(21July2012)catastrophicfloodeventwere obtainedfromtheBeijingMunicipalAffairsDataResourceNetwork. The“7.21”extreme rainfalleventcoveredmorethan86%ofBeijingandlastedapproximately3–4h,withan averageprecipitationof170mm. TherainstormcenterwaslocatedintheHebeitownof
+Fangshandistrictwithamaximumrainfallof541mm(approximatelyequaltoBeijing’s annualprecipitation)[31]. Hence,theextremerainfallevent(approximately60-yearflood) caused a severe torrential flood in mountain regions and wide waterlogging in central urbanareas. Thefatalities(79people)weremainlydistributedintheFangshandistrict andcentralurbanareas(Figure12)[52]. Thepointdatawerevectorizedandoverlaidwith the regional assessment results. As shown in Figure 12a,b, the death point data of this catastrophicfloodeventallmatchthemoderatetohighrisklevelzones,indicatingthatthe riskassessmentresultsbasedontheFAHPmethodareaccurate.
+Figure12.Cont.
+RemoteSens.2021,13,637 21of33
+Figure12. RegionalfloodrisklevelmapofBeijing. Deadpointswerederivedfromthehistorical floodeventon21July2012.(a)Ignoringlandsubsidence;(b)Consideringlandsubsidence.
+4.3. FloodRiskoftheSubwaySystemandValidation
+4.3.1. SpatialDistributionPatternofRiskLevelsintheSubwaySystem
+Thesubwaysystem’sfloodriskwasextractedfromtheregionalfloodriskassessment resultsandreflectedbytherisklevelwithinthe500mbufferzoneofthesubwayline(i.e.,
+1000mwidth). Toexplicitlyidentifytherisklevelofthesubwaysystem,weusedtheJenks methodtoclassifythefloodriskintofivelevels: veryhigh,high,moderate,low,andvery low. Figure13presentsthespatialdistributionrisklevelsfortheBeijingsubwaysystem basedontheFAHPapproach.
+Thefloodrisksshowaring-likedistributionpatternwithrisklevelsdecreasingfrom thecentralurbanareatothesuburbs. AsshowninFigure13, theveryhighriskzones wereprimarilydistributedwithinthethirdringroad,bothwithandwithoutconsidering landsubsidence. Theareasoftheveryhighriskcategorieswithinthethirdringroadin
+Figure13a(ignoringlandsubsidence)andFigure13b(consideringlandsubsidence)were
+27.98 and 29.40 km2, accounting for 75.40% and 63.58% of the total very high risk area ofthesubwaysystem,respectively. Highriskisrelativelydispersedandlocatedmainly withinthefourthringroadcomparedtoveryhighrisk. Thehighriskareaswithinthe fourthringroadinFigure13a,bwere80.75and81.19km2,occupying75.37%and63.83% ofthetotalhighriskareaofthesubwaysystem,respectively.
+ThemoderateriskareaswithinthefifthringroadinFigure13a,bwere102.59and
+96.98km2,comprising71.84%and60.42%ofthetotalmoderateriskarea,respectively. The lowandverylowriskareascovered320.17(Figure13a)and273.29km2(Figure13b),which weremainlyoutsidethefourthandfifthringroadsandaccountedfor52.73%and45.01% ofthetotalarea,respectively. Theareahigherthanthemoderaterisk(includingmoderate risk)was287.04(Figure13a)and333.92km2(Figure13b),respectively,makingup47.27% and54.99%ofthetotalarea(607.21km2). Theserelativelyhighriskswereconcentrated incentralurbanareaswithahighpopulationandeconomicdensity,suchasDongcheng,
+RemoteSens.2021,13,637 22of33
+Xicheng,Haidian,Chaoyang,andFengtai. Asaresult,thesubwaysystemincentralBeijing hashigherfloodrisklevels.
+Figure13. Floodrisklevelswithinthe500mbufferzoneofthesubwaylines. (a)Ignoringland subsidence;(b)Consideringlandsubsidence.
+4.3.2. FloodRiskLevelDistributionofSubwayLinesandStationsConsideringLand
+Subsidence
+Tosupplypolicymakerswithusefulinformationforfloodriskmanagementinthe subway system, we identified the flood risk level distribution of 23 subway lines and
+405stationsinalandsubsidenceenvironment.
+Figure14showstheareadistributionofdifferentfloodrisklevelsforeachBeijing subwayline. Theareasfromtheveryhightotheverylowrisklevelwere95.98(13.99%),
+191.18(27.86%),181.15(26.40%),153.53(22.38%),and64.40(9.38%)km2(theintersection areas between subway lines are double-counted since they comprise different subway
+RemoteSens.2021,13,637 23of33 lines). Accordingly,therisklevelswiththelargestareaandthewidestdistributionare highriskandmoderaterisk,respectively. Therearefivesubwaylineswithhighandvery highriskareasaccountingformorethanhalfoftheirlines,namelyLine2(95.92%),Line10
+(62.56%),Line1(56.90%),Line4—Daxingline(56.34%),andBatongLine(54.13%). Most oftheselinesarelocatedinorthroughthecentralurbanarea. Sevensubwaylineshavea moderateriskareaexceeding30%oftheirlines,whichareLine6(42.29%),Line5(39.43%),
+Line7(38.02%),Line14(36.52%),Line9(34.16%),Line8(33.88%),andLine4—Daxing
+(30.91%). Elevensubwaylineshaverelativelylowfloodrisklevels(verylowandlowrisk area>50%),includingLineS1(91.22%),ChangpingLine(88.82%),FangshanLine(88.80%),
+XijiaoLine(85.65%),Line16(84.43%),Yan—FangLine(80.38%),DaxingAirportExpress
+(78.18%),Line15(63.12%),YizhuangLine(59.30%),andCaptialAirportExpress(53.18%).
+MostoftheselinesaresituatedinthesuburbanareasofBeijing.
+Figure14.Areadistributionatdifferentrisklevelsforeachsubwayline.
+Moreover,thefloodrisklevelsof405subwaystationswereidentifiedusingGIStools.
+Excluding62transferstations(65duplicatecounts),theactualnumberofstationsinthe
+Beijingsubwaysystemis341. Thenumberofveryhighandhighrisksubwaystations was 73 and 103, accounting for 51.61% of the total. This ratio indicates that there is a highpotentialfloodriskintheBeijingsubwaysystem. Eighty-ninesubwaystationswere moderaterisk,representing26.10%ofthetotal. Theremaining76stationswerelowand verylowrisk,makingup22.29%ofthetotal. AsshowninFigure15,subwaystationswith veryhighandhighriskwereprimarilylocatedonLine10(19stations),Line2(16stations),
+Line1(14stations),Line4—Daxing(11stations),andLine14(9stations). Thesestations weremainlydistributedinthecentralurbanareaandweremostlyinterchangestations.
+TheverylowandlowriskstationsweremainlylocatedinthesuburbsontheFangshanLine
+(11stations),Yan—FangLine(9stations),Line8(8stations),ChangpingLine(7stations),
+LineS1(7stations),Line16(6stations),Line15(5stations),YizhuangLine(5stations), andXijiaoLine(5stations). Moreover,therisklevelsforeachsubwaystationareshown inSupplementaryMaterials(Excelfile). Identifyingveryhighandhighrisksubwaylines andstationscanprovidefundamentaldatafortheoptimalallocationoffloodmitigation resourcesandriskmanagement.
+RemoteSens.2021,13,637 24of33
+Figure15.Thenumberdistributionofsubwaystationswithdifferentrisklevelsofeachsubwayline.
+4.3.3. ResultsValidation
+Historicalfloodingrecordsofsubwaystationswereusedtoverifytheriskassessment resultsfortheBeijingsubwaysystem. Toguaranteetheaccuracyofthefloodrecords,we fieldinvestigated116subwaystationsandinterviewedneighboringresidentsconcerning thefloodingofsubwaystations. Subsequently,11subwaystationswithsevereleakageand floodingwereselectedandsuperimposedwiththeriskassessmentresults(seeFigure13).
+The11subwaystationswerealmostconsistentwithveryhighandhighriskzonesinthe evaluationresults(82%and91%forFigure15). Forexample,floodwaterssurgedintothe southwestexit(ExitD)ofTaorantingstation(Line4)alongtheescalatorandcausedits temporaryshutdownduringthe“7.21”catastrophicfloodevent(Figures1and13). By comparison,wediscoveredthattheTaurantingstationfallsintheveryhighriskzonein theriskevaluationresults. Theresultsvalidationindicatesthattheriskevaluationofthe
+BeijingsubwaysystembasedontheFAHPmethodisreliable.
+5. Discussion
+5.1. LandSubsidenceAggravatestheFloodRiskLeveloftheSubwaySystem
+The Beijing region has been affected by land subsidence since 1935 [53]. Previous studiesshowedthattheleadingcauseoflandsubsidenceisintensivegroundwaterextraction[54]. Bytheendof2017,themaximumcumulativesubsidencewasover1.8mamong thesubsidencecenters,whichposesasignificantthreattothesafeoperationofthesubway system[55].
+Figure16revealstheareadistributionofthedifferentfloodrisklevelsforthesubway systemundertwoscenarios: ignoringandconsideringthelandsubsidenceindicator. In comparison,theareaatmoderatetoveryhighriskofthesubwaysystemincreasedby46.88 km2(16.33%)underthelandsubsidencescenario. Table6showstheareaproportionsof eachrisklevelinthetwoscenarios. Comparedwiththeignoringlandsubsidencescenario, theareasharesofveryhigh,high,andmoderaterisklevelsincreasedby1.50%(9.13km2),
+3.30%(20.05km2),and2.91%(17.70km2),respectively.
+RemoteSens.2021,13,637 25of33
+Figure16.Theareadistributionofdifferentfloodrisklevelsinthesubwaysystem.
+Table6.Areaproportionofeachrisklevelindifferentscenarios.
+AreaProportionatDifferentRiskLevels(%)
+Scenario
+VeryHigh High Moderate Low VeryLow
+Ignoringlandsubsidence 6.11 17.64 23.52 28.99 23.73
+Consideringlandsubsidence 7.62 20.94 26.43 29.74 15.27
+Theveryhighriskareasofthefoursubwaylinesincreasedbymorethan1km2when the land subsidence indicator was considered, namely Batong Line (3.40 km2), Line 1
+(2.63km2),Line10(1.5km2),andLine14(1.11km2);twosubwaylines,Line2(0.91km2) and Line 7 (0.89 km2), have area growth between 0.5 and 1 km2 in the very high risk level. In terms of spatial distribution, the subway lines and stations impacted by land subsidence were mainly located in Chaoyang, Daxing, Tongzhou, Changping, Shunyi,
+Haidian,andDongcheng,ofwhichChaoyangwasthemostaffected. Forexample,the veryhighandhighrisklevelsoftheBatongLinelocatedinChaoyangincreasedby3.4and
+3.79km2underthelandsubsidencescenario,withgrowthratesof2615.38%and119.56%, respectively. Thus,landsubsidenceisacrucialindicatorofaggravatingthefloodrisklevel ofthesubwaysystem[35,55].
+5.2. IndicatorSystemAnalysisinFloodRiskAssessmentofSubwaySystems
+In our study, subway systems’ flood risk is indirectly reflected using the regional flood risk level within a 500 m radius of subway lines. Thus, the selection of regional risk indicators is critical to risk results. Previous flood risk evaluations at the regional and watershed scales commonly omit key factors (e.g., subway line density, passenger flow)thataffectsubwayflooding. Forexample,inthefloodriskevaluationoftheBeijing-
+Tianjin-Hebeiregion,Wangetal. mainlyconsiderednaturalandsocio-economicindicators suchasprecipitation,rivers,topography,geomorphology,population,andgrossdomestic product [31]. Lai et al. selected 14 risk indicators on precipitation, topography, runoff, soil,andsocio-economicsintheirstudyoffloodriskevaluationintheDongjiangRiver basin[45]. Consequently,theaboveriskindicatorsystemcannoteffectivelydepicttheflood riskofthesubwaysystem.
+Consideringthattheinundationinthesubwaysystemprimarilyresultsfromextreme rainfallevents[21],weemployedrainstormintensity(H ,H ),roadwaterloggingspots
+1 2
+(H ),andaverageannualprecipitation(H )ashazardindicators. Previousstudieshave
+3 5
+RemoteSens.2021,13,637 26of33 shown that the Beijing subway system experienced segmental and uneven subsidence during2003–2018[11,55]. Inaddition,themeangroundwaterdepthintheBeijingPlain roseby3m(2015–2019)sincetheMiddleRouteoftheSNWDP(theSouth-to-NorthWater
+DiversionProject)startedtooperate[56]. Thecontinuousriseofgroundwaterlevelcombinedwithunevenlandsubsidencecanincreasethesubwaysystem’sfloodrisk. Thus, cumulativelandsubsidence(H )andgroundwaterdepth(H )wereincludedinthehazard
+4 6 indicators.
+Thedirectcauseoffloodinginthesubwaysystemistheingressofsurfacefloodwaters;
+thatis,morestationexitsindicateahigherexposurelevelofthesubwaysystemtoflooding.
+Of course, whether flooding enters the subway system is dominated by the station’s elevationandslopeexceptforrainfall. Riversactasconfluencechannelsduringflooding.
+Theiroverflowoftenleadstotheinundationofadjacentsubwaylinesandstations[21].
+Moreover,thefaultactivitydeformedthesubwaysystemandcausedtunnelcollapseand waterleakage. Thelandcoversaffecttheconfluenceandinfiltrationrateofurbansurface waterflooding. Therapidgrowthofimpervioussurfacesincreasestheurbanfloodrisk[57].
+Therefore,weincorporatedthesefactorsintotheexposureindicatorsystem(Figure3).
+AreaswithhighpopulationandGDPdensitiestendtohavewell-developedstormwater drainage systems. Thus, these two indicators can reflect regional resilience. The passengerflowofeachsubwaylinewasusedtoreflectthepotentialthreattopassengers whenfloodingoccurs. Floodwaterenteringasubwaystationmayflowalongthesubway tunnelandaffectadjacentlines. Asaresult,extremefloodingmaycauseamoresignificant lossinareaswithhighlinedensities[21,24]. Moreover,theroadnetworkactsasatemporarydrainagechannelwhensurfacefloodingexceedstheundergrounddrainagesystem’s capacityduringheavyrainfall. However,stationexitsaredistributedonroadsidesorinthe middleofthemainroad,whichincreasestheriskofsurfacefloodingenteringthesubway system[24]. Finally,sevenriskindicatorswereselectedtocharacterizethevulnerability level(Figure3).
+Takentogether,weselected20indicatorsfromhazard,exposure,andvulnerability tocreateafloodriskindicatorsystemforthesubwaysystem. Theresultsvalidationalso provesthattheriskindicatorsystemweconstructedisreasonable.
+5.3. AssessmentEfficiencyBasedonFAHPMethod
+Floodriskisessentiallyathree-dimensionalconceptrelatedtonon-profitability,uncertainty,andcomplexity[58]. Thetopographic,geological,meteorological,landcover, andsocio-economicstatisticalinformationusedtodemonstratethefloodrisklevelshave multiplicity, complexity, uncertainty, inaccuracy, and diversity of assessment methods, makingriskassessmentaglobalproblemfacingthefieldofriskscienceandtechnology[31].
+Inadditiontotherationalityandintegrityoftheriskindicatorselectionmentionedabove, theweightcalibrationofriskassessmentindicatorsalsoaffectstheaccuracyofriskresults.
+AHPhasbeenwidelyacceptedandusedingeography,environmentalscience,biology, andsocialsciences[43]. Thismethodisastructuredtechniquefordeterminingcomplex systems’weightbasedonmulti-criticalindicators,includingmanyinterrelatedobjectives or criteria [50]. The weights of these objectives and criteria are defined after they are rankedaccordingtotheirrelativeimportance. Saatydefinedascalefrom1to9(ortheir reciprocals)withassignedlinguistictermstoindicatetherelativeimportanceofpairwise comparisons[49]. However,thereisagreatdealofbiasintheweightvaluesafterranking therelativeimportanceofriskindicatorsusingasingleandcrispvalue(numbers1–9and theirreciprocals). Therefore,thetraditionalAHPmethodisdevelopedintothefuzzyAHP methodbasedonthefuzzysetandthefuzzylogictheory.
+IntheFAHPapproach,thefuzzysyntheticextentdescribestheimportanceofrisk indicatorsusingatriangularfuzzynumber(seeAppendixTableA1)[52]. Comparedwith thebinarylogicoftraditionalAHP,FAHPisaformofmulti-valuedlogic,whichprovides asystematicbasisforexpressingambiguousinformationinsteadofpreciseknowledge (Equation(7)). Forexample,“likelihood”isalinguisticvariable;itsvaluesareverylow,
+RemoteSens.2021,13,637 27of33 low, moderate, high, and very high, and fuzzy numbers can represent these linguistic variables. Inourstudy,thetriangularfuzzymembershipmapstheinterestdomaintothe interval[0,1]. Itindicatesthedegreetowhichaspecifiedvaluebelongstotheset,which reducestheuncertaintiesduringariskassessment[50].
+Figure17showsthefloodriskleveloftheBeijingsubwaysystembasedontheAHP method. ComparedwiththeevaluationresultbasedontheFAHPapproach,theveryhigh andhighriskareasusingtheAHPapproachweredecreasedby6.96(15%)and27.43km2
+(22%),whereastheverylowandlowriskareaswereincreasedby23.84(26%)and7.62km2
+(4%). Eightofthe11floodedsubwaystationsmatchedtheveryhighriskareasintherisk results based on the FAHP method (72.73%) (Figure 13b), whereas only five coincided withtheveryhighriskzonesintheresultsusingtheAHPapproach(45.45%)(Figure17).
+Therefore,theFAHPmethodissuperiorinidentifyinghighriskareasofthesubwaysystem, whichgeneratesmoreaccurateandreliableriskassessmentresults.
+Figure 17. Spatial distribution of flood risk levels in the Beijing subway system based on the
+AHPmethod.
+5.4. FloodPreventionMeasuresoftheSubwaySystem
+Therearefourmainentriesforthesubwaysystem: entrances/exits(elevatorsand stairsforbothpersonnelandcommuters),emergencyexits,ventilationgrates,andtunnel entries[21].Inparticular,stationexitsarethemainchannelforsurfacefloodingintothesubwaysystembecauseoftheirnumerousandwidespreaddistribution. Hence,priorityflood preventionmeasuresmusteffectivelypreventfloodintrusionintosubwaystations[59].
+Based on field investigations, the height of some Beijing subway stations’ exit steps is reducedbytheincreasedheightoftheroadsurface(e.g.,QianmenandXisistations),which raisesthepossibilityofsurfacefloodingenteringthestationsduringheavyrainfall. We suggestelevatingtheheightoftheexit(entrance)topreventfloodingintosubwaystations andtunnels,especiallyforlow-lyingstations(Figure18a).
+RemoteSens.2021,13,637 28of33
+Figure18.Floodpreventionmeasuresforsubwaystations.(a)Waterstopplateandhighsteps;(b)Floodwaterharvesting systemandpumpingstations.
+Anotherusefulmeasuretoprotectthestationandtunnelfromfloodingistoinstall water stop plates or waterproof doors at exits (entrances) (Figure 18a) [24]. The height ofthewaterproofdoorshouldtakeintoaccountthereturnperiodofurbanfloodingand waterlogging. Previousresearchshowedthattraditionalpositive-pressurehingeddoors couldnotresistfloodingbecausemostoftheseexits(entrances)arelocatedonbothsides ofsidewalksandroadsandhavespaceconstraints[24]. Thus,newtypesofwaterproof doorsshouldbedevelopedfordifferentexits(entrances),suchascounter-pressuredoors, hingeddoubledoors,shutters,andbi-folddoors.
+Themunicipaldrainagepipenetworkoperatesatfullcapacityorisoverloadedduring heavyrainfall. Floodwaterharvestingsystemsandpumpingstationsshouldbeinstalledin subwaystationstoensurethatenteredfloodwatercanbequicklydischarged(Figure18b).
+Floodwaterenteringtheundergroundtunnelviaexits(entrances)andventilationgrates wouldflowthroughthetunnelintoothersubwaylinesandcausemoreseveredamage. We recommendthatwatertightdoorsbeinstalledatinterchangestationsinsubwaytunnels topreventfloodingfromaffectingothersubwaylines[24]. Ofcourse,thedrainagepipe networkdiametershouldbeincreasedinurbanconstructiontoimprovedrainagecapacity.
+Inadditiontostructuralmeasures,softadaptationstrategiesalsoplayacrucialrole in flood prevention in subway systems. Soft adaptations refer to the use of available informationandlow-coststrategiessuchasbehavioral,institutional,andstrategicchanges toenhancetheabilitytowithstandfloods[57]. Thesemeasuresincludebuildingcodes, urban planning, forecasting and early warning systems (EWS), flood insurance, land use planning, capacity building of education and awareness, and other nature-based measures[57]. Weadvisetherelateddepartmentstoimprovethesubwaysystem’sdesign andconstructionstandards,especiallyfloodresistinganddrainagecapabilities. Webelieve it is crucial to undertake flood control measures at subway station entrances and exits immediatelybasedonreal-timeweatherforecastinformation. Moreover,itisimportant tostrengthenfloodpreventionmeasuresinurbanundergroundspaceplanning,design, andconstructionwhileraisingpublicawarenessoffloodrisk. Werecommendcombining
+structuralandsoft-adaptivemeasurestoenhancethefloodprotectionlevelofthesubway system.
+RemoteSens.2021,13,637 29of33
+5.5. RemainingDeficiencyandFutureResearch
+Thisstudyhasseverallimitations,despitethefactthattheFAHPmethodcanefficiently andaccuratelyassessthesubwaysystem’sfloodrisklevel.First,theindirectriskevaluation approachweemployedmayintroducesomeuncertaintyintotheriskresults. Forexample, wedescribethesubwaysystem’sfloodrisklevelusingtheregionalfloodrisklevelwithin the500mbufferzoneofsubwaylines. Second,thesubwaysystem’sfloodriskisaffected byvariouscomplexfactors,suchastheundergroundpipenetwork’sdrainagecapacity adjacenttothesubwaylines. Theriskindicatorsystemwehaveconstructedremainstobe furtherimproved.Moreover,thefloodriskassessmentinthispaperwasbasedonhistorical precipitationdata(1981–2010)andlandsubsidencedata(1955–2012),whiletheconstant changesinrainfallintensityandimpervioussurfacesinBeijinginrecentyearsandthe futurebringuncertaintiestotheriskresults.
+Globalwarmingandurbanconstructionmakethesubwayfloodriskinthefuture highlyuncertain. Therefore, futureresearchshouldfocusmoreonthefloodriskofthe subwaysystemunderchangingscenarios.Localclimatemodelsandsubsidencemonitoring data should be employed to project the intensity of extreme urban flood events and subsidence rates in future periods. In addition, the MIKE 1D/2D (a one-dimensional andtwo-dimensionalriverhydrodynamicmodel)andSWMM(StormwaterManagement
+Model)modelsshouldbeusedtosimulatetheextentanddepthofinundationofthesubway systemfordifferentrainfallintensityscenarios(e.g.,10-,20-,50-,100-,and500-year). These simulationswillfacilitatemoreaccuratefloodriskresultsforsubwaysystemsunderclimate changeandrapidurbanizationscenarios.
+6. Conclusions
+Inthecontextoftheincreaseinextremeprecipitationeventsandrapidurbanization, floodinginmetropolitanareasunderthesubsidenceenvironmentseverelyaffectssubway systems’ safe operation. This study presents a method that investigated the flood risk ofmetropolitansubwaysystemsunderasubsidenceconditionbasedonFAHPandGIS.
+ThemethodwasemployedtoassesstheBeijingsubwaysystem’sfloodrisklevelandwas validatedbyhistoricalfloodrecords. Themainconclusionsareasfollows.
+(1) Thisstudyproposedamethodforquicklyandaccuratelyassessingfloodrisklevelsin metropolitansubwaysystemsbasedonFAHPandGIS.Accordingtotheconstructed riskindicatorsystem,theregionalriskwithinthe500mbufferofthesubwaylines depictsthefloodrisklevelofthesubwaysystem. Thisapproachhastheadvantages ofbeingregionaltolocal,qualitativetoquantitative. Thisevaluationcanprovidea theoreticalbasisforfloodriskassessmentinothermetropolitansubwaysystems.
+(2) Landsubsidenceisanessentialriskassessmentindicatorthatexacerbatestheflood risklevelofthemetropolitansubwaysystem. Comparedwiththeriskresultignoring landsubsidence,themoderatetoveryhighriskzonesoftheBeijingsubwaysystem increased by 46.88 km2 (16.33%) considering land subsidence. Subway lines and stations with increased flood risk levels are mainly located in Chaoyang, Daxing,
+Tongzhou,Changping,Shunyi,Haidian,andDongcheng. Weexpectourstudyto drawtheattentionofthepublicandrelatedsectorstosubwayflooding.
+(3) TheFAHPmethodyieldsamorereasonableandaccuratefloodriskthantheAHP method. Bycomparison,theveryhighandhighriskareasusingtheFAHPmethod wereincreasedby6.96(15%)and27.43km2(22%),respectively. Thefloodriskofthe
+Beijingsubwaysystemshowsaring-likedistributionpattern. Theveryhighandhigh riskzonesareprimarilydistributedwithinthethirdringroadandfourthringroad, accountingfor63.58%and63.83%ofthetotalveryhighandhighriskareas.Moreover, weidentifiedthefloodrisklevelsof23subwaylinesand405stationsandproposed floodpreventionmeasures. Thisstudyprovidesmoreinformativedecision-making indevelopingdisasterplansforsubwaysystemsandthesustainabledevelopmentof metropolitanareas.
+RemoteSens.2021,13,637 30of33
+(4) Globalwarmingandrapidurbanizationhaveledtochangesinfloodriskinsubway systems. Thispaper’sfloodriskassessmentwasbasedonhistoricalprecipitationdata andlandsubsidencedata,whilethesedatamaynotbesuitableforfuturefloodrisk evaluation. Thus,futureresearchshouldfocusonthefloodriskofsubwaysystems undertheclimatechangescenario,forexample,forecastingfutureextremerainfall intensity and land subsidence rates and employing them in flood risk evaluation studies.Additionally,hydrological-hydraulicmodels(e.g.,MIKE1D/2DandSWMM) shouldbeusedtosimulatetheinundationdepth/extentofthesubwaysystemunderdifferentrainfallintensityscenarios(e.g., 10-, 20-, 50-, 100-, and500-year); the difference in the drainage capacity of the underground pipe network adjacent to thesubwaysystemshouldalsobeconsideredintheriskevaluationprocess. These simulationswillprovidemoreaccuratefloodriskresultsforsubwaysystems.
+SupplementaryMaterials:Thefollowingareavailableonlineathttps://www.mdpi.com/2072-42
+92/13/4/637/s1.
+AuthorContributions:Conceptualization,G.W.,andL.L.;datacurationandinvestigation,G.W.,Y.L.
+(YongLiu),Z.H.,G.Z.,J.L.,Y.L.(YanliLyu),Y.G.,X.H.,Q.Z.,andL.L.;methodology,G.W.,andL.L.;
+writing—originaldraft,G.W.;writing—reviewandediting,G.W.,andL.L.Allauthorshavereadand agreedtothepublishedversionofthemanuscript.
+Funding:ThestudywassupportedbytheNationalKeyResearchandDevelopmentProject(Research anddemonstrationofkeytechnologiesforcomprehensivepreventionofmultiplemajornatural disastersinmetropolitanareas,GrantNo.2017YFC1503000).
+InstitutionalReviewBoardStatement:Notapplicable.
+InformedConsentStatement:Notapplicable.
+DataAvailabilityStatement:ThesourcesoffloodriskevaluationdatafortheBeijingsubwayareall listedinAppendixA(Table2).
+Acknowledgments:Theauthorswouldliketothankthefouranonymousreviewersfortheirvaluable commentsandthetwoeditors(SoheilSabriandNikolaStojanovic)fortheirhelpwiththisarticle.
+ConflictsofInterest:Theauthorsdeclarenoconflictofinterest.
+AppendixA
+TableA1.Quantitativescaleandimportantdescriptionoftriangularfuzzynumbers.
+Quantitative ReciprocalTriangular
+FuzzyNumber ImportantDescription
+Scales FuzzyNumber
+1 Equallyimportant (1,1,1) (1,1,1)
+1˜ Almostequallyimportant (1,1,3) (1/3,1,1)
+2˜ Intermediatevalue (1,2,4) (1/4,1/2,1)
+3˜ Moderatelymoreimportant (1,3,5) (1/5,1/3,1)
+4˜ Intermediatevalue (2,4,6) (1/6,1/4,1/2)
+5˜ Stronglymoreimportant (3,5,7) (1/7,1/5,1/3)
+6˜ Intermediatevalue (4,6,8) (1/8,1/6,1/4)
+7˜ Verystronglymoreimportant (5,7,9) (1/9,1/7,1/5)
+8˜ Intermediatevalue (6,8,10) (1/10,1/8,1/6)
+9˜ Extremelymoreimportant (7,9,11) (1/11,1/9,1/7)
+RemoteSens.2021,13,637 31of33
+Table2.Datasourcesoffloodriskassessmentindicators.
+DataDescription DataSource
+Rainstorm
+http://data.cma.cn/(accessedon29December2020) (≥100mm,≥50mm)
+Averageannual
+Hazard http://data.cma.cn/(accessedon29December2020) precipitation
+Roadwaterloggingspots https://data.beijing.gov.cn/(accessedon29December2020)
+Landsubsidence Zhouetal.
+Groundwaterdepth http://geocloud.cgs.gov.cn(accessedon29December2020)
+Stationexits https://www.bjsubway.com/(accessedon29December2020)
+Riskindicator
+Elevationandslope http://www.gscloud.cn/(accessedon29December2020)
+Exposure Rivernetwork(2017) http://www.ngcc.cn/ngcc/(accessedon29December2020)
+Landcover http://data.ess.tsinghua.edu.cn/(accessedon29December2020)
+Fault http://geocloud.cgs.gov.cn(accessedon29December2020)
+PopulationandGDP http://www.resdc.cn/lds.aspx(accessedon29December2020)
+Passengerflow https://www.bjsubway.com/(accessedon29December2020)
+Vulnerability
+Subwayline https://data.beijing.gov.cn/(accessedon29December2020) https://www.webmap.cn/commres.do?method=result25W
+Roadnetwork(2017) (accessedon29December2020) https://www.webmap.cn/commres.do?method=result25W
+AdministrativedivisionsofBeijing(2017) (accessedon29December2020)
+References
+1. Chen, B.; Gong, H.; Chen, Y.; Li, X.; Zhou, C.; Lei, K.; Zhu, L.; Duan, L.; Zhao, X. Land subsidence and its relation with groundwateraquifersinBeijingPlainofChina.Sci.TotalEnviron.2020,735,139111.[CrossRef]
+2. Lee,K.D.;Torell,G.L.;Newman,S.Aonce-in-one-hundred-yearevent?Asurveyassessingdeviationbetweenperceivedand actualunderstandingoffloodriskterminology.J.Environ.Manag.2020,277,111400.
+3. Toosi,A.S.;Calbimonte,G.H.;Nouri,H.;Alaghmand,S.Riverbasin-scalefloodhazardassessmentusingamodifiedmulti-criteria decisionanalysisapproach:Acasestudy.J.Hydrol.2019,574,660–671.[CrossRef]
+4. EM-DATDisasterProfiles.TheOFDA/CREDInternationalDisasterDatabase.2016.Availableonline:http://www.emdat.be/d atabase(accessedon31January2016).
+5. Temmerman,S.;Meire,P.;Bouma,T.J.;Herman,P.M.;Ysebaert,T.;DeVriend,H.J.Ecosystem-basedcoastaldefenceinthefaceof globalchange.Nature2013,504,79–83.[CrossRef]
+6. Woodruff,J.D.;Irish,J.L.;Camargo,S.J.Coastalfloodingbytropicalcyclonesandsea-levelrise.Nature2013,504,44–52.[CrossRef] [PubMed]
+7. Montanari,A.;Koutsoyiannis,D.Modelingandmitigatingnaturalhazards:Stationarityisimmortal!WaterResour.Res.2014,50,
+9748–9756.[CrossRef]
+8. Zheng,F.;Westra,S.;Leonard,M.;Sisson,S.A.Modellingdependencebetweenextremerainfallandstormsurgetoestimate coastalfloodingrisk.WaterResour.Res.2014,50,2050–2071.[CrossRef]
+9. Zhu,Z.;Chen,Z.;Chen,X.;He,P.Approachforevaluatinginundationrisksinurbandrainagesystems.Sci.TotalEnviron.2016,
+553,1–16.[CrossRef]
+10. Qian,Q.Presentstate,problemsanddevelopmenttrendsofurbanundergroundspaceinChina.Tunn.Undergr.SpaceTechnol.
+2016,55,280–289.
+11. Chen, Z.L.; Chen, J.Y.; Liu, H.; Zhang, Z.F.PresentstatusanddevelopmenttrendsofundergroundspaceinChinesecities:
+Evaluationandanalysis.Tunn.Undergr.SpaceTechnol.2018,71,253–270.[CrossRef]
+12. Forero-Ortiz,E.;Martínez-Gomariz,E.;Porcuna,M.C.;Locatelli,L.;Russo,B.FloodRiskAssessmentinanUndergroundRailway
+SystemundertheImpactofClimateChange—ACaseStudyoftheBarcelonaMetro.Sustainability2020,12,5291.[CrossRef]
+13. Shen,S.L.;Wu,H.N.;Cui,Y.J.;Yin,Z.Y.Long-termsettlementbehaviourofmetrotunnelsinthesoftdepositsofShanghai.Tunn.
+Undergr.SpaceTechnol.2014,40,309–323.[CrossRef]
+14. Shen,S.L.;Wu,Y.X.;Misra,A.Calculationofheaddifferenceattwosidesofacut-offbarrierduringexcavationdewatering.
+Comput.Geotech.2017,91,192–202.[CrossRef]
+15. Tan,Y.;Zhu,H.;Peng,F.;Karlsrud,K.;Wei,B.Characterizationofsemi-top-downexcavationforsubwaystationinShanghaisoft ground.Tunn.Undergr.SpaceTechnol.2017,68,244–261.[CrossRef]
+16. Wang,X.W.;Yang,T.L.;Xu,Y.S.;Shen,S.L.Evaluationofoptimizeddepthofwaterproofcurtaintomitigatenegativeimpacts duringdewatering.J.Hydrol.2019,577,123969.[CrossRef]
+17. Tang,S.;Li,X.Studyondesignwaterleveloffloodcontrolformetrostations:Acasestudyofhefeiline5.Chin.J.Undergr.Space
+Eng.2018,14(Suppl.2),881–886,899.(InChinese)
+RemoteSens.2021,13,637 32of33
+18. Lyu,H.;Shen,S.;Yan,X.;Yujin,S.Y.;Xu,Y.RiskassessmentofmetrosysteminducedbylandsubsidenceinShanghai.J.Nanjing
+Univ.2019,55,392–400.(InChinese)
+19. Xu,Y.S.;Yan,X.X.;Shen,S.L.;Zhou,A.N.Experimentalinvestigationontheblockingofgroundwaterseepagefromawaterproof curtainduringpumpeddewateringinanexcavation.Hydrogeol.J.2019,27,2659–2672.[CrossRef]
+20. Sun,L.;Luo,J.ForthePassengerstoReturnHomeSafely—BeijingSubwayFightsExtremelyHeavyRainfall.ChinaRoadTransp.
+2012,9,32–34.
+21. Vermeij,D.A.A.N.FloodRiskReductionInterventionsfortheNewYorkCitySubwaySystem:AResearchontheImpactofStorm
+SurgeandSeaLevelRiseontheSafetyAgainstFloodinginUrbanDelta’s.2016.Availableonline:https://repository.tudelft.nl/ islandora/object/uuid:db184167-b1b7-4dd1-b7f0-623df2352fe0(accessedon16September2020).
+22. Sosa,E.;Thompson,G.;Barbero,E.Testingoffull-scaleinflatableplugforfloodmitigationintunnels.Transp.Res.Rec.J.Transp.
+Res.Board2014,2407,59–67.[CrossRef]
+23. Herath,S.;Dutta,D.Modelingofurbanfloodingincludingundergroundspace. InProceedingsoftheSecondInternational
+ConferenceofAsia-PacificHydrologyandWaterResourcesAssociation,Tokyo,Japan,5–8July2004;pp.55–63.
+24. Aoki,Y.;Yoshizawa,A.;Taminato,T.Anti-inundationmeasuresforundergroundstationsofTokyoMetro.ProcediaEng.2016,165,
+2–10.[CrossRef]
+25. Lyu, H.M.; Wang, G.F.; Shen, J.S.; Lu, L.H.; Wang, G.Q. Analysis and GIS mapping of flooding hazards on May 10, 2016,
+Guangzhou,China.Water2016,8,447.[CrossRef]
+26. CDN.ChinadailyNews,HeavyRainDisruptsBeijingTraffic.2011.Availableonline:http://www.chinadaily.com.cn/ethnic/p hoto/2011-06/23/content_12763843_2.htm(accessedon29November2020).
+27. XLN.XinlangNews,4.11FloodEventCaused11Deaths:SuccessiveDeathafterMeteorologicalWarning.2019.Availableonline:
+https://news.sina.cn/2019-04-14/detailihvhiqax2511646.d.html?pos=3&vt=4(accessedon9July2019).
+28. Mishra,K.;Sinha,R.FloodriskassessmentintheKosimegafanusingmulti-criteriadecisionanalysis: Ahydro-geomorphic approach.Geomorphology2020,350,106861.[CrossRef]
+29. Wang,Z.;Lai,C.;Chen,X.;Yang,B.;Zhao,S.;Bai,X.Floodhazardriskassessmentmodelbasedonrandomforest.J.Hydrol.2015,
+527,1130–1141.[CrossRef]
+30. Alfieri,L.;Feyen,L.;Dottori,F.;Bianchi,A.EnsemblefloodriskassessmentinEuropeunderhighendclimatescenarios.Glob.
+Environ.Chang.Hum.PolicyDimens.2015,35,199–212.[CrossRef]
+31. Wang,G.;Liu,Y.;Hu,Z.;Lyu,Y.;Zhang,G.;Liu,J.;Liu,Y.;Gu,Y.;Huang,X.;Zheng,H.;etal. FloodRiskAssessmentBased onFuzzySyntheticEvaluationMethodintheBeijing-Tianjin-HebeiMetropolitanArea, China. Sustainability2020, 12, 1451.
+[CrossRef]
+32. Bonì,R.;Meisina,C.;Cigna,F.;Herrera,G.;Notti,D.;Bricker,S.;McCormack,H.;Tomás,R.;Béjar-Pizarro,M.;Mulas,J.;etal.
+ExploitationofsatelliteA-DInSARtimeseriesfordetection,characterizationandmodellingoflandsubsidence.Geosciences2017,
+7,25.[CrossRef]
+33. Chen,B.;Gong,H.;Li,X.;Lei,K.;Zhu,L.;Gao,M.;Zhou,C.CharacterizationandcausesoflandsubsidenceinBeijing,China.Int.
+J.RemoteSens.2017,3,808–826.[CrossRef]
+34. Dong,S.;Samsonov,S.;Yin,H.;Ye,S.;Cao,Y.Time-seriesanalysisofsubsidenceassociatedwithrapidurbanizationinShanghai,
+ChinameasuredwithSBASInSARmethod.Environ.EarthSci.2014,72,677–691.[CrossRef]
+35. Fadhillah,M.F.; Achmad,A.R.; Lee,C.W.IntegrationofInSARTime-SeriesDataandGIStoAssessLandSubsidencealong
+SubwayLinesintheSeoulMetropolitanArea,SouthKorea.RemoteSens.2020,12,3505.[CrossRef]
+36. Galloway,D.L.;Burbey,T.J.Regionallandsubsidenceaccompanyinggroundwaterextraction.Hydrogeol.J.2011,19,1459–1486.
+37. Duan,L.;Gong,H.;Chen,B.;Zhou,C.;Lei,K.;Gao,M.;Yu,H.;Cao,Q.;Cao,J.AnImprovedMulti-SensorMTITime-Series
+FusionMethodtoMonitortheSubsidenceofBeijingSubwayNetworkduringthePast15Years. RemoteSens. 2020,12,2125.
+38. Hu,L.;Dai,K.;Xing,C.;Li,Z.;Tomás,R.;Clark,B.;Shi,X.;Chen,M.;Zhang,R.;Qiu,Q.;etal.LandsubsidenceinBeijingandits relationshipwithgeologicalfaultsrevealedbySentinel-1InSARobservations.Int.J.Appl.EarthObs.Geoinf.2019,82,101886.
+39. Chen,M.;Tomás,R.;Li,Z.;Motagh,M.;Li,T.;Hu,L.;Gong,H.;Li,X.;Yu,J.;Gong,X.Imaginglandsubsidenceinducedby groundwaterextractioninBeijing(China)usingsatelliteradarinterferometry.RemoteSens.2016,8,468.[CrossRef]
+40. Zhao,N.;Jiao,Y.;Ma,T.;Zhao,M.;Fan,Z.;Yin,X.;Liu,Y.;Yue,T.Estimatingtheeffectofurbanizationonextremeclimateevents intheBeijing-Tianjin-Hebeiregion,China.Sci.TotalEnviron.2019,688,1005–1015.[CrossRef][PubMed]
+41. IPCCSecretariat. ClimateChange2014-Impacts,AdaptationandVulnerability(PartA:GlobalandSectoralAspects);IPCC:Geneva,
+Switzerland,2014.
+42. Dou, X.; Song, J.; Wang, L.; Tang, B.; Xu, S.; Kong, F.; Jiang, X. Flood risk assessment and mapping based on a modified multi-parameterfloodhazardindexmodelintheGuanzhongUrbanArea,China. Stoch. Environ. Res. RiskAssess. 2018,32,
+1131–1146.[CrossRef]
+43. Ghosh,A.;Kar,S.K.Applicationofanalyticalhierarchyprocess(AHP)forfloodriskassessment:AcasestudyinMaldadistrictof
+WestBengal,India.Nat.Hazards2018,94,349–368.[CrossRef]
+RemoteSens.2021,13,637 33of33
+44. Zhou,Y.;Luo,Y.;Guo,G.X.;Luo,Y.;Lei,K.C.;Wang,R.Astudyofthecharacteristicsoflandsubsidenceandthemaincontrol factorsinthealluvialplain:AcasestudyofBeijingplain.Geol.Bull.China2016,35,2100–2110.(InChinese)
+45. Lai,C.;Shao,Q.;Chen,X.;Wang,Z.;Zhou,X.;Yang,B.;Zhang,L.Floodriskzoningusingaruleminingbasedonantcolony algorithm.J.Hydrol.2016,542,268–280.[CrossRef]
+46. Hu,S.;Cheng,X.;Zhou,D.;Zhang,H.GIS-basedfloodriskassessmentinsuburbanareas:AcasestudyoftheFangshanDistrict,
+Beijing.Nat.Hazards2017,87,1525–1543.[CrossRef]
+47. Radwan,F.;Alazba,A.A.;Mossad,A.FloodriskassessmentandmappingusingAHPinaridandsemiaridregions.ActaGeophys.
+2019,67,215–229.[CrossRef]
+48. Chakraborty,S.;Mukhopadhyay,S.Assessingfloodriskusinganalyticalhierarchyprocess(AHP)andgeographicalinformation system(GIS):ApplicationinCoochbehardistrictofWestBengal,India.Nat.Hazards2019,99,247–274.[CrossRef]
+49. Saaty,T.TheAnalyticHierarchyProcess;McGraw-Hill:NewYork,NY,USA,1980.
+50. Akter,M.;Jahan,M.;Kabir,R.;Karim,D.S.;Haque,A.;Rahman,M.;Salehin,M.Riskassessmentbasedonfuzzysynthetic evaluationmethod.Sci.TotalEnviron.2019,658,818–829.[CrossRef]
+51. Chang,D.Y.ApplicationsoftheextentanalysismethodonfuzzyAHP.Eur.J.Oper.Res.1996,95,649–655.[CrossRef]
+52. Zhang,Y.;Hong,Y.;Wang,X.;Gourley,J.J.;Xue,X.;Saharia,M.;Ni,G.;Wang,G.;Huang,Y.;Chen,S.;etal.Hydrometeorological
+AnalysisandRemoteSensingofExtremes:WastheJuly2012BeijingFloodEventDetectableandPredictablebyGlobalSatellite
+ObservingandGlobalWeatherModelingSystems?J.Hydrometeorol.2015,16,381–395.[CrossRef]
+53. Xu,Y.;Shen,S.;Cai,Z.;Zhou,G.Thestateoflandsubsidenceandpredictionapproachesduetogroundwaterwithdrawalin
+China.Nat.Hazards2008,45,123–135.[CrossRef]
+54. Zhang,Y.;Gong,H.;Gu,Z.;Wang,R.;Li,X.;Zhao,W.Characterizationoflandsubsidenceinducedbygroundwaterwithdrawals intheplainofBeijingCity,China.Hydrogeol.J.2014,22,397–409.[CrossRef]
+55. Du,Z.;Ge,L.;Ng,A.H.M.;Zhu,Q.;Yang,X.;Li,L.CorrelatingthesubsidencepatternandlanduseinBandung,Indonesiawith bothSentinel-1/2andALOS-2satelliteimages.Int.J.Appl.EarthObs.Geoinf.2018,67,54–68.[CrossRef]
+56. Long,D.;Yang,W.;Scanlon,B.R.;Zhao,J.;Liu,D.;Burek,P.;Pan,Y.;You,L.;Wada,Y.South-to-NorthWaterDiversionstabilizing
+Beijing’sgroundwaterlevels.Nat.Commun.2020,11,1–10.
+57. Wang,G.;Hu,Z.;Liu,Y.;Zhang,G.;Liu,J.;Lyu,Y.;Gu,Y.;Huang,X.;Zhang,Q.;Tong,Z.;etal.ImpactofExpansionPatternof
+Built-UpLandinFloodplainsonFloodVulnerability:ACaseStudyintheNorthChinaPlainArea.RemoteSens.2020,12,3172.
+58. Jiang,W.;Deng,L.;Chen,L.;Wu,J.;Li,J.Riskassessmentandvalidationofflooddisasterbasedonfuzzymathematics.Prog.Nat.
+Sci.2009,19,1419–1425.[CrossRef]
+59. Jakoubek,M.FloodProtectionofPragueMetroafterthe2002Flood;Barták,H.,Romancov,Z.,Eds.;The4thDimensionofMetropolises;
+Taylor&FrancisGroup:London,UK,2007;pp.1303–1308.

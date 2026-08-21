@@ -1,0 +1,396 @@
+DECEMBER2017 ZHANG AND YU 2143
+A Probabilistic Tropical Cyclone Track Forecast Scheme Based on the
+Selective Consensus of Ensemble Prediction Systems
+XIPINGZHANGANDHUIYU
+ShanghaiTyphoonInstitute,ChinaMeteorologicalAdministration,Shanghai,China (Manuscriptreceived1June2017,infinalform12October2017)
+ABSTRACT
+Selectiveconsensusandagrandensemblebasedonanensemblepredictionsystem(EPS)havebeenfound tobeeffectiveinimprovingdeterministictropicalcyclone(TC)trackforecasts,whilelittleattentionhasbeen paidtoquantitativeapplicationsoftheforecastuncertaintyinformationprovidedbyEPSs.Inthispaperthe forecastuncertaintyinformationisevaluatedfortwooperationalEPSsandtheirgrandensemble.Then,a probabilisticTCtrackforecastschemeisproposedbasedontheselectiveconsensusofthetwoEPSs;this schemeiscomposedofmemberpicking,meantrackshifting,andprobabilityellipses.TheoperationalEPSs are from the European Centre for Medium-Range Weather Forecasts (ECMWF-EPS) and the National
+CentersforEnvironmentalPrediction(NCEP-GEFS).EvaluationexhibitsthatthehitratiosofECMWF-
+EPSareabove80%forthe70%probabilityellipsesatallleadtimesuntil120handareusedintheproposed scheme.TheothercomponentsoftheproposedschemeareaboutpickingpotentiallygoodEPSmembers.A pickingratioof1/2isfoundtobethebestchoice,andthemember-pickingtechniqueisusedforthegrand ensemblebutonlyforleadtimesoutto48h.For leadtimeslongerthan48h,allofthegrandensemble members are used in obtaining the mean track. The effectiveness of the proposed scheme shows a 10% improvementinthemeantrackforecasterrorsoverthegrandensembleanda4.5%improvementinthehit ratioof70%probabilityellipsesovertheECMWF-EPSat24h,demonstratingitsgoodpotentialtobeapplied inoperations.
+1. Introduction creatingaconsensus.Thefirstistotakeasimpleaverage of all participating models, and the second is to take a
+Motion is a fundamental aspect of tropical cyclone weightedaverageofthem,withtheweightsusuallyesti- (TC)forecasting(Wang2014;MajumdarandFinocchio matedfromtheerrorstatisticsofparticipatingmodelsin
+2010). Improved track forecasting has been shown to previous years (Krishnamurti et al. 2000; Hamill et al.
+improve other aspects of TC forecasting such as wind
+2012).Themainlimitationofthesecondmethodisthat speed,stormsurge,andprecipitation.Additionally,more the relevance between the present and past forecasts is accuratetrackforecastingcanreduceunnecessarywarnweakenediftherearemajorchangesinthemodels.
+ings and evacuations, and lead to more efficient emer-
+The atmosphere is a complicated nonlinear dynamic gencymanagementdecision-making(Hamilletal.2012).
+system(Pedlosky1987).Fornumericalweatherforecast
+Becauseoftheremarkableprogressincomputational models, forecast uncertainties are inevitably caused by powerandnumericalweatherprediction(NWP)models, thechaoticgrowthofinitialconditionerrorsandmodel track forecastsof TCs have been improvedsignificantly imperfections(Lorenz1995;ZhangandZhao2016).Asa during the past few decades. Additionally, the use of a result, the atmosphere cannot be completely described multimodel consensus in operational centers became with a single deterministic forecast as a result of these widespread about 15 years ago in an effort to improve inherent uncertainties. The prediction of forecast untrackforecasts,whichusuallyoutperformstheindividual certainty is therefore necessary. Multimodel consensus models (Krishnamurti et al. 2010; Sampson et al. 2005;
+methods produce a more skillful deterministic forecast,
+Goerss et al. 2004). There are two main methods for buttheystilldonotprovideanadequatemeasureofthe uncertainty associated with the forecast. In ensemble predictionsystems(EPSs),thetwomajorsourcesofun-
+Correspondingauthoraddress:XipingZhang,[已脱敏邮箱].
+org.cn certainty,theinitialconditionsandthemodelerror,are
+DOI:10.1175/WAF-D-17-0071.1
+2017AmericanMeteorologicalSociety.Forinformationregardingreuseofthiscontentandgeneralcopyrightinformation,consulttheAMSCopyright
+Policy(www.ametsoc.org/PUBSReuseLicenses).
+Brought to you by Shanghai University of Engineering Science | Unauthenticated | Downloaded 11/04/25 10:43 AM UTC
+2144 WEATHER AND FORECASTING VOLUME32 estimated by conducting multiple simulations. Slightly TABLE1.SpecificationsofECMWF-EPSandNCEP-GEFS different initial conditions are used to account for im- for2014–15.
+perfectobservationsorreanalysis,andthestochasticdy-
+Modelname ECMWF-EPS NCEP-GEFS namics and different parameterizations or models are
+Modelresolution TL639 T254L42 usedforthemodelimperfections.Thus,comparedwitha
+Ensemblesize 51 21
+deterministic prediction, EPSs can quantifythe forecast Predictiontime(UTC) 0000,1200 0000,0600,1200,1800 uncertainty, which could be expressed in the form of Leadtimeinterval(h) 6 6 possiblestateandprobabilitydistributions(Goerss2007;
+MajumdarandFinocchio2010;ZhangandZhi2015;Zhi etal.2012),thusfacilitatinginformeddecision-makingby X. P. Zhang et al. (2015) found that the levels of providingcase-dependentuncertaintyestimates. performanceofEPSsfromdifferentoperationalcenters
+Besides providing the uncertainty information, the differ, and track forecasts from the ECMWF and the simple mean of singleand multi-EPSs are preparedby NationalCentersforEnvironmentalPrediction(NCEP) many NWP centers and are often used in track fore- performmuchbetterthanthosefromothersources.In castingasaconsensusmember.SomeEPSmeantracks this paper the ensemble track forecasts from ECMWF mayoutperformthebestdeterministicNWPmodel(Qi and NCEP are used to study track corrections in both etal.2014;Heetal.2015),andcertainmulticentergrand deterministic and probabilistic ways. We focus mainly ensemblesusuallyperformbetterthanthesingle-model on the study of possible techniques for track improveensemble from both deterministic and probabilistic mentsand,finally,produceanoptimalschemeafterthe perspectives (Yamaguchi et al. 2012). However, those verificationofthosetechniques.Thisarticleisorganized multi-EPSapplicationsarestillbasedmainlyonideasof asfollows.Insection2thetwoEPSsanddatasetsusedin
+deterministic prediction (Du et al. 2016; Yamaguchi ourstudyareintroduced.Insection3theoverallanaletal.2012;Heetal.2015;H.B.Zhangetal.2015;Weigel ysisofthetwoEPSsandtheirgrandensemblearegiven.
+etal.2008)likethemultimodelconsensus. Then, three techniques designed to generate track im-
+Tocomposeaconsensus,boththeselectionoftheEPS provementsarediscussedinthefollowingtwosections.
+andthe ensemblemembers withineachEPSareimpor- Themember-pickingmethodsfordifferentleadtimesare tant.Besidesselectionsbasedonhistoricalruns,shortlead studiedinsection4,andtheeffectsofhorizontalshifting time errors and ensemble spread information are also arestudiedinsection5.Finally,thenewschemeisdetailed usedtoselectensemblemembers.Bymakinguseofthe insection6.Ourconclusionscanbefoundinsection7.
+latestobservationsanderrorsatshortleadtimes,Qietal.
+(2014) applied means and weighted means to selected 2. Datasetsandmethodology ensemblemembersandfoundimprovementsinfourdifa. Datasets ferent EPSs over a simple ensemble mean. Qian et al.
+(2014)proposedasimilarreal-timetechniqueofTCtrack The data used in this study are ensemble track forecorrection for the EPS from ECMWF and studied the castsfromECMWFandNCEP(hereinafterECMWFinfluenceofpositionerrors.Theybothdidtheirresearch EPS and NCEP-GEFS) from 2014 to 2015 over the underthepremisethaterrorsatshortandfollowinglead westernNorthPacificandSouthChinaSea.Duringthis timesarerelated;howeverthispremisehasbeenleftun- time, 50 tropical cyclones reached tropical storm inproven.Inotherstudies(Heetal.2015;H.B.Zhangetal. tensityorhigher.TheTCtrackforecastsofthetwoEPSs
+2015),aKalmanfilterandabias-removedensemblemean are decoded from the North Western Pacific Tropical wereemployedtoconductTCforecastconsensusexper- Cyclone Ensemble Forecast Project of THORPEX iments in a deterministic way while only the ensemble Interactive Grand Global Ensemble (TIGGE; WMO mean of each EPS was used. Additionally, the probabi- 2015), and archived through the WMO’s Typhoon listic products in operation are mostly statistically based Landfall Forecast Demonstration Project (Lei and Yu and usually in the form of a probability circle (Dupont 2015).DetailsaboutthetwoEPSscanbefoundinTable et al. 2011). For example, at the Japan Meteorological 1. ECMWF-EPS predicts twice per day, while NCEP-
+Agency(JMA)theradiiof70%probabilitycircleswithin GEFS predicts four times per day. Since all the com-
+96haredeterminedstatisticallydependingonthemove- parisons are performed with the same samples in this ment, direction, and speed of a TC (Kunitsugu 2012; paper,onlyforecastsat0000and1200UTCareusedfor
+Yamaguchietal.2009).Moreattentionshouldbepaidto NCEP-GEFS.
+drawing situation-dependent uncertainty information The discrepancies among major best-track datasets from the EPS results (Hamill et al. 2012; X. P. Zhang are negligibly small in TC center positions, and the etal.2015). main difference lies in intensity (Song et al. 2010). In
+DECEMBER2017 ZHANG AND YU 2145
+TABLE2.MeantrackerrorfordifferentEPSs(km);I
+EC
+denotestheimprovementinEPS-CONcomparedtoECMWF-EPS,andI
+NCEP
+denotesthatcomparedtoNCEP-GEFS.Thenumbersinparenthesesarethesamplesizesforeachpredictiontime.
+12h 24h 36h 48h 60h 72h 84h 96h 108h 120h
+EPS (486) (465) (439) (410) (381) (353) (325) (295) (265) (239)
+ECMWF-EPS 44.8 64.2 85.5 111.0 137.9 164.6 190.7 228.1 274.8 324.9
+NCEP-GEFS 44.4 66.1 91.1 119.8 153.3 192.8 231.6 276.9 324.4 391.8
+EPS-CON 39.0 57.8 78.4 102.3 128.3 155.0 181.3 214.0 254.6 306.2
+I (%) 12.9 10.0 8.3 7.8 7.0 5.8 4.9 6.2 7.4 5.8
+EC
+I (%) 12.2 12.6 13.9 14.6 16.3 19.6 21.7 22.7 21.5 21.8
+NCEP
+our paper only the TC center positions are adopted, Thus,wecanestimateanellipse,determinedbya,b,and so the validity of the proposed scheme will not be af- s,forthebivariatenormaldistribution,intowhichasample fected by the choice of the best-track datasets. The (X, Y)fallswithaspecificprobability,say70%or20%.
+best-track data used are obtained from the Shanghai In other words, the ellipse is used to identify the
+Typhoon Institute of the China Meteorological Ad- concentrationareaofdata,whichisdeterminedbythe ministration (CMA) best-track dataset for TCs over statistical characteristics of all samples regardless of the western North Pacific (http://www.typhoon.org. the proportion. In section 3b, the ellipse indicates the cn/;Yingetal.2014). concentrationareaofforecastcases,andtheprobability ellipse in section 3c shows the concentration areas of b. Theprobabilityellipse ensemblemembersforaparticularcase.
+Weuseellipsestoindicatetheconcentrationareaof scatterdotsinthispaper.Here,ashortintroductioninto
+3. OverallevaluationofEPSmeansandspreads thecalculationsisgiven.
+Suppose that a two-dimensional random variable a. Ensemblemeans (X, Y)hasbivariatenormaldistribution;itsprobability
+Table2showsthemeantrackerrorsforECMWF-EPS, densityfunctionwillbe
+NCEP-GEFS, and their grand ensemble (hereinafter
+
+EPS-CON)usingthesamesamples.Here,thenumbersin
+1 1 x2 y2
+f(x,y)5 exp 2 1 parenthesesarethesamplesizesofeachcolumn,which
+2pab 2 a2 b2
+arethesameforothertables.Asforthebottomtworows,
+I denotestheimprovementofEPS-CONcomparedto (XuandLu2004).Thevaluesofaandbarecalculated EC
+ECMWF-EPS, and I denotes that compared to bythefirstandsecondmodesobtainedfromanempir- NCEP
+NCEP-GEFS.
+ical orthogonal function (EOF) decomposition of the
+ItisshownthatEPS-CONoutperformstheothertwo samples,thusreflectingthesamplespatialdistribution.
+at each prediction time; for example, the errors are
+Tobemorespecific,thefirstmodedefinestheprincipal reduced by about 86km (21.8%) and 19km (5.8%) axis along which the projection has the most variance;
+comparedtothoseofNCEP-GEFSandECMWF-EPS aisalongthisfirstprincipalcomponentandequalsthe at 120h, respectively. To be more specific, the imsquarerootofthecorrespondingvariance.Similarly,bis provement of EPS-CON over NCEP-GEFS is larger alongthesecondmodeandequalsthesquarerootofthe than 10% throughout and larger than 20% after 72h.
+secondvariance.
+TheimprovementoverECMWF-EPSissmaller,andit
+The probability of (X, Y) appearing in the ellipse islessthan8%after36h.Ingeneral,theperformance definedbyaandb, of ECMWF-EPS is better than that of NCEP-GEFS except for a prediction time of 12h, when the results x2 y2
+1 5s2, areverysimilar.
+a2 b2
+Yamaguchi et al. (2012) examined the ensemble TC is trackpredictionsfromninecentersduring2008–10and found that the consensus of the ‘‘superensemble’’ per-
+X2 Y2 formed better than the best of the nine, namely
+P 1 #s2 512e2s2/2,
+a2 b2 ECMWF-EPS. X. P. Zhang et al. (2015) evaluated the track forecasts of five ensemble prediction systems in where e is the base of the natural logarithm, and s is 2014andfoundthatthemeantrackerrorsofECMWFdeterminedbythechosenproportion. EPS and NCEP-GEFS are in different directions, to
+2146 WEATHER AND FORECASTING VOLUME32
+FIG.1.Theensemblespreadandpositionerror.Theellipsecon- FIG.2.Theensemblespreadandpositionerrorfortheprediction tainsabout20%ofthesamplesateachpredictiontime.Thedashed timeof72h.ThenotationsarethesameasinFig.1.
+ellipsesareforNCEP-GEFS,andsolidonesareforECMWF-EPS.
+Thesquare,circle,andstararethemeanvaluesforECMWF-EPS,
+NCEP-GEFS, and EPS-CON, respectively. The sample sizes 2003). If SPRD.Perror, the system spread is larger, (predictiontimes)arelabeledinthefirst(last)lineofthelegend. and atmospheric uncertainties are overestimated. If
+SPRD, Perror, the atmospheric uncertainties are unsomeextent.Thismeansthatthepositionerrorsofthe derestimated, and the ensemble spread is therefore too
+ECMWF-EPS and NCEP-GEFS members may cancel small. Note that we have excluded forecasts that coneach other in the superensemble, leading to improve- tainedlessthan2/3oftheensemblesizeforanygivenEPS ments in the track forecasts. In this section it is shown whencalculatingthespreadandprobabilityellipse.
+thatthegrandensembleofthesetwocanbringdownthe The relationship between SPRD and Perror in the track error; thus, the consensus EPS-CON mean is a studiedtimerangeisshowninFig.1.Tomaketheresults better choice than the individual means, which is con- morereadable,weonlydrawthe20%ellipses,whichinsistentwithpreviousfindingsofYamaguchietal.(2012) dicatetheconcentrationareaofforecastcasesandcontain andDuetal.(2016). about20%ofthem,andonlyplottherespectiveellipses for ECMWF-EPS and NCEP-GEFS. Compared with b. Ensemblespread
+NCEP-GEFS, the samples of ECMWF-EPS are more
+Ensemble spread (SPRD) is an indicator of forecast concentrated and closer to the diagonal line, and with uncertainty,whichismeasuredbytheroot-mean-square larger areas under the diagonal line, this implies that error of distances betweenensemble members and the ECMWF-EPStendstooverestimatetheatmosphericunensemblemean(WhitakerandLoughe1998): certainties.AsforNCEP-GEFS,ittendstounderestimate sffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffi theatmosphericuncertaintiesasmoresamplesarefound
+SPRD5 1 N [f2f(n)]2, (1) abovethediagonalline.Thestarsdenotetheirgranden-
+N n51 semble,anditisshownthatthemeanpositionerrorsdecreasedespitetheincreaseintheensemblespreads.The where N is the ensemble size, f5(1/N) N f(n) is increasemaybecausedbyhavingtheconcentrationarea n51 the ensemble mean, and f(n) is the forecast value of ofNCEP-GEFSforecastsawayfromthatoftheECMWFmembern. EPS forecasts, and the decrease in mean position errors
+The position error of the ensemble mean is illustratesthattheforecasterrorsofthetwohavecanceled
+Perror5jf2rj, where r is the best-track value. EPSs each other to some extent. In Fig. 2 only the case for a are supposed to provide the case-dependent un- predictiontimeof72hisplotted,andwecanseeclearly certaintyestimates.ForanidealEPS,SPRDandPer- that the consensus represents a slight adjustment to ror should be the same size (Jolliffe and Stephenson ECMWF-EPS in the mean position error. Note that the
+DECEMBER2017 ZHANG AND YU 2147
+TABLE3.Thehitratio(firstlineofeachrow;%)andthemeanmajor–minoraxes(secondlineofeachrow;8)ofthe70%probability ellipse.ThenumbersinparenthesesareasinTable2.
+EPS (469) (447) (417) (385) (354) (321) (290) (257) (231) (201)
+ECMWF-EPS 84.9 86.1 87.8 89.1 92.7 92.5 90.0 89.9 89.2 87.1
+0.55–0.38 0.87–0.57 1.23–0.77 1.65–0.97 2.09–1.17 2.55–1.36 3.01–1.54 3.52–1.72 4.08–1.93 4.64–2.18
+NCEP-GEFS 64.0 68.7 67.1 65.5 59.0 51.1% 44.8 44.4 42.0 41.8
+0.44–0.25 0.71–0.41 0.95–0.53 1.23–0.63 1.51–0.73 1.84–0.84 2.23–0.94 2.72–1.07 3.18–1.24 3.72–1.44
+EPS-CON 93.8 93.7 92.1 93.8 94.9 93.8 94.5 92.6 90.9 89.6
+0.60–0.40 0.92–0.59 1.28–0.78 1.69–0.97 2.14–1.16 2.63–1.35 3.14–1.55 3.76–1.73 4.44–1.95 5.13–2.23 stars,whicharethesamplemeansofEPS-CON,stillde- probabilitydistributionofforecastpositions.Basedon viate from the idealized diagonal in the spread–error ensemblespread, Hamill etal. (2011,2012)andX. P.
+relationship. Zhang et al. (2015) derive the situation-dependent
+Themeansofthesamplesdiscussedaboveshowonly probabilityellipse,containinguncertaintyinformation their statistical characteristics or tendencies. For exam- about moving speed and moving direction, as well as ple,ECMWF-EPStendstooverestimatetheatmospheric positionuncertainties.Inthissectiontheuncertaintyis uncertainties; however, there are still many under- dealtwithquantitativelybyevaluatingtheprobability estimated cases, as shown by those above the diagonal ellipse,andtheellipsehereindicatestheconcentration line.Inaddition,ensemblespreadasalevelofconfidence area of the ensemble members. The typical value of ofthepredictionisnotnecessarilyinalinearrelationship 70%usedbymanyoperationalforecastingcenters(Yu withmeantrackerror(Yamaguchietal.2012).Whenthe etal.2012)ischosenhere.Hitratioandmajor–minor ensemblespreadislarge,thepositionerrormaybesmall axes are adopted to evaluate the ellipse in detail. Hit andviceversa(seeFigs.1and2). ratio is defined as the ratio of TCs falling into the
+correspondingellipsethroughouttheverificationtime c. Hitratio range, and the major–minor axes are the same as the
+Theuncertaintyinformationprovidedbythespread standard mathematical definitions. A detailed inoftheEPScanbeexpressedintheformofprobability troduction to the probability ellipse can be found in circlesorellipses,whosesizescanbeoptimizedbythe section2bandHamilletal.(2011,2012).
+FIG.3.Twoexamplediagramsofthe70%probabilityellipse.Thestarsdepictthebesttrack,andthecolored ellipsesareprobabilityellipsesfordifferentpredictiontimes.
+2148 WEATHER AND FORECASTING VOLUME32
+FIG.4.ThePaofthefivepickingmethodsfor(top)ECMWF-EPSand(bottom)EPS-CON whenthereferencetimeis6handa51/3.Thenumbersintheparenthesesarethesample sizesatdifferentleadtimes.
+Table3shows thehit ratioand major–minoraxesof more weighted toward ECMWF-EPS, which contains the70%probabilityellipse.Withregardtoellipsesize, more members. Since the ensemble size of ECMWFin general the smallest was that of NCEP-GEFS, fol- EPS is larger than that of NCEP-GEFS, NCEP-GEFS lowedbythatofECMWF-EPS,andthatofEPS-CONis can be regarded as an adjustment to the forecasts of slightlylargerthanthatofECMWF-EPS.Asforthehit ECMWF-EPS.Asaresult,thehitratiosandellipsesizes ratio,thedescendingorderisEPS-CON,ECMWF-EPS, ofEPS-CONareclosertothoseofECMWF-EPSthan andNCEP-GEFS.Sincethelargertheellipse,themore those of NCEP-GEFS in Table 3. The hit ratios of likelythatanobservationistofallintoit,thehighesthit ECMWF-EPSareallabove80%,whicharelargerthan ratio of EPS-CONmay be dueto its larger size, which thetheoretical70%,andunliketheimprovementsseen also indicates that the concentration areas of the in the mean position errors shown in Table 2, the ad-
+ECMWF-EPSandNCEP-GEFSforecastsaredifferent, justments in the probability ellipse are superfluous inlinewiththeconclusionswehavedrawninsection3b. considering the increase in ellipse size. Therefore, the
+InEPS-CONeachensemblememberfromeachmodel uncertainty information drawn from ECMWF-EPS is is given the same weight, so the consensus is therefore quite representative. Note that the ‘‘real’’ (instead of
+DECEMBER2017 ZHANG AND YU 2149
+FIG.5.ThePaatdifferentreferencetimesforECMWF-EPSwhena51/3.Theredcircles arePaat30hfromthereferencetime.Thenumbersinparenthesesarethesamplesizesat differentleadtimes.
+theoretical) 70% probability ellipse can be obtained speed uncertainty while the left case, with a larger roby reducing the ellipse size; more specifically, the tationangle,indicatesdirectionaluncertainty,especially result can be achieved by increasing s in section 2b after 84h. The case-dependent estimates of these unmathematically. certainties provided by the probability ellipses provide
+Besidesuncertaintyinformationfromtheensemble’s importantinformationfordecision-making.
+size, the rotation angle relative to the forecast mean trackandeccentricityoftheellipsealsoconveyimpor-
+4. ImpactsofmemberselectiononEPSmeansand tant uncertainty information (X. P. Zhang et al. 2015).
+spreads
+More specifically, a smaller angle indicates relatively largeuncertaintyinthetranslationspeedandconfidence EPSmemberselectiontechniquesarenowwidelyused in the direction of movement, while a large angle in- (Qietal.2014;Qianetal.2014;Yamaguchietal.2012).In dicates uncertainty in the direction of movement but operations,becauseofdatacommunicationandcompugreater confidence in the translation speed. Speed un- tational requirements, EPS products often reach forecertainty is critical to the landing time, while direction casterswithadelaytimelongerthan6h,whenthelatest uncertainty affects the landing area. In Fig. 3, two ex- observationsareavailabletoevaluatetheperformanceat ample diagrams of the 70% probability ellipse are short lead times. By making use of these new observashownwiththetrackuncertaintyoftheleftcaselarger. tions, some member selection techniques are based on
+The right case, with a smaller rotation angle, indicates the premise that members with smaller errors at short
+TABLE4.Meantrackerror(km)forECMWF-EPSafterthefirstmemberpickingusingdifferentpickingratios.Theboldfacetextindicates thesmallestnumberforeachpredictiontime,andthenumbersinparenthesesareasinTable2.
+Time (589) (557) (521) (484) (449) (411) (377) (343) (308) (277)
+Error 40.3 62.9 87.0 115.2 144.8 170.9 195.6 232.0 280.4 330.7
+1/6
+Error 41.5 62.1 85.4 112.8 142.1 166.5 190.9 227.6 276.4 323.7
+2/6
+Error 43.3 63.1 86.0 112.4 140.8 166.0 191.4 226.4 276.6 322.1
+3/6
+Error 44.8 63.7 87.1 112.6 141.0 165.7 191.4 227.1 274.1 320.1
+4/6
+Error 46.7 66.0 88.2 113.2 141.3 165.7 191.5 225.8 273.7 321.4
+5/6
+Error 49.2 67.5 89.7 113.8 142.4 166.1 192.5 226.4 273.9 322.7
+6/6
+Max2min 8.9 5.4 4.3 2.8 4.0 5.2 4.7 6.2 6.7 10.5
+2150 WEATHER AND FORECASTING VOLUME32
+TABLE5.AsinTable4,butforEPS-CON.
+Time (482) (461) (434) (405) (377) (348) (318) (289) (259) (235)
+Error 32.0 56.2 78.8 109.7 139.4 167.5 196.0 229.3 276.0 335.6
+1/6
+Error 32.0 54.7 76.8 105.4 134.8 162.3 189.9 223.4 270.5 325.6
+2/6
+Error 32.9 53.9 75.6 102.6 130.7 158.2 185.2 217.6 263.3 316.4
+3/6
+Error 34.5 54.4 76.0 101.9 129.6 156.4 182.7 215.5 259.1 311.7
+4/6
+Error 36.1 55.7 76.7 102.1 128.7 155.5 181.0 212.2 256.4 308.7
+5/6
+Error 39.1 57.8 78.3 102.2 128.2 155.0 179.7 211.1 254.3 305.9
+6/6
+Max2min 7.1 4.0 3.2 7.8 11.2 12.5 16.3 18.2 21.7 29.7 leadtimes(6or12h)havesmallererrorsatthefollowing 3) pickapercentmembersatT andrefertothemas refer leadtimes(Qietal.2014;Qianetal.2014).Inthissection the‘‘selectedmembers’’;and therelationshipbetweenerrorsatthereferenceleadtime 4) checktheirperformanceatT :
+long
+and the following lead times will be investigated. The d counttheselectedmembers,whichappearatT long evaluationinsection3hasshownthattheperformanceof andrefertothenumberasN ;
+d
+NCEP-GEFSisnotasgoodasthatofECMWF-EPSand d counthowmanyoftheselectedmembersappearin
+EPS-CON on the whole; thus, only the ECMWF-EPS thetopN ofthesortedT memberlistandrefer d long andEPS-CONensembleswillbediscussedinthissection. tothenumberasN ;and u
+As in operations, not all the ensemble members will d Pa 5N u /N d .
+forecastateachpredictiontime;onlywhenthenumber
+IfthememberschosenatT performwellatT , of forecast members exceeds 10 does it count as a refer long
+Pa will approach 100%, and the track forecast error forecastcase.
+wouldbereducedeffectively.
+a. Relationshipbetweenerrorsatareferenceleadtime Asforthepickingmethod,Qietal.(2014)andQian andthefollowingleadtimes et al. (2014) prefer the members with smaller position errors, which are thefirst a percent of the sorted T
+An index Pa is defined to evaluate the relationship memberlist.Besidesthefirstapercent,themiddlea re n fe d r between the error at the reference lead time T and refer lastapercentarealsoadoptedtotestPa.Inaddition,Pa thatatthefollowingleadtimeT.AndPaforaspecific isalsocalculatedwhenEPSmembersatT arechosen forecastcaseiscalculatedbythefollowingsteps: refer uniformlyandrandomly.Theyarereferredtoas‘‘first,’’
+1) usingthebest-trackdata,calculatethepositionerror ‘‘middle,’’‘‘last,’’‘‘step,’’and‘‘random,’’respectively.If ofeachmemberatT andT ; the errors at the reference time and the following lead refer long
+2) sorttheEPSmembersinascendingorderaccordingto timesarerelated,thePa ofthefirstmethodwillgetthe theirpositionerrorsatT refer andT,respectively; highestscore;otherwise,Pa mightapproximatea.
+FIG.6.Thedeviationofthemeantrackerrorfromtheensemblemeanerrorfor(left)ECMWF-EPSand(right)EPS-CONafterthefirst memberpickingwhenusingdifferentpickingratios.
+DECEMBER2017 ZHANG AND YU 2151
+FIG.7.Theensemblespreadandpositionerroratpredictiontimesof(left)12and(right)60hforEPS-CONat differentpickingratios.Theellipsecontainsabout20%ofthesamplesateachpredictiontime.
+Here, the experiment for ECMWF-EPS is shown in Pavaluesofthemiddle,step,andrandommethodsstay thetoppanelinFig.4.Thereferencetimeissetto6h, near 1/3 (the theoretical value) from 12h (the prea51/3’0:3333, and Pa at each prediction time is the diction time next to the reference time) to 120h, and averageofallcases.WecanseethatthevaluesofPaare middle is slightly better than the other two cases.
+notexactlythesameamongthefiveselectivemethods Comparingfirstwithlastmethods,apparentdifferences ateverypredictiontime;however,allofthemapproach areobservedbefore60h,whicharelargerthan5%.Up
+1/3asthepredictiontimeevolvesfrom12to120h.The toandincluding96htheperformanceoffirstisthebest
+FIG.8.Schematicdiagramofellipseselection.Thebluedotsareensemblemembers,the smallredcircleistheensemblemean,andtheredstaristhemeanoftheensemblemembers locatedinthe50%probabilityellipse.Afterellipseselection,weobtaintheredstar,whichis therevisedversionoftheensemblemean.
+2152 WEATHER AND FORECASTING VOLUME32
+TABLE6.Meantrackerror(km)forECMWF-EPSaftertherefe TABLE7.AsinTable6,butforEPS-CON.
+(thefirstlineofeachrow)andself(thesecondlineofeachrow) ellipseselections(40%–100%,withanintervalof10%)forpre- 60h 72h 84h 96h 108h 120h dictiontimesafter48h.Theboldfacetextindicatesthebestvalues Time (379) (348) (317) (290) (261) (234) forrefeandselfateachpredictiontime.Thenumbersinparenrefe 156.2 179.4 213.3 256.7 305.1 thesesareasinTable2. Error 128.9
+40% self 156.9 178.8 214.6 257.3 302.9
+60h 72h 84h 96h 108h 120h refe 155.7 178.1 211.5 254.5 303.0
+Error 129.0
+50% self 156.3 178.8 214.0 258.0 301.9
+Time (449) (413) (376) (344) (308) (275) refe 156.0 178.2 211.8 255.3 303.1
+Error 128.7
+refe 167.8 192.2 226.6 269.8 316.0 60% self 155.8 177.9 213.2 256.4 302.1
+Error 142.8
+40% self 167.6 190.5 227.7 272.2 318.0 refe 154.6 177.0 210.9 255.4 302.3
+Error 128.3
+refe 167.1 190.9 225.7 269.9 315.1 70% self 155.2 177.3 212.1 256.0 302.9
+Error 142.4
+50% self 166.7 190.7 229.8 271.9 316.4 refe 154.2 176.6 211.5 255.4 303.0
+Error 127.5
+refe 166.2 190.2 226.3 271.7 316.9 80% self 154.2 177.1 211.5 255.9 303.0
+Error 141.7
+60% self 166.4 191.5 229.6 271.4 318.2 refe 154.6 176.8 211.4 256.0 302.3
+Error 127.5
+refe 166.3 190.2 226.8 271.2 317.1 90% self 154.3 176.4 212.0 255.6 303.6
+Error 141.4
+70% self 166.0 192.0 228.9 271.0 318.6 Error 128.1 154.7 177.0 211.2 255.8 303.2
+100% refe 167.0 191.7 228.3 272.8 318.2
+Error 141.3
+80% self 166.1 191.6 228.9 273.3 321.2 refe 166.6 191.5 228.4 273.3 318.9
+Error 141.5
+90% self 166.5 191.4 228.2 272.7 320.5
+Error 142.0 167.0 191.7 228.1 273.1 319.8 Fig. 5. If member selection in the medium time range
+100%
+(e.g., 48h) can be optimized, the forecast errors after
+72h may be reduced. Nevertheless, in general new modelrunsinitializedatlatertimesareavailablebythe of the five cases, but its deviation from the theoretical time these errors can be calculated, and the new runs value is less than 5% after 30h, which means that less would usually be more accurate. The lead time errors than one additional selected member appears at T within 48h may be more influenced by the initial con- (compared with N ), and thus the advantage is not ditions,whiletheleadtimeerrorsafter48hmaybemore u prominent. Although the errors at the reference time affected by the dynamics, boundary conditions, and and the following lead times are unrelated, the first parameterizationsofthenumericalmodel.
+selection is a better choice than the other four cases As discussed above, errors at short lead times (6 or before 96h. It is clear that the premise that members 12h)andatthefollowingleadtimesareunrelated;that with smaller errors at short lead times usually have istosay,itisimpossibletopickmemberswhoseposition smallererrorsatthefollowingleadtimesisnotappro- errors are smaller for all prediction times, but the first priateforallleadtimes. methodisagoodchoiceforsomeshorttimeranges(e.g.,
+The bottom panel in Fig. 4 shows the case for EPS- within48h).Thememberpickingmethodforlongtime
+CON,andthesametrendisalsoobservedclearly.Inthis rangesafter48hshouldnotbebasedonpositionerrors case,theweakadvantageofthefirstchoicepersistsout at short lead times, while member picking based on to 120h. In both cases, the values of Pa for different medium lead times (48h) is quite unrealistic in operamethods approach 1/3after 78h, whenthe deviationis tionalapplications.
+2.1% or less. Thus, the difference between the five b. Impactofthepickingratio methodsisnegligible.
+Reference times other than 6h are also studied Inthissection,thepickingratioawillbestudied.The (Fig.5).InFig.5,thereferencetimechangesfrom6to firstmethodbasedonthepositionerrorataprediction
+96hwitha6-hinterval,theselectivemethodissettobe timeof6hisadopted,andtheratioaissettovarybefirst,andaisagain1/3.WecanseethatPadecreasesas tween 1/6 and 1 with an interval of 1/6. The position prediction time increases, but with the reference time errors for ECMWF-EPS and EPS-CON are shown in changing from6to 96h, thedecreaserateslows down. Tables4and5,respectively.Theboldfacenumbersare
+TakingPaat30hfromthereferencetimeasanexample thesmallestvaluesineachcolumn,andthebottomrow (redcirclesinFig.5),itisfoundthatPa 537:8%when ‘‘max 2 min’’ indicates the difference between the thereferencetimeis6h,Pa 557:5%whenthereference maximumandminimumvaluesofeachcolumn.
+timeis60h,andPa 561:4%whenthereferencetimeis The position errors differ for different ratios
+90h. Although errors at 6h and those at the following at the same prediction time. For ECMWF-EPS (see leadtimesareunrelated,errorsatleadtimesafter48h Table 4 and Fig. 6), the 12-h error decreases by 9km are related to some extent, which is shown clearly in when adopting a51/6, but when the prediction time
+DECEMBER2017 ZHANG AND YU 2153
+FIG.9.Theensemblespreadandpositionerroratpredictiontime96hforthe(left)refeand(right)selfellipse selectionsforEPS-CON.Theellipsecontainsabout20%ofthesamplesateachpredictiontime.
+increases,theadvantageofa51/6diminishes,andafter areasareclosertoeachother,whilethemeanposition
+36hitissurpassedbytheotheravaluesadoptedinthis errordecreases.
+table. The full choice (a56/6) is not as good as the This short-time- (6h) based picking method is superothersatleadtimeswithin48h;howeverforleadtimes fluousforleadtimesafter48h.Qianetal.(2014)changed longer than that, its advantage starts to appear. In thepickingnumberfordifferentpredictiontimeswiththe
+Table5andFig.6forEPS-CON,thetrendsareclearcut. firstpicking,whichisnotefficient,asshowninTables4and
+Itisshownthattheadvantageofmemberpickingbased 5.BecauseofthelackofcorrelationbetweenEPSerrorsat on 6-h position error is obvious only before 48h, at theshortandfollowingleadtimes,thepickingmethodfor which point the position error increases as the picking leadtimesafter48hshouldbedifferentfromthatforlead ratiodecreases.Thisreinforcestheearlierfindingsthat timeswithin48h.
+member selection is only beneficial for track forecasts c. Theellipseselectionformediumandlonglead within48h.ComparingTables4and5,thevaluea53/6 times is found to be better in both tables within 48h. Thus, a51/2 will be chosen as the picking ratio within 48h, Inthelastsectionitisfoundthattrackforecastsafter whichissimilartothepriorfindingofQietal.(2014). 48hcannotbeimprovedbymemberselectionbasedon
+InFig.7therelationshipsbetweenSPRDandPerror shortleadtimeerrorsat6h;thus,itisdifficulttoidentify areshownfor12and60h.Unlikethatinsection3b,the better ensemble members for prediction times after
+SPRD values are calculated whenever there is more 48h.Figure5showsthattheseerrorsmaybereducedby thanonememberfortheavailableforecast.For12h,the optimizing the medium lead time members (e.g., at ensemblespreadandpositionerrorsbothincreasewith 48h).Sincethereisnoobservationavailablewhendoing picking ratios, and the smaller the picking ratio, the the forecasts, it is impossible to select members within more concentrated are the cases in the SPRD–Perror theshortleadtimerange.
+plot. For 60h, the ensemble spreads increase slightly In this section the selections at lead times after 48h with picking ratio, and the sizes of the concentration areperformedunderthepremisethataTCisexpected
+TABLE8.Improvementsintheensemblemean(%)after6hofshiftingcomparedwiththeensemblemean.Thenumbersinparentheses areasinTable2.
+EPS (486) (465) (439) (410) (381) (353) (325) (295) (265) (239)
+ECMWF-EPS 25.7 10.0 6.0 3.6 0.9 0.6 20.4 21.0 21.4 21.6
+NCEP-GEFS 23.9 5.8 3.1 1.5 1.3 1.3 0.8 0.2 20.6 21.0
+EPS-CON 23.5 8.3 3.3 2.0 0.7 0.9 0.6 0.1 20.7 21.4
+2154 WEATHER AND FORECASTING VOLUME32
+TABLE9.AsinTable8,butfortheselectivemean.
+EPS (482) (461) (435) (406) (381) (353) (325) (295) (265) (239)
+ECMWF-EPS 27.3 10.7 7.0 1.9 1.4 1.0 20.2 20.8 21.3 21.4
+NCEP-GEFS 21.4 4.1 1.8 20.6 1.3 1.1 0.7 0.2 20.4 20.7
+EPS-CON 26.1 9.4 3.9 0.5 1.4 1.2 0.8 0.3 20.3 20.7 to be located in the concentration area of forecast po- ‘‘self’’linedenotesthatthememberselectionsarebased sitions, which is the same premise used for extracting ontheellipseselectionateachpredictiontimeitself.In probability information. The concentration area is de- thesetablestheboldfacenumbersarethebestvalueof terminedbytheprobabilitycircle,withinwhichaTCis refeandselfateachpredictiontime.Inbothtables,itis expectedtobelocatedwithacertainpossibility. shown that the differences between refe and self are
+Figure 8 is a schematic diagram of the ‘‘ellipse’’ se- almostnegligible,andthetrackforecastshavenotbeen lection.First,aprobabilityellipseisdrawnbasedonthe improved significantly by the ellipse member picking.
+ensemblespread,thenthedotswithinitarechosen,and Figure 9 depicts the relationship between SPRD and finally the average of the dots is calculated as the im- Perror for the refe and self ellipse selections, and the provedversionoftheensemblemean. valueofSPRDiscalculatedwhenthereismorethanone
+Tables 6 and 7 are position errors of ellipse selec- member for an available forecast. In both cases the entionsforECMWF-EPSandEPS-CON.The‘‘refe’’line semble spread increases as the ellipse proportion varies denotesthatthememberselectionsafterandincluding from40%to100%,whilethepositionerrorremainsrel-
+60harebasedontheellipseselectionat60h,whilethe ativelystable.Furthermore,thesizesoftheconcentration
+FIG.10.Flowchartshowingtheproposedscheme.Themaintechniquesarehighlighted inblue.
+areas are closer to each other, implying that the ellipse pickingmakesonlyasmalladjustmenttothesystem.With the development of a numerical simulation, it may be more likely for a TC to be located in the concentration area of forecast dots, and the assumption of self may be morereasonableforleadtimesafter48hinthefuture.
+Therefore,forforecastsafter48h,positionerrorsare determinedlargelybytheperformanceoftheEPS,and thepositionerrorscannotbefurtherreducedefficiently bymemberpicking.ThesuperensembleofseveralEPSs chosenbasedonverification,likeEPS-CON,isamuch betterchoicethanpicking.Therefore,itisnotsuggested thatmemberpickingbedoneforforecastsafter48h.
+5. ImpactsofhorizontalshiftingonEPSmeans
+Thememberselectivetechniqueforashortleadtime
+(6h)isbasedonthetimedelayofEPSproducts.Sincethe latestobservation(atthe6-hpredictiontime)isalready available,asimpleshiftmayimprovethetrackforecasts (Qietal.2014).Here,westudytowhatextentthehorizontalshiftcanimprovethedeterministictrackforecasts.
+The tracks chosen for shifting include the ensemble mean and selective mean. The selective mean denotes themeanofthefirst1/2memberpickingwithin48h.
+Table8comparestheensemblemean(Table2)with its6-hshiftingversion.Itisfoundthattheshiftingeffect decays with time. Before 48h the position error decreases obviously. For example, for 12h the position errordecreasesareabout25.7%,23.9%,and23.5%for
+ECMWF-EPS, NCEP-GEFS, and EPS-CON, respectively. However after 72h the position errors even increaseabit.Table9comparestheensemblemeanwith theselectivemeanmethodafter6hofshifting.Wecan see that shifting cannot bring down errors after 84h, whichisconsistentwiththeinherentnonlinearityofthe numericalmodels.
+6. Theproposedscheme
+Since the atmosphere is a highly nonlinear dynamic system sensitive to its initial values, it is impossible to calculatetheexactstateoftheatmospherefarintothe futureeveniftheatmosphereis‘‘completely’’observed.
+TheEPSplaysanimportantroleinthetrackforecastsof
+TC,becauseitcanbeusedtoquantitythisuncertainty comparedwithdeterministicmodels.
+The uncertainty information and the selective consensus based on the superensemble of ECMWF-EPS and NCEP-GEPS are discussed in the above sections.
+With regard to deterministic track improvement, three techniquesareproposedandtested.Itisfoundthatthefirst
+1/2 member picking for prediction times within 48h and horizontalshiftingoftheconsensusofECMWF-EPSand tnecrepdegnahc)veddts(noitaiveddradnatsehtsvtnecrepdevorpmikcartnaemehtdna,sesactsacerofehtfo)worhcaefoeniltsrfi(oitardevorpminusvoitardevorpmI.01ELBAT.2elbaTnisaerasesehtnerapnisrebmunehT.NOC-SPErevotnemevorpminasetacidnitxetecafdlobehT.)worhcaefoenildnoces(h021 h801 h69 h48 h27 h06 h84 h63 h42 h21)932()562()592()523()353()183()604()534()164()284(
+EMEHCS
+0.0/0.0
+3.94/8.54
+4.14/4.94
+4.33/6.35
+8.22/3.95)%(devorpminu/)%(devorpmI kciP
+3.12/4.02
+3.62/4.3
+7.82/8.6
+8.512/9.51)%(veddts/)%(naeM
+3.74/7.74
+8.34/3.15
+0.24/2.25
+2.24/0.25
+8.24/0.15
+8.24/7.05
+8.34/5.05
+4.34/6.05
+2.83/1.55
+5.03/9.26)%(devorpminu/)%(devorpmI tfihS
+0.22/4.12
+0.22/7.02
+0.12/1.0
+3.02/6.0
+0.22/9.0
+8.22/7.0
+2.52/1.2
+5.82/4.3
+8.62/4.8
+3.722/7.32)%(veddts/)%(naeM
+9.34/1.34
+0.04/7.54
+6.63/2.94
+7.53/1.15
+8.63/3.94
+8.73/0.84
+0.05/6.64
+4.34/8.05
+0.83/7.75
+3.13/0.16)%(devorpminu/)%(devorpmI laniF
+3.12/7.02
+7.12/3.02
+4.12/3.0
+9.02/8.0
+1.22/2.1
+1.22/4.1
+8.22/5.0
+7.82/9.3
+4.012/4.9
+8.032/1.62)%(veddts/)%(naeM
+DECEMBER2017 ZHANG AND YU 2155
+2156 WEATHER AND FORECASTING VOLUME32
+TABLE11.Thehitratio(%)comparisonbetweenECMWF-EPSandthefinalscheme(EPS*).ThenumbersinparenthesesareasinTable2.
+EPS (568) (535) (494) (449) (416) (376) (338) (292) (265) (229)
+ECMWF-EPS 81.2 85.8 86.8 88.6 92.1 92.3 89.6 90.1 89.4 88.6
+EPS* 94.0 90.3 90.7 92.4 94.5 92.6 91.4 92.5 89.8 89.1
+NCEP-GEFScanberegardedasgoodchoicesforthemean ECMWF-EPS,andtheyoftencanceleachothertosome trackcorrection.Asforprobabilityforecasts,theuncertainty extent.Thus,theconsensuscanreducepositionerrors, informationobtainedfromECMWF-EPSisrepresentative; whichhasbeenverifiedbytheevaluation.Theprobability thus,shiftingitsellipsestothecorrectedtrackisadopted. ellipse is also studied. It is shown that the adjustments
+AflowchartoutliningthisprocessisshowninFig.10. broughtbytheconsensusaresuperfluousconsideringthe
+Somecomparisonsareshown inTables 10and 11to increase in probability ellipse sizes, and the uncertainty evaluate the performance of techniques applied to the informationdrawnfromECMWF-EPSisrepresentative.
+consensusEPS-CON. Three techniques are then employed to improve the
+Table 10 gives the improved/unimproved ratio of ensembletrackforecasts.Anindexisdefinedtoevaluate forecast cases (first line of each row), and the improved therandomnessofEPSs.Itisfoundthatfortheerrorsafter percentofmeantrackversuspercentchangeofstandard 48h, the ensemble members are unrelated to their short deviation(secondlineofeachrow)comparedwithEPS- leadtimeerrors(6h),but‘‘first’’picking(withthehighest
+CON.Theimproved/unimprovedcaseratioisdefinedas rankedmembersatthereferencetime)isalwaysthebest the ratio of the forecast cases that show improvements/ choice for prediction times within 48h. In particular, we deterioration over the ensemble mean compared to the found that picking can improve short lead time track totalnumberofforecastcases.Inaddition,‘‘pick’’denotes forecasts,and1/2ofthemembernumberisagoodchoice.
+theselectivemeanmethod(a51/2 before48h),‘‘shift’’ By contrast, position errors after 48h depend largely on denotes the 6-h-observation-based horizontal shifting the performance of the EPSs themselves, and thus the method,and‘‘final’’denotesthefinalschemeasdepicted grandensembleofseveralEPSs,suchasEPS-CONinour inFig.10.Tomaketheconclusionsclearer,theimproved study,isamuchbetterchoicethanunsubstantiatedpicksituations are highlighted with boldface numbers in ing.Finally,thelatestobservationsduetotimedelayare
+Table10,andmoreattentionshouldbepaidtothesecond used to shift the forecast track, and it is found that the lineofeachrow.Fortheproposedschemeat24h,57% horizontalshiftingonlyworkseffectivelywithin48h.
+outof461caseshavebeenimproved,themeantrackerror
+Theproposedscheme,whichconsistsofashiftedselecisreducedby9.4%,andtheensemblespreadisreducedby tivemeantrackfromthegrandensembleandprobability
+10.4%comparedwithEPS-CON—resultsthatarebetter ellipsesfromECMWF-EPS,hasimprovedthetrackforethanthoseofthefirsttwoschemes.Whilethefinalscheme casts from both deterministic and probabilistic perspecstrugglestoreduceerrorsafter60hinadeterministicway, tives.Theproposedschemeshowsa10%improvementin itcaneffectivelyimprovetheforecastswithin48h.
+the mean track forecast errors over the grand ensemble
+InTable11 thehitratiofor theprobabilityellipseis anda4.5%improvementinthehitratioof70%probability shown,andtheimprovementsareobviouswithin48h(e.g., ellipses over the ECMWF-EPS at 24h, demonstrating its
+4.5%improvementovertheECMWF-EPSat24h).Aftergood potential to be applied in operations. However the wardtheimprovementsbecomenegligible,giventhatthehit effectivenessoftheschemeisnotsignificantforleadtimes ratioafter3daysismainlyaffectedbytheEPSperformance longerthan48h.Inthisstudy,weonlyfocusontheEPSanddifficulttoimprove,liketheshortleadtimeerror.
+based track forecast scheme, which can provide both deterministic and probabilistic information. Further studies
+7. Discussion
+are still needed to investigate the possible sources of the
+In this paper, the possible techniques for TC track predictabilityofcyclonetracksindifferentmodels.
+improvements in both deterministic and probabilistic methods utilizing EPSs are studied, and an optimal Acknowledgments. We are very grateful to Dr. Kevin schemeisproposed. Cheung from Macquarie University and the three anony-
+First, the track forecasts of ECMWF-EPS, NCEP- mous reviewers for their helpful comments and feedback
+GEFS,andtheirgrandensembleduring2014and2015 on this study. This study was supported by the National areevaluated.Itisfoundthattheforecastconcentration Basic Research Program of China (2015CB452806) and areaofNCEP-GEPSdeviatessubstantiallyfromthatof the Projects for Public Welfare (Meteorology) of China
+DECEMBER2017 ZHANG AND YU 2157 (GYHY201506007WMO-TLFDP), the Typhoon Scientific Qi, L. B., H. Yu, and P. Y. Chen, 2014: Selective ensemble-mean andTechnologicalInnovationGroupofShanghaiMeteoro- techniquefortropicalcyclonetrackforecastbyusingensemble prediction systems. Quart. J. Roy. Meteor. Soc., 140, 805–813, logicalService,theNationalNaturalScienceFoundationof https://doi.org/10.1002/qj.2196.
+China under Grant 41675116, and a CMA Key Project of
+Qian,Q.F.,C.A.Zhang,S.Z.Gao,L.Zhang,andL.Dong,2014:The
+MeteorologicalPrediction[GrantYBGJXM(2017)06]. real-timecorrectiontechnologyresearchfortyphoonensemble trackforecast(inChinese).J.Trop.Meteor.,30,905–910.
+REFERENCES Sampson,C.R.,J.S.Goerss,andA.J.Schrader,2005:Aconsensus track forecast for Southern Hemisphere tropical cyclones.
+Du,Y.G.,L.B.Qi,andX.G.Cao,2016:Selectiveensemble-mean Aust.Meteor.Mag.,54,115–119.
+technique for tropical cyclone track forecast by using time- Song,J.J.,Y.Wang,andL.G.Wu,2010:Trenddiscrepanciesamong lagged ensemble and multi-centre ensemble in the western threebesttrackdatasetsofwesternNorthPacifictropicalcy-
+North Pacific. Quart. J. Roy. Meteor. Soc., 142, 2452–2462, clones.J.Geophys.Res.,115,D12128,https://doi.org/10.1029/ https://doi.org/10.1002/qj.2838. 2009JD013058.
+Dupont,T.,M.Plu,P.Caroff,andG.Faure,2011:Verificationof Wang,C.X.,2014:EnsemblepredictionofTyphoonMuifa’strack ensemble-based uncertainty circles around tropical cyclone andintensity(inChinese).J.Trop.Oceanogr.,33(6),48–60.
+trackforecasts.Wea.Forecasting,26,664–676,https://doi.org/ Weigel,A.P.,M.A.Liniger,andC.Appenzeller,2008:Canmulti-
+10.1175/WAF-D-11-00007.1. model combination really enhance the prediction skill of
+Goerss,J.S.,2007:Predictionof consensustropicalcyclonetrack probabilisticensembleforecasts?Quart.J.Roy.Meteor.Soc., forecasterror.Mon.Wea.Rev.,135,1985–1993,https://doi.org/ 134,241–260,https://doi.org/10.1002/qj.210.
+10.1175/MWR3390.1. Whitaker,J.S.,andA.F.Loughe,1998:Therelationshipbetween ——,C.R.Sampson,andJ.M.Gross,2004:AhistoryofwesternNorth ensemblespreadandensemblemeanskill.Mon.Wea.Rev.,126,
+Pacific tropical cyclone track forecast skill. Wea. Forecasting, 3292–3302, https://doi.org/10.1175/1520-0493(1998)126,3292:
+19, 633–638, https://doi.org/10.1175/1520-0434(2004)019,0633: TRBESA.2.0.CO;2.
+AHOWNP.2.0.CO;2.
+WMO, 2015: TIGGE Cyclone Exchange. World Meteorological
+Hamill,T.M.,J.S.Whitaker,M.Fiorino,andS.G.Benjamin,2011: Organization,https://www.ecmwf.int/en/research/projects/tigge.
+Globalensemble predictionsof2009’stropicalcyclonesini- Xu,Q.Z.,andS.Lu,2004:ProbabilityandMathematicalStatistics tializedwithanensembleKalmanfilter.Mon.Wea.Rev.,139, (inChinese).HigherEducationPress,72pp.
+668–688,https://doi.org/10.1175/2010MWR3456.1. Yamaguchi,M.,R.Sakai,M.Kyoda,T.Komori,andT.Kadowaki, ——,M.J.Brennan,B.Brown,M.DeMaria,E.N.Rappaport,and 2009: Typhoon ensemble prediction system developed at
+Z. Toth, 2012: NOAA’s future ensemble-based hurricane the Japan Meteorological Agency. Mon. Wea. Rev., 137, forecast products. Bull. Amer. Meteor. Soc., 93, 209–220, 2592–2604,https://doi.org/10.1175/2009MWR2697.1.
+https://doi.org/10.1175/2011BAMS3106.1. ——,T.Nakazawa,andS.Hoshino,2012:Ontherelativebenefits
+He,C.F.,X.F.Zhi,Q.L.You,B.Song,andK.Fraedrich,2015: of a multi-centre grand ensemble for tropical cyclone track
+Multi-modelensembleforecastsoftropicalcyclonesin2010and predictioninthewesternNorthPacific.Quart.J.Roy.Meteor.
+2011basedontheKalmanfiltermethod.Meteor.Atmos.Phys., Soc.,138,2019–2029,https://doi.org/10.1002/qj.1937.
+127,467–479,https://doi.org/10.1007/s00703-015-0377-1. Ying, M., W. Zhang, H. Yu, X. Q. Lu, J. X. Feng, Y. X. Fan,
+Jolliffe,I.T.,andD.B.Stephenson,2003:ForecastVerification:A Y.T.Zhu,andD.Q.Chen,2014:AnoverviewoftheChina
+Practitioner’sGuideinAtmosphericScience.JohnWileyand Meteorological Administration tropical cyclone database.
+Sons,157pp. J. Atmos. Oceanic Technol., 31, 287–301, https://doi.org/
+Krishnamurti, T. N., C. M. Kishtawal, Z. Zhang, T. LaRow, 10.1175/JTECH-D-12-00119.1.
+D.Bachiochi,E.Williford,S.Gadgil,andS.Surendran,2000: Yu, H.,andCoauthors,2012:Operational tropicalcyclonefore-
+Multimodel ensemble forecasts for weather and seasonal castverificationpracticeinthewesternNorthPacificregion.
+climate. J. Climate, 13, 4196–4216, https://doi.org/10.1175/ Trop. Cyclone Res. Rev., 1, 361–372, https://doi.org/10.6057/
+1520-0442(2000)013,4196:MEFFWA.2.0.CO;2. 2012TCRR03.06.
+——,S.Pattnaik,M.K.Biswas,E.Bensman,M.Kramer,N.Surgi, Zhang, H. B., X. F. Zhi, J. Chen, Y. N. Wang, and Y. Wang, andT.V.Kumar,2010:Hurricaneforecastswithamesoscale 2015:Studyofthemodificationofmulti-modelensembleschemes suiteofmodels.Tellus,62A,633–646,https://doi.org/10.1111/ for tropical cyclone forecasts. J. Trop. Meteor., 21, 389, http:// j.1600-0870.2010.00469.x. www.cnki.net/kcms/doi/10.16555/j.1006-8775.2015.04.007.html.
+Kunitsugu,M.,2012:Tropicalcycloneinformationprovidedbythe Zhang,L.,andX.F.Zhi,2015:Multimodelconsensusforecasting
+RSMCTokyo-TyphoonCenter.Trop.CycloneRes.Rev.,1, oflowtemperatureandicyweatherovercentralandsouthern
+51–59,https://doi.org/10.6057/2012TCRR01.06. Chinainearly2008.J.Trop.Meteor.,21,67–75,http://www.
+Lei, X. T., and H. Yu, 2015: The progress of WMO Typhoon cnki.net/kcms/doi/10.16555/j.1006-8775.2015.01.007.html.
+LandfallForecastDemonstrationProject(inChinese).Adv. Zhang, X. P., and Q. Zhao, 2016: Dynamics of Rossby dipole
+Meteor.Sci.Technol.,2,18–23. witheffectofscalarnonlinearity.Commun.NonlinearSci.,32,
+Lorenz,E.N.,1995:TheEssenceofChaos.UniversityofWash- 137–144,https://doi.org/10.1016/j.cnsns.2015.08.017.
+ingtonPress,227pp. ——,G.M.Chen,H.Yu,andZ.H.Zeng,2015:Verificationofensemble
+Majumdar,S.J.,andP.M.Finocchio,2010:Ontheabilityofglobal trackforecastsoftropicalcyclonesduring2014.Trop.CycloneRes.
+ensemblepredictionsystemstopredicttropicalcyclonetrack Rev.,4(2),79–87,https://doi.org/10.6057/2015TCRR02.04.
+probabilities. Wea. Forecasting, 25, 659–680, https://doi.org/ Zhi,X.F.,H.X.Qi,Y.Q.Bai,andC.Z.Lin,2012:Acomparisonof
+10.1175/2009WAF2222327.1. threekindsofmultimodelensembleforecasttechniquesbased
+Pedlosky,J.,1987:GeophysicalFluidDynamics.2nded.Springer- ontheTIGGEdata.ActaMeteor.Sin.,26,41–51,https://doi.org/
+Verlag,710pp. 10.1007/s13351-012-0104-5.

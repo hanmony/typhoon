@@ -1,0 +1,163 @@
+ARTICLE IN PRESS
+JID: AOSL [m5GeSdc; July 22, 2025;18:48 ]
+Atmospheric and Oceanic Science Letters xxx (xxxx) xxx
+Contents lists available at ScienceDirect
+Atmospheric and Oceanic Science Letters journal homepage:
+http://www.keaipublishing.com/en/journals/atmospheric-and-oceanic-science-letters/
+Forecast errors of tropical cyclone track and intensity by the China
+Meteorological Administration from 2013 to 2022
+Huanmujin Yuan a, Hong Wang b, ∗ , Yubin Li c, Kevin K.W. Cheung d, Zhiqiu Gao e a School of Atmospheric Sciences, Nanjing University of Information Science and Technology, Nanjing, China b School of Teacher Education, Nanjing University of Information Science and Technology, Nanjing, China c School of Atmospheric Physics, Nanjing University of Information Science and Technology, Nanjing, China d School of Emergency Management, Nanjing University of Information Science and Technology, Nanjing, China e Institute of Atmospheric Physics, Chinese Academy of Sciences, Beijing, China a r t i c l e i n f o a b s t r a c t
+Keywords: This study presents a comprehensive evaluation of tropical cyclone (TC) forecast performance in the western
+Forecast error North Pacific from 2013 to 2022, based on operational forecasts issued by the China Meteorological Administra-
+Tropical cyclone tion. The analysis reveals systematic improvements in both track and intensity forecasts over the decade, with
+Track
+distinct error characteristics observed across various forecast parameters. Track forecast errors have steadily
+Intensity
+decreased, particularly for longer lead times, while error magnitudes have increased with longer forecast lead: times. Intensity forecasts show similar progressive enhancements, with maximum sustained wind speed errors decreasing by 0.26 m/s per year for 120 h forecasts. The study also identifies several key patterns in forecast performance: typhoon-grade or stronger TCs exhibit smaller track errors than week or weaker systems; intensity forecasts systematically overestimate weaker TCs while underestimating stronger systems; and spatial error distributions show greater track inaccuracies near landmasses and regional intensity biases. These findings highlight both the significant advances in TC forecasting capability achieved through improved modeling and observational systems, and the remaining challenges in predicting TC changes and landfall behavior, providing valuable benchmarks for future forecast system development.
+
+1. Introduction China’s eastern coast from 1992 to 2010, reducing local economic activity by 20 % in affected years ( Elliott et al., 2015 ). From 2005 to 2016,
+Tropical cyclones (TCs) are among the most severe and destructive TCs affected an average of 36.7 million people annually in China, causweather systems affecting the western North Pacific (WNP) and Asia, ing 69.5 billion yuan in direct economic losses and 254 deaths per year causing substantial damage through extreme winds and heavy rainfall ( Wang et al., 2019 ). Moreover, TC activity in the WNP has exhibited a ( Zhou et al., 2004 ). China is particularly vulnerable to TC disasters, ex- poleward migration in recent decades, expanding the affected regions in periencing frequent landfalls that rank it as one of the most affected na- China and increasing damage in the northeast regions ( Wu et al., 2020 ;
+tions ( Chen and Meng, 2001 ; Needham et al., 2015 ; Chen and Xu, 2017 ). Li et al., 2023 ).
+From 1950 to 2020, an average of 27 typhoons formed annually in the The Typhoon Committee emphasizes that improving track and
+WNP, with approximately seven making landfall along China’s coastline intensity forecast accuracy is key to reducing TC-related losses each year ( Zhou et al., 2022 ). These landfalls have resulted in severe eco- ( ESCAP/WMO, 2021 ). Accurate forecasts of landfall location, intensity nomic losses, including approximately $28.34 billion in net losses along and post-landfall behavior are essential for refining warning zones, en- ✩ Peer review under the responsibility of Editorial Board of Atmospheric and Oceanic Science Letters.
+∗ Corresponding author.
+E-mail address: [已脱敏邮箱] (H. Wang) .
+https://doi.org/10.1016/j.aosl.2025.100675
+Received 6 May 2025; Revised 3 June 2025; Accepted 2 July 2025
+Available online xxx
+1674-2834/©2025 The Authors. Publishing Services by Elsevier B.V. on behalf of KeAi Communications Co. Ltd. This is an open access article under the CC
+BY-NC-ND license ( http://creativecommons.org/licenses/by-nc-nd/4.0/ )
+Please cite this article as: H. Yuan, H. Wang, Y. Li et al., Forecast errors of tropical cyclone track and intensity by the China Meteorological
+Administration from 2013 to 2022, Atmospheric and Oceanic Science Letters, https://doi.org/10.1016/j.aosl.2025.100675
+H.Yuan,H.Wang,Y.Lietal. AtmosphericandOceanicScienceLettersxxx(xxxx)xxx abling governments to issue timely evacuations, disaster alerts, and re- These data include TC track and intensity forecast data, i.e., 2-min mean covery plans ( Li et al., 2020 ). Since the 1990s, advancements in meteo- maximum sustained wind speed (MSWS) near the TC center and minirological observations, satellite data, numerical modeling, and data as- mum sea level pressure (MSLP) near the TC center, with forecast lead similation have enhanced TC forecasting ( Shen et al., 2020 ). From 2013 times of 12, 24, 36, 48, 60, 72, 96, and 120 h (note that the 60 h foreto 2018, the China Meteorological Administration (CMA) achieved av- cast has been available since 2014). The best-track dataset used in this erage track forecast errors of 73 km (24 h), 132 km (48 h), 203 km study is released by the CMA and provides six-hourly information on the
+(72 h), 278 km (96 h), and 381 km (120 h), and intensity forecast er- track and intensity of TCs over the WNP, including the South China Sea, rors of 4.4 m s− 1 (24 h), 6.3 m s−1 (48 h), 6.7 m s− 1 (72 h), 7.7 m s−1 covering the region north of the equator and west of 180°E ( Ying et al.,
+(96 h), and 8.0 m s−1 (120 h), surpassing the forecast accuracy of Japan 2014 ; Lu et al., 2021 ). TC intensity is classified into four classes based on and the U.S. ( Li et al., 2020 ). From 2005 to 2018, the CMA’s annual the MSWS (m s− 1 ): tropical depression (TD, 10.8–17.1); tropical storm intensity errors decreased by 1 % to 2 % for 24–72 h forecast lead times (TS, 17.2–24.4), severe tropical storm (STS, 24.5–32.6), and typhoon ( Huang et al., 2021 ). and above (TY + , ≥ 32.7). The four-category classification scheme used
+Despite notable progress, the increasing demands of China’s rapid here is adapted from the six-category classification defined in China’s development call for greater precision in TC disaster mitigation, yet op- National Standard GB/T 19201–2006. Our modified approach combines erational forecasts still fall short of these refined needs ( Lei, 2020 , 2021 ). all TC intensities stronger than TY into a single TY + category (TY+s re-
+Systematic evaluation of current model errors in TC track and intensity fer to tropical cyclones classified as typhoon-level or above in intensity).
+forecasts is essential for identifying limitations and guiding targeted im- This consolidation maintains adequate sample sizes in each intensity provement. Existing research on forecast errors often focuses on single- category to ensure statistical robustness while simultaneously facilitatyear assessments (e.g., Chen et al., 2017 ) or data predating to 2018 (e.g., ing clearer interpretation of forecast error trends across different storm
+Zhang et al., 2015 ; Huang et al., 2021 ), lacking both temporal continu- intensities.
+ity and updated analysis. Additionally, studies examining trends in TC operational forecast errors rarely explore the spatial distribution char- 3. Results and discussion acteristics of errors or how the errors relate to TC intensity and rates of intensity change. To address these gaps, this study analyzes opera- 3.1. TC track forecast error analysis tional TC forecasts issued by the CMA from 2013 to 2022, evaluating overall errors, annual trends, regional distributions, and intensity and 3.1.1. TC track forecast error across different lead times intensity-variability category dependencies. From 2013 to 2022, the range of TC track forecast errors exhibits an increasing trend with longer lead times. Extreme errors also increase
+2. Data and methods as lead times lengthen. Both the mean and median track forecast errors gradually grow with longer lead times: the smallest error is 55.1 km
+The forecast data used in this study consist of operational six-hourly (12 h), and the largest error is 357.4 km (120 h) ( Fig. 1 (a)). The mean
+TC forecast data over the WNP issued by the CMA from 2013 to 2022. errors are consistently higher than the median at every lead time, in-
+Fig. 1. (a) Box plot of TC track forecast errors across lead times of 12–120 h. The edges of the green boxes indicate the 25th and 75th percentiles. The whiskers extend to the most extreme data points not considering outliers. The same presentation standards are applied to other similar figures in this study. (b) Annual mean
+TC track forecast errors across lead times of 12–120 h from 2013 to 2022 (dotted lines) and their linear regression trends (solid lines). (c) Average TC track forecast errors across different intensity categories. (d) Average TC track forecast errors across different intensity-variability categories.
+dicating a right-skewed (positively skewed) error distribution, which Following Wang et al. (2015) , TC intensity variabilities are categosuggests the presence of significant outliers. rized by 24 h wind speed changes (m s−1 ): rapid weakening ( > 15), slow weakening (5–15), steady ( ± 5), slow intensification (5–15), and
+3.1.2. Interannual variation trends of TC track forecast errors rapid intensification ( > 15). Fig. 1 (d) illustrates the relationship between
+Fig. 1 (b) illustrates the annual variation of track forecast errors TC track forecast errors and intensity variability categories. It shows across 12–120 h lead times from 2013 to 2022. Dashed lines represent that rapid and slow intensification TCs exhibit the smallest track errors, annual mean errors, and solid lines indicate linear regression trends. while rapid and slow weakening TCs generally show the largest errors.
+Despite interannual fluctuations, all lead times exhibit consistent error Thus, forecasting tracks for weakening TCs remains the more challengreduction. The degrees of improvement vary notably: the most signif- ing.
+icant decreases occur at 120, 96, and 72 h forecasts (13.09, 4.66, and
+2.74 km yr− 1 , respectively), whereas marginal improvements occur at
+60, 24, and 48 h forecasts (0.51, 0.80, and 0.93 km yr−1 , respectively). 3.1.4. Spatial distribution of TC track forecast errors
+Fig. 2 (a, b) shows the regional distribution characteristics of TC
+Collectively, these results indicate marked improvements in long-leadtrack forecast errors at 24 and 72 h lead times. Only two lead times are time TC track forecasting over the past decade.
+shown here because the other lead times have similar spatial distributions. As shown, at both lead times, the track forecast errors increase
+3.1.3. Relations between TC track forecast errors and TC intensity when TCs approach land or islands. Overall, relatively large track fore-
+From 2013 to 2022, TDs, TSs, STSs, and TY + s comprise approxicast errors are observed over the waters near Taiwan, over the Pacific mately 5 %, 23 %, 19 %, and 53 % of WNP TCs, respectively. Fig. 1 (c) waters east of the Yangtze River Delta, and around Japan. At the 24 h demonstrates that track forecast errors are smallest for TY + s and largest lead time, the track forecast errors are smaller over the eastern mainland for TSs across all lead times (except for 12, 96 and 120 h, where TSs are of China than in the adjacent oceanic areas to its east. This improvement the second largest category). This pattern may arise because TY + s typiis likely attributable to the dense radar observation network recently escally exhibit stronger winds, greater structural symmetry, and more statablished by the CMA, whose data could be used to correct the model ble environmental conditions, which may result in reduced sensitivity input during forecasting ( Zhao et al., 2012 ; Yu et al., 2024 ).
+to internal asymmetries. Although the motion of stronger TCs remains more aligned with the large-scale steering flow ( Wu and Wang, 2000 ), other factors, such as storm size, inner-core structure, and interactions 3.2. TC intensity forecast error analysis with surrounding systems, can also influence track predictability. Therefore, the relatively smaller track forecast errors of stronger TCs likely 3.2.1. TC intensity forecast error across different lead times stem from combined external environmental control and internal storm Fig. 3 (a) illustrates the forecast errors for TC intensity (represented dynamics, and deserves further investigation with a more comprehen- by MSWS and MSLP) across different lead times. Both the ranges and exsive analysis. treme values of MSWS and MSLP forecast errors generally increase with
+Fig. 2. Spatial distribution of multi-year average TC track forecast errors for lead times of (a) 24 h and (b) 72 h; and the spatial distribution of multi-year average
+MSWS forecast errors for lead times of (c) 24 h and (d) 72 h.
+3
+Fig. 3. (a) Box plot of TC intensity forecast errors across lead times of 12–120 h. (b) As in (a) but for absolute errors. (c) Annual mean TC MSWS forecast errors across lead times of 12–120 h lead times from 2013 to 2022 (dotted lines) and their linear regression trends (solid lines). (d) As in (c) but for MSLP. (e) Average
+MSWS forecast errors across different intensity categories. (f) As in (e) but for average absolute errors.
+lead time. However, for lead times exceeding 72 h, the range and ex- forecast errors. The most significant error reductions are observed at tremes of MSWS errors tend to stabilize, while those for MSLP decrease. the lead times of 120 and 96 h, with mean annual decreases of 0.26 and
+This reduction in MSLP errors beyond 72 h may be attributable to TC 0.25 m s− 1 , respectively.
+decay, consistent with the typical 5–8 day lifespan of TCs in the WNP Fig. 3 (d) shows the corresponding trends in MSLP. Similar to the ( Wang and Chan, 2002 ; Camargo and Sobel, 2005 ). MSWS results, MSLP forecast errors generally decline over time. The
+Fig. 3 (b) displays the absolute forecast errors for intensity across largest improvement occurs at the lead times of 120 and 96 h, with mean different lead times. The mean absolute errors for both MSWS and MSLP annual decreases of 0.44 and 0.49 hPa, respectively. These results suggenerally increase with lead time, though MSLP errors decrease beyond gest that recent improvements in model development (e.g., Shen et al.,
+72 h due to TC decay. 2020 ) and observation enhancements (e.g., Zhao et al., 2022 ) have significantly increased the accuracy of TC intensity forecasts.
+3.2.2. Interannual variation trends of TC intensity forecast errors
+Fig. 3 (c) presents the annual variation of mean absolute errors for 3.2.3. MSWS forecast errors in different TC intensity categories
+MSWS across different lead times from 2013 to 2022. Despite interan- Given that wind is a key parameter for assessing TC intensity and nual fluctuations, all lead times show overall declining trends in MSWS a major contributor to cyclone-related damage ( Zhou et al., 2004 ;
+4
+Chen et al., 2011 ), this study further investigates the characteristics of that absolute errors generally increase with TC intensity, albeit with
+MSWS forecast error in the following sections. some exceptions. This increasing trend may be related to larger MSWS
+Fig. 3 (e) presents mean MSWS errors for different intensity cate- values in stronger TC categories. However, at the lead times of 96 and gories (TD, TS, STS, TY + ) across each lead time. The figure shows that 120 h, the largest errors occur for the STS category, with the TY + catemean MSWS errors are consistently positive for TD, TS, and STS, indicat- gory ranking second and third. The relatively smaller errors for the TY + ing a systematic overestimation, while being negative for TY + , showing category may be associated with reduced track errors (see Fig. 1 (c)), a systematic underestimation. Fig. 4 further displays the mean forecast since for long-lead forecasts, track errors are the primary source of in-
+MSWS for each best-track MSWS bin (5 m s−1 bin size). It is clear that tensity errors ( Emanuel and Zhang, 2016 ).
+for bins with best-track MSWS less than 30 m s−1 , the forecast MSWS is overestimated at all lead times. For bins with best-track MSWS greater 3.2.4. Spatial distribution of MSWS forecast errors than 40 m s− 1 , the forecast MSWS is underestimated at all lead times. Fig. 2 (c, d) shows the regional distribution characteristics of MSWS
+Fig. 3 (e) illustrates an overestimation of weak TCs and underestima- forecast errors at the lead times of 24 and 72 h. Generally, two mation of strong TCs, which is consistent with the conclusions drawn from jor areas show consistent underestimation at different lead times: the
+Fig. 4 . Moreover, although TY + shows the shortest error bars across all open ocean region around (15°–20°N, 140°–150°E), and the Bohai Sea lead times, this does not represent smaller forecast errors since averag- and Yellow Sea region. In contrast, overestimation generally occurs ing may offset overestimation and underestimation. Therefore, Fig. 3 (f) in coastal areas of southeastern China and regions surrounding the further presents the mean MSWS absolute errors. The results indicate Japanese Archipelago and Korean Peninsula. The South China Sea shows
+Fig. 4. The forecast MSWS in each of the 5 m s−1 best-track MSWS bins for lead times of (a) 12 h, (b) 24 h, (c) 72 h, and (d) 120 h. The vertical dashed line represents the overall mean best-track MSWS at each lead time.
+no clear tendency. These results suggest that underestimation or over- Chen, L.S., Meng, Z.Y., 2001. An overview on tropical cyclone research progress estimation tendencies of MSWS are regionally dependent, likely related in China during the past ten years. Chin. J. Atmos. Sci. 25 (3), 420–432.
+doi: 10.3878/j.issn.1006-9895.2001.03.13 , (in Chinese) .
+to uncertainties in air–sea and air–land interaction parameterizations
+Chen, L.S., Xu, Y.L., 2017. Review of typhoon very heavy rainfall in China. Meteorol.
+( Green and Zhang, 2014 ; Ming and Zhang, 2016 ). Environ. Sci. 40 (1), 3–10. doi: 10.16765/j.cnki.1673-7148.2017.01.001 , (in Chinese) .
+Elliott, R.J.R., Strobl, E., Sun, P.Y., 2015. The local impact of typhoons on economic activity in China: A view from outer space. J. Urban Econ. 88, 50–66.
+4. Conclusions doi: 10.1016/j.jue.2015.05.001 .
+Emanuel, K., Zhang, F.Q., 2016. On the predictability and error sources of tropical cyclone
+This study comprehensively evaluates the performance of TC track intensity forecasts. J. Atmos. Sci. 73 (9), 3739–3747. doi: 10.1175/JAS-D-16-0100.1 .
+and intensity forecasts issued by the CMA over the WNP from 2013
+ESCAP/WMO. Typhoon Committee Strategic Plan 2017–2021. ESCAP/WMO, Macao,
+China .
+to 2022. The analysis focuses on forecast errors across different lead Green, B.W., Zhang, F.Q., 2014. Sensitivity of tropical cyclone simulations to parametric times (12–120 h), TC intensity and intensity-variability category, and uncertainties in air–sea fluxes and implications for parameter estimation. Mon. Wea.
+spatial distribution. The findings reveal systematic trends in forecast Rev. 142 (6), 2290–2308. doi: 10.1175/MWR-D-13-00208.1 .
+Huang, X.G., Peng, X.D., Fei, J.F., Cheng, X.P., Ding, J.L., Yu, D.D., 2021. Evaluaaccuracy, highlighting areas of improvement and persistent challenges tion and error analysis of official tropical cyclone intensity forecasts during 2005– in TC prediction. 2018 for the Western North Pacific. J. Meteorol. Soc. Jpn. 99 (1), 139–163.
+For TC track forecasts, errors clearly depend on lead time, with both doi: 10.2151/jmsj.2021-008 .
+Lei, X.T., 2020. Overview of the century-old development of China’s typhoon scientific mean and median errors increasing with increasing lead time. The 120 h research business. Sci. Sin. Terrae. 50 (3), 321–338. doi: 10.1360/N072018-00176 , forecasts show the largest mean error (357.4 km), while the 12 h fore- (in Chinese) .
+casts show the smallest (55.1 km). Over the past decade, track forecast Lei, X.T., 2021. Overview of typhoon prevention and cooperative research and their contribution to typhoon study in China. Acta Meteorol. Sin. 79 (3), 531–540.
+accuracy has improved, particularly for long-lead forecasts. Notably, doi: 10.11676/qxxb2021.032 , (in Chinese) .
+track errors vary with TC intensity, with the TY + category exhibiting Li, Y., Zhao, S.S., Zhao, D.J., Gao, G., Xu, H.X., Jiang, Y.D., 2023. Changes in tropthe smallest errors. Conversely, weakening TCs show larger track er- ical cyclone disasters over China during 2001–2020. Earth Space Sci. 10 (6).
+doi: 10.1029/2022EA002795 .
+rors, suggesting greater forecasting challenges. Spatially, errors increase
+Li, Z.C., Zhang, L., Qian, Q.F., Ma, S.H., Xu, J., Dai, K., Shen, Y., Wang, Y.D., near land masses, with higher discrepancies observed near Taiwan, the 2020. The development and consideration of typhoon forecast opera-
+Shandong Peninsula, and the oceanic areas adjacent to eastern mainland tion of National Meteorological Center. Trans. Atmos. Sci. 43 (1), 10–19.
+China, possibly due to enhanced radar observations.
+doi: 10.13878/j.cnki.dqkxxb.20200110015 , (in Chinese) .
+Lu, X.Q., Yu, H., Ying, M., Zhao, B.K., Zhang, S., Lin, L.M., Bai, L.N., Wan, R.J., 2021.
+Intensity forecast errors, assessed by MSWS and MSLP, also increase Western North Pacific tropical cyclone database created by the China Meteorological with lead time. However, MSLP errors decline beyond 72 h, likely due to Administration. Adv. Atmos. Sci. 38 (4), 690–699. doi: 10.1007/s00376-020-0211-7 .
+TC decay. Similar to track forecasts, intensity forecasts have improved Ming, J., Zhang, J.A., 2016. Effects of surface flux parameterization on the numerically simulated intensity and structure of Typhoon Morakot (2009). Adv. Atmos. Sci. 33, over the study period, with significant error reductions at long lead 58–72. doi: 10.1007/s00376-015-4202-z .
+times. Systematic biases are evident: weaker TCs (TD, TS, STS) tend to be Needham, H.F., Keim, B.D., Sathiaraj, D., 2015. A review of tropical cyclone-generated overestimated, while stronger TCs (TY + ) are underestimated. Absolute storm surges: Global data sources, observations, and impacts. Rev. Geophys. 53 (2), errors generally increase with TC intensity, although TY + forecasts show
+Shen
+4
+X
+S
+9
+W
+1.
+a d n o g: 1
+J.J.1
+L
+Z
+C
+1
+4 R
+C
+G he n
+D
+47.H
+7
+, Gong, J.D., 2020. China’s independent and relatively smaller errors at long lead times, possibly due to reduced track innovative development of numerical weather prediction. Acta Meteorol. Sin. 78 (3), errors. Spatially, MSWS forecasts exhibit regional biases, with underes- 451–476. doi: 10.11676/qxxb2020.030 , (in Chinese) .
+Wang, B., Chan, J.C.l., 2002. How strong ENSO events affect tropical storm timation in open ocean areas and overestimation near coastal regions, activity over the western North Pacific. J. Clim. 15 (13), 1643–1658.
+likely influenced by uncertainties in air–sea and air–land interaction pa- doi: 10.1175/1520-0442(2002)015 < 1643:HSEEAT>2.0.CO;2 .
+rameterizations. Wang, H., Xu, M., Onyejuruwa, A., Wang, Y.J., When, S.S., Gao, A.E., Li, Y.B., 2019. Tropical cyclone damages in Mainland China over 2005–2016: Losses analysis and impli-
+Overall, this study underscores the advancements in TC forecasting cations. Environ. Dev. Sustain. 21, 3077–3092. doi: 10.1007/s10668-019-00481-7 .
+over the past decade, particularly in long-lead-time predictions, while Wang, Y.Q., Rao, Y.J., Tan, Z.M., Schönemann, D., 2015. A statistical analysis of the effects identifying key challenges such as forecasting weakening TCs and re- of vertical wind shear on tropical cyclone intensity change over the Western North gional intensity biases. The findings provide valuable insights for fur-
+Pacific. Mon. Wea. Rev. 143 (9), 3434–3453. doi: 10.1175/MWR-D-15-0049.1 .
+Wu, L.G., Wang, B., 2000. A potential vorticity tendency diagnostic apther model development and observation enhancements to improve TC proach for tropical cyclone motion. Mon. Wea. Rev. 128 (6), 1899–1911.
+prediction accuracy in the WNP. doi: 10.1175/1520-0493(2000)128 < 1899:APVTDA>2.0.CO;2 .
+Wu, Z.M., Zhang, D.N., Hu, C.D., Yang, S., 2020. Research progress on climate changes in frequency and genesis location of western North Pacific tropical cyclone. J. Mar.
+Funding Meteorol. 40 (4), 1–10. doi: 10.19513/j.cnki.issn2096-3599.2020.04.001 , Chinese .
+Ying, M., Zhang, W., Yu, H., Lu, X.Q., Feng, J.X., Fan, Y.X., Zhu, Y.T., Chen, D.Q., 2014.
+This work was supported by the National Key R&D Program of China An overview of the China Meteorological Administration tropical cyclone database.
+J. Atmos. Ocean. Technol. 31, 287–301. doi: 10.1175/JTECH-D-12-00119.1 .
+[grant number 2023YFC3008004 ]. Yu, H., Chen, G.M., Wong, W.K., Vigh, J.L., Pan, C.K., Lu, X.Q., Zhang, J.A., et al., 2024.
+WMO typhoon landfall forecast demonstration project (2010–22): A decade of tran-
+Acknowledgments sition from track forecasts to impact forecasts. Bull. Amer. Meteorol. Soc. 105 (7),
+E1320–E1349. doi: 10.1175/BAMS-D-23-0085.1 .
+Zhang, S.F., Yu, H., Xiang, C.Y., 2015. Error analysis on official typhoon inten-
+The processing calculations of the data in this paper were performed sity forecasts of CMO from 2001 to 2012. Meteorol. Mon. 41 (10), 1278–1285.
+on a supercomputing system at the Supercomputing Center of Nanjing doi: 10.7519/j.issn.1000-0526.2015.10.011 , (in Chinese) .
+Zhao, B.K., Tang, J., Lei, X.T., Zhang, X.F., Duan, W.S., Li, H., Gao, Z.Q.,
+University of Information Science & Technology.
+et al., 2022. Progress on the experiment of a multi-platform collaborative field campaign on offshore typhoon. Adv. Earth Sci. 37 (8), 771–785.
+References doi: 10.11867/j.issn.1001-8166.2022.053 , (in Chinese) .
+Zhao, K., Li, X.F., Xue, M., Jou, B.J.D., Lee, W.C., 2012. Short-term forecasting through
+Camargo, S.J., Sobel, A.H., 2005. Western North Pacific tropical cyclone intensity and intermittent assimilation of data from Taiwan and mainland China coastal radars
+ENSO. J. Clim. 18 (15), 2996–3006. doi: 10.1175/JCLI3457.1 . for Typhoon Meranti (2010). landfall. J. Geophys. Res. Atmos. 117 (D6), D06108.
+Chen, G.M., Bai, L.N., Wan, R.J., 2017. Verification on forecasts of tropical cy- doi: 10.1029/2011JD017109 .
+clones over Western North Pacific in 2015. Meteorol. Mon. 43 (4), 501–507. Zhou, G.B., Liu, L.S., Dong, L., Wang, Q., Xu, Y.L., 2022. The analysis of characteristics doi: 10.7519/j.issn.1000-0526.2017.04.013 , (in Chinese) . and forecast difficulties of TCs in Western North Pacific in 2020. Meteorol. Mon. 48
+Chen, H.Y., Yan, L.N., Lou, W.P., Xu, H.N., Yang, S.F., 2011. On assessment indexes of (4), 504–515. doi: 10.7519/j.issn.1000-0526.2021.112401 , (in Chinese) .
+the strength of comprehensive impacts of tropical cyclone disaster-causing factors. Zhou, J.H., Shi, P.J., Fan, Y.D., Xu, W., 2004. Risk analysis of tropical cy-
+J. Trop. Meteorol. 27 (1), 139–144. doi: 10.3969/j.issn.1004-4965.2011.01.017 , (in clones in the northwestern Pacific. J. Nat. Disasters. 13 (3), 146–151.
+Chinese) . doi: 10.3969/j.issn.1004-4574.2004.03.026 , (in Chinese) .
+6

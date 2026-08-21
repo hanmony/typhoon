@@ -1,0 +1,646 @@
+Transportmetrica A: Transport Science
+ISSN: 2324-9935 (Print) 2324-9943 (Online) Journal homepage: www.tandfonline.com/journals/ttra21
+Train rescheduling in a major disruption on a high-speed railway network with seat reservation
+Shuguang Zhan, S. C. Wong, Pan Shang & S. M. Lo
+To cite this article: Shuguang Zhan, S. C. Wong, Pan Shang & S. M. Lo (2022) Train rescheduling in a major disruption on a high-speed railway network with seat reservation, Transportmetrica
+A: Transport Science, 18:3, 532-567, DOI: 10.1080/23249935.2021.1877369
+To link to this article: https://doi.org/10.1080/23249935.2021.1877369 © 2021 The Author(s). Published by Informa
+UK Limited, trading as Taylor & Francis
+Group
+Published online: 04 Feb 2021.
+Submit your article to this journal
+Article views: 3248
+View related articles
+View Crossmark data
+Citing articles: 6 View citing articles
+Full Terms & Conditions of access and use can be found at https://www.tandfonline.com/action/journalInformation?journalCode=ttra21
+TRANSPORTMETRICAA:TRANSPORTSCIENCE
+2022,VOL.18,NO.3,532–567 https://doi.org/10.1080/23249935.2021.1877369
+Trainreschedulinginamajordisruptiononahigh-speed railwaynetworkwithseatreservation
+ShuguangZhana,b,c,S.C.Wongb,PanShangdandS.M.Loe aSchoolofTransportationandLogistics,SouthwestJiaotongUniversity,ChengduSichuan,People’sRepublic ofChina;bDepartmentofCivilEngineering,TheUniversityofHongKong,PokFuLam,HongKong;cNational
+UnitedEngineeringLaboratoryofIntegratedandIntelligentTransportationandNationalEngineering
+LaboratoryofIntegratedTransportationBigDataApplicationTechnology,SouthwestJiaotongUniversity,
+Chengdu,Sichuan,People’sRepublicofChina;dSchoolofTrafficandTransportation,BeijingJiaotong
+University,Beijing100044,People’sRepublicofChina;eDepartmentofArchitectureandCivilEngineering,
+CityUniversityofHongKong,KowloonTong,HongKong
+ABSTRACT ARTICLEHISTORY
+Inthispaper,wedevelopamethodofreal-timetrainrescheduling Received25December2019 ondouble-trackhigh-speedrailwaylinesundergoingmajordisrup- Accepted20November2020 tion.Asaresult,trainsapproachingthedisruptedareacannotuse
+KEYWORDS
+the blocked tracks and must be efficiently rescheduled. As most
+High-speedrailway;train tracksinahigh-speedrailwaystationcanbesharedbytrainsarriv- rescheduling;integerlinear ingfrombothdirections,wereschedulebothinboundandoutbound programming;alternating trainssimultaneouslybyallowingthemtosharesidings.Basedon directionmethodof aspace-timenetwork,anintegerlinearprogramming(ILP)modelis multipliers formulatedtominimizethetrain-deviationcost.AstheILPmodelis difficulttosolveforreal-worldproblems,wedecomposeitintomany easy-to-solvesubproblemsbythealternatingdirectionmethodof multipliers (ADMM) algorithm. Our model is tested on an abstract representationoftheChinesehigh-speedrailwaysystemtoillustrate boththebenefitofreschedulingtrainsinbothdirectionssimultaneouslyandtheefficiencyoftheADMMalgorithmintrainrescheduling.
+1. Introduction
+Indailyrailwayoperations,disruptionsareinevitablycausedbyvariousexternalorinternal factorssuchasbadweatherorfaultytracksections.Thesedisruptionsrequiretrainstodeviatefromtheiroriginaltimetable,andtraindispatchershavetoreschedulethedisrupted trains immediately after the occurrence of the disruption. In serious cases of disruption, sometracksectionsaretemporarilyblocked.Trainsthatwerescheduledtopassthrough the disrupted section can no longer continue their planned journey. When both tracks in a segment of a railway line are blocked, two main strategies to handle the disrupted trainserviceshavebeendescribedinpreviousstudies(Zhanetal.2019).Onestrategyisto
+CONTACT ShuguangZhan [已脱敏邮箱] SchoolofTransportationandLogistics,
+SouthwestJiaotongUniversity,Chengdu,Sichuan610031,People’sRepublicofChina;
+©2021TheAuthor(s).PublishedbyInformaUKLimited,tradingasTaylor&FrancisGroup
+ThisisanOpenAccessarticledistributedunderthetermsoftheCreativeCommonsAttribution-NonCommercial-NoDerivativesLicense (http://creativecommons.org/licenses/by-nc-nd/4.0/),whichpermitsnon-commercialre-use,distribution,andreproductioninanymedium, providedtheoriginalworkisproperlycited,andisnotaltered,transformed,orbuiltuponinanyway.
+TRANSPORTMETRICAA:TRANSPORTSCIENCE 533 short-turndisruptedtrainsatappropriatestationsadjacenttothedisruptedarea(Louwerse and Huisman 2013; Veelenturf et al. 2015; Ghaemi, Cats, and Goverde 2017, 2018;
+ZhuandGoverde2019).ThisreschedulingstrategyisutilizedinsomeEuropeancountries, suchastheNetherlands,wheretherailwaylinesarerelativelyshortandseatreservationis not in effect. However, in some other countries, such as China and Japan, short-turning is not allowed on long-distance high-speed railway lines. Instead, the disrupted trains approaching the disrupted area have to stop and wait at suitable stations until the end ofthedisruption.Thisisknownasthewaitingstrategyfordisruptedtrainservices(Hirai et al. 2009; Zhan et al. 2015) and is more appropriate in countries where high-speed railway lines are relatively long and seat reservation is in effect. Under such conditions, it is not convenient for passengers to make a temporary transfer to another train during their journey. In this research, we focus on long-distance high-speed railway lines with seat reservation, in which the waiting strategy is applied when handling disrupted services.
+In a major disruption, trains in both directions (inboundand outbound) must be efficiently rescheduled. In the short-turning strategy, usually only the train services on one sideofthedisruptionareconsidered,becausethetrain-reschedulingproblemisapproximately symmetrical,e.g. seeLouwerse andHuisman (2013) and Veelenturf et al. (2015).
+On a double-track high-speed railway line, inbound (outbound) train services normally use inbound (outbound) tracks in each segment. In the waiting strategy, if we assume that inbound (outbound) trains are only allowed to take inbound (outbound) sidings in each station, trains in both directions do not interrupt each other. Thus, trains in both directions can be rescheduled independently, and the two rescheduling tasks are performedseparately;e.g.seeZhanetal.(2015).However,manyChinesehigh-speedrailway stations for technical reasons allow trains in both directions to share the same station track. For example, in Humen Station on the Beijing-Hong Kong high-speed railway line (Figure1),track1(theinboundmaintrack)istypicallyusedbytrainsrunningfromleftto right,andtrack2(theoutboundmaintrack)istypicallyusedbytrainsrunningintheoppositedirection.Maintracksarenotequippedwithplatformsatmoststationsthatarepassed
+by such trains, such as Humen Station. Tracks 3, 4, 5 and 6 are station tracks equipped withplatforms,calledsidings,whichcanbeusedbydwelltrainstoboardandalightpassengers. Usually, tracks 3 and 4 are used by inbound trains and are denoted inbound sidings,andtracks5and6areusedbyoutboundtrainsandaredenotedoutboundsidings.Itispossiblethattrainsinbothdirectionscanbeallowedtosharesidingsinastation if they arrive at the corresponding siding via crossings in case of a complete blockage, which is helpful for reducing delays. For example, as shown in Figure 1, during a disruption inbound trains can arrive at siding 5 or 6 by crossing (2) on the left, and depart from these two sidings by using crossing (3) on the right. Accordingly, in this research weallowtrainsinbothdirectionstosharesidingsinastation.Thus,trainservicesinboth directionsarerequiredtoberescheduledsimultaneouslybecausetheywillotherwiseinterrupt each other while passing through a station. For example, in a complete blockage,
+trains in both directions may interrupt each other by sharing the same siding after the disruptionends.
+Wecanimaginethatreschedulingtrainsforeachdirectionseparatelyissimpler(fewer trains need to be handled at a time), but only a given part of sidings can be used for trainsineachdirection,sothatthetotaldelayoftrainstendstobelonger.However,ifwe
+534 S.ZHANETAL.
+Figure1.ThelayoutofHumenStationontheBeijing-HongKonghigh-speedrailwayline.
+simultaneouslyrescheduletrainsinbothdirections,alltheavailablesidingsinastationcan beusedbytrainsineachdirection,andthusthetotaltraindelaycanbefurtherreduced.
+1.1. Relevantstudies
+Trainreschedulingineitheradisturbanceoradisruptionhasbeenahottopicofresearch duringthepastdecade.AsdefinedbyCacchianietal.(2014),‘disturbance’referstosmall perturbations,while‘disruption’referstorelativelylargeincidents.Thisstudy,andhence the following literature review, focuses on train rescheduling in a disruption. We refer interested readers to surveys by Cacchiani et al. (2014), Corman and Meng (2015) and
+Fang, Yang, and Yao (2015) on train rescheduling in a disturbance. In addition, related researchtopics,firsttrainandlasttraintimetablingofametrosystemcanbefoundinKang etal.(2016,2015a);KangandMeng(2017);Kangetal.(2019)andlasttrainreschedulingof ametrosystemcanbefoundinKangetal.(2015b).
+Train rescheduling in a disruption can be performed at both macroscopic and microscopiclevels(Cacchianietal.2014).Macroscopictrainreschedulinginvolvesahigh-level representationofrailwayinfrastructure,suchasstationsandthesegmentsbetweenthem.
+This keeps the problem relatively small-scale, allowing it to be solved in a shorter computationaltime,aspertherequirementsofreal-timeapplication.However,macroscopic solutionsrequirethemoredetailedfeasibilitycheckingofstationcapacities.
+(1)MacroscopicapproachesfortrainreschedulingBrucker,Heitmann,andKnust(2002) rescheduledtrainsinasituationwhereonetrackofadouble-tracksegmentwasunavailable because of construction activities. Assuming that the sequence of trains in each directionrunningoutsidetheconstructionsegmentwasfixed,theseresearchersdevised the sequence of trains in both directions passing the construction segment to minimize the total train delay. However, they only considered train rescheduling during the construction period and did not examine how to subsequently recover a normal train service. Meng and Zhou (2011) also investigated the appropriate train orderings (i.e.
+train meeting and passage plans) in a disruption on a single-track railway line, handling the uncertainty in the duration of disruption using a scenario-based rolling horizon approach. However, thestation capacitywas not taken into accountin their model.
+Albrecht, Panton, and Lee (2013) focused on train rescheduling in a disrupted situationwheretrackmaintenancewasorganizedatamacroscopiclevel,inwhichbothtrain operations and track maintenance were considered by regarding each track maintenancetaskasapseudotrain.Aproblem-spacemeta-heuristicsearchmethodwasapplied
+TRANSPORTMETRICAA:TRANSPORTSCIENCE 535 to ensure the rapid solution of the model to minimize the total delay for trains and maintenance.
+Event-activitynetworksarewidelyappliedinmacroscopictrainrescheduling.Louwerse and Huisman (2013) rescheduled trains in both partial and complete segment blockage basedonanevent-activitynetwork.AnILPmodelwasformulatedtominimizethenumber ofcanceledtrainsandthetotaltraindelay.Veelenturfetal.(2015)extendedthemodelof
+LouwerseandHuisman(2013)byconsideringthecapacityofeachstationandtherolling stockcirculation.UnlikeLouwerseandHuisman(2013),theytookintoaccountthetransferfromboththeoriginaltimetabletothedispositiontimetableatthebeginningofthe disruption, and from the disposition timetable back to the original timetable at the end ofthedisruption.InLouwerseandHuisman(2013)andVeelenturfetal.(2015),trainswere onlyallowedtoshort-turnatthelaststationadjacenttothedisruptionlocation.Toincrease theflexibilityoftrainshort-turning,Ghaemi,Cats,andGoverde(2018)developedamixed integerlinearprogramming(MILP)modeltodeterminehowtoshort-turntrainsatmultiple stationsnearthedisruptionlocationinacompleteblockage.ZhuandGoverde(2019)furtherextendedtheflexibilityofshort-turningbyallowingittooccurateverypossiblestation.
+VanAken,Bešinović,andGoverde(2017)introducedatraintimetableadjustmentmodelto rescheduletrainswheresometrackswereunavailableduetostationoropen-tracksection maintenance.Theirmodelwasbasedonanextendedperiodiceventschedulingproblem (PESP),andtrainshort-turningwasdeterminedinapreprocessingstep.
+Incontrast,Zhanetal.(2015)rescheduledtrainsonadouble-trackhigh-speedrailway linewithaseatreservationsysteminacompleteblockage.Short-turningwasnotallowed, and trains instead had to stop and wait for the end of a disruption. An MILP model was formulated to determine both the stop location and the departure and arrival times of trainsbasedonanevent-activitynetwork.Inthemodel,theyassumedthatinboundtrains couldonlyuseinboundstationtracksandoutboundtrainscouldonlyuseoutboundstationtracks.Therefore,trainsinoppositedirectionsdidnotinterrupteachotherandcould berescheduledseparately.Zhanetal.(2019)furtherdeterminedthetrainstoppingplan fortrainsinbothdirectionsofahigh-speedrailwaylineinacompleteblockage.Theinteraction among trains in both directions was considered at a macroscopic level, but only trainsscheduledtopassthedisruptedsegmentwereconsidered.Zhanetal.(2016)compared strategies for high-speed train rescheduling in a partial segment blockage, but as
+they considered both the inbound and outbound trains, the event-activity-based MILP modelwasdifficulttosolve.Thus,arollinghorizonapproachwasappliedtodecompose themodel.Trainschedulingunderrailwaymaintenanceisarelatedresearchtopictoour trainreschedulinginamajordisruption.Vansteenwegenetal.(2016)introducedarobust traintimetablereschedulingapproachtoreducetheimpactofinfrastructuremaintenance onthepassengerservicequality.Intheirmodel,trainrouting,timingandcancelationwere considered.
+(2)Microscopicapproachesfortrainrescheduling
+Microscopictrainreschedulingisanalternativeapproachthatusesaverypreciserepresentationoftherailwayinfrastructure,i.e.atthetrack-circuitlevel,wheretheblocking-time model described by Hansen (2008) is used to calculate the track capacity. The solutions obtainedbymicroscopicmodelsaremorepracticalforreal-worldapplications.However, theproblemsizeisusuallylargebecausemoredetailedinformationisconsidered,resultinginalongcomputationaltimeforreal-worldproblems.Cormanetal.(2011)andCorman
+536 S.ZHANETAL.
+andD’Ariano(2012)rescheduledtrainsinadisruptedsituationatamicroscopiclevel,where onetrackofasegmentwastemporarilyunavailable.Theyconsideredanetworkthatwas dividedintoseveraldispatchingareas.Inexperiments,theyassessedthesolutionsobtained bycentralizeddispatchinganddistributeddispatchingstrategies,showingthatbothsolutionsfacedincreasingdifficultyinfindingfeasibleschedulesinashortcomputationaltime, asthetimehorizonwasextended.BasedonthemicroscopictrainschedulingmodelinPellegrini, Marlière, and Rodriguez (2014), Ghaemi, Cats, and Goverde (2017) developed an
+MILPmodeltosolvethetrainshort-turningprobleminacompleteblockageatamicroscopic level. They tested their model on a short Dutch railway corridor considering only trainsononesideoftheblockage,showingthatadisruptionlastinguptoonehourcould besolvedinashortcomputationaltime.However,efficientalgorithmswerenecessaryto solvelargercases.Hiraietal.(2009)investigatedstoppingpatternsfortrainsatappropriate stationsinadisruptedsituationatamicroscopiclevel,wherethelinewasblockedbyan accidentforalongtime.AnintegerprogrammingmodelbasedonaPetri-netwasformulatedtosolvetheproblemoftrainstoppingdeploymentplanning.However,alargenumberofparameterswererequiredinthemodel,meaningthatthemodelcouldbecomelarge andwasnotabletosolvelargereal-worldproblems.Thus,duetothecomplexityofmicroscopictrainreschedulinginlargedisruptions,microscopicmodelsaremostlyrestrictedto solvingon-linetrainreschedulinginsmallperturbations,asdonebyXuetal.(2017),oroff-
+linetrainschedulingPellegrini,Marlière,andRodriguez(2014);Luanetal.(2017);D’Ariano etal.(2019);Zhangetal.(2019a).
+(3)Mesoscopicapproachesfortrainrescheduling
+Consideringthatmacroscopicandmicroscopictrainreschedulinginalargedisruption eachhasadvantagesanddisadvantages,someresearchershavetriedtocombinethesetwo approaches:thisattemptatcombinationisdenotedthemicro/macroprinciple.Dollevoet etal.(2014)introducedaniterativeapproachtosolveamacroscopicdelaymanagement modelontheonehand,andamicroscopictrainschedulingmodelontheotherhand.The formerapproachhelpedtoreducethecomputationalcomplexity,whilethemicroscopic scheduling model at the station level enabled checking of the feasibility of the solution obtainedbythemacroscopicmodel.Similarly,Lamorgese,Mannino,andPiacentini(2016) solvedthetraindispatchingproblembyaBenders’-likedecompositionalgorithm,where macroscopictrainreschedulingonthelinewasregardedasthemasterproblem,andthe microscopic train routing in a station was the slave problem. By iteratively solving the master and slave problems, an exact solution could be obtained for short- and middle-
+distance lines without complex rail nodes. However, as the train routing in a station is
+NP-completeKroon,EdwinRomeijn,andZwaneveld(1997)onitsown,theslaveproblem iscomplicatedforlargestations.Wüstetal.(2019)focusedonthemaintenancetimetable planning problem, which is done off-line. They extended the PESP and considered the railwayinfrastructurefromamesoscopiclevel.
+(4)Decompositionsolutionapproachesfortrainrescheduling
+Most of the above-mentioned studies solved their train-rescheduling problem model usingcommercialsolvers,e.g.CPLEXorGurobi(LouwerseandHuisman2013;Veelenturf etal.2015;Ghaemi,Cats,andGoverde2017,2018;ZhuandGoverde2019;Zhanetal.2015;
+Cormanetal.2011;Xuetal.2017).AstrainreschedulinginalargedisruptionisNP-hard, however,commercialsolverscanstrugglewithlarge-scaleproblems.Therefore,adecompositionapproachisoftenappliedtodividethewholeproblemintoseveraleasy-to-solve
+TRANSPORTMETRICAA:TRANSPORTSCIENCE 537 subproblems.Oneapproachistodecomposethewholeprobleminthetimedimension, e.g.therollinghorizonapproachusedinMengandZhou(2011)andZhanetal.(2016).In thisinstance,althoughsolvingareschedulingproblemviamultipleshorttimehorizonscan reducethecomplexityoftheproblem,thesolutionqualityissensitivetothelengthofthe dividedhorizons.Anotherapproachistodividethewholeprobleminthespatialdimension, i.e. each subproblem corresponds to a local region. Here, by appropriately coordinating the local-region rescheduling problems, the whole problem is solved; this approach has been used by, for example, Corman et al. (2011) and Lamorgese, Mannino, and Piacentini(2016).Athirdapproachistocombinetheprevioustwoapproaches,i.e.decompose thewholeprobleminbothspaceandtimedimensions.ThisstrategywasusedinMeng andZhou(2011,2014)whoalsoutilizedLagrangianrelaxation(LR)forthedecomposition.
+Althougheachsingle-trainschedulingproblemfortheLagrangiandualproblemiseasyto solve,thefinalsolutionofthedualproblemisusuallyinapplicabletotheprimalproblem.
+The optimality gap between the upper bound and lower bound can be large, e.g. more than30%inMengandZhou(2014).ToimprovetheprimalfeasibilityofLagrangianrelaxation,thealternatingdirectionmethodofmultipliers(ADMM)hasrecentlybeenapplied in Yao et al. (2019) for the vehicle-routing problem, and in Zhang et al. (2019b) for the train-timetablingproblem.ComparedwithLagrangianrelaxation,ADMMimprovesboth theprimalanddualfeasibility,thusreducingtheoptimalitygapandalsotherequirednumberofiterations.FordetailedinformationabouttheADMMalgorithm,wereferthereader toBoydetal.(2011).
+1.2. Objectivesandcontributions
+Werescheduletrainsinbothdirectionsofadouble-trackrailwaynetworksimultaneously byallowinginboundtrainsandoutboundtrainstosharethesamesiding.Aspace-timenetworkisconstructedfroma‘mesoscopic’-level(i.e.alevelintermediatebetweenmicroand macro)todescribeourproblem,andanILPmodelisformulatedbasedonthespace-time networktosolvetheproblem.Duetothecomplexityoftheproblemandtherequirement ofreal-timeapplications,ADMMisusedtodecomposeandsolvethemodel.Wealsosolve themodelbyLRtoobtainthelower-boundsolution,toevaluatethequalityoftheADMM algorithminsolvingthetrain-reschedulingproblem.Areal-worldhigh-speedrailwaynetwork,theJinan-NanjinglineandtheBengbu-HefeilineinChina,isusedtotestourmodel.
+Inthecasestudy,wecomparethesolutionobtainedbyreschedulingtrainsininboundand outbounddirectionssimultaneously,wheretrainsinbothdirectionsareallowedtoshare sidings (e.g. Corman et al. 2011 and Corman and D’Ariano 2012) with that obtained by rescheduling trains in each direction separately, where trains in both directions are preventedfromsharingthesamesiding.Tothebestofourknowledge,ourstudyisthefirst attempttorescheduletrainswithsimultaneousreroutingusingamesoscopicmodelfor alargehigh-speedrailwaynetworkandalong-timehorizon.Theaimistorapidlyobtaina good,feasibledispositiontimetabletoassistdispatcherstoquicklyrescheduletrainsduring alargedisruption.
+Wemaketwomaincontributionstothefieldinthispaper.First,wedevelopanILPmodel toreschedulebothinboundandoutboundtrainssimultaneously,atamesoscopiclevel, duringalargedisruption.Here,wemakeuseofthefactthatinmanyhigh-speedrailway stations,trainstravelingineitherdirectioncansharesidingsduringaseriousdisruption.
+538 S.ZHANETAL.
+Figure2.Asimpleexampleofadouble-trackrailwayline.
+Tothisend,oursimultaneousreroutingapproachoutperformstheone-directionreroutingapproachfromapracticalpointofview.Second,wedecomposethetrain-rescheduling problemintoaseriesofeasy-to-solvesubproblems.TheADMMisappliedtoefficientlysolve theILPmodel,whichhasasufficientlyshortcomputationtimetosolvetrainrescheduling forlargenetworkswithalong-timehorizonbyamesoscopicmodel.Thephysicalnodein thisstudyreferstothemainsignalpointinastationarea,e.g.theentryorexitsignalwithin astation,seeinFigure2.Thephysicallinkisthetrackbetweentwoconsecutivephysical nodes.
+Theremainderofthispaperisorganizedasfollows.InSection2,wedescribetheproblem.AnILPmodelisformulatedtomodelthehigh-speedtrain-reschedulingproblemina largedisruptioninSection3.Section4introducestheADMMandLRalgorithmstosolve themodel.Section5presentsthecomputationalresults.Conclusionsandfutureresearch directionsarediscussedinSection6.
+2. Problemdescription
+Wefocusonhigh-speedtrainreschedulingonadouble-trackrailwaynetworkinasituation ofacompleteblockage.Anexampleofarailwaylineconsistingoffourstationsisshownin
+Figure2.Therailwaylineisdenotedbyanode-arcgraph,asusedinmanypreviousstudies(e.g.Caprara,Fischetti,andToth2002).However,thestationsarenotregardedassingle nodesasinmacroscopicrescheduling;instead,eachstationwithfourtracksisdenotedby
+12nodes(seeFigure2),whichhelpsonetomodelthedetailedmovementsofatrainwithin astation,suchaspassing,planneddwellingandextrastopping.However,unlikePellegrini,
+Marlière,andRodriguez(2014),wedonotgointofurtherdetailtoconsidertheroute-lock sectional-releaseinterlockingsystematthetrack-circuitlevel,asthiswouldbecomputationallyexpensive.WewillexplainvarioustypesofarcsindetailinSection3.Asmentioned previously,weallowinboundandoutboundtrainstosharethesamesidingifitconnects with both theinbound andoutbound maintracks (a situationwe denote as ‘technically possible’).
+In a segment, the inbound main track is used by inbound trains, while the outbound maintrackistakenbyoutboundtrains.
+Inthesituationofthecompleteblockageofasegmentduringadisruption,trainscannot passthatsegment.Thus,thedispatchersmustrescheduletrainsbasedontheirlocations (ontheoriginaltimetable)whenadisruptionoccurstominimizethedeviationfromthe originaltimetable.Specifically,thedispatchersneedtodeterminethedepartureandarrival timeofeachtrainateachstation,thespecifictrackthateachtrainusesateachstationthat
+TRANSPORTMETRICAA:TRANSPORTSCIENCE 539 itvisits,andwhethersometrainsneedtobecanceledduetolimitedrailwaycapacity,consideringthattheminimumrunningtimeinasegmentanddwelltimeatastationforeach trainshouldbeensuredandthatconflictsbetweenanytwotrainsoccupyingincompatibletrackresourcesmustbeprevented.Thisstudyaimstoassistdispatcherstomakethese decisionsbyprovidingthemwithagooddispositiontimetable.
+Inaddition,wecomparetworeschedulingstrategiesinadisruption:reschedulingtrains inbothdirectionssimultaneouslybyallowingtrainsinbothdirectionstosharesidingsin astationandreschedulingtrainsineachdirectionseparatelybyforbiddingtrainsinboth directionsfromsharingsidingsinastation.Oursolutionswillassistrailwaymanagersor dispatcherstooptimizetheirreschedulingstrategies.
+3. Modelformulation
+Inthissection,wefirstmakesomeassumptionsanddefinethenotationthatwillbeusedin ourmodel.Thenweintroduceaspace-timenetworkatameso-leveltodescribeourtrainreschedulingproblem.Finally,wedevelopanILPmodelbasedonthespace-timenetwork.
+3.1. Assumptionsandnotations
+Inourmodel,thefollowingassumptionsaremade:
+• Inboundtrainsandoutboundtrainscansharethesamesiding,ifthisistechnicallypossible. However, a track of a segment can only be used by trains running in the same direction.
+• Trainsthathaveenteredthedisruptedsegmentwhenadisruptionoccurscancontinue.
+• Before the disruption occurs, all train services operate according to the original timetable.
+• Thedurationofadisruptionisknowninadvance.
+• Werescheduletrainsinagiventimewindowwhichislongerthanthedurationofthe disruption,andtrainreschedulinginothertimeperiodscanbedoneinasimilarmanner.
+Thefirstassumptionisbasedonthepracticalfactthateachsidinginmanyhigh-speed railwaystationsisconnectedwithbothmaintracksbycrossings.Therefore,thisassumption istechnicallyreasonable.Thesecondassumptionimpliesthattrainshavealreadypassed thedisruptedlocationiftheyenteredthedisruptedsectionbeforethedisruptionoccurs;
+see the right subgraph in Figure 3 where the train runs from station S to S on section (S ,S ).Ifweknowofaspecifictrainthatenteredthedisruptedsection(i.e.alinkbetween two stations when a segment is blocked or a station track when a track of a station is blocked)butdidnotpassthedisruptedlocationbeforethedisruptionoccurred(seethe leftsubgraphinFigure3),wecanletitreturntostopattheneareststation(S ),whichis
+Figure3.Anexampleforatrainpassesadisruptedlocationinasegmentbetweentwostations.
+540 S.ZHANETAL.
+easytohandlebyslightlyrevisingtheinputofourmodel.AccordingtothepracticeofChineserailway,ifatrainstopsatasegmentduetoadisruption,itisallowedtogobacktothe neareststationtoclearthesegmenttrackforrescuetrains.Wemakethethirdassumption becausetrainsnormallyrunasscheduledonahigh-speedrailwayline.Thelastassumption iscomparativelystrong,althoughithasbeenmadeinmostpreviousstudies.Handlingthe uncertaintyofadisruptionisadifficulttopic,andisnotthefocusofthisresearch.Interested readersarereferredtoMengandZhou(2011),Zhanetal.(2016),andZilko,Kurowicka,and
+Goverde(2016)formoreinformationabouthowtohandletheuncertaintyintheduration ofadisruption.However,wewillrescheduletrainsundervariousdisruptionswithdifferent durations.
+Ourmeso-leveltrain-reschedulingmodelisformulatedbasedonaspace-timenetwork.
+ThebasicnotationusedinthemodelformulationisintroducedinTable1.
+3.2. Space-timenetwork
+Toillustratethespace-timenetwork,wefirstshowasmallphysicalrailwaylineconsistingof twostationswithonesegmentbetweenthem;seeFigure4.Asmentionedintheproblem
+Table1.Notationusedinthespace-timenetwork-basedmodel.
+Notation Description
+Sets:
+T Setoftimes,t,t,τ,τ∈T
+N Setofphysicalnodes,i,i,j,j∈N
+Nk⊂N Setofphysicalnodesavailablefortraink
+S k
+Setofstationsvisitedbytraink.
+L Setofphysicallinksconnectingtwoneighboringphysicalnodes,(i,j)∈L
+K Setoftrainservices,k∈K
+E Setoftime-expandednodes,(i,t)∈E
+Ek⊂E Setoftime-expandednodesavailablefortraink,(i,t)∈Ek
+A Setoftime-expandedarcs,(i,j,t,t)∈A
+Ak⊂A Setoftime-expandedarcsavailablefortraink
+A˜ Setoftime-expandedvirtualarcs,(i,j,t,t)∈A˜
+Ak
+,+⊂Ak Setofavailablearcsoftraink∈Kleavingnodei∈Nk
+Ak
+,−⊂Ak Setofavailablearcsoftraink∈Kenteringnodei∈Nk
+As Setofpossiblearrivalarcsoftrainkatstations
+
+(i,t)
+⊂E Setofdeparture(arrival)nodesincompatiblewithnode(i,t)
+
+(i,j,t,t)
+⊂A Setofconflictingarcswitharc(i,j,t,t)correspondingtoastationpath
+Parameters:
+Tˆ
+Endtimeoftheplannedtimehorizon c,j,t,t
+Trainoperationcostonarc(i,j,t,t)∈Afortraink
+C0 Thecancelationcostoftraink o
+Originoftraink d
+Destinationoftraink e
+Earliestdeparturetimeoftrainkfromitsorigin
+Latestarrivaltimeoftrainkatitsdestination to Plannedarrivaltimeoftrainkatstations k,s
+Hstart Starttimeofdisruption dis
+Hend Endtimeofdisruption dis hmin Minimumdepartureheadwayoftwotrainsinasegment dep hm ar i r n Minimumarrivalheadwayoftwotrainsinasegment hm sta in tion Minimumheadwayoftwotrainsusingthesamestationpath
+Decisionvariable:
+x
+Abinaryvariable,iftrainkusesarc(i,j,t,t),x =1;otherwise,x =0.
+TRANSPORTMETRICAA:TRANSPORTSCIENCE 541
+Figure4.Asimplephysicalrailwayline.
+description,eachstationhasfourtracksandisdenotedby12nodes.Anodeisamainsignal pointofastation,i.e.theentryandexitpointsofastation(stationnodes)andtheendpoints ofeachstationtrack(tracknodes),seeinFigure4.Astationpaththatisusedbyatraintopass astationwithorwithoutdwellingstartsfromastationnodeandendsatanotherstationnode attheothersideofthestation.Forexample,oneofthepossiblepathsforatrainthatpasses stationS inthedirectionfromS tostationS isshownbyaredline,andisa‘normal’path
+1 1 2
+(i.e.itinvolvesaninboundtrainusinganinboundsiding,suchas3).Asweallowtrainsin bothdirectionstouseanypossiblesidinginastationduringadisruptionifthesidingis connectedwiththeusedmaintrack,atrainrunningfromS toS ,canusethepathshown bythegreenlinetopassS ,whichisan‘unusual’path(i.e.itinvolvesaninboundtrainusing anoutboundsiding,suchas4).
+In a space-time network, time is discretized into n time intervals, and a time horizon T ={0,δ,2δ,..., nδ}. The length of time interval δ is determined as required, e.g.
+1min or 30 s. In this research, we choose 1min as the length of the time interval. We extendthephysicalrailwaynetworkG=(N,L)toaspace-timenetworkbyaddingatime dimension,G=(E,A),whereEisthesetoftime-expandednodescorrespondingtophysical nodes set N, andA is the set of time-expanded arcs corresponding to physical link set L. A time-expanded arc (i,j,t,t )∈A, connecting two time-expanded nodes (i,t)∈E and (j,t )∈E, denotes that a train starts from node i at time t and ends at node j at
+
+timet.
+Each train (k ∈K) runs from its origin node o to its destination node d . We assume k k that the earliest start time from its origin and the latest arrival time at its destination are e and l , respectively. It is possible that some trains may not operate at all because of the limited railway capacity in a disruption. Therefore, an artificial arc is introduced to denote the path of a canceled train, in which the arc starts from the train’s origin at time e and ends at its destination at time l . We denote the artificial train arc set of all canceled trains as A ˜ . Hence, the artificial arc for a train k is (o ,d ,e ,l ), (o ,d , k k k k k k e ,l )∈A ˜ .
+Inourspace-timenetwork,thefollowingtypesofarcsaredefinedtorepresentthemovement of a train from its origin to its destination. We use a train k running from station
+S to station S on a physical railway line in Figure 4 as an example to explain all of the possibletypesoftrainarc.Tobetterdistinguishdifferenttypesofarcs,wedefinespacetime node subset ESN ⊂E including all nodes (i,t) where i is a station node in Figure 4;
+and we also define a node subset ETN ⊂E including all nodes (i,t) where i is a track node in Figure 4. A simple example is given in Figure 5 to clarify the meaning of each typeofarc.
+542 S.ZHANETAL.
+• Origin-waitarc:anorigin-waitarcisaunitarc,denotingthatatrainwaitsatitsorigin for1minduetohavingalatedeparture.Theorigin-waitarcsetisAowait ={(o ,o ,t,t+ δ)|(o ,t),(o ,t+δ)∈E}.Ifatrainwaitsatitsoriginforseveralmin,severalsuccessive origin-waitarcsareusedtodenotethewaitingprocess.
+• Accessarc:anaccessarcrepresentsatrainstartingfromitsorigin(e.g.theshuntingyard) andtravelingtothestationnodeofthefirststationinthetransportationsystem.Theset ofarcsofthiskindisdenotedasAaccess ={(o ,j,t,t )|(o ,t)∈E,(j,t )∈ESN}.Herej isthe leftstationnodeinstationS ontheinboundmaintrackinFigure4.
+• Enterarc:anenterarcrepresentsamovementofatrainfromastationnodetoaneighboring track node of an available track in the same station. The set of enter arcs is expressedasAenter ={(i,j,t,t )|(i,t)∈ESN,(j,t )∈ETN}.Forexample,iistheleftstation nodeofstationS ontheinboundmaintrack,andjisthelefttracknodeofastationtrack inS inFigure4.
+• Passarc:apassarcrepresentsatrainpassingastationwithoutstoppingtoallowpassengerstoboardandalight.Apassarcconnectsonetracknode(i,t)ofastationtrack withtheothertracknode(j,t )ofthesamestationtrack.Thesetofarcsofthiskindcan beexpressedasApass ={(i,j,t,t )|(i,t)∈ETN,(j,t )∈ETN,(t −t)=TP(i,j)}.Here,TP(i,j) isthetimethatatrainpassesastationwithoutascheduledstop.
+• Dwellarc: a dwell arc represents a train waiting at a station to board and alight passengers.Adwellarcconnectsonetracknode(i,t)ofastationtracktotheothertrack node (j,t ) of the same station track. The set of arcs of this kind can be expressed as
+Adwell ={(i,j,t,t )|(i,t)∈ETN,(j,t )∈ETN,(t −t)=TW(i,j)}, where i and j are the two track nodes of a station track. TW(i,j) is the time that a train passes a station with a scheduledstop.
+• Extra-waitarc:anextra-waitarcrepresentsatrainwaitingonastationtrackforalonger timethanthescheduledtime,andisaunitarc.Iftheextrawaitingtimeofatrainislonger thanδmin,itisrepresentedbyseveralsuccessiveextra-waitarcs.Thesetofarcsofthis kindisexpressedasAewait ={(i,i,t,t+δ)|(i,t),(i,t+δ)∈ETN},wherenodeiisatrack node(therighttracknodeofatrack)inFigure4.
+• Exitarc:anexitarcrepresentsatrainleavingastationtrackfromthetracknodetothe followingstationnode.Anexitarcstartsatatracknodeofastationtrack,(i,t),andends atastationnodeofthesamestation,(j,t ).ThesetofarcsofthiskindisdefinedasAexit = {(i,j,t,t )|(i,t)∈ETN,(j,t )∈ESN}.
+• Drivearc:adrivearcrepresentsatrainrunninginasegmentbetweentwostations.Itconnectsastationnodeofonestation,(i,t),toastationnodeofthefollowingstationofthe samemaintrack,(j,t ).ThesetofarcsofthiskindisAdrive ={(i,j,t,t )|(i,t)∈ESN,(j,t )∈
+ESN}.Forinstance,iistherightstationnodeofstationS ,andjistheleftstationnodeof stationS ontheinboundmaintrackinFigure4.
+• Egressarc:anegressarcrepresentsatrainleavingthelaststationforitsdestination(e.g.
+ashuntingyard).Thisarcsetisexpressedas:Aegress ={(i,d ,t,t )|(i,t)∈ESN,(d ,t )∈E}, where(i,t)isthelaststationnodeofthelaststationand(d ,t )isthenodecorrespondingtothetrain’sdestination.
+• Destination-holdarc: a destination-hold arc is a unit arc, that represents a train finally stoppingattheshuntingyard.ThisarcsetisAdhold ={(d ,d ,t,t+δ)|(d ,t),(d ,t+δ)∈ k k k k
+E}.Weusearcsofthiskindtodenoteatrainkstoppingatitsshuntingyardatitsfinal arrivaltimel .
+TRANSPORTMETRICAA:TRANSPORTSCIENCE 543
+Figure5.Asimplespace-timenetworkforatrain.
+• Artificialarc:anartificialarcrepresentsatrainstartingfromitsoriginattheearliestdeparture time and arriving at its destination at the latest arrival time. This arc set can be denotedas:A ˜ ={(o ,d ,e ,l )|∀k ∈K}.
+Accordingtothedefinitionsofthevarioustypesofarcs,thesetconsistingofallofthe space-timearcsisdenotedasA=Aowait∪Aaccess∪Aenter∪Adwell∪Apass∪Aewait∪Aexit∪
+Adrive∪Aegress∪Adhold∪A ˜ . As mentioned previously, our meso-level train-rescheduling modelconsiderstrainspassingstationsinmoredetailthanthemacro-levelmodels.Specifically,wehaveanenterarcandanexitarctodenoteatrainenteringastationandleaving astationthroughthethroatareaofastation,apassarctodenoteatrainpassingastation withoutastop,adwellarctomodelatrainhavingaplannedstop,andanextra-waitarcto representalongerstoptimethantheplannedtimeduetoadisruption.Notethatthedefinitionsofdwellarcandpassarcaresimilar,buttheprocesstimeofthemisdifferent.The aimtodistinguishthesetwoarcsistomodeltherequireddwelltimeofatrainatastation.
+Theminimumdwelltimeofatrainatastationisensuredbyadwellarc.Asimpleexample ofonetrainandthreestations(eachhavingtwotracks)isshowninFigure5toillustratethe purposeofthevariousspace-timearcs.Inthisfigure,wecanseethatatraindepartsfrom its origin o and finally arrives at its destination d by using various types of space-time
+544 S.ZHANETAL.
+arcs(denotedbydifferentallowlinesorcolors)definedpreviously.Incaseatrainusesan artificialarc,itiscanceled.
+3.3. Modelbasedonspace-timenetwork
+Inmostoftheexistingresearch,thetrainschedulingandreschedulingproblemwasformulatedbyanILPorMILPmodelwithmanybig‘M’constraints(e.g.MengandZhou2014;
+Veelenturf et al. 2015; Zhan et al.2015). However, these kinds of models tend to produceweakrelaxationsandconsequentlylargesearchtrees.Tostrengthentheformulation, we build our model based on a space-time network, which is known to help to eliminatethecommonbig‘M’constraints.Thespace-timenetworkhaspreviouslybeenapplied in train-scheduling and -rescheduling problems; see Zhou and Teng (2016) and Meng and Zhou (2014) for instance. Note that our space-time network is different from those used in Kliewer, Mellouli, and Suhl (2006), Steinzen et al. (2010) and Olsen, Kliewer, and
+Wolbeck(2020),inwhichspace-timenetworksareusedtoreducethedeadheadingarcs in multiple-depot bus scheduling. Our meso model is partly similar to that in Kecman etal.(2013)wheretrainreschedulingisconsideredindetail,closetoamicroscopiclevel.
+To formulate the train-rescheduling model, we first define an incompatible arc set (i,j,t,t) tomodelthedepartureandarrivalheadwayconstraintsbetweentwotrains,similar to the method found, for example, in Caprara, Fischetti, and Toth (2002) for railway timetabling.Foraspace-timedrivearc(i,j,t,t )∈Adrive,itsincompatiblearcset (i,j,t,t) is definedasfollows(Equation(1)):
+de p n∪|t −τ|<hm ar r n∪(t−τ)×(t −τ)<0} (1) where parameters hmin and hmin are the minimum departure and arrival headway time dep arr betweentwotrains,respectively.Theovertakingbetweentwotrainsinasegmentispreventedby(t−τ)×(t −τ)<0,whichdenotesthattheorderofthetwotrainsdoesnot changeinasegment.Equation(1)denotesthatifanarc(i,j,t,t )∈Adriveisusedbyatrain, anyotherarc(i,j,τ,τ)∈Adrive withasmallerdepartureorarrivalheadwaythantheminimumvaluebetween(i,j,t,t )belongstotheincompatiblearcset (i,j,t,t),whichcannot beusedbyanyothertrain.Similarmodelingmethodshavebeenusedinsomeprevious studies,e.g.Caimietal.(2009).
+AsdiscussedbyCaprara,Fischetti,andToth(2002),itisbettertoformulatetheheadway constraintbynodesinsteadoflinks.Thus,wefurthermodeltheheadwaybynodescorrespondingtotrains’departureandarrival.AccordingtoJiang,Cacchiani,andToth(2017),itis complicatedtomodeltheheadwayconstraintbydeparturenodeswhentrainshavedifferentrunningtimesinasegment.Therefore,wemodeltheheadwaybybothdeparturenodes (departureheadway)andarrivalnodes(arrivalheadway).Becausetheminimumdeparture headwayandarrivalheadwayareboth3minandtherunningtimedifferenceforahighspeed train and a medium-speed train in any segment is smaller than 6min in our case study,overtakingbetweentwotrainswhentheymeetthedepartureheadwayandarrival headwayintheendnodesofasegmentcanneverhappen.Asaresult,wecanomittheovertakingconstraintinthisstudy.Thedepartureheadwayconstraintcanbeformulatedbythe incompatiblenodesetofadeparturenode(i,t)byEquation(2).Heredeparturenodeisthe stationnodeenteringthefollowingsegment,i.e.therightstationnodeofS inFigure4for
+TRANSPORTMETRICAA:TRANSPORTSCIENCE 545 inboundtrains.
+de n} (2)
+The arrival headway constraint can be formulated by the incompatible node set of an arrivalnode(i,t)byEquation(3).Herearrivalnodeisthestationnodeexitingtheprevious segment,i.e.theleftstationnodeofS inFigure4forinboundtrains.
+Similarly,wealsodefineanincompatiblearcsettomodelthestationcapacityconstraint.
+Fromourspace-timenetworkfortrainsconstructedabove,wecanseethatfivetypesof arcscanpossiblycorrespondtoastationpath,(i,j,t,t )∈Aenter,(i,j,t,t )∈Apass,(i,j,t,t )∈
+Adwell,(i,j,t,t )∈Aewait,and(i,j,t,t )∈Aexit.Here,astationpathmeanstheroutetakenby atraininpassingthroughastation.Aseachstationpath(e.g.thepathshownbythered orgreenlinesinFigure4)canbeusedbyatmostonetrainatacertaintimeinaroutelockroute-releaseinterlockingsystem,allofthearcscorrespondingtoastationpathcan besimultaneouslyoccupiedbyonlyonetrain.Thatis,theyareincompatibleamongdifferenttrainseitherinthesamedirectionorintheoppositedirection.Foreacharc(i,j,t,t )∈
+Aenter∪Apass∪Adwell∪Aewait∪Aexit correspondingtoastationpath,itsincompatiblearc set isdefinedasfollows(Equation(4)):
+(i,j,t,t)
+(i,j,t,t) ={(i ,j ,τ,τ):(t−τ)<hm sta in tion ∪(τ −t )<hm sta in tion } (4)
+Equation(4)indicatesthatifanarc(i,j,t,t )isoccupiedbyatrain,anyotherarc(i ,j ,τ,τ)∈
+Aenter∪Apass∪Adwell∪Aewait∪Aexitcorrespondingtothesamestationpathasarc(i,j,t,t ) withaheadwaylessthanhmin minbelongstotheincompatiblearcset .Notethat station (i,j,t,t) weallowtrainsinoppositedirectionstosharesidings,andwethereforeneedtoconsider arcsthatareusedeitherbyinboundtrainsorbyoutboundtrainscorrespondingtothesame stationpathintheincompatiblearcset.
+Weminimizethetotaltrainarrivaldeviationwhichreferstothetotalarrivaldelayand arrivalearlinessofatrainateachstationitvisits.Thatis,wedonotconsiderthedeparture
+
+delayandearliness.Herethearrivaltimeofatrainatastationistheendtime(t)ofanenter arc(i,j,t,t )∈Aenter.Allofthepossibleenterarcsforatraininastationbelongtoarcset
+As ⊂Aenter.Themodelisasfollows(Objective(5)andConstraints(6)–(12)):
+
+min: Z = c i k ,j,t,t ×x i k ,j,t,t (5) k∈K(i,j,t,t)∈Ak subjectto:
+
+x i k ,j,t,t =1∀k ∈K (6) (i,j,t,
+
+t)∈Ak
+
+x i k ,j,t,t = x j k ,i,t,t ∀k ∈K, ∀i∈Nk :i=o k ∩i=d k (7) (i,j,t,t)∈Ak,− (j,i,t,t)∈Ak,+ i i x i k ,j,t,t =1 ∀k ∈K (8) (i,j,t,t)∈Ak,− dk
+546 S.ZHANETAL.
+
+x i k ,j,t,t ∈{0,1} ∀(i,j,t,t )∈A,∀k ∈K (12)
+In objective (5), we minimize the total train arrival deviation cost (arrival delay cost and arrivalearliercost)andtraincancelationcost.Therefore,thecostcoefficientck canbe i,j,t,t definedbyEquation(13).
+⎪⎨ k,s k k,s
+c i k ,j,t,t = ⎪⎪ C k 0 ,s ∀(i,j,t,t )∈A ˜ k k,s (13) ⎪⎩ k
+0 otherwise
+Constraints(6),(7)and(8)arethetrain-flowconservationconstraints.Theyensurethateach train can depart from its origin and finally arrive at its destination. Note that if a train is completelycanceled,weassumethatitusesanartificialarctocompletethejourneyanda relativelylargepenalty(C0inEquation(13))isgiventothearccostck .Partialcancelationis k ijtt notallowedinthisstudy.Inthesethreeflowconservationconstraints,theavailablearcsfor eachtrain(arcsetsAk,+ ,Ak,− ,Ak,+ andAk,− )correspondtoaspecifictraink ∈K.Therefore, ok i i dk whether an arc can be used by a train is included, i.e. we only need to remove the arcs correspondingtoasidingifthesidingcannotbeusedbythetrain.Furthermore,ifweonly rescheduletrainsinonedirection,theavailablearcsets(Ak,+ ,Ak,− ,Ak,+ andAk,−)foratrain kcorrespondtopartofthesidings.However,ifwesimultaneouslyrescheduletrainsinboth directions,theavailablearcsets(Ak,+ ,Ak,− ,Ak,+ andAk,−)foratrainkcorrespondtoallthe
+sidings.Constraints(9)and(10)arethedepartureheadwayconstraintandarrivalheadway constraint,respectively,wheresetEdepconsistsofthestationnodeenteringasegmentand setEarrconsistsofthestationnodeexitingasegment,whichhasbeenexplainedandused inEquations(2)and(3).Constraint(11)isastationcapacityconstraint,whichdenotesthat atmostonetraincanuseapathinastationatanytimet.Constraint(12)showsthedomain ofbinaryvariablexk .Notethat,asweassumethattrainsrunaccordingtotheoriginal timetabling,weonlyneedtorescheduletrainsafterthedisruptionoccurs.
+4. Solutionapproaches
+Inthissection,wefirstintroducetheADMMalgorithmtodecomposeourmodel,withthe aimofobtainingagoodfeasiblesolutioninashortcomputationaltime(i.e.withinseveral minutes).Then,weapplytheLRalgorithmtodecomposethemodeltoobtainlower-bound solutions,whichcanbeusedtoevaluatethequalityofthesolutionobtainedbyADMM.
+Because ADMM is an extension of Augmented Lagrangian method, a quadratic penalty termisaddedintheobjectivefunctionoftherelaxedproblemwitharelativelylargepenalty parameterρ.Itispossible toobtainasolutionfortherelaxedproblem whichisfeasible fortheprimalproblem,buttheobtainedsolutionmaynotbealower-boundsolutionor
+TRANSPORTMETRICAA:TRANSPORTSCIENCE 547 anoptimalsolutionoftheprimalproblemduetotheaddedquadraticterm.However,LR does not have a quadratic term compared with ADMM. It is usually applied to obtain a lower-boundsolutionthatisusuallyinfeasiblefortheprimalproblem.
+4.1. OptimizationframeworkbasedonADMM
+In the ILP model, most of the constraints correspond to a single train, with only Constraints(9),(10)and(11)correspondingtomultipletrains.Therefore,werelaxtheseconstraintsbyADMMtosimplifythedecompositionofthemodel.Inprinciple,ADMMisapplied to handleequality constraints. However, it is also can be applied to deal with inequality constraintsbytransferringinequalityconstraintstoequalityconstraints.Therefore,inthis study, we transfer Constraints (9)–(11) to equality constraints (14)–(16) by introducing a slackvariableμ i,t fornode(i,t)andλ ijtt forarc(i,j,t,t ).
+
+x i k ,j,τ,τ +λ ijtt =1 ∀(i,j,t,t )∈ASpath (16)
+WeintroducethreeparametersforConstraints(14)–(16),theLagrangianmultipliersν and andthequadraticpenaltyparameterρ,whichallowtheconstraintstoberelaxedand incorporatedintotheobjectivefunction.Therelaxedmodel(P A)isasfollows:
+
+min Z A = c i,j,t,t ×x i k ,j,t,t k∈K(
+
+i,j,t,t)∈Ak
+
+(i,t)∈Edep k∈K(i,t)∈(i,t):(i,j,t,τ)∈Adrive
+
+(i,t)∈Earr k∈K(i,t)∈(i,t):(j,i,τ,t)∈Adrive
+
+(i,t)∈Edepk∈K(i,t)∈(i,t):(i,j,t,τ)∈Adrive
+
+(i,t)∈Earrk∈K(i,t)∈(i,t):(j,i,τ,t)∈Adrive
+
+subjecttoConstraints(6)–(8)and(12).
+548 S.ZHANETAL.
+In the model P A, the objective function has quadratic terms, which make it difficult to separate; thus, we need to linearize them. Considering that the variable x i,j,t,t is binary, it can be easily linearized by rescheduling trains iteratively. In the following, we take the third quadratic term as an example to explain how to linearize it.
+
+k∈K (i,j ,τ,τ)∈(i,j,t,t) x i k ,j,τ,τ canbedividedintotwoparts: (i,j,τ,τ)∈(i,j,t,t) x i k ,j,τ,τ and k∈K:k=k (i,j,τ,τ)∈(i,j,t,t) x i k , j,τ,τ .Thefirstpartdeno teswhethe rthecurrenttrainkuses arc(i ,j ,τ,τ).Forthesecondpart,weassumeϕ i k ,j,t,t = k∈K:k=k (i,j,τ,τ)∈(i,j,t,t) x i k , j,τ,τ forsimplicity,whichdenotesthetotaloccupationofarcsincompatiblewitharc(i,j,t,t )by alltrainsexcepttrainkanditisknownandconstantwhenreschedulingtraink.Theslack variableistoensurethatwhenconstraint(11)isviolated,thequadraticpenaltyisaddedin theobjectivefunction,otherwisethequadratictermisunnecessary.Therefore,thevalueof variableλ ijtt isformulatedbyEquation(18).
+
+1− k∈K (i,j,τ,τ)∈(i,j,t,t) x i k ,j,τ,τ if k∈K (i,j,τ,τ)∈(i,j,t,t) x i k ,j,τ,τ ≤1
+(18)
+
+Because k∈K (i,j,τ,τ)∈(i,j,t,t) x i k ,j,τ,τ isdividedinto (i,j,τ,τ)∈(i,j,t,t) x i k ,j,τ,τ andϕ i k ,j,t,t , andthelatterisconstant,Equation(18)canbechangedtoEquation(19).
+
+0 ifϕk ≥1 λ ijtt =
+1−
+
+i k j t
+
+=0
+(19)
+Giventhevalueofslackvariableλ ijtt inEquation(19),thequadraticterminObjective(17) canbechangedasfollows:
+
+= (2×ϕ i k jττ −1)× (i,j,τ,τ)∈(i,j,t,t) x i k jττ +Q ifϕ i k ,j,t,t ≥1 (20)
+0 ifϕk =0
+ThedetailedprocessforEquation(20)whenϕk ≥1isshownasfollows:
+
+TRANSPORTMETRICAA:TRANSPORTSCIENCE 549 −1)+(ϕ −1)2
+
+where Q=(ϕk −1)2 is a constant term. Thus, the quadratic terms in the objective function(17) arelinearized.A similarlinearizationmethodcanalsobe found inYao etal.(2019).AfterwehavelinearizedandrevisedthequadratictermsinObjectiveFunction
+(17),thewholemodelP Acanbedecomposedintoaseriesofsubproblems.Eachsubproblem is for a single train, and can be regarded as a shortest-path searching problem. The subproblemforasingletrain(Pk)isasfollows(Objective(22)):
+A
+
+min Z A k = cˆ i k ,j,t,t ×x i k ,j,t,t (22) (i,j,t,t)∈Ak subjecttoConstraints(6)–(8)and(12).
+ThegeneralcostfunctionofanarcusedbyatraininObjective(22)issummarizedin
+Equation(23).TheprocedureofADMMtosolveourtrain-reschedulingproblemisshown inAlgorithm1.Inthisalgorithm,wefirstassumetheinitialnetworkisempty,andreschedule trains sequentially (see Step 2). Then, after all trains are rescheduled, we update the scheduleofalltrainsonebyone(seeStep3).ThedifferencebetweenStep2andStep3is thatStep2rescheduletrainsonanemptynetwork,whileStep3rescheduletrainsbasedon thenetworkloadedbyStep2whichisnotempty.Therefore,thefirstiterationofADMMis actuallytheseconditerationforthereschedulingprocedureasawhole.
+
+j,τ, k o
+
+,s α ijtt + ∀(i,j,t,t )∈As cˆ
+C
+0 tt i k ,t i k,j,τ j,t +ϕ j k ,t ×ρ ∀
+
+d ep
+
+h (i j, rr t, i,,t,t s k)∈Adrive
+(23)
+wherethemeaningsofϕk andϕk aresimilartothatofϕk ,whichcalculatethetimes thatdepartureorarrivalnodesincompatiblewithnode(i,t)ornode(j,t )usedbyother trainsexcepttrainkwhenwerescheduletraink.TheLagrangianmultipliersα ijtt,ν and ν j,tareupdatedbyasubgradientalgorithm,andthepenaltyparameterρisupdatedbased ontheinformationoftheprimalresidualofeachiteration(Equation(24)),seeinWanget al.(2012).Herepr θ istheprimalresidualofObjective(17)atiterationθ,andβ andγ are parameters,whereβ >1and0<γ <1.
+
+ρθ+1 = ρθ if|pr θ|≤γ|pr θ−1|
+(24) β×ρθ if|pr θ|>γ|pr θ−1|
+550 S.ZHANETAL.
+Algorithm1TheprocedureoftheADMMalgorithm
+Input:
+Space-timenetworkG=(E,A);
+SetoftrainsKandthescheduledplanforeachtrainkintheoriginaltimetable
+Origino anddestinationd ,andoriginalstarttimee andfinalarrivaltimel foreach traink ∈K;
+MaximumnumberofADMMiterations;
+Informationonthedisruption,i.e.,thedisruptedspace-timearcsetAdis
+Output:
+Train-reschedulingsolutionxk
+Step1:Initialization
+Initializealltrainreschedulingvariablesxk =0;
+InitializeLagrangianmultiplierα ijtt,ν andpenaltyparameterρ0
+Step2:Trainreschedulingstartedonanemptynetwork
+Foreachtraink,performStep2.1andStep2.2
+Step2.1Updatetrainarccost
+Setthespace-timearccostck =∞,∀a∈Adis;
+Updatethespace-timearccostbyEquation(23)
+Step2.2Findtheshortestpath
+Findtheshortestpathfromvertex(o ,e )to(d ,l )byforwarddynamicprogrammingalgorithm,andletxk =1forarc(i,j,t,t )alongtheshortestpath
+Step3:TrainscheduleupdatestartedwiththescheduleobtainedbyStep2
+Foreachtrainscheduleupdateiterationθ ≤:
+Foreachtraink,performStep3.1,Step3.2,andStep3.3
+Step3.1Deletepathfork
+Resetvariablexk =0fortrainarc(i,j,t,t )∈Ak
+Step3.2Updatetrainarccost
+Setthespace-timearccostck =∞,∀(i,j,t,t )∈Adis;
+Updatethespace-timearccostusingEquation(23)
+Step3.3Findtheshortestpath
+UpdateLagrangianm ultiplie rα ijtt andν i,t usingthefollowingequations:
+α i θ jt + t 1 =α i θ jtt +ρθ × ( k∈K (i,j,τ,τ)∈ (i,j,t,t ) x i k ,j,τ,τ −1) ν i θ ,t +1 =ν i θ ,t +ρθ ×( k∈K(i,t)∈(i,t):(i,j,t,τ)∈Adrive x i k ,j,t,τ −1) ν i θ ,t +1 =ν i θ ,t +ρθ ×( k∈K (i,t)∈(i,t):(j,i,τ,t)∈Adrive x j k ,i,τ,t −1)
+UpdatepenaltyparameterρusingEquation(24)
+Step3.5:Updateiterationstep θ =θ +1
+Step4:Output
+Outputtrain-reschedulingvariablexk
+4.2. OptimizationframeworkbasedonLR
+Toobtainagoodlowerbound,wealsorelaxConstraints(9)–(11)inourmodelbyLR.The
+Lagrangian multipliers are again denoted by ν and α ijtt. The relaxed model (P L) is as
+TRANSPORTMETRICAA:TRANSPORTSCIENCE 551 follows(Objective(25)):
+
+min Z L = c i,j,t,t ×x i k ,j,t,t k∈K(i,j,t,t)∈Ak
+
+(i,t)∈Edep k∈K(i,t)∈(i,t):(i,j,t,τ)∈Adrive
+(25)
+
+(i,t)∈Earr k∈K(i,t)∈(i,t):(j,i,τ,t)∈Adrive
+
+subjecttoconstraints(6)–(8)and(12).
+Objective(25)canberewrittenasObjective(26):
+
+min Z L = c¯ i k ,j,t,t ×x i k ,j,t,t +R (26) k∈K(i,j,t,t)∈Ak
+InObjective(26),parameterc¯k isdenotedbyEquation(27),whichcanberegardedas theLagrangiancostforatrainthatusesanarc(i,j,t,t ).Ristheconstantterm.
+
+jt,s |+α ijtt ∀
+
+Spath :(i,j,t,t )∈/ As k c¯ i k ,j,t,t = ⎪ ⎪⎪⎪ ⎪⎩ ν C i k 0 ,t +ν j,t ∀ ∀ ( ( i i , , t j, ) t, ∈ t E ) d ∈ ep A , ˜ (j,t )∈Earr :(i,j,t,t )∈Adrive (27)
+TherelaxedproblemP Lcanalsobedecomposedintoaseriesofsubproblems,oneforeach singletrain.Thedecomposedmodel(Pk)forasingletrainisasfollows(Objective(28)):
+
+min Z L k = c¯ i k ,j,t,t ×x i k ,j,t,t (28) (i,j,t,t)∈Ak subjecttoconstraints(6)–(8)and(12).
+ThesubproblemPkcanberegardedasashortest-pathsearchingproblem,whichiseasy tosolvebydynamicprogramminginpolynomialtime.OurLRproblem(Z )issolvedbya subgradientmethod,andthedetailedprocedureisgiveninAlgorithm2.
+5. Casestudy
+In this section, we first introduce the railway network used in our test, and assumed disruption scenarios. Then, we investigate the efficiency of the ADMM algorithm in the train-reschedulingproblemforthefirstdisruptionscenario,scenario(a).Then,wecompare twotrainreschedulingstrategiesbasedonthethreedisruptionscenarios,Scenarios(a),(b) and(c).Finally,wedosomesensitivityanalysisonparameterρ.Ourmodelandalgorithms
+552 S.ZHANETAL.
+Algorithm2TheprocedureoftheLRalgorithm
+Input:
+Space-timenetworkG=(E,A);
+SetoftrainsKandthescheduledplanforeachtrainkintheoriginaltimetable;
+Origino anddestinationd ,andoriginalstarttimee andfinalarrivaltimel foreach traink ∈K;
+MaximumnumberofLRiterations;
+Informationondisruption:thedisruptedspace-timearcsetAdis
+Output:
+ThebestlowerboundLB
+Step1:Initialization
+InitializeLagrangianmultiplierα =0andν =0
+Step2:Trainrescheduling
+Foreachiterationξ ≤,doStep2.1-2.5
+Step2.1Initializealltrainreschedulingvariablesxk =0;
+Step2.2Foreachtraink,performStep2.2.1andStep2.2.2:
+Step2.2.1Updatetrainarccost
+Setthespace-timearccostck =∞,∀(i,j,t,t )∈Adis;
+Updatethespace-timearccostusingEquation(27)
+Step2.2.2Findtheshortestpath
+Find the shortest path from vertex (o ,e ) to (d ,l ) by forward dynamic programming algorithm,andletxk =1forarc(i,j,t,t )∈Akalongtheshortestpath
+Step2.3UpdatethecurrentlowerboundbyStep2.3.1and2.3.2
+Step2.3.1Calculatethecurrentlower-boundLB usingEquation(25);
+Step2.3.2Updatethebestlower-boundLB ∗ :ifLB ξ <LB ∗ ,LB ∗ =LB ξ
+Step2.4UpdateLagrangianmultiplier
+UpdateLagrangianmultiplierα ijtt an dν i,t usingthefollowingequations:
+α i ξ jt + t 1 =α i ξ jtt +(1/(ξ +1))× ( k∈K (i,j,τ,τ)∈ (i,j,t,t ) x i k ,j,τ,τ −1) ν i ξ ,t +1 =ν i ξ ,t +(1/(ξ +1))×( k∈K (i,t)∈(i,t):(i,j,t,τ)∈Adrive x i k ,j,t,τ −1) ν i ξ ,t +1 =ν i ξ ,t +(1/(ξ +1))×( k∈K (i,t)∈(i,t):(j,i,τ,t)∈Adrive x j k ,i,τ,t −1)
+Step2.5Updateiterationstep:ξ =ξ +1
+Step3:Output
+OutputthebestLB
+arecodedinPython.WerunalltheexperimentsonanIntelCorei9-9900Kprocessorwitha
+CPUrunningat3.60GHz(i.e.a3.60GHz32.0GBRAMdesktop).Thedecomposedsubproblemsaresolvediterativelyinthisstudy.However,solvingtheminparallelmaybehelpful toreducethecomputationaltime,andweleaveitinthefuturestudy.
+5.1. Testinstanceandparametervalues
+To test the model, a real-world instance of the Chinese double-track high-speed railway networkconsistingoftwolinesisutilized.WefocusonabusypartoftheBeijing–Shanghai
+TRANSPORTMETRICAA:TRANSPORTSCIENCE 553 high-speedrailwayline,betweenJinanWestStationandNanjingSouthStation,andthe
+Bengbu–Hefeiintercityhigh-speedrailwayline(seeFigure6).Thisconsiderednetworkconsists of 15 stations in total (11 stations on the Jinan-Nanjing line and 5 stations on the
+Bengbu–HefeilinewithasharedBengbuSouthStation),whicharedenotedbycirclesin
+Figure6.Thelargestationsthatcanbeusedfortrains’originaldepartureandfinalarrival aredenotedbydoublecircles.Thenumberoftracksineachstationisgivenintheparenthesesbesidethestationinthefigure.Halfofthetracksineachstationareusuallyusedbytrains inonedirection;forexample,seeZhanetal.(2015).NotethatNanjingSouthStationhas22 tracksintotal,12ofwhichareusedbytrainsontheBeijing-Shanghaihigh-speedline.Thus, weonlyconsider12tracksinthisstation.Similarly,HefeiSouthStationhas26tracksintotal usedbydifferenthigh-speedrailwaylines,andweassumethat6tracksareusedfortheconsideredBengbu–Hefeiline.Inaddition,Hefeibeichengisanewstation,butnotraininour casestudystopsatthisstation.Thus,tosimplify,itisreasonabletoregarditasasegment thatonlyhastwomaintracks.Wecanseethatsomestationsarequitelarge,e.g.JinanWest has17tracks.Itisdifficulttoshowthedetailsofsuchalargestation,andinsteadweshow thelayoutofarelativelysmallstation,Chuzhou,asanexampleinFigure6.Wedonothave
+accesstodetailedinformationonalloftheconsideredstations.Therefore,weassumethat bothinboundandoutboundmaintracksareconnectedwitheachsidingineachoftheconsideredstations,e.g.ChuzhouinFigure6.Althoughthismaynotbethecaseforsomestations, ifweknowthedetailedlayoutofeachstation,wewouldonlyneedtoomitfromourinput datathesidingsthatarenotavailableforatrainbecausetheylackconnectionwiththemain track.Therefore,thisassumptiondoesnotaffectthetestingofourmodelandalgorithms.
+Weconsideratimehorizonof6.5h,from10:00to16:30.Basedontheactualtimetablein effectin2015,atotalof36trainsareconsideredinourrescheduling,including29trains(15 inboundand14outbound)runningbetweenJinanandNanjing,and7trains(6inbound and1outbound)runningbetweenJinanandHefei.AsmentionedinSection1.2,thisconsideredrailwaylinehas1266time-independentarcs.Therefore,thereschedulingproblem forthiscasehas17,774,640(1266×390×36)variables.Notethatweonlyconsidertrains departingwithinthe3-hperiodfrom10:00to13:00,becausewewanttoensurethattrains canmoreorlessfinishtheirjourneywithinour390-minhorizon.Theoriginaltimetables forthesetwolinesaregiveninFigures7and8.NotethatthreetrainsinFigure7depart fromJinanWeststationafewminutesbefore10:00,sothatweconsidertheirrunningparts startingfromTaianStation.
+Weassumethreekindsofdisruption:(a)segmentblockage,(b)stationtrackblockage and(c)bothsegmentandstationtrackblockage.Wevarythedisruptionlocationandduration to obtain various disruption scenarios. For the segment blockage, we assume that eitherboththetracksbetweenBengbuSouthandDingyuanorthosebetweenZaozhuang andXuzhouEaststarttobeblockedat12:00,andthedurationsoftheblockagecouldbe
+30,60or90min.Therefore,weobtain6disruptionscenariosforthesegmentblockagesituation.Forthestationtrackblockage,asidinginTengzhouEastStationisblockedfor30,
+60or90minfrom12:00.
+Thetrain-runningtimeineachsegmentisshownbyabracketbesideeachsegmentin
+Figure6,thefirstandsecondnumbersineachbracketaretherunningtimesforahighspeedtrainandamedium-speedtrain,respectively.Notethatsinceonlyhigh-speedtrains withaspeedof300–350km/hrunontheconsideredrailwaynetwork,wechangepartof thehigh-speedtrainstomedium-speedtrainsbyincreasingtheirrunningtimeinasegment
+554 S.ZHANETAL.
+Figure6.Chinesehigh-speedrailwaynetworkandthestudiedsub-network.
+totestamoregeneralcasewheremultipletypesoftrainsrunonthesamenetwork.We assumetherunningtimesforinboundandoutboundtrainsofthesametypeinthesame segmentarethesame.Ifatrainpassesastationwithoutstopping,weassumethepassing timeis1min,andifitstopsatastation,therequiredtimeisassumedtobe3min,including
+1minforpassingand2minfordwelling.Thearrivalanddepartureheadwaytimebetween twoconsecutivetrainsinasegmentinthesamedirectionissetto3min.Theinitialvalue ofthepenaltyparameterρ issetto10,andthevaluesofparametersγ andβ toupdate theparameterρaresetto0.5and1.4,respectively.TheinitialLagrangianmultipliersνand αaresettozero.WesetarelativelylargetraincancelationpenaltyC0inthecasestudyto preventtraincancelation,sothatwedonotcanceltrainsinthetest.
+5.2. Computationalresults
+5.2.1. TheefficiencyoftheADMMalgorithm
+WetesttheefficiencyoftheADMMalgorithmonthesegmentblockage(scenario(a)).In scenario (a), we assume different disruption scenarios by varying the location and durationofthedisruption.OnedisruptionlocationisthesegmentbetweenBengbuSouthand
+Dingyuan(numbered1),andtheotheristhesegmentbetweenZaozhuangandXuzhou
+East(numbered2).Bothofthesetwodisruptionsareassumedtolastfor30,60and90min.
+TRANSPORTMETRICAA:TRANSPORTSCIENCE 555
+Figure7.TheoriginaltimetablefortrainsrunbetweenJinanandNanjing.
+Figure8.TheoriginaltimetablefortrainsrunbetweenJinanandHefei.
+Table2.Computational results for different disruption scenarios when trains in both directions are rescheduledsimultaneously.
+Scenarios Deviation(min) Disruptedtrains Seriouslydisruptedtrains Gap Iterations
+(1,30) 1443 30 6 0.6 10
+(1,60) 3854 31 11 25 17
+(1,90) 6001 32 16 6 12
+(2,30) 1432 29 5 2 8
+(2,60) 3671 30 12 18 15
+(2,90) 7581 31 20 13 16
+Therefore, we use a bracket to describe each disruption scenario in Table 2, where the firstnumber(1or2)denotesthedisruptionlocationandthesecondnumberdenotesthe disruptionduration.
+556 S.ZHANETAL.
+ThesolutionofeachdisruptionscenarioisgiveninTable2,wherethesecondcolumn containsthetotal trainarrival deviations(objective),whilethe thirdand fourth columns showthenumberofdisruptedtrains(thoseforwhichthetotaldeviationispositive)andthe numberofseriouslydisruptedtrains(thoseforwhichthetotaldeviationisatleast100min), thefifthcolumnisthegapbetweenthesolutionobtainedbyADMMandthelowerbound obtainedbyLR,andthelastcolumnisnumberofiterationstoobtainthebestfeasiblesolutionwithin20steps.Welimittheiterationstepto20inthecasestudy.FromTable2,wecan seethatADMMcanobtainafeasiblesolutionforeachdisruptionscenariowithinseveral iterations.Ifthedisruptiondurationislonger,thetraindeviationislarger,andmoretrains areaffectedbythedisruption.Mostofthetrainshaveadeviationbecausewechangesome high-speedtrainstomedium-speedtrainsbyincreasingtheirrunningtimeinasegmentas mentionedbefore.However,thiskindofdeviationisusuallysmall.Thus,wecanfocuson
+theseriouslydisruptedtrains(columnfour)toseetheinfluenceofadisruption.Wealsocan findthattheblockageofsegmentbetweenZaozhuangandXuzhouEasthasmoreserious influenceontrainoperationsthanthatofsegmentbetweenBengbuSouthandDingyuan, becausethelatterblockagehaslessinfluenceonthetrainsoperatedontheJinan–Hefei line.Formostdisruptionscenarios,thegapisbeloworaround10%,andtheaveragegap is10.8%.However,thegapsofsomescenariosarerelativelylarge,e.g.25%forthescenario
+(1,60).Wecanreducethisgapbytryingdifferentinitialvaluesofparameterρ,whichwill beanalyzedinsection5.2.3.Wetakethedisruptionscenarios(1,30),(1,60)and(1,90)asan exampletoshowtheconvergencetrendoftheupper-boundandlower-boundsolutionin
+Figure9.Thecomputationaltimeforeachiterationisapproximately56sec.
+ThedispositiontimetableobtainedbyADMMfordisruptionscenario(1,90)isgivenin
+Figure10.Wecanseethatallthedisruptedtrainsarestoppedattheneareststationadjacent to the disruption location. In total, seven outbound trains are stopped at Bengbu South
+Stationtowaitfortheendofthedisruption,althoughtherearenormallyonlyfivestation tracksavailableforoutboundtrains.Trainsinbothdirectionsareallowedtosharetracksina stationduringadisruption,andBengbuSouthhas11stationtracksintotal,sothenumber
+Figure9.The gap between the upper bound solution obtained by ADMM and the lower bound obtainedbyLRfordisruptionscenarios(1,30),(1,60)and(1,90).
+TRANSPORTMETRICAA:TRANSPORTSCIENCE 557
+Figure10.Thedispositiontimetablefordisruptionscenario(a)whensidingsareshared.
+ofstoppedtrainsisnotlimitedtofive.Therefore,thearrivaldelayforsometrainsatBengbu
+Southdecreases.ThisisalsothecaseatDingyuanStation.
+5.2.2. Strategycomparison
+(1)Segmentblockage:disruptionscenario(a)
+Toinvestigatetheadvantagesofreschedulingtrainsinbothdirectionssimultaneously (sidings are shared), we also test the situation where trains in different directions are rescheduledseparately(sidingsarenotshared).Thatis,sidingsononesideofthemaintracksareusedbytrainstravelinginonedirection,andsidingsontheothersideareused bytrainstravelingintheoppositedirection.Alltheotherparametersmaintainthesame valuesaspreviously.
+ThesolutionforeachdisruptionscenarioisgiveninTable3.Thedispositiontimetable fortheobtainedsolutionofdisruptionscenario(1,90)isillustratedinFigure11.
+Comparing thefeasible solution obtained in theprevious subsection(5.2.1) with that obtained here, we can see that the objective values (deviations) of most disruption scenariosincreasewhensidingsareseparatelyused,especiallyfordisruptionscenarioswitha longerduration,e.g.90min.Thisisbecausethecapacityofsomestationsbecomestighter whenalongerblockageoccurs.Themostimportantdifferencebetweenthesetwostrategies is that when trains in both directions are rescheduled simultaneously, more trains cancontinuetheirjourneybeforethedisruptionlocationbecausemorestationcapacityis
+Table3.Computational results for different disruption scenarios when trains in two directions are rescheduledseparately.
+Scenarios Deviation(min) Disruptedtrains Seriouslydisruptedtrains Iterations
+(1,30) 1435 30 6 7
+(1,60) 3714 31 11 11
+(1,90) 6659 32 16 16
+(2,30) 1432 29 5 9
+(2,60) 4226 31 13 20
+(2,90) 8491 32 20 20
+558 S.ZHANETAL.
+Figure11.Thedispositiontimetablefordisruptionscenario(a)whensidingsareseparatelyused.
+availabletothem.FromFigure11,wecanseethatonlyfiveoutboundtrainsarestoppedat
+BengbuSouthtowaitfortheendofthedisruptionwhensharingsidingsarenotallowed, becauseonlyfivestationtracksareallocatedtooutboundtrainsnormally,asmentioned previously.ThisisquitedifferentfromthecaseinFigure10,wherewedonotallowtrains travelinginbothdirectionstosharesidingsinastation.Therefore,thenumberoftrains waitinginastation,e.g.BengbuSouth,cannotexceedthestationcapacity(five).Meanwhile,theothertwotrainswaitingatBengbuSouthinFigure10havetostopattheprevious station (Suzhou East) to wait for the end of the disruption. As a result, compared with thepreviouscase,thesetwotrainsaredelayedmorewhentheyarriveatBengbuSouth.
+From disruption scenarios (1,90) and (2,90), wecanconcludethatthetotaltrain-deviation costcanbereducedby11%and12%,respectively,iftrainstravelingindifferentdirectionsare rescheduledsimultaneouslyandallowedtosharesidings.
+(2)Station-trackblockage:disruptionscenario(b)
+Inadisruptionwheresometracksinastationareblocked,thecapacityofthestation decreasessignificantly.Therefore,trainsmaybedelayedduetothedisruption.However, ifweallowtrainstravelinginbothdirectionstosharetheresidualavailablesidingsinthe disruptedstation,theinfluenceofthedisruptionontrainoperationswillbereduced.To illustratetheefficiencyofthetwosiding-usagestrategies,wecomparetheresultsobtained by allowing and forbidding the sharing of sidings in disruption scenario (b). In this scenario,weassumethatthesidingprovidedatplatform1istemporarilyblockedfrom12:00in
+TengzhouEastStation(seeFigure12)andlastsfor30,60or90min,respectively.Therefore, thisplatformtrackcannotbeusedbytrainsduringthedisruptedperiod.AsTengzhouEast onlyhastwomaintracks(withoutplatforms)andtwosidings(withplatforms),theinfluence ofthisdisruptionissignificantiftrainstravelinginbothdirectionsarerequiredtoseparately usetracksinthisstation.Specifically,inboundtrainsthathaveaplannedstopatthesiding providedatplatform1cannotstopatthisstationtoboardandalightpassengersduring thedisruption.
+If we do not allow high-speed trains to skip a station at which they are scheduled to stop, inbound trains with a planned stop at this station may suffer a large delay. All the
+TRANSPORTMETRICAA:TRANSPORTSCIENCE 559
+Figure12.ThedisruptionscenarioinTengzhouEastStation.
+Table4.Computationalresultsfordifferentdisruptionscenariosinastation-trackblockage.
+Strategies Scenarios Deviation(min) DT SDT Iterations
+(3,30) 976 28 3 8
+Simultaneously (3,60) 976 28 3 8
+(3,90) 976 28 3 8
+(3,30) 1040 27 3 8
+Separately (3,60) 1204 27 4 8
+(3,90) 1574 28 6 8
+parameterskeepthesamevaluesaspreviously.Werescheduletrainsinthesedisruption scenarios, and the feasible solution obtained by ADMM for each disruption scenario is showninTable4.Inthesecondcolumn,thefirstnumber(3)inthebracketisthedisruptionlocationTengzhouEast,andthesecondnumberagainisthedurationofadisruption.
+Thefourthcolumn(DT)andfifthcolumn(SDT)arethedisruptedtrains(i.e.thetotaldeviationispositive)andseriouslydisruptedtrains(i.e.thetotaldeviationisatleast100min), respectively. We can see that if inbound trains are allowed to sharing sidings in the disruptedstation,theyarenotaffectedbythedisruption.Notethatthe976-mindeviationis causedbythechangingofsomehigh-speedtrainstomedium-speedtrainsforourtestpurposeinsteadofdisruption.Therefore,thedeviationskeepthesameeitherthedisruption lasts30,60or90mininthesimultaneouslyreschedulingcaseinTable4.Thetraindeviations arelargerwhenweseparatelyrescheduleinboundandoutboundtrains(sharingsidings arenotallowed)thanthosewhenwesimultaneouslyrescheduletrainsforalldisruption scenarios.Thenumberofseriouslydisruptedtrainsissmallcomparedwiththesegment blockage,butitincreasesintheseparatelyreschedulingstrategy.Thecomputationaltime fortrainreschedulinginastationtrackblockageisshorter(approximately450sec)thanthat
+insegmentblockage,i.e.feweriterationsarerequiredtoobtainastablefeasiblesolution foradisruptionscenario.
+Thedispositiontimetablefordisruptionscenario(3,90)isshowninFigure13.Wehave notshownallofthetrainnumbersinthefigureforsimplicity.WecanseethattrainsG212 andG46stopatZaozhuang,thestationprecedingTengzhouEast,foralongtime,because thesetwotrainshaveaplannedstopatthedisruptedstation(TengzhouEast);seethered lineandorangelineinFigure13.Aswedonotallowinboundtrainstosharethestation tracksnormallyusedbytheoutboundtrains,thesetwotrainscannotusetheonlyresidual trackprovidedataplatform(i.e.thetrackatplatform(2)inTengzhouEastStation.Therefore,theyhavetowaituntilthedisruptionends,andthenallowpassengerstoboardand alightonthesidingprovidedatplatform1.
+Fordisruptionscenario(b),wecanalsoperformreschedulingoftrainsinbothdirections simultaneouslybyallowingtrainsinbothdirectionstosharesidingsinastation.Thevalues
+560 S.ZHANETAL.
+Figure13.Thedispositiontimetablefordisruptionscenario(b)withoutsharingsidings.
+Figure14.Thedispositiontimetablefordisruptionscenario(b)withsharingsidings.
+ofalloftheparametersarekeptthesameasthoseinthecasewheresharingsidingsisnot allowed.ThesolutionforeachdisruptionscenarioisalsogiveninTable4(simultaneously).
+Thedispositiontimetablefordisruptionscenario(3,90)isshowninFigure14.Asweallow inboundtrainstosharethesidingsusuallyusedbyoutboundtrains,inboundtrainscanuse thesidingatplatform2toallowpassengerstoboardandalightwhenthetrackprovided atplatform1isblockedinTengzhouEastStation.Asaresult,trainsG212andG46donot needtostopatZaozhuangStationtowaitforthedisruptiontoend;seeFigure14.
+Comparedwiththesolutionobtainedbynotallowingthesharingofsidings,theobjectivevalueheredecreases,especiallyforlongdisruptions,i.e.thedeviationofscenario(3,90) increases598min.Fromthiscomparison,wecanseethatallowingtrainsinbothdirections tosharesidingswhensomestationtracksareblockedcansignificantlyreducethedelayof disruptedtrains.
+(3)Bothsegmentblockageandstation-trackblockage:disruptionscenario(c)
+TRANSPORTMETRICAA:TRANSPORTSCIENCE 561
+Table5.Computationalresultsfordifferentdisruptionscenariosinbothastationtrackandasegment blockage.
+Strategies Scenarios Deviation(min) DT SDT Iterations
+(1,60,30) 3854 31 11 17
+Simultaneously (1,60,60) 3854 31 11 17
+(1,60,90) 3854 31 11 17
+(1,60,120) 3854 31 11 17
+(1,60,30) 3778 30 11 11
+Separately (1,60,60) 3942 30 12 11
+(1,60,90) 4155 31 13 11
+(1,60,120) 4459 31 14 12
+Wealsotestthedisruptionsituationwherebothsegmentblockageandstation-track blockageoccur.Weassumethatonedisruptionisthatbothtracksinthesegmentbetween stationsBengbuSouthandDingyuanareblockedfrom12:00withadurationof60min,and theotherdisruptionisthattheinboundsidinginTengzhouEastStationisblockedfrom
+12:00andwithvariousdurations(30,60,90and120min).Weassumethatbothofthetwo disruptionsoccuratthesametimebecauseitismorecomplicatedwhentwodisruptions occur at different times. In the latter case, the information of two disruptions is availablesequentially,sothatthetrainreschedulingshouldbeupdatedwhentheinformation ofeachdisruptionisavailable.WereferinterestedreaderstoZhu,Goverde,andQuaglietta(2018)fortrainreschedulinginmultiplesimultaneousdisruptions.Ourtestresultsare giveninTable5.Hereatripleisusedtodenoteadisruptionscenario,wherethefirstnumbermeansthesegmentblockageisinthesegmentbetweenBengbuSouthandDingyuan, thesecondnumberisthedurationofthesegmentblockage,andthelastnumberisthe durationofsidingblockageatTengzhouEast.
+We can see that, when we reschedule inbound and outbound trains simultaneously (allowingtrainsinbothdirectionstosharesidings),thestationtrackblockagehasnoinfluenceonthefinalsolution,andonlythesegmentblockageisineffect.Thisisbecausethe stationcapacityofTengzhouEastisenoughevenaninboundsidingisblocked.However, whenwerescheduleinboundandoutboundtrainsseparatelywheresharingsidingisnot allowed, both the two disruptions affect the solution. The total train deviation increases withtheincreaseofthedurationofthestation-trackblockagewhenthedurationofthe segmentblockageisfixed.
+5.2.3. Sensitivityanalysisofparameterρ
+IntheADMMalgorithm,thepenaltyparameterρ affectsthefinalsolution.Althoughwe havevariedthevalueofparameterρintheiterativeprocedure,theoriginalvalueofρmay stillaffectthesolutions.Thus,weanalyzetheinfluenceoftheoriginalvalueforparameter ρ on the iterative solutions in this section by varying original ρ. We take the disruption scenariowherethedoubletracksinthesegmentbetweenZaozhuangandXuzhouEastare blockedasanexample.Thestarttimeofthedisruptionis12:00,anditlasts60and90min, respectively. Except for the value of parameter ρ varying, all other parameters keep the samevaluesasbefore.Trainsinbothdirectionsarerescheduledsimultaneouslyandsharing sidingsisallowed.
+The solutions for 20 iterations are given in Figures 15 (90-min disruption) and 16
+(60-mindisruption).Inthesetwofigures,ifthesolutionofacertainiterationisinfeasible,
+562 S.ZHANETAL.
+Figure15.The solution obtained in each iteration for different initial values of parameter ρ with a
+90-mindisruption.
+Figure16.The solution obtained in each iteration for different initial values of parameter ρ with a
+60-mindisruption.
+itisnotmarked.Afterseveraliterations,ADMMcanfindastablefeasiblesolutionwithan initialvalueofparameterρ from5to25.Fromthetwofigures,wecanseethatifalarge value of parameter ρ is used as the initial value, a feasible solution can be found earlier (lessiterationsarerequired);however,thefeasiblesolutionstendtobeworse.Therefore, atrade-offexistsbetweenthenumberofiterationstofindafeasiblesolutionandthefinal solutionquality.Butthefinalfeasiblesolutionforρ =10isworsethanthatforeitherρ =20 orρ =25inFigure15.Thismaybebecauseoftheselectedvaluesofparametersγ andβ intheEquation(24)toupdatethevalueofρ.Tothisend,ADMMcannotensuretoobtaina
+TRANSPORTMETRICAA:TRANSPORTSCIENCE 563 bettersolutionwithasmallerinitialvalueofρ,andwecantryvariousinitialvaluesofρto chooseabetterfinalsolutionifpossible.
+6. Conclusionandfurtherresearch
+Inthispaper,westudiedthereal-timetrainreschedulingofdouble-trackhigh-speedrailwaysinahighlydisruptedsituation.Weallowedtrainstravelinginbothdirectionstoshare sidingsinastationifitwastechnicallypossible.Therefore,werescheduledtrainsinboth directionssimultaneouslytoreducetheinfluenceofadisruptionontrainoperations.The railwaylinewasconsideredatameso-levelbyaspace-timenetwork,andthetrainrouting in stations was considered. Based on the space-time network, an ILP model was formulated to solve the problem. Due to the complexity of our meso-level train rescheduling model,weintroducedtheADMMalgorithmtodecomposethewholemodelintoaseries ofeasy-to-solvesubproblems.Thisenableseachsubproblemtoberegardedasashortestpath searching problem, which can be efficiently solved by dynamic programming. To evaluate the quality of ADMM in solving the train-rescheduling problem, we obtained a lower-boundsolutionbyLR.Thereal-worldinstanceoftheJinan-Nanjinghigh-speedrail-
+waylineandtheBengbu–Hefeiintercityhigh-speedlinewaschosentotestourmodeland algorithms.Althoughwefocusedonhigh-speedrailways,ourapproachcanalsobeapplied toconventionalrailways.
+Inourtest,theADMMalgorithmprovedquiteefficientinfindingagoodfeasiblesolution withinseveraliterationsforreal-worldtrain-reschedulingproblems.Specifically,wefound feasiblesolutionsfortheconsideredrailwaynetworkwith36trainswithanaveragegap of10.8%fromthelower-bounds,inlessthan20iterationsonapersonaldesktopinscenarioswithcompleteblockageofasegment.Forastation-trackblockage,agoodfeasible solutioncouldbefoundinevenshortercomputationaltime(lessiterations).Theseresults demonstratethatourapproachenhancesthescalabilityofsolvingtrainreschedulingon largenetworkswithlong-timehorizonsatamesoscopiclevel.
+In addition, we compared the solution obtained by simultaneous rerouting with that obtainedbyone-directionreroutingeitherinasegmentblockageorastationtrackblockage. We found that the total train-deviation cost was much smaller in the simultaneous rerouting case in most disruption scenarios. Specifically, the total train-deviation cost decreasedby11%and12%forscenarios(1,90)and(2,90)inthesegmentblockagesituation, becausedisruptedtrainscouldtravelfurthertotheneareststationsadjacenttothedisruptionareabysharingsidingsusuallyreservedfortrainstravelingintheoppositedirection.
+Inastation-trackblockage,thetotaltrain-deviationcostwasreducedevenmorebecause other tracks in the disrupted stations were made available. Therefore, we conclude that reschedulingtrainsinbothdirectionssimultaneously(sharesidings)isanimportantway toreducethetraindeviationduringablockage.Railwaymanagersanddispatcherscould considerthisstrategytoreducetheinfluenceofadisruption.However,thecomputational timeforsomedisruptioncaseswitha6.5-htimehorizonisstilllong.Thus,ourapproachstill facesdifficultiesinsolvingareal-timeproblemwithalong-timehorizonandalargenumberoftrainsbecauseourdynamicalgorithmneedstosearchnumerouspossiblepathsfor eachtrain.However,thisproblemcanbeeasedbyusingabeamsearchalgorithm(Zhou andZhong2007)andparallelcomputing.
+564 S.ZHANETAL.
+Severaldirectionsforfurtherresearchareavailable.First,inthisstudyofthecaseofa large disruption, we only rescheduled train timetables. However, an integrated method to consider the rescheduling of both the train timetable and the rolling stock is necessary.Second,weassumedthatthedisruptioninformationwasknowninadvance.Itwill beinterestingtotaketheuncertaindurationofadisruptionintoaccount.Third,ourselectionofsuitableinitialvalueforparameterρ andvaluesforparametersβ andγ toupdate ρ intheADMMalgorithmweresolelybasedonpreliminarytests.Atheoreticalanalysisof themwouldbeassisttostrengthentheconvergenceoftheADMMalgorithm.Fourth,we assumethattherunningtimeofatraininasegmentisfixed,butitwouldbebettertolet trainsvarytheirrunningspeedsinasegment.Finally,itisinterestingtotakethepassenger flowintoaccountwhenreschedulingtrains,whichcanpartlyrefertoourrecentstudyon passenger-orientedtrainscheduling(Zhan,Wong,andLo2020)andrescheduling(Zhan etal.2021).
+Acknowledgments
+The work was supported by a grant from the Research Grants Council of the Hong Kong SpecialAdministrativeRegion,China(ProjectNo.[T32-101/15-R]),theNationalNaturalScienceFoundation of China (NSFC) (No.71701174), the Fundamental Research Funds for the Central Universities (No.2682017CX020), the Key Scientific and Technological Project of Henan Province (No.
+182102310799), the Foundation of Henan Educational Committee (No. 18A580003) and Beijing
+MunicipalNaturalScienceFoundation(No.L181007).ThefirstauthorwassupportedbytheHong
+KongScholarScheme2017.ThesecondauthorwassupportedbytheFrancisSYBongEndowed
+ProfessorshipinEngineering.
+Disclosurestatement
+Nopotentialconflictofinterestwasreportedbytheauthor(s).
+Funding
+The work was supported by a grant from the Research Grants Council of the Hong Kong Special
+AdministrativeRegion,China(ProjectNo.[T32-101/15-R]),theNationalNaturalScienceFoundation ofChina(NSFC)[grantnumber71701174],theFundamentalResearchFundsfortheCentralUniversities[grantnumber2682017CX020],theKeyScientificandTechnologicalProjectofHenanProvince
+[182102310799],theFoundationofHenanEducationalCommittee[grantnumber18A580003]and
+Beijing Municipal Natural Science Foundation [grant number L181007]. The first author was supportedbytheHongKongScholarScheme2017.ThesecondauthorwassupportedbytheFrancis
+SYBongEndowedProfessorshipinEngineering.
+References
+Albrecht,A.R.,D.M.Panton,andD.H.Lee.2013.“ReschedulingRailNetworkswithMaintenance
+DisruptionsUsingProblemSpaceSearch.”Computers&OperationsResearch40(3):703–712.
+ArneHansen,Ingo.2008.RailwayTimetable&Traffic:Analysis,Modelling,Simulation.Hamburg:Eurailpress.
+Boyd,Stephen,NealParikh,EricChu,BorjaPeleato,andJonathanEckstein.2011.“DistributedOptimizationandStatisticalLearningViatheAlternatingDirectionMethodofMultipliers.”Foundations andTrendsinMachineLearning3(1):1–122.
+Brucker,Peter,SilviaHeitmann,andSigridKnust.2002.“SchedulingRailwayTrafficAtaConstruction
+Site.”ORSpectrum24:19–30.
+TRANSPORTMETRICAA:TRANSPORTSCIENCE 565
+Cacchiani, Valentina, Dennis Huisman, Martin Kidd, Leo Kroon, Paolo Toth, Lucas Veelenturf, and
+Joris Wagenaar. 2014. “An Overview of Recovery Models and Algorithms for Real-time Railway
+Rescheduling.”TransportationResearchPartB:Methodological63:15–37.
+Caimi,Gabrio,DanBurkolter,ThomasHerrmann,FabianChudak,andMarcoLaumanns.2009.“Design ofaRailwaySchedulingModelforDenseServices.”NetworksandSpatialEconomics9(1):25–46.
+Caprara,Alberto,MatteoFischetti,andPaoloToth.2002.“ModelingandSolvingtheTrainTimetabling
+Problem.”OperationsResearch50(5):851–861.
+Corman,Francesco,andAndreaD’Ariano.2012.“AssessmentofAdvancedDispatchingMeasuresfor
+RecoveringDisruptedRailwayTrafficSituations.”TransportationResearchRecord2289(1):1–9.
+Corman,Francesco,AndreaD’Ariano,IngoA.Hansen,DarioPacciarelli,andMarcoPranzo.2011.“DispatchingTrainsDuringSeriouslyDisruptedTrafficSituations”.InNetworking,SensingandControl (ICNSC),2011IEEEInternationalConferenceon,323–328.Delft:IEEE.
+Corman,Francesco,andLingyunMeng.2015.“AReviewofOnlineDynamicModelsandAlgorithms for Railway Traffic Management.” IntelligentTransportationSystems,IEEETransactionson 16 (3):
+1274–1284.
+D’Ariano, Andrea, Lingyun Meng, Gabriele Centulio, and Francesco Corman. 2019. “Integrated
+StochasticOptimizationApproachesforTacticalSchedulingofTrainsandRailwayInfrastructure
+Maintenance.”Computers&IndustrialEngineering127:1315–1335.
+Dollevoet, Twan, Francesco Corman, Andrea D’Ariano, and Dennis Huisman. 2014. “An Iterative
+OptimizationFrameworkforDelayManagementandTrainScheduling.”FlexibleServicesandManufacturingJournal26(4):490–515.
+Fang, Wei, Shengxiang Yang, and Xin Yao. 2015. “A Survey on Problem Models and Solution
+ApproachestoReschedulinginRailwayNetworks.”IntelligentTransportationSystems,IEEETransactionson16(6):2997–3016.
+Ghaemi,Nadjla,OdedCats,andRobM.P.Goverde.2017.“AMicroscopicModelforOptimalTrain
+Short-turningsDuringCompleteBlockages.”TransportationResearchPartB:Methodological 105 (SupplementC):423–437.
+Ghaemi, Nadjla, Oded Cats, and Rob M. P. Goverde. 2018. “Macroscopic Multiple-station ShortturningModelinCaseofCompleteRailwayBlockages.”TransportationResearchPartC:Emerging
+Technologies89:113–132.
+Hirai,Chikara,TaketoshiKunimatsu,NorioTomii,ShigekiKondou,andMotoshiTakaba.2009.“ATrain
+StopDeploymentPlanningAlgorithmUsingaPetri-net-basedModellingApproach.”Q.Rep.RTRI
+50(1):8–13,doi:10.2219/rtriqr.50.8
+Jiang,Feng,ValentinaCacchiani,andPaoloToth.2017.“TrainTimetablingbySkip-stopPlanningin
+HighlyCongestedLines.”TransportationResearchPartB:Methodological104:149–174.
+Kang, Liujiang, Jianjun Wu Huijun Sun, Xiaoning Zhu, and Ziyou Gao. 2015a. “A Case Study on theCoordinationofLastTrainsfortheBeijingSubwayNetwork.”TransportationResearchPartB:
+Methodological72:112–127.
+Kang,Liujiang,JianjunWuHuijunSun,XiaoningZhu,andBoWang.2015b.“APracticalModelforLast
+TrainReschedulingwithTrainDelayinUrbanRailwayTransitNetworks.”Omega50:29–42.
+Kang, Liujiang, and Qiang Meng. 2017. “Two-phase Decomposition Method for the Last Train
+DepartureTimeChoiceinSubwayNetworks.”TransportationResearchPartB:Methodological104:
+568–582.
+Kang,Liujiang,XiaoningZhu,HuijunSun,JakobPuchinger,MarioRuthmair,andBinHu.2016.“ModelingtheFirstTrainTimetablingProblemwithMinimalMissedTrainsandSynchronizationTime
+DifferencesinSubwayNetworks.”TransportationResearchPartB:Methodological93:17–36.
+Kang, Liujiang, Xiaoning Zhu, Huijun Sun, Jianjun Wu, Ziyou Gao, and Bin Hu. 2019. “Last Train
+TimetablingOptimizationandBusBridgingServiceManagementinUrbanRailwayTransitNetworks.”Omega84:31–44.
+Kecman,Pavle,FrancescoCorman,AndreaD’Ariano,andRobGoverde.2013.“Reschedulingmodels forrailwaytrafficmanagementinlarge-scalenetworks.”PublicTransport5(1–2):95–123.
+Kliewer,Natalia,TaiebMellouli,andLeenaSuhl.2006.“ATimeCspaceNetworkBasedExactOptimizationModelforMulti-depotBusScheduling.”EuropeanJournalofOperationalResearch175(3):
+1616–1627.
+566 S.ZHANETAL.
+Kroon, Leo G, H Edwin Romeijn, and Peter J Zwaneveld. 1997. “Routing Trains Through Railway Stations: Complexity Issues.” European Journal of Operational Research 98 (3): 485–
+498.
+Lamorgese,Leonardo,CarloMannino,andMauroPiacentini.2016.“OptimalTrainDispatchingby
+Benders-likeReformulation.”TransportationScience50(3):910–925.
+Louwerse, Ilse, and Dennis Huisman. 2013. “Adjusting a Railway Timetable in Case of Partial Or
+CompleteBlockades.”EuropeanJournalofOperationalResearch235(3):583–593.
+Luan,Xiaojie,JianruiMiao,LingyunMeng,FrancescoCorman,andGabrielLodewijks.2017.“Integrated Optimization on Train Scheduling and Preventive Maintenance Time Slots Planning.”
+TransportationResearchPartC:EmergingTechnologies80:329–359.
+Meng, Lingyun, and Xuesong Zhou. 2011. “Robust Single-track Train Dispatching Model Under a Dynamic and Stochastic Environment: a Scenario-based Rolling Horizon Solution Approach.”
+TransportationResearchPartB:Methodological45(7):1080–1102.
+Meng, Lingyun, and Xuesong Zhou. 2014. “Simultaneous Train Rerouting and Rescheduling on
+An N-track Network: A Model Reformulation with Network-based Cumulative Flow Variables.”
+TransportationResearchPartB:Methodological67:208–234.
+Olsen, Nils, Natalia Kliewer, and Lena Wolbeck. 2020. “A Study on Flow Decomposition Methods forSchedulingofElectricBusesinPublicTransportBasedonAggregatedTimeCspaceNetwork
+Models.”CentralEuropeanJournalofOperationsResearch.doi:10.1007/s10100-020-00705-6.
+Pellegrini,Paola,GrégoryMarlière,andJoaquinRodriguez.2014.“OptimalTrainRoutingandScheduling for Managing Traffic Perturbations in Complex Junctions.” Transportation Research Part B:
+Methodological59:58–80.
+Xu,Peijuan,FrancescoCorman,QiyuanPeng,andXiaojieLuan.2017.“ATrainReschedulingModel
+IntegratingSpeedManagementDuringDisruptionsofHigh-speedTrafficUnderaQuasi-moving
+BlockSystem.”TransportationResearchPartB:Methodological104:638–666.
+Steinzen, Ingmar, Vitali Gintner, Leena Suhl, and Natalia Kliewer. 2010. “A Time-space Network
+ApproachfortheIntegratedVehicle-andCrew-schedulingProblemwithMultipleDepots.”TransportationScience44(3):367–382.
+Van Aken, Sander, Nikola Bešinović, and Rob M. P. Goverde. 2017. “Designing Alternative Railway Timetables Under Infrastructure Maintenance Possessions.” TransportationResearchPartB:
+Methodological98:224–238.
+Vansteenwegen, Pieter, Thijs Dewilde, Sofie Burggraeve, and Dirk Cattrysse. 2016. “An Iterative
+ApproachforReducingtheImpactofInfrastructureMaintenanceonthePerformanceofRailway
+Systems.”EuropeanJournalofOperationalResearch252(1):39–53.
+Veelenturf,LucasP,MartinPKidd,ValentinaCacchiani,LeoGKroon,andPaoloToth.2015.“ARailway
+TimetableReschedulingApproachforHandlingLarge-scaleDisruptions.”TransportationScience50
+(3):841–862.
+Wang,Wenshan,MengXu,PaoloGuarneri,andGeorgesFadel.2012.“AConsensusOptimizationvia
+AlternatingDirectionMethodofMultipliersforNetworkTargetCoordination”.In12thAIAAAviationTechnology,Integration,andOperations(ATIO)Conferenceand14thAIAA/ISSMOMultidisciplinary
+AnalysisandOptimizationConference,5552.
+Wüst, Raimond, Stephan Bütikofer, Severin Ess, Claudio Gomez, Albert Steiner, Marco Laumanns, and Jacint Szabo. 2019. “Maintenance Timetable Planning Based on Mesoscopic Infrastructure and the Transport Service Intention.” Journal of Rail Transport Planning & Management11100–
+11146.
+Yao,Yu,XiaoningZhu,HongyuDong,ShengnanWuHailongWu,LuCarolTong,andXuesongZhou.
+2019. “ADMM-based Problem Decomposition Scheme for Vehicle Routing Problem with Time
+Windows.”TransportationResearchPartB:Methodological129:156–174.
+Zhan,Shuguang,LeoG.Kroon,LucasP.Veelenturf,andJorisWagenaar.2015.“Real-timeHigh-speed
+TrainReschedulinginCaseofaCompleteBlockade.”TransportationResearchPartB:Methodological78:182–201.
+Zhan,Shuguang,LeoG.Kroon,JunZhao,andQiyuanPeng.2016.“ARollingHorizonApproachtothe
+HighSpeedTrainReschedulingProbleminCaseofaPartialSegmentBlockage.”Transportation
+ResearchPartE:LogisticsandTransportationReview95:32–61.
+TRANSPORTMETRICAA:TRANSPORTSCIENCE 567
+Zhan,Shuguang,S.C.Wong,andS.M.Lo.2020.“SocialEquity-basedTimetablingandTicketPricing forHigh-speedRailways.”TransportationResearchPartA:PolicyandPractice137:165–186.
+Zhan,Shuguang,S.C.Wong,QiyuanPeng,andS.M.Lo.2019.“TrainStopDeploymentPlanninginthe
+CaseofCompleteBlockage:AnIntegerLinearProgramingModel.”JournalofTransportationSafety &Security1–27,doi:10.1080/19439962.2019.1645773
+Zhan, S., S. C. Wong, P. Shang, Q. Peng, J. Xie, and S. M. Lo. 2021. “Integrated Railway Timetable
+Rescheduling and Dynamic Passenger Routing During a Complete Blockage.” Transportation
+ResearchPartB:Methodological143:86–123.
+Zhang,Yongxiang,AndreaD’Ariano,BishengHe,andQiyuanPeng.2019a.“MicroscopicOptimization
+ModelandAlgorithmforIntegratingTrainTimetablingandTrackMaintenanceTaskScheduling.”
+TransportationResearchPartB:Methodological127:237–278.
+Zhang, Yongxiang, Qiyuan Peng, Yu Yao, Xin Zhang, and Xuesong Zhou. 2019b. “Solving Cyclic
+Train TimetablingProblem ThroughModel Reformulation: Extended Time-spaceNetwork ConstructandAlternatingDirectionMethodofMultipliersMethods.”TransportationResearchPartB:
+Methodological128:344–379.
+Zhou,Wenliang,andHualiangTeng.2016.“SimultaneousPassengerTrainRoutingandTimetabling
+Using An Efficient Train-based Lagrangian Relaxation Decomposition.” TransportationResearch
+PartB:Methodological94:409–439.
+Zhou,Xuesong,andMingZhong.2007.“Single-trackTrainTimetablingwithGuaranteedOptimality:Branch-and-boundAlgorithmswithEnhancedLowerBounds.”TransportationResearchPartB:
+Methodological41:320–341.
+Zhu,Yongqiu,andRobM.P.Goverde.2019.“RailwayTimetableReschedulingwithFlexibleStopping andFlexibleShort-turningDuringDisruptions.”TransportationResearchPartB:Methodological123:
+149–181.
+Zhu,Yongqiu,RobGoverde,andEgidioQuaglietta.2018.“Railwaytimetablereschedulingformultiple simultaneous disruptions”. In CASPT2018:14thconferenceonadvancedsystemsinpublictransportandTransitData2018,Brisbane,Australia.http://resolver.tudelft.nl/uuid:1664b528-4e12-4745bf87-a798a7e878ef.
+Zilko, Aurelius A, Dorota Kurowicka, and Rob M. P. Goverde. 2016. “Modeling Railway Disruption
+LengthswithCopulaBayesianNetworks.”TransportationResearchPartC:EmergingTechnologies
+68:350–368.

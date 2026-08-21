@@ -1,0 +1,283 @@
+Article
+Are We Reaching the Limit of
+Tropical Cyclone Track Predictability in the Western North Pacific?
+Hui Yu, Guomin Chen, Cong Zhou, Wai Kin Wong, Mengqi Yang, Yinglong Xu,
+Peiyan Chen, Rijin Wan, and Xinrong Hu
+ABSTRACT: The annual-mean position errors (PE) of tropical cyclone (TC) track forecasts from three forecast agencies [WMO Regional Specialized Meteorological Center in Tokyo (RSMC-Tokyo),
+China Meteorological Administration (CMA), and Joint Typhoon Warning Center of the United States (JTWC)] are analyzed to document the past improvements and project future tendency in track forecast accuracy for TCs in the western North Pacific. An improvement of 48 h (2 days) in lead time has been achieved in the past 30 years, but with noticeable stepwise periods of improvements with superposed short-term fluctuations. The stepwise improvement features differ among the three forecast agencies, but are highly related to the development of objective forecast guidance and the application strategy. As demonstrated by an exponential model for the growth of PEs with lead time for TCs of tropical storm category and above, the improvements in the past 10 years have mainly been due to the reduction in analysis errors rather than the reduction in the error growth rate. If the current trend continues, a further 2-day improvement in TC track forecast lead
+times may be projected for the coming 15 years up to 2035, and we certainly have not reached yet the limit of TC track predictability in the western North Pacific.
+KEYWORDS: Tropical cyclones; Forecast verification/skill; Operational forecasting https://doi.org/10.1175/BAMS-D-20-0308.1
+Corresponding author: Dr. Hui Yu, [已脱敏邮箱]
+In final form 20 September 2021 ©2022 American Meteorological Society
+For information regarding reuse of this content and general copyright information, consult the AMS Copyright Policy.
+AMERICAN METEOROLOGICAL SOCIETY FEBRUARY 2022 E410
+Brought to you by Shanghai University of Engineering Science | Unauthenticated | Downloaded 11/04/25 10:44 AM UTC
+AFFILIATIONS: Yu, G. Chen, Zhou, Yang, P. Chen, Wan, and Hu—Shanghai Typhoon Institute, China Meteorological Administration, and Key Laboratory of Numerical Modeling for Tropical Cyclone, China
+Meteorological Administration, Shanghai, China; Wong—Hong Kong Observatory, Hong Kong, China;
+Xu—National Meteorological Center, China Meteorological Administration, Beijing, China
+Tropical cyclones (TCs) are among the most catastrophic natural hazards, causing severe damage to many countries every year (Yu and Chen 2019). According to the statistics from the Emergency Events Database (EM-DAT; www.emdat.be/), TCs globally ranked as the top natural disaster in 2019 in terms of both the affected population (over 30 million) and direct economic losses (over 50 billion U.S. dollars). Reductions in TC-related damages rely heavily on the improvements in TC forecasting and warning systems, on the basis of better scientific understanding of the dynamical and physical processes, observation platforms, reconnaissance approaches, and so on. For example, Wu et al. (2017) estimated that each kilometer improvement in TC landfall track forecasts could lead to a reduction of the direct economic losses in China by about 97 million RMB (about 15 million U.S. dollars).
+Verification of TC forecast guidance [e.g., Yu et al. 2012; (World Meteorological Organization) WMO 2013] can provide useful guidelines in proper application of the forecasts and identify areas of improvements in the TC analysis and forecasting systems. Several TC forecasting centers, such as the three centers considered in this study, namely, the Regional
+Specialized Meteorological Center in Tokyo (hereafter RSMC-Tokyo) of the WMO, China
+Meteorological Administration (CMA), and the Joint Typhoon Warning Center (JTWC) of the
+United States, issue annual reports on their TC forecast performance. These annual evaluations provide basic track forecast verification statistics, such as the mean track position error as a function of forecast intervals. Based on these evaluations, various studies (e.g.,
+Chan 2010; Bauer et al. 2015; Peng et al. 2017; Emanuel 2018; Li et al. 2019) have documented significant improvements in TC track forecasts globally in recent decades. However, there have been recent arguments about whether the limit of TC track predictability has been reached, as a leveling off has been observed in the annual-mean forecast errors. For example,
+Landsea and Cangialosi (2018, hereafter LC18) argued that the TC track prediction is close to or has already reached the limit of predictability based on the analyses of linear trends in the annual TC track forecast errors averaged over 5 years for the North Atlantic and eastern
+North Pacific. However, Zhou and Toth (2020, hereafter ZT20) suggested that the range of skillful TC track forecast is expected to extend by one day per decade in the future based on an inverse error model for estimating the forecast error.
+The western North Pacific (WNP) region (including the South China Sea) has the most frequent TC activities among all TC basins, with several forecast agencies issuing real-time warnings and advisories. This article describes the progress and trends in TC track predictability by RSMC-Tokyo, CMA, and JTWC. It will then discuss how far the present TC track forecasts are from the limit of predictability, if such a limit exists. The rest of the article is organized as follows: 1) data sources, 2) long-term trends in the annual-mean TC track forecast errors, 3) evolution of objective TC track forecast guidance at the three centers, 4) analysis error and forecast error growth rate up to 120 h, 5) projection of PE into the future, and 6) conclusions and discussion.
+Data sources
+The three forecast agencies considered in this study include the RSMC-Tokyo, CMA, and
+JTWC. RSMC-Tokyo is the regional center designated by the WMO that is responsible for TC
+AMERICAN METEOROLOGICAL SOCIETY FEBRUARY 2022 E411 warnings and advisories in the WNP. CMA is selected as a representative agency of the WMO members in the WNP, as it issues TC warnings and advisories not only for its land areas and coastal waters, but also for the open seas to meet the increasing demand for disaster prevention and mitigation in various disciplines. While JTWC is not directly associated with the WMO, it is the third agency selected in this study as its warning products are routinely available through both the Global Telecommunication System (GTS) of the WMO and the
+JTWC’s website.
+The best track data of the three agencies are downloaded from their official websites, www.jma.go.jp/jma/jma-eng/jma-center/rsmc-hp-pub-eg/RSMC_HP.htm, http://tcdata.typhoon.org.cn (Ying et al. 2014; Lu et al. 2021), and www.metoc.navy.mil/jtwc/jtwc.html, respectively. The annual
+TC track forecast errors of RSMC-Tokyo and JTWC used in the “Long-term trends in the annualmean TC track forecast errors” section are cited from the annual reports downloaded from their official websites. The historical TC track forecast errors of CMA before 1997 are cited from the published verification reports (Fei et al. 1999), and those after 1997 are calculated from the TC track forecast data archived in CMA. The TC track forecast data of RSMC-Tokyo and JTWC used in the “Analysis error and forecast error growth rate up to 120 h” and “Projection of PE into the future” sections are also from the in-house archives of CMA, which were obtained routinely from the WMO GTS in real time. CMA best track data are adopted when calculating the track forecast errors used in the “Analysis error and forecast error growth rate up to 120 h” and “Projection of PE into the future” sections.
+Long-term trends in the annual-mean TC track forecast errors
+The position error (PE) is one of the statistics commonly used to evaluate TC track forecasts (Yu et al. 2012), which is defined to be the great circle distance between the forecast TC position and the corresponding best track position. The annual-mean PEs of the three agencies from 1990 through 2020 (Fig. 1) indicate significant improvements in TC track forecasts in the past decades. It is important to note that the sample sizes of the three agencies are different, and the forecast lead times have been extended at different rates among them over the years. RSMC-Tokyo and CMA began issuing 72-h (120-h) forecasts in 1997 (2009) and
+2001 (2010), respectively, whereas JTWC commenced the operation as early as 1962 (2001).
+If the trend of PEs from each agency is estimated by the simple linear Eq. (1), an improvement of 39–49 and 81–99 km per decade can be obtained for lead times of 24 and 48 h, respectively (Table 1):
+y =a ( iyear− 1989 ) +b, (1) t where y is the annual-mean PE at lead time t, iyear is the year, and a is the annual linear change rate of y. Further experiments are also carried out using an exponential equation in the following form:
+y(iyear−1990) y =y e , (2) t 0 where y is the estimated PE in 1990, and γ is the exponential change rate of PE with year.
+As shown by the coefficient of determination (R2) in Table 1, the evolution of PEs can be well fitted by both types of equations, with the exponential equations slightly better.
+This finding is consistent with that in ZT20 to certain extent in terms of the initial error in the official forecast being improved year by year with the same fraction. According to the exponential equations, PEs of 24- and 48-h forecasts are decreasing at a constant rate of 3%–4% per year, and the rate for 48-h forecasts is about 0.3%–0.4% higher than that for 24-h forecasts.
+AMERICAN METEOROLOGICAL SOCIETY FEBRUARY 2022 E412
+Fig. 1. The annual-mean PE (km) of TC track forecasts from 1990 to 2020 at (a) RSMC-Tokyo, (b)
+CMA, and (c) JTWC. The sample sizes are listed at the bottom of each chart. Note that the sample size is not available for RSMC-Tokyo before 2000.
+AMERICAN METEOROLOGICAL SOCIETY FEBRUARY 2022 E413
+Table 1. Fitting equations for the annual-mean PEs of 24- and 48-h forecasts during 1990–2020 with simple linear regression or with exponential regression.
+y = a(iyear − 1989) + b y = y eγ(iyear−1990) t t 0 a b R2 (%) y γ R2 (%)
+RSMC-Tokyo 24 h −3.89 188.28 88.67 202.16 −0.032 88.90
+48 h −8.09 359.98 89.63 393.06 −0.037 89.74
+CMA 24 h −4.93 210.70 89.06 232.81 −0.040 90.97
+48 h −9.92 399.08 81.53 438.20 −0.043 89.24
+JTWC 24 h −4.86 214.35 83.73 230.35 −0.036 89.27
+48 h −9.53 393.62 83.27 426.62 −0.040 88.60
+The leveling off of the decreasing trends in 24- and 48-h PEs is noticeable in recent years at all the three agencies, similar to the trend reported by LC18 for hurricanes in the North
+Atlantic and eastern North Pacific. However, the recent leveling off of the PE trends does not necessarily mean that the limit of TC track predictability has been reached, since similar leveling off of the PE trends for a few years have occurred several times in the past three decades.
+Taking the 24-h forecasts by JTWC (Fig. 1c) as an example, there are roughly three periods during the 1990s, 2000s, and 2010s, respectively, each with the PEs fluctuating around a certain value without significant downward trend. This demonstrates that the improvement of TC track forecasts is not steadily linear, but shows a stepwise feature. Similar features in forecast errors are also revealed in the other two agencies (Figs. 1a,b).
+A changepoint detection method as described in appendix A is adopted to analyze the stepwise features quantitatively. By this method, two changepoints are identified for the 24-h PEs from JTWC (Fig. 2c) to stratify the PEs into three periods: 1990–99, 2000–11, and 2012–20.
+The PEs fluctuated around 199 km during the first period, then decreased to 123 km in the second period, and further dropped to 85 km in the third period. The differences in the mean
+PEs in the three periods are statistically significant at the confidence level of 99% using a t test. The standard deviations of PEs decrease step by step as well from 19 to 12 km, and then to 6 km. Similar stepwise features with significant changepoints can be identified for the
+24-h PEs from both RSMC-Tokyo and CMA (Figs. 2a,b). Whereas the changepoint timings are different among the three agencies, only 1- or 2-yr differences exist for the first changepoint
+(2000–02). The second changepoint timing in 2012 for CMA is the same as for JTWC, but the RSMC-Tokyo timing is three years later in 2015. Changepoints for the 48-h PEs are also calculated as summarized in Table 2. It is noted that these are not homogeneous samples, the incremental improvements in the PEs among the three agencies are quite large across the first changepoint but considerably reduced across the second changepoint.
+The long-term linear trend and changepoints are not calculated for 72, 96, and 120 h due to relatively short historical records of the forecast practice. One point to note is that the recent 72-h forecast errors are about the same as the 24-h forecast errors in early 1990s, which means a 48-h (2-day) improvement in lead time during the past 30 years.
+Evolution of objective TC track forecast guidance at the three centers
+The above trends in annual-mean PEs are possibly due to the advancements in the objective track forecast guidance. At RSMC-Tokyo, the TC track forecasts from the numerical weather prediction (NWP) models developed by the Japan Meteorological Agency (JMA) have been the major forecast guidance since the 1990s, including the regional typhoon model JMA-TYM (Sakai and Hosomi 2004; Ueno and Onogi 1995) and the global spectral model JMA-GSM (Nakagawa 2009). The JMA-TYM underwent a significant upgrade in 2001 with the horizontal grid spacing reduced from 40 to 24 km and the number of vertical levels increased from 15
+AMERICAN METEOROLOGICAL SOCIETY FEBRUARY 2022 E414 to 25 (Mino and Nagata 2001).
+This upgrade corresponds quite well to the first changepoint in 2002 for RSMC-Tokyo (Fig. 2a). According to
+Nagata and Tonoshiro (2001), the first (unsuccessful) attempt of a consensus scheme was tested as an average of forecasts from the JMA-GSM and JMA-TYM with a bias correction and an initial adjustment. With the decommissioning of the JMA-TYM in 2007, the TC track forecast guidance was then based on the
+JMA-GSM. Since 2015, RSMC-
+Tokyo has employed a consensus method, which is the mean of the predicted TC positions from multiple NWP models that includes the JMA-GSM and models from other meteorological centers (JMA 2018). The timing of this consensus approach corresponds quite well with the second changepoint in 2015 for
+RSMC-Tokyo.
+In CMA, an important advancement in the objective forecast guidance has been from the multimodel consensus (CMA-MCON; CMA 2001,
+2012), which originally included both statistical and dynamical members (Table 3). Fig. 2. Changepoint analyses of the 24-h PEs at (a) RSMC-Tokyo, (b) CMA, and (c) JTWC from 1990 to 2020. The sample sizes are listed at the bot-
+Before 2006, the CMA-MCON tom of each chart.
+included the climate and persistency scheme CLIPER, the statistical–dynamical scheme SD85, the statistical method SCSM, and the JMA-TYM. As the only NWP member in the CMA-MCON at that time, the above-mentioned significant upgrade of JMA-TYM in 2001 should have contributed also to the first changepoint in
+2001 for CMA (Fig. 2b). In 2007, all the statistical techniques were removed, and the
+CMA-MCON was purely based on NWP models, which included three models developed by CMA and one by JMA. The three CMA models were the TC model based on the
+Pennsylvania State University–National Center for Atmospheric Research (PSU–NCAR)
+Mesoscale Model version 5 (MM5-TCM; Wang et al. 2008), the TC model based on the
+Global/Regional Assimilation and Prediction System (GRAPES-TCM; Huang et al. 2009;
+Huang and Liang 2010), and the global spectral model CMA-GSM (Qu et al. 2009a,b).
+After the JMA-TYM was discontinued in November 2007, the JMA-GSM was introduced as a member of the CMA-MCON. After 2016, additional NWP models were introduced into
+AMERICAN METEOROLOGICAL SOCIETY FEBRUARY 2022 E415
+Table 2. Changepoints (years) in the annual-mean PEs of 24- and 48-h forecasts during 1990–2020, and the related milestones in upgrading objective forecast guidance.
+RSMC-Tokyo CMA JTWC
+Changepoint No. Changepoints Milestones in upgrading objective forecast guidance
+1 24 h 2002 2001 2000 1) A significant upgrade of JMA-TYM in 2001; JMA-TYM was a regional model most widely used during that period
+2) Shift of statistical–dynamical hybrid consensus to purely dynamical consensus at
+CMA during the middle 2000s
+48 h 2002 2001 2000 3) Implementation of multi-NWP-model consensus at JTWC in 2000
+4) Improvement of global deterministic models with horizontal grid spacing reduced to ~50 km during the early to the middle 2000s
+2 24 h 2015 2012 2012 1) Implementation of multi-NWP-model consensus at RSMC-Tokyo in 2015
+2) Implementation of multi-EPS consensus at CMA in 2012
+48 h 2013 2012 2011 3) Inclusion of EPS forecasts in multi-NWP-model consensus at JTWC in 2013
+4) Improvement of global deterministic models with horizontal grid spacing reduced to ~20 km during the late 2000s to the early 2010s the CMA-MCON (Guo et al. 2019), including the High Resolution Forecast of the European
+Centre for Medium-Range Weather Forecasts (ECMWF-HRES), the Global Forecast System of the National Centers for Environmental Prediction (NCEP-GFS), and the Unified Model of the Met Office (UKMO-UM). Furthermore, the MM5-TCM was replaced by the WRF-TCM in
+2016, and the Tropical Regional Atmospheric Modeling for the South China Sea (TRAMS;
+Chen et al. 2020) was also included.
+Another significant advancement in the consensus forecast guidance at CMA has been the implementation of a selective consensus scheme based on the Ensemble Prediction System (EPS) (CMA-SCON; Qi et al. 2014). The core concept of the CMA-SCON is that the EPS members are selected and weighted based on certain criteria, such as the forecast error at a short lead time (say 6 or 12 h). The CMA-SCON was initially based on the EPS of ECMWF (ECMWF-EPS) in 2012 (Table 4), and then included the EPSs of NCEP (NCEP-GEFS) and UKMO (UKMO-EPS)
+Table 3. Evolution of the members of TC track multimodel consensus forecast scheme at CMA (CMA-MCON). Thick arrows indicate that the models are still in service. See the text for more explanation.
+AMERICAN METEOROLOGICAL SOCIETY FEBRUARY 2022 E416
+Table 4. Evolution of the members of TC track consensus forecast scheme based on EPSs at CMA (CMA-SCON). Thick arrows indicate that the models are still in service. See the text for more explanation.
+in 2014 and 2017, respectively. This implementation of the CMA-SCON in 2012 is considered to have been the primary contribution to the improvement in TC track forecast guidance across the second changepoint in 2012 (Fig. 2b) at CMA.
+At JTWC, it has been recognized that different TC track forecasting techniques have strengths and weaknesses in which they vary with basin, time of the year, synoptic situation, and forecast range. Thus, a variety of objective TC track forecast techniques have been used as guidance by the forecasters at JTWC. In the 1990s, the objective forecast guidance included six categories: extrapolation, climatology and analogs, statistical, dynamical, hybrid, and empirical or analytical. An important improvement in 2000 was the application of consensus scheme (NCON) based on five NWP models (Table 5): the Navy Operational
+Global Atmospheric Prediction System (NOGAPS), Geophysical Fluid Dynamics Laboratory
+Hurricane Prediction System–Navy version (GFDN), UKMO-UM, JMA-GSM, and JMA-TYM. A remarkable improvement in the JTWC TC track forecasts following the first changepoint in
+2000 (Fig. 2c) is thus attributed to the implementation of NCON. The NCON was upgraded in
+2001 and further enhanced in 2004 with a new scheme called CONW (hereafter JTWC-CONW) with more NWP models incorporated, such as the NCEP-GFS, and the Naval Research Laboratory Coupled Ocean–Atmosphere Mesoscale Prediction System–Tropical Cyclone (COAMPS-
+TC). The ensemble means of NCEP-GEFS and JMA-TEPS track forecasts were included in the
+JTWC-CONW in 2013 (close to the second changepoint), followed by adding ECMWF-EPS in
+2017. All regional models were removed in the 2019 version of the JTWC-CONW. The present scheme includes six global deterministic NWP models (NAVGEM, GALWEM, ECMWF-HRES,
+JMA-GSM, NCEP-GFS, UKMO-UM) and two global EPSs (ECMWF-EPS, NCEP-GEFS).
+In summary, the objective TC track forecast guidance at the three agencies has been improved in three distinct stages since 1990. The first stage was in the 1990s during which the guidance products were based on combinations of climatological, statistical, and regional dynamical model techniques. The second stage was in the 2000s during which significant improvements in deterministic regional and global model guidance were achieved. The upgrade of the most widely used regional typhoon model JMA-TYM in 2001 and the implementation of a purely NWP-based consensus scheme at JTWC in 2000 correspond quite well to the changepoints during 2000–02 (Fig. 2 and Table 2). The third stage of TC guidance product improvement started around 2011–12 and was characterized by a combined application of high-resolution deterministic models and multimember EPSs. Global deterministic models were improved with a reduction in the horizontal grid spacing from 100 to 200 km
+in the 1990s to around 50 km during the early to the middle 2000s, and then to about 20 km during the late 2000s to the early 2010s. The regional deterministic typhoon models as listed in Tables 3 and 5 now have horizontal grid spacing of 1–3 km. However, the benefits of regional models in TC track forecasts gradually diminished in the latter half of the 2010s as the deterministic global models, such as the ECMWF-HRES and NCEP-GFS, have reached a level with horizontal grid spacing of around 10 km. As a result, both JTWC and RSMC-Tokyo no longer utilize TC track forecast guidance from regional models. Similarly, the TC track
+AMERICAN METEOROLOGICAL SOCIETY FEBRUARY 2022 E417
+Table 5. Evolution of the TC track consensus forecast scheme and its member models at JTWC. Thick arrows indicate that the models are still in service. See the text for more explanation.
+forecast guidance based on regional NWP models has been utilized less and less in CMA as shown in Tables 3 and 4.
+It is noteworthy that the multiyear mean PEs have been reduced and have tended to become more consistent among the three agencies (Fig. 3). Following the discussion in ZT20, multiyear mean values are used here to smooth the interannual variabilities, such as those related to
+ENSO, that may lead to variations in PEs irrespective of the agency forecast capabilities. The smaller differences in PEs among the three agencies during 2015–20 than during 2009–14 can be attributed to the extensive international exchanges of TC track forecast guidance, which have resulted in an increasing overlap of the NWP guidance. There is also a convergence in the methodology for utilizing that guidance at these three agencies as described above.
+Analysis error and forecast error growth rate up to 120 h
+The initial positions of the official forecast guidance discussed in the “Long-term trends in the annual-mean TC track forecast errors” section cannot be used directly to calculate the analysis errors, as they are always subjectively set to be the same as the real-time positions determined by the forecasters. Therefore, an inverse method similar to that used by ZT20 is applied here to estimate the analysis error and the forecast error growth rate by assuming that the forecast errors grow exponentially with lead time in the following form:
+AMERICAN METEOROLOGICAL SOCIETY FEBRUARY 2022 E418 y =x e α(i−1)dt , (3) t 0 where x is the estimated analysis error, α is the growth rate of the error at every 24-h interval, dt is
+24 h, and i varies from 2 to 6, which corresponds to
+24, 48, 72, 96, and 120 h in lead time. Equation (3) has the same form as Eq. (4) of the simplified statistical analysis and forecast error estimation methodology (SAFE-s) proposed by ZT20, but the commonly used PEs (called as perceived error by ZT20) are used here instead of the “true errors” used in ZT20.
+Fig. 3. The maximum (upper bound of the shaded
+We start with JTWC as it has the longest history of area) and minimum (lower bound of the shaded issuing 120-h track forecasts among the three agen- area) multiyear mean PEs among the three agencies cies. A total of 90 data points are used in fitting the during 2009–14 (red) and 2015–20 (blue).
+five forecast lead times (24, 48, 72, 96, 120 h) in each year from 2003 to 2020. Note that the first year here is 2003 based on the data availability, instead of 2001, which is when JTWC began its 120-h forecasts. The two unknowns x and α are estimated year by year based on the annual-mean
+PEs for all track forecasts lasting 120 h that have best track data for verification. If a forecast lasts less than 120 h, or the corresponding best track lasts less than 120 h, the forecast is excluded from the calculation. By contrast, ZT20 used all forecasts, no matter whether they lasted 120 h or not. Inclusion of the samples that ended at a lead time shorter than 120 h may bring unrealistic information into the model for the error growth up to 120 h. Another important exclusion is the forecast of any TC weaker than a tropical storm at the initial time, as two of the three agencies, RSMC-Tokyo and CMA, did not issue 120-h forecasts for those weak TCs.
+The usability of Eq. (3) is evaluated by R2 and the standard error of the mean (SEM) criteria (ZT20; Peña and Toth 2014). As shown in Figs. 4a and 4b, R2 is significant at the 99% confidence level and the fitting errors meet the 97% criteria of SEM (denoted as SEM97 hereinafter) for the two sample years of 2003 and 2020. Other years have similar results. The integrated fitting error, which is the sum of the fitting error at all the five forecast lead times, is then calculated and compared with that of SEM97 (Fig. 4c). Statistically significant fittings by Eq.
+(3) are obtained for JTWC in all the years. Figure 4c also shows the results for RSMC-Tokyo
+(2009–20) and CMA (2010–20) for a homogeneous sample size among the three agencies.
+The only one outlier is the year of 2019 for CMA, which has an integrated fitting error larger than the SEM97 criterion.
+Although experiencing interannual variability, the analysis error x of JTWC shows a notable decreasing trend (Fig. 5a), which has a rate of 2.1% per year when fitted with the exponential
+Eq. (2). Prior to the 2012 changepoint for the 24-h forecasts, the mean value of x is 60 km, but it decreases to 50 km afterward. This downward trend is possibly due to improved observations of TC positions, or better initialization of TCs in the NWP models. To address this issue, we should first note that there are always some uncertainties in determining true TC positions due to the lack of in situ observations over the oceans. In particular for the WNP, satellite measurements are almost the only information source. As a result, it is quite normal to have some differences among the best track positions from different agencies due to different satellite data application techniques and experiences. If we assume the mean of the best track positions from the three agencies as the “truth,” the error in the determination of the true TC positions (BE) can be defined to be the mean distance between the three best track
+positions and the presumed “truth.” With this definition, the annual mean BEs remain almost unchanged during the past 20 years with a mean value of 14 km (Fig. 6). Considering the fact
+AMERICAN METEOROLOGICAL SOCIETY FEBRUARY 2022 E419
+Fig. 4. (a) Sample fitted curves and (b),(c) fitting errors of the exponential Eq. (3). The two samples in (a) and (b) are for JTWC during 2003 (black color) and during 2020 (red color), respectively. In (c), annual fitting errors (solid lines) integrated through all of the five lead times for comparison with the corresponding
+SEM97 (dashed lines) are given for JTWC (blue), RSMC-Tokyo (black), and CMA (red).
+that there have been no revolutionary developments in the tools or techniques that these three forecast agencies rely on to determine the TC center position during the past 20 years, it can be deduced that it should not be better TC position observations which have contributed to the decrease in the analysis error x . The reduction in x is rather more likely associated with the improvements in the grid resolution and data assimilation techniques of the NWP models.
+The error growth rate α fluctuates around 0.018 without significant increasing or decreasing trend through all the 18 years (Fig. 5b). However, a notable feature for JTWC is that α has larger fluctuations during the decade of the 2000s than in the 2010s. The extremes of α before 2010 are 0.025 in 2008 (the maximum) and 0.016 in 2007 (the minimum), whereas the maximum and minimum after 2010 are 0.020 in 2019 and 0.015 in 2020, respectively.
+Such a reduction in the fluctuations of α may imply that the skill of the NWP models, which the JTWC forecasts have relied on, has become more stable in the 2010s than in the 2000s.
+While the RSMC-Tokyo and CMA have a shorter history of 120-h forecasts, their x and α values are generally similar to JTWC after 2011 (Figs. 5a,b). The decrease in the x values for
+CMA is the largest because CMA had the largest x values in the beginning, but the smallest at the end of the period. An important result is that α has the same mean value of 0.018 for all the three agencies, although they may not be the same in any given year. As stated by ZT20,
+AMERICAN METEOROLOGICAL SOCIETY FEBRUARY 2022 E420 a stable mean α should be a reflection of the stability of the dynamical guidance used by the forecasters. Thus, it can be concluded that the advancement in TC track forecast capability during the 2010s should have been contributed mainly by the improvements in initial analyses of the NWP models.
+Projection of PE into the future
+As summarized in the beginning section, some researchers have argued that the limit of TC track predictability is close to, or has already been met, but others have doubted that the range of skillful TC track forecasts can be further extended in the future.
+In this section, projections of future PEs in the WNP will be estimated using a similar method adopted by ZT20 in their analysis for Atlantic hurricanes. There are two key assumptions. One is that the decreasing trend of the analysis errors x will remain unchanged. The other is that the error growth rate α will be a constant of 0.018 as obtained
+Fig. 5. (a) Analysis errors (x ; km) and (b) growth rates of the error over above. According to Table 2, the 0 the five 24-h forecast intervals (α) by RSMC-Tokyo (black), CMA (red), earliest second changepoint of and JTWC (blue).
+PEs is 2011. Therefore, the year
+2011 is selected as the starting point for setting up the future projection models to ensure the representativeness of the latest technology developments. This choice also ensures the inclusion of as many data points as possible to have better statistical significance.
+Then the following three steps are taken to project the future PEs for TCs of tropical storm category and above.
+First, because the forecast accuracy each year is generally different among the three agencies, the maximum and minimum x to represent the worst and best possibilities in the WNP are selected for each year as xmax =max { xj,j=1,2,3 } , (4) xmin =min { xj,j=1,2,3 } , (5) where j = 1, 2, 3 refers to the three agencies.
+AMERICAN METEOROLOGICAL SOCIETY FEBRUARY 2022 E421
+Fig. 6. Annual-mean BEs during 2000–19 as defined in the schematic chart and equation in the upper-right corner; B, B , and B are the best track positions from the three agencies, and T is the presumed true position of a TC, defined to be the mean of B , B , and B . BE, BE , and BE are the distance between the three
+1 2 3 1 2 3
+best track positions and the presumed true position. The sample sizes are listed at the bottom of the chart.
+Second, the following two exponential equations [Eqs. (6) and (7)] are set up for xmax and xmin during 2011–20 using the inverse method:
+xmax =71.57e −0.0559(iyear−1), iyear=1,...,10, (6) xmin =60.53e −0.0574(iyear−1), iyear=1,...,10; (7)
+R2 values for these two equations were 72% and 76%, respectively. The unexplained variances are assumed to be due to the significant year-to-year variability, which is not a concern because the focus here is to calculate the trends in x . Based on these two equations, the future analysis errors xmax and xmin are projected to be between 20 and 30 km by 2030 and below
+20 km by 2035 (Fig. 7a). Note that the two curves in Fig. 7a are becoming slightly closer to each other with time as xmax has a larger decreasing rate than xmin.
+Third, Eq. (3) is utilized to estimate the maximum and minimum PEs for lead times of
+24–120 h by setting α as 0.018 (Fig. 7b). Thus, the 24-h PEs are projected to continue a slow decline to below 40 km by 2030. The projected 120-h PEs of 160–200 km during 2030 are almost equal to the 72-h PEs around 2015, implying a possible 2-day improvement in lead time in 15 years. The projected PEs for lead times of 144 and 168 h during 2021 and 2035 are also provided with an assumption that α will keep the same up to 168 h. The projected PEs lower than 400 km for 7-day track forecasts by 2035 would certainly be a significant improvement.
+Finally, the question arises as to whether there are limits of the PEs and when we will likely reach them if they do exist. As discussed in the “Analysis error and forecast error growth rate up to 120 h” section, it is the decreasing analysis error x that has contributed to the more accurate TC track forecasts in the WNP during the past decade. In this connection, it is reasonable to assume that the limits of the PEs will be set by the lower limit of x , which may be estimated by the method presented in appendix B. Based on Eq. (B5) and the presumed “truth” for the TC position as in the “Analysis error and forecast error growth rate up to 120 h” section, the lower limit of x is estimated to be 18 km. Thus, the presumed limits of PEs may be reached by 2033
+(2037) if the model for xmin( xmax) is used, which implies approximately 15 years (13–17 years) remain ahead. We should keep in mind that these limits would potentially be violated through
+AMERICAN METEOROLOGICAL SOCIETY FEBRUARY 2022 E422 more accurate observation of TC positions, which is likely to be realized by the gradual reintroduction of aircraft dropsondes in the WNP (Ito et al. 2018;
+Chan et al. 2018) or the development of innovative reconnaissance techniques, such as rocket soundings (Lei et al. 2017) and availability of microwave imagers on geostationary satellites (WMO 2019).
+Conclusions and discussion
+During the past 30 years, the development of objective TC track forecast guidance in the
+WNP region has undergone three milestones, namely, from statistical–dynamical hybrid to dynamical, and then to dynamical–ensemble hybrid. The developments in the objective forecast guidance, together with the improved application strategies, have resulted in a progressive 48-h (2-day) improvement in TC track forecasts at RSMC-Tokyo, CMA, and JTWC.
+The annual-mean 24- and 48-h
+PEs have decreased at an average rate of 3%–4% per year, but with clearly identifiable changepoints corresponding well to
+Fig. 7. Fitted (solid lines) and projected (dashed lines) (a) analysis errors the milestones in upgrading and (b) PEs from 2011 to 2035. The blue triangles (red squares) in (a) objective forecast guidance. The are the maximum (minimum) analysis errors in the corresponding year.
+multimodel consensus of global
+The upper (lower) bound of each shaded area in (b) is for the maximum deterministic models and EPSs (minimum) PEs.
+has been widely adopted as guidance for TC track forecasting with higher data availability and extensive international exchanges of the NWP model products. This convergence toward utilizing the multimodel consensus forecast guidance appears to have contributed to more similar accuracies in TC track forecasts by the three agencies.
+An exponential model is applied to study the growth of the PEs from 24 to 120 h for TCs of tropical storm category and above. It is found that the decrease in the analysis errors (x ) is a major contributor to the improvements in TC track forecasts, which is more likely associated with the improvements in the initial analyses of NWP models instead of the better TC position observations. The 24-h error growth rates (α) for all the three agencies fluctuate around a mean value of 0.018 without a significant trend in recent years. Such an α of 0.018 corresponds to an error doubling time of 38.5 h, which falls in the range of 30–50 h as proposed by Plu (2011).
+AMERICAN METEOROLOGICAL SOCIETY FEBRUARY 2022 E423
+However, we cannot yet determine whether such a time of 38.5 h can be regarded as that of a perfect model, as the results from different models could be markedly different (Plu 2011).
+The global models, such as the ECMWF-HRES and the NCEP-GFS, have been improved with the horizontal grid spacing reduced from about 20 km in the early 2010s to ~10 km recently, which will be further reduced to around 5 km in the near future. The better initialization of the TC as a result of the finer resolution should have contributed to the improvements in the initial analysis and thus the accuracy of TC track forecasts by NWP models. The improving capability in satellite measurements combined with the advanced data assimilation techniques, especially a shift toward all-sky data assimilation (Geer et al. 2019), is expected to lead to an even better representation of the initial TC vortex structure and the TC environment. Then is there still room for further reducing TC track forecast errors via reductions in the forecast error growth rate α with the development of model physics for higher resolution
+models and the application of new technology, such as artificial intelligence or machine learning algorithms? As argued by ZT20, the simulation of large-scale circulation controlling the movement of TCs may be near perfect, which may explain the nearly stable α obtained by both this study and ZT20.
+Based on the findings in this study, it can be concluded that the limit of TC track predictability has not been reached yet in the WNP. A further 2-day improvement is projected by
+2035 based mainly on two assumptions: 1) the decreasing rate of x will remain the same in the future as in the past 10 years at 5.6%–5.7% per year; 2) α will remain to be a constant of
+0.018 per 24 h, the mean value in the past decade. These prerequisites are similar to those used by ZT20 for Atlantic hurricanes. Nevertheless, the decreasing rate of 5.6%–5.7% in analysis errors is larger than that of 3.9%–4.9% in ZT20 (see their Table 1), implying a faster improvement in the WNP than in the North Atlantic. It also needs further study to understand whether a larger α of 0.018 in this study relative to that of 0.014–0.015 in ZT20 is an indication that the TC track forecasts for the WNP are more difficult than that for the North Atlantic.
+Another explanation might be the use of PE in this study instead of the use of “true error” in
+ZT20. The larger decreasing rate of x results in a projected faster improvement in TC track forecasts in the future for the WNP (2 days in 15 years) than that for the North Atlantic (1 day in 10 years). Anyway, it should be noted that it may not be suitable for a direct comparison of the results obtained in this study with those in ZT20. As mentioned in the “Analysis error and forecast error growth rate up to 120 h” section, we have applied the exponential equation only for the forecasts lasting 120 h, whereas ZT20 included the forecasts shorter than 120 h.
+The inclusion of the forecasts shorter than 120 h may bring unrealistic information into the exponential model (not shown).
+Uncertainties in determining true TC positions may impose limits on the accuracy of initial analysis for TC track forecasts. Such presumed limits will be reached in about 15 years based on a further assumption that there will be no significant improvement in observing
+TC positions. However, these limits should have a potential to be overcome through more accurate TC position observations as discussed in the “Projection of PE into the future” section. It should also be emphasized that such a projection is based on the long-term trend of the annual-mean PEs, with both the interannual and interstorm variations smoothed out.
+The significant interannual fluctuations of x and α (Fig. 5) imply that the predictability of TC tracks should noticeably change with the large-scale environment, as pointed out by ZT20 and others (e.g., Peng et al. 2017). Distributions of the PEs in any given year have revealed the existence of some outliers significantly larger than the mean values (Chen et al. 2021), which may be attributed to rapid changes in synoptic environments or to the inclusion of weak TCs that often have larger uncertainties in their center determination. Although LC18 pointed out that the outliers might be inherently unpredictable, the decreasing annual standard deviation of PEs as shown in Fig. 2 demonstrates that the outliers should have been improved along
+AMERICAN METEOROLOGICAL SOCIETY FEBRUARY 2022 E424 with the mean PEs. Interesting issues that deserve further study include whether the outliers have been improved at the same rate as the mean PEs, whether the error growth rates of these outliers are different from the mean PEs, and so on.
+Acknowledgments. The study was supported by the National Key R&D Program of China under Grants
+2020YFE0201900 and 2017YFC1501601, the Scientific Research Project of Shanghai Science and
+Technology Commission (19dz1200101), the National Natural Science Foundation of China (Grant
+41705096), Typhoon Scientific and Technological Innovation Group of Shanghai Meteorological
+Service, and WMO Typhoon Landfall Forecast Demonstration Project. We acknowledge the WMO
+World Weather Research Programme and Tropical Cyclone Programme for their roles in coordinating the WMO Typhoon Landfall Forecast Demonstration Project. We thank the enlightening comments and suggestions by the three anonymous reviewers, which helped improve the scientific contents and writing of the article. Prof. Yuqing Wang of the University of Hawai‘i helped us a lot during the revision process of the article.
+Data availability statement. The TC track forecast datasets used in this study were from the in-house archives of CMA, which were obtained routinely from the WMO GTS in real time and are freely available upon request. The best track dataset and the historical annual TC track forecast errors were obtained from the published verification reports or official websites of the three agencies as described in the “Data sources” section of the article.
+AMERICAN METEOROLOGICAL SOCIETY FEBRUARY 2022 E425
+Appendix A: Changepoint detection method
+A changepoint in this study is defined as the time instant at which the mean of a time series {x, i = 1, 2, …, n} changes abruptly. To find a changepoint, we first choose a point x , divide i m the time series into two sections A and B, and compute the variance (var and var ) for each
+A B
+section. Then a function J is defined as
+J =(m–1)var +(n–m+1)var .
+A B
+A changepoint is the time instant m with minimum J when we change m from 4 to n − 2.
+If the number of changepoints is K, the number of divided sections is K + 1. We define
+K+1
+J(K)=∑num var ,num ≥3.
+k k k k=1
+Here, num is the number of data points and var is the variance of a section, with k varying k k from 1 to K + 1.
+A series of sensitivity tests have been carried out to find the best choice of K for the annualmean 24-h PEs during 1990–2020, with K varying from 1 to 4. The standard deviations for each section and their mean values are shown in
+Fig. A1. Note that the mean standard deviation decreases sharply when K increases from 1 to 2 for RSMC-Tokyo, while the standard deviations are almost steady when K increases from 2 to
+3 and 4. There is no result for CMA when K is equal to 3 and 4 because J shows an increase, rather than a decrease or keeping stable as compared with the result of K = 2. Similar results are found for JTWC when K = 4. Thus, it can be concluded that there are 2 changepoints in the Fig. A1. Standard deviations for each section (scattered annual-mean 24-h PEs for all the three agen- symbols) and their mean values (dots connected with solid lines) with the number of changepoints (K) for the cies. Similar procedures are performed for 48-h
+24-h track forecasts varying from 1 to 4.
+PEs with also 2 changepoints identified, which are identical or close to those for 24-h PEs.
+After identifying the changepoints, the statistical significance of the differences in the means between neighboring sections is further examined with the two-sample t test, and a
+99% confidence level is obtained for all of them.
+AMERICAN METEOROLOGICAL SOCIETY FEBRUARY 2022 E426
+Appendix B: The lower limit of the analysis error of a forecast guidance
+Set B , B , and B to be the best track positions from the three agencies, respectively, and T is the true position. BE , BE , and BE are the best track errors relative to T.
+Set G to be the analysis position of a forecast guidance, and GE is the analysis error of the forecast guidance relative to T, which is called the true analysis error.
+Any one of B , B , and B (labeled by B) may be used to estimate the analysis error of the
+1 2 3 i forecast guidance (x ):
+x =||G−B ||=|| G−T − B −T ||=||GE−BE ||, (B1)
+0 i i i x2 =GE2+BE2−2ρ×GE×BE . (B2)
+0 i i
+Assumption 1: The true analysis error of a forecast guidance GE is independent of the best track error BE, i.e., ρ = 0. So, i x2 =GE2+BE2. (B3)
+0 i
+Assumption 2: The analysis position of a forecast guidance cannot be more accurate than any of the best track positions, which implies that the true analysis error of a forecast guidance
+GE cannot be smaller than the largest best track error, i.e.,
+BE +BE +BE
+GE≥max{BE ,i=1,2,3}≥ 1 2 3. (B4) i 3
+Consequently, the lower limit of x is obtained by substituting (B4) into (B3):
+ 2
+BE +BE +BE x2≥ 1 2 3 +BE2. (B5)
+0  3  i
+AMERICAN METEOROLOGICAL SOCIETY FEBRUARY 2022 E427
+References
+Bauer, P., A. Thorpe, and G. Brunet, 2015: The quiet revolution of numerical weath- Mino, H., and M. Nagata, 2001: Outline of the new typhoon prediction models at er prediction. Nature, 525, 47–55, https://doi.org/10.1038/nature14956. JMA. RSMC Tokyo–Typhoon Center Technical Review, No. 4, 13 pp., www.jma.
+Chan, J. C. L., 2010: Movement of tropical cyclones. Global Perspectives on Tropi- go.jp/jma/jma-eng/jma-center/rsmc-hp-pub-eg/techrev/text4-1.pdf.
+cal Cyclones: From Science to Mitigation, Vol. 4. World Scientific, 133–148, Nagata, M., and J. Tonoshiro, 2001: A simple guidance scheme for tropical cyclone https://doi.org/10.1142/7597. predictions. RSMC Tokyo–Typhoon Center Technical Review, No. 4, 14 pp.,
+Chan, P. W., N. G. Wu, C. Z. Zhang, W. J. Deng, and K. K. Hon, 2018: The first www.jma.go.jp/jma/jma-eng/jma-center/rsmc-hp-pub-eg/techrev/text4-3.
+complete dropsonde observation of a tropical cyclone over the South China pdf.
+Sea by the Hong Kong Observatory. Weather, 73, 227–234, https://doi.org/ Nakagawa, M., 2009: Outline of the high resolution global model at the Japan
+10.1002/wea.3095. Meteorological Agency. RSMC Tokyo–Typhoon Center. Technical Review, No.
+Chen, G. M., X. P. Zhang, M. Q. Yang, H. Yu, and Q. Cao, 2021: Performance of 11, 13 pp., www.jma.go.jp/jma/jma-eng/jma-center/rsmc-hp-pub-eg/techrev/ tropical cyclone forecasts in the western North Pacific in 2017. Trop. Cyclone text11-1.pdf.
+Res. Rev., 10, 1–15, https://doi.org/10.1016/j.tcrr.2021.03.002. Peña, M., and Z. Toth, 2014: Estimation of analysis and forecast error variances.
+Chen, Z. T., and Coauthors, 2020: Technical scheme and operational system of Tellus, 66A, 21767, https://doi.org/10.3402/tellusa.v66.21767.
+tropical high-resolution model (TRAMS-V3.0) (in Chinese). J. Trop. Meteor., Peng, X., J. Fei, X. Huang, and X. Cheng, 2017: Evaluation and error analysis
+36, 444–454, https://doi.org/10.16032/j.issn.1004-4965.2020.041. of official forecasts of tropical cyclones during 2005–14 over the western
+CMA, 2001: Regulations on typhoon operation and service of CMA: 3rd revision North Pacific. Part I: Storm tracks. Wea. Forecasting, 32, 689–712, https://doi.
+(in Chinese). China Meteorological Administration Doc., 105 pp. org/10.1175/WAF-D-16-0043.1.
+—, 2012: Regulations on typhoon operation and service of CMA: 4th revision Plu, M., 2011: A new assessment of the predictability of tropical cyclone tracks.
+(in Chinese). China Meteorological Administration Doc., 83 pp. Mon. Wea. Rev., 139, 3600–3608, https://doi.org/10.1175/2011MWR3627.1.
+Emanuel, K., 2018: 100 years of progress in tropical cyclone research. A Century Qi, L. B., H. Yu, and P. Y. Chen, 2014: Selective ensemble-mean technique for tropiof Progress in Atmospheric and Related Sciences: Celebrating the American cal cyclone track forecast by using ensemble prediction systems. Quart. J. Roy.
+Meteorological Society Centennial, Meteor. Monogr., No. 59, Amer. Meteor. Meteor. Soc., 140, 805–813, https://doi.org/10.1002/qj.2196.
+Soc., https://doi.org/10.1175/AMSMONOGRAPHS-D-18-0016.1. Qu, A. X., and Coauthors, 2009a: The initialization of tropical cyclones in the
+Fei, L., Y. M. Xu, and X. T. Lei, 1999: The operation and research on anomalous NMC global model. Part I: Scheme design (in Chinese). Acta Meteor. Sin., 67, movement of tropical cyclones in China (in Chinese). Atmos. Sci. Res. Appl., 716–726.
+1999, 114–125. —, and Coauthors, 2009b: The initialization of tropical cyclones in the NMC
+Geer, A. J., S. Migliorini, and M. Matricardi, 2019: All-sky assimilation of infra- global model Part II: Implementation (in Chinese). Acta Meteor. Sin., 67, red radiances sensitive to mid- and upper-tropospheric moisture and cloud. 727–735.
+Atmos. Meas. Tech., 12, 4903–4929, https://doi.org/10.5194/amt-12-4903- Sakai, R., and T. Hosomi, 2004: Improvement of the JMA typhoon model by using
+2019. new physical processes. RSMC Tokyo–Typhoon Center. Technical Review, No.
+Guo, R., and Coauthors, 2019: A study on multi–model ensemble forecast tech- 7, 9 pp., www.jma.go.jp/jma/jma-eng/jma-center/rsmc-hp-pub-eg/techrev/ nique for typhoon track (in Chinese). Sci. Meteor. Sin., 39, 839–846. text7-1.pdf.
+Huang, W., and X. D. Liang, 2010: A cycling typhoon-like vortex initialization Ueno, M., and K. Onogi, 1995: An improvement in tropical cyclone bogussing for scheme and its application to GRAPES–TCM (in Chinese). Acta Meteor. Sin., numerical models at the JMA. RSMC Tokyo–Typhoon Center. Technical Re-
+68, 365–375. view, No. 1, 7 pp., www.jma.go.jp/jma/jma-eng/jma-center/rsmc-hp-pub-eg/ —, H. Yu, and X. D. Liang, 2009: Evaluation of GRAPES–TCM rainfall forecast techrev/text1-1.pdf.
+for China landfalling tropical cyclone in 2006 (in Chinese). Acta Meteor. Sin., Wang, D. L., X. D. Liang, Y. Zhao, and B. Wang, 2008: A comparison of two tropi-
+67, 892–901. cal cyclone bogussing schemes. Wea. Forecasting, 23, 194–204, https://doi.
+Ito, K., and Coauthors, 2018: Analysis and forecast using dropsonde data from org/10.1175/2007WAF2006094.1.
+the inner-core region of Tropical Cyclone Lan (2017) obtained during the first WMO, 2013: Verification methods for tropical cyclone forecasts. World Meteoroaircraft missions of T-PARCII. SOLA, 14, 105–110, https://doi.org/10.2151/ logical Organization Rep., 87 pp.
+sola.2018-018. —, 2019: Vision for the WMO Integrated Global Observing System in 2040.
+JMA, 2018: Annual report on the activities of the RSMC Tokyo–Typhoon Center. World Meteorological Organization Rep. 1243, 47 pp.
+JMA Rep., 118 pp., www.jma.go.jp/jma/jma-eng/jma-center/rsmc-hp-pub-eg/ Wu, Y., P. Y. Chen, and X. T. Lei, 2017: A preliminary study on the benefit assessannualreport.html. ment of track and intensity forecast of landfall tropical cyclones (in Chinese).
+Landsea, C. W., and J. P. Cangialosi, 2018: Have we reached the limits of predict- J. Trop. Meteor., 33, 675–682.
+ability for tropical cyclone track forecasting? Bull. Amer. Meteor. Soc., 99, Ying, M., and Coauthors, 2014: An overview of the China Meteorological Admin-
+2237–2243, https://doi.org/10.1175/BAMS-D-17-0136.1. istration tropical cyclone database. J. Atmos. Oceanic Technol., 31, 287–301,
+Lei, X. T., and Coauthors, 2017: New technology and experiment of rocket drop- https://doi.org/10.1175/JTECH-D-12-00119.1.
+sondes for typhoon observation. Chin. Sci. Bull., 62, 3789–3796, https://doi. Yu, H., and L. S. Chen, 2019: Impact assessment of landfalling tropical cyclones:
+org/10.1360/N972017-00160. Introduction to the special issue. Front. Earth Sci., 13, 669–671, https://doi.
+Li, H., J. Y. Luo, and M. T. Xu, 2019: Ensemble data assimilation and prediction of org/10.1007/s11707-019-0809-1.
+typhoon and associated hazards using TEDAPS: Evaluation for 2015–2018 —, and Coauthors, 2012: Operational tropical cyclone forecast verification seasons. Front. Earth Sci., 13, 733–743, https://doi.org/10.1007/s11707-019- practice in the western North Pacific region. Trop. Cyclone Res. Rev., 1, 361–
+0794-4. 372, https://doi.org/10.6057/2012TCRR03.06.
+Lu, X. Q., and Coauthors, 2021: Western North Pacific tropical cyclone database Zhou, F., and Z. Toth, 2020: On the prospects for improved tropical cyclone created by the China Meteorological Administration. Adv. Atmos. Sci., 38, track forecasts. Bull. Amer. Meteor. Soc., 101, E2058–E2077, https://doi.
+690–699, https://doi.org/10.1007/s00376-020-0211-7. org/10.1175/BAMS-D-19-0166.1.
+AMERICAN METEOROLOGICAL SOCIETY FEBRUARY 2022 E428

@@ -1,0 +1,266 @@
+Stochastic Environmental Research and Risk Assessment (2025) 39:1983–1994 https://doi.org/10.1007/s00477-025-02952-y
+ORIGINAL PAPER
+Typhoon track prediction model integrating typhoon satellite image features and typhoon eye geographical coordinates
+Peng Lu1 · Xue Yu1 · Wenhui Li2 · Xi Zhang3 · Chunan Guan3 · Zhenhua Wang1 · Zongsheng Zheng1
+Accepted: 23 February 2025 / Published online: 12 March 2025 © The Author(s), under exclusive licence to Springer-Verlag GmbH Germany, part of Springer Nature 2025
+Abstract
+Typhoons are natural disasters with immense destructive potential, and accurate prediction of their tracks is crucial for mitigating disaster losses. However, traditional typhoon track prediction methods typically rely solely on image-based or data-based forecasts, failing to fully capture the dynamic changes of typhoons. In contrast, existing methods that integrate data into images have shown improvements in accuracy. To better capture the continuous feature changes in time-series imagery, especially changes in the position of key points, this study introduces a novel network structure, Convolutional
+Module-Modified Bidirectional Long Short-Term Memory with Self-Attention (C-MBLSTM-SA), for predicting typhoon tracks. This approach employs a multiscale adaptive method for optimized marking of typhoon satellite images, coupled with image enhancement techniques to further improve feature recognizability. The constructed convolution module extracts image features, and the bidirectional LSTM network models the time series, with the addition of a self-attention mechanism to enhance the model's handling of sequential information. Experimental results demonstrate that this model exhibits high accuracy and stability in typhoon track prediction tasks, with a significant performance improvement compared to many other typhoon track prediction models.
+Keywords Multiscale · Adaptive · Deep learning · Typhoon track prediction
+1 Introduction intensity of typhoons pose significant challenges to human society and the natural environment. Consequently, enhanc-
+Typhoons are natural phenomena that play crucial roles in ing and accelerating the development of typhoon predicmaintaining thermal equilibrium and regulating the distri- tion techniques is one of the effective means to mitigate bution of heat across the Earth. However, they also repre- the impacts of typhoons (Ren et al. 2022). In recent years, sent catastrophic weather systems with immense destructive considerable progress has been made in understanding power (Wang 2020). When a typhoon occurs, it not only typhoons, yet difficulties remain in predicting their tracks, brings severe winds and heavy rains but may also lead to making research in typhoon track prediction particularly secondary disasters such as floods and mudslides, causing urgent (Gaoyang et al. 2019).
+substantial damage to life and property (Lu et al. 2023). Over the past few decades, typhoon track prediction tech-
+With global climate change, the increasing frequency and nology has undergone significant advancements, making it a key area of interest among scholars both domestically and internationally. The field encompasses various research approaches including numerical models, statistical models,
+Peng Lu and machine learning methods. Although widely used due [已脱敏邮箱] to technological advancements, numerical models grapple
+1 College of Information Technology, Shanghai Ocean with issues of complexity and accuracy. Statistical models,
+University, Shanghai 201306, China while enhancing efficiency through the use of historical
+2 Modern Educational Technology Center, Shanghai Maritime data, face challenges when handling large datasets. Machine
+University, Shanghai 201306, China learning, particularly deep learning that leverages artificial
+3 Shandong Provincial Institute of Land Space Data and intelligence, has emerged as a flexible approach with supe-
+Remote Sensing Technology, Shandong Ocean Bureau, rior predictive capabilities. This diversification of methods
+Jinan 250002, China
+1984 Stochastic Environmental Research and Risk Assessment (2025) 39:1983–1994 not only enhances accuracy but also broadens the scope of images, thereby enhancing the model's training effectiveresearch in the field. ness and its ability to capture the characteristics of typhoon
+Researchers both domestically and internationally have movement and cloud patterns more effectively, ultimately achieved notable results in numerical models, statisti- leading to more accurate predictions of future eye positions.
+cal models, and deep learning approaches. For example,
+Yehong and Yuchun (2018) utilized the WRF model and the
+WRF-3DVAR assimilation method to analyze the impact 2 Related work of background field errors, while Zhiyuan et al. (2018) explored the sensitivity of typhoon track and intensity 2.1 Convolutional neural networks predictions to different parameterization schemes through numerical simulations. In the realm of statistical models, Convolutional Neural Networks (CNNs) are a subset of neu-
+Muxing et al. (1996) enhanced prediction accuracy by ana- ral networks first proposed by LeCun et al. as a variant of lyzing historical typhoon data. In recent years, the use of feedforward neural networks and are widely used to address artificial intelligence, especially deep learning, in predicting classification problems and image recognition (Lecun et al.
+typhoon tracks has significantly increased. Kovordányi and 1998). A key feature of CNNs is their use of convolution
+Roy (2009) pioneered the use of artificial neural networks operations to extract features from images, and through for predicting typhoon activity from satellite imagery. Rüt- the stacking of multiple layers, they gradually increase the tgers et al. (2018) applied Generative Adversarial Networks abstraction level of these features. A CNN consists of six (GANs) to enhance satellite images for better prediction layers: the input layer, convolution layer, activation funcof typhoon centers and to generate future cloud patterns of tion layer, pooling layer, fully connected layer, and output typhoons. Wu et al. (2022) introduced a multi-task machine layer (DeZhen 2023). The convolution layer is responsible learning framework that utilizes an improved GAN for pre- for feature extraction, the pooling layer for dimensionaldicting tropical cyclone intensity and track, supplemented ity reduction, and the activation function layer introduces
+by two deep neural networks as estimation modules to assess nonlinearity.
+the strength and location of the predictions. Lu et al. (2022) The convolution operation, the core of the CNN, involves employed an enhanced ConvLSTM model applied to anno- sliding a convolution kernel (filter) across the image to tated typhoon satellite images, demonstrating the significant extract local features. Each convolution kernel contains a potential and advantages of deep learning in typhoon track set of learnable parameters that are used to extract specific prediction. Despite these advancements, predicting the track features from the input data. Assuming the feature map of of typhoons remains fraught with challenges. The current the input image is f and the convolution kernel is g, with t prediction methods still need improvements in terms of representing the sliding position, the convolution operation accuracy, stability, and responsiveness to sudden typhoon formula is given by:
+events. Moreover, the formation and development processes of typhoons are highly complex, involving multiple factors ∞ (f g)(t)= f(n)g(t n) (1) and nonlinear dynamic processes, often making it chal- ∗ − lenging for a single prediction model to fully capture their ∑−∞ dynamic changes.
+Given these complexities, combining typhoon satellite imagery with precise latitude and longitude data of the This formula describes how, at each position t, the contyphoon eye not only utilizes the rich structural information volution kernel g slides over the input feature map f, perwithin the satellite images but also integrates accurate eye forming element-wise multiplication with the pixels in the position data, providing new insights for constructing more feature map, and then summing the resulting products.
+precise prediction models. This study aims to explore a The architecture of a CNN typically consists of multiple novel deep learning-based typhoon track prediction model, convolutional, pooling, and fully connected layers stacked the C-MBLSTM-SA model. This model integrates typhoon together, forming a deep network. Due to their robust feasatellite imagery data with eye latitude and longitude infor- ture extraction capabilities and computational efficiency, mation, marking the eye's position on the current typhoon CNNs have become the mainstream model in the field of satellite imagery based on the previous moment's eye coor- image processing, significantly enhancing performance in dinates. The model adopts a multiscale adaptive method to many practical applications.
+annotate the typhoon satellite images, enabling better learning of image features. Furthermore, image enhancement techniques are introduced to optimize the annotated satellite
+Stochastic Environmental Research and Risk Assessment (2025) 39:1983–1994 1985
+2.2 Long short-term memory networks Keys, then applying a scaling factor and a softmax function to transform these scores into a probability distribution,
+Long Short-Term Memory Networks (LSTMs) are a special ensuring the sum of all weights equals one.
+type of Recurrent Neural Network (RNN) architecture that can learn long-term dependencies in sequence data. Typical 2.4 GRU
+RNNs, akin to multilayered feedforward neural networks, often struggle with issues like gradient vanishing and gra- The Gated Recurrent Unit (GRU) is a variant of Recurrent dient explosion due to the vast amount of historical infor- Neural Networks (RNNs) used for sequence data modelmation in long sequences (Jie et al. 2020). LSTMs address ing. GRU was proposed by Cho et al. in 2014. Traditional these issues in traditional RNNs by incorporating a unique RNNs are prone to vanishing and exploding gradients when unit structure, with a core idea revolving around the use modeling long sequences, while LSTM and GRU address of gating mechanisms to control the flow of information, this issue by introducing gating mechanisms. Compared to thereby effectively learning long-term dependencies. The LSTM, GRU has one fewer gating structure, making it more network structure of an LSTM is depicted in Fig. 1. parameter-efficient and easier to train and converge in simi-
+lar contexts (Shaodong et al. 2022). The core structure of
+2.3 Self-attention mechanism GRU consists of several key components: the update gate, reset gate, and candidate activation. Although GRU has a
+The Self-Attention mechanism is a specialized form of simpler structure than Long Short-Term Memory (LSTM), attention mechanism that enables a model to consider the it is still capable of effectively capturing long-term depenrelationships between each element in a sequence and all dencies in sequence data. As a result, it has been widely other elements. This mechanism helps the model to better applied in many tasks such as natural language processing understand the contextual information within the sequence, and time series prediction.
+thereby improving the accuracy of sequence data processing. It automatically adjusts the model's attention weights 2.5 GAN based on different parts of the input sequence. Self-Attention works by calculating the relevance of each sequence Generative Adversarial Networks (GANs) are a deep learnelement to others and assigning weights to each element ing architecture proposed by Goodfellow et al. (2014). The based on these calculations, thus enhancing the model’s core idea of GANs is to generate new data samples through focus on sequence information. adversarial training between two neural networks, specifi-
+In the Self-Attention mechanism, the primary compo- cally consisting of the following two components: the Gennents are Query, Key, and Value (Xiaohai et al. 2019). The erator and the Discriminator. The task of the Generator is to
+Query represents the current element, used for matching produce data samples that are as realistic as possible. The with Keys, which represent other elements in the sequence, task of the Discriminator is to distinguish whether the input and these interact with the Query for matching purposes. data comes from the real dataset or is fake data generated
+Values, also elements of the sequence, are utilized to con- by the Generator. The training process of GANs is achieved struct the output once a Key matches a Query. The computa- through a “game” where the Generator and the Discrimination of attention weights involves calculating the dot product tor compete with each other. The Generator attempts to fool or similar functions to score matches between Queries and the Discriminator, while the Discriminator tries to identify real and fake samples. Ideally, when training converges, the Generator can produce highly realistic samples, and the classification performance of the Discriminator also reaches its optimal state.
+3 Construction of the prediction method
+3.1 Development of the prediction method
+The prediction method is composed of three main parts:
+multiscale adaptive image annotation processing, image prediction modeling, and the conversion of predicted image coordinates to latitude and longitude. The prediction
+Fig. 1 LSTM network structure
+1986 Stochastic Environmental Research and Risk Assessment (2025) 39:1983–1994
+Fig. 3 Overall workflow of the C-MBLSTM-SA model
+3. The processed data are input into the C-MBLSTM-SA model for training and prediction, with the workflow illustrated in Fig. 3.
+4. The model outputs annotated typhoon satellite images, with the previous moment's typhoon eye position marked.
+5. The pixel coordinates of the previous moment's typhoon eye position can be determined from the predicted image.
+6. Given the fixed size (128 × 128 pixels) of the predicted images and potential issues such as blurriness, direct visual scaling determination from the images is imprac-
+Fig. 2 Overall workflow of the prediction model tical. Thus, a model capable of handling complex spatiotemporal data with high predictive accuracy is required process is illustrated in Fig. 2, and the overall workflow is to support decision-making. The sequence of distance as follows: differences serves as input into an LSTM model (Li et al. 2022) for data prediction, which helps determine the
+1. Typhoon satellite images are annotated using a multi- scale used in the predicted image.
+scale adaptive method that integrates typhoon image 7. Using the eye's previous latitude and longitude, the data with the eye's latitude and longitude information. pixel distance from the image's center point, and the
+The annotation of the eye's position from the previous scale derived from the LSTM, the central point's latimoment on the current typhoon satellite image is based tude and longitude coordinates in the image can be calon the distance difference between the eye positions at culated as per Eqs. (3) and (4), providing a predicted the current and previous moments, calculated as per eye position for the next moment and thus facilitating
+Eq. (2). First, the interquartile range (IQR) and mean of typhoon track prediction.
+the distance differences between adjacent moments are calculated to assess the dispersion of the distance data, lon eye =lon − (x − 64) × scale (3) determining an appropriate scale for image annotation.
+The specific process is detailed in Sect. 3.2.1. lat eye =lat − (y − 64) × scale (4)
+D=2Rarcsin Here, x, y denote the pixel coordinates of the central point sin2 lat2− lat1 +cos(lat1)cos(lat2)sin2 lon2− lon1
+(2) i n t h h e m a g t, lon lo re the a n o th ta t e p d at c u c t r o p o it u t's eye eye latitude and longitude, respectively and scale is the scale
+Here, D represents the spherical distance between two used to mark point in satellite imagery.
+points, R is the Earth's radius, lon and lat are the lon- Through this comprehensive construction, the model effecgitude and latitude of the eye at the previous moment, and tively processes image sequence data, achieving accurate lon and lat are those at the current moment. predictions for subsequent frames.
+2 2
+2. Once annotated, images undergo enhancement techniques, including contrast and color enhancements, as detailed in Sect. 4.2.2, to better highlight key features and improve the model's learning effectiveness and accuracy.
+Stochastic Environmental Research and Risk Assessment (2025) 39:1983–1994 1987
+3.2 Key improvements to varying conditions. To determine a reasonable set of thresholds that can accommodate different situations, and
+3.2.1 Multiscale adaptation the corresponding scales, a K-means clustering algorithm (MacQueen 1967) is employed to perform a cluster analy-
+Multiscale adaptation is a method that considers multiple sis of the distance differences. Before clustering, to set the scales simultaneously when processing data. It analyzes and clustering parameters more accurately, the dispersion of the processes data at different scales, thereby gaining a more dataset of distance differences is analyzed. This involves comprehensive understanding of the data's characteristics calculating the Interquartile Range (IQR) and the mean and structure. In the context of typhoon track prediction, of the distance differences between adjacent moments. By the multiscale adaptation method can dynamically select an comparing the IQR to the mean, the dispersion of the data appropriate annotation scale based on the distance of the eye is assessed, and an appropriate scale (i.e., number of clusof the typhoon and the image size. The process for drawing ters) is flexibly adopted based on this dispersion. If the IQR
+the typhoon track diagram on a fixed-size 128 × 128 typhoon is greater than the mean, indicating high dispersion, then satellite image is as follows: k = 3 is chosen for the number of clusters in the K-means
+(1) Calculate the distance difference between the eye's algorithm, using three scales to more finely reflect different latitude and longitude at the previous and current moments, distance ranges. If the IQR is less than or equal to the mean, as shown in Eq. (2). This distance difference is used to indicating lower dispersion, then k = 2 is selected to accomdynamically adjust the scale selection to better adapt modate this scenario. The process is shown in Fig. 3. The specific formulas are as follows:
+n+1 k = (5)
+4 d +d
+Q =d or (k1+1) (k1)
+(6)
+1 (k1) 2
+3(n+1) k = (7)
+3
+4 d +d
+Q =d or (k3+1) (k3)
+(8)
+3 (k3) 2
+IQR=Q Q (9)
+3− 1 n d d= i=1 i (10)
+Here, the dataset is arranged in ascending order, and n is the number of data points. If k is an integer, then Q is the value at the k th data point; if k is not an integer, Q is the
+1 1 1
+average of the values at points k and k +1. Similarly, if k is an integer, Q is the value at the k th data point; if
+3 3 3
+k is not an integer, Q is the average of the values at points
+3 3
+k and k +1. d represents the difference in distance
+3 3 i
+between adjacent moments, and d represents the mean of the dataset of distance differences (Fig. 4).
+(2) To establish appropriate thresholds, if k = 2, the centers of the two clusters obtained using the K-means clustering algorithm are sorted in ascending order to find m and m . If k = 3, the centers of the three clusters obtained are similarly sorted to derive c , c and c . Subsequently,
+1 2 3
+thresholds are defined to determine the suitable scales. The
+Fig. 4 Determine the scales of the typhoon eye distance difference specific formulas are as follows:
+dataset for neighboring time steps
+1988 Stochastic Environmental Research and Risk Assessment (2025) 39:1983–1994 threshold = +m
+2 (11)
+0 c +c threshold = 1 2 (12) c +c threshold = 2 3 (13)
+Fig. 5 Typhoon satellite imagery marked with the typhoon eye position from the previous moment using different scales
+Here, threshold , threshold , and threshold represent
+0 1 2
+the thresholds for division. Based on the distance within these intervals, the corresponding scales are selected:
+0<distance<threshold :scale=0.5 a threshold <distance 0 :scale=1 b∗ (14) { 0 ∗ } Fig. 6 Structure of the convolutional module in the C-MBLSTM-SA model { thres 0 h < ol t d h d 1 r is e < t s a h d n o i c l s d e t 2 a < n < c t e h d r i < s e t s t a h h n o r c l e e d s 1 h : : o sc l s d a c 2 l a e l : e = s = ca 1 l 0 ∗ e .2 e =∗0 c .5 ∗ d } (15) 3.2.3 Construction of the bidirectional LSTM network
+Here, distance denotes the difference in latitude and lon- In this model, a bidirectional LSTM network tailored for gitude coordinates of the typhoon's eye between con- this dataset is constructed, capable of effectively capturing secutive moments, and a, b, c, d, e represent the scale long-term dependencies within sequence data. The network coefficients (initially set to 1). The term scale denotes the consists of one layer, with each direction—forward and chosen scale where scale=1 implies that 1 pixel equals 1 backward—comprising two LSTM layers with 1024 hidden degree, scale=0.5 means 1 pixel equals 0.5 degrees, and units each. The first LSTM layer receives the output from scale=0.2 indicates that 1 pixel equals 0.2 degrees. the convolutional layer and calculates the hidden states at
+Figure 5 illustrates examples of selecting different scales each time step. A residual connection is then employed, addbased on actual data needs: ing the linearly transformed input to the output of the first
+(3) To extract the maximum difference in distance inter- LSTM layer, followed by layer normalization to mitigate vals and verify the markings using the corresponding scale, the vanishing gradient problem, and applying Dropout to if a point falls outside the image, the scale coefficient for reduce the risk of overfitting. The second layer of the forthat interval is incremented by 1 (e.g., a=a+1), and steps ward LSTM receives the output post-Dropout, recalculating
+2 and 3 are repeated to finalize the scale results. hidden states at each time step. This layer also incorporates
+The multiscale adaptive approach dynamically selects the a combination of residual connections, layer normalization, appropriate scale based on the data's characteristics, show- and Dropout to enhance the model's expressiveness and ing strong adaptability to features at different scales. This stability. The backward LSTM follows a similar structure, method selects the suitable scales automatically based on processing the input sequence from end to start and includdata characteristics without the need for manual adjustment. ing the same enhancements as the forward LSTM. The outputs from both forward and backward LSTMs at each time
+3.2.2 Construction of the convolutional module step are then concatenated to further enhance the model's capability to capture features of the time series. An atten-
+In the C-MBLSTM-SA model, a convolutional module is tion mechanism is applied to the output of the bidirectional constructed to enhance performance in processing time- LSTM to dynamically allocate weights to the LSTM outseries image data. Specifically, seven convolutional layers puts, thereby emphasizing significant time steps and supare used, with batch normalization and LeakyReLU acti- pressing irrelevant or noisy information. This enhances the vation functions added after each convolution to expedite model's expressiveness and prediction accuracy. Each layer model convergence and enhance its nonlinear capabilities. is capable of transmitting and learning information in both
+This setup effectively extracts key features from the raw directions along the time series, enabling the model to fully images. Following the convolutional layers, a fully con- utilize contextual information within the sequence data and nected layer compresses the high-dimensional features improving its modeling and predictive accuracy, as illusoutputted by the convolutional layers into an encoded trated in Fig. 7.
+dimension, providing suitable input for the subsequent enhanced bidirectional LSTM layers, as shown in Fig. 6.
+Stochastic Environmental Research and Risk Assessment (2025) 39:1983–1994 1989
+4 Experimental data and processing
+4.1 Data sources
+The data used in this study primarily includes typhoon satellite imagery and typhoon eye latitude and longitude information. The typhoon satellite imagery captures visual information on the typhoon's morphology and structure, Fig. 7 Structure of the SLSTM-SA in the C-SLSTM-SA model while the typhoon eye data provides precise geographic
+Table 1 Data sources
+coordinates of the typhoon's eye. The data originates from
+Years Satellite
+the Japan Meteorological Agency's publicly released far-
+2000–2003 GMS5
+infrared satellite imagery of typhoons in the Western Pacific
+2003–2005 GOE9
+and corresponding typhoon eye latitude and longitude data,
+2005–2015 MTS1, MTS2
+as detailed in Table 1. The image size is 128 × 128 pixels 2015–2021 HMW8, HMW9 with a temporal resolution of 6 h. The experiment utilizes
+11,520 typhoon satellite images from 436 typhoons between
+2000 and 2018 as the training set, and 2,870 typhoon satellite images from 114 typhoons between 2018 and 2022 as the test set. The ratio of the training set to the test set is 8:2, where the data in the test set comes from typhoon events not covered in the training set.
+4.2 Data preprocessing
+4.2.1 Integrating Typhoon Satellite Imagery with Typhoon
+Eye Latitude and Longitude Information. In the data preprocessing stage, a critical step is the integration of typhoon
+Fig. 8 Typhoon satellite imagery after applying dual-scale marking satellite imagery with typhoon eye latitude and longitude information. This involves combining the spatial coordinates (latitude and longitude) of the typhoon eye with the into pixel differences using the scale factors and then offset image data (typhoon satellite imagery) to accurately anno- to localize the position of the typhoon eye in the previous tate the eye's position on the images. Typhoon satellite imag- time point on the typhoon satellite imagery, as calculated in ery provides visual details on the typhoon's morphology and Eqs. (16) and (17), with the marked image shown in Fig. 8.
+structure, while the latitude and longitude data furnish the precise geographic location of the typhoon eye. Integrating x=64+(lon 1 lon 2 )x=64+ p (16) these two types of data allows for the direct marking of the typhoon eye on the satellite imagery, which facilitates the y=64+(lat 1 lat 2 )y=64+ p (17) prediction of the typhoon's track.
+To achieve this integration, a coordinate transformation Here, x and y are the image coordinates (in pixels) repremethod is employed. This method relies on scaling factors senting the position of the typhoon eye from the previous and offsets to ensure the accuracy of the transformation. By time point on the image. lon is the longitude of the typhoon comparing the differences in latitude and longitude of the eye at the previous time point, lon is the longitude at the typhoon eye at adjacent time points, the distances between image center (current time point), lat is the latitude of the the current and previous positions of the eye are calculated, typhoon eye at the previous time point, lat is the latitude at as shown in Eq. (2). Based on the multiscale adaptive mark- the image center (current time point), and p is the number of ing method described, the interquartile range (IQR) of the pixels per degree of latitude and longitude.
+typhoon eye distance data in this dataset is less than its average value. Therefore, two scales are used for marking. Sub- 4.2.1 Image enhancement sequently, the typhoon eye latitude and longitude data are converted into pixel coordinates. In this dataset, the typhoon For typhoon satellite imagery, factors such as weather coneye at the current time is always located at the center of the ditions and the quality of imaging equipment can introduce image. The latitude and longitude differences are converted issues like noise and insufficient contrast in the images.
+1990 Stochastic Environmental Research and Risk Assessment (2025) 39:1983–1994
+Image enhancement techniques can be employed to address these issues, thus making the images clearer and enhancing their contrast to better reflect the morphology and structure of typhoons. In this study, we utilized two image enhancement methods: contrast enhancement and color enhancement. Contrast enhancement adjusts the image contrast to make the brightness differences more pronounced, thereby highlighting the structural features of the typhoon. Color enhancement, on the other hand, adjusts parameters such as color saturation and brightness to make the red points marking the typhoon in the satellite imagery appear more vivid
+Fig. 9 Enhanced imagery post-marking and natural, thus improving the visual appeal of the images.
+By applying these enhancement methods, the quality of
+Table 2 Error in track prediction for different inputs the typhoon satellite images can be significantly improved,
+Input MAE (km)
+providing higher quality input data for subsequent model
+3 21.97 training, as shown in Fig. 9.
+6 28.76
+9 45.32
+12 38.76
+5 Experimental results and analysis
+5.1.2 Evaluation metrics
+5.1 Experimental parameters and evaluation metrics The error between predicted and actual geographic coordinates of the typhoon eye is assessed using two common met-
+5.1.1 Experimental parameters rics: Mean Absolute Error (MAE) and Root Mean Square
+Error (RMSE), both measured in kilometers (km). Let
+The experiments in this study were primarily based on the lon and lat be the predicted longitude and latitude of the
+PyTorch framework, built on a Windows system with an typhoon eye, and lon and lat be the actual longitude and
+2 2
+RTX 3090 GPU and CUDA version 11.1. The hyperparam- latitude, respectively. The error S between the predicted eter settings are as follows: learning rate of 0.0001, 1000 and actual coordinates is calculated as shown in Eq. (2). The epochs, and a batch size of 10. We employed a single-step MAE represents the average absolute difference between prediction approach, using three consecutive time points predicted and actual values, while the RMSE measures the of typhoon satellite imagery as input. The input selection square root of the average squared differences, as shown in was determined through experiments, as shown in Table 2. Eqs. (18) and (19). In addition, the Mean Angular Deviation
+Which allows the model to capture dynamic time series (MAD), measured in degrees (°), is also included. It is calinformation for predicting the typhoon satellite imagery culated based on the longitude and latitude of the previous over the next 6 h. During the model experimentation, the time step's eye of the typhoon as a reference, and represents training time of the model was 47 h and 38 min and the aver- the average angular deviation between the predicted point age percentage of GPU memory used was 81%. Addition- and the actual point. It reflects the directional error of the ally, the model exhibits significant scalability and hardware model's predictions, as shown in Eq. (20).
+adaptability in its design. It not only supports adaptation to larger datasets and more complex task requirements by 1
+MAE= S i (18)
+increasing network depth or adjusting hyperparameters, but n i=1 also enables flexible deployment across hardware environ- ∑ ments of varying performance levels. Although the GPU used in the experiments is the RTX 3090, the model can also RMSE= 1 (S )2 (19) operate on GPUs with slightly lower performance (such as n i i=1 the RTX 3060, RTX 2080, etc.) or on cloud computing plat-
+
+forms while maintaining similar performance levels. This hardware-agnostic nature and structural scalability provide MAD= ∆θ i (20)
+n | |
+the model with strong adaptability and ease of deployment i=1 in practical applications, allowing it to meet diverse deployment needs.
+Stochastic Environmental Research and Risk Assessment (2025) 39:1983–1994 1991 where n is the number of samples and S is the error in predicted and actual geographic coordinates for the ith sample.
+∆θ is the angular deviation of the ith sample, calculated from the latitude and longitude of the typhoon eye at the previous moment.
+5.2 Comparison and analysis of prediction results
+In this section, an analysis is conducted based on the loss function during the training process and the prediction outcomes. Furthermore, comparative experiments were performed using various models against the model proposed in this study, followed by an analysis of the experimental results.
+Initially, the model underwent training, during which the variation in the loss function was documented. The change Fig. 10 Variation in the model's loss function across different training in the loss function reflects the model's fitting performance epochs throughout the training process, which is crucial for assessing the model's efficacy. Figure 10 illustrates the model's loss function across different training epochs. The horizontal axis represents the training epochs, while the vertical axis shows the loss values. The loss curve of our model demonstrates a steady decline as training progresses, indicating stable training and good convergence.
+Subsequently, the model's MAE, RMSE and MAD were calculated on the test set. The results indicate that the model has high prediction accuracy and stability. Figure 11 displays a comparison between the typhoon satellite imagery predicted by our model and the actual observed imagery.
+Figure 12 shows the predicted track of several typhoons Fig. 11 Comparison of predicted and actual images selected from the test set compared with the actual track.
+From the figures, it can be seen that the prediction results of (Ao 2023) and the multiscale adaptive marking method the model are in good agreement with the actual situation, proposed in this study. These were tested using the model indicating that the model has good prediction performance. proposed here and variants of the ConvLSTM model, such
+In addition, stratified testing was conducted for typhoons as ConvLSTM (Tong et al. 2022), ConvBiLSTM (Wang et from different seasons and regions in the test set, and the al. 2021), ConvGRU (Wang et al. 2023), and ConvLSTMresults are shown in Table 3. attention (Gan et al. 2024). The results are shown in Table 4.
+Although the original model was not specifically trained The comparison of prediction results revealed that modfor seasonal and regional differences, the stratification test els employing the multiscale adaptive marking method sigshows the difference in performance across seasons and nificantly outperformed those using the original marking regions. The model performs better in summer and the East method. For instance, with the ConvLSTM-attention model,
+China Sea, while the prediction accuracy is lower in autumn MAE decreased from 23.68 km to 22.45 km, and for the and the South China Sea, revealing the limitations of the proposed model, MAE reduced from 22.85 km to 21.97 km.
+model under specific conditions. In the future, the accuracy These findings suggest that the multiscale adaptive marking and generalisation of the model can be improved by com- method proposed in this study, which considers features at bining seasonal and regional features, adding more data different scales, can capture finer details in the data, thereby samples and making regional adjustments. enhancing model accuracy and improving efficiency by
+By comparing the MAE, RMSE, and MAD of differ- simplifying data processing.
+ent models, their accuracy and directionality in predicting Additionally, experiments were conducted using input typhoon tracks can be evaluated. In the comparative experi- data of typhoon eye geographic coordinates for RNN (Alements, various input image data formats were used, includ- many et al. 2019), LSTM (Gao et al. 2018), and GRU (Lian ing the original one-pixel-to-one-degree marking method et al. 2020) models, as well as input data marked using the
+1992 Stochastic Environmental Research and Risk Assessment (2025) 39:1983–1994
+Table 5 Comparison of prediction accuracy between popular typhoon track prediction models and the proposed model
+Model MAE (km) RMSE (km) MAD (°)
+RNN 38.64 49.14 0.40
+LSTM 36.05 45.76 0.39
+GRU 35.52 44.31 0.38
+CNN 41.89 50.24 0.49
+GAN 45.83 56.30 0.44
+MMSTN 27.52 33.76 0.29
+C-MBLSTM-SA 21.97 24.28 0.20 coordinate data and image data, significantly enhancing prediction accuracy. Specifically, traditional methods that utilize RNN, LSTM, and GRU models to predict based on geographic coordinates alone fail to leverage information from image data. Conversely, methods employing CNN models for image prediction do not adequately utilize the temporal information inherent in sequential data. Compared to the LSTM model, the proposed model achieved a decrease of 14.08 km in Mean Absolute Error (MAE), 21.48 km in
+Root Mean Square Error (RMSE) and 0.19° in Mean Angular Deviation (MAD); relative to the CNN model, there was a reduction of 20.92 km in MAE, 26.96 km in RMSE and
+0.29° in MAD. Although Generative Adversarial Network (GAN) models exhibit superior performance in terms of processing speed and the quality of generated satellite imagery, with clear cloud formations, they tend to have larger errors in short-term predictions. The Multi-Modal Spatio-Temporal Network (MMSTN) model, while showing improvements in prediction, still fails to effectively capture the variability in historical typhoon data. By integrating the
+Fig. 12 Typhoon track prediction and actual track multiscale adaptive marking method with advanced deep learning techniques, the proposed model effectively merges
+Table 3 Typhoon track prediction results by seasons and track regions geographic coordinate and image data, not only improving
+MAE (km) RMSE (km) MAD (°) prediction accuracy but also enhancing model stability.
+Summer 24.85 27.62 0.26
+Autumn 30.65 34.86 0.32 In summary, through the analysis of changes in the loss
+East China Sea 25.96 28.32 0.29 function and comparisons of MAE, RMSE and MAD, the
+South China Sea 28.41 33.26 0.32 superiority of the model proposed in this study for typhoon track prediction is validated. This deep understanding and multiscale adaptive method for popular typhoon track pre- analysis of different models' performance reveal the advandiction models such as CNN (Wang et al. 2020), GAN (Rüt- tages of using a multiscale adaptive approach to annotate tgers et al. 2019), and MMSTN (Huang et al. 2022). The the position of the typhoon eye. This approach allows for a comparison with our model's method is shown in Table 5. more comprehensive understanding of the changing char-
+Comparative analysis demonstrates that the proposed acteristics and structure of the typhoon eye, thus enhancing model effectively integrates the strengths of both geographic the model's accuracy in learning from images. Additionally,
+Table 4 Comparison of prediction accuracy among different marking methods in ConvLSTM variants and the proposed model
+Model Original marking method Multiscale adaptive marking method
+MAE (km) RMSE (km) MAD (°) MAE (km) RMSE (km) MAD (°)
+ConvLSTM 24.06 29.12 0.26 23.98 28.35 0.26
+ConvBiLSTM 23.94 28.76 0.26 22.75 26.93 0.25
+ConvGRU 23.98 29.01 0.25 23.63 27.41 0.24
+ConvLSTM-attention 23.68 26.95 0.24 22.45 25.62 0.24
+C-MBLSTM-SA 22.85 25.36 0.24 21.97 24.28 0.20
+Stochastic Environmental Research and Risk Assessment (2025) 39:1983–1994 1993
+References
+by combining convolutional modules, bidirectional LSTM, and self-attention mechanisms, the model effectively pro-
+Alemany S, Beltran J, Perez A, Ganzfried S (2019) Predicting hurcesses both sequential data and image data, improving its ricane trajectories using a recurrent neural network. In: Proceedexpressive capability and generalization ability. ings of the AAAI conference on artificial intelligence, vol 33, pp
+468–75
+Ao S (2023) Research on typhoon path prediction by integrating deep
+6 Conclusion learning methods. Shanghai Ocean University. h t t p s : / / d o i . o r g / 1 0 .
+2 7 3 1 4 / d . c n k i . g s s c u . 2 0 2 3 . 0 0 0 8 1 8
+DeZhen K (2023) Research and application of deep learning algorithm
+In this study, a thorough analysis of existing technologies for UAS scene image segmentation. Henan University. h t t p s : / / d o and methods in the field of typhoon track prediction was i . o r g / 1 0 . 2 7 1 1 4 / d . c n k i . g h n a u . 2 0 2 0 . 0 0 0 4 8 6
+Gan SL, Fu JY, Zhao GF, Chan PW, He YC (2024) Short-term preconducted, identifying their limitations in accuracy and diction of tropical cyclone track and intensity via four mainefficiency. Based on these analyses, a novel deep learning- stream deep learning techniques. J Wind Eng Ind Aerodyn based method was proposed. The primary contributions of 244:105633–105643 this research in the field of typhoon track prediction are as Gao S, Zhao P, Pan B, Li Y, Zhou M, Xu J, Zhong S (2018) A nowcasting model for the prediction of typhoon tracks based on a long follows:
+short term memory neural network. Acta Oceanol Sin 37:8–12
+Gaoyang X, Haitang Z, Guoqin H, Fengbo W (2019) Typhoon path
+1. Multiscale Adaptive Marking Method: A new marking prediction based on gated unit recurrent neural network. Comput method was introduced, dynamically selecting different Appl Softw 36:119–125
+Goodfellow I, Pouget-Abadie J, Mirza M et al (2014) Generative scaling ratios based on the geographic distance changes adversarial nets. Advances in neural information processing sysof the typhoon eye between adjacent moments. This tems, 27 method enhances the model's sensitivity to changes in Huang C, Bai C, Chan S, Zhang J (2022) MMSTN: a multi-modal the eye's position and improves prediction accuracy. spatial-temporal network for tropical cyclone short-term prediction. Geophys Res Lett 49:e2021GL096898
+2. Construction and Optimization of the Deep Learning
+Jie X, Chaoyue Z, Cheng B, Qin W, Panxia C (2020) Intelligent risk
+Model: A comprehensive model, C-MBLSTM-SA, assessment of distribution network operation based on lstm and was constructed, combining the developed convolution cnn text classification model. Mod Inf Technol 4:153–156. h t t p s :
+module, bidirectional LSTM network, and self-atten- / / d o i . o r g / 1 0 . 1 9 8 5 0 / j . c n k i . 2 0 9 6 - 4 7 0 6 . 2 0 2 0 . 1 8 . 0 4 3
+Kovordányi R, Roy C (2009) Cyclone track forecasting based on sateltion mechanism. This model not only extracts image lite images using artificial neural networks. ISPRS J Photogramm features but also captures long-term dependencies in Remote Sens 64:513–521 time-series data, enhancing the learning of key features Lecun Y, Bottou L, Bengio Y, Haffner P (1998) Gradient-based learnthrough the self-attention mechanism. ing applied to document recognition. Proc IEEE 86:2278–2324
+Li X, Li H, Li HM, Ma J (2022) Short-term load forecasting model based on lstm of single-step forecasting. Comp Simulat
+Despite these advances, the model still faces limitations 39(06):98–117 and challenges, particularly in predicting extreme typhoon Lian J, Dong P, Zhang Y, Pan J, Liu K (2020) A novel data-driven scenarios. To enhance model performance, future research tropical cyclone track prediction model based on CNN and
+GRU with multi-dimensional feature selection. IEEE Access could focus on further optimizing the model structure and
+8:97114–97128
+algorithms to improve adaptability to extreme conditions, Lu P, Xu M, Sun A, Wang Z, Zheng Z (2022) Typhoon tracks prethereby better accommodating various environmental con- diction with ConvLSTM fused reanalysis data. Electronics ditions and further enhancing the accuracy and reliability of 11:3279–3289
+Lu P, Xu M, Chen M, et al (2023) Multi-step prediction of typhoon typhoon track predictions.
+tracks combining reanalysis image fusion using Laplacian pyramid and discrete wavelet transform with ConvLSTM[J]. Axioms
+Author contributions Yu Xue wrote the article Lu Peng, Li Wenhui, 12(9):874.
+Zhang Xi, Guan Chunan, Zheng Zongsheng and Wang Zhenhua were MacQueen J (1967) Some methods for classification and analysis of responsible for reviewing the article and giving suggestions for revi- multivariate observations. In: Proceedings of the fifth Berkeley sion. symposium on mathematical statistics and probability, vol 1, pp
+281–297
+Data availability No datasets were generated or analysed during the Liao Muxing, Huang Liwen, Hu JiFu (1996) The CLIPER model of current study. typhoon track forecast and its application in navigation. China
+Navig (02):43–50
+Declarations Ren J, Xu N, Cui Y (2022) Typhoon track prediction based on deep learning. Appl Sci 12:8028–8038
+Rüttgers M, Lee S, Jeon S, You D (2019) Prediction of a typhoon track
+Competing interests The authors declare no competing interests. using a generative adversarial network and satellite images. Sci
+Rep 9:6057
+1994 Stochastic Environmental Research and Risk Assessment (2025) 39:1983–1994
+Rüttgers M, Lee S, You D (2018) Typhoon track prediction using satel- Xiaohai Z, Xinwen C, Min Z (2019) Military named entity recognilite images in a Generative. Adversarial Network. h t t p s : / / d o i . o r g / tion based on self-attention mechanism. Command Control Simul
+1 0 . 4 8 5 5 0 / a r X i v . 1 8 0 8 . 0 5 3 8 2 41:29–33
+Shaodong Hu, Wenhao Y, Yunlong S (2022) Speech enhancement of Yehong W, Yuchun Z (2018) Impacts of different background field convolutional gated recurrent networks incorporating self-atten- error sample simulation schemes on numerical prediction—a case tion. Telecommun Technol 62(07):953–958 study of Typhoon Soudelor. J Meteorol Environ 34:11–23
+Tong B, Wang X, Fu JY, Chan PW, He YC (2022) Short-term predic- Zhiyuan W, Changbo J, Bin D, Yonggang C (2018) Sensitivity analysis tion of the intensity and track of tropical cyclone via ConvLSTM of typhoon Kai Tak simulation to parameterisation schemes in the model. J Wind Eng Ind Aerodyn 226:105026–105036 WRF model. Oceanogr Res 37:1–8
+Wang XY (2020) An overview of traditional models and neural networks for predicting typhoon tracks. Sci Advice 1:62–65 Publisher's Note Springer Nature remains neutral with regard to juris-
+Wang L, Bai X, Xue R, Zhou F (2021) Few-shot SAR automatic target dictional claims in published maps and institutional affiliations.
+recognition based on Conv-BiLSTM prototypical network. Neurocomputing 443:235–246
+Springer Nature or its licensor (e.g. a society or other partner) holds
+Wang L, Wan B, Zhou S, Sun H, Gao Z (2023) Forecasting tropical exclusive rights to this article under a publishing agreement with the cyclone tracks in the northwestern Pacific based on a deep-learnauthor(s) or other rightsholder(s); author self-archiving of the accepted ing model. Geosci Model Dev 16:2167–2179 manuscript version of this article is solely governed by the terms of
+Wang C, Xu Q, Li X, et al. CNN-based tropical cyclone track forecastsuch publishing agreement and applicable law.
+ing from satellite infrared images. In IGARSS 2020-2020 IEEE
+International Geoscience and Remote Sensing Symposium. IEEE
+2020:5811–5814
+Wu Y, Geng X, Liu Z, Shi Z (2022) Tropical cyclone forecast using multitask deep learning framework. IEEE Geosci Remote Sens
+Lett 19:1–5

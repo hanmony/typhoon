@@ -1,0 +1,298 @@
+Assessing urban strategies for reducing the impacts rsos.royalsocietypublishing.org of extreme weather on infrastructure networks
+Research
+Citethisarticle:PregnolatoM,FordA, MariaPregnolato,AlistairFord,CraigRobson,
+RobsonC,GlenisV,BarrS,DawsonR.2016
+Vassilis Glenis,StuartBarrandRichardDawson
+Assessingurbanstrategiesforreducingthe impactsofextremeweatheroninfrastructure
+SchoolofCivilEngineeringandGeosciences,NewcastleUniversity,Newcastleupon networks.R.Soc.opensci.3:160023. Tyne,UK http://dx.doi.org/10.1098/rsos.160023
+Criticalinfrastructurenetworks,includingtransport,arecrucial to the social and economic function of urban areas but are at
+Received:12January2016 increasing risk from natural hazards. Minimizing disruption
+Accepted:5April2016 to these networks should form part of a strategy to increase urban resilience. A framework for assessing the disruption from flood events to transport systems is presented that couples a high-resolution urban flood model with transport modelling and network analytics to assess the impacts of
+SubjectCategory:
+extreme rainfall events, and to quantify the resilience value
+Engineering of different adaptation options. A case study in Newcastle uponTyneintheUKshowsthatbothgreenroofinfrastructure
+SubjectAreas: and traditional engineering interventions such as culverts or computermodellingandsimulation/civil flood walls can reduce transport disruption from flooding.
+The magnitude of these benefits depends on the flood event engineering/graphtheory andadaptationstrategy,butforthescenariosconsideredhere
+3–22% improvements in city-wide travel times are achieved.
+Keywords:
+The network metric of betweenness centrality, weighted network,flooding,impact,modelling, by travel time, is shown to provide a rapid approach to transport identify and prioritize the most critical locations for flood risk management intervention. Protecting just the top ranked critical location from flooding provides an 11% reduction in persondelays.Acity-widedeploymentofgreenroofsachieves
+Authorforcorrespondence:
+a 26% reduction, and although key routes still flood, the
+MariaPregnolato
+benefits of this strategy are more evenly distributed across e-mail:[已脱敏邮箱] the transport network as flood depths are reduced across the model domain. Both options should form part of an urbanfloodriskmanagementstrategy,butthismethodcanbe used to optimize investment and target limited resources at criticallocations,enablinggreeninfrastructurestrategiestobe gradually implemented over the longer term to provide citywidebenefits.Thisframeworkprovidesameansofprioritizing limited financial resources to improve resilience. This is
+One contribution to a special feature ‘City particularlyimportantasfloodmanagementinvestmentsmust analytics:mathematicalmodellingandcomtypically exceed a far higher benefit–cost threshold than putationalanalyticsforurbanbehaviour’.
+2016TheAuthors.PublishedbytheRoyalSocietyunderthetermsoftheCreativeCommons
+AttributionLicensehttp://creativecommons.org/licenses/by/4.0/,whichpermitsunrestricted use,providedtheoriginalauthorandsourcearecredited.
+rebmevoN no /gro.gnihsilbupyteicoslayor//:sptth morf dedaolnwoD................................................ rsos.royalsocietypublishing.org
+R.Soc.opensci.3:160023 transport infrastructure investments. By capturing the value to the transport network from flood managementinterventions,itispossibletocreatenewbusinessmodelsthatprovidebenefitsto,and enhance the resilience of, both transport and flood risk management infrastructures. Further work willdeveloptheframeworktoconsiderotherhazardsandinfrastructurenetworks.
+1. Introduction
+Anincreasingnumberofcatastrophicweather-relatedeventsacrosstheglobehaveseenthesafetyand resilience of infrastructure networks become an important issue in recent years. In Europe, 40 major catastrophic events took place in 2013, in particular two of the most costly in the world ($16.5 billion of damage across Germany and Czech Republic from flooding; $4.8 billion in France and Germany caused by hailstorms), according to Swiss RE [1]. The UK has also suffered multiple extreme weather events,suchasthe2007floodsinEngland(£3.2billioneconomiclosses)andthe2009Cumbriafloods (£276 million) [2]. The expected effects of climate change, in particular shifts in weather patterns with drier summers, rising sea-levels, wetter winters and flash floods, will mean that conditions are expectedtoworseninthefuture[3–6].Concurrently,anincreaseinpopulationandeconomicactivities in urban areas will place further pressure on infrastructure systems [7]. While this concentration
+of assets and activity drives productivity and creativity in cities, it also increases their exposure to hazards. Infrastructure networks play a crucial role in mediating both the risks and opportunities to peopleandtheeconomybutmustbereconfiguredaspartofastrategytoincreaseresilienceinurban environments[8–11].
+This paper introduces an integrated assessment framework to quantify the impact of flooding on disruptiontoroadtransport,whichhasbeenpoorlystudied[12].Theframeworkcoupleshigh-resolution flood modelling with a transport network model to assess the impact of different flood events on transportdisruption,andtoassessthebenefitsoffloodriskmanagementmeasuresintermsoftransport disruption. These are compared with network betweenness centrality (BC) to explore the criticality of major roads and junctions/intersections of the network under a hazard event and to identify priority locations for intervention. Following this introductory section, further background about the problem is provided before introducing the methodology in §3 and subsequently a case study application in
+NewcastleuponTyneintheUK.Theimplicationsoftheresultsforfloodriskandtransportinfrastructure managersarediscussed,beforedrawingappropriateconclusions.
+2. Background
+2.1. Disruptiontotransportinfrastructure
+Disruption to critical infrastructure is of major interest to engineers, policy-makers and planners.
+A resilient transport system is considered to have the ability ‘to withstand the impacts of extreme weather,tooperateinthefaceofsuchweatherandtorecoverpromptlyfromitseffects’[13].Thefocus ofthispaperisontheimpactsandoperationduringextremeweather,ratherthanrecovery.Toimprove theabilitytoavoidorlimittheeffectsofhazardevents(suchasflooding)wherepossible,itisessential thatagreaterlevelofunderstandingofthebehaviourofnetworksunderhazardconditionsisdeveloped, alongsideimprovedmodellingmethodologiesandtechniqueswhichcanallowtheassessmentofoptions forreducingtheimpactofhazards[14].
+Transporthasbeenrecognizedasparticularlyvulnerabletoextremeeventsandclimatechange[15].
+Floodingcanbecausedbygroundwater,coastal,fluvialorpluvialeventsandisoneofthemostserious hazardsgloballyduetotheimpactsitcausesontheenvironment,socialwell-beingandtheeconomy.In manycities,intenserainfallcoupledwithinadequate,orpoorlymaintained,localdrainagesystemscan leadtotherapidonsetofsurfacewaterfloodingcausingdamagetosurfaceinfrastructureanddisruption totransportnetworks.Theimpactofthisdisruptioncanextendfarbeyondthefloodextentduetothe connectivityofthetransportsystem[16].
+A number of recent studies have examined the impact of weather events on urban transportation;
+however, they focus on impacts to traffic speeds due to ice, snow, precipitation (that hampers driver visibility as opposed to flooding) and wind [3,12,15,17–19]. Traffic safety and travel times for road transporthavebeeninvestigatedformanyweather-relatedphenomena(e.g.fog,wind,rain,snow,ice), butfloodingisgenerallymissingfromthisliterature[12],apartfromanalysisofwaterforcesonparked vehicles[20,21].Investigationsintotheimpactoffloodsonroadnetworksfocusedonroadclosuresor caraccidentswithoutconsideringtrafficspeedandtraveltime[22–24].
+2.2. Networkanalysis
+Network complexity science has been used for the analysis of the resilience of critical infrastructure to understand the dynamics of failures within networked systems, often adopting purely topological or metric-based approaches to simulate the failure of components [25–27]. While useful, these approachesdonotcapturethephysicalproperties,attributesandengineeringfailuremechanismsofreal infrastructurecomponents.Furthermore,thefocusofthesestudiesistypicallyonsystem-widefailure ratherthanconsideringtheimplicationsofreducedperformanceinpartorallofthenetwork(e.g.links becomingmoredifficulttotraverse).Asnetworkmodelsaretypicallyaspatial,theemphasishasbeen ontopologicalinteractionsratherthanconsideringthegeographyofthehazardandinfrastructure.This leadstothelossofcriticalinformationforimprovingtheabilityofthesesystemstowithstandhazards, manyofwhichvarygeographically[28].
+However, graph theory can provide some useful measures of network performance. For example, the relative importance of nodes and edges can be effectively obtained through centrality measures.
+Traditional models of network analysis, however, are often limited to topological and graph theory approaches, considering the network only as links and nodes, and ignoring flows and other features
+[29].Thispaperconsiderstherelationshipbetweensuchnetworkmetricsandtheimpactoffloodson transport flows. Recent events, such as the extreme rainfall event on 28 June 2012 in Newcastle upon
+Tyne in the northeast of England, have demonstrated the need to develop a greater understanding of extremerainfallevents,inordertomaintainnetworkperformanceatanacceptablelevelduringextreme weatherevents.
+2.3. Adaptationtofloodrisk
+Theadaptationoftransportsystems,tomanagetheimpactsofextremeweatherevents,isnotlimitedto improveddesignoftransportinfrastructurealone.Urbanfloodriskmanagementcanbeimplemented atthesourceofflooding(e.g.extremerainfallcausingabuild-upofsurfacewater),alongitspathway (e.g.anoverlandflowofsurfacerun-off)oratthereceptoritself(e.g.asectionofroadinthetransport network)[30,31].
+Adaptation can involve moving infrastructure away from flood-prone areas (i.e. diverting roads), improving the resilience of existing infrastructure in situ (i.e. improving drainage along roads, raising roadswherefloodingisexpectedtooccur),oruseofpermeablepaving[32].Anincreasinglyimportant optionforincreasingurbanresiliencetofloodingaresustainableurbandrainagesystems(SUDS).SUDS pay particular attention to the source and pathway stages of the flood process [33], as opposed to traditional engineering solutions to stormwater management (e.g. drainage channels and sewerage systems). SUDS seek to use natural processes to reduce initial run-off through source interventions, suchasblueorgreensurfaces(e.g.parks,ponds,roofs),andtoincreasetheretentionandinfiltrationof water[34].Theseadaptationsinterceptorreducerun-offbeforeitreachesthereceptors,therebyreducing the magnitude of the hazard at the infrastructure. Such measures are also often referred to as Blue
+GreenInfrastructure(BGI).Otheroptionsincludebuildingredundancyintothenetwork(i.e.providing alternative routes) or increasing mode share for more resilient transport modes (i.e. encouraging shift fromprivatecar-basedtransporttopublictransport,walkingandcycling)[35].
+The use of BGI to address the impacts of urban extreme weather events is of particular interest as
+BGI provides additional benefits beyond flood risk reduction. However, the evidence to support the use of BGI to manage extreme events is often ambiguous [36]. This study compares a traditional and
+BGI strategy to manage the impacts of flooding on transport disruption to understand how urban environments can be impacted by extreme rainfall events and which strategies could help to better protectthemfrompresentandfutureflooding.Theemergenceofnewsourcesofdata,forexample,from ubiquitous sensors or from the exploitation of big data, and the advancement of network modelling techniqueshaveincreasedtheabilitytosimulateandunderstandever-morecomplexurbanprocesses
+[37]. The Tyne and Wear metropolitan area (UK) has been chosen for preliminary analysis due to the availabilityofsuchobservationsfromrecentextremeweatherevents.
+3. Materialandmethods
+An integrated assessment framework that combines hazard modelling, graph theory and transport networks analysis is used to enable evaluation of the effectiveness of different adaptation strategies (figure 1). This work has used data and models that are appropriate to a UK application but, data permitting,theprinciplesaretransferable.
+3.1. Floodhazardmodel
+The impact of a flood depends on a number of factors, including water depth, water velocity, flood duration and the spatial extent of inundation. The focus here is on flooding from heavy rainfall.
+FloodhazardisquantifiedusingtheCityCatchmentAnalysisTool(CityCAT),ahydrodynamicmodel developedtosimulatepluvialinundationathighresolution,toaccountforthecomplexityofthebuilt environment[38].CityCATisatwo-dimensionalhydrodynamicfloodmodelbasedontheevaluationof infiltrationofperviousareas,anditproducestemporalseriesoffloodwaterdepths.Inrecentyears,cloud computinghasmadepossiblethesimulationofalargenumberofensembles,allowingassessmentofthe uncertaintyandvariabilityofextremeraineventsinthepresentandfutureconditions[39].Simulations canbeundertakenoncurrentclimaticconditionsorfuturescenarios,basedontherainfalldurationand returnperiod,forlargedomainsuptomillionsofcomputationalcells.Adigitalterrainmodel(DTM)of allthecatchmentbasinsthatflowintoNewcastleuponTynewasusedasaninputtothehazardmodel to generate the underlying topography. In this case, the UK Environment Agency’s 4m DTM is used withbuildingfootprints,greenspacesandotherurbanstructureswhichareincorporatedfromtheUK
+OrdnanceSurveyMasterMapdata.Inclusionofbuildings,soilporosityandothercharacteristicsallows morerealisticsimulationofflowpathsinurbanareas.
+3.2. Flowsoverthetransportnetwork
+Thevulnerabilityofaninfrastructureassetdependsonbothitsroleinthenetwork(assessedbygraph measures, see §3.3) and the number of users who rely on the asset during their use of the network.
+To estimate the number of people using a particular link in the network, and thus the number of people affected by a reduction in its performance, a macro-scale traffic model has been developed to simulateflowsonurbantransportnetworksundervarioushazardscenarios.Transportjourneysbetween originand destination locations (e.g. places of residence and employment)are estimated using a tripassignmentroutine,whichsimulatescommutingjourneysalongeachsegmentoftheroadnetwork[40].
+Traveltimeiscomputedasafunctionofanumberofattributes,i.e.distance,free-flowspeed,capacity andcongestionandforprivatetransportroadusers.Amatrixofpeaktrafficflowsbetweenoriginsand destinationsforeachmodeisconstructedfromcensusandtravelsurveydata.Peopletripsareconverted tovehicletripsusingestablishedvaluesforvehicleoccupancy(forexample,ameanof1.16peopleper carforcommutingtripsisgivenintheUKDepartmentforTransport’sWebTAGguidance[41]).
+AnetworkisconstructedfromtheOrdnanceSurveyITN(IntegratedTransportNetwork)datalayer, a nationally available UK dataset specifically designed for network analysis (and thus supplied in a topologically correct form). Each link on the transport network is attributed, based upon its capacity, with a function that relates speed reductions to flow increases to capture the influence of congestion.
+EquilibriumissoughtbytravellersselectingroutesthatfindtheleastcostpathbetweenoriginOand destinationD(asusedtocalculateBC,see§3.3)usingtheapproachdescribedbyFordetal.[42]inboth normal,unperturbedconditionsandfollowingdisruptionduetoafloodinghazard.
+3.3. Betweennesscentralityoftransportflows
+The BC metric of the topologically valid representation of the road network provides an effective indicatorofanode’scentralityinagivennetwork,andisusedtoidentifythemostcriticalnodes/edges
+[43–45]. The BC represents the number of shortest paths which pass through it when considering the paths between each pair of nodes in the network. This is normalized by the total number of shortest pathsinthenetworktogiveacentralityvalue[46–48],whichactsasaproxyforflowsthroughnetworks
+[43,45,49].TheBCfornodevis[48] σ(s, t|v)
+CB(v)= σ(s, t), (3.1) s,t∈V — climate scenarios hazard — floodwater depth simulation modelling — census, ITN data network — baseline graph metrics computation modelling — floodwater–speed function — disrupted graph metrics computation impact modelling — measure of impact: BC BS versus BC DISR — ‘grey’ adaptation versus ‘green’ adaption — adaptation graph metrics computation adaptation testing — benefits from adaptation: BC DISR versus BC ADAP
+BC =value for baseline condition
+BS
+BC =value for disrupted condition
+DISR
+BC =value for adapted condition
+ADAP
+TACytiC
+X nohtyP
+SIG
+Figure1.Theintegratedassessmentframeworkfortransportdisruptionanalysis.
+whereVisthesetofnodeswhichareinthenetwork,Nisthenumberofnodesinthenetwork,σ(s,t)is numberofshortestpathsandσ(s,t|v)isthenumberofshortestpathswhichpassthroughnodevother thans,t.Here,theshortestpathiscalculatedintermsoftraveltime,ratherthandistance,inkeepingwith thetrafficflowmodeldescribedin§3.2.ByweightingtheBCinthisway,themeasurecanbeusedto assessdisruptiveevents,inparticularwheredisruptionsdonotnecessarilyresultinthecompletefailure ofnetworkcomponents.Instead,whereadisruptionoccurs,theweightonanedgeincreasestoreflect slower travel speed (higher travel time), resulting in the shortest paths for the BC measure avoiding theaffectededgeswherealternativeroutesarequicker.Thisallowsthemodellingofeventswherethe scaleofdisruptionvariesbetweenedgesratherthansimpleBooleanfailuresassociatedwithothergraph theorystudies.Furthermore,themetricalsoallowsfortheidentificationofthecriticallocationsinthe
+network based as it captures the locations of the greatest disruption to normal traffic behaviour as a resultofafloodevent.Thiscalculationisundertakenusinganopensourcesoftwarestackconsistingofa postgreSQLrelationaldatabasewiththespatialextensionpostGISwhichallowstheexplicithandlingof spatialdata,andthroughadevelopednetworkschemaandwrappertheexplicithandlingofnetworks
+[50].TheNetworkXPythonlibrary,throughthedevelopedwrapper,isthenusedforthecomputational analysisofthenetwork.
+3.4. Assessingdisruptionandthebenefitsofadaptation
+To calculate the disruption to network links as a result of flooding impacts, timeseries of floodwater depths across the model domain are integrated with the spatial network model. Flood water reduces speeds,orstopsentirely,trafficflowsalongfloodednetworklinksaccordingtothedepthofinundation.
+Existing methods (e.g. [24]) assume roads that are flooded to any depth to be entirely closed. This is perhapssuitableforfluvialorcoastalinundationwheredepthsaretypicallylargeacrossthefloodextent, butflooddepthsfromintenserainfallcanvarysubstantiallyaccordingtolocalconditions.Toaddress this, Pregnolato et al. [51] developed a new curve that relates water depth (between 0 and a critical flooddepthwheretheroad isimpassable)tosafedrivingcarspeed (figure2). Thisfunctionhasbeen developedbycombiningdatafromexperimentalreports[52],safetyliterature[18,53,54],experimental data[55],analysisofvideosofcarsdrivingthroughfloodwaterandexpertjudgement(e.g.Automobile
+Association). The maximum threshold above which water becomes impassable (i.e. the average sill heightofanormalmotorcar)isconsideredtobe30cmformostcars;therefore,alinkisassumedclosed onlywhenthelimitof30cmisreached.Anupperandlowerconfidenceintervalisconsidered,toinclude uncertaintiesduetodrivingcharacteristicandbehaviour(e.g.typeofcar,asphaltortyre,behaviourof thedriver,visibility).Theshapeofthefunctionisdependentuponthespeedlimitoftheroad;figure2 showstheimpactonaroadwithaninitialspeedlimitof50mph.
+floodwater–speed relationship for cars driving into water
+60 estimated function (regression) approximation 4WD cars
+50 approximation small cars
+30
+20
+10
+0 50 100 150 200 250 300 350 400 450 500 floodwater depth (mm))hpm(deeps ytefas
+Figure2.Depth-disruptionfunctionthatrelatesvehiclespeedandflooddepthonaroad.
+adaptation interventions — green assets — green roofs hazard modelling — drainage improvement — redundancy network — node hardening modelling — flows changes
+Figure3.Implementationofadaptationinterventionwithintheframework.
+Thus,thenetworkpropertiesofalink(e.g.traveltime)aremodifiedaccordingtothisrelationship,and transportflows(§3.2)andBC(§3.3)arerecalculatedforthisperturbedstate.Adaptationscenarioscan betestedbyalteringinputstoeitherCityCATorthetransportnetwork.Asnotedin§2.3,theseincludea combinationofmeasuresfromhardmeasuresoftraditionalengineering(e.g.drainageimprovement)to ‘softmeasures’ofgreeninfrastructure(e.g.raingardens)whichcanberepresentedinthemodelbythe modificationofcoefficientsofinfiltrationandstorageinCityCAT,orbyadjustingthepropertiesoflinks andnodesinthenetworkmodel(figure3).
+Theimpactoffloodeventsisassessedintermsofincreasestotheoveralltraveltime,Tnet,acrossthe network:
+
+Tnet = t i,j, (3.2) i j where t is the journey time between zone i and zone j, and as a ‘person minute delay’, Tperson, that accountsforthetrafficflow,q,betweeneachzone:
+
+Tperson = q t, (3.3) i j where Q is the total volume of traffic across the network. Since trips have an associated cost (e.g.
+lost work-time, or reduction in productivity), the economic impacts could be calculated using the relationships described in WebTAG [41]. By comparing baseline and perturbed values of BC, an estimationoftheimpactofdisruptionsonthenetworkbehaviourisobtained.
+4. Results
+4.1. NewcastleuponTyne(UK)casestudy
+TheframeworkhasbeenappliedtoNewcastleuponTyneinnortheastEngland(figure4).Thecityhas beenfloodedbyintenserainfallonpreviousoccasions,andthecitycentreisalmostimpervious(92%) andwithoutanoverarchingstrategyforitsdrainagesystemitprovidesausefulprototypeintheUKfor theanalysisofflashfloods[56].
+Additionally,thepresenceofhistoricaldatainNewcastle,collectedduringpastfloodeventsbythe
+Traffic Accident Data Unit (TADU), enables some validation. An example of recorded data, obtained throughautomatictrafficcountersduringthefloodon28June2012,isshowninfigure5.Thiseventhad anestimatedreturnperiodof1in100years,andanapproximatedurationof2hoursledtoinundation of377roadlinks,ofwhich227sufferedhighwaydamage[57].
+ThetransportmodelhasbeenimplementedforNewcastleuponTyneusingcensusdatafrom2011
+Journey To Work records at Middle Super Output Area (MSOA) level. This provides the number of peopletravellingbetweeneachpairofMSOAzonesandthemodeoftransporttheytakefortheirjourney, which are aggregated using the method described in §3.2 to assign baseline traffic flows to the road networkduringpeakcommutingperiods.
+The BC is computed over the road network for the wider Tyne and Wear local authority of which theNewcastleCityCouncilformsasignificantpart,weightedusingthetimetotravel(figure6).Critical featuresofthisnetwork,suchasthelimitedrivercrossingstothesouth,alongwiththemainroadsinto the centre of the Newcastle area, have some of the highest BC values. This provides a baseline set of valuesforallmajorroadsintheareaofinterestfromwhichtheimpactsofhazardsonthiscriticalurban systemcanbecomparedagainstandthesensitivitytoappliedadaptationsanalysed.
+Abaselineundisruptedeventisfirstrun(NA_0),beforethe1in10and1in200yearreturnperiod events(NA_10andNA_200,respectively),bothofa1hourduration.Thetwostormeventswerecreated followingthestandardprocedurefromtheFloodEstimationHandbook[58].Thespatialfootprintsofthe simulatedfloodeventproduceatimeseriesofhazardmapsshowingwaterdepths(inmetres;figure7).
+Integrationofdepthswiththedisruptionfunction(figure2)enablesthespeedreduction,accordingto thedepthoffloodwater,tobecalculatedforeachlink(figure8).Thesemodifiednetworkcharacteristics areusedtorecalculatetrafficflowsandBCpre-andpost-events.Thetotaltimeofdelaysacrossthewhole networkisconsidered,i.e.thesumofthedelaystoalljourneysbetweenalloriginsanddestinationsfor journeysacrossTyneandWearregion(MSOApopulation-weightedcentroids).
+4.2. Transportnetworkcriticality
+Criticallinkscanbeselectedthroughamatrixofuseandexposure[59].Table1showsariskanalysis matrix that relates vulnerability to flooding with the importance of a road link, thereby providing an indicationofhowseverelyalinkcouldbeimpactedbyafloodingevent.Figure9showstheapplication ofthematrixcategoriestoNewcastleuponTynetoidentifyhotspots(inred)thatarecharacterizedby high vulnerability and high flows. This analysis highlights a small number of particularly significant links in the road network (specifically the A167, the Coast Road (A1058) and the Great North Road (B1318)).
+Asanalternativeandadditionalapproach,theBCisalsocalculatedforbaselinetrafficflowsoverthe widerTyneandWearregionandranked,andtable2classifiestheseranksaccordingtorelativecriticality.
+Thisidentifiesthesamethreelocationsasbeingcritical,butalsohighlightsthecriticalityofroutestothe south,includingtheTyneBridge,andtheA186throughthesouthofNewcastlecitycentre(figure10).
+4.3. Adaptationstrategies
+Two adaptation strategies are tested against these events to explore the effectiveness of traditional engineering(RE_10andRE_200)approachesandagreeninfrastructure(GR_10andGR_200)strategy.
+A number of possible green infrastructure options are identified in §2.3; here each roof in the city is assumed to have the capacity to store 5cm water depth. The roofstorage delays the release of rain waterontothesurface,reducingbothpeakflowratesandtotalrunoffvolumeofrainwatercompared (figure11).
+A more targeted approach is used for the traditional engineering strategy. The critical portions of theroadnetworkareusedtoprioritizethelocationofinterventions.Bothmethodsin§4.2identifythe
+Newcastle city centre
+Newcastle upon Tyne council
+River Tyne main roads
+Figure4.NewcastleuponTyneandmajorroadsinTyneandWear.
+3000
+2500
+2000
+1500)ruoh rep srac(wolf ylruoh comparison between normal traffic flows and traffic flow impacted by floooding real data recorded in Newcastle on 28 June 2012 non-disrupted flow disrupted traffic flow site 1: A1058 site 2: A167 site 3: Tyne Bridge
+3000 3000
+2500 2500
+2000 2000
+1500 1500
+1000 1000 1000
+500 500 500
+0 0 0
+123456789101112131415161718192021222324 123456789101112131415161718192021222324 123456789101112131415161718192021222324 time of the day (h) time of the day (h) time of the day (h)
+Figure5.Comparisonbetweenthenon-perturbedtrafficflow(blue)andthedisruptedflow(orange)oftheextremefloodeventon
+28June2012,fromNewcastleTADUtrafficdata(carsperhour).
+convergenceoftheA167,GreatNorthRoad(B1318)andtheCoastRoad(A1058)asthemostcriticalsite.
+Thislocationis‘hardened’inthesimulationbymakingthelinksresistanttothe1in200yearfloodevent (i.e.floodwatercannotaffectthenetworkperformance).Thiscouldbeachievedinrealityby(i)raising theleveloftheroads,(ii)improvingthedrainagesystemor(iii)installingtankstostorerunoff.Eachof theseinterventionsisexpensiveanddisruptive.
+4.4. Discussion
+The results for the baseline and six scenarios tested within the integrated assessment framework are shownintable3.Theadaptationoptionsprovidebenefitsinreducingthetotaldelaysbothlocallyand baseline betweenness
+0–0.010
+0.010–0.020
+0.020–0.050
+0.050–0.100
+0.100–0.200
+Newcastle
+Tyne and Wear
+00.51 2km
+Figure6.BCforthemajorroadsinNewcastleandthewiderTyneandWearregion.
+(a) (b) hazard maps
+macro-scale: scenario B meso-scale: scenario A return period = 200 years, rainfall duration = 60 minutes return period = 10 years, rainfall duration = 60 minutes floodwater floodwater depth depth high: 9.301 m high: 7.631 low: 0 m low: 0 m
+00.751.5 3 km (c) meso-scale: scenario B return period = 200 years, rainfall duration = 60 minutes floodwater depth high: 9.301 m low: 0 m
+0 0.1 0.2 0.4 km
+Figure7.Exampleofahigh-resolutionfloodsimulationfromthefloodmodelforNewcastlearea(UK).
+globallyacrossthewholeroadnetwork.Theresultsdemonstratetheimportanceofunderstandingthe structure,capacity,connectivity,flowsandotherattributesofthetransportnetwork.
+At the network scale, the hardening of critical links (RE_10) in the network provided only limited benefitstooverallnetworkdelays,whereasthegreenroofstrategyprovidedareductionof22.3%forthe
+10-yearreturnperiodeventand18.3%forthe200-yearevent.However,whentakingintoaccounttraffic flowsoneachroute,greenroofsprovidedreductionsof25.5%and17.7%forthe10-and200-yearevents, respectively.However,hardeningofthemostcriticaljunctionprovidedreductionsof11.9%and6.6%for the10-and200-yearscenarios,respectively.
+flood depth on road links flooding impact on road links floodwater present on the network due to flooding free flow speed reduction
+0–100 00.751.5 3 km 0–20% 00.751.5 3 km
+100–300 20–40%
+300–1500 40–60% >1500 60–80%
+Newcastle City Council 80–100%
+Newcastle City Council
+Figure8.(a)Thefloodwaterdepthoneachlinkofthenetworkasaresultofa1in200yearsfloodsimulation.(b)Impactofflooding intermsofspeedreduction.
+low risk potential hotspots critical hotspots network with no hazard data
+Figure9.Criticalhotspotsintermsofbothvulnerabilitytofloodingandimpactontrafficflows.Redarethemostimportantlinks, greentheleast.
+Table1.Matrixclassificationofvulnerabilityandfloodingimpact,highlightingindicativeroadsforseveralclassifications.
+impactflux(carsperhour) vulnerability floodwater(mm) minor0–50 moderate501–1500 major1501–2500 severe>2500 minor0–100 A167(GrandstandRoadjunction) moderate101–200 A1058 major201–300 A167(south) A167(citycentre) severe>300 A189 A695 A167South,A1058(A167junction) A167West,GreatNorthRoad low risk potential hotspots critical hotspots
+Figure10.ClassificationofroadsinTyneandWearbasedonBCofthetransportnetwork.
+road network road network
+Newcastle City Council Newcastle City Council green roof footprint 0m benefits from green roof adaptation
+2.63m
+Figure11.(a)Locationsofgreenroofs.(b)Thebenefitsfromthegreenroofstrategyintermsofreduceddepthoffloodingforthe1in
+200yearevent.
+Table2.ClassificationofroadcriticalitybasedonBC,highlightingindicativeroadsforseveralclassifications.
+BCrange classification examplelocations
+0.000–0.001(lowest5%ofedges) lowrisk A167–A189(sliproadsbetweencentral motorwayandGrandstandRoad)
+0.039–0.098(secondhighest5%ofedges) potentialhotspots B1318(GreatNorthRoad)
+0.098–0.193(highest5%ofedges) criticalhotspots A167(centralmotorway)
+The green roof strategy does provide an overall greater improvement in network performance compared with the junction hardening. However, while the green roof strategy considered here representsanabsoluteupperbound(i.e.100%ofallroofs)onthepotentialofthisinterventionstrategy, only one hardened junction is considered and this provides a disproportionate return. Furthermore, implementing a ‘universal’ green roof strategy is unlikely to be a realistic option in an established city, at least in a short timeframe, as many roofs are unsuitable to be retrofitted at reasonable cost.
+baseline
+NA_0 NA_10 NA_200 betweenness centrality
+0–0.005
+0.005–0.010
+0.010–0.050
+0.050–0.100
+0.100–0.280
+0 0.25 0.50 km noitatpada on yerg neerg
+T = 10 years T = 200 years R R
+RE_10 RE_200
+GR_10 GR_200
+Figure12.BCvaluesfortheroadnetworkaroundareaofgrey/hardadaptationsforthebaselinenetwork(NA_10andNA_200),forthe grey(RE_10andRE_200)andgreen(GR_10andGR_200)adaptationscenariosforthehazardeventsA(1in10years)andB(1in200 years).
+Table3.Summaryofresultsforallscenariosanalysed.Thepercentagesaremeasuredrelativetothecomparablebaselinescenario.
+standard totaltime person return deviation maximum ofdelay minute label period adaptation averageBC ofBC BCvalue (mins) delay
+NA_0 noflood noadaptation 0.0089 0.0174 0.1926 — —
+NA_10 10years noadaptation 0.0094 0.0198 0.2393 63006 783033
+NA_200 200years noadaptation 0.0100 0.0219 0.2527 119115 1438736
+RE_10 10years hardenroad 0.0093(0.6%) 0.0198(−0.4%) 0.2306(3.5%) 58960(6.4%) 689833(11.9%) junction
+RE_200 200years hardenroad 0.0096(3.4%) 0.0214(2.2%) 0.2500(1.1%) 115191(3.2%) 1343612(6.6%) junction
+GR_10 10years greenroofall 0.0094(0.4%) 0.0190(2.7%) 0.2248(6.1%) 48965(22.3%) 583309(25.5%) buildings
+GR_200 200years greenroofall 0.0096(3.6%) 0.0206(5.6%) 0.2525(0.1%) 97263(18.3%) 118412(17.7%) buildings
+Green infrastructure, however, typically provides other benefits beyond flood risk management, such asimprovingwellbeing,biodiversityandprovidingacoolingeffectduringheatwaves,whichshouldbe consideredduringurbanplanning.
+Analysing the change in average and maximum BC shows reductions in BC for all adaptations.
+ReductionsinaverageBCarecomparableforthedifferentadaptationstrategies.However,themaximum
+BCismostreducedunderthelowreturnperiodeventswithagreenroofstrategy,butathigherreturn periodsthehardeningstrategyprovidesthegreatestreduction.Figure12showstheBCforthedifferent scenarios at the location of the junction hardening strategy. Notably, the hardening strategy increases theBCvaluesthroughthejunctionforbothevents,thoughvaluesarestilllowerthanthebaseline.This shows that the protection of this key junction in the network increases its relative importance to the network as a whole. The effect of the green roof strategy on BC is lower than the hardening strategy because under GR_10 and GR_200 flooding can still occur at the junction causing alternative paths to bequicker.However,GR_200hashigherBCvaluesthanGR_10becausethe200-yearfloodhasamore significantimpactonotherpartsofthenetwork;inparticular,thoseinthewiderTyneandWearregion where no green roof adaptions are considered. The junction, despite being affected by flooding in the
+GR_200 scenario, provides a faster route than the alternatives which are not inundated in the GR_10 scenario.
+The effectiveness of a single junction hardening intervention demonstrates the utility of the risk assessmentmatrix(table1)thatusesresultsfromtheintegratedassessmentmodellingframework,and thecalculationandrankingoftheweightedBC(table2).AstheweightedBCcanbecalculatedatlower computationalcostcomparedwithafulltrafficflowanalysis,itprovidesarapidapproachtoassessand prioritizefloodriskmanagementinterventionsonthetransportnetwork.
+Whiletheindividualcomponentsofthismodellingsystem(suchastheCityCATfloodmodel)have been validated separately, the validation of the combined modelling framework (using the June 2012 event)isanongoingprocess.Nevertheless,theanalysisoffersaninterdisciplinaryviewonacomplex problem,presentingaspecificindicationoffloodimpactsontransportnetworkandprovidesbasisfor furtherstudies.Althoughthestudyissite-specific,datapermitting,themethodisreadilytransferable to other locations. This methodology can be applied to present conditions as well as future scenarios, allowingtheexaminationofimpacts,andappraisalofthebenefitsofadaptation,inthecontextofsocioeconomicandclimatechange.Finally,whilethisstudyfocusesonthefloodrisktotheroadnetwork,the frameworkcan alsobeappliedtootherweather-relatedphenomenaandother networkinfrastructure (e.g.railnetworks)facilitatingthesystematicanalysisoftheirdirectandindirectimpacts.
+4.5. Futurework
+Thecurrenttransportmodelassumespeopleareawareofdisruptionsandhavesufficientknowledgeto identifytheoptimalroutetominimizetraveltime.Non-flooddisruptions(e.g.roadworksoraccidents) andotheruncertaintiessuchastheinfluenceofbadweatheronjourneyandtransportmodechoiceare not considered. Furthermore, while the individual components of this modelling system (such as the
+CityCATfloodmodel)havebeenvalidatedseparately,validationofthecombinedmodellingframework is more complex. As shown in figure 5, transport monitoring data from the June 2012 event provide someinformationbutthisisonlyonasmallnumberofroutes.Asmonitoringtechnologies,andvehicle automation,becomemorepervasivebigdataanalyticscouldprovideapowerfulvalidationtool.
+This methodology will be further developed to test a wider range of flood events with different intensitiesanddurations.Furtherworkwillalsoconsiderabroadersetofadaptationoptionsthatwill includeothertraditional,blueandgreeninfrastructureinterventions.Thisanalysishasshownthatthe scale and spatial distribution of adaptation options to be important to both local and global network resilience, and a crucial development will be to consider portfolios of interventions, and their costs, ratherthantheextremestrategiesconsideredhere.Thiswillprovidethebasisforamorecomprehensive approachtoappraisethebenefitsofadaptationofinfrastructureintheurbanenvironment.Ultimately, the methodology could be adapted to explore other hazard impacts, different types of infrastructure networksandpotentiallycascadingfailuresbetweeninfrastructuresystems.
+5. Conclusion
+Increased frequency of extreme flood events, coupled with population growth, require infrastructure networkstobemoreresilienttodisruptiveevents.Theimpactofdifferentfloodeventsandadaptation strategies on the resilience of an urban road network has been assessed using a novel integrated assessment framework. The methodology couples simulations of hazard, traffic flows, a depthdisruption function and network analysis to measure disruption caused by floods, and the approach hasbeendemonstratedinNewcastleuponTyneinthenortheastofEngland.
+The results showed significant delays in travelling journeys, even for the low impact events (1 in
+10 year return period). Two adaptation options (junction hardening and green roofs) were tested and both showed substantial benefits, measured in terms of reduced disruption to journeys, to network resilienceduringextremeevents.Thelocationofthejunctiontobehardenedwasidentifiedbycombining informationontrafficflowsandfloodhazard,andconsiderationofnetworkmeasures,inparticularBC weightedbytraveltimes.Whiletheurbangreeningstrategyprovidedthegreatestbenefitsitrequired allroofswithinthecitytobereengineered,whereasasingleinterventiontoprotectaroadjunctionfrom flooding provided a disproportionate benefit. The wide spatial distribution of green roofs provided a largerglobalbenefitof22%,butwhenactualtrafficflowsareconsideredthepersondelaysarereduced by only 25%, compared with 11% from hardening a single junction. This analysis highlights that it is crucialtounderstandthenatureofflowsalong,andpropertiesof,theroadnetworkinordertoprioritize keyassets.
+A BC measure of the network, weighted according to travel time, is shown to provide a rapid measure for prioritizing critical locations in the road network. Calculating the same metric once the networkhasbeendisruptedprovidesinsightsintothelocalandglobalbenefitsofdifferentadaptation strategies across the system. Although the analysis here highlights the potential of well-targeted engineeringinterventions,overlongertimescalesadaptingtheurbanfabrictohavemoregreenandblue infrastructurewillprovidesystemicbenefitsacrossthecityforfloodriskandtransportmanagement,as wellasprovidingothersocialandenvironmentalbenefits.
+This framework provides a means of prioritizing limited financial resources to improve transport networkresilience.Thisisparticularlyimportantasfloodriskmanagementinvestmentstypicallyhave amuchhigherbenefitcostthresholdthantransportinfrastructureinvestments.IntheUK,thisisaround
+8:1 for transport [41] compared with 2:1 for flood risk management [60]. By capturing the value to the transport network from flood management interventions, it is possible to create new business modelsthatprovidebenefits,andenhancetheresilienceof,bothtransportandfloodriskmanagement infrastructures.
+Dataaccessibility. Datasupportingthispublicationareopenlyavailableunderan‘OpenDataCommonsOpenDatabase
+License’.Additionalmetadataareavailableat:10.17634/154300-16.PleasecontactNewcastleResearchDataServiceat [已脱敏邮箱],OSMasterMapandITNareavailableunderlicensefromtheOrdnance
+SurveyUK.CensusdataavailablefromtheOfficeforNationalStatistics,UK.CityCATis‘property’ofNewcastle
+University;PythonisfreelyavailableandNetworkXpubliclyavailableunderaBSDlicense.
+Authors’contributions. M.P.,A.F.,C.R.andV.G.undertookandimplementedtheanalysis.Allauthorscontributedtothe developmentanddesignoftheresearchdescribedinthisarticle.Allauthorscontributedtothepreparationofthis article.
+Competinginterests. Theauthorshavenocompetinginterests.
+Funding. M.P. is funded by a Doctoral Training Account (DTA) funded by EPSRC (EP/L504828/1). This work has beensupportedbytheITRCprojectfundedbyESPRC(EP/I01344X/1);theiBUILDprogrammefundedbyEPSRC (EP/K012398/1); and the European Community’s Seventh Framework Programme under Grant Agreement no.
+308497RAMSES(ReconcilingAdaptation,MitigationandSustainabledEvelopmentforcitieS)project.
+Acknowledgements. Theauthorswouldliketoacknowledgetheirfundersforenablingthisresearchtotakeplace,Ray
+KingattheUTMCinNewcastleuponTyneforhisassistancewithaccesstotraveldata,IanAbernethyatGateshead
+CityCouncilforaccesstotheTADUsystem,KitEnglandatNewcastleCityCouncilforthesupportreceived,and
+RobertBertschforhisassistancewithCityCATmodelling.AllmapscontainOrdnanceSurveydata©Crowncopyright anddatabaseright2015.
+References
+1. SwissRE.2014Naturalcatastrophesandman-made 5. DollC,TrinksC,SedlacekN,PelikanV,ComesT, 8. DawsonRJ.2011Potentialpitfallsonthetransition disasterin2013.Sigma1/2014report.Zurich, SchultmannF.2014Adaptingrailandroad tomoresustainablecitiesandhowtheymightbe
+Switzerland:SwissRE. networkstoweatherextremes:casestudiesfor avoided.CarbonManag.2,175–188.(doi:10.4155/
+2. HallJW,PantR,AldersonD,BarrS.2014Spatialrisk southernGermanyandAustria.Nat.Hazards72, cmt.11.8) analysisofinterdependentinfrastructures 63–85.(doi:10.1007/s11069-013-0969-3) 9. CabinetOffice.2011Keepingthecountryrunning:
+subjectedtoextremehazards.InVulnerability, 6. IPCC.2014ClimateChange2014SynthesisReport. naturalhazardsandinfrastructure.InImprovingthe uncertaintyandrisk,pp.677–686.Reston,VA:ASCE. ContributionofWorkingGroupsI,IIandIIItothe UK’sabilitytoabsorb,respondtoandrecoverfrom (doi:10.1061/9780784413609.069) FifthAssessmentReportoftheIntergovernmental emergencies.London,UK:CabinetOffice.
+3. JaroszweskiD,ChapmanL,PettsJ.2010Assessing PanelonClimateChange.IntergovernmentalPanel 10. ZioE.2014Vulnerabilityandriskanalysisofcritical thepotentialimpactofclimatechangeon onClimateChange(IPCC),Geneva,Switzerland. infrastructures.InVulnerability,uncertaintyandrisk, transportation:theneedforaninterdisciplinary 7. AdgerWNetal.2007Assessmentofadaptation pp.23–30.Reston,VA:ASCE.
+approach.J.Geogr.18,331–335. practices,options,constraintsandcapacity.In (doi:10.1061/9780784413609.003)
+4. DollC,KlugS,EneiR.2014Largeandsmall Climatechange2007:impacts,adaptationand 11. Caparros-MidwoodD,BarrS,DawsonRJ.2015 numbers:optionsforquantifyingthecostsof vulnerability,pp.717–743.ContributionofWorking Optimizedspatialplanningtomeeturban extremesontransportnowandin40years.Nat. GroupIItotheFourthAssessmentReportofthe sustainabilityobjectives,computers.Environ.Urban
+Hazards72,211–239.(doi:10.1007/s11069-013- IntergovernmentalPanelonClimateChange. Simul.54,154–164.(doi:10.1016/j.compenvurbsys.
+0821-9) Cambridge,UK:CambridgeUniversityPress. 2015.08.003)
+12. KoetseMJ,RietveldP.2009Theimpactofclimate 28. BarthelemyM.2011Spatialnetworks.Phys.Rep. 44. NewmanMEJ.2004Analysisofweightednetworks.
+changeandweatherontransport:anoverviewof 499,1–101.(doi:10.1016/j.physrep.2010.11.002) Phys.Rev.E70,056131.(doi:10.1103/PhysRevE.70.
+empiricalfindings.Transp.Res.DTransp.Environ.14, 29. ZhongC,ArisonaSM,HuangX,BattyM,SchmittG. 056131)
+205–221.(doi:10.1016/j.trd.2008.12.004) 2014Detectingthedynamicsofurbanstructure 45. Dueñas-OsorioLA,VemuruSM.2009Cascading
+13. DepartmentforTransport.2014Areviewofthe throughspatialnetworkanalysisInternational. failuresincomplexinfrastructuresystems.
+resilienceofthetransportnetworktoextreme J.Geogr.Inform.Sci.28,2178–2199.(doi:10.1080/ StructuralSafety31,157–167.(doi:10.1016/j.
+weatherevents.Seewww.gov.uk/government/ 13658816.2014.914521) strusafe.2008.06.007) publications. 30. SchanzeJ.2006Floodriskmanagement—abasic 46. NewmanMEJ.2003TheStructureandfunctionof
+14. JongmanB,WinsemiusHC,AertsJ,ErinCoughlan framework.InFloodriskmanagement:hazards, complexnetworks.SIAMRev.45,167–256.
+dePerezE,vanAalstMK,KronW,WardPW.2015 vulnerabilityandmitigationmeasures(edsJ (doi:10.1137/S003614450342480)
+Decliningvulnerabilitytoriverfloodsandtheglobal Schanze,EZeman,JMarsalek),pp.1–20.Dordrecht, 47. BarthelemyM.2014Betweennesscentralityinlarge benefitsofadaptation.Proc.NatlAcad.Sci.USA112, TheNetherlands:Springer. complexnetworks.Eur.Phys.J.BCond.Matt.Comp.
+E2271–E2280.(doi:10.1073/pnas.1414439112) 31. NarayanS,HansonS,NichollsRJ,ClarkeD,Willems Syst.38,163–168.(doi:10.1140/epjb/e2004-00111-4)
+15. HooperE,ChapmanL,QuinnA.2012Investigating P,NtegekaV,MonbaliuJ.2012Aholisticmodelfor 48. BrandesU.2001Onvariantsofshortest-path theimpactofprecipitationonvehiclespeedsonUK coastalfloodingusingsystemdiagramsandthe betweennesscentralityandtheirgeneric motorways.Meteorol.Appl.21,194–201. Source-Pathway-Receptor(SPR)concept.Nat. computation.J.Soc.Netw.30,136–145.
+(doi:10.1002/met.1348) HazardsEarthSyst.Sci.12,1431–1439. (doi:10.1016/j.socnet.2007.11.001)
+16. DalziellE,NicholsonA.2001Riskandimpactof (doi:10.5194/nhess-12-1431-2012) 49. PatuelliR,ReggianiA,GormanSP,NijkampP,Bade naturalhazardsonaroadnetwork.J.Transp.Eng. 32. KallaosJetal.2014Synthesisreviewonresilient F-J.2007Networkanalysisofcommutingflows:a
+127,159–166.(doi:10.1061/(ASCE)0733-947X(2001) architectureandinfrastructureindicators. comparativestaticapproachtoGermandata.Netw.
+127:2(159)) Deliverable,EuropeanCommunitySeventh Spat.Econ.7,315–331.(doi:10.1007/s11067-007-
+17. KyteM,KhatibZ,ShannonP,KitchenerF.2001 FrameworkProgrammeRAMSES—Reconciling 9027-6)
+Effectofenvironmentalfactorsonfree-flowspeed. Adaptation,MitigationandSustainable 50. BarrSL,AldersonD,RobsonC,OttoA,HallJ,Tacker
+Transp.SearchRec.776,61–68. DevelopmentforCities. S,PantR.2013Anationalscaleinfrastructure
+18. AgarwalM,MazeTH,SouleyretteR.2005Impacts 33. BES.2014CityofPortland2014Stormwater databaseandmodellingenvironmentfortheUK.In ofweatheronurbanfreewaytrafficflow ManagementManual(SWMM).Portland,OR: Int.Symp.forNextGenerationInfrastructure, characteristicsandfacilitycapacity.InProc.2005 PortlandBureauofEnvironmentalServices(BES). Wollongong,NewSouthWales,Australia,1–4
+Mid-ContinentTransportationResearchSymp.Ames, 34. EllisJB,ViavatteneC.2014Sustainableurban October2013.
+IA:IowaStateUniversity. drainagesystemmodelingformanagingurban 51. PregnolatoM,FordA,WilkinsonS,DawsonRJ.
+19. TsapakisI,ChengT,BolbolA.2013Impactof surfacewaterfloodrisk.CLEAN–SoilAirWater42, Submitted.Theimpactoffloodingonurban weatherconditionsonmacroscopicurbantravel 153–159.(doi:10.1002/clen.201300225) transportsector—anintegrateddepth-disruption times.J.Transp.Geogr.28,204–211.(doi:10.1016/j. 35. IpWH,WangQ.2011Resilienceandfriabilityof function.
+jtrangeo.2012.11.003) transportationnetworks:evaluation,analysisand 52. OngGP,FwaTF.2008Hydroplaningrisk
+20. ShuC,XiaJ,FalconerR,LinB.2011Estimationof optimization.IEEESyst.J.5,189–198.(doi:10.1109/ managementforgroovedpavements.In7thInt.
+incipientvelocityforpartiallysubmergedvehicles JSYST.2010.2096670) Conf.onManagingPavementAssets,Calgary, infloodwaters.J.Hydraul.Res.49,709–717. 36. DemuzereMetal.2014Mitigatingandadaptingto Canada,23–28June2008.
+(doi:10.1080/00221686.2011.616318) climatechange:multi-functionalandmulti-scale 53. HighwaysAgency.2009Routineandwinterservice
+21. XiaJ,TeoF,LinB,FalconerR.2011Formulaof assessmentofgreenurbaninfrastructure.J. code.Seehttp://www.ha-partnernet.org.uk.
+incipientvelocityforfloodedvehicles.Nat.Hazards Environ.Manag.146,107–115.(doi:10.1016/j. 54. ChungE,OhtaniO,WaritaH,KuwaharaM,MoritaH.
+58,1–14.(doi:10.1007/s11069-010-9639-x) jenvman.2014.07.025) 2006Doesweatheraffecthighwaycapacity?In5th
+22. SuarezP,AndersonW,MahalV,LakshmananTR. 37. JinY,BattyM.2013Appliedurbanmodeling:new Int.Symp.onHighwayCapacityandQualityof
+2005Impactsoffloodingandclimatechangeon typesofspatialdataprovideacatalystfornew Service,Yokohama,Japan,25–29July2006.
+urbantransportation:asystemwideperformance models.Trans.GIS17,641–644.(doi:10.1111/tgis. 55. GalatiotoF,GlenisV,RobertsR,KilsbyC.2014 assessmentoftheBostonMetroArea.Transp.Res.D 12056) Exploringandmodellingtheimpactsofrainfalland
+Transp.Environ.10,231–244.(doi:10.1016/j.trd. 38. GlenisV,KilsbyCG,KutijaV,QuinnPF.2010CityCat. floodingontransportnetwork.Thecasestudyof
+2005.04.007) Urbanfloodingmodellingandanalysissoftware. NewcastleuponTyne.In2ndInt.Conf.onUrban
+23. ChangH,LafrenzM,JungI-W,FigliozziM,Platman NewcastleUniversity,SchoolofCivilEngineering SustainabilityandResilience(USAR2014),London,
+D,PedersonC.2010Potentialimpactsofclimate andGeoscience. UK,3–5November2014.
+changeonflood-inducedtraveldisruptions:acase 39. GlenisV,McGoughA,KutijaV,KilsbyC,Woodman 56. WrightNG,ThorneCR,LawsonE.2014Delivering studyofPortland,Oregon,USA.Ann.Assoc.Am. S.2013FloodmodellingforcitiesusingCloud andevaluatingmultiplefloodriskbenefitsin
+Geogr.100,938–952.(doi:10.1080/00045608. computing.J.CloudComput.2,1–14.(doi:10.1186/ blue-greencities.In11thInt.Conf.on
+2010.497110) 2192-113X-2-7) Hydroinformatics(HIC2014),NewYork,NY,USA,
+24. Penning-RowsellE,PriestS,ParkerD,MorrisJ, 40. OrtuzarJ,WillumsenLG.2011Modelingtransport, 17–21August2014.
+TunstallS,ViavatteneC,ChattertonJ,OwenD.2013 4thedn.NewYork,NY:JohnWileyandSonsLtd. 57. NewcastleCityCouncil.2013Summer2012flooding
+Floodandcoastalerosionriskmanagement:a 41. WebTAG.2016WebTAG:TAGdatabook.Seehttps:// inNewcastleuponTyne.NewcastleuponTyne,UK:
+manualforeconomicappraisal.London,UK: www.gov.uk/government/publications/ NewcastleCityCouncil.
+Routledge. webtag-tag-data-book-december-2015(accessed 58. RobsonA,DuncanR.1999Floodestimation
+25. AlbertR,JeongH,BarabasiA-L.2000Errorand 19January2016). handbook,vol.3.Wallingford,UK:Instituteof attacktoleranceofcomplexnetworks.Nature406, 42. FordA,BarrS,JamesP,DawsonRJ.2015Arapid Hydrology.
+378–382.(doi:10.1038/35019019) GIS-basedassessmenttoolforrapidestimationof 59. LarsenM,NielsenNH,RasmussenSF.2010Theblue
+26. HolmeP,KimBJ,YoonCN,HanSK.2002Attack transportaccessibilityappliedtoGreaterLondon. spotmodel.Developmentofascreeningmethodto vulnerabilityofcomplexnetworks.Phys.Rev.E65, ISPRSInt.J.Geo-Inform.4,124–149.(doi:10.3390/ assessfloodriskonnationalroadsandhighways
+056109. ijgi4010124) system.Copenaghen,Denmark:DanishRoad
+27. BaglerG.2008Analysisoftheairportnetworkof 43. CrucittiP,LatoraV,MarchioriM.2004Atopological Institute.
+Indiaasacomplexweightednetwork.PhysicaA: analysisoftheItalianpowergrid.PhysicaA:Stat. 60. EnvironmentalAgency.2010Floodandcoastal
+Stat.Mech.Appl.387,2972–2980.(doi:10.1016/j. Mech.Appl.388,92–97.(doi:10.1016/j.physa. erosionriskmanagementappraisalguidance physa.2008.01.077) 2004.02.029) (FCERM-AG).Bristol,UK:EnvironmentAgency.

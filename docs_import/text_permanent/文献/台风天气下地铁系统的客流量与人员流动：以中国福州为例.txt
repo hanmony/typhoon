@@ -1,0 +1,320 @@
+UrbanRailTransit(2022)8(1):32–44 https://doi.org/10.1007/s40864-022-00164-z http://www.urt.cn/
+ORIGINAL RESEARCH PAPERS
+Ridership and Human Mobility of Metro System Under the Typhoon Weather Event: A Case Study in Fuzhou, China
+Shixiong Jiang1 • Yuchen Lin1
+Received:11October2021/Revised:21November2021/Accepted:14December2021/Publishedonline:11February2022
+TheAuthor(s)2022
+Abstract Extreme weather events, such as typhoon and Keywords Human mobility Metro ridership Travel hurricane, have characteristics of high uncertainty, large time Traveled stations Typhoon weather destructiveness, and extensiveness, which threat the daily lifeandcauseapparentperturbationstohumanmobility.In order to investigate the perturbation on human mobility, 1 Introduction this study collects the metro transaction data before and during a typhoon weather event in Fuzhou, China, to Naturaldisasters,suchastyphoonandhurricane,canaffect conduct analyses. The ridership before and during the travels of human being seriously. In the urban area, the typhoonweathereventisinnovativelycomparedatsystem, densities of building and population are pretty high, and stationandorigin-destinationlevel.Besides,itisofnovelty they are still increasing now. As a result, transportation is toexaminethetraveltimedistributionofmetrotripsinthe anindispensablepartinurbanlivesandmostcitizenstravel
+normal and perturbed state by comparing three candidate every day. However, transportation is an activity which is models with the Akaike information criterion method. strictlylinkedwithweatherconditionsandcanbeseriously
+Results validate that the typhoon weather event severely influenced by natural disasters [1]. Thus, it is important to influences the ridership at system, station, and origin-des- explore the human mobility perturbation resulted from the tination level, with various degrees. There is also signifi- naturaldisasterssoastoimprovethemanagementofurban cant impact on the relative total traveled stations from the transportation under extreme weather events.
+typhoon weather event, especially for leisure trips. More- There are many researchers exploring the travel over, the travel time of metro trips follows the gamma behavior changes resulted from weather conditions. Jain distributioninboththenormalstateandtheperturbedstate andSingh[2]investigatedtheinfluenceofextremeweather withdifferentmagnitudes.Itisfoundthatboththenumber conditions of high temperatures, low temperatures, preoftraveledstationsandtraveltimearelowerinthetyphoon cipitation,andthunderstormsontravelchoicesbytravelers state when compared to those in the normal state. In gen- in Delhi. It is found that metro users are likely to change eral, this study can provide some helps to assist the metro current patterns during rains or high temperature, and management under extreme weather events. metro users with longer traveling distances tend to keep current travel pattern. With a negative binomial regression model, Ngo [3] suggested that bus ridership is more sen-
+sitive to extreme weather events in lower-income areas than the wealthier ones. Wang et al. [4] utilized Twitter & ShixiongJiang geo-locations to investigate severe winter storms’ effects [已脱敏邮箱] on human mobility, and found that these storms perturb both displacements and gyration radii of individuals’
+1 CollegeofComputerandDataScience,FuzhouUniversity, mobility. Similarly, with smart card data and meteorolog-
+Fuzhou350116,China
+icalrecordsfromShenzhen,China,Zhouetal.[1]buildup
+CommunicatedbyXuesongZhou. the daily and hourly weather-transit ridership relationship
+UrbanRailTransit(2022)8(1):32–44 33 at the system and station level. It is found that urban sta- onresilience,andthecontinuousprecipitationcanresultin tions are more vulnerable to outdoor weather in regard to a longer recovery time.
+ridership and regular transit users are more resilient to Besides, it is important to understand the human adverse weather. Furthermore, Zhang et al. [5] quantita- mobility,whichhas wide applicationsinmanyfields,such tively assessed human mobility perturbations during rain- as urban planning [18, 19], transportation [20–22], and storm and snowstorm from the perspective of total epidemicprevention[23–25].Gonzalezetal.[26]analyzed displacements of taxi and bus trips. Lin et al. [6] applied the trajectory of mobile phones and indicated that human log-linearregressionmodelstodetermineweather’simpact trajectory has a high temporal and spatial regularity.
+on bikesharetrips in Beijing. What’s more,Yang et al. [7] Kraemer et al. [22] constructed the global human moveexplored the influences of weather on the non-motorized ment model to validate that human mobility follows a transportusageandfoundthatsolaraccess,windandsnow power law. With the increase in travel distance, the freare influential factors. Generally, non-motorized modes quency of human movement decreases. Besides, in differ- (walking,cycling)aremoresensitivetoweatherconditions entsocio-demographicandenvironmentalcontexts,human and the metro system is less vulnerable [8, 9]. movement patterns are different. Through the analysis of
+Furthermore,somestudiesappliedtraveldatatoexplore taxi trajectory data, Wang et al. [27] found that the distravel behavior changes under natural disasters, such as placementdistributiontendstofollowtheexponentiallaw, flooding, typhoon, hurricane, and earthquake. Some trans- and the travel time can be approximately fitted by a logportationdataareappliedtoinvestigatethechangesduring normaldistribution.LinandYao[28]proposedamodelto the natural disasters. Abad and Fillone [10] validated that explain the power-law distribution mechanism based on traveltimehasasignificantdifferencebetweennormaland taxi data and verify the significant power-law distribution flooding conditions in Metro Manila, Philippines. It is of people’s moving behavior distance in the single-car showed that flood characteristics influence travel behavior situation. Based on origin-destination metric and the cor-
+and road-based transit service users tend to change travel responding displacement, Jiang et al. [29] found that a behavior more than rail-based ones. Furthermore, Abad gammadistributioncanfitthedisplacementofmetrotrips.
+etal.[11]claimedthatadaptationstofloodingaremadeto In addition, for air passengers, it is found that the time commuting behavior depending on passenger’s commute interval follows the truncated power law and the travel and employment situation. In addition, Lyu et al. [12] distance agrees with the negative binomial distribution combinedtheintervalfuzzyanalytichierarchyprocessand [30].
+fuzzyclusteringanalysistoevaluatethefloodriskofmetro The Twitter data have been used to explore the human systems in subsiding environments. During Typhoon mobilityduringthenaturaldisasters.WangandTaylor[31]
+Koppu, more than 80% oftaxis inHong Kong were notin found that human movements follow truncated power-law operation,andtheaveragecustomer-searchtimefordrivers distributions during and after Hurricane Sandy. Besides, it was very short [13]. With taxi ridership during Hurricanes is indicated that the center of mass and the radius of
+Irene and Sandy in New York, Bian et al. [14] validated gyration of each individual’s movements during perturbathat the number of taxi trips start to decrease about 24 tionstatesandsteadystatesarehighlycorrelated.Asimilar hours before the landfall of hurricane. Furthermore, the study confirmed that the radius, distance, and entropy of ridership in hurricane periods has a strong linear associa- individuals decreased significantly after Sandy [32]. They tion with that in normal periods. The hurricane has the also found that individuals in higher transportation divergreatest influence on taxi ridership during weekend and at sity locations generally maintained a higher distance and night, while the least influence on a weekday during the radius one week after Sandy. During Hurricanes Matthew day. In another study with similar backgrounds, Zhu et al. and Harvey, Ahmouda et al. [33] validated that displace-
+[15] found that the recovery rate is lower for Sandy than mentsbecomeshorterandareasofactivitybecomesmaller that for Irene. Besides, it is found that road network has a during hurricanes. Furthermore, Wang and Taylor [34, 35] higher resilience when compared to the metro network. explored human movements in different natural disasters.
+During Typhoon Mangkhut, Chen et al. [16] found that They found that human movements are significantly perurban flows reduce by 39% during the disruption in turbed by typhoons with different magnitudes in different
+Shenzhen, China. Moreover, fundamental urban functions casesandfollowpower-lawdistribution.WangandTaylor experiencelessdisruptionandrecreationalrelatedtripsare [36] indicated that the average sentiment levels decrease moreseverelyaffected.Withinvestigationof5typhoonsin withtheearthquakeintensityincrease,andsimilarlevelsof
+Shenzhen, Zhou et al. [17] found that typhoon events can sentiment are likely to cluster in space. Overall, the severely impact the distributions and recovery of metro impacts of natural disasters on ridership and human ridership.Besides,strongertyphoonsleadtoalargereffect mobility are summarized in Table 1.
+34 UrbanRailTransit(2022)8(1):32–44
+Table1 Literaturereviewabouttheimpactofnaturaldisastersonhumanmobility.
+Study Data Region Event Indicator Finding
+[13] GPSdata Hong Typhoon Taxinotinoperation, About80%oftaxiswerenotinoperationduringthetyphoon, oftaxi Kong Koppu waitingtime andtheaveragecustomer-searchtimefordriverswasvery short
+[14] Taxidata New Hurricanes Taxiridership Thehurricanehasthegreatestinfluenceonthenumberoftaxi
+York Ireneand tripsduringweekendandatnight,andtheleastimpactona
+Sandy weekdayduringtheday
+[15] Taxiand New Hurricanes Dailytaxitrips,dailymetro TherecoveryrateislowerforSandythanthatforIrene.A metro York Ireneand ridership higherresilienceofroadnetworkwhencomparedtothe trips Sandy metronetwork
+[16] Location Shenzhen Typhoon Urbanhumanflow Urbanflowsreducedby39%duringthedisruption.
+data Mangkhut Fundamentalurbanfunctionsexperiencedlessdisruption andrecreationalrelatedtripsaremoreseverelyaffected
+[17] AFCdata Shenzhen 5typhoons Metroridership Typhooneventscanseverelyinfluencethedistributionsand recoveryofmetroridership
+[31] Twitter New Hurricane Shiftingdistanceofthe DuringandafterHurricaneSandy,thehumanmovements
+York Sandy centerofmass followedtruncatedpower-lawdistributions.Human
+Theradiusofgyration movementsattainedsignificantperturbationsduring hurricane
+[32] Twitter New Hurricane Traveldistance,theradius Thedistance,radiusandentropyofindividualsdecreased
+York Sandy ofgyration,andmobility significantlyafterSandy.Individualsinhigher entropy transportationdiversitylocationsgenerallymaintaineda higherdistanceandradiusoneweekafterSandy
+[33] Twitter TheU.S. Hurricanes Tripdistance,radiusof Displacementsbecomeshorterandareasofactivitybecome
+Matthew, gyration,andmean smallerduringhurricanes.Thedisplacementfollowsthe
+Harvey squaredisplacement power-lawmodels
+[34] Twitter Overthe 15Constructive Displacement,theradiusof Inmostcases,thepower-lawcanexplainhumanmobilityin world cases gyration mostcases.Theresiliencehasitslimitsandfailsinmore powerfulnaturaldisasters
+[35] Twitter 8Areas 5Typhoons Displacement Humanmovementsaresignificantlyperturbedbytyphoons
+Theradiusofgyration withdifferentmagnitudesindifferentcases,andfollow power-lawdistribution
+Besides, when the investigation is conducted at the taxi trip and public transit ridership. The number of taxi station level, it is helpful to cluster stations into certain tripsiswidelyusedtoexploretheridershipchangesduring types as the number of stations is large. Lv et al. [37] natural disasters. Besides, the metro ridership is also applied K-means clustering method to divide the metro investigated at the system level. However, it lacks invesstations into 3 types according to the passenger flows. tigating the metro ridership changes during natural disas-
+Similarly, the K-means clustering method was applied to ters at different levels, consisting of system, station, and discerndistinctmetrostationgroups,which isfurtherused origin-destination (OD) level. Besides, many researchers toemploythegeographicallyweightedregressionmodelto utilizedtheTwitterdataandfoundthathumanmovements examine the spatial variation of the built environment’s are significantly perturbed by natural disasters with difimpactondifferenttypesofmetrostations[38].Moreover, ferent magnitudes in different cases and follow power-law employing clustering method to detect different distinct distribution. However, there are few studies about the ridership patterns of metro and taxi, Kim [39] identified human mobility in the metro system under natural disasinfluence factors on human mobility for each pattern ters. Thus, we collected the transaction data before and depending on the modes of transportation in Seoul. during the typhoon weather event to explore the ridership
+Besides, Hyland et al. [40] first clustered public bike sta- changes,therelativetotaltraveledstationschangesandthe tions based on their trips using K-means clustering tech- differencesofhumanmobilityindifferentstates,whichcan niques. They highlighted that determinants of public bike give some suggestions for further operation of metro sysstation usage vary across station-clusters. tem in response to extreme weather events.
+Tosummarize,recentresearchershavepaidattentionto natural disasters’ influence on traffic, such as traffic flow,
+UrbanRailTransit(2022)8(1):32–44 35
+2 Data Description Table2 StationnumberandnameinLine1ofFuzhouMetro.
+Number Name
+This study is conducted in Fuzhou, which is the capital of
+Fujian province, China. The total land area of Fuzhou is 1 XiangfengStation
+11,968 square kilometers, with 1786 square kilometers of 2 XiushanStation urban area and 357 square kilometers of built-up area. In 3 LuohanshanStation
+2017,therewere7.7millionpeopleinFuzhou.Fuzhouhas 4 FuzhouRailwayStation a typical subtropical monsoon climate with abundant sun- 5 DoumenStation shine and rainfall, with an average annual precipitation of 6 ShudouStation
+900–2100 mm. In 2017, the average annual rainfall in 7 PingshanStation
+Fuzhouwas1508.2mm.Affectedbytyphoons,therainfall 8 DongjiekouStation in Fuzhou reached 49.2 mm on July 30, 2017, and 102.7 9 NanmendouStation mm on July 31, 2017. In addition, Fuzhou is a coastal city 10 ChatingStation whichismorelikelytobeaffectedbytyphoons.Thus,itis 11 DadaoStation meaningful to analyze the impacts of typhoon weather 12 ShangtengStation events on the metro system to improve the transit service. 13 SanchajieStation
+On January 6, 2017, Line 1 in Fuzhou Metro was offi- 14 BaihutingStation ciallyputintooperation.Line1hasatotallengthof24.618 15 HuluzhenStation km, with 21 stations, passing through the main urban area
+16 HuangshanStation
+of Fuzhou. In 2017, the average daily ridership of Fuzhou
+17 PaixiaStation
+Metrowasabout135,000.Thestationnumberandnamein
+18 ChengmenStation
+Line 1 of Fuzhou Metro are presented in Table 2.
+19 SanjiaochengStation
+Typhoon 9 (Typhoon Nesat) and Typhoon 10 (Tropical
+20 LuleiStation
+Storm Haitang) passed through on July 30 and 31, 2017,
+21 FuzhouSouthRailwayStation respectively.Basedontheprecipitationrecords,thehourly rainfall in the city during the typhoon weather events is presented in Fig. 1. Besides, July 30 and July 31 are
+Sunday and Monday, respectively. On July 30, the pre- Besides,the number of traveled stations is an important cipitation mainly happened during 4:00–11:00. While on indicator, which is closely related to the total travel time
+July31,theprecipitation lastfrom8:00to23:00,withtwo andfare.Thus,thisstudyalsotakesthenumberoftraveled breaks. stationsintoconsideration.Thenumberoftraveledstations
+As shown in Table 3, the transaction records include for each trip can be calculated from the transaction data.
+card ID, enter station, enter time, exitstation, exit time. In Thus, the number of traveled stations is measured this study, we focus on the changesof metro ridershipand according to Eq. 2.
+human mobility resulted fromthe typhoon weather events.
+Ds¼js s j ð2Þ d o
+Thus,alltransactiondataonSundaysandMondaysofJuly
+2017 were selected for making comparison. Besides, the where Ds is the number of traveled stations, s o means the abnormal transaction records which enter and exit in the originstationID,ands d denotesthedestinationstationID.
+same station are removed. Finally, the total ridership of normalMondayswas536,712,andthatofnormalSundays
+3 Methodology
+was 459,774. The metro ridership on July 30 was 68,779 and that on July 31 was 100,829 during typhoon weather events. 3.1 Assessment of Metro Ridership
+Inaddition,tomeasurethehumanmobilitydistribution, it is required to calculate the travel time of each trip [41]. This study utilized the relative ridership to measure the
+With the transaction data of metro trips, the travel time of perturbationresultedfromthetyphoonweatherevent[17].
+each trip can be calculated according to Eq. 1. This indicator can represent the difference between the disturbed and normal ridership. Rather than the absolute
+Dt¼t t ð1Þ
+d o difference in ridership, which is affected by population, whereDtisthetraveltime,t denotestheentertimeinthe city size, and the scale of metro systems, the relative rido originstation,andt denotestheexittimeinthedestination ership can avoid their influences and can be applied for d station. inter-citycomparison.Therelativeridershipiscomputable, meaningful, and comparable. It was measured at three
+36 UrbanRailTransit(2022)8(1):32–44
+Fig.1 Thehourlyprecipitationduringthetyphoonweatherevents.
+Table3 Examplesof
+CardID Enterstation Entertime Exitstation Exittime transactiondatainthemetro system. 37225438293185000 3 2017073006:34:16 4 2017073006:38:30
+36108441729507300 4 2017073006:43:02 5 2017073006:50:34
+36108441726518500 1 2017073021:59:42 8 2017073022:19:40
+36108441856489200 3 2017073020:33:04 8 2017073020:45:36
+36108441594251000 4 2017073019:22:21 9 2017073019:36:10
+36099538926270200 11 2017073019:09:45 21 2017073019:37:42 levels, including the system level, station level and origin- I
+X
+destination level. In addition, the stations are classified by TTS¼ Ds i ð4Þ
+K-means clustering method according to the hourly i ridership. where TTS denotes the number of total traveled stations,
+The relative ridership (see Eq. 3) is measured with the Ds is the number of traveled stations for trip i, I is the i ridershiponthenormaldaysandthatonthetyphoondays. number of metro trips.
+r The TTS for different situations can be computed from
+RR ¼ t typ ð3Þ
+t r the corresponding transaction dataset. Furthermore, to t nor reflect thedeviation ofTTSintyphoonweatherevent,this where RR is the relative ridership between ridership in t study adopts the average TTS of normal days as the typhoon days and that in normal days in time period t, baseline. With transaction data of the normal days in July r means the ridership in time period t of normal days, t nor 2017, TTS can be calculated as Eq. 5.
+andr denotestheridershipintimeperiodt oftyphoon t typ days. 1X D
+TTS ¼ TTS ð5Þ t D td d¼1
+3.2 Assessment of Total Traveled Stations where TTS is the average TTS of time period t, D is the t
+The number of traveled stations is a useful metric to number of normal days.
+measurehumanmobilityinthemetrosystem[5].Itcannot Based on TTS t of the typhoon weather event and the only reflect the ridership, but also show the traveled sta- baselineTTS,therelativetotaltraveledstations(RTTS)is tions of each trip. With the traveled stations for each trip computed as Eq. 6.
+(see Eq. 2), the number of total traveled stations can be calculated based on Eq. 4.
+UrbanRailTransit(2022)8(1):32–44 37
+TTS According to previous studies [29, 45], three candidate
+RTTS¼ t ð6Þ
+t TTS models, which are frequently used for human mobility in public transit, are compared in the study, consisting of
+RTTS is a normalized metric which can measure the
+Gamma, Weibull and lognormal distributions. The gamma deviation of actual travels resulted from the typhoon distribution can be formatted as Eq. 8.
+weather event, compared with that in the normal state.
+1
+PðxÞ¼ xk1ex=h ð8Þ
+3.3 K-Means Clustering Method hkCðkÞ where k[0 and h[0 are the shape parameter and scale
+K-means clustering is an unsupervised learning method parameter, respectively. Besides, CðÞ is the gamma whichcanidentifygroupsofobjectsthataresimilartoeach function.
+other to attain distinct groups [39]. For the simplicity and
+The Weibull distribution can be formatted as power in high-dimensional space, K-means clustering has
+Equation 9.
+been applied in many fields [42–44]. K-means algorithm aims to divide n objects (x i ; i¼1;...;n) into k different PðxÞ¼ eðx=bÞa ð9Þ b b clusters (C ¼fc ;...;c g) according to the similarities of
+1 k
+attributes[38].ThepurposeofK-meansistominimizethe where a[0 and b[0 are the shape parameter and scale distance of the objects within the same cluster and, in the parameter, respectively.
+meantime,maximizethedistancebetweentheclusters.The The lognormal distribution can be formatted as Eq. 10.
+objective function of K-means clustering is as follows: !
+1 ðlnxlÞ2
+PðxÞ¼ p exp ð10Þ
+X k X xr ffi 2 ffiffi p ffiffiffi 2r2
+FðCÞ¼ dðx;l Þ ð7Þ i k j¼1 xi2ck where l and r are the mean and standard deviation of wherex representsthevalueofobjecti,l isthecentroid natural logarithm of the variable.
+i k
+ofc ,anddðx;l Þdenotesadistancemetric.Inthisstudy, k i k the hourly entering ridership and the hourly exiting ridership are the adopted attributes for metro stations. 4 Results and Analysis
+3.4 Assessment of Human Mobility 4.1 System Level Ridership
+Thisstudyaimstoutilizethetraveltimetoexplorehuman Thedaily ridership ofFuzhouMetroindifferentsituations mobility in metro system and the impacts resulted from iscalculatedandpresentedinTable4.Onnormaldays,the typhoon weather event. According to the previous study ridership is higher on Monday than that on Sunday. As to
+[29],modelselectioncandeterminethemostpropermodel the typhoon Sunday, the ridership is 0.60 as that on the for experimental data from multiple models. This study normal Sunday. While on Monday, the extreme weather utilizestheAkaikeinformationcriterion(AIC)toselectthe eventleadstoareductionby25%inmetroridership.Itcan most proper model, which takes the optimal balance befoundthatmetroridershipismoreseriouslyaffectedon between the complexity and the description of the model Sunday.Thisisconsistentwiththefactthatmoretravelson
+[41].Ithastheadvantageofavoidingover-fitting.Besides, Mondays are commuting ones which are fixed demands itcancomparevariousmodelsinthemeantimeandprovide and cannot be avoided. However, trips on Sundays are the most fitting model. In detail, the process of model more likely to be leisure ones selection is as follows: first, the parameters are estimated by the maximal likelihood estimation (MLE) for different models; second, each model’s AIC score is calculated Table4 TheaveragedailyridershipofFuzhoumetrosystem.
+according to AIC ¼2logL þ2K (where L is the likei i i i Day Averagedaily Averagedaily Relative lihood of the model i, and K i denotes the number of ridershipofnormal ridershipoftyphoon ridership parameters in the model i) ; Finally, the Akaike weight is day day calculated as W i ¼eDi=2 PN j¼1 eDj =2 (where Sunday 116,187 69,559 0.60
+D ¼AIC AIC , AIC ¼min AIC, and N is the Monday 135,424 101,619 0.75 i i min min i number of the candidate models). Furthermore, the model with the largest Akaike weight is selected.
+38 UrbanRailTransit(2022)8(1):32–44
+Table5 StationtypesbyK-meansclusteringmethod. withanobviousmorningpeakofexitingpassengersandan evening peak of entering passengers on Monday. Stations
+Types Stations
+ofType3arelocatedintheareasofmixedlanduse.There
+Type1(inresidentialareas) 1,2,3,12,13,14, are peaks for both entering and exiting passengers in the
+15,16,18,19,20
+morning and evening in the stations of Type 3. Stations of
+Type2(inofficeareas) 5,7,10,11,17 Type 4 are located in transportation hubs, with fluctuating
+Type3(intheareasofmixedlanduse) 6,8,9 entering and exiting passengers.
+Type4(intransportationhubs) 4,21 The average station level ridership is calculated according to station types and the results are presented in
+Table 6 for further analysis. According to Table 6, Type 1 has the largest ridership on Monday, followed by Type 2.
+Besides,Type3andType4haveasimilarridershiponthe
+In detail, the hourly riderships in normal weather normal Monday. On the normal Sunday, Types 1, 2,and 3 and typhoon weather of Sunday are presented in Fig. 2, havesignificantdecreasesinridershipwhencomparedwith and those of Monday are presented in Fig. 3. Besides, the that on the normal Monday. On the contrary, the ridership hourly relative ridership caused by the typhoon weather of Type 4 is larger than that of the normal Monday.
+event is depicted inFig. 4. Accordingto Fig.2,the hourly
+As tothe impactsofthetyphoonweatherevent, Type1 ridershiponSundayhasapparentpeaksduringthemorning is most severely affected, with a relative ridership of 0.73, and evening peak hours on the normal weather days.
+and Type 3 is the least influenced one on Monday (0.79).
+However, suffered from the typhoon weather event, the
+OnSunday,Type3has thelowest relativeridership(0.59) peak in the morning peak hours disappears, which is conand Type 4 has the biggest one (0.63). On typhoon days, sistent with the heavy rain in the morning. In addition, the residents will reduce unnecessary travel, which leads to a peakintheevening movesfrom18:00to17:00.Similarly, significant decline in ridership. It can be found that the the hourly ridership on Monday is plotted in Fig. 3. There average ridership of normal days is various for different are significant morning and evening peaks on both the station types, together with various values of relative ridnormal weather and typhoon days. In general, the hourly ership resulted from the typhoon weather event.
+ridership is less influenced on Monday.
+As for the hourly relative ridership shown in Fig. 4, the
+4.3 OD Level Ridership relative ridership is extremely low during 8:00–11:00 on
+Sunday. This is consistent with the amount of hourly pre-
+Furthermore, we investigate the daily ridership of each cipitation for the day, in which the rain is heavy in the station pair. The OD level ridership is defined as the daily morning. In the afternoon (13:00–17:00), the relative ridmetro ridership for each OD pair. The OD level ridership ership islarger.Whileintheevening, there isalsoalower on the normal Sunday and Monday is presented in Fig. 6 relative ridership. For Monday, the relative ridership is andFig.7,respectively.TheaverageODlevelridershipon largeinthemorningpeakhours,withavalueof0.9at8:00.
+Sundayis263.OnMonday,theaverageODlevelridership
+During 9:00–18:00, the relative ridership is stable, with a is higher, with a value of 307. For most OD pairs, the value about 0.75. Besides, there is a smaller relative ridridership is quite low. For Sunday, there are several OD ership in the evening.
+pairs with higher ridership, such as OD(4,8), OD(4,10),
+OD(8,4), OD(21,10) and OD(21,13). For Monday,
+4.2 Station Level Ridership
+OD(4,8), OD(4,10), OD(8,4), OD(10,4) and OD(21,10) have higher ridership. Although the OD level ridership is
+The system level ridership is a macroscopic indicator.
+lower on Sunday than that on Monday, the highest OD
+Furthermore, we aimtoanalyze the stationlevelridership.
+level ridership of Sunday is more than 2500, which is
+Withthehourlyridershipofeachstation,thisstudyapplies higher than the highest OD ridership (1827) of Monday.
+K-means clustering method to cluster stations into 4 types
+Overall, some OD pairs show higher values, while most for further analysis. The classification results are shown in
+OD pairs are low in ridership.
+Table 5.
+AstheODwithsmallridershipisunstableandfluctuates
+The stations are classified into four types, and Type 1 greatly,weselectODpairswithmorethan100passengers owns 11 stations. The ridership patterns of four types are on normal days to analyze the changes resulted from the presented in Fig. 5. Stations of Type 1 are located in restyphoonweatherevent.Besides,therelativevaluebetween idential areas, with the obvious morning peak of entering the ridership in typhoon weather event and that of normal passengers and evening peak of exiting passengers on daysissetas1inthisstudyforODpairswithridershipless
+Monday. Stations of Type 2 are located in the office areas than 100.
+UrbanRailTransit(2022)8(1):32–44 39
+Fig.2 Thehourlyridershipofmetrosysteminnormalweatherand typoonweatheronSundays. Fig. 4 The hourly relative ridership of metro system resulted from thetyphoonweatherevents.
+Table6 Theaveragedailyridershipofdifferentstationtypes.
+Type1 Type2 Type3 Type4
+NormalMonday 91,089 69,056 44,188 42,584
+TyphoonMonday 66,573 53,034 34,945 32,098
+Relativeridership 0.73 0.77 0.79 0.75
+NormalSunday 76,867 51,439 30,644 50,492
+TyphoonSunday 46,794 30,742 18,130 31,587
+Relativeridership 0.61 0.60 0.59 0.63
+Mondays. The changes of ridership between Station 3 and
+Station 14 in the urban area of Fuzhou are not significant, mostly between 0.7 and 1. The residential areas and working places in this section are relatively dense, and the commuting by metro is rigid demand for these residents.
+Fig.3 Thehourlyridershipofmetrosysteminnormalweatherand typoonweatheronMondays.
+4.4 Relative Total Traveled Stations
+On Sunday, there are 153 OD pairs with less than 100
+The RTTS curves based on metro trips for the typhoon passengersonnormaldays,whicharesetas1inFig.8and weather event on Sunday and Monday are presented in take 34.7% of all OD pairs. For the remaining OD pairs,
+Fig.10.OnJuly30,therainstormbeganat3:00,whichwas mostrelativevaluesarelessthan1,whichindicatesthatthe earlierthantheopeningtimeofthemetrosystem.Thus,the ridership on the typhoon day is less than that in normal typhoonweathereventhadsignificantinfluencesonhuman days for OD pairs. On the contrary, the ridership of mobility in the metro system when it began to operate in
+OD(4,21) and OD(14,16) in typhoon weather event has themorning.During thetyphoonweatherevent,theRTTS increased,comparedtotheridershiponthenormalSunday.
+reached its bottom (0.35) around 9:00 on July 30.
+On Monday, there are 142 OD pairs with less than 100
+According to Fig. 1, the rainstorm ended at 11:00. The passengers on the normal Monday, which are set as 1 in
+RTTS saw an apparent increase and stay around 0.75
+Fig.9,taking32.2%ofallODpairs. Afterremovingthese during 13:00–17:00. In the evening, the RTTS was about
+ODpairs,mostODpairsdecreasedindifferentmagnitudes
+0.50 although there was almost no precipitation. Besides, on the typhoon day. There are only several OD pairs, the average number of traveled stations is 6.68 on the includingOD(5,6),OD(6,5),OD(9,10),andOD(10,9),with normal Sunday, and it decreases to 6.55 on the typhoon higher ridership when compared to those of normal
+Sunday.
+40 UrbanRailTransit(2022)8(1):32–44
+Fig.5 Theridershippatternoffourstationtypes.
+Fig.7 TheaveragedailyODridershipofnormalMonday.
+Fig.6 TheaveragedailyODridershipofnormalSunday.
+On July 31, the RTTS curve showed a different pattern car and bus to metro as it is less impacted by the extreme compared with that of July 30. At 8:00, the RTTS weather events. During 10:00–18:00, the RTTS was approached 0.89, which is resulted from the stable com- stable with a value around 0.72. In addition, the RTTS muting trips. Besides, some passengers may switch from reached its lowest value of July 31 at 20:00. As a whole,
+UrbanRailTransit(2022)8(1):32–44 41
+Fig.8 Therelativeridershipbetweenthetyphoondayandthenormal dayineachODpaironSunday.
+Fig. 11 The travel time distribution and gamma fitting on Sunday.
+ThebluelineindicatesthegammadistributionofthenormalSunday (k=5.0499, h=4.1388), and the red line denotes the gamma distributionofthetyphoonSunday(k=4.6544,h=4.4390).
+Fig.9 Therelativeridershipbetweenthetyphoondayandthenormal dayineachODpaironMonday.
+Fig. 12 The travel time distribution and the gamma fitting on
+Monday.Thebluelineindicatesthegammadistributionofthenormal
+Sunday(k=5.2042,h=3.8770),andtheredlinedenotesthegamma distributionofthetyphoonSunday(k=4.9677,h=4.0020).
+the average number of traveled stations is 6.22 on the normal Monday, and it decreases to 6.14 on the typhoon
+Monday.
+According to RTTS in Fig. 10, there is a significant perturbation of human mobility in the typhoon weather event.Theresultsshowedthatthehumanmobilitywasless impacted on Monday. It is indicated that commuting passengers have higher resilience to the typhoon weather event.
+Fig.10 Therelativetotaltraveledstationsofmetrotripsduringthe typhoonweatherevents.
+42 UrbanRailTransit(2022)8(1):32–44
+Table7 Resultsofmodel
+Model Item NormalSunday NormalMonday TyphoonSunday TyphoonMonday selectionfortraveltimeof metrotripsinFuzhou. Gamma MLEfork 5.0499 5.2042 4.6544 4.9677
+MLEforh 4.1388 3.8770 4.4390 4.0020
+R2 0.9972 0.9967 0.9936 0.9967 gam
+W 1 1 1 1 gam
+Weibull MLEfora 23.6269 22.8061 23.3906 22.4856
+MLEforb 2.3826 2.3832 2.2748 2.3451
+R2 0.9750 0.9962 0.9945 0.9683 wbl
+W 0 0 0 0 wbl
+Lognormal MLEforl 2.9375 2.9054 2.9170 2.8857
+MLEforr 0.4668 0.4569 0.4855 0.4691
+R2 0.9926 0.9961 0.9947 0.9944 logn
+W 0 0 0 0 logn
+4.5 Human Mobility in Travel Time smaller shape parameter (k) and a larger scale parameter (h) than the normal days. Besides, in the normal and per-
+Traveltimedistributioncandescribehumanmobilityinthe turbedstate,Mondayhasalargershapeparameter(k)anda metro system in detail. Thus, this study fits the travel time smaller scale parameter (h) when compared to Sunday.
+distribution of Fuzhou Metro before and during the Lastly, the fitted gamma distributions are presented in typhoon weather event. The travel time of each metro trip Figs. 11 and 12.
+is computed from the transaction data. The distribution of travel time on Sunday is presented in Fig. 11. As a whole, thetraveltimeoftripsaveragesat21.13minonthenormal 5 Conclusions and Future Work
+Sunday. In addition, the probability increases firstly and reaches the peak when the travel time is about 18 min. Thispaperconductedacasestudywhichaimedtoexamine
+Then, the probability decreases with the increase in travel theridershipandhumanmobilityperturbationinthemetro time. On the typhoon Sunday, the peak of the probability system during the typhoon weather event. The findings curve moves from 18 min to 17 min. Besides, the travel indicatethatthemetrosystemattainsanapparentimpactin timeoftripsaveragesat20.66minonthetyphoonSunday. ridership due to the typhoon weather event, with larger
+Accordingtotheactualdata,theprobabilityofthetyphoon decrease for Sunday andsmaller decrease for Monday.On
+Sundayishigherinthefirstrange.Inthemiddlerange,the the typhoon Sunday, the ridership decreases most in the normal Sunday has higher probability. morning when the rainstorm is heavy. A similar decrease
+ThetraveltimedistributionsofMondayareprovidedin can be seen in the evening of Monday with the typhoon
+Fig.12.Overall,therearesimilarcharacteristicsasthosein weather event.
+Fig. 11. On the normal Monday, the probability increases This study employed the K-means clustering method to firstlyandreachesthepeakwhenthetraveltimeisabout16 classify metro stations into 4 types with different travel min. Then, the probability decreases with the increase in patterns. The results confirm that the four types of stations travel time. On the typhoon Monday, the peak of the are influenced with different degrees with their characterprobabilitycurvemovesfrom16to15min.Thetraveltime istics.ForODlevelridership,mostODpairsseesignificant ofmetrotripsaveragesat20.24minonthenormalMonday ridership decreases with the impacts of the typhoon and at 19.88 min on the typhoon Monday. weather event. However, several OD pairs attain increase
+Accordingtothedata,thisstudyfitsthetraveltimewith in ridership. This can be attributed to the fact that many three candidate models, including Gamma, Weibull, and passengers may switch from other modes to metro, as it is lognormal distributions. Besides, we applied AIC method less affected by typhoon than other modes. For the RTTS, tocomparethethreemodelsandselectthemostfittingone. itislowerfortheleisuretrips,suchastripsonSundayand
+The results of model selection are provided in Table 7. trips in the evening of Monday. The average number of
+Accordingto the Akaike weight ofthree candidatemodels traveledstationsislargeronSundaywhencomparedtothat in Table 7, the gamma distribution fits the four datasets on Monday. Besides, the average number of traveled stabetter than other models, with different values in parame- tionsissmallerinthetyphoonstatethanthatinthenormal ters.OnbothSundayandMonday,thetyphoondayshavea state on Sunday and Monday.
+UrbanRailTransit(2022)8(1):32–44 43
+As to the human mobility in terms of travel time, the useisnotpermittedbystatutoryregulationorexceedsthepermitted travel time is lower in the typhoon event than that in the use, you will need to obtain permission directly from the copyright holder.Toviewacopyofthislicence,visithttp://creativecommons.
+normal state. We compare three candidate models, org/licenses/by/4.0/.
+including Gamma, Weibull, and lognormal distribution, with the Akaike information criterion to select the more fitting one. The gamma distribution is the most fitting one References for travel time of metro trips in the four situations with different values of parameters. On both Sunday and Mon- 1. Zhou M et al (2017) Impacts of weather on public transport day, the typhoon days have a smaller shape parameter ridership:resultsfromminingdatafromdifferentsources.Transp
+ResPartCEmergTechnol75:17–29 (k) and a larger scale parameter (h) than the normal days.
+2. JainD,SinghS(2021)Adaptationoftripsbymetrorailusersat
+Besides, in the normal and perturbed state, Monday has a twostationsinextremeweatherconditions:Delhi.UrbanClimate larger shape parameter (k) and a smaller scale parameter 36:100766 (h) when compared to Sunday. It can be concluded that 3. Ngo NS (2019) Urban bus ridership, income, and extreme weatherevents.TranspResPartDTranspEnviron77:464–475 travel time distributions are significantly perturbed by
+4. WangYetal(2017)Aggregatedresponsesofhumanmobilityto typhoons, and follow gamma distribution. severe winter storms: an empirical study. PLoS ONE
+Thefindingsfromthisstudyhavepracticalimplications 12(12):e0188734 formetromanagementunderextremeweatherevents.With 5. Zhang F et al (2019)Assessment ofurban human mobility perturbationunderextremeweatherevents:acasestudyinNanjing, a deeper understanding of perturbation to ridership at dif-
+China.SustainCitiesSoc50:101671 ferent levels and human mobility of different states in the 6. Lin P et al (2020) Impact of weather conditions and built envimetro system, it is helpful for decision-makers to take ronmentonpublicbikesharingtripsinBeijing.NetwSpatEcon properstrategiestomitigatetheimpactsanddamages from 20(1):1–17
+7. Yang B et al (2020) Soft-mobility in a winter-dominant city: a typhoon.
+case study by comparing nordic and non-nordic residents in
+Besides, there are some limitations in this study. This Umea˚.Cities102:102727 paper only takes one case into consideration; thus, it is 8. BockerL,DijstM,PrillwitzJ(2013)Impactofeverydayweather difficult to measure the first typhoon’s impacts on the on individual daily travel behaviours in perspective: a literature review.TranspRev33(1):71–91 second day. It is better to consider the impact of extreme
+9. Liu C, Susilo YO, Karlstr M (2017) Weather variability and weathereventsinFuzhouinthelong-termandcomparethe travel behavior: What we know and what we do not know?
+impacts of different cities to conclude more general find- TranspRev2017:1–27 ings. Although this study analyzes metro ridership of two 10. AbadRPB,FilloneAM(2020)Changesintravelbehaviorduring flood events in relation to transport modes: the case of Metro days which are Sunday(weekend) and Monday (weekday)
+Manila,Philippines.TranspResProcedia48:1592–1604 respectively, and passengers have different travel patterns 11. Abad RPB, Schwanen T, Fillone AM (2020) Commuting naturally.Finally, another potential issueis tomeasure the behavior adaptation to flooding: an analysis of transit users’ potentialeffectsofexcessivelyseverefloodonstationsand choicesinMetroManila.TravelBehavSoc18:46–57
+12. LyuH-Metal(2019)Floodriskassessmentofmetrosystemsina theaccessmodesandthecontributetothechangesoftravel subsiding environment using the interval FAHP-FCA approach.
+behaviors. SustainCitiesSoc50:101682
+13. Wong RCP et al (2021) Spatio-temporal influence of extreme
+Acknowledgements This study has been presented in 2021 TRB weather on a taxi market. Transp Res Rec J Transp Res Board
+AnnualMeeting. 2675(9):639–651
+14. BianR,WilmotCG,WangL(2019)Estimatingspatio-temporal
+Funding This workwas supported bythe National Natural Science variationsoftaxiridershipcausedbyHurricanesIreneandSandy:
+FoundationofChina(Grant61976055). a case study of New York City. Transp Res Part D Transp
+Environ77:627–638
+15. ZhuYetal(2016)Usingbigdatatostudyresilienceoftaxiand
+Declarations
+subway trips for hurricanes sandy and Irene. Transp Res Rec J
+TranspResBoard2599(1):70–80
+Competinginterests Theauthorsdeclarethattheyhavenoconflict
+16. ChenZetal(2020)Impactofextremeweathereventsonurban ofinterest.
+human flow: a perspective from location-based service data.
+ComputEnvironUrbanSyst83:101520
+Open Access This article is licensed under a Creative Commons
+17. Zhou Y et al (2021) Analyzing spatio-temporal impacts of
+Attribution 4.0 International License, which permits use, sharing, extremerainfalleventsonmetroridershipcharacteristics.Physica adaptation,distributionandreproductioninanymediumorformat,as
+AStatMechAppl577:126053 long as you give appropriate credit to the original author(s) and the
+18. Liu K, Murayama Y, Ichinose T (2021) Exploring the relationsource,providealinktotheCreativeCommonslicence,andindicate ship between functional urban polycentricity and the regional ifchangesweremade.Theimagesorotherthirdpartymaterialinthis characteristics of human mobility: a multi-view analysis in the articleareincludedinthearticle’sCreativeCommonslicence,unless
+Tokyometropolitanarea.Cities111:103109 indicatedotherwiseinacreditlinetothematerial.Ifmaterialisnot
+19. Vittoria Corazza M et al (2021) Chronicles from the New Norincludedinthearticle’sCreativeCommonslicenceandyourintended mal: urban planning, mobility and land-use management in the
+44 UrbanRailTransit(2022)8(1):32–44 face of the COVID-19 crisis. Transp Res Interdiscip Perspect 34. Wang Q, Taylor JE (2016) Patterns and limitations of urban
+2021:100503 human mobility resilience under the influence of multiple types
+20. BarbosaHetal(2018)Humanmobility:modelsandapplications. ofnaturaldisaster.PLoSONE11(1):e0147299
+PhysRep734(734):1–74 35. Wang Q, Taylor JE (2015) Resilience of human mobility under
+21. Song C et al (2010)Limits ofpredictability in human mobility. theinfluenceoftyphoons.ProcediaEng118:942–949
+Science327(5968):1018–1021 36. Wang Y, Taylor JE (2018) Coupling sentiment and human
+22. Kraemer M et al (2020) Mapping global variation in human mobility in natural disasters: a Twitter-based study of the 2014 mobility.NatHumBehav4:800–810 SouthNapaEarthquake.NatHazards92(2):907–925
+23. HuSetal(2021)Examiningspatiotemporalevolutionofracial/ 37. Lv Yet al (2021)Mobility pattern recognition based prediction ethnic disparities in human mobility and COVID-19 health out- forthesubwaystationrelatedbike-sharingtrips.TranspResPart comes: evidence from the contiguous United States. Sustain CEmergTechnol133:103404
+CitiesSoc76:103506 38. LiSetal(2020)Spatiallyvaryingimpactsofbuiltenvironment
+24. Orak NH, Ozdemir O (2021) The impacts of COVID-19 lock- factors on rail transit ridership at station level: a case study in down on PM10 and SO2 concentrations and association with Guangzhou,China.JTranspGeogr82:102631 humanmobilityacrossTurkey.EnvironRes197:111018 39. Kim K (2018) Exploring the difference between ridership pat-
+25. BenitaF(2021)HumanmobilitybehaviorinCOVID-19:asys- terns of subway and taxi: case study in Seoul. J Transp Geogr tematicliteraturereviewandbibliometricanalysis.SustainCities 66:213–223
+Soc70:102916 40. Hyland M et al (2018) Hybrid cluster-regression approach to
+26. Gonza´lez M, Hidalgo CA, Baraba´si A (2009) Understanding modelbikesharestationusage.TranspResPartAPolicyPractice individualhumanmobilitypatterns.Nature453:779–782 115:71–89
+27. WangWetal(2015)Acomparativeanalysisofintra-cityhuman 41. Liang X et al (2012)The scaling of humanmobility bytaxis is mobilitybytaxi.PhysicaA420:134–147 exponential.PhysicaA391(5):2135–2144
+28. Yao C, Lin J (2016) A study of human mobility behavior 42. Douzas G, Bacao F, Last F (2018) Improving imbalanced dynamics:aperspectiveofasinglevehiclewithtaxi.TranspRes learning through a heuristic oversampling method based on
+PartAPolicyPractice87:51–58 k-meansandSMOTE.InfSci465:1–20
+29. JiangSetal(2017)Humanmobilityinspacefromthreemodesof 43. AhmedN(2015)Recentreviewonimageclustering.IETImage publictransportation.PhysicaA483:227–238 Proc9(11):1020–1032
+30. HuangFetal(2019)Amovementmodelforairpassengersbased 44. AdnanRMetal(2021)Predictionofhydraulicsperformancein ontrippurpose.PhysicaA525:798–808 drain envelopes using K-means based multivariate adaptive
+31. Wang Q, Taylor JE (2014) Quantitying human mobility pertur- regressionspline.ApplSoftComput100:107008 bation and resilience in hurricane sandy. PLoS ONE 45. WangMSetal(2012)Exploringthemobilitypatternsofpublic
+11(9):e112608 transport passengers. J Univ Electron Sci Technol China
+32. Rahimi-Golkhandan A, Garvin MJ (2021) Assessing the impact 41(1):2–7 of transportation diversity on post-disaster intra-urban mobility.
+JManagEng37(1):04020106
+33. Ahmouda A, Hochmair HH, Cvetojevic S (2019) Using Twitter to analyze the effect of hurricanes on human mobility patterns.
+UrbanSci3(87):1–20

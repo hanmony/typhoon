@@ -1,0 +1,369 @@
+atmosphere
+Article
+Evaluation of Western North Pacific Typhoon Track Forecasts in
+Global and Regional Models during the 2021 Typhoon Season
+GuominChen1,2,3,*,TimLi1,4,MengqiYang2,3andXipingZhang2,3
+1 KeyLaboratoryofMeteorologicalDisaster,MinistryofEducation,JointInternationalResearchLaboratoryof
+ClimateandEnvironmentalChange,CollaborativeInnovationCenteronForecastandEvaluationof
+MeteorologicalDisasters,NanjingUniversityofInformationScienceandTechnology,Nanjing210044,China
+2 ShanghaiTyphoonInstituteofChinaMeteorologicalAdministration,Shanghai200030,China
+3 Asia-PacificTyphoonCollaborativeResearchCenter,Shanghai200030,China
+4 DepartmentofAtmosphericSciences,SOEST,UniversityofHawaiiatManoa,Honolulu,HI96822,USA * Correspondence:[已脱敏邮箱]
+Abstract: Thetrackforecastsoftropicalcyclones(TC)inthewesternNorthPacific(WNP)basin during2021typhoonseasonwithfiveglobalmodelsandfourregionalmodelsareevaluatedhere.
+Theresultsshowthattheaveragedirectpositionerrors(DPEs)oftheglobalandregionalmodels are approximately 80, 150, 200, 300, and 400 km at 24 h, 48 h, 72 h, 96 h, and 120 h lead-times, respectively. TheEuropeanCentreforMedium-RangeWeatherForecastsIntegratedForecasting
+System (ECMWF-IFS) achieved the best track forecast performance at each lead among the five globalmodels.Amongthefourregionalmodels,TheChinaMeteorologicalAdministrationTropical
+RegionalAtmosphereModelfortheSouthChinaSea(CMA-TRAMS)attainedthesmallestDPEs withina72hlead,whileTheHurricaneWeatherResearchandForecasting(HWRF)achievedthe besttrackforecastperformanceat96hand120hleads. Mostofthemodelsproducedanobvious westwardsystematicbiasontrackforecastfroma24htoa120hlead.Furthercorrelationandcluster analysesindicatethatinitialTCintensityandsizeandenvironmentalsteeringflowcanberegarded asgoodpredictorsforTCDPEs.TCswithastrongerinitialintensity,abiggerinitialsize,andalarger environmentalsteeringflowingeneralattainasmallerDPE,andtheimprovementsmaygoupto
+Citation:Chen,G.;Li,T.;Yang,M.;
+36%atshortlead-time.
+Zhang,X.EvaluationofWestern
+NorthPacificTyphoonTrack
+Keywords:tropicalcyclonedirectpositionerrors;globalmodel;regionalmodel;trackforecastper-
+ForecastsinGlobalandRegional formance
+Modelsduringthe2021Typhoon
+Season.Atmosphere2023,14,499.
+https://doi.org/10.3390/ atmos14030499
+1. Introduction
+AcademicEditors:MrinalK.Biswas,
+TCpredictionisasocietallyimportantissue,andthereisanincreasingemphasison
+JunA.ZhangandBinLiu
+accuratetrackforecasts[1,2]. Duetoimprovementsinobservations,numericalmodeling,
+Received:7February2023 dataassimilation,andforecastingtechniques,TCforecastshaveimprovedsteadilyoverthe
+Revised:24February2023 lastfewdecades. Comparedtoseveraldecadesago,currentTCtrackforecasterrorshave
+Accepted:2March2023 steadilydecreased[3–5]. Atpresent,TCtrackforecastsinthereal-timeoperationalforecast
+Published:4March2023 centers are primarily from four sources: (1) official subjective guidance, (2) Numerical
+WeatherPrediction(NWP)models,(3)EnsemblePredictionSystems(EPS),and(4)statistical predictionmethods(suchasmulti-modelconsensus,statistical-dynamicalmodel,etc.)[6,7].
+TheNWPmodelcanbefurthersubdividedintoacoarse-scaleglobalmodelandafiner-scale
+Copyright: © 2023 by the authors.
+regionalmodel.
+Licensee MDPI, Basel, Switzerland.
+WiththeincreaseofthenumberofcompetitiveoperationalNWPmodels,itbecomes
+This article is an open access article averydifficulttaskforoperationalmeteorologiststojudgewhichtrackforecastismost distributed under the terms and reliable. TCforecastverificationcanthusprovideimportantinformationontheaccuracy conditionsoftheCreativeCommons andcharacteristicsofamodel. Therefore, aseriesofTCtrackerroranalyseshavebeen
+Attribution(CCBY)license(https:// carriedoutforglobalandregionalmodels. Forinstance,Chenetal.[8]performedaTC creativecommons.org/licenses/by/ forecasterroranalysisonanewglobalmodelthatadoptedtheGeophysicalFluidDynamics
+4.0/).
+Atmosphere2023,14,499.https://doi.org/10.3390/atmos14030499 https://www.mdpi.com/journal/atmosphere
+Atmosphere2023,14,499 2of17
+Laboratory(GFDL)nonhydrostaticFinite-VolumeCubed-SphereDynamicalCore(FV3) andphysicalparameterizationsfromtheNationalCentersfromEnvironmentalPrediction’s
+Global Forecast System (NCEP-GFS). For TC track prediction, the new generation FV3 forecastsaresubstantiallybetteroverthenorthernAtlantic(AL)basin,thenorthernPacific (EP),andthewesternNorthPacific(WNP)oceanthantheoperationalNCEP-GFS.Itis anticipatedthatwithfurtherimprovementofthedynamicalcoreandphysicalparameterizations,thenewgenerationFV3modelhasgreatpotentialtobecomeoneoftheleading operationalTCforecastingsystemsintheworld.
+Haiden and Richardson [9] noted that after implementing a substantial upgrade oftheEuropeanCentrefortheMedium-RangeWeatherForecasts(ECMWF)Integrated
+Forecasting System (IFS) on 11 May 2021, the TC forecast position error over all ocean basins at day 3 decreased slightly in 2021 compared to the previous year but had not yet reached the lowest level from two years earlier. However, at day 5, position errors hadincreased. HodgesandKlingaman[10]exploredthepredictionperformanceofTCs in WNP in the Met Office (UKMO) global forecasting system from 2008 to 2017, with
+1-dayto7-dayleads. WhileTClocationforecasterrorsweresignificantlyreducedwith modelsystemupgradesovertheperiodstudied(2008–2017),sucherrorswerestillhigher thanthoseoftheECMWF-IFSforthesameperiod. Goldenbergetal.[11]demonstrated that the Hurricane Weather Research and Forecasting (HWRF) Model had made large improvementssince2012,whenaconvection-permittingthirdnestwasusedwithmore frequentphysicscalls. However,operationalHWRFtrackforecastsgenerallyremained inferiortotheglobalmodeltrackforecast[12]. Zhangetal.[13]pointedoutthattherewere twolimitationsfortheoperationalHWRF:firstly,theoperationalHWRFisstorm-centric andhasasmalloutermostdomain,and,secondly,theoperationalHWRFisonlyableto useonesetofhigh-resolutionmovablemulti-levelnestsperforecastcycle.
+TheaforementionedTCevaluationworksfocusedonverifyingtheaccuracyofthe
+TCtrackforecastsoftheindividualmodels. Inordertocomparetheperformancesfrom differentglobalandregionalmodels,theWorkingGrouponNumericalExperimentation (WGNE)hasconductedtheintercomparisonstudiesofTCtrackforecastsusingoperational globalmodelssince1991[1,14,15]. Inaddition,theShanghaiTyphoonInstituteofChina
+Meteorological Administration (STI/CMA) issued post-season TC forecast verification reportsonoperationalofficialguidance,NWPmodels,statisticalpredictionmethods,and
+EPSsforeachWNPtyphoonseason[16].
+Withthecontinuedupdatingandimprovementofglobalandregionalmodels,itis necessary for operational meteorologists to understand the latest knowledge of model performanceandcharacteristicstomakereliableTCtrackforecastsandassesspotential societalimpacts. Theobjectiveofthecurrentstudyisto(1)determinetheTCtrackforecast performanceofanumberofoperationalglobalandregionalNWPmodelsduringthe2021
+WNPtyphoonseason,(2)identifystatisticallysignificanttrackerrortrends,and(3)analyze the characteristics of track forecast direct position error (DPE) under different types of environmentalfeaturessurroundingtheTCsaswellasdifferentintensityandstructure characteristicsoftheTCsattheinitialtime.
+Theremainderofthisarticleisstructuredasfollows. Section2providesanoverview ofTCtrackforecastdata,thebest-trackdatasets,andtheverificationmetricsandmethods.
+Section3presentsthegeneralperformanceofTCtrackforecasts,includingmeanDPEs and systematic track forecast biases in 2021, and the trends of the models’ DPEs in the pastseveralyears. InSection4,weexplorethecorrelationcoefficientsbetweeninitialTC intensity,size,environmentalsteeringflow,andDPE.Wethenpresentaclusteranalysisto identifythedifferentDPEdistributioncharacteristicsunderdifferentcategoriesofinitial conditions. Finally,Section5providesasummaryanddiscussion.
+Atmosphere 2023, 14, 499 3 of 18
+Atmosphere2023,14,499 3of17
+2. Data and Methods
+2. DataandMethods
+2.1. Study Area
+2.1. StudyArea
+The WNP basin (including the South China Sea) experiences the largest number of
+TheWNPbasin(includingtheSouthChinaSea)experiencesthelargestnumberof tropical cyclones (TCs) among all the TC basins of the world. Overall, twenty-two named tropicalcyclones(TCs)amongalltheTCbasinsoftheworld. Overall,twenty-twonamed
+TCs formed in the WNP typhoon season of 2021 (Figure 1), which was slightly below the
+TCsformedintheWNPtyphoonseasonof2021(Figure1),whichwasslightlybelowthe
+30-year average (25.2, averaged from 1991 to 2020). Among the twenty-two named TCs,
+30-yearaverage(25.2,averagedfrom1991to2020). Amongthetwenty-twonamedTCs, nine of them reached typhoon (TY) intensity, which was also below the climatological nine of them reached typhoon (TY) intensity, which was also below the climatological mean (13.3). Eight named TCs formed from August to September, which is generally remean (13.3). Eight named TCs formed from August to September, which is generally garded as the peak formation period in the WNP basin. This number was lower than the regardedasthepeakformationperiodintheWNPbasin. Thisnumberwaslowerthan
+30-year average (10.7), mainly due to inactive convection over the WNP ocean [17]. In the30-yearaverage(10.7),mainlyduetoinactiveconvectionovertheWNPocean[17]. In addition, thirteen of the twenty-two named TCs made landfall in China, the Philippines, addition,thirteenofthetwenty-twonamedTCsmadelandfallinChina,thePhilippines,
+Japan, Korea, and Vietnam, leading to various degrees of meteorological disasters in the
+Japan,Korea,andVietnam,leadingtovariousdegreesofmeteorologicaldisastersinthe aforementioned countries.
+aforementionedcountries.
+FFiigguurree 11. .BBeesst ttrtraacckkss (a(ass ddeeteterrmminineedd bbyy RRSSMMCC-T-Tookkyyoo) )ooff nnaammeedd TTCCss oovveerr tthhee WWNNPP iinn 22002211.. TThhee nnuummbbeerrss rreepprreesseenntt tthhee ggeenneessiiss aanndd ddiissssiippaattiioonn ppooiinnttss ooff nnaammeedd TTCCss..
+2.2. ForecastData
+2.2. Forecast Data
+TheprimaryforecastdataforthisstudyaretheoperationalTCtrackforecastsoffive
+The primary forecast data for this study are the operational TC track forecasts of five globalNWPmodels(ECMWF-IFS,NCEP-GFS,UKMOUnifiedModelSystem(UKMOglobal NWP models (ECMWF-IFS, NCEP-GFS, UKMO Unified Model System (UKMO-
+MetUM),theJapanMeteorologicalAgencyGlobalSpectralModel(JMA-GSM),andthe
+MetUM), the Japan Meteorological Agency Global Spectral Model (JMA-GSM), and the
+CMAGlobalForecastSystem(CMA-GFS)),andfourregionalNWPmodels(HWRF,CMA
+CMA Global Forecast System (CMA-GFS)), and four regional NWP models (HWRF, CMA
+RegionalTyphoonforecastingModel(CMA-TYM),CMATropicalRegionalAtmosphere
+Regional Typhoon forecasting Model (CMA-TYM), CMA Tropical Regional Atmosphere
+ModelfortheSouthChinaSea(CMA-TRAMS),andRegionalTC-forecastingmodelbased
+Model for the South China Sea (CMA-TRAMS), and Regional TC-forecasting model based onGlobal/RegionalAssimilationandPrEdictionSystem(GRAPES-TCM))fortheWNP on Global/Regional Assimilation and PrEdiction System (GRAPES-TCM)) for the WNP typhoonseasonof2021. Fortheglobalmodels,theforecastleadtimesare24,48,72,96, typhoon season of 2021. For the global models, the forecast lead times are 24, 48, 72, 96, and120h. Amongthefourregionalmodels,HWRFandCMA-TYMhavetheleadtimes and 120 h. Among the four regional models, HWRF and CMA-TYM have the lead times of24,48,72,96,and120h,whereasCMA-TRAMSandGRAPES-TCMonlyissuetheTC of 24, 48, 72, 96, and 120 h, whereas CMA-TRAMS and GRAPES-TCM only issue the TC forecastswithin72h(Table1).
+forecasts within 72 h (Table 1).
+Atmosphere2023,14,499 4of17
+Table1.Summaryofoperationalnumericalweatherpredictionmodelusedinthisstudy.
+ModelType ModelAcronym Description LeadTimesforVerification
+ECMWF-IFS ECMWFIntegratedForecastingSystem 24,48,72,96,and120h
+JMA-GSM JMAGlobalSpectralModel 24,48,72,96,and120h
+Globalmodel NCEP-GFS NCEPGlobalForecastSystem 24,48,72,96,and120h
+UKMO-MetUM UKMOUnifiedModelSystem 24,48,72,96,and120h
+CMA-GFS CMAGlobalForecastSystem 24,48,72,96,and120h
+RegionalTC-forecastingmodelbasedon
+GRAPES-TCM Global/RegionalAssimilationand 24,48,and72h
+PrEdictionSystem
+CMA-TYM CMARegionalTyphoonforecastingModel 24,48,72,96,and120h
+Regionalmodel
+CMATropicalRegionalAtmosphereModelfor
+CMA-TRAMS 24,48,and72h theSouthChinaSea
+Theatmosphere-oceancoupledHurricane
+HWRF 24,48,72,96,and120h
+WeatherResearchandForecastmodelingsystem
+2.3. BestTrackData
+FortheWNPregion,therearefouragenciesthatissuetheTCbesttrackdatainterms ofTCintensity,position,windradii,andextratropicaltransitiontime. Theseagenciesare theRegionalSpecializedMeteorologicalCenterofTokyo(RSMC-Tokyo),theJointTyphoon
+WarningCenter(JTWC)oftheUnitedStatesofAmerica,theSTI/CMA,andtheHongKong
+Observatory(HKO)ofChina. TheTCpositionandintensityinformationusuallydiffer amongthebest-trackdatasets[18,19]duetothedifferenttechniquesusedtoestimatethe positionandtheintensityofTCs. Therefore,differencesinTCtrackandintensityforecast verificationperformancemayvary,dependingonwhichbest-trackdatasetisusedasthe reference[17,20].
+ToverifytheTCtrackforecastdatasetsfromboththeglobalandtheregionalmodels, theTCbesttrackdatasetfromRSMC-Tokyoischosenastheverificationworkreferencein thisstudy,asRSMC-Tokyoistheselectedregionalcenterthatissuesspecializedactivities inWNPTCforecastwithintheframeworkoftheWorldWeatherWatchProgram(WWRP) oftheWorldMeteorologicalOrganization(WMO).
+2.4. VerificationMetricandMethods
+TheDPE(inkm)istheverificationmetricusedinthisstudyfortheanalysisofthe globalandregionalmodeltrackforecastperformance. DPEisdefinedasthegreat-circle distancebetweenthebesttrackandforecastedpositions,andwasusedbyNeumannand
+Pelissier[21]andPengandFeietal.[7]:
+DPE=6371×arccos[sinϕ sinϕ +cosϕ cosϕ cos(λ −λ )] f b f b f b whereλandϕrepresentthelongitudeandlatitudeoftheobserved(denotedbysubscriptb) and forecasted (denoted by subscript f) TC center position, respectively. Number 6371 (unit: km)denotestheearth’sradius.
+Todemonstratethetrackforecastperformancesoftheglobalandregionalmodels, theirDPEwillbeexamined,withtheuseofanumberofcommonverificationmethods—specifically,themeanDPE,systematictrackforecastbias.
+3. GeneralPerformanceofTCTrackForecasts
+3.1. MeanDPE
+TheannualmeanDPSsandsamplesizesattheforecastleadtimesat24,48,72,96, and120hforboththeglobalandregionalmodelsovertheWNPin2021aredisplayedin
+Table2. Ingeneral, themeanDPEsformostofthesemodelsattheleadtimesof24,48,
+Atmosphere2023,14,499 5of17
+72,96,and120hareapproximately80,150,200,300,and400km,respectively. Forallthe forecastleadtimes,theDPEsofECMWF-IFSarethesmallestamongthefiveglobalmodels.
+Fortheforecastleadtimesat24,48,96,and120h,theDPEsofNCEP-GFSarethesecond smallest. UKMO-MetUMhasthesecondsmallestDPEattheforecastleadtimeat72h.
+Table2.MeanDPEs(Unit:km)forglobalandregionalmodelsattheleadtimesof24,48,72,96,and
+120hin2021.Thenumbersinbracketsaresamplesize.
+24h 48h 72h 96h 120h
+ECMWF-IFS 63.5(164) 125.2(128) 186.2(98) 270.6(71) 297.3(50)
+JMA-GSM 99.0(293) 201.5(228) 307.1(171) 362.3(126) 399.5(88)
+Globalmodel NCEP-GFS 73.7(340) 138.4(267) 247.1(199) 298.2(137) 348.6(97)
+UKMO-MetUM 75.8(171) 141.8(132) 221.8(96) 305.5(67) 357.0(47)
+CMA-GFS 119.2(252) 140.7(154) 254.6(162) 317.7(128) 376.2(102)
+GRAPES-TCM 107.3(164) 206.9(135) 317.7(109) / /
+CMA-TYM 88.0(360) 158.7(287) 255.1(217) 356.6(150) 417.9(105)
+CMA-TRAMS 69.6(174) 130.7(138) 206.3(105) / /
+HWRF 106.4(108) 155.2(89) 239.0(65) 293.7(46) 311.6(39)
+Amongthefourregionalmodels,CMA-TRAMShasthesmallestDPEsattheforecast leadtimesof24,48,and72h. However,fortheforecastleadtimesat96hand120h,the
+DPEsofHWRFare293.7and311.6km,whicharethesmallestamongtheregionalmodels.
+3.2. TrendofMeanDPEs
+ThetimeseriesoftheannualmeanDPEsfromthefiveglobalmodelsandfourregional modelsattheforecastleadtimesof24,48,and72hareshowninFigure2. Notethatthe historicalforecastdatacollectedfromthesemodelsdonothavesamelength. Forexample, theforecastdataofJMA-GSMandGRAPES-TCMarelongest,coveringtheperiodfrom
+2007to2021. TheyarefollowedbyNCEP-GFS,ECMWF-IFS,andCMA-TRAMS,which coverstheperiodof2010–2021. UKMO-MetUMhasaforecastperiodof2011–2021. Forthe
+CMA-TYMandHWRF,thelengthoftheirforecastdataareonlyfiveyears(2017–2021)in thisstudy. TheCMA-GFSreleaseditsforecastresultsformallyin2021. Thus,itisexcluded fromthecurrenttrendanalysis.
+AsseenfromFigure2,theminimummeanDPEsoftheTCtracksovertheWNPforthe globalandregionalmodelsat24,48,and72haround2015reachedapproximately60,100, and150km,respectively. Formostoftheglobalandregionalmodels,theTCtrackforecast performances were stable from 2015 to 2020. However, compared with the previous 3 or4years,theDPEsin2021werehigherforalmostallofthemodels. Theresultabove is consistent with the error trend characteristics of TC track forecasts issued by official operationalcentersoverWNPfrom2007to2021[17].
+AlinearregressionforthetimeseriesofthemeanDPEsindicatesthatthetrendsofthe
+DPEsforallfiveglobalmodelsarenegativewithina72hlead(Figure2a–c). Forthelead timesat24and48h,theyear-to-yearerrorreductions(ERs)oftheDPEsforUKMO-MetUM are−4.7and−6.7km,respectively,whicharethelargestreductionsamongalltheglobal models(Table3). JMA-GSMhasthelargestER(−9.9km)amongtheglobalmodelsata
+72hlead. Fortheregionalmodels(Figure2d–f),GRAPES-TCMandCMA-TRAMShave thenegativeERswithintheleadtimeof72hsince2007and2010,respectively. However, theERsarepositiveforCMA-TYMandHWRFduring2017–2021.
+Atmosphere2023,14,499 6of17
+Atmosphere 2023, 14, 499 6 of 18
+Figure 2. The time series of the annual mean DPEs of global models (a–c) and regional models (d–
+Figure2.ThetimeseriesoftheannualmeanDPEsofglobalmodels(a–c)andregionalmodels(d–f) f) at forecast lead times of 24, 48, and 72 h. The colored dashed lines are the linear regression lines.
+atforecastleadtimesof24,48,and72h.Thecoloreddashedlinesarethelinearregressionlines.
+TableA3s. Yseeaern-t ofr-yoemar Feirgrourrree 2d,u tchtieo nm(iEnRi)moufmDP mEaenadn FD-tPesEtsc oonf fithdeen TceCl etrvaeclk(FsC oLv)eorf tthhee gWloNbaPl afnodr trhegei ognloablmalo adnedls .regional models at 24, 48, and 72 h around 2015 reached approximately 60,
+100, and 150 km, respectively. For most of the global and regional models, the TC track forecast performances2 4where stable from 2015 to 24082h0. However, compared 7w2ihth the previous 3 or 4 years, the DPEs in 2021 were higher for almost all of the models. The result
+ER(km) FCL(%) ER(km) FCL(%) ER(km) FCL(%) above is consistent with the error trend characteristics of TC track forecasts issued by of-
+ECMWF-IFS −1.0 <90 −2.3 90 −3.4 90 ficial operational centers over WNP from 2007 to 2021 [17].
+JMA-GSM −3.5 99 −4.6 99 −9.9 99
+Globalmodel
+NCEP-GFSA linear r−eg2r.8ession for t9h5e time serie−s4 o.7f the mean9 D0PEs indica−t6e.s2 that the tr<e9n0ds of
+UKMO-MtheetU DMPEs for a−ll 4f.i7ve global m99odels are n−eg6a.7tive within9 a5 72 h lead −(F9i.g6ure 2a–c). 9F5or the
+CMA-lGeaFdS times at 24 /and 48 h, the /year-to-year /error reductio/ns (ERs) of th/e DPEs for U/KMO-
+GRAPESM-TeCtUMM are −4.−7 4a.6nd −6.7 km,9 r9espectivel−y,1 w1.0hich are th9e9 largest red−u2c0t.i5ons among9 9all the
+CMA-TgYloMbal models (0T.a9ble 3). JMA<-9G0SM has the6 .l4argest ER (−990.9 km) amo1n.g0 the global< m90odels
+CMA-TRaAt aM 7S2 h lead. − F3o.r9 the region9a9l models ( − Fi6g.8ure 2d–f), G99RAPES-TC − M12 a.5nd CMA-T9R5AMS
+HWRF 3.7 <90 0.8 <90 0.9 <90 have the negative ERs within the lead time of 72 h since 2007 and 2010, respectively. However, the ERs are positive for CMA-TYM and HWRF during 2017–2021.
+Itshouldbenotedthat,fortheECMWF-IFS,thelineartrendata24hleaddoesnot passtheFtestatthe90%confidencelevel(Table3). ThismeansthattheECMWF-IFS’s24h
+Atmosphere2023,14,499 7of17
+TCtrackforecastdidnotimprovesignificantlyfrom2010to2021. Itisworthmentioning thatthemeanDPEat24hleadforECMWF-IFSalreadyreached70kmin2010.Furthermore, the general TC track forecast performance of ECMWF-IFS was stable at a 24 h lead. A maximumDPEata24hleadis82kmin2012,whereasaminimumDPEof56.2kmoccurred in2016. Therefore,althoughtheERforECMWF-IFSat24hleadisonly−1.0kmandis notstatisticallysignificant,ECMWF-IFSstillshowsthebestcomprehensivetrackforecast capabilitycomparedtootherglobalorregionalmodelsduringthepast10years.
+3.3. SystematicTrackForecastBias
+Figure 3 shows the annual average TC forecast positions relative to the observed positionateachleadtimeforalloftheglobal(Figure3a)andregional(Figure3b)models.
+TheobjectiveofFigure3istoshowtheforecastedmeandistributioncharacteristicofthe displacementerrorsofagivenmodelatdifferentleadtimes. ThroughFigure3,onecan
+Atmosphere 2023, 14, 499 revealthesystematicTCtrackforecastbiasforindividualmodels. 8 of 18
+Figure 3. Annual mean relative positions between forecast and observed TC centers for global mod-
+Figure3.AnnualmeanrelativepositionsbetweenforecastandobservedTCcentersforglobalmodels els (a,c,e) and regional models (b,d,f) in 2019, 2020, and 2021. The colored symbols inside the charts (a,c,e)andregionalmodels(b,d,f)in2019,2020,and2021. Thecoloredsymbolsinsidethecharts represent the annual mean relative positions of corresponding models at a different lead time.
+representtheannualmeanrelativepositionsofcorrespondingmodelsatadifferentleadtime.
+For NCEP-GFS in 2021, the forecasted TC positions shift to southwest within a 120 h lead. However, the values of the relative position bias are less than 100 km from a 24 to a
+120 h lead (Figure 3a). The average relative position bias for NCEP-GFS is only 82.8 km at a 120 h lead, which is three times smaller than its mean DPE at the corresponding forecast lead in 2021. For JMA-GSM, the forecasted TC positions shift to the west within a 72 h lead with the relative position bias being less than 70 km. The model forecasted TC positions shift west-northwestward at 96 h and 120 h leads. The characteristics of the systematic track forecast bias for ECMWF-IFS within a 72 h lead resemble those of JMA-GSM.
+However, the TC positions forecasted by ECMWF-IFS at 96 h and 120 h leads shift westsouthwestward. For CMA-GFS, the position bias shifts to the west within a 48 h lead, and then it gradually turns toward the west-southwest at 72 h and 96 h leads and the southwest at a 120 h lead. The systematic track forecast bias of UKMO-MetUM shifts westsouthwestward from a 24 to a 120 h lead. With the increase in forecast lead time, the model
+Atmosphere2023,14,499 8of17
+ForNCEP-GFSin2021,theforecastedTCpositionsshifttosouthwestwithina120h lead. However,thevaluesoftherelativepositionbiasarelessthan100kmfroma24toa
+120hlead(Figure3a). TheaveragerelativepositionbiasforNCEP-GFSisonly82.8kmata
+120hlead,whichisthreetimessmallerthanitsmeanDPEatthecorrespondingforecast leadin2021. ForJMA-GSM,theforecastedTCpositionsshifttothewestwithina72hlead withtherelativepositionbiasbeinglessthan70km. ThemodelforecastedTCpositions shiftwest-northwestwardat96hand120hleads.Thecharacteristicsofthesystematictrack forecastbiasforECMWF-IFSwithina72hleadresemblethoseofJMA-GSM.However,the
+TCpositionsforecastedbyECMWF-IFSat96hand120hleadsshiftwest-southwestward.
+ForCMA-GFS,thepositionbiasshiftstothewestwithina48hlead,andthenitgradually turnstowardthewest-southwestat72hand96hleadsandthesouthwestata120hlead.
+ThesystematictrackforecastbiasofUKMO-MetUMshiftswest-southwestwardfroma24 toa120hlead. Withtheincreaseinforecastleadtime,themodelpositionbiasalsobecomes larger. The systematic track forecast bias is 325.6 km at 120 h lead for UKMO-MetUM, whichisthelargestamongalltheglobalmodels.
+Eachregionalmodelshowsitsownrespectivecharacteristicofthesystematictrack forecastbias. ForCMA-TYM,thedirectionofthesystematictrackforecastbiasspreads steadilywest-northwestwardwithina96hlead,andthenturnswest-southwestwardata
+120hlead. Thepositionbiasofthismodelreachesabout100kmata96hlead,butbecomes
+51 km at a 120 h lead. CMA-TRAMS and HWRF, on the other hand, have northward systematictrackforecastbiasesata24hlead,andchangetonorthwestwardbiasesata48h leadandwest-northwestwardbiasesata72hlead. HWRFshiftsitssystematicposition biassouthwestwardata96hleadandeast-northeastwardata120hlead. GRAPES-TCM hasasteadysystematicpositionbiasinthesamedirectionforalltheleads,whereasthe valuesofthepositionbiasare53.4,110.8and177.4kmat24,48,and72hleads,respectively.
+Therelativepositionerrorresultforalltheglobalmodels(Figure3a)showsclearlyan overallwestwardsystematictrackforecastbiasin2021. Furthermore,comparedwiththe previoustwoyears,thesystematicbiasesofglobalmodelsin2021aremuchbiggerthan thosein2019and2020(Figure3a,c,e). Meanwhile,themajorityoftheregionalmodelshave asystematictrackforecastbiassimilartotheglobalmodels,exceptforHWRF,whichhas thecharacteristicofaneastwardsystematicpositionbiasata120hlead(Figure3b). The overallcharacteristicofsystematicbiasesforregionalmodelsin2021issimilartoitin2019 (Figure3f).
+4. ClusterAnalysisofDPEs
+Inthissection,DPEsoftheglobalandregionalmodelsarefurtheranalyzed. TheDPEs arebinnedaccordingtovariouscharacteristicsofTCinitialintensityandsizeaswellasits environmentalconditionssuchasenvironmentalsteeringflow.
+4.1. InitialTCIntensity
+The correlation coefficients are computed between initial TC minimum sea level pressure(MSLP,usetoindicateTCintensity)andDPE.Itshouldbenotedthatahigher initial TC MSLP represents a weaker TC. The statistical results show that all the global andregionalmodelshavepositivecorrelationsfroma24htoa120hlead(Figure4). This impliesthatmodelswithahigherinitialTCMSLPingeneralhavealargerDPEforeach leadtime,andviceversa. Fortheglobalmodels(Figure4a),thehighestpositivecorrelation is 0.481, which is obtained from ECMWF-IFS at a 120 h lead. The smallest correlation coefficientsoccurata72hleadonmostoftheglobalmodels,withtheaveragevalueof
+0.162. At24hand120hleads,fouroutoffiveglobalmodels(UKMO-MetUM,NCEP-GFS,
+JMA-GSM,andECMWF-IFS)havesignificantpositivecorrelationsatthe95%confidence levelbetweentheDPEandtheinitialTCMSLP.Thepercentagesofthesignificantpositive correlationreducetotwo-fifthsandone-fifthat48hand96hleads,respectively. Ata72h lead,thecorrelationsforallfiveglobalmodelsdonotpassthesignificancetest. Forthe regionalmodels(Figure4b),mostofthesemodelsreachthehighestcorrelationcoefficients
+Atmosphere2023,14,499 9of17 at a 24 h lead, except for CMA-TRAMS, and all these models pass the t-test at the 95%
+Atmosphere 2023, 14, 499 confidencelevelatthislead. Withtheleadtimeincreasing,thecorr1e0s opfo 1n8d ingcorrelation coefficientsdecreasetill96h,andthenincreaseagainat120h.
+Figure 4. CorrelatFioignu croee4f.fiCcioernrtesl abteiotwneceonef fiDcPieEnst sanbdet wineiteinalD MPSELsPa nodf TinCit ifaolrM glSoLbPalo (faT) Canfodr rgelgoiboanla(la )andregional(b) (b) models. The symbols with filled color in (a,b) indicate significant correlations at the 95% confimodels.Thesymbolswithfilledcolorin(a,b)indicatesignificantcorrelationsatthe95%confidence dence intervals.
+intervals.
+According to theA ccocrorredlaintigonto anthaelycsoisr rreelsautlito anbaonvael, yaslli sthree sDuPltEasb oofv beo,tahl lthteh eglDobPaEl sanodf both the global regional modelsa narde rbeigninoenda limntood tewlso agrreobuipnsn, ewdiitnht othtew foirsgtr oguropusp,w coitnhstihsteinfigr sotfg irnoituiapl cToCn sistingofinitial intensity weakeTr Cthainnt e“ntyspithyowone”a k(TerYt)h aannd “tthyep sheocoonnd” (gTrYou)pa ncdontshiestsinegco onfd ingitrioaul pTCco inntseisnt-ingofinitialTC sity equal or stroinntgeenrs tihtyane qTuYa. lTohre ssttraonndgaerrdt fhoarn a TTYC. tToh reeasctahn tdhae rTdYf oinrteanTsiCtyt ois rweahcehn tthhee TY intensity is
+TC reaches a mawxhimenumth esuTsCtarienaecdh seusrafamcea xwiminudm spseuesdt aoifn 3ed2.6s umrf·sa−c1e [2w2i]n. dThsep etwedo ogfro32u.p6sm ·s−1 [22]. The are labeled by “twweoagkr oTuCp”s aanrde l“asbterolendgb TyC“”w, ereaskpTeCct”ivaenlyd. “Tshtreo mngeaTnC ”D,PreEssp aenctdiv setlayn.dTahredm eanDPEsand deviations (SDss) toafn tdhaer dtwdoe vgiraotuiopnss a(rSeD csa)lcouflathteedt wato dgifrfoeurepnsta lreeadcasl (cfurolamte d24a ttod 1if2f0e rhe)n ftolre ads(from24to each of the glob1a2l 0anhd) froergeioacnhalo mftohdeeglslo. bTahlea cnldusrteegri aonnaallymsios dreelssu.lTtsh iencdliucsatteer tahnaat lbyositshr tehseu ltsindicatethat mean DPEs andb tohteh SthDesm ofe asntroDnPgE TsCans darteh esmSDalsleorf tshtraonn wgeTaCks TaCres sfmora lelaecrht hmanodweel aakcrToCsss foreachmodel all lead times (Faicgruorses a5l)l. lFeoard tthime geslo(bFaigl umroed5e)l.sF, othret hmeagxliombualmm doidffeelrse,nthceesm oaf xtihme uDmPEdsi fferencesofthe
+between the “wDeaPkE TsCb”et gwreoeunpt ahned“ wtheea “ksTtrCo”ngg rToCu”p garnodutph ear“es t2r8o.n3 g(UTKCM”gOro-MupetaUreM2,8 F.3ig(-UKMO-MetUM, ure 5d), 49.0 (NCFiEgPu-rGeF5Sd, )F,ig49u.r0e (5Nc)C, 3E9P.0-G (CFSM,AFi-gGuFrSe, 5Fcig),u3r9e .50e()C, 4M8.A5 -(GNFCSE,PF-iGguFSre, F5ieg)u,r4e8 .5 (NCEP-GFS,
+5c), and 90.3 kmF i(gCuMreA5-Gc)F,Sa,n Fdig9u0r.3e 5kem), w(ChMileA t-hGeF mS,inFiigmuurme 5dei)f,fewrehnilceest hoef mthien DimPuEms adreif ferences of the
+14.3 (ECMWF-IFDSP, EFsigaurere1 45.a3),( E1C5.M1 (WJMF-AIF-GS,SFMig,u Frieg5uar)e, 155b.)1, 1(J0M.7A (-UGKSMMO,F-iMguetrUeM5b,) ,F1ig0.u7r(eU KMO-MetUM,
+5d), 21.1 (ECMWFiFg-uIFreS,5 Fdi)g,u2r1e.1 5(aE),C aMndW 5F6-.I9F kSm,F i(gUuKreM5Oa)-,MaentdU5M6.,9 Fkigmur(eU 5KdM) aOt -2M4,e 4tU8,M 72,,F igure5d)at24,
+96, and 120 h lea4d8s,,7 r2e,s9p6e,catinvdel1y2. 0Fhorl ethade sr,ergeisopneaclt miveoldye.lFso, trhteh emraexgiimonuamlm doifdfeerles,ntchees mofa txhiem umdifferences
+DPEs between tohfe t“hweeDaPkE TsCb”e tgwroeuenp tahned“ twhee a“kstTroCn”gg TroCu”p garnoudpt haere“ s4t7r.o3n (gGTRCA”PgErSo-uTpCMar,e 47.3(GRAPES-
+Figure 5g), 29.1 T(CCMMA,F-TigYuMre, 5Fgig),u2r9e. 15f()C, M28A.1- (TCYMMA,F-TigRuAreM5Sf), ,F2i8g.u1r(eC 5MhA), -1T6R.0A (MHWS,RFiFg,u Frieg-5h),16.0(HWRF,
+Figure5i),and29.9km(HWRF,Figure5i),whiletheminimumdifferencesoftheDPEs ure 5i), and 29.9 km (HWRF, Figure 5i), while the minimum differences of the DPEs are are13.1(CMA-TRAMS,Figure5h),21.5(GRAPES-TCM,Figure5g),15.5(GRAPES-TCM,
+13.1 (CMA-TRAMS, Figure 5h), 21.5 (GRAPES-TCM, Figure 5g), 15.5 (GRAPES-TCM, Fig-
+Figure 5g), 8.7 (CMA-TYM, Figure 5f), and 16.6 km (CMA-TYM, Figure 5f) at 24, 48, ure 5g), 8.7 (CMA-TYM, Figure 5f), and 16.6 km (CMA-TYM, Figure 5f) at 24, 48, 72, 96,
+72, 96, and 120 h leads, respectively. Overall, the differences above are consistent with and 120 h leads, respectively. Overall, the differences above are consistent with Figure 4, indicating that the models with higher correlation coefficients between the initial TC intensity and DPEs tend to have larger differences between the “weak” and “strong” TC group.
+Atmosphere2023,14,499 10of17
+Figure4,indicatingthatthemodelswithhighercorrelationcoefficientsbetweentheinitial
+TCintensityandDPEstendtohavelargerdifferencesbetweenthe“weak”and“strong”
+Atmosphere 2023, 14, 499 11 of 18
+TCgroup.
+Figure 5. Cluster comparison of TC forecast DEPs by initial intensity for: (a) ECMWF-IFS, (b) JMA-
+Figure 5. Cluster comparison of TC forecast DEPs by initial intensity for: (a) ECMWF-IFS, (b)
+GSM; (c) NCEP-GFS; (d) UKMO-MetUM, (e) CMA-GFS, (f) CMA-TYM, (g) GRAPES-TCM, (h)
+JMA-GSM;(c)NCEP-GFS;(d)UKMO-MetUM,(e)CMA-GFS,(f)CMA-TYM,(g)GRAPES-TCM,(h)
+CMA-TRAMS, and (i) HWRF. The circles or blocks indicate mean DPEs, bars at bottom (top) mark
+CMA-TRAMS,and(i)HWRF.ThecirclesorblocksindicatemeanDPEs,barsatbottom(top)mark the mean DPEs minus (plus) the corresponding standard deviation.
+themeanDPEsminus(plus)thecorrespondingstandarddeviation.
+4.2. Initial TC Size
+4.2. InitialTCSize
+Correlation analyses between forecast DPEs and initial TC size are carried out to ex-
+Correlation analyses between forecast DPEs and initial TC size are carried out to amine the potential influence of initial TC size on models’ track forecast capability. The examinethepotentialinfluenceofinitialTCsizeonmodels’trackforecastcapability. The
+TTCC ssiizzee iiss ddeetteerrmmiinneedd bbaasseedd oonn KKnnaaffff aanndd ZZeehhrr [[2233]].. IInn tthheeiirr ppaappeerr,, aa mmooddiiffiieedd rraannkkiinnee vvoorrtteexx wwaass uusseedd ttoo eessttiimmaattee tthhee TTCC ssiizzee::
+V 50 V 0 c = = V m V a x R R m 5 0 ax 0 x
+500
+where V is the climatological tangential wind 500 km from the TC center, x is the
+
+where V is the climatological tangential wind 500 km from the TC center, x is the shape fac5t0o0rc, V is the intensity in knots, and R is the radius of maximum winds in
+
+shapefactor,V istheintensityinknots,andR istheradiusofmaximumwindsin kilometers. max max kilometers.
+In the current study, the TC size is computed from the National Centers for Environ-
+Inthecurrentstudy,theTCsizeiscomputedfromtheNationalCentersforEnvironmental Prediction-Global Final Analysis (NCEP-FNL) data that has a 1° × 1° grid resolumentalPrediction-GlobalFinalAnalysis(NCEP-FNL)datathathasa1◦×1◦gridresolution tion (https://rda.ucar.edu/datasets/ds083.2/ accessed on 12 November 2022, NCEP/NOAA (https://rda.ucar.edu/datasets/ds083.2/accessedon12November2022,NCEP/NOAA
+2000) [24].
+2000)[24].
+As shown in Figure 6, the overall trends of correlation coefficients between the DPE
+AsshowninFigure6,theoveralltrendsofcorrelationcoefficientsbetweentheDPE and initial TC size for most of the global and regional models are increasing from a 24 to andinitialTCsizeformostoftheglobalandregionalmodelsareincreasingfroma24to a 120 h lead. However, the peaks of the correlation coefficients occur at 72 h, 96 h, and 96 a120hlead. However, thepeaksofthecorrelationcoefficientsoccurat72h, 96h, and h leads for ECMWF-IFS, JMA-GSM, and HWRF, respectively. For all of the global and regional models, the correlation coefficients are negative at 24 h and 48 h leads, which implies that within a 48 h lead, cyclones with a bigger initial size have a smaller track forecast error, and vice versa. At a 72 h lead, the correlations in ECMWF-IFS, GRAPES-
+TCM, and CMA-TRAMS have shifted from a negative to a positive value. At 96 h and 120
+Atmosphere2023,14,499 11of17
+96hleadsforECMWF-IFS,JMA-GSM,andHWRF,respectively. Foralloftheglobaland regional models, the correlation coefficients are negative at 24 h and 48 h leads, which
+Atmosphere 2023, 14, 499 implies that within a 48 h lead, cyclones with a bigger initial size ha12v eofa 18s maller track forecasterror,andviceversa.Ata72hlead,thecorrelationsinECMWF-IFS,GRAPES-TCM, andCMA-TRAMShaveshiftedfromanegativetoapositivevalue. At96hand120hleads, mostoftheglobalandregionalmodels(exceptforJMA-GSM)possessapositivecorrelation h leads, most of the global and regional models (except for JMA-GSM) possess a positive (Figure6a). Thispointsoutthatatthelongerleads,alargertrackerrorisgeneratedwhen correlation (Figure 6a). This points out that at the longer leads, a larger track error is geninitialTCsizeislarger.
+erated when initial TC size is larger.
+Figure 6. SamFe iagsu irne F6i.g
+S u a r m e
+4, c n ep
+F t ig f u or re co
+4, rr p io f o oe co ff ie la o n be o w ffi en ci e
+D ts b w it ia ze n itialTCsize.
+It is worth mIteinstiwonoirnthg mtheant ttihoen ianfgortehmatenthtieonaefodr ecmorerneltaiotinoends caot rar e2la4t iho nlesaadt ian 2t4who lead in two global modeglsl o(bEaClMmWodFe-IlsFS(E aCnMd WNCF-EIPFS-GaFnSd) NanCdE tPh-rGeeF Sr)egainodnathl rmeeodreeglsi o(nCaMlmA-oTdReAlsM(CSM, A-TRAMS,
+GRAPES-TCGMR, AanPdE SH-TWCRMF,) apnadssH thWe R9F5)%p caossnftihdeen95ce% lecvoenlfi idnetenrcvealle (vFeilguinrtee r6v).a lA(tF aig 4u8r eh6 ). Ata48h lead, only CMleaAd-,ToRnAlyMCSM pAas-sT tRhAe MsigSnpifaiscsanthcee tseigstn. iAfict a7n2c he taensdt. 9A6t h7 2lehadasn,d al9l6 thhel emaodds,ealsl lthemodels hardly pass hthaerd sliygnpiafsicsatnhcees itgensti.fi NcaCncEePt-eGsFt.SN pCaEssPe-sG tFhSep 9a5s%se sctohnefi9d5e%ncceo nlefivdeel nacte al e1v2e0l aht a120hlead.
+lead. The assTohceiaatesdso ccoiartreedlactioornr ecloaetifofinciceonetf fiisc 0ie.3n1t,i tsh0e. 3h1i,gthheesth aigmhoesntga amllo tnhge amllotdheelsm. odels.
+A cluster anaAlycslius siste fruarnthaelyr sciasrirsiefdu rothuet rbcya srerpieadraotuintgb yinsietipaal rTaCti nsigzein iintitaol aT “Csmsizaell iTnCto” a“smallTC” and a “big TCan”d garo“ubpig. OTuCr” cgarlocuulpa.tiOonu rschaolwcusl athtiaotn thshe omwesanth TatCt hsiezem peaarnaTmCetseirz eisp 0a.8ra3m foert eris0.83for the 2021 WNtPh ety2p02h1ooWn NsePastyopnh. Toohnerseefaosreo,n t.hTeh “esrmefaolrle T,Cth”e (““sbmiga TllCT”C) ”g(r“obuipg cToCn”t)aignrso uTpC containsTC cases whose ciansietisalw shizoes epianriatmialetseirz eisp samraamlleert e(rlairsgsemr)a tlhlearn( l0a.r8g3e. rA)sth sahnow0.8n3 i.nA Fsigsuhroew 7n, ain Figure7,a distinctive chdaisraticntcetriivseticc hisa rthacatte trhiset i“cbiisgt ThCat”t hgero“ubpig hTasC a” bgerottuepr thraacska fboertetcearsttr aatc k24f ohr eacnads tat24hand
+48 h leads, b4e8cahusleea bdost,hb ethcaeu mseeabno tDhPtEhes amneda nthDe PSEDss aanrde stmheaSllDers ianr ethsem “ablilge rTiCn”t hgero“ubpig TC”group than in the “tshmanalli nTtCh”e g“rsomuapl.l TThCe” rgersouultp i.s Tchoensriesstuenltt iasmcoonnsgis atelln tthaem golonbgaal lalntdhe reggloiobnaalla ndregional models. Fromm oa d7e2l sh. Fleraodm, tahe7 2rehlalteiaodn,shthipe rsetalarttiso tnos halitpers.t aArtt sat 7o2a hlt eler.aAd,t wah7e2rhealse amdo,swt hoef reasmostof the models stthilel mhaovdee lssmsatillllehr aDvPeEsms aanllder SDDPsE isna tnhde S“Dbisgi nTCth”e g“rboiugpT,C it” bgercooump,eist obpecpoomsietes oppositefor
+ECMWF-IFSandGRAPES-TCM.At96hand120hleads,thetrackforecastperformance for ECMWF-IFS and GRAPES-TCM. At 96 h and 120 h leads, the track forecast performance of the “small TC” group surpasses the “big TC” group for most of the models, except for JMA-GSM at a 120 h lead.
+Atmosphere2023,14,499 12of17 ofthe“smallTC”groupsurpassesthe“bigTC”groupformostofthemodels,exceptfor
+Atmosphere 2023, 14, 499 13 of 18
+JMA-GSMata120hlead.
+Figure 7. Same as in Figure 5, except for cluster comparison of TC forecast DEPs by initial TC size.
+Figure7.SameasinFigure5,exceptforclustercomparisonofTCforecastDEPsbyinitialTCsize.
+44..33.. EEnnvviirroonnmmeennttaall SStteeeerriinngg FFllooww
+CChhaann aanndd GGrraayy [[2255]] iinnvveessttiiggaatteedd tthhee rreellaattiioonnsshhiipp bbeettwweeeenn TTCC mmoovveemmeenntt aanndd tthhee mmiidd--ttrrooppoosspphheerriicc ffllooww ((550000––770000 hhPPaa)) aavveerraaggeedd iinn aa 55––77°◦ aannnnuulluuss ffrroomm tthhee TTCC cceenntteerr.. TThheeyy ffoouunndd tthhaatt mmiidd--ttrrooppoosspphheerriiccfl folowwh haasst htheeb ebsetsct ocrorrerlealtaiotinonw iwthitThC TmC omtiootnio.nIn. Itnh itshsitsu sdtyu,dwye, wcael ccuallactueldattehde tehnev eirnovnimroennmtaelnsttaele srtienegriflnogw flfoowr efaocrh eaTcCh cTaCse cbayset abkyi ntagkainsgim ap sliemaprliteh amrietthi-c maveetirca gaeveorfatghee owf tihned swaintd70s 0a,t 675000,, 660500,, 565000,, a5n50d, 5a0n0d h5P00a hoPvear oave5r– 7a◦ 5a–n7°n uanlunsualuros uanrodutnhde tohbes eorbvseedrvTeCd cTeCn tceersn.teTrhse. Tdhatea duastead ufsoerdth feorc athlceu claatlicounlaatrieonfr oamre NfrComEP N-FCNELP.-TFhNeLc.o Trrheela ctoiorn-
+rceoleaftfiiocnie cnotesfbfiectiwenetesn btehtweveaenlu tehseo vfaelnuveisr oofn emnevnirtoalnsmteeenrtianlg sflteoewrinagn dflothwe aDnPdE thsew DerPeEfsu wrtehreer fcuarltchuelar tceadlcfuolraeteadch fomr oedacehl. model.
+AAss sshhoowwnn iinn FFiigguurree 88,, bbootthh tthhee gglloobbaall aanndd rreeggiioonnaall mmooddeellss hhaavvee nneeaarrllyy aallll nneeggaattiivvee ccoorrrreellaattiioonn ccooeefffificciieennttss ffrroomma a2 244h ht otoa a1 12200h hl eleaadd,e, xecxecpeptfto frorE CECMMWWF-FIF-ISFSan adndC MCMA-AG-FGSFaSt aat 1a2 102h0 lhe aleda.dT. hTehceo crorrerlaetlaiotinonco ceoffiefcfiiecnietnvta vlualeuseasr aerrea rnagnegdefdr ofrmom− 0−.08.686to to− −00..6688,, ffrroomm −−00..7744 ttoo −−00.5.51,1 f,rforomm −0−.505.5 t5o t−o0−.302., 3f2ro,mfro −m0.4−00 t.o4 0−0to.0−4, 0a.n04d, farnodmf −ro0m.27− to0 .02.709to a0t .2049 ha,t 4284 hh,, 7428 hh,,
+9762 hh,, a9n6dh 1,2a0n hd, r1e2s0phec,trievseplye.c Itnivteelrye.stIinntgelrye,s tthineg cloyr,rtehleatcioonrrse floarti aolnl sthfeo rmaolldtehlse pmaossd tehlse p95a%ss ctohnef9id5%enccoe nlfievdeeln wceitlhevine law 7i2th hin leaa7d2. hThleias di.nTdhiciastiensd tihcaatt eastt hthaet aetatrhlye feoarrelycafsotr esctaagstess t(aig.ee.s, w(i.ieth.,iwn i7t2h ihn),7 T2Ch )t,raTcCk ftorarcekcafsotr sekcialls tfosrk iallll ftohre aglllotbhael galnodb arlegainodnarle gmioondaellsm doedpeelnsddse spigennidf-s isciagnntilfiyc oann telynvoinroennmveirnotnalm setenetrailnsgt efelorwin.g Afl osmw.alAlers DmPaEll eirs DacPqEuiirsedac wquhierne da wTChe ins laocTaCtedis ilno caa rteedlatinivaelrye lsatrtiovnegly stsetreorinnggs ftleoewri negnvfliorownmenevnirt.o nment.
+Atmosphere2023,14,499 13of17
+Atmosphere 2023, 14, 499 14 of 18
+Figure 8. Same as in Figure 4, except for correlation coefficients between DPEs and initial environ-
+Figure8.SameasinFigure4,exceptforcorrelationcoefficientsbetweenDPEsandinitialenvironmental steerinmge fnlotawl . s teeringflow.
+Given the stGroivnegn ctohreresltarotinogn cboertrweleaetino nthbee DtwPeEe nanthde tDheP Eenavnidrotnhmeeennvtairlo sntemeerinntgal fsltoewer,i ngflow,we we further cfounrdthuecrt cao cnodmupcotsaitceo amnpaolyssities taon ualnydseisrsttoaunndd theres itmanpdactht eofi minpteancstiotyf ionft tehnes isttyeeorf-thesteering ing flow on flthoew troanckt hfoertercaacskt feorrreocra isnt edrirfoferrienndt imffoerdeenlst.m Aolld feolsr.ecAalsltf coarseecsa satrcea dseescoamrepdoesceodm posedinto into a “weaka s“tweeerainkgs tfeloewrin”g anfldow a ”“satnrodnag“ ssttereorninggs tfeloerwin”g gflroouwp”. Bgreocuaup.seB tehcea umseeatnh estmeeerainngs teeringflow flow in the 2i0n2t1h We2N0P21 tyWphNoPonty spehaosoonn isse 3a.s1o mn·iss−31,. 1thme “ ·sw − e 1 a,kth sete“ewrienagk fslotewer”i n(“gstflroowng” s(t“esetrr-ongsteering ing flow”) gflroouwp” )isg droeufipneids wdehfienne idt iws hleesns (itmiosrlee)s sth(amno 3r.e1) mth·sa−n1. 3F.i1gumr · es − 9 1 s.hFowigsu rteha9t sthheo ws that the
+“strong stee“rsitnrgo nflgowste”e grirnogupfl opwer”fogrrmous pbepteterrfo arnmds hbaest tsemraalnledr htarascskm foalrleecratsrta ecrkroforsr etchaasnt errorsthan the “weak sttheeer“inwge aflkowst”e egrrinougpfl ofowr ”algl rtohuep mfoordeallsl tahte emacohd leelasda, teexaccehptl efaodr ,EeCxMceWptFf-oIrFSE CMWF-IFS andCMA-GFSata120hlead. Thedifferenceofthetrackforecastperformancebetween and CMA-GFS at a 120 h lead. The difference of the track forecast performance between twogroupsisparticularlyevidentatshorterleadtimes. Forinstance,themeanDPEsof two groups is particularly evident at shorter lead times. For instance, the mean DPEs of the“weaksteeringflow”andthe“strongsteeringflow”groupare85.1and40.3kmfor the “weak steering flow” and the “strong steering flow” group are 85.1 and 40.3 km for
+ECMWF-IFSata24hlead,whiletheirSDsare44.2and25.3km,respectively. Thisimplies
+ECMWF-IFS at a 24 h lead, while their SDs are 44.2 and 25.3 km, respectively. This implies thatthemeanDPEofthe“strongsteeringflow”groupisonlyhalfofthatintheothergroup that the mean DPE of the “strong steering flow” group is only half of that in the other forECMWF-IFSata24hlead. Moreover,theannualmeanDPEofECMWF-IFS“strong group for ECMWF-IFS at a 24 h lead. Moreover, the annual mean DPE of ECMWF-IFS steering flow” group at a 24 h lead is 36% lower than that of the corresponding “weak “strong steering flow” group at a 24 h lead is 36% lower than that of the corresponding steeringflow”group(Figure9a).
+“weak steering flow” group (Figure 9a).
+Atmosphere2023,14,499 14of17
+Atmosphere 2023, 14, 499 15 of 18
+Figure 9. Same as in Figure 5, except for cluster comparison of TC forecast DEPs by initial environ-
+Figure9.SameasinFigure5,exceptforclustercomparisonofTCforecastDEPsbyinitialenvironmental steering flow.
+mentalsteeringflow.
+55.. SSuummmmaarryy aanndd DDiissccuussssiioonn
+TThhee aaiimm ooff tthhiiss ssttuuddyy iisst tooe evvaaluluaatetea anndda nanalaylzyezeth tehetr torpoipcaiclacly ccylocnloen(eT C(T)Ctr)a tcrkacfko rfeocraes-t cpaesrtf poremrfoanrmceaonfcefi voef fgivloeb gallombaold melosd(eElCs M(EWCMF-WIFFS-,IJFMS,A JM-GASM-G,SNMC, ENPC-GEPFS-G,UFSK, MUKOM-MOe-tMUMe-, taUnMd,C ManAd- GCFMS)Aa-nGdFfSo)u arnredg ifoonuarl mreogdioenlsa(lG mRAodPeElsS -T(GCRMA,PCEMSA-T-CTMYM, ,CCMMAA--TTYRMA,M CSM,aAnd-
+THRWARMFS), faonrdt hHeWwResFt)e rfonr Nthoer twhePsatecrifinc N(WorNthP P)atcyipfihc o(oWnNsPea) stoynphinoo2n0 2s1e.asTohne iDn P2E02s1o. fTthhee
+DglPoEbsa loafn tdher egglioobnaall amnodd reelgsiaorneaal pmporodxeilms aatreel yap8p0,r1o5x0im,2a0t0e,ly3 0800,,a 1n5d0,4 20000k, m30a0t, 2a4n,d4 84,0702 k,9m6 , aatn 2d4,1 4280, h72l,e 9a6d,s a,nreds 1p2e0c thiv leealyd.sA, rmesopnegcttihveelfiyv. Aemgloonbagl tmheo fdiveels g,lEoCbMal WmoFd-IeFlSs, dEeCliMveWreFd-ItFhSe dbeelsitvterraecdk tfhoere bcaesstt ptrearcfko rfmoraenccaesta tpeearcfohrlmeaadn,cfeo allto weaecdh bleyaNd,C fEoPll-oGwFeSda bnyd NUKCMEPO-G-MFSe taUnMd .
+UAKmMonOg-MtheetUfoMur. rAegmioonnagl mthoe dfeolus,r CreMgAio-nTaRl AmModSealtst,a CinMedAt-hTeRsAmMalSl eastttDaiPnEeds wthieth sinmaal7le2sht
+DlePaEds, wwhitihleinH aW 7R2 Fh hleaaddt,h wehbielset HtrWackRFfo hreacda sthtep ebrefsotr mtraacnkc efoarte9c6asatn pder1f2o0rmhalenacdes a.t 96 and
+120 hA lesaudbsj.e ctivetrendanalysisshowsthattheDPEsofboththeglobalandregionalmodels in20A21 suabrejeactliivtetl etrhenigdh aenratlhyasnis pshreovwiosu thsayte tahres ,DsPuEgsg oesf tbinogtht thhaet gthloeb2a0l 2a1ndtr raecgkiofonrael cmasotdi-s emlso irne c2h0a2l1l eanrgei na gl.itIttlei shwigohrethr tnhoatnin pgrtehvaitosuesv yereaalrsm, osudgelgsersetainchge tdhatht ethirel o2w02e1s ttrDaPckE sfoarreocuansdt i2s0 m15o,raen dchtahleletnragcinkgf.o rIet ciass twpoerrtfho rnmoatinncge twhiatth isnevae7r2alh mleoaddehlsa srebaecehnesdt atghneairt ilnogwseinstc eD2P0E1s5 .
+aTrhoiusncdal l2s0f1o5r, aanfudr tthheer tirna-cdke fpotrhecsatustd pyetrofournmdaenrsctea nwditthhiins sat a7g2n ha tlienagdf ehaatsu bree.eFnu srttahgenramtionrge , sailnlcteh e20g1lo5b. aTlhmiso cdaelllss pforro da ufcuerdthoebr vinio-udsepwthes stwtuadryd tsoy sutnemdeartsictapnods itthioisn sbtaiagsneastfirnogm fe2a4tuhreto.
+F1u20rthhelremadosr.e,T ahlel trhege igolnoablaml modoedlselhs apvreodthuecesadm oebvchioaursa cwteersitswticarodf tshyestseymstaetmic aptoicsiptioosnit iboinabsieass ,freoxmce p2t4 fhor toH W12R0 Fh alteaad1s2. 0Thhel eraedg.ioRneaal lm-tiomdeelfso hreacvaes ttehres sinamthee cohpaeraractteiorinsatilcc oenf ttehres ssyhsotuemldabtiec apwoasriteioonf tbhieasg,e enxecreapltt rfaocrk HfoWreRcaFs tabt iaa s1c2h0a hra lcetaerdi.s tRice.al-time forecasters in the operaFtiuornthale rcecnotrerresl asthioounlda nbde aclwuastreer oaf nthaely gseensewraelr teraccakrr fioerdecoaustt btoiaes xcahmariancetehroiswtica. nd to whatFeuxrttehnetr TcoCrrineltaetnisointy anandd clsuizsetearn adnalalyrgsees- swcaelreee cnavrririeodn mouetn ttoa lecxhaamraincete hrioswtic asnmda tyo wafhfeactt etxhteentrta TckC fionrteecnassittyD aPnEds soizfeth aengdl olabraglea-sncdalree egniovniraolnmmoednetlasl. cBhyaraanctaelryizsitnicgs tmheayc oarfrfeeclat ttihoen
+coefficientsbetweeninitialTCintensityandDPE,wefoundthatinitialTCintensitycould track forecast DPEs of the global and regional models. By analyzing the correlation coefficients between initial TC intensity and DPE, we found that initial TC intensity could be
+Atmosphere2023,14,499 15of17 beconsideredasagoodpredictorforTCtrackforecasts,especiallyatearlyforecastlead times. ThisconclusionisconsistentwiththeresultsofHansenetal.[26]andChenetal.[8].
+Furthermore, TCs with stronger initial intensity often gained smaller DPEs than TCs withweakerinitialintensity. AfterexaminingtherelationshipbetweenTCtrackforecast
+DPEsandinitialTCsize,wealsofoundthatTCswithaninitiallybiggersizetendedto attain less DPEs within a 48 h lead, and vice versa. This result would be valuable for providingguidancetooperationalforecasters. Theresultshouldstimulatefurtherresearch tounderstandhowtheinitialTCsizemayaffectsubsequenttrackforecastsandtowhat extentTCtrackforecastsmaybedegradedbecauseofanerroneousestimationoftheinitial sizeoftheTC.
+Itiswellknownthattheenvironmentalsteeringflowistheprimaryfactoramong all factors influencing the TC track [25,27,28], accounting for as much as 70–90% of the motion[29]. Therefore,eventhoughforecasterscouldrefertosubstantialforecastguidance fromvariousglobalandregionalmodels,theystillinsistonusingthesteeringflowtheory todeterminethedirectionandspeedofthemovementofaTC.Inthisstudy,significantnegativecorrelationsbetweentheenvironmentalsteeringflowandDPEatthe95%confidence levelarefoundforallmodelsfrom24hto72hleads,implyingthatthetrackforecasterrors atthoseleadtimestendtobesmallwhentheinitialenvironmentalsteeringflowislarge.
+A cluster analysis further confirmed this result. For instance, the DPEs of ECMWF-IFS “strongsteeringflow”groupareonlyhalfofitscorresponding“weaksteeringflow”group atanearlyforecastlead(24h).
+The results derived from the current study may provide useful guidance for TC forecasters. Throughthecurrentanalyses,operationalforecastersmaylearntheadvantages anddisadvantagesofdifferentmodelsandtheirlatestupdatedforecastfeatures. Once operationalforecasterscorrectpossibletrackforecasterrorsbasedonmodelsystematic biases,leadtime,andTCenvironmentalcharacteristics,theymightbeabletodetermine whetherthebestforecastislikelytobeprovidedbyoneorbyaclusterofglobaland/or regional models at each lead. Further studies are needed to reveal the detail forecast performancerelatedtowhichmodelattainsbetterforecastsunderdifferentsynopticflow types.Inaddition,inviewofthefactthatlargeDPEsstillexistforeachmodel,itisnecessary toconductcasestudiestorevealthecauseoftheunusualtracksandtoexplorephysical mechanismsresponsibleforthelargeDPEsinfuturework.
+AuthorContributions: Conceptualization,T.L.andG.C.; methodology,G.C.; software,M.Y.and
+X.Z.;formalanalysis,G.C.;writing—originaldraftpreparation,G.C.;writing—reviewandediting,
+T.L.;visualization,G.C.,M.Y.andX.Z.;fundingacquisition,T.L.andG.C.Allauthorshavereadand agreedtothepublishedversionofthemanuscript.
+Funding:ThisresearchwasfundedbyNationalNaturalScienceFoundationofChina(NSFC)grant number42088101andtheNationalKeyR&DProgramofChinagrantnumber2021YFC3000805.
+InstitutionalReviewBoardStatement:Notapplicable.
+InformedConsentStatement:Notapplicable.
+DataAvailabilityStatement:TheTCforecastdataandtheTCbest-trackdataareavailableatCMA
+TropicalCycloneDataCenter(https://tcdata.typhoon.org.cn/en/index.html,accessedon25January
+2023).
+Acknowledgments: ThisworkwasjointlysupportedbyNSFCproject42088101andtheNational
+KeyR&DProgramofChina(2021YFC3000805). WethankWanRijinofSTIforhisassistancein providingtheTCforecastdataofmodels.
+ConflictsofInterest:Theauthorsdeclarenoconflictofinterest.
+References
+1. Yamaguchi,M.;Ishida,J.;Sato,H.;Nakagawa,M.WGNEIntercomparisonofTropicalCycloneForecastsbyOperationalNWP
+Models:AQuarterCenturyandBeyond.Bull.Am.Meteorol.Soc.2017,98,2337–2349.[CrossRef]
+Atmosphere2023,14,499 16of17
+2. Gall,R.;Franklin,J.L.;Marks,F.;Rappaport,E.N.;Toepfer,F.TheHurricaneForecastImprovementProject.Bull.Am.Meteorol.
+Soc.2013,94,329–343.[CrossRef]
+3. Yu,H.;Chen,G.;Zhou,C.;Wong,W.K.;Yang,M.;Xu,Y.;Chen,P.;Wan,R.;Hu,X.AreWeReachingtheLimitofTropicalCyclone
+TrackPredictabilityintheWesternNorthPacific?Bull.Am.Meteorol.Soc.2022,103,E410–E428.[CrossRef]
+4. Landsea,C.W.;Cangialosi,J.P.Havewereachedthelimitsofpredictabilityfortropicalcyclonetrackforecasting? Bull. Am.
+Meteorol.Soc.2018,99,2237–2243.[CrossRef]
+5. WMO.SixthWMOInternationalWorkshoponTropicalCyclones(IWTC-VI);TropicalMeteorologyResearchProgrammeReport
+Series;SecretariatoftheWorldMeteorologicalOrganization:Geneva,Switzerland,2007;p.92.Availableonline:http://www.
+aoml.noaa.gov/hrd/Landsea/WWRP2007_1_IWTC_VI.pdf(accessedon17December2022).
+6. Peng,X.;Fei,J.;Huang,X.;Cheng,X.EvaluationandErrorAnalysisofOfficialForecastsofTropicalCyclonesduring2005–14 overtheWesternNorthPacific.PartI:StormTracks.WeatherForecast.2017,32,689–712.[CrossRef]
+7. Chen,G.;Yu,H.;Cao,Q.;Zeng,Z.TheperformanceofglobalmodelsinTCtrackforecastingoverthewesternNorthPacificfrom
+2010to2012.Trop.CycloneRes.Rev.2013,2,149–158.[CrossRef]
+8. Chen,J.-H.;Lin,S.-J.;Zhou,L.;Chen,X.;Rees,S.;Bender,M.;Morin,M.EvaluationofTropicalCycloneForecastsintheNext
+GenerationGlobalPredictionSystem.Mon.WeatherRev.2019,147,3409–3428.[CrossRef]
+9. Haiden,T.;Richardson,D.EvaluationofECMWFForecasts,Includingthe2021Upgrade;ECMWFTechnicalMemorandumNo.
+884;ECMWF:Reading,UK,2021;p. 56. Availableonline:https://www.ecmwf.int/sites/default/files/elibrary/2021/20142 -evaluation-ecmwf-forecasts-including-2021-upgrade.pdf(accessedon18December2022).
+10. Hodges,K.I.; Klingaman,N.P.PredictionErrorsofTropicalCyclonesintheWesternNorthPacificintheMetOfficeGlobal
+ForecastModel.WeatherForecast.2019,34,1189–1209.[CrossRef]
+11. Goldenberg,S.B.;Gopalakrishnan,S.G.;Tallapragada,V.;Quirino,T.;Marks,F.;Trahan,S.;Zhang,X.;Atlas,R.The2012triply nested, high-resolutionoperationalversionoftheHurricaneWeatherResearchandForecastingModel(HWRF):Trackand intensityforecastverifications.WeatherForecast.2015,30,710–729.[CrossRef]
+12. Tallapragada,V.;Kieu,C.;Kwon,Y.;Trahan,S.;Liu,Q.;Zhang,Z.;Kwon,I.-H.Evaluationofstormstructurefromtheoperational
+HWRFduring2012Implementation.Mon.WeatherRev.2014,142,4308–4325.[CrossRef]
+13. Zhang,X.;Gopalakrishnan,S.G.;Trahan,S.;Quirino,T.S.;Liu,Q.;Zhang,Z.;Alaka,G.;Tallapragada,V.Representingmultiple scalesintheHurricaneWeatherResearchandForecastingmodelingsystem: Designofmultiplesetsofmovablemultilevel nestingandthebasin-scaleHWRFforecastapplication.WeatherForecast.2016,31,2019–2034.[CrossRef]
+14. Muroi,C.;Sato,N.IntercomparisonofTropicalCycloneTrackForecastbyECMWF,UKMOandJMAOperationalGlobalModels;Japan
+MeteorologicalagencyJMA/NPDtechnicalreportNo.31;JapanMeteorologicalAgency:Tokyo,Japan,1994;p.26.
+15. Tsuyuki,T.; Sakai,R.; Mino,H.TheWGNEintercomparisonoftyphoontrackforecastsfromoperationalglobalmodelsfor
+1991-2000.WMO-Bull.2002,5,253–257.
+16. Chen,G.;Yang,M.;Zhang,X.;Wan,R.VerificationofTropicalCycloneOperationalForecastin2021;WMOTyphoonLandfallForecast
+DemonstrationProjectTechnicalReport;WMO:Geneva,Switzerland,2022;p.34.Availableonline:http://www.tlfdp.net/#/ main/verification-reports(accessedon10December2022).
+17. RSMC-Tokyo. Reviewofthe2021TyphoonSeason;ESCAP/WMOTyphoonCommitteeTechnicalReport;RSMC-Tokyo: Tokyo,
+Japan,2022;p.15.Availableonline:https://typhooncommittee.org/54th/docs/item%205/5.1.Summary_Of_2021_Typhoon_
+Season_20220311.pdf(accessedon10December2022).
+18. Bai,L.;Yu,H.;Black,P.G.;Xu,Y.;Ying,M.;Tang,J.;Guo,R.ReexaminationoftheTropicalCycloneWind–PressureRelationship
+BasedonPre-1987AircraftDataintheWesternNorthPacific.WeatherForecast.2019,34,1939–1954.[CrossRef]
+19. Lee,T.C.;Knutson,T.R.;Kamahori,H.;Ying,M.ImpactsofclimatechangeontropicalcyclonesinthewesternNorthPacificbasin.
+PartI:Pastobservations.Trop.CycloneRes.Rev.2012,1,213–230.[CrossRef]
+20. Yu, H.; Chan, S.T.; Brown, B.; Kunitsugu, M.; Fukada, E.; Park, S.; Lee, W.; Xu, Y.; Phalla, P.; Sysouphanthavong, B.; et al.
+OperationaltropicalcycloneforecastverificationpracticeinthewesternNorthPacificregion. Trop. CycloneRes. Rev. 2012,1,
+361–372.[CrossRef]
+21. Neumann,C.S.;Pelissier,J.M.AnAnalysisofAtlanticTropicalCycloneForecastErrors,1970–1979.Mon.WeatherRev.1981,109,
+1248–1266.[CrossRef]
+22. GB/T19201-2006;GradeofTropicalCyclones.ChinaStandardsPress:Beijing,China,2006.
+23. Knaff, J.A.; Zehr, R.M. Reexamination of Tropical Cyclone Wind–Pressure Relationships. Weather Forecast. 2007, 22, 71–88.
+[CrossRef]
+24. National Centers for Environmental Prediction/National Weather Service/NOAA/U.S. Department of Commerce (2000) NCEP FNL
+Operational Model Global Tropospheric Analyses, continuing from July 1999; Research Data Archive at the National Center for
+AtmosphericResearch,ComputationalandInformationSystemsLaboratory:Boulder,CO,USA,2000.[CrossRef]
+25. Chan, J.C.L.; Gray, W.M. Tropical Cyclone Movement and Surrounding Flow Relationships. Mon. Weather Rev. 1982, 110,
+1354–1374.[CrossRef]
+26. Hansen,J.A.;Goerss,J.S.;Sampson,C.GPCE-AX:AnAnisotropicExtensiontotheGoerssPredictedConsensusErrorinTropical
+CycloneTrackForecasts.WeatherForecast.2011,26,416–422.[CrossRef]
+27. Holland,G.J.TropicalCycloneMotion.AComparisonofTheoryandObservation.J.Atmos.Sci.1984,41,68–75.[CrossRef]
+Atmosphere2023,14,499 17of17
+28. Carr,L.E.,III;Elsberry,R.L.ObservationalEvidenceforPredictionsofTropicalCyclonePropagationRelativetoEnvironmental
+Steering.J.Atmos.Sci.1990,47,542–546.[CrossRef]
+29. Neumann,C.J.TheJointTyphoonWarningCenter(JTWC92)Model.SAICFinalRep.,ContrachN00014-90-c-6042,p.85.1992.
+Availableonline:http://www.dtic.mil/dtic/tr/fulltext/u2/a258646.pdf(accessedon29August2021).
+Disclaimer/Publisher’s Note: The statements, opinions and data contained in all publications are solely those of the individual author(s)andcontributor(s)andnotofMDPIand/ortheeditor(s).MDPIand/ortheeditor(s)disclaimresponsibilityforanyinjuryto peopleorpropertyresultingfromanyideas,methods,instructionsorproductsreferredtointhecontent.
