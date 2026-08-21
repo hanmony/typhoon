@@ -1,3 +1,6 @@
+
+
+
 # 台风防台智策平台 — 智能体建设项目
 
 > 为上海轨道交通防汛防台指挥平台建设 AI 智能体。
@@ -246,12 +249,19 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
 
 | 步骤 | 任务 | 状态 |
 |---|---|---|
-| 步骤 7 | 新增 `ChatSessionEntity` 并注册到 DatabaseModule | ⬜ 待做 |
-| 步骤 8 | 会话 CRUD 接口（创建/列表/详情/删除） | ⬜ 待做 |
-| 步骤 9 | `/chat/stream`、`/agent/stream` 支持可选 `sessionId`（向后兼容） | ⬜ 待做 |
-| 步骤 10 | 前端 localStorage 历史迁移到服务端会话（二期可选） | ⬜ 待做 |
+| 步骤 7 | 新增 `ChatSessionEntity` 并注册到 DatabaseModule | ✅ 完成（2026-08-17，m2-session-persistence 分支） |
+| 步骤 8 | 会话 CRUD 接口（创建/列表/详情/删除） | ✅ 完成（2026-08-17，m2-session-persistence 分支） |
+| 步骤 9 | `/chat/stream`、`/agent/stream` 支持可选 `sessionId`（向后兼容） | ✅ 完成（2026-08-17，m2-session-persistence 分支） |
+| 步骤 10 | 前端 localStorage 历史迁移到服务端会话 | ✅ 完成（2026-08-18，m2-session-persistence 分支） |
 
 **要点**：`sessionId` 可选、默认无状态，不破坏现有前端协议；服务端自动截断历史（最近 20 条），替换"前端回传 ≤10 条"限制。
+
+**步骤 10 实现**：前端加载时优先读取服务端最新会话（列表 → 详情），发送时无会话则自动创建并携带 `sessionId`（历史改由服务端管理，前端不再回传）；**localStorage 回退保留**——服务端/MongoDB 不可用时自动回退读取本地历史，每轮对话结束 localStorage 仍镜像保存，创建会话失败时提示「本轮对话仅保存在本地」并按原有无状态方式（回传历史）继续。chat/agent 两种模式各自维护独立会话，模式切换加载对应最新会话；服务端报「会话不存在/无权访问」时置空会话、下次发送自动重建；会话加载带序号防竞态；清空对话尽力删除服务端会话并同步清空本地。
+
+**验收口径**：
+- ✅ **模拟联调通过**：本机 Docker MongoDB + 假 LLM 全链路——服务端会话 e2e 17/17 通过；前端 chat-panel 单测 9/9 通过（`tsconfig.spec.chatpanel.json`）；前后端 `npm run build` 编译通过。
+- ⬜ **待办：MongoDB 实机联调（部署机）**——步骤 8～10 需在真实部署环境对会话 CRUD、流式落库、前端历史迁移做整体验收；未完成前不宣称「迁移验收完成」。
+- M2 不依赖 Qdrant 或 Embedding API（会话为纯 MongoDB 文档存储）。
 
 ---
 
@@ -259,12 +269,14 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
 
 | 步骤 | 任务 | 状态 |
 |---|---|---|
-| 步骤 11 | `case-matcher.service`：历史案例轨迹相似度匹配 | ⬜ 待做 |
-| 步骤 12 | `alert-analyzer` 模块骨架 + SSE 事件协议（新增 `analysis` 结构化事件） | ⬜ 待做 |
-| 步骤 13 | 研判编排（解读 + 应急响应等级建议 + 相似案例）+ 防编造 prompt | ⬜ 待做 |
-| 步骤 14 | M3 评估（10 组场景） | ⬜ 待做 |
+| 步骤 11 | `case-matcher.service`：历史案例轨迹相似度匹配 | ✅ 完成（2026-08-19，m2-session-persistence 分支） |
+| 步骤 12 | `alert-analyzer` 模块骨架 + SSE 事件协议（新增 `analysis` 结构化事件） | ✅ 完成（2026-08-19，m2-session-persistence 分支） |
+| 步骤 13 | 研判编排（解读 + 应急响应等级建议 + 相似案例）+ 防编造 prompt | ✅ 完成（2026-08-19，m2-session-persistence 分支） |
+| 步骤 14 | M3 评估（10 组场景） | ✅ 完成（2026-08-19，m2-session-persistence 分支） |
 
 **要点**：用 `path-infos`（案例路径点）与当前台风 `tracks` 做轨迹相似度（同时间段最近点距离/登陆点距离），Top-3 返回事件时间线与处置摘要；所有 LLM 调用走 `LlmService`（研判用大模型）。
+
+**执行结果（2026-08-19）**：新增 `server/src/alert-analyzer/service/case-matcher.service.ts`——输入当前台风路径点（兼容 lng/lat 字符串），输出 Top-N 相似案例（默认 3）：综合分 `0.7×路径相似 + 0.3×登陆相似`（路径相似=生命周期窗口对齐的平均最近距离，登陆相似=最强时刻位置距离，尺度 500km/300km）。真实数据验证（本地 Mongo 6 案例/7 路径）：梅花自匹配 1.0、烟花自匹配 1.0、梅花↔烟花 0.51、东移 10° 合成台风无强相似（普拉桑 0.15 最高）——排序符合直觉；返回事件时间线（10 类分组 + 抽样）与处置要点摘要（关键类别优先）。单测 8/8 通过。验证脚本：`server/scripts/case-matcher-check.js`（入库）。
 
 ---
 
@@ -272,9 +284,9 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
 
 | 步骤 | 任务 | 状态 |
 |---|---|---|
-| 步骤 15 | 迁移前端 `metro.2026.data` 线路坐标到后端 assets | ⬜ 待做 |
-| 步骤 16 | `line-impact.service`：turf 风圈 × 线路相交研判（受影响线路 + 影响时间窗口） | ⬜ 待做 |
-| 步骤 17 | 研判编排集成线路影响结果 + 评估 | ⬜ 待做 |
+| 步骤 15 | 迁移前端 `metro.2026.data` 线路坐标到后端 assets | ✅ 完成（2026-08-19，m2-session-persistence 分支） |
+| 步骤 16 | `line-impact.service`：turf 风圈 × 线路相交研判（受影响线路 + 影响时间窗口） | ✅ 完成（2026-08-19，m2-session-persistence 分支） |
+| 步骤 17 | 研判编排集成线路影响结果 + 评估 | ✅ 完成（2026-08-19，m2-session-persistence 分支） |
 
 **要点**：放 `server/assets/line/metro-2026.json`，仿 `wind-circle.service.ts` 的 `onModuleInit` 启动加载模式；坐标系统与 wind-circle 一致；部署时 `assets/` 随发布包交付。
 
@@ -284,8 +296,8 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
 
 | 步骤 | 任务 | 状态 |
 |---|---|---|
-| 步骤 18 | COCC 悬浮面板「一键研判」按钮 + `analysis` 事件渲染研判卡片 | ⬜ 待做 |
-| 步骤 19 | 方向 A/B 综合评估测试（验收标准第 1–6 条） | ⬜ 待做 |
+| 步骤 18 | COCC 悬浮面板「一键研判」按钮 + `analysis` 事件渲染研判卡片 | ✅ 完成（2026-08-19，m2-session-persistence 分支） |
+| 步骤 19 | 方向 A/B 综合评估测试（验收标准第 1–6 条） | ✅ 完成（2026-08-19，m2-session-persistence 分支；codex 严格复验 9/9） |
 
 ---
 
@@ -293,7 +305,7 @@ cd client && npm install && npm start          # 开发服务器，proxy → htt
 
 | 步骤 | 任务 | 状态 |
 |---|---|---|
-| 步骤 20 | 打包（DEPLOY.md 7.3 发布物清单）+ 部署机覆盖更新（DEPLOY.md 6）+ 验证 | ⬜ 待做 |
+| 步骤 20 | 打包（DEPLOY.md 7.3 发布物清单）+ 部署机覆盖更新（DEPLOY.md 6）+ 验证 | 🔄 本机部署完成（2026-08-19）：nginx 12080 + 后端 3000 + 真 LLM 全链路通过；⚠️ 真模型性能待优化（TTFT 3.4s / 研判 53.5s）；学校服务器迁移待办 |
 
 **要点**：保留 `.env`/`upload`/`assets`/`logs`；前端模型管理页确认默认大/小模型；知识库按需上传预案/案例文档。
 

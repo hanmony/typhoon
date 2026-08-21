@@ -259,10 +259,10 @@ export class WindCircleService implements OnModuleInit {
         return sectorCoords;
     }
 
-    /** 构建四象限风圈特征（对应前端 getTyphoonCircleFeature） */
-    getTyphoonCircleFeature(state: TyphoonStateDto): number[][][] {
+    /** 构建四象限风圈特征；radiusIndex: 0=7级、1=10级、2=12级，默认保持原 7 级契约。 */
+    getTyphoonCircleFeature(state: TyphoonStateDto, radiusIndex: 0 | 1 | 2 = 0): number[][][] {
         const centerPoint = state.center.slice();
-        const maxRadius = state.radius[0];
+        const maxRadius = state.radius[radiusIndex] ?? { ne: 0, se: 0, sw: 0, nw: 0 };
         const { ne, se, sw, nw } = maxRadius;
         return [
             this.generateSector(centerPoint, ne * 1000, 90, 180),

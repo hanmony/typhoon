@@ -26,6 +26,7 @@ import { LlmModelEntity } from "src/database/entity/llm-model.schema";
 import { TyphoonNewEntity } from "src/database/entity/typhoon.new.schema";
 import { TyphoonTwoEntity } from "src/database/entity/typhoon.two.schema";
 import { TyphoonSevereWeatherHistoryEntity } from "src/database/entity/typhoon.severe.weather.history.schema";
+import { ChatSessionEntity } from "src/database/entity/chat-session.schema";
 
 @Injectable()
 export class RepoService {
@@ -63,5 +64,6 @@ export class RepoService {
         @InjectEntityModel(KbDocumentEntity) public readonly kbDocuments: Model<KbDocumentEntity>,
         @InjectEntityModel(KbChunkEntity) public readonly kbChunks: Model<KbChunkEntity>,
         @InjectEntityModel(LlmModelEntity) public readonly llmModels: Model<LlmModelEntity>,
+        @InjectEntityModel(ChatSessionEntity) public readonly chatSessions: Model<ChatSessionEntity>,
     ) {}
 }

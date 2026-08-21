@@ -1,0 +1,1963 @@
+{
+ "stats": {
+  "429": 28,
+  "httpError": 0,
+  "timeout": 0,
+  "protocolError": 0
+ },
+ "perQ": [
+  {
+   "qid": 1,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 2,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 3,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 4,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 5,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 6,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 7,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 8,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 9,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 10,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 11,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 12,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 13,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 14,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 15,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 16,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 17,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 18,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 19,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 20,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 21,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 22,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 23,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 24,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 25,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 26,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 27,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 28,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 29,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 30,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 31,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 32,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 33,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 34,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 35,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 36,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 37,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 38,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 39,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 40,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 41,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 42,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 43,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 44,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 45,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 46,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 47,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 48,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 49,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 50,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 51,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 52,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 53,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 54,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 55,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 56,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 57,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 58,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 59,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 60,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 61,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 62,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 63,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 64,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 65,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 66,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 67,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 68,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 69,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 70,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 71,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 72,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 73,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 74,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 75,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 76,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 77,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 78,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 79,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 80,
+   "category": "tool_routing",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 81,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 82,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 83,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 84,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 85,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 86,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 87,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 88,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 89,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 90,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 91,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 92,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 93,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 94,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 95,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 96,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 97,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 98,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 99,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 100,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 101,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 102,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 103,
+   "category": "kb",
+   "pass": 2,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 104,
+   "category": "kb",
+   "pass": 1,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 105,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 106,
+   "category": "kb",
+   "pass": 1,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 107,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 108,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 109,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 110,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 111,
+   "category": "kb",
+   "pass": 2,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 112,
+   "category": "kb",
+   "pass": 1,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 113,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 114,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 115,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 116,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 117,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 118,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 119,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 120,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 121,
+   "category": "kb",
+   "pass": 1,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 122,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 123,
+   "category": "kb",
+   "pass": 1,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 124,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 125,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 126,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 127,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 128,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 129,
+   "category": "kb",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 130,
+   "category": "kb",
+   "pass": 1,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 131,
+   "category": "line_impact",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 132,
+   "category": "line_impact",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 133,
+   "category": "line_impact",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 134,
+   "category": "line_impact",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 135,
+   "category": "line_impact",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 136,
+   "category": "line_impact",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 137,
+   "category": "line_impact",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 138,
+   "category": "line_impact",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 139,
+   "category": "line_impact",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 140,
+   "category": "line_impact",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 141,
+   "category": "line_impact",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 142,
+   "category": "line_impact",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 143,
+   "category": "line_impact",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 144,
+   "category": "line_impact",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 145,
+   "category": "line_impact",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 146,
+   "category": "line_impact",
+   "pass": 1,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 147,
+   "category": "line_impact",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 148,
+   "category": "line_impact",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 149,
+   "category": "line_impact",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 150,
+   "category": "line_impact",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 151,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 152,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 153,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 154,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 155,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 156,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 157,
+   "category": "similar_case",
+   "pass": 1,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 158,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 159,
+   "category": "similar_case",
+   "pass": 2,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 160,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 161,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 162,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 163,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 164,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 165,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 166,
+   "category": "similar_case",
+   "pass": 2,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 167,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 168,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 169,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 170,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 171,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 172,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 173,
+   "category": "similar_case",
+   "pass": 1,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 174,
+   "category": "similar_case",
+   "pass": 2,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 175,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 176,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 177,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 178,
+   "category": "similar_case",
+   "pass": 2,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 179,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 180,
+   "category": "similar_case",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 181,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 182,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 183,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 184,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 185,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 186,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 187,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 188,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 189,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 190,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 191,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 192,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 193,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 194,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 195,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 196,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 197,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 198,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 199,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 200,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 201,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 202,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 203,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 204,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 205,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 206,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 207,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 208,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 209,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  },
+  {
+   "qid": 210,
+   "category": "refusal",
+   "pass": 3,
+   "total": 3,
+   "statuses": [
+    201
+   ]
+  }
+ ],
+ "cats": {
+  "tool_routing": {
+   "q": 80,
+   "runs": 240,
+   "pass": 240,
+   "fail": 0,
+   "allFail": 0,
+   "allPass": 80,
+   "mixed": 0
+  },
+  "kb": {
+   "q": 50,
+   "runs": 150,
+   "pass": 136,
+   "fail": 14,
+   "allFail": 0,
+   "allPass": 42,
+   "mixed": 8
+  },
+  "line_impact": {
+   "q": 20,
+   "runs": 60,
+   "pass": 58,
+   "fail": 2,
+   "allFail": 0,
+   "allPass": 19,
+   "mixed": 1
+  },
+  "similar_case": {
+   "q": 30,
+   "runs": 90,
+   "pass": 82,
+   "fail": 8,
+   "allFail": 0,
+   "allPass": 24,
+   "mixed": 6
+  },
+  "refusal": {
+   "q": 30,
+   "runs": 90,
+   "pass": 90,
+   "fail": 0,
+   "allFail": 0,
+   "allPass": 30,
+   "mixed": 0
+  }
+ },
+ "kbRetrieval": {
+  "n": 150,
+  "p5": 0.19199999999999953,
+  "r5": 0.96,
+  "f1": 0.32000000000000045,
+  "hits": 144
+ },
+ "similar": {
+  "n": 90,
+  "mrr": 0.8259259259259261,
+  "top3": 0.8481481481481481
+ },
+ "refusal": {
+  "n": 90,
+  "leaks": 0
+ }
+}

@@ -3,6 +3,7 @@ import { Observable } from "rxjs";
 import { LlmService, ChatMessage, TokenUsage } from "src/llm";
 import { KbCatalogCache } from "src/knowledge-base";
 import { ChatHistoryItem } from "../domain/dto/chat.dto";
+import { ChatSessionService, SESSION_MAX_MESSAGES } from "./chat-session.service";
 import { ChatDiagnosticsService, ChatMetrics } from "./chat.diagnostics.service";
 import { PromptBuilder, PromptContext } from "./prompt.builder";
 import { IntentClassifier } from "./intent-classifier";
@@ -16,6 +17,7 @@ export class ChatService {
         private readonly llmService: LlmService,
         private readonly diag: ChatDiagnosticsService,
         private readonly catalogCache: KbCatalogCache,
+        private readonly sessionService: ChatSessionService,
     ) {}
 
     chatStream(
@@ -23,10 +25,17 @@ export class ChatService {
         history?: ChatHistoryItem[],
         from?: string,
         modelId?: string,
+        sessionId?: string,
+        userId?: string,
     ): Observable<{ type: "status" | "thinking" | "token"; data: string; stage?: string }> {
         return new Observable(subscriber => {
             (async () => {
                 const t0 = Date.now();
+
+                // 会话模式：传了 sessionId 则从服务端读最近 20 条历史（替代前端回传），否则保持原有无状态行为
+                const persistSession = sessionId && userId ? { sessionId, userId, question } : undefined;
+                let resolvedHistory = history || [];
+                let historyLimit = 10;
 
                 // metrics 收集变量
                 let intentMetrics: ChatMetrics["intent"];
@@ -36,10 +45,16 @@ export class ChatService {
                 let streamUsage: TokenUsage | undefined;
 
                 try {
+                    // 0. 会话历史加载（失败走 SSE error 事件）
+                    if (persistSession) {
+                        resolvedHistory = await this.sessionService.loadHistory(userId, sessionId);
+                        historyLimit = SESSION_MAX_MESSAGES;
+                    }
+
                     // 1. 意图分类
                     subscriber.next({ type: "status", data: "正在理解您的问题...", stage: "classifying" });
                     const tIntent = Date.now();
-                    const { sources, chatResult } = await this.intentClassifier.classify(question, history);
+                    const { sources, chatResult } = await this.intentClassifier.classify(question, resolvedHistory);
                     const intentElapsed = Date.now() - tIntent;
                     this.diag.logIntent(question, sources);
 
@@ -65,7 +80,7 @@ export class ChatService {
                     // 2. 无匹配数据源 → 直接 LLM 自由回答
                     if (filteredSources.length === 0) {
                         subscriber.next({ type: "status", data: "正在思考...", stage: "generating" });
-                        const messages = this.buildFreeformMessages(question, history, from);
+                        const messages = this.buildFreeformMessages(question, resolvedHistory, from, historyLimit);
                         this.diag.logFreeformPrompt(messages);
                         const tLlm = Date.now();
                         const stream$ = this.llmService.chatStream(messages, modelId);
@@ -75,6 +90,7 @@ export class ChatService {
                             t0,
                             { intentMetrics, fetchMetrics, promptElapsed: 0, from, sources },
                             subscriber,
+                            persistSession,
                             ttftRef => {
                                 ttft = ttftRef;
                             },
@@ -118,7 +134,7 @@ export class ChatService {
                         : filteredSources.includes("command-active")
                           ? "active"
                           : null;
-                    const messages = this.buildMessages(question, history, {
+                    const messages = this.buildMessages(question, resolvedHistory, historyLimit, {
                         alert,
                         ragResult,
                         events,
@@ -140,6 +156,7 @@ export class ChatService {
                         t0,
                         { intentMetrics, fetchMetrics, promptElapsed, from, sources },
                         subscriber,
+                        persistSession,
                         ttftRef => {
                             ttft = ttftRef;
                         },
@@ -155,32 +172,46 @@ export class ChatService {
 
     // ─── 私有辅助 ────────────────────────────────────────────────
 
-    private buildFreeformMessages(question: string, history?: ChatHistoryItem[], from?: string): ChatMessage[] {
+    private buildFreeformMessages(
+        question: string,
+        history?: ChatHistoryItem[],
+        from?: string,
+        historyLimit = 10,
+    ): ChatMessage[] {
         const messages: ChatMessage[] = [
             { role: "system", content: PromptBuilder.buildFreeformSystemPrompt(from, this.catalogCache) },
         ];
         if (history?.length) {
             messages.push(
-                ...history.slice(-10).map(h => ({ role: h.role as "user" | "assistant", content: h.content })),
+                ...history
+                    .slice(-historyLimit)
+                    .map(h => ({ role: h.role as "user" | "assistant", content: h.content })),
             );
         }
         messages.push({ role: "user", content: question });
         return messages;
     }
 
-    private buildMessages(question: string, history: ChatHistoryItem[] | undefined, ctx: PromptContext): ChatMessage[] {
+    private buildMessages(
+        question: string,
+        history: ChatHistoryItem[] | undefined,
+        historyLimit: number,
+        ctx: PromptContext,
+    ): ChatMessage[] {
         const systemPrompt = PromptBuilder.buildSystemPrompt(ctx, this.catalogCache);
         const messages: ChatMessage[] = [{ role: "system", content: systemPrompt }];
         if (history?.length) {
             messages.push(
-                ...history.slice(-10).map(h => ({ role: h.role as "user" | "assistant", content: h.content })),
+                ...history
+                    .slice(-historyLimit)
+                    .map(h => ({ role: h.role as "user" | "assistant", content: h.content })),
             );
         }
         messages.push({ role: "user", content: question });
         return messages;
     }
 
-    /** 订阅 LLM 流式输出并统一转发，在 complete 时记录 metrics */
+    /** 订阅 LLM 流式输出并统一转发，在 complete 时记录 metrics（并写回会话，如有） */
     private subscribeStream(
         stream$: Observable<any>,
         tLlm: number,
@@ -193,12 +224,14 @@ export class ChatService {
             sources: string[];
         },
         subscriber: any,
+        persist?: { sessionId: string; userId: string; question: string },
         onTtft?: (ttft: number) => void,
     ) {
         let firstToken = true;
         let streamT0 = 0;
         let streamUsage: TokenUsage | undefined;
         let textTokenCount = 0;
+        let assistantText = "";
 
         return stream$.subscribe({
             next: (event: any) => {
@@ -207,7 +240,10 @@ export class ChatService {
                     streamT0 = Date.now();
                     if (onTtft) onTtft(streamT0 - tLlm);
                 }
-                if (event.type === "token") textTokenCount++;
+                if (event.type === "token") {
+                    textTokenCount++;
+                    assistantText += event.data;
+                }
                 if (event.type === "usage") {
                     streamUsage = event.data;
                     return; // usage 仅内部消费，不转发
@@ -218,7 +254,7 @@ export class ChatService {
                 subscriber.next(event);
             },
             error: (err: any) => subscriber.error(err),
-            complete: () => {
+            complete: async () => {
                 const now = Date.now();
                 const streamDuration = streamT0 ? now - streamT0 : 0;
                 const streamSec = streamDuration / 1000;
@@ -243,6 +279,16 @@ export class ChatService {
                     from: ctx.from,
                     sources: ctx.sources,
                 });
+
+                // 会话写回：追加本轮问答（内部已兜底，失败不影响响应）
+                if (persist && assistantText) {
+                    await this.sessionService.appendExchange(
+                        persist.userId,
+                        persist.sessionId,
+                        persist.question,
+                        assistantText,
+                    );
+                }
 
                 subscriber.complete();
             },

@@ -1,0 +1,37 @@
+@echo off
+rem ============================================================
+rem  Typhoon Agent Backend STOP script (deploy template)
+rem  How to use:
+rem   1) Copy this file to the target machine as stop-typhoon.bat
+rem   2) Replace {{PORT}} with the backend listen port (default 3000,
+rem      must match the start script)
+rem  Features:
+rem   1) Find and kill LISTENING processes on port {{PORT}}
+rem   2) Confirm the port is released; warn if still in use
+rem  NOTE: keep this file ASCII-only (see start-typhoon.bat.example)
+rem ============================================================
+setlocal enabledelayedexpansion
+
+set PORT={{PORT}}
+
+rem ---------- 1. find and kill LISTENING processes on port {{PORT}} ----------
+set /a killed=0
+for /f "tokens=5" %%p in ('netstat -ano ^| findstr /c:":%PORT% " ^| findstr "LISTENING"') do (
+  taskkill /PID %%p /F >nul 2>&1 && set /a killed+=1
+)
+if !killed! gtr 0 (
+  echo [typhoon] Killed !killed! process listening on port %PORT%.
+) else (
+  echo [typhoon] No process is listening on port %PORT%, nothing to stop.
+)
+
+rem ---------- 2. confirm the port is released ----------
+ping -n 2 127.0.0.1 >nul
+netstat -ano | findstr /c:":%PORT% " | findstr "LISTENING" >nul 2>&1
+if not errorlevel 1 (
+  echo [typhoon] WARNING: port %PORT% is still in use, please check manually:
+  echo [typhoon]   netstat -ano ^| findstr /c:":%PORT% "
+  exit /b 1
+)
+echo [typhoon] Port %PORT% released, backend stopped.
+exit /b 0

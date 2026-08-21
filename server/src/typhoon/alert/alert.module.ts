@@ -10,6 +10,6 @@ import { TyphoonModule } from "../typhoon.module";
     imports: [CommonModule, DatabaseModule, TyphoonModule],
     controllers: [AlertController],
     providers: [AlertService, WindCircleService],
-    exports: [AlertService],
+    exports: [AlertService, WindCircleService],
 })
 export class AlertModule {}

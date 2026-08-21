@@ -143,7 +143,7 @@ describe("M1 agent tools", () => {
     });
 
     it("has readable display names for all eight registered tools", () => {
-        const service = new AgentService({} as any, {} as any, {} as any);
+        const service = new AgentService({} as any, {} as any, {} as any, {} as any);
         const displayName = (name: string) => (service as any).getToolDisplayName(name);
 
         expect(

@@ -132,6 +132,64 @@
                   }
                 </div>
               }
+              @if (msg.analysis) {
+                <div class="analysis-card" role="region" aria-label="线路影响研判结果">
+                  <div class="analysis-card-header">
+                    <span nz-icon nzType="radar-chart" nzTheme="outline"></span>
+                    <span>线路影响研判</span>
+                  </div>
+                  @if (msg.analysis.basis) {
+                    <div class="analysis-basis" [class.stale]="msg.analysis.basis.stale">
+                      <span class="basis-mode">
+                        {{ msg.analysis.basis.mode === 'simulated' ? '模拟演练' : '实时研判' }}
+                      </span>
+                      <span>研判时点 {{ formatAnalysisTime(msg.analysis.basis.queryTime) }}</span>
+                      @if (msg.analysis.basis.stale) {
+                        <span>数据时效不足</span>
+                      }
+                    </div>
+                  }
+                  <div class="analysis-note">仅表示风圈空间覆盖，不代表运营风险或停运结论</div>
+                  @if (msg.analysis.affectedLines?.length) {
+                    <div class="affected-lines">
+                      @for (line of msg.analysis.affectedLines; track line.line) {
+                        <div
+                          class="line-item"
+                          [class.risk-high]="isHighRisk(line.riskLevel)"
+                          [class.risk-mid]="isMidRisk(line.riskLevel)"
+                          [class.risk-low]="isLowRisk(line.riskLevel)"
+                        >
+                          <span class="line-name">{{ line.line }}</span>
+                          <span class="line-period">{{ line.period || '时间待确认' }}</span>
+                          <span class="line-risk">{{ line.riskLevel || '风险待确认' }}</span>
+                        </div>
+                      }
+                    </div>
+                  } @else {
+                    <div class="analysis-empty">当前没有可展示的线路影响计算结果，不能据此断言线路不受影响</div>
+                  }
+                  <div class="similar-cases">
+                    <div class="similar-title">相似历史案例</div>
+                    @if (msg.analysis.similarCases?.length) {
+                      <div class="case-chips">
+                        @for (c of msg.analysis.similarCases; track c.caseId) {
+                          <div class="case-chip">
+                            <span>{{ c.caseName }}（{{ formatSimilarity(c.score) }}）</span>
+                            @if (c.reason) {
+                              <span class="case-reason">{{ c.reason }}</span>
+                            }
+                          </div>
+                        }
+                      </div>
+                    } @else {
+                      <div class="case-empty">暂无可参考的相似案例</div>
+                    }
+                  </div>
+                  <div class="level-suggestion">
+                    等级建议：{{ msg.analysis.levelSuggestion || '待结合预案条款与现场数据确认' }}
+                  </div>
+                </div>
+              }
               @if (msg.content) {
                 <markdown [data]="msg.content"></markdown>
               } @else if (msg.streaming && !msg.thinkingRounds?.length && (!msg.thinking || !showThinking())) {
@@ -212,6 +270,22 @@
       <div class="input-border-animate"></div>
     </div>
     <div class="input-actions">
+      @if (!loading) {
+        <button
+          nz-button
+          nzSize="small"
+          class="cyber-btn analyze"
+          (click)="onAnalyze()"
+          title="一键研判当前台风影响"
+          aria-label="一键研判"
+        >
+          <span class="btn-content">
+            <span nz-icon nzType="radar-chart" nzTheme="outline"></span>
+            <span>研判</span>
+          </span>
+          <span class="btn-glow"></span>
+        </button>
+      }
       @if (loading) {
         <button nz-button nzDanger nzSize="small" class="cyber-btn danger" (click)="onStop()" aria-label="中断">
           <span class="btn-content">

@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.spec.json",
+  "include": [
+    "src/app/common.component/chat-panel/chat-panel.component.spec.ts",
+    "src/app/services/apis/sse-stream.spec.ts",
+    "src/**/*.d.ts"
+  ]
+}
