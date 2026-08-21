@@ -472,3 +472,14 @@
 - **结论**：阶段 E 仍未通过（仅工具路由总体与零泄露达标）；与旧诊断值对比：历史措施 28.33%→15.00%（旧评分假阳性）、相似 MRR 0.167→0.217（按回答顺序）、拒答 44.44%→43.33%
 - **产出**：results/phase-e-raw-v21.json、phase-e-db-snapshot-v21.json；M6_PHASE_E_REPORT.md 新增「v2.1 正式重跑（最终成绩）」章节（旧值保留作诊断）；WORKLOG；M6 计划状态
 - **提交**：见 git 历史（v2.1 重跑提交）
+
+### M6 阶段 E：能力修复（dc94e9c）部署 + v22 正式重跑（2026-08-21，deepseek harness 执行）
+- **部署**：构建 dc94e9c（新增 get_case_actions/get_case_metadata 工具 + agent prompt 更新 + rag 混合检索增强）→ 发布目录 C:\data\sch-typhoon\server（备份 dist.pre-v21-20260821，保留 .env/upload/assets/logs/qweather）→ 后端 node dist/main 重启 → nginx 12080 重启
+- **SSE 冒烟**：10 个工具全部生效——get_case_actions（灿都 5 号线停运）、get_case_metadata（五案例筛选）均被实际调用并正确作答；release-verify 7/7
+- **v22 重跑**：同一金标准（gold-set.v2.jsonl 哈希不变）、同一数据库快照（phase-e-db-snapshot-v22.json 与 v21 计数一致）、同一评分器（phase-e-v2.1-codex-20260820，scorer-check 14/14）、新后缀 -v22-a/-v22-b；630 运行 + 150 检索；敏感扫描 0 命中
+- **v22 最终成绩（results/phase-e-raw-v22.json）**：工具路由 **96.67%**（✅≥95%；关键实时工具 Q014/Q028/Q029/Q054 未 100% ❌）；KB 回答 85.33%、检索 **Hit@5=0.920**（✅≥0.90）；历史线路措施 **95.00%**（✅；Q135 全败）；五案例元数据 **Top-3=0.878 / MRR=0.863**（✅）；拒答诚实率 **84.44%**（❌<95%；泄露 0 ✅）；三次一致率 A 94.29% / B 88.57%；429 重试 10、HTTP 0、超时 0、协议 0
+- **v21→v22 提升**：历史措施 15%→95%（get_case_actions）、相似 MRR 0.217→0.863（get_case_metadata）、KB Hit@5 0.60→0.92（rag 混合检索）、拒答 43%→84%（prompt 强化）
+- **剩余缺口**：拒答 Q194/Q207 0/3（同意选合理时间/重复计数，真实顺从）；工具路由金标准为 8 工具时代设计，Q28/Q29 路由到新工具 get_case_actions 属更直接但偏离金标准，需随工具集更新金标准路由；KB 回答 0/3 的 Q121/123/126/129/130（检索已命中但回答未含金标准事实）
+- **结论**：阶段 E 修复方向验证有效——除“关键实时工具 100%”与“拒答诚实率≥95%”外全部达标；拒答项建议继续强化 prompt 的“不得同意执行失真/重复计数操作”边界
+- **产出**：results/phase-e-raw-v22.json、phase-e-db-snapshot-v22.json；M6_PHASE_E_REPORT.md 新增「〇b v22 能力修复后重跑」；WORKLOG；M6 计划状态
+- **提交**：见 git 历史（v22 重跑提交）
