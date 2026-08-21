@@ -1,0 +1,21 @@
+{
+ "time": "2026-08-21T11:27:47",
+ "collections": {
+  "kbdocuments": 72,
+  "kbchunks": 3002,
+  "cases": 6,
+  "actions": 946,
+  "pathinfos": 722,
+  "llmmodels": 4,
+  "typhoontwos": 193,
+  "typhooncommands": 1
+ },
+ "caseNames": [
+  "2021灿都",
+  "2021烟花",
+  "2022梅花",
+  "2022轩岚诺",
+  "普拉桑",
+  "贝碧嘉"
+ ]
+}
