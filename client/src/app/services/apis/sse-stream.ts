@@ -28,7 +28,15 @@ export interface AnalysisSimilarCase {
   reason?: string;
 }
 
+export interface AnalysisBasis {
+  mode: 'simulated' | 'realtime';
+  queryTime: string;
+  stateTime?: string;
+  stale?: boolean;
+}
+
 export interface AnalysisPayload {
+  basis?: AnalysisBasis;
   affectedLines?: AnalysisLineImpact[];
   levelSuggestion?: string | null;
   similarCases?: AnalysisSimilarCase[];

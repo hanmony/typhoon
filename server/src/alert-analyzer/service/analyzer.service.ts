@@ -8,10 +8,16 @@ import { TyphoonTwoDto } from "src/typhoon/domain/typhoon.two.dto";
 import { WindCircleService } from "src/typhoon/alert/wind-circle.service";
 import { TyphoonStateDto } from "src/typhoon/alert/dto/alert.dto";
 import { AlertAnalyzerDto } from "../domain/alert-analyzer.dto";
-import { AnalyzerEvent, AnalysisLineImpact } from "../domain/alert-analyzer.types";
+import { AnalyzerEvent, AnalysisBasis, AnalysisLineImpact } from "../domain/alert-analyzer.types";
 import { CaseMatcherService, CaseTrackPoint } from "./case-matcher.service";
 import { LineImpactService, LineImpactResult, WindCircleRadiusIndex } from "./line-impact.service";
-import { buildAnalyzerMessages } from "./analyzer.prompt";
+import { AnalyzerSituationContext, buildAnalyzerMessages } from "./analyzer.prompt";
+
+interface LineImpactComputation {
+    affectedLines: AnalysisLineImpact[];
+    basis?: AnalysisBasis;
+    situation?: AnalyzerSituationContext;
+}
 
 /**
  * 研判编排服务（M3 步骤 13 + M4 步骤 17）
@@ -83,13 +89,15 @@ export class AnalyzerService {
 
                     // 3. 线路空间研判（7/10/12 级分级，按最高等级定风险）
                     subscriber.next({ type: "status", data: "正在研判线路影响…" });
-                    const affectedLines = await this.computeLineImpact(typhoon, dto);
+                    const lineImpact = await this.computeLineImpact(typhoon, dto);
+                    const affectedLines = lineImpact.affectedLines;
                     if (cancelled || subscriber.closed) return;
 
                     // 4. 先发 analysis 结构化事件（研判卡片）
                     subscriber.next({
                         type: "analysis",
                         data: {
+                            basis: lineImpact.basis,
                             affectedLines,
                             levelSuggestion: null,
                             similarCases: similarCases.map(c => ({
@@ -107,7 +115,13 @@ export class AnalyzerService {
                         subscriber.complete();
                         return;
                     }
-                    const messages = buildAnalyzerMessages(typhoon, similarCases, affectedLines, dto.question);
+                    const messages = buildAnalyzerMessages(
+                        typhoon,
+                        similarCases,
+                        affectedLines,
+                        dto.question,
+                        lineImpact.situation,
+                    );
                     const stream$ = this.llmService.chatStream(messages);
                     llmSubscription = stream$.subscribe({
                         next: ev => {
@@ -134,7 +148,7 @@ export class AnalyzerService {
      * 实时模式先经 getPredictPath() 取预报状态再合并分析（只对历史 tracks 加 fromTime 无意义）。
      * 无轨迹/无风圈数据时返回 []。
      */
-    private async computeLineImpact(typhoon: TyphoonTwoDto, dto: AlertAnalyzerDto): Promise<AnalysisLineImpact[]> {
+    private async computeLineImpact(typhoon: TyphoonTwoDto, dto: AlertAnalyzerDto): Promise<LineImpactComputation> {
         // 统一转 points（新 schema tracks 或旧 schema points）
         let points: any[] = [];
         if (Array.isArray(typhoon.tracks)) {
@@ -142,13 +156,13 @@ export class AnalyzerService {
         } else if (Array.isArray((typhoon as any).points)) {
             points = (typhoon as any).points;
         }
-        if (!points.length) return [];
+        if (!points.length) return { affectedLines: [] };
 
         const historical = this.windCircle
             .transformPointsToStates(points)
             .filter(state => Number.isFinite(state.time?.getTime()))
             .sort((a, b) => a.time.getTime() - b.time.getTime());
-        if (!historical.length) return [];
+        if (!historical.length) return { affectedLines: [] };
 
         // 若研判对象就是当前指挥台风，则沿用指挥的模拟时间轴；即使请求显式传了 tfid 也不能丢失模拟上下文。
         let isSimulated = false;
@@ -179,13 +193,41 @@ export class AnalyzerService {
         let future: TyphoonStateDto[] = [];
         try {
             future = this.windCircle.getPredictPath({ points }, isSimulated, queryTime);
+            // 实时预报必须晚于最新观测。过期或乱序的历史预报不能重新进入“未来窗口”。
+            if (!isSimulated && currentState) {
+                future = future.filter(state => state.time > currentState.time);
+            }
         } catch (error) {
             // 空间计算仍可报告当前状态，但绝不能回退到整段历史并伪装成未来窗口。
             this.logger.warn(`获取台风预报路径失败，仅研判当前状态：${this.errorMessage(error)}`);
             future = [];
         }
         const states = this.mergeStates(currentState ? [currentState, ...future] : future);
-        if (!states.length) return [];
+        const stale =
+            !isSimulated &&
+            !!currentState &&
+            queryTime.getTime() - currentState.time.getTime() > 24 * 60 * 60 * 1000;
+        const basis: AnalysisBasis = {
+            mode: isSimulated ? "simulated" : "realtime",
+            queryTime: queryTime.toISOString(),
+            stateTime: currentState?.time?.toISOString(),
+            ...(stale ? { stale: true } : {}),
+        };
+        const situation: AnalyzerSituationContext = {
+            mode: basis.mode,
+            queryTime,
+            state: currentState
+                ? {
+                      lat: currentState.center?.[0],
+                      lon: currentState.center?.[1],
+                      windSpeed: currentState.speed,
+                      windClass: currentState.power ?? currentState.level,
+                      time: currentState.time,
+                  }
+                : undefined,
+            stale,
+        };
+        if (!states.length) return { affectedLines: [], basis, situation };
 
         // 7/10/12 级各跑一次
         const perLevel: LineImpactResult[][] = AnalyzerService.RADIUS_LEVELS.map(({ index }) =>
@@ -215,7 +257,7 @@ export class AnalyzerService {
                 riskLevel: AnalyzerService.RISK_BY_RADIUS_INDEX[AnalyzerService.RADIUS_LEVELS[highest.index].index],
             });
         }
-        return affected;
+        return { affectedLines: affected, basis, situation };
     }
 
     private mergeStates(...states: TyphoonStateDto[][]): TyphoonStateDto[] {

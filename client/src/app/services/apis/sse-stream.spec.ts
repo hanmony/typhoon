@@ -3,6 +3,7 @@ import { AnalysisPayload, fetchSSEStream } from "./sse-stream";
 describe("fetchSSEStream analysis events", () => {
   it("forwards a typed analysis event to onAnalysis before completion", (done) => {
     const payload: AnalysisPayload = {
+      basis: { mode: "simulated", queryTime: "2022-09-15T02:00:00+08:00" },
       affectedLines: [
         {
           line: "16号线",

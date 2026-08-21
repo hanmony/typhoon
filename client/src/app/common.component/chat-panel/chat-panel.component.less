@@ -1010,6 +1010,28 @@ app-chat-panel {
     border-bottom: 1px solid @border-subtle;
   }
 
+  .analysis-basis {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    padding: 6px 10px;
+    font-size: 11px;
+    color: #91caff;
+    background: rgba(22, 119, 255, 0.06);
+    border-bottom: 1px solid @border-subtle;
+
+    .basis-mode {
+      font-weight: 600;
+      color: #69b1ff;
+    }
+
+    &.stale {
+      color: #ffd666;
+      background: rgba(250, 173, 20, 0.06);
+      .basis-mode { color: #ffc53d; }
+    }
+  }
+
   .affected-lines {
     max-height: 180px;
     overflow-y: auto;

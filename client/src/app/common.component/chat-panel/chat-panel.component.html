@@ -138,6 +138,17 @@
                     <span nz-icon nzType="radar-chart" nzTheme="outline"></span>
                     <span>线路影响研判</span>
                   </div>
+                  @if (msg.analysis.basis) {
+                    <div class="analysis-basis" [class.stale]="msg.analysis.basis.stale">
+                      <span class="basis-mode">
+                        {{ msg.analysis.basis.mode === 'simulated' ? '模拟演练' : '实时研判' }}
+                      </span>
+                      <span>研判时点 {{ formatAnalysisTime(msg.analysis.basis.queryTime) }}</span>
+                      @if (msg.analysis.basis.stale) {
+                        <span>数据时效不足</span>
+                      }
+                    </div>
+                  }
                   <div class="analysis-note">仅表示风圈空间覆盖，不代表运营风险或停运结论</div>
                   @if (msg.analysis.affectedLines?.length) {
                     <div class="affected-lines">

@@ -435,6 +435,7 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
 
     // analysis 事件 → 卡片数据写入消息
     const payload: AnalysisPayload = {
+      basis: { mode: 'simulated', queryTime: '2022-09-15T02:00:00+08:00' },
       affectedLines: [
         { line: '16号线', period: '09-14 04:00 ~ 09-15 04:00', riskLevel: '最高空间风险：高（12级风圈）' },
         { line: '1号线', period: '09-14 06:00 ~ 09-15 05:00', riskLevel: '可能受影响（仅7级风圈）' },
@@ -472,6 +473,7 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
     flushMicrotasks();
     component.onAnalyze();
     streamCallbacks.analyze?.onAnalysis?.({
+      basis: { mode: 'simulated', queryTime: '2022-09-15T02:00:00+08:00' },
       affectedLines: [
         { line: '16号线', period: '09-14', riskLevel: '最高空间风险：高（12级风圈）' },
         { line: '1号线', period: '09-15', riskLevel: '可能受影响（仅7级风圈）' },
@@ -485,6 +487,8 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
 
     const cardText = fixture.nativeElement.querySelector('.analysis-card')?.textContent || '';
     expect(cardText).toContain('不代表运营风险或停运结论');
+    expect(cardText).toContain('模拟演练');
+    expect(cardText).toContain('研判时点');
     expect(cardText).toContain('51%');
     expect(cardText).toContain('路径平均距离接近');
     expect(cardText).toContain('待结合预案条款与现场数据确认');
@@ -522,6 +526,12 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
 
     component.onStop();
     expect(analyzeCancel).toHaveBeenCalledTimes(1);
+    expect(component.messages().some(message =>
+      message.role === 'assistant'
+      && !message.content.trim()
+      && !message.thinking
+      && !message.analysis
+    )).toBeFalse();
     stale.onAnalysis?.({ affectedLines: [{ line: '旧线路' }] });
     stale.onToken('旧流文本');
     stale.onError(new Error('旧流错误'));
@@ -530,5 +540,17 @@ describe('ChatPanelComponent（M2 步骤 10：服务端会话 + localStorage 回
     expect(component.messages().some(message => message.analysis?.affectedLines?.[0].line === '旧线路')).toBeFalse();
     expect(component.messages().some(message => message.content.includes('旧流文本'))).toBeFalse();
     expect(msg.error).not.toHaveBeenCalledWith('研判失败: 旧流错误');
+  }));
+
+  it('keeps partial analysis output when the stream is stopped', fakeAsync(() => {
+    flushMicrotasks();
+    component.onAnalyze();
+    streamCallbacks.analyze?.onToken('已生成的部分报告');
+
+    component.onStop();
+
+    const partial = component.messages().find(message => message.content.includes('已生成的部分报告'));
+    expect(partial).toBeDefined();
+    expect(partial?.streaming).toBeFalse();
   }));
 });

@@ -140,6 +140,7 @@ describe("AnalyzerService（M3 步骤 13 + M4 步骤 17 编排）", () => {
         expect(types).toEqual(["status", "status", "status", "analysis", "status", "token"]);
 
         const analysis = events.find(e => e.type === "analysis") as any;
+        expect(analysis.data.basis).toMatchObject({ mode: "realtime", stateTime: expect.any(String) });
         expect(analysis.data.similarCases).toHaveLength(1);
         expect(analysis.data.similarCases[0]).toMatchObject({ caseName: "2022梅花", score: 1 });
         // 线路影响：最高等级优先，并以7级窗口保留完整影响期。
@@ -214,6 +215,45 @@ describe("AnalyzerService（M3 步骤 13 + M4 步骤 17 编排）", () => {
         expect(mocks.lineImpact.analyzeStates.mock.calls[0][0]).toEqual(simulatedStates);
     });
 
+    it("模拟指挥的 prompt 使用模拟研判时点状态，不误用历史轨迹末点", async () => {
+        const simulatedQueryTime = new Date(2022, 8, 14, 8);
+        const { service, mocks } = buildService({
+            typhoonCommand: {
+                getCurrentCommand: jest.fn().mockResolvedValue({
+                    name: "梅花",
+                    isSimulated: 1,
+                    simulateStartTime: new Date(2022, 8, 8, 8),
+                    startTime: new Date(2026, 7, 19, 8),
+                }),
+            },
+            windCircle: { calcSimulateTime: jest.fn().mockReturnValue(simulatedQueryTime) },
+        });
+
+        const events = await firstValueFrom(service.streamAnalysis({ tfid: "202212" }).pipe(toArray()));
+        const analysis = events.find(event => event.type === "analysis") as any;
+        expect(analysis.data.basis).toMatchObject({
+            mode: "simulated",
+            queryTime: simulatedQueryTime.toISOString(),
+            stateTime: new Date(2022, 8, 14, 8).toISOString(),
+        });
+        const messages = mocks.llmService.chatStream.mock.calls[0][0];
+        expect(messages[0].content).toContain("研判模式：模拟演练（不是实时态势）");
+        expect(messages[0].content).toContain("研判时点状态：位置 30,122");
+        expect(messages[0].content).not.toContain("研判时点状态：位置 24,128");
+    });
+
+    it("实时模式丢弃早于最新观测点的过期预报", async () => {
+        const staleForecast = { time: new Date(2022, 8, 14, 7), center: [31, 121.5], radius: [] };
+        const { service, mocks } = buildService({
+            windCircle: { getPredictPath: jest.fn().mockReturnValue([staleForecast]) },
+        });
+
+        await firstValueFrom(service.streamAnalysis({ tfid: "202212", autoRun: false }).pipe(toArray()));
+
+        const historical = mocks.windCircle.transformPointsToStates.mock.results[0].value;
+        expect(mocks.lineImpact.analyzeStates.mock.calls[0][0]).toEqual([historical[historical.length - 1]]);
+    });
+
     it("预报路径异常时只降级到最新当前状态，不把整段历史伪装成未来窗口", async () => {
         const { service, mocks } = buildService({
             windCircle: {
@@ -257,12 +297,14 @@ describe("AnalyzerService（M3 步骤 13 + M4 步骤 17 编排）", () => {
             type: "analysis",
             data: {
                 affectedLines: [{ line: "3号线", period: "14日21时起", riskLevel: "高风险" }],
+                basis: { mode: "simulated", queryTime: "2022-09-14T08:00:00.000Z" },
                 levelSuggestion: "Ⅱ级响应",
                 similarCases: [{ caseId: "x", caseName: "2022梅花", score: 0.8, reason: "路径相近" }],
             },
         } as const;
         expect(analysisEvent.type).toBe("analysis");
         expect(analysisEvent.data.affectedLines![0].line).toBe("3号线");
+        expect(analysisEvent.data.basis.mode).toBe("simulated");
         expect(analysisEvent.data.similarCases![0].score).toBe(0.8);
     });
 });
@@ -298,6 +340,33 @@ describe("buildAnalyzerMessages（防编造 prompt）", () => {
         expect(messages[0].content).toContain("没有可参考的历史案例");
         expect(messages[0].content).toContain("不得据此断言线路一定不受影响");
         expect(messages[1].content).toBe("3号线会停运吗？");
+    });
+
+    it("模拟研判上下文明确时间口径并覆盖轨迹末点", () => {
+        const messages = buildAnalyzerMessages(
+            {
+                name: "梅花",
+                tfid: "202212",
+                tracks: [{ lat: 41.5, lon: 124.8, wind_speed: 18, data_time: "2022-09-16 20:00:00" }],
+            },
+            [],
+            [],
+            undefined,
+            {
+                mode: "simulated",
+                queryTime: new Date("2022-09-15T02:00:00+08:00"),
+                state: {
+                    lat: 31.2,
+                    lon: 121.5,
+                    windSpeed: 35,
+                    windClass: "12级",
+                    time: new Date("2022-09-15T02:00:00+08:00"),
+                },
+            },
+        );
+        expect(messages[0].content).toContain("模拟演练（不是实时态势）");
+        expect(messages[0].content).toContain("研判时点状态：位置 31.2,121.5");
+        expect(messages[0].content).not.toContain("研判时点状态：位置 41.5,124.8");
     });
 });
 describe("AnalyzerService review boundaries", () => {

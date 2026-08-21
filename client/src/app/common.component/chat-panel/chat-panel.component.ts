@@ -310,6 +310,13 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
     return `${Math.round(normalized * 100)}%`;
   }
 
+  formatAnalysisTime(value?: string): string {
+    if (!value) return '时间未知';
+    const date = new Date(value);
+    if (!Number.isFinite(date.getTime())) return value;
+    return date.toLocaleString('zh-CN', { hour12: false });
+  }
+
   /** 发起一轮问答：优先走服务端会话（sessionId），创建失败退回无状态（前端回传历史） */
   private async sendStream(question: string) {
     const streamSeq = ++this.streamSeq;
@@ -505,7 +512,16 @@ export class ChatPanelComponent implements OnInit, AfterViewChecked, OnDestroy {
       const updated = [...msgs];
       const last = updated[updated.length - 1];
       if (last?.streaming) {
-        updated[updated.length - 1] = { ...last, streaming: false };
+        const hasVisibleContent = !!(
+          last.content?.trim()
+          || last.thinking?.trim()
+          || last.analysis
+        );
+        if (hasVisibleContent) {
+          updated[updated.length - 1] = { ...last, streaming: false };
+        } else {
+          updated.pop();
+        }
       }
       return updated;
     });

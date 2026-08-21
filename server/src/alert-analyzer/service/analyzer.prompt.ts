@@ -23,8 +23,22 @@ export interface AnalyzerTyphoonContext {
     tfid?: string;
     starttime?: string;
     endtime?: string;
-    /** 原始轨迹点（取最后一点作为"最新状态"） */
+    /** 原始轨迹点；没有显式研判时点时才以最后一点作为数据状态。 */
     tracks?: AnalyzerTrackContext[];
+}
+
+/** 与线路空间计算完全一致的研判时点，尤其用于模拟指挥。 */
+export interface AnalyzerSituationContext {
+    mode: "simulated" | "realtime";
+    queryTime: Date;
+    state?: {
+        lat?: number;
+        lon?: number;
+        windSpeed?: number;
+        windClass?: string | number;
+        time?: Date;
+    };
+    stale?: boolean;
 }
 
 /** 组装研判 messages（system 防编造 + context；user 为提问或默认指令） */
@@ -33,6 +47,7 @@ export function buildAnalyzerMessages(
     similarCases: CaseMatchResult[],
     affectedLines: AnalysisLineImpact[] = [],
     question?: string,
+    situation?: AnalyzerSituationContext,
 ): ChatMessage[] {
     const latest = typhoon.tracks?.reduce(
         (best, point) => {
@@ -67,12 +82,33 @@ export function buildAnalyzerMessages(
                   .join("\n")
             : "无（数据库中没有可参考的历史案例）";
 
+    const effectiveState = situation?.state
+        ? {
+              lat: situation.state.lat,
+              lon: situation.state.lon,
+              wind_speed: situation.state.windSpeed,
+              wind_class: situation.state.windClass,
+              data_time: situation.state.time?.toISOString(),
+          }
+        : latest;
+    const modeBlock = situation
+        ? situation.mode === "simulated"
+            ? `研判模式：模拟演练（不是实时态势）；模拟研判时点 ${situation.queryTime.toISOString()}`
+            : `研判模式：实时研判；研判时点 ${situation.queryTime.toISOString()}`
+        : "研判模式：未提供明确时间基准";
+    const freshnessBlock =
+        situation?.mode === "realtime" && situation.stale
+            ? "数据时效：观测状态已明显滞后，禁止将其表述为当前实时态势或据此直接提出运营处置。"
+            : undefined;
+
     const context = [
         `Observed track points: ${typhoon.tracks?.length ?? 0}; do not assume the observed track is a complete lifecycle.`,
-        `当前台风：${typhoon.name}（编号 ${typhoon.tfid || "未知"}）${typhoon.starttime ? `，起止时间 ${typhoon.starttime} ~ ${typhoon.endtime || "进行中"}` : ""}`,
-        latest
-            ? `最新状态：位置 ${latest.lat},${latest.lon}，风速 ${latest.wind_speed ?? "未知"} m/s，风级 ${latest.wind_class ?? "未知"}`
-            : "最新状态：未知（轨迹为空）",
+        `研判对象：${typhoon.name}（编号 ${typhoon.tfid || "未知"}）${typhoon.starttime ? `，轨迹数据时间范围 ${typhoon.starttime} ~ ${typhoon.endtime || "进行中"}` : ""}`,
+        modeBlock,
+        effectiveState
+            ? `研判时点状态：位置 ${effectiveState.lat},${effectiveState.lon}，风速 ${effectiveState.wind_speed ?? "未知"} m/s，风级 ${effectiveState.wind_class ?? "未知"}，状态时间 ${effectiveState.data_time ?? "未知"}`
+            : "研判时点状态：未知（轨迹为空）",
+        freshnessBlock,
         "",
         "受影响线路（风圈空间计算，仅表示风圈覆盖强度；不包含积水、设备状态、客流和现场条件）：",
         lineBlock,
@@ -89,6 +125,7 @@ export function buildAnalyzerMessages(
 4. **进入 7 级风圈仅表示"可能受影响"，不得据此判定高风险；10/12 级标签也只是最高空间覆盖强度，不等于实际运营风险。任何风圈等级都不得直接推出停运结论。**
 5. 缺少预案条款、积水、设备、客流或现场处置数据时，必须明确写"未知/需现场核实"；不得编造停运范围、停运时间或应急响应等级依据。
 6. 使用中文，简明专业，面向调度指挥人员。
+7. 必须严格沿用参考资料中的研判模式和研判时点。模拟演练不得把历史轨迹末点称为"当前实时状态"；实时数据过期时必须明确提示时效不足。
 
 参考资料：
 ${context}

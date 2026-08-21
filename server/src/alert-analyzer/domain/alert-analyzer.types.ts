@@ -35,8 +35,21 @@ export interface AnalysisSimilarCase {
     reason?: string;
 }
 
+/** 研判采用的时间基准，避免把模拟时点误写成真实当前状态。 */
+export interface AnalysisBasis {
+    mode: "simulated" | "realtime";
+    /** 本次研判的基准时间（ISO 8601）。 */
+    queryTime: string;
+    /** 参与空间计算的当前状态时间（ISO 8601）。 */
+    stateTime?: string;
+    /** 仅实时模式使用：观测时间明显落后于研判时间。 */
+    stale?: boolean;
+}
+
 /** analysis 事件的结构化数据（研判卡片） */
 export interface AnalysisPayload {
+    /** 本次研判的实时/模拟时间口径。 */
+    basis?: AnalysisBasis;
     /** 受影响线路 */
     affectedLines?: AnalysisLineImpact[];
     /** 应急响应等级建议（如"Ⅱ级响应"） */
