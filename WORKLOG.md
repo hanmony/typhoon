@@ -507,3 +507,11 @@
 - **安全与误拦截**：安全门对整套题静态回放仅拦截 30 道拒答题，误拦截 0、漏拦截 0；630 份答案摘录敏感模式/提示词扫描 0 命中。
 - **发布复验**：`deploy/release-verify.js` 7/7（登录、chat、agent、KB、研判、线路卡片和空间计算一致性）。
 - **文档纠错**：报告相似案例部分失败清单漏列 Q178，已补齐；将旧称“关键实时工具”统一为更准确的“指定关键工具题”。汇总指标和阶段 E 通过结论不变。
+
+### M6 阶段 G-2：Edge 会话持久化人工验收与修复（2026-08-21）
+- **现场症状**：COCC 智能体可正常流式回答，但提示“会话创建失败，本轮对话仅保存在本地”；服务端 `session-e2e-test.js` 经 nginx 为 17/17，说明会话接口与 MongoDB 本身正常。
+- **根因证据**：nginx access log 显示浏览器请求 `POST /api/api/chat/sessions` 返回 404；`ChatApi` 的会话 CRUD 已传入 `${env.baseUrl}`，又被全局 `AppInterceptor` 再拼一次 `/api`。SSE 使用独立 `fetch`，因此只有会话 CRUD 失败而回答正常。
+- **修复**：`client/src/app/services/apis/chat.ts` 的 create/list/get/delete 改用 `/chat/sessions` 相对路径；新增 `chat.spec.ts` 固定四个 URL 契约，防止再次重复前缀。
+- **验证**：前端生产构建成功；发布到 `C:\data\sch-typhoon\client`，旧版保存在 `client.pre-session-fix-20260821-1325`；新版静态入口确认加载。Edge 实测会话创建 201、聊天写回 201、刷新后列表/详情 200/200，刷新后追问正确回答“梅花，2022 年第 12 号台风”，且未再出现本地保存告警。
+- **测试说明**：定向 Karma 命令仍被项目既有的历史 spec 编译错误阻断（与本次改动无关）；本次新增 spec 已通过生产 TypeScript 构建，验收由生产构建、后端 17/17 E2E、nginx 状态码和 Edge 人工闭环共同覆盖。
+- **结论**：阶段 G 第 2 项通过；第 3 项一键研判卡片、取消/竞态和窄窗口交互待继续。

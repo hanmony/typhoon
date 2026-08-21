@@ -140,7 +140,7 @@ export class ChatApi extends _BaseApi {
     messages: ChatSessionMessage[] = [],
     from: 'cocc' | 'library' | 'manager' = 'cocc',
   ): Promise<ChatSessionDetail> {
-    return this.http.postSilent(`${env.baseUrl}/chat/sessions`, {
+    return this.http.postSilent('/chat/sessions', {
       type,
       from,
       ...(messages.length ? { messages } : {}),
@@ -150,16 +150,16 @@ export class ChatApi extends _BaseApi {
   /** 当前用户的会话列表（按最近更新倒序；失败静默，调用方自行兜底） */
   listSessions(type?: 'chat' | 'agent', from?: 'cocc' | 'library' | 'manager'): Promise<ChatSessionSummary[]> {
     const query = { ...(type ? { type } : {}), ...(from ? { from } : {}) };
-    return this.http.getSilent(`${env.baseUrl}/chat/sessions`, Object.keys(query).length ? query : undefined);
+    return this.http.getSilent('/chat/sessions', Object.keys(query).length ? query : undefined);
   }
 
   /** 会话详情（含服务端存储的消息列表；失败静默） */
   getSession(id: string): Promise<ChatSessionDetail> {
-    return this.http.getSilent(`${env.baseUrl}/chat/sessions/${id}`);
+    return this.http.getSilent(`/chat/sessions/${id}`);
   }
 
   /** 删除会话（清空对话时调用，尽力而为：失败仅留下孤儿会话，不影响使用） */
   deleteSession(id: string): Promise<{ code: number }> {
-    return this.http.deleteSilent(`${env.baseUrl}/chat/sessions/${id}`);
+    return this.http.deleteSilent(`/chat/sessions/${id}`);
   }
 }
