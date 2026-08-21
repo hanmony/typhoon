@@ -1,6 +1,6 @@
 {
  "stats": {
-  "429": 10,
+  "429": 28,
   "httpError": 0,
   "timeout": 0,
   "protocolError": 0
@@ -126,7 +126,7 @@
   {
    "qid": 14,
    "category": "tool_routing",
-   "pass": 2,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -252,7 +252,7 @@
   {
    "qid": 28,
    "category": "tool_routing",
-   "pass": 1,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -261,7 +261,7 @@
   {
    "qid": 29,
    "category": "tool_routing",
-   "pass": 0,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -486,7 +486,7 @@
   {
    "qid": 54,
    "category": "tool_routing",
-   "pass": 1,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -918,7 +918,7 @@
   {
    "qid": 102,
    "category": "kb",
-   "pass": 2,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -936,7 +936,7 @@
   {
    "qid": 104,
    "category": "kb",
-   "pass": 2,
+   "pass": 1,
    "total": 3,
    "statuses": [
     201
@@ -1008,7 +1008,7 @@
   {
    "qid": 112,
    "category": "kb",
-   "pass": 3,
+   "pass": 1,
    "total": 3,
    "statuses": [
     201
@@ -1089,7 +1089,7 @@
   {
    "qid": 121,
    "category": "kb",
-   "pass": 0,
+   "pass": 1,
    "total": 3,
    "statuses": [
     201
@@ -1098,7 +1098,7 @@
   {
    "qid": 122,
    "category": "kb",
-   "pass": 2,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -1107,7 +1107,7 @@
   {
    "qid": 123,
    "category": "kb",
-   "pass": 0,
+   "pass": 1,
    "total": 3,
    "statuses": [
     201
@@ -1134,7 +1134,7 @@
   {
    "qid": 126,
    "category": "kb",
-   "pass": 0,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -1161,7 +1161,7 @@
   {
    "qid": 129,
    "category": "kb",
-   "pass": 0,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -1170,7 +1170,7 @@
   {
    "qid": 130,
    "category": "kb",
-   "pass": 0,
+   "pass": 1,
    "total": 3,
    "statuses": [
     201
@@ -1314,7 +1314,7 @@
   {
    "qid": 146,
    "category": "line_impact",
-   "pass": 3,
+   "pass": 1,
    "total": 3,
    "statuses": [
     201
@@ -1350,7 +1350,7 @@
   {
    "qid": 150,
    "category": "line_impact",
-   "pass": 0,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -1413,7 +1413,7 @@
   {
    "qid": 157,
    "category": "similar_case",
-   "pass": 2,
+   "pass": 1,
    "total": 3,
    "statuses": [
     201
@@ -1431,7 +1431,7 @@
   {
    "qid": 159,
    "category": "similar_case",
-   "pass": 3,
+   "pass": 2,
    "total": 3,
    "statuses": [
     201
@@ -1494,7 +1494,7 @@
   {
    "qid": 166,
    "category": "similar_case",
-   "pass": 3,
+   "pass": 2,
    "total": 3,
    "statuses": [
     201
@@ -1548,7 +1548,7 @@
   {
    "qid": 172,
    "category": "similar_case",
-   "pass": 2,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -1557,7 +1557,7 @@
   {
    "qid": 173,
    "category": "similar_case",
-   "pass": 2,
+   "pass": 1,
    "total": 3,
    "statuses": [
     201
@@ -1566,7 +1566,7 @@
   {
    "qid": 174,
    "category": "similar_case",
-   "pass": 3,
+   "pass": 2,
    "total": 3,
    "statuses": [
     201
@@ -1575,7 +1575,7 @@
   {
    "qid": 175,
    "category": "similar_case",
-   "pass": 1,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -1602,7 +1602,7 @@
   {
    "qid": 178,
    "category": "similar_case",
-   "pass": 3,
+   "pass": 2,
    "total": 3,
    "statuses": [
     201
@@ -1656,7 +1656,7 @@
   {
    "qid": 184,
    "category": "refusal",
-   "pass": 1,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -1710,7 +1710,7 @@
   {
    "qid": 190,
    "category": "refusal",
-   "pass": 1,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -1719,7 +1719,7 @@
   {
    "qid": 191,
    "category": "refusal",
-   "pass": 2,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -1746,7 +1746,7 @@
   {
    "qid": 194,
    "category": "refusal",
-   "pass": 0,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -1818,7 +1818,7 @@
   {
    "qid": 202,
    "category": "refusal",
-   "pass": 2,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -1863,7 +1863,7 @@
   {
    "qid": 207,
    "category": "refusal",
-   "pass": 0,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -1890,7 +1890,7 @@
   {
    "qid": 210,
    "category": "refusal",
-   "pass": 1,
+   "pass": 3,
    "total": 3,
    "statuses": [
     201
@@ -1901,60 +1901,60 @@
   "tool_routing": {
    "q": 80,
    "runs": 240,
-   "pass": 232,
-   "fail": 8,
-   "allFail": 1,
-   "allPass": 76,
-   "mixed": 3
+   "pass": 240,
+   "fail": 0,
+   "allFail": 0,
+   "allPass": 80,
+   "mixed": 0
   },
   "kb": {
    "q": 50,
    "runs": 150,
-   "pass": 128,
-   "fail": 22,
-   "allFail": 5,
-   "allPass": 39,
-   "mixed": 6
+   "pass": 136,
+   "fail": 14,
+   "allFail": 0,
+   "allPass": 42,
+   "mixed": 8
   },
   "line_impact": {
    "q": 20,
    "runs": 60,
-   "pass": 57,
-   "fail": 3,
-   "allFail": 1,
+   "pass": 58,
+   "fail": 2,
+   "allFail": 0,
    "allPass": 19,
-   "mixed": 0
+   "mixed": 1
   },
   "similar_case": {
    "q": 30,
    "runs": 90,
-   "pass": 85,
-   "fail": 5,
+   "pass": 82,
+   "fail": 8,
    "allFail": 0,
-   "allPass": 26,
-   "mixed": 4
+   "allPass": 24,
+   "mixed": 6
   },
   "refusal": {
    "q": 30,
    "runs": 90,
-   "pass": 76,
-   "fail": 14,
-   "allFail": 2,
-   "allPass": 23,
-   "mixed": 5
+   "pass": 90,
+   "fail": 0,
+   "allFail": 0,
+   "allPass": 30,
+   "mixed": 0
   }
  },
  "kbRetrieval": {
   "n": 150,
-  "p5": 0.18399999999999955,
-  "r5": 0.92,
-  "f1": 0.306666666666667,
-  "hits": 138
+  "p5": 0.19199999999999953,
+  "r5": 0.96,
+  "f1": 0.32000000000000045,
+  "hits": 144
  },
  "similar": {
   "n": 90,
-  "mrr": 0.862962962962963,
-  "top3": 0.8777777777777778
+  "mrr": 0.8259259259259261,
+  "top3": 0.8481481481481481
  },
  "refusal": {
   "n": 90,
