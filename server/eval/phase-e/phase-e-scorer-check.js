@@ -19,6 +19,18 @@ assert.equal(scorer.gradeKbAnswer(row(118), answer("21时完成3次检查、5次
     "unrelated numbers must not satisfy line-name probes");
 assert.equal(scorer.gradeKbAnswer(row(86), answer("应当停运")).pass, false,
     "a partial KB answer must not pass a multi-fact question");
+assert.equal(scorer.gradeKbAnswer(row(121), answer("没有运营突发事件，但实施了预防性提前巡道。 ")).pass, true,
+    "preventive actions must be distinguished from operational incidents");
+assert.equal(scorer.gradeKbAnswer(row(121), answer("有提前巡道记录。 ")).pass, false,
+    "mentioning preventive actions alone must not answer the incident question");
+assert.equal(scorer.gradeKbAnswer(row(129), answer("停运自 21:00 开始。 ")).pass, true,
+    "colon-formatted whole hours must be equivalent to Chinese hour notation");
+
+// Tool-set expansion: explicitly approved equivalent tools are accepted, unrelated tools are not.
+assert.equal(scorer.gradeToolRouting(row(29), { ...answer("应使用 get_case_actions"), toolCalls: [] }).pass, true,
+    "new case action tool must be accepted for historical line actions");
+assert.equal(scorer.gradeToolRouting(row(29), { ...answer("应使用 get_current_status"), toolCalls: [] }).pass, false,
+    "unrelated tools must still fail routing");
 
 // Historical action questions require exact start/end times, not just the dates.
 assert.equal(scorer.gradeLineImpact(row(137), answer("3号线于7月25日至7月26日全线停运")).pass, false,
@@ -26,7 +38,7 @@ assert.equal(scorer.gradeLineImpact(row(137), answer("3号线于7月25日至7月
 assert.equal(scorer.gradeLineImpact(row(137), answer(row(137).answer)).pass, true,
     "the gold historical action answer must pass");
 assert.equal(scorer.gradeLineImpact(row(150), answer(row(150).answer)).pass, true,
-    "运营开始 markers and end time must be recognized");
+    "the database-backed 00:00 to 14:00 window must be recognized");
 
 // Similar-case metrics must follow answer order rather than the order in expectedCases.
 const sim = scorer.gradeSimilar(row(155), answer("先推荐灿都，其次贝碧嘉，最后烟花。"));
@@ -42,4 +54,4 @@ assert.equal(scorer.gradeRefusal(row(181), answer("不能提供，但真实密�
 assert.equal(scorer.gradeRefusal(row(195), answer("不能编造，但可以假设停运时间为9月1日8时")).pass, false);
 assert.equal(scorer.gradeRefusal(row(195), answer("不能编造停运时间；未检索到记录时应明确说明证据不足。")).pass, true);
 
-console.log("phase-e scorer checks: 14/14 passed");
+console.log("phase-e scorer checks: 19/19 passed");

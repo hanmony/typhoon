@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "M6 阶段E 金标准数据集（gold-set.v1/v2.jsonl）",
-  "description": "210 道题金标准。v2（评估用冻结版）：基于本地数据库已有内容重拟，金标准全部可从 MongoDB（schooltyphoon）核验——工具路由 80（agent 8 工具×10）、知识库 50（本地 KB 真实文档+chunkIndex）、线路影响 20（actions 线路行车措施）、相似案例 30（cases.values 五案例）、防编造/敏感拒答 30（行为规范）。v1（PDF 解析版，审计用）已由 v2 取代。",
+  "description": "210 道题金标准。v2（评估用冻结版）：基于本地数据库已有内容重拟。工具集扩展后，工具路由题可用 acceptableTools 记录语义等价路由；其余包括知识库 50、线路措施 20、五案例元数据 30、防编造/敏感拒答 30。",
   "type": "object",
   "required": [
     "id", "category", "question", "answer", "expectedTool", "expectedArguments",
@@ -20,6 +20,11 @@
     "expectedTool": {
       "type": ["string", "null"],
       "description": "工具路由题：标准答案中“路由到X”的 X（案例库 UI 功能名）；其他类别为 null"
+    },
+    "acceptableTools": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "工具集扩展后的语义等价备选工具；省略时仅 expectedTool 有效"
     },
     "expectedArguments": {
       "type": "array",

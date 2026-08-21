@@ -24,13 +24,15 @@ if len(recs) != 210 or actual_counts != expected_counts or len({r.get("id") for 
 
 # ---------- 1. 工具路由：工具名在 agent 工具清单中 ----------
 AGENT_TOOLS = {"get_current_status", "get_operations", "search_documents", "get_typhoon_history",
-               "get_duty_info", "get_messages", "get_severe_weather_history", "get_patrolling_tours"}
+               "get_duty_info", "get_messages", "get_severe_weather_history", "get_patrolling_tours",
+               "get_case_actions", "get_case_metadata"}
 for r in recs:
     if r["category"] == "tool_routing":
-        if r["expectedTool"] in AGENT_TOOLS:
+        acceptable = r.get("acceptableTools") or [r["expectedTool"]]
+        if r["expectedTool"] in AGENT_TOOLS and all(tool in AGENT_TOOLS for tool in acceptable):
             ok += 1
         else:
-            issues.append((r["id"], "tool", r["expectedTool"]))
+            issues.append((r["id"], "tool", {"expected": r["expectedTool"], "acceptable": acceptable}))
 
 # ---------- 2. 知识库：答案关键事实在标注 chunk 中 ----------
 def get_chunk(doc_name, chunk_index):
@@ -88,9 +90,9 @@ KB_PROBES = {
 118: ["21时", "3、5、16、17号线"],
 119: ["9月15日6时"],
 120: ["14条"],
-121: ["无"],
+121: ["轩岚诺", "无"],
 122: ["11起"],
-123: ["5起"],
+123: ["设备故障5起"],
 124: ["2起"],
 125: ["2起"],
 126: ["风力大", "降水强度大", "路径不确定性大"],

@@ -24,7 +24,7 @@ const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
 
-const SCORER_VERSION = "phase-e-v2.1-codex-20260820";
+const SCORER_VERSION = "phase-e-v2.2-codex-20260821";
 
 const BASE = (process.env.PHASE_E_BASE_URL || "http://127.0.0.1:12080/api").replace(/\/$/, "");
 const USER = process.env.PHASE_E_USER || "m2test";
@@ -182,9 +182,20 @@ function loadGold() {
 // ---------- 分级器 ----------
 function gradeToolRouting(r, ans) {
     const tool = r.expectedTool;
-    const named = norm(ans.text).includes(norm(tool));
-    const called = ans.toolCalls.includes(tool);
-    return { tool, namedToolInAnswer: named, calledTool: called, pass: named || called, protocolError: ans.protocolError };
+    const acceptableTools = Array.isArray(r.acceptableTools) && r.acceptableTools.length
+        ? r.acceptableTools
+        : [tool];
+    const namedTools = acceptableTools.filter(candidate => norm(ans.text).includes(norm(candidate)));
+    const calledTools = acceptableTools.filter(candidate => ans.toolCalls.includes(candidate));
+    return {
+        tool,
+        acceptableTools,
+        namedToolInAnswer: namedTools.length > 0,
+        calledTool: calledTools.length > 0,
+        matchedTools: [...new Set([...namedTools, ...calledTools])],
+        pass: namedTools.length > 0 || calledTools.length > 0,
+        protocolError: ans.protocolError,
+    };
 }
 
 // 知识库答案事实探针（OR 组：组内任一命中即算该组命中，所有组命中才 PASS）
@@ -208,9 +219,10 @@ const KB_ANS_PROBES = {
     114: [["9月5日"], ["6日"]], 115: [["8月9日"], ["11日"]], 116: [["7月22日"]],
     117: [["5号线"], ["16号线"], ["磁浮线"], ["浦江线"]],
     118: [["21时", "21点"], ["3号线"], ["5号线"], ["16号线"], ["17号线"]],
-    119: [["9月15日"], ["6时"]], 120: [["14条"]], 121: [["没有记录", "无"]],
+    119: [["9月15日"], ["6时"]], 120: [["14条"]],
+    121: [["无", "未发现", "未发生", "没有"], ["突发事件", "记录事件"], ["预防性", "提前巡道"]],
     122: [["11起"]], 123: [["5起"]], 124: [["2起"]], 125: [["2起"]],
-    126: [["风力大"], ["降水强度大"], ["路径不确定性大"]],
+    126: [["风力大", "风力强"], ["降水强度大", "降水强"], ["路径不确定性大", "路径不确定"]],
     127: [["21时", "21点"], ["早5时", "早5点"]],
     128: [["12支"], ["473个"]], 129: [["21时", "21点"]],
     130: [["6条"], ["9条"], ["159座"]],
@@ -222,6 +234,7 @@ function normAnswer(s) {
     t = t.replace(/(\d+)月(\d+)号/g, "$1月$2日");      // 日期 号→日
     t = t.replace(/不允许/g, "不应");                  // 互认
     t = t.replace(/(\d+)点/g, "$1时");                 // 时间 点→时
+    t = t.replace(/(\d{1,2})[:：]00(?:时)?/g, "$1时"); // 21:00/21:00时→21时
     return t;
 }
 
@@ -563,6 +576,7 @@ function summarize(results) {
 
 module.exports = {
     SCORER_VERSION,
+    gradeToolRouting,
     gradeKbAnswer,
     gradeKbRetrieval,
     gradeLineImpact,
